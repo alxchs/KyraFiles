@@ -10,7 +10,10 @@ namespace ExecutableLauncher
         private static void Main(string[] args)
         {
             var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
-            Process.Start(executable);
+            Process process = new Process();
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.FileName = executable;
+            process.Start();
         }
     }
 }

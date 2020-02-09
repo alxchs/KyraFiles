@@ -191,7 +191,7 @@
           <target state="new">Música</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom mcusic location</source>
+          <source>Set custom music location</source>
           <target state="new">Establecer nueva dirección de música</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">

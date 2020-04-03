@@ -132,11 +132,50 @@
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
   </data>
+  <data name="ExtractFilesDialog.Title" xml:space="preserve">
+    <value>Extract Compressed Archive</value>
+  </data>
+  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap Image</value>
+  </data>
+  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
+    <value>Text Documnet</value>
+  </data> 
+  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Name</value>
+  </data>
+  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
+    <value>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</value>
+  </data>
+  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Path:</value>
@@ -147,11 +186,29 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Item type:</value>
   </data>
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+    <value>Clear Selection</value>
+  </data>  
+  <data name="StatusBarControlListView.Text" xml:space="preserve">
+    <value>List View</value>
+  </data>
+  <data name="StatusBarControlGridView.Text" xml:space="preserve">
+    <value>Grid View</value>
+  </data>  
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
+  </data>  
+  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+    <value>Enter a path</value>
+  </data>
+  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Files and folders you've previously accessed will show up here</value>
@@ -164,99 +221,6 @@
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
-  </data>
-  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
-    <value>Clear All</value>
-  </data>
-  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
-    <value>Copy Path</value>
-  </data>
-  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
-    <value>Cut</value>
-  </data>
-  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="RibbonAreaFile.Header" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
-    <value>Closes this window</value>
-  </data>
-  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
-    <value>Close Files</value>
-  </data>
-  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
-    <value>Creates a new instance of Files</value>
-  </data>
-  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
-    <value>Open new window</value>
-  </data>
-  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
-    <value>Make changes to app preferences</value>
-  </data>
-  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
-    <value>Folder Properties</value>
-  </data>
-  <data name="RibbonAreaHome.Header" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
-    <value>Layout Mode</value>
-  </data>
-  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
-    <value>Open With</value>
-  </data>
-  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="RibbonAreaShare.Header" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
-  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
-    <value>Sort By</value>
-  </data>
-  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
-    <value>Date Modified</value>
-  </data>
-  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
-    <value>Descending</value>
-  </data>
-  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="RibbonAreaView.Header" xml:space="preserve">
-    <value>View</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
@@ -345,47 +309,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom desktop location</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>Documents</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom documents location</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>Downloads</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom downloads location</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom music location</value>
-  </data>
-  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
-    <value>OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom OneDrive location</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>Pictures</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom pictures location</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Pin OneDrive to the sidebar</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>Replace common locations</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -425,5 +350,89 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+    <value>Date modified</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap Image</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
+    <value>Text Document</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
+    <value>Open with...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+    <value>Set as desktop background</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+    <value>Pin to sidebar</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+    <value>QuickLook</value>
   </data>
 </root>

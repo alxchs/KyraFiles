@@ -1,33 +1,29 @@
-﻿using Files.Filesystem;
+﻿using Files.Controls;
+using Files.Filesystem;
 using Files.Interacts;
-using Files.Navigation;
+using Files.UserControls;
+using Files.View_Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI.Popups;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Enums;
-using System.Drawing;
-using Files.View_Models;
-using Files.Controls;
-using Windows.UI.Core;
-using Files.UserControls;
 
 namespace Files
 {
     public sealed partial class ProHome : Page, IShellPage
     {
+        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
+
+        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
+
+        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
+
         Frame IShellPage.ContentFrame => ItemDisplayFrame;
 
         Interaction IShellPage.InteractionOperations => interactionOperation;
@@ -35,6 +31,8 @@ namespace Files
         ItemViewModel IShellPage.ViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
+        Control IShellPage.OperationsControl => RibbonArea;
+
 
         private BaseLayout GetContentOrNull()
         {
@@ -48,9 +46,8 @@ namespace Files
             }
         }
 
-        Control IShellPage.OperationsControl => RibbonArea;
 
-        
+
         private bool _isSwiped;
         private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -77,25 +74,11 @@ namespace Files
             _isSwiped = false;
         }
 
-        
-        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
-
-        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
-
-        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
 
         public ProHome()
         {
             this.InitializeComponent();
             this.KeyUp += ProHomeInstance_KeyUp;
-
-            // Acrylic sidebar
-            var localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
-            {
-                splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-                Application.Current.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
 
             if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
             {
@@ -239,7 +222,7 @@ namespace Files
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.InteractionViewModel.PermanentlyDelete = true;
-                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)

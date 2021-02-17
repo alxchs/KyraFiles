@@ -14,7 +14,7 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager : ObservableObject
     {
-        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -28,12 +28,11 @@ namespace Files.Filesystem
             }
         }
 
-        //Private as we want to prevent CloudDriveManager being constructed manually
         public CloudDrivesManager()
         {
         }
 
-        public async Task<CloudDrivesManager> EnumerateDrivesAsync()
+        public async Task EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
             var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
@@ -57,8 +56,6 @@ namespace Files.Filesystem
             }
 
             await RefreshUI();
-
-            return this;
         }
 
         private async Task RefreshUI()
@@ -89,8 +86,9 @@ namespace Files.Filesystem
                 await MainPage.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var drivesSnapshot = Drives.OrderBy(o => o.Text).ToList();
+                    MainPage.SideBarItems.BeginBulkOperation();
 
+                    var drivesSnapshot = Drives.ToList();
                     var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
 
                     if (drivesSection != null && drivesSnapshot.Count == 0)
@@ -122,6 +120,8 @@ namespace Files.Filesystem
                         }
                     }
 
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+
                     //Remove all existing cloud drives from the sidebar
                     foreach (var item in MainPage.SideBarItems
                         .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
@@ -131,8 +131,8 @@ namespace Files.Filesystem
                     }
 
                     //Add all cloud drives to the sidebar
-                    var insertAt = MainPage.SideBarItems.IndexOf(drivesSection) + 1;
-                    foreach (var drive in drivesSnapshot)
+                    var insertAt = sectionStartIndex + 1;
+                    foreach (var drive in drivesSnapshot.OrderBy(o => o.Text))
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);
                         insertAt++;

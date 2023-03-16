@@ -5,12 +5,7 @@ using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
 using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.Shared.Enums;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions.Content.Archives

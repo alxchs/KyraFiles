@@ -1,8 +1,8 @@
 # F010 — Tarefas da Fase 2 (Implementação da Arquitetura Híbrida)
 
-## Status: EM ANDAMENTO (Arquitetura Híbrida Aprovada pelo Alexandre em 06/10/2026)
+## Status: CONCLUÍDA (Fase 2 implementada e validada empiricamente)
 
-Data: 2026-10-06
+Data: 2026-10-07
 Branch: `feature/all-explorer-columns`
 
 ---
@@ -16,10 +16,10 @@ Branch: `feature/all-explorer-columns`
 ---
 
 ### Fase 2: Implementação
-- [ ] T2.1 — Criar `DynamicColumnDefinition` e adicionar suporte a propriedades esparsas em `ListedItem`.
-- [ ] T2.2 — Criar `IExplorerPropertyService` / `ExplorerPropertyService` com catálogo das propriedades `PDEF_COLUMN`.
-- [ ] T2.3 — Integrar extração virtualizada em segundo plano no `ShellViewModel.LoadExtendedItemPropertiesAsync`.
-- [ ] T2.4 — Renderização dinâmica de cabeçalhos e células no `DetailsLayoutPage` preservando as 16 colunas padrão.
-- [ ] T2.5 — Criar diálogo seletor de colunas ("Mais..." / `ChooseDetailsDialog`) com busca e agrupamento.
-- [ ] T2.6 — Persistência híbrida por pasta via Registro.
-- [ ] T2.7 — Validação empírica no app com imagens (`Dimensões`), compilação Release `0/0` e capturas de tela.
+- [x] T2.1 — Criar `DynamicColumnDefinition` e adicionar suporte a propriedades esparsas em `ListedItem`.
+- [x] T2.2 — Criar `IExplorerPropertyService` / `ExplorerPropertyService` com catálogo das propriedades `PDEF_COLUMN` (369 propriedades com suporte completo a formatação do Shell).
+- [x] T2.3 — Integrar extração virtualizada em segundo plano no `ShellViewModel.LoadExtendedItemPropertiesAsync`.
+- [x] T2.4 — Renderização dinâmica de cabeçalhos e células no `DetailsLayoutPage` preservando as 16 colunas padrão com splitters redimensionáveis.
+- [x] T2.5 — Criar diálogo seletor de colunas ("Mais..." / `ChooseDetailsDialog`) com busca em tempo real, agrupamento por categoria e suporte a temas.
+- [x] T2.6 — Persistência híbrida por pasta via Registro e fallback global via `LayoutPreferencesItem.CustomColumnsJson`.
+- [x] T2.7 — Validação empírica no app com imagens (`Dimensões`), compilação Release `0/0` e capturas de tela comprovando extração de `2571 x 1686` e `2560 x 1440` (`docs/releases/evidence/f010_dimensions_populated.png`).

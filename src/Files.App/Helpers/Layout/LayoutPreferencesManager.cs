@@ -141,6 +141,7 @@ namespace Files.App.Helpers
 			get => LayoutPreferencesItem.ColumnsViewModel;
 			set
 			{
+				LayoutPreferencesItem.CustomColumnsJson = value.ToDynamicColumnsJson();
 				SetProperty(item => item.ColumnsViewModel, item => item.ColumnsViewModel = value, nameof(ColumnsViewModel));
 				LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreferencesItem));
 			}
@@ -383,6 +384,7 @@ namespace Files.App.Helpers
 			UserSettingsService.LayoutSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
 			UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
+			UserSettingsService.LayoutSettingsService.DefaultCustomColumnsJson = columns.ToDynamicColumnsJson();
 		}
 
 		public static void SetLayoutPreferencesForPath(string? path, LayoutPreferencesItem preferencesItem)
@@ -396,6 +398,7 @@ namespace Files.App.Helpers
 			}
 			else
 			{
+				SetDefaultLayoutPreferences(preferencesItem.ColumnsViewModel);
 				UserSettingsService.LayoutSettingsService.DefaultLayoutMode = preferencesItem.LayoutMode;
 
 				// Do not save options which only work in recycle bin or cloud folders or search results as global

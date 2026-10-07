@@ -405,6 +405,12 @@
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
 
+									<!--  More Columns...  -->
+									<MenuFlyoutItem
+										x:Name="MoreColumnsMenuFlyoutItem"
+										Click="MoreColumns_Click"
+										Text="{helpers:ResourceString Name=MoreColumns}" />
+
 									<!--  Set Current Columns As Default  -->
 									<MenuFlyoutItem
 										x:Name="SetCurrentColumnsAsDefaultMenuFlyoutItem"
@@ -1304,6 +1310,30 @@
 											HorizontalAlignment="Left"
 											Style="{x:Bind SyncStatusUI.ThemedIconStyle, Mode=OneWay}" />
 									</Border>
+
+									<!--  Dynamic Columns  -->
+									<ItemsControl ItemsSource="{x:Bind DynamicColumnValues, Mode=OneWay}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<StackPanel Orientation="Horizontal" />
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate x:DataType="datamodels:DynamicColumnValue">
+												<TextBlock
+													Width="{Binding Path=Definition.LengthIncludingGridSplitterPixels, Mode=OneWay}"
+													Padding="10,0,0,0"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Center"
+													DataContextChanged="TextBlock_DataContextChanged"
+													IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+													Style="{StaticResource ColumnContentTextBlock}"
+													Text="{x:Bind Text, Mode=OneWay}"
+													TextAlignment="{x:Bind Definition.TextAlignment, Mode=OneWay}"
+													Visibility="{Binding Path=Definition.Visibility, Mode=OneWay}" />
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
 
 									<!--  Visual Status Managing  -->
 									<VisualStateManager.VisualStateGroups>

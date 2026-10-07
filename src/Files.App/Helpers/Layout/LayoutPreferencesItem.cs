@@ -29,6 +29,8 @@ namespace Files.App.Helpers
 		public GroupOption DirectoryGroupOption { get; set; }
 		public GroupByDateUnit DirectoryGroupByDateUnit { get; set; }
 
+		public string CustomColumnsJson { get; set; } = string.Empty;
+
 		// Constructor
 
 		public LayoutPreferencesItem()
@@ -76,6 +78,13 @@ namespace Files.App.Helpers
 			ColumnsViewModel.PathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.PathColumnWidth;
 			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.OriginalPathColumnWidth;
 			ColumnsViewModel.StatusColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SyncStatusColumnWidth;
+
+			var defaultCustomColumns = UserSettingsService.LayoutSettingsService.DefaultCustomColumnsJson;
+			if (!string.IsNullOrEmpty(defaultCustomColumns))
+			{
+				CustomColumnsJson = defaultCustomColumns;
+				ColumnsViewModel.LoadDynamicColumnsFromJson(defaultCustomColumns);
+			}
 		}
 
 		// Overridden methods
@@ -100,6 +109,7 @@ namespace Files.App.Helpers
 					item.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
 					item.SortFilesFirst == SortFilesFirst &&
 					item.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
+					item.CustomColumnsJson == CustomColumnsJson &&
 					item.ColumnsViewModel.Equals(ColumnsViewModel));
 			}
 			return base.Equals(obj);
@@ -118,6 +128,7 @@ namespace Files.App.Helpers
 			hash.Add(SortDirectoriesAlongsideFiles);
 			hash.Add(SortFilesFirst);
 			hash.Add(IsAdaptiveLayoutOverridden);
+			hash.Add(CustomColumnsJson);
 			hash.Add(ColumnsViewModel);
 
 			return hash.ToHashCode();

@@ -4794,4 +4794,13 @@
   <data name="SearchEngine_Everything" xml:space="preserve">
     <value>Everything (Índice instantâneo)</value>
   </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>Mais...</value>
+  </data>
+  <data name="ChooseDetailsDialogTitle" xml:space="preserve">
+    <value>Escolher detalhes</value>
+  </data>
+  <data name="ChooseDetailsDialogSearchPlaceholder" xml:space="preserve">
+    <value>Pesquisar colunas...</value>
+  </data>
 </root>

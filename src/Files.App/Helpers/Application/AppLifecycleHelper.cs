@@ -375,6 +375,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ISearchProviderFactory, SearchProviderFactory>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IExplorerPropertyService, ExplorerPropertyService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()

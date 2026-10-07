@@ -65,6 +65,7 @@ namespace Files.App.ViewModels
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IExplorerPropertyService explorerPropertyService = Ioc.Default.GetRequiredService<IExplorerPropertyService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -1716,6 +1717,30 @@ namespace Files.App.ViewModels
 								// Extended properties open each file; load them in the background on a share
 								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
 
+								Dictionary<string, string>? dynamicPropValues = null;
+								if (folderSettings?.ColumnsViewModel?.DynamicColumns is { Count: > 0 } dynamicColumns)
+								{
+									dynamicPropValues = new(StringComparer.OrdinalIgnoreCase);
+									foreach (var dynCol in dynamicColumns)
+									{
+										if (dynCol.IsVisible)
+										{
+											string? val = null;
+											if (extraProperties?.Result is not null && extraProperties.Result.TryGetValue(dynCol.CanonicalName, out var propVal) && propVal is not null)
+											{
+												val = propVal.ToString();
+											}
+											else
+											{
+												val = explorerPropertyService.GetFormattedProperty(item.GetRequiredPath(), dynCol.CanonicalName);
+											}
+
+											if (!string.IsNullOrEmpty(val))
+												dynamicPropValues[dynCol.CanonicalName] = val;
+										}
+									}
+								}
+
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
@@ -1737,6 +1762,14 @@ namespace Files.App.ViewModels
 									item.MediaDuration = ulong.TryParse(properties?["System.Media.Duration"]?.ToString(), out ulong duration)
 											? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
 											: string.Empty;
+
+									if (dynamicPropValues is not null)
+									{
+										foreach (var (propName, propVal) in dynamicPropValues)
+										{
+											item.SetDynamicProperty(propName, propVal);
+										}
+									}
 
 									switch (true)
 									{
@@ -2685,7 +2718,18 @@ namespace Files.App.ViewModels
 		private async Task<FilesystemResult<IDictionary<string, object>>?> GetExtraProperties(IStorageItem matchingStorageItem)
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
-				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync((string[])["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+			{
+				var requestedProps = new List<string> { "System.Image.Dimensions", "System.Media.Duration", "System.FileVersion" };
+				if (folderSettings?.ColumnsViewModel?.DynamicColumns is { Count: > 0 } dynCols)
+				{
+					foreach (var dynCol in dynCols)
+					{
+						if (dynCol.IsVisible && !requestedProps.Contains(dynCol.CanonicalName))
+							requestedProps.Add(dynCol.CanonicalName);
+					}
+				}
+				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(requestedProps).AsTask());
+			}
 
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
 				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync((string[])["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());

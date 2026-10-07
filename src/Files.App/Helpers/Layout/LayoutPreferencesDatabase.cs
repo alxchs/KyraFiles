@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
@@ -16,11 +16,17 @@ namespace Files.App.Helpers
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{
-			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
+			var pref = FindPreferences(filePath, frn)?.LayoutPreferencesManager;
+			if (pref is not null && !string.IsNullOrEmpty(pref.CustomColumnsJson))
+				pref.ColumnsViewModel.LoadDynamicColumnsFromJson(pref.CustomColumnsJson);
+			return pref;
 		}
 
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferencesItem? preferencesItem)
 		{
+			if (preferencesItem is not null)
+				preferencesItem.CustomColumnsJson = preferencesItem.ColumnsViewModel.ToDynamicColumnsJson();
+
 			var tmp = FindPreferences(filePath, frn);
 
 			if (tmp is null)

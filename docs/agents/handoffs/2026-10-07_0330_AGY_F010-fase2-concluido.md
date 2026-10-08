@@ -35,3 +35,4 @@
 ## 2. Próximos Passos
 - F010 está 100% pronta para merge/revisão.
 - Aguardar instrução explícita do Alexandre antes de qualquer `git push`.
+

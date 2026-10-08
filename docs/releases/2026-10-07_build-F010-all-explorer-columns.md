@@ -55,3 +55,4 @@ Implementar a feature **F010 — Todas as Colunas do Windows Explorer** (`MASTER
 - **Build Debug (`mkfile d`)**: `Build succeeded. 0 Warning(s), 0 Error(s)`
 - **Build Release (`mkfile r`)**: `Build succeeded. 0 Warning(s), 0 Error(s)`
 - **Deploy**: Registrado e testado no pacote Release `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`.
+

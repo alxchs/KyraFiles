@@ -48,8 +48,8 @@ if ($pkg) {
 
 $readmeContent = @"
 Files Custom — Release Autocontida v4.2.37.0 (x64)
-Commit: 8afa69dea na branch feature/all-explorer-columns
-Compilacao: 07/10/2026 (0 Warning(s), 0 Error(s))
+Commit: a558f56c1 na branch custom/main / main
+Compilacao: 08/10/2026 (0 Warning(s), 0 Error(s))
 
 REQUISITOS:
 - Windows 10 (Build 19041+) ou Windows 11 (x64)

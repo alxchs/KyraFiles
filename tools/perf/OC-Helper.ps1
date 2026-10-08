@@ -1,4 +1,4 @@
-# tools/perf/OC-Helper.ps1
+﻿# tools/perf/OC-Helper.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -105,17 +105,17 @@ foreach ($w in $wins) {
     Write-Output "HWND: $($w.Hwnd) | Vis: $($w.Visible) | Class: $($w.ClassName) | Title: '$($w.Title)' | Rect: ($($w.Rect.L),$($w.Rect.T))-($($w.Rect.R),$($w.Rect.B))"
 }
 
-$mainWin = $wins | Where-Object { 
-    $_.ClassName -match "^HwndWrapper\[OneCommander\.exe" -and 
+$mainWin = $wins | Where-Object {
+    $_.ClassName -match "^HwndWrapper\[OneCommander\.exe" -and
     $_.Title -notmatch "(MediaContext|Manager|Hidden|SystemResource)" -and
     ($_.Rect.R - $_.Rect.L) -gt 300
 } | Select-Object -First 1
 
 if (-not $mainWin) {
-    $mainWin = $wins | Where-Object { 
-        $_.ClassName -match "^HwndWrapper" -and 
-        $_.Title -ne "" -and 
-        $_.Title -notmatch "(MediaContext|Manager|Hidden|SystemResource)" 
+    $mainWin = $wins | Where-Object {
+        $_.ClassName -match "^HwndWrapper" -and
+        $_.Title -ne "" -and
+        $_.Title -notmatch "(MediaContext|Manager|Hidden|SystemResource)"
     } | Select-Object -First 1
 }
 

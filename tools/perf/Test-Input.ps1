@@ -1,4 +1,4 @@
-# tools/perf/Test-Input.ps1
+﻿# tools/perf/Test-Input.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $res = Invoke-OnDefault @'
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 public static class OCInput {
     [StructLayout(LayoutKind.Sequential)] public struct INPUT { public uint type; public MOUSEKEYBDHARDWAREINPUT mkhi; }
-    [StructLayout(LayoutKind.Explicit)] public struct MOUSEKEYBDHARDWAREINPUT { 
+    [StructLayout(LayoutKind.Explicit)] public struct MOUSEKEYBDHARDWAREINPUT {
         [FieldOffset(0)] public HARDWAREINPUT hi;
         [FieldOffset(0)] public KEYBDINPUT ki;
         [FieldOffset(0)] public MOUSEINPUT mi;

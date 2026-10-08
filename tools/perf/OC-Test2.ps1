@@ -1,4 +1,4 @@
-# tools/perf/OC-Test2.ps1
+﻿# tools/perf/OC-Test2.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -9,7 +9,7 @@ $hwnd = [IntPtr]1445996
 $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
 
 # Find all ListBoxItem elements
-$items = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+$items = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
     (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, "ListBoxItem")))
 
 

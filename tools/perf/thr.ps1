@@ -1,4 +1,4 @@
-param([string]$Folder = 'C:\FilesUXLab\perf\10k', [int]$WaitS = 8)
+﻿param([string]$Folder = 'C:\FilesUXLab\perf\10k', [int]$WaitS = 8)
 $ErrorActionPreference = 'Stop'; Add-Type -Path (Join-Path $PSScriptRoot 'thr.cs')
 $p = Get-Process Files | Select-Object -First 1
 $hwnd = if ($p.MainWindowHandle -ne 0) { $p.MainWindowHandle } else { [Thr]::FindMainWindow($p.Id) }

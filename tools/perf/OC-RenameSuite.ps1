@@ -1,4 +1,4 @@
-# tools/perf/OC-RenameSuite.ps1
+﻿# tools/perf/OC-RenameSuite.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -60,7 +60,7 @@ $hwnd = [IntPtr]1445996
 [OCWin32]::Focus($hwnd)
 
 $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
-$items = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+$items = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
     (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, "ListBoxItem")))
 
 $fileItems = @($items | Where-Object { $_.Current.BoundingRectangle.X -ge 600 -and $_.Current.BoundingRectangle.Y -ge 200 })

@@ -1,4 +1,4 @@
-# tools/perf/OC-InspectWarning.ps1
+﻿# tools/perf/OC-InspectWarning.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $res = Invoke-OnDefault @'

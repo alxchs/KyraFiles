@@ -1,4 +1,4 @@
-# tools/perf/OC-RunEdgeCases.ps1
+﻿# tools/perf/OC-RunEdgeCases.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -10,7 +10,7 @@ $hwnd = [IntPtr]1445996
 Start-Sleep -Milliseconds 400
 
 $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
-$allListItems = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+$allListItems = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
     (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, "ListBoxItem")))
 
 $fileItems = @($allListItems | Where-Object { $_.Current.BoundingRectangle.X -ge 600 -and $_.Current.BoundingRectangle.Y -ge 200 })

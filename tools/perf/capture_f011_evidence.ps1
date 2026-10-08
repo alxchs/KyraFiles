@@ -1,4 +1,4 @@
-# Capture F011 Evidence
+﻿# Capture F011 Evidence
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 

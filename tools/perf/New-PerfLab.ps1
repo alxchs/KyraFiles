@@ -1,4 +1,4 @@
-# Cria as pastas de medição em C:\FilesUXLab\perf (MASTER_SPEC §17).
+﻿# Cria as pastas de medição em C:\FilesUXLab\perf (MASTER_SPEC §17).
 param([string]$Base = 'C:\FilesUXLab\perf')
 
 $ErrorActionPreference = 'Stop'

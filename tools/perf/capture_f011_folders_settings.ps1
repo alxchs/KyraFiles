@@ -1,4 +1,4 @@
-# capture_f011_folders_settings.ps1
+﻿# capture_f011_folders_settings.ps1
 # Captura de tela para F011 comprovando o seletor de Search Engine
 
 Add-Type -AssemblyName System.Windows.Forms

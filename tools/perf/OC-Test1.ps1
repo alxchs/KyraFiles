@@ -1,4 +1,4 @@
-# tools/perf/OC-Test1.ps1
+﻿# tools/perf/OC-Test1.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -102,7 +102,7 @@ Write-Output "Saved capture to $outPath"
 $focus = [System.Windows.Automation.AutomationElement]::FocusedElement
 if ($focus) {
     Write-Output "Focused: Name='$($focus.Current.Name)' Class='$($focus.Current.ClassName)' ControlType='$($focus.Current.ControlType.ProgrammaticName)' Rect=$([string]$focus.Current.BoundingRectangle)"
-    
+
     # Try TextPattern or ValuePattern
     $valPat = $focus.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern) -as [System.Windows.Automation.ValuePattern]
     if ($valPat) {
@@ -121,7 +121,7 @@ if ($focus) {
 
 # Also search all Edit controls in root
 $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
-$edits = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+$edits = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
     (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Edit)))
 Write-Output "Edit controls count: $($edits.Count)"
 foreach ($ed in $edits) {

@@ -1,4 +1,4 @@
-# Deploy and verify F011
+﻿# Deploy and verify F011
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 

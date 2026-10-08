@@ -1,4 +1,4 @@
-param([int]$Runs = 3, [int]$TimeoutMs = 10000, [int]$QuietMs = 1500)
+﻿param([int]$Runs = 3, [int]$TimeoutMs = 10000, [int]$QuietMs = 1500)
 $ErrorActionPreference = "Stop"
 Add-Type -Path (Join-Path $PSScriptRoot "vc.cs")
 $apps = @(

@@ -1,4 +1,4 @@
-# SmokeTest-Helper.ps1
+﻿# SmokeTest-Helper.ps1
 # Automates interaction and visual verification of Files Dev on the Default desktop.
 
 $code = @"

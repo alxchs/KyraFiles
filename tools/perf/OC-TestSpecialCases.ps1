@@ -1,4 +1,4 @@
-# tools/perf/OC-TestSpecialCases.ps1
+﻿# tools/perf/OC-TestSpecialCases.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -32,7 +32,7 @@ function Capture-OCWin($name) {
 function OpenRenameOn($idx) {
     CleanPopup
     $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
-    $all = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+    $all = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
         (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, "ListBoxItem")))
     $items = @($all | Where-Object { $_.Current.BoundingRectangle.X -ge 600 -and $_.Current.BoundingRectangle.Y -ge 200 })
     $t = $items[$idx]
@@ -116,7 +116,7 @@ CleanPopup
 Write-Output "=== TEST 3: Multiple Selection ==="
 # Click on file_001.txt (item 13)
 $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
-$all = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+$all = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants,
     (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ClassNameProperty, "ListBoxItem")))
 $items = @($all | Where-Object { $_.Current.BoundingRectangle.X -ge 600 -and $_.Current.BoundingRectangle.Y -ge 200 })
 

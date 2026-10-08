@@ -1,4 +1,4 @@
-# tools/perf/OC-ContextMenu.ps1
+﻿# tools/perf/OC-ContextMenu.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'
@@ -89,7 +89,7 @@ if (-not $menu) {
 
 if ($menu) {
     Write-Output "Context menu found: $($menu.Current.Name)"
-    $mis = $menu.FindAll([System.Windows.Automation.TreeScope]::Descendants, 
+    $mis = $menu.FindAll([System.Windows.Automation.TreeScope]::Descendants,
         (New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::MenuItem)))
     foreach ($m in $mis) {
         Write-Output "MenuItem: '$($m.Current.Name)' | AccessKey: '$($m.Current.AccessKey)' | Accelerator: '$($m.Current.AcceleratorKey)'"

@@ -1,4 +1,4 @@
-# tools/perf/OC-TestRenameBehavior.ps1
+﻿# tools/perf/OC-TestRenameBehavior.ps1
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
 $runnerScript = @'

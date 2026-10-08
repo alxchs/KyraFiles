@@ -65,3 +65,15 @@
 - **Compilador**: .NET 10.0.301 / Windows App SDK 2.5.1
 - **Resultado Release**: `Build succeeded. 0 Warning(s), 0 Error(s)`
 - **Resultado Debug**: `Build succeeded. 0 Warning(s), 0 Error(s)`
+
+---
+
+## Pacotes Autocontidos Distribuíveis (`dist/`)
+
+Os pacotes autocontidos (prontos para transporte, backup e execução sem necessidade de SDK ou ferramentas de desenvolvimento) foram gerados e validados na pasta [`dist/`](file:///c:/desenv/utils/FilesApp/dist/):
+
+| Pacote | Arquivo | Tamanho | SHA-256 | Descrição |
+|---|---|---|---|---|
+| **MSIX Nativo** | [`FilesApp-v4.2.37.0-x64.msix`](file:///c:/desenv/utils/FilesApp/dist/FilesApp-v4.2.37.0-x64.msix) | **91.62 MB** | `2BE28D3BC11AC11C8DB4AC481204C7115CB51082A43394997C1DD8815005C1AC` | Pacote AppX/MSIX completo empacotado via `MakeAppx.exe`. |
+| **ZIP Portátil Autocontido** | [`FilesApp-v4.2.37.0-x64-standalone.zip`](file:///c:/desenv/utils/FilesApp/dist/FilesApp-v4.2.37.0-x64-standalone.zip) | **90.05 MB** | `8C716AB46AE479A3B7EA4CFD87A433503182A81260FD43C948A82C057BADBD20` | Layout completo descompactável com `Instalar-E-Executar.cmd`, `Instalar-E-Executar.ps1` e `LEIA-ME.txt`. |
+| **Pasta de Staging** | [`dist/FilesApp-v4.2.37.0-x64-standalone/`](file:///c:/desenv/utils/FilesApp/dist/FilesApp-v4.2.37.0-x64-standalone/) | **268 MB** | - | Pasta aberta pronta para registro local direto via `Add-AppxPackage -Register AppxManifest.xml`. |

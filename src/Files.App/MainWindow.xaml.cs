@@ -212,6 +212,35 @@ namespace Files.App
 					break;
 			}
 
+			ShowAndRestoreWindow();
+		}
+
+		/// <summary>
+		/// Files Custom: opens a location taken over from an Explorer window (F012 T9).
+		/// </summary>
+		public async Task OpenFromExplorerAsync(string path, string? selectItem)
+		{
+			// Wake the instance parked in the background; its window is shown below
+			SafetyExtensions.IgnoreExceptions(() => Program.Pool?.Release());
+
+			var rootFrame = EnsureWindowIsInitialized();
+			if (rootFrame is null)
+				return;
+
+			SystemBackdrop ??= new AppSystemBackdrop();
+
+			// SelectItem alone opens the parent folder with the item selected
+			var commands = string.IsNullOrEmpty(selectItem)
+				? new ParsedCommands { new() { Type = ParsedCommandType.OpenPath, Args = [path] } }
+				: new ParsedCommands { new() { Type = ParsedCommandType.SelectItem, Args = [selectItem] } };
+
+			await InitializeFromCmdLineArgsAsync(rootFrame, commands);
+			ShowAndRestoreWindow();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
+		private void ShowAndRestoreWindow()
+		{
 			var appWindow = AppWindow;
 			if (appWindow is not null && !appWindow.IsVisible)
 			{
@@ -325,7 +354,10 @@ namespace Files.App
 
 			// Files Custom: a file dialog instance must know it is one before its first tab opens (F012 T7)
 			if (parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.OutputPath) is { } outputPathCommand)
+			{
 				App.OutputPath = outputPathCommand.Payload;
+				ExplorerWindowRedirector.Stop();
+			}
 
 			foreach (var command in parsedCommands)
 			{

@@ -209,6 +209,9 @@ namespace Files.App
 						SystemTrayIcon = new SystemTrayIcon();
 						if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
 							SystemTrayIcon.Show();
+
+						// Files Custom: take over Explorer windows while running (F012 T9)
+						ExplorerWindowRedirector.Start();
 					});
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
@@ -219,6 +222,9 @@ namespace Files.App
 					SystemTrayIcon = new SystemTrayIcon();
 					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
 						SystemTrayIcon.Show();
+
+					// Files Custom: take over Explorer windows while running (F012 T9)
+					ExplorerWindowRedirector.Start();
 
 					// Sleep current instance
 					var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
@@ -276,6 +282,9 @@ namespace Files.App
 
 			// Reclaim the tray icon if a sibling instance's exit removed the shared-GUID icon
 			SystemTrayIcon?.EnsureCreated();
+
+			// Files Custom: take over Explorer windows if a sibling instance held them until now (F012 T9)
+			ExplorerWindowRedirector.Start();
 		}
 
 		/// <summary>
@@ -426,6 +435,7 @@ namespace Files.App
 			// Stop the tray icon's hidden window before continuing teardown so a late "Quit"
 			// click can't dispatch into OnQuitClicked once Application.Current is null.
 			SystemTrayIcon?.Dispose();
+			ExplorerWindowRedirector.Stop();
 			SystemTrayIcon = null;
 
 			// Method can take a long time, make sure the window is hidden

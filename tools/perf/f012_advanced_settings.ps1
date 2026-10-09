@@ -31,6 +31,8 @@ $A = [System.Windows.Automation.AutomationElement]
 $Scope = [System.Windows.Automation.TreeScope]
 function NameCond([string]$n) { [System.Windows.Automation.PropertyCondition]::new($A::NameProperty, $n) }
 function IdCond([string]$n) { [System.Windows.Automation.PropertyCondition]::new($A::AutomationIdProperty, $n) }
+# O app pode estar em português ou inglês
+function AnyName([string[]]$names) { if ($names.Count -eq 1) { return NameCond $names[0] }; [System.Windows.Automation.OrCondition]::new([System.Windows.Automation.Condition[]]($names | ForEach-Object { NameCond $_ })) }
 function WaitFind($root, $cond, [int]$ms = 8000) {
     $sw = [Diagnostics.Stopwatch]::StartNew()
     while ($sw.ElapsedMilliseconds -lt $ms) {
@@ -42,22 +44,22 @@ function WaitFind($root, $cond, [int]$ms = 8000) {
 }
 
 $procs = Get-Process Files -ErrorAction Stop | Where-Object MainWindowHandle -ne 0
-$proc = $procs | Where-Object MainWindowTitle -like 'Configura*' | Select-Object -First 1
+$proc = $procs | Where-Object MainWindowTitle -match '^(Configura|Settings)' | Select-Object -First 1
 if (-not $proc) { $proc = $procs | Select-Object -First 1 }
 $win = $A::FromHandle($proc.MainWindowHandle)
 [F012Win]::SetForegroundWindow($proc.MainWindowHandle) | Out-Null
 
 # Configurações abre como diálogo dentro da janela
-$advanced = $win.FindFirst($Scope::Descendants, (NameCond 'Avançado'))
+$advanced = $win.FindFirst($Scope::Descendants, (AnyName 'Avançado', 'Advanced'))
 if (-not $advanced) {
     $btn = WaitFind $win (IdCond 'SettingsButton')
     if (-not $btn) { throw 'Botão de Configurações não encontrado.' }
     $btn.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
-    $advanced = WaitFind $win (NameCond 'Avançado')
+    $advanced = WaitFind $win (AnyName 'Avançado', 'Advanced')
 }
 if (-not $advanced) { throw 'Item Avançado não encontrado.' }
 # Pode haver mais de uma aba de Configurações: usar o item visível
-$advanced = $win.FindAll($Scope::Descendants, (NameCond 'Avançado')) | Where-Object { -not $_.Current.IsOffscreen } | Select-Object -First 1
+$advanced = $win.FindAll($Scope::Descendants, (AnyName 'Avançado', 'Advanced')) | Where-Object { -not $_.Current.IsOffscreen } | Select-Object -First 1
 if (-not $advanced) { throw 'Item Avançado visível não encontrado.' }
 
 # Select() marca o item mas não navega: clique real no centro dele, só com o Files na frente
@@ -73,8 +75,8 @@ $rc = $advanced.Current.BoundingRectangle
 [F012Win]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
 Start-Sleep -Seconds 2
 
-function Get-Toggle([string]$label) {
-    $text = WaitFind $win (NameCond $label)
+function Get-Toggle([string[]]$label) {
+    $text = WaitFind $win (AnyName $label)
     if (-not $text) { throw "Opção '$label' não encontrada." }
     if ($text.GetSupportedPatterns() -contains [System.Windows.Automation.TogglePattern]::Pattern) { return $text }
     $walker = [System.Windows.Automation.TreeWalker]::ControlViewWalker
@@ -96,8 +98,8 @@ function SetToggle($t, [string]$want) {
     Start-Sleep -Seconds 3 # a detecção roda depois do regsvr32/reg import
 }
 
-$labelDefault = 'Definir o Files como o gerenciador de arquivos padrão'
-$labelDialog = 'Usar o Files como diálogo para Abrir Arquivos'
+$labelDefault = 'Definir o Files como o gerenciador de arquivos padrão', 'Set Files as the default file manager'
+$labelDialog = 'Usar o Files como diálogo para Abrir Arquivos', 'Use Files as Open File Dialog'
 
 if ($DefaultManager) { SetToggle (Get-Toggle $labelDefault) $DefaultManager }
 if ($FileDialog) { SetToggle (Get-Toggle $labelDialog) $FileDialog }

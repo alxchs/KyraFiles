@@ -36,7 +36,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** relato do Alexandre de 08/10/2026 (fora da spec F012; ver spec §6).
   - **Pronto quando:** com a opção ligada, o diálogo "Abrir" de um app comum (Bloco de Notas) abre o Files; desligada, volta o diálogo do Windows. Capturas.
 
-- [ ] **T9 — Redirecionador de janelas do Explorer** (`ExplorerWindowRedirector.cs`, `ShellWindowsAutomation.cs`, `MainWindow.xaml.cs`, `App.xaml.cs`, `Win32Helper.Storage.cs`)
+- [x] **T9 — Redirecionador de janelas do Explorer** (`ExplorerWindowRedirector.cs`, `ShellWindowsAutomation.cs`, `MainWindow.xaml.cs`, `App.xaml.cs`, `Win32Helper.Storage.cs`)
   - **Atende:** `FR-009`, `FR-010`, `FR-011`, `AC-1`, `AC-3`, `AC-4`, `AC-11`, `AC-12`. Plan §9.
   - **Pronto quando:** com o Files em execução e o gerenciador padrão ligado, `Win + E`, `explorer.exe <pasta>` e `explorer /select,<arquivo>` abrem no Files (o arquivo selecionado no terceiro caso) e a janela do Explorer não fica visível por mais de 100 ms; Painel de Controle continua no Explorer; com a opção desligada, nada é redirecionado. Script `tools/perf/f012_explorer_redirect.ps1` com os números.
 
@@ -69,3 +69,20 @@ Substitui a tabela acima nos itens que mudaram. Build com a correção da D-016:
 | T6 / AC-2, AC-5 | CONFIRMED (shell) | `Start-Process <pasta>` levou a janela do Files já aberta para a pasta (4,0 s), sem processo novo de janela |
 | T6 / AC-4 | FALHA parcial | `explorer.exe "<pasta>"` abre o Explorer do Windows. PENDING DECISION D-017 |
 | T6 / AC-1 | NOT TESTED | `Win + E` precisa de teclado real (Alexandre) |
+
+## Estado em 09/10/2026 09:50 (Claude) — T9
+
+Build `mkfile r Files.slnx` = 0 Warning(s), 0 Error(s). Medido por `pwsh tools\perf\f012_explorer_redirect.ps1` (janela do Explorer amostrada a cada ~10 ms; "visível" = na tela e não transparente).
+
+| AC | Estado | Evidência |
+|---|---|---|
+| AC-1 (Win + E, por `SendInput`) | CONFIRMED | Files abriu "This PC"; Explorer visível ~50 ms (3 amostras) com o Files aberto, nunca visível com o Files estacionado em segundo plano (a janela do Files voltou) |
+| AC-4 (`explorer.exe <pasta>`) | CONFIRMED | pasta com espaço e acento aberta no Files; Explorer visível 1 amostra |
+| AC-3 (`explorer /select,<arquivo>`) | CONFIRMED (caminho), OBSERVED (seleção) | Files abriu a pasta com o arquivo marcado (captura 11); a barra de status diz "1 item", sem "selecionado": parece foco, não seleção, igual ao `-select` que o Files já tinha |
+| AC-11 (Painel de Controle) | CONFIRMED | ficou no Explorer, visível ("left alone: ::{26EE0668-...}") |
+| Opção desligada | CONFIRMED | `explorer.exe <pasta>` ficou no Explorer, nada redirecionado |
+| Files fechado | CONFIRMED | Explorer abre normal |
+| AC-12 (Files abrindo o Explorer) | INFERRED | `SuppressFor` em `OpenFolderInExistingShellWindow`; não testado pela tela |
+| Navegador "Mostrar na pasta" | NOT TESTED | usa o mesmo caminho do `/select` (INFERRED) |
+
+Causa achada no caminho: `IShellBrowser::GetWindow` falha de outro processo (`0x8001010D`, chamada síncrona de entrada); a janela vem de `IWebBrowser2::get_HWND`.

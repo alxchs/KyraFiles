@@ -1,0 +1,121 @@
+<title>Files Custom 09/10 07:30</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one reading column; a status ledger (item / o que muda / estado) is the core of the page */
+  :root {
+    --bg: #f5f7f9; --surface: #ffffff; --fg: #1b2530; --muted: #5a6876; --line: #d8dfe6;
+    --accent: #1d5f9e; --code-bg: #e9eef3;
+    --ok-bg: #dcf2e4; --ok-fg: #1b6b3c; --warn-bg: #fbefd2; --warn-fg: #7a5410;
+    --nt-bg: #e6eaee; --nt-fg: #4a5662; --pend-bg: #dde9f7; --pend-fg: #1d5f9e;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #121820; --surface: #1a222c; --fg: #dde4ea; --muted: #93a1ae; --line: #2c3743;
+    --accent: #7db4ea; --code-bg: #232e3a;
+    --ok-bg: #173a27; --ok-fg: #8fdcaa; --warn-bg: #3d3014; --warn-fg: #f0cd7c;
+    --nt-bg: #28323d; --nt-fg: #aab6c2; --pend-bg: #1c3550; --pend-fg: #9cc8f2; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #121820; --surface: #1a222c; --fg: #dde4ea; --muted: #93a1ae; --line: #2c3743;
+    --accent: #7db4ea; --code-bg: #232e3a;
+    --ok-bg: #173a27; --ok-fg: #8fdcaa; --warn-bg: #3d3014; --warn-fg: #f0cd7c;
+    --nt-bg: #28323d; --nt-fg: #aab6c2; --pend-bg: #1c3550; --pend-fg: #9cc8f2; color-scheme: dark }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.6; }
+  main { max-width: 920px; margin: 0 auto; padding-inline: 16px; padding-block: 40px 56px; display: grid; gap: 32px; }
+  header { display: grid; gap: 6px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font-size: 1.9rem; font-weight: 600; text-wrap: balance; line-height: 1.25; }
+  h2 { margin: 0 0 12px; font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0; max-width: 68ch; }
+  .lede { color: var(--muted); }
+  code { font-family: var(--mono); font-size: .86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+  .facts dt { color: var(--muted); font-size: 13px; }
+  .facts dd { margin: 0; min-width: 0; }
+  .ledger { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; width: 24%; }
+  td:last-child { width: 30%; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; margin-bottom: 4px; }
+  .ok { background: var(--ok-bg); color: var(--ok-fg); }
+  .warn { background: var(--warn-bg); color: var(--warn-fg); }
+  .nt { background: var(--nt-bg); color: var(--nt-fg); }
+  .pend { background: var(--pend-bg); color: var(--pend-fg); }
+  .ev { display: block; color: var(--muted); font-size: 13px; }
+  ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
+  .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .num { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
+  .num b { font-family: var(--mono); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .num span { font-size: 13px; color: var(--muted); }
+  @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } h1 { font-size: 1.5rem; } }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">Nota de liberação · F012 · 09/10/2026 07:30</span>
+    <h1>O diálogo "Abrir" do Files agora devolve o arquivo escolhido</h1>
+    <p class="lede">Antes, escolher um arquivo no Files aberto como diálogo e fechar a janela fazia o programa receber "Cancelar" em parte das vezes, e cada uso acrescentava uma aba à sua sessão. Os dois vinham do mesmo defeito, corrigido nesta build (decisão D-016).</p>
+  </header>
+
+  <section>
+    <h2>Build</h2>
+    <dl class="facts">
+      <dt>Executável</dt><dd><code>src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.exe</code></dd>
+      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-FilesDev.ps1</code></dd>
+      <dt>Branch</dt><dd><code>feature/f012-explorer-replacement</code>, commits <code>7d1da75d1</code> e <code>74c16dbf5</code></dd>
+      <dt>Compilação</dt><dd><code>mkfile r Files.slnx</code>: 0 Warning(s), 0 Error(s)</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>O que foi liberado</h2>
+    <div class="ledger">
+      <table>
+        <thead><tr><th>Item</th><th>O que muda para você</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Escolher arquivo no diálogo "Abrir"</td><td>Selecione o arquivo e feche a janela do Files: ele abre no programa.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">3 de 3 pelo script de teste, caminho com espaço e acento</span></td></tr>
+          <tr><td>Diálogo "Salvar"</td><td>Mesmo fluxo, escolhendo um arquivo existente.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">1 de 1. Nome novo e app 32 bits: não testados</span></td></tr>
+          <tr><td>Suas abas ficam intactas</td><td>O diálogo abre só com a pasta pedida e não grava nada na sua sessão.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">5 usos seguidos; sessão continuou Configurações e D:\</span></td></tr>
+          <tr><td>Ligar e desligar o gerenciador padrão</td><td>Desligar devolve pastas e Win + E ao Explorer e desliga junto o diálogo; religar volta tudo. Sem pedir administrador.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">pela tela, registro conferido nos dois sentidos</span></td></tr>
+          <tr><td>Diálogo desligado</td><td>Os programas voltam a usar o diálogo do Windows.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
+          <tr><td>Abrir pasta pelo Windows</td><td>start, Win + R e duplo clique abrem a pasta na janela do Files já aberta.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">4,0 s até a janela mudar</span></td></tr>
+          <tr><td>Pasta aberta por fora com o diálogo aberto</td><td>Vai para a janela principal, não para a de diálogo.</td><td><span class="chip warn">INFERRED</span><span class="ev">pelo código; não testado</span></td></tr>
+          <tr><td>explorer.exe &lt;pasta&gt; direto</td><td>Continua abrindo o Explorer do Windows.</td><td><span class="chip pend">DECISÃO SUA</span><span class="ev">D-017: aceitar, ou interceptar de forma invasiva</span></td></tr>
+          <tr><td>Win + E</td><td>Deve abrir o Files.</td><td><span class="chip nt">NOT TESTED</span><span class="ev">precisa de teclado real</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Medido</h2>
+    <div class="numbers">
+      <div class="num"><b>~2,6 s</b><span>para o diálogo abrir (antes 4 a 6 s)</span></div>
+      <div class="num"><b>~0,4 s</b><span>do fechar até o programa receber o arquivo (antes 1,7 s)</span></div>
+      <div class="num"><b>0 abas</b><span>a mais na sua sessão por uso (antes +1 por uso)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como testar</h2>
+    <ol>
+      <li>Feche o Files Dev e rode <code>.\Open-FilesDev.ps1</code>.</li>
+      <li>Em Configurações &gt; Avançado, deixe as duas opções ligadas (já estão nesta máquina).</li>
+      <li>Em qualquer programa, Ctrl+O. O Files abre só com a pasta; selecione um arquivo e feche a janela do Files. O arquivo deve abrir no programa.</li>
+      <li>Abra o Files normalmente: suas abas devem ser as de antes.</li>
+      <li>Aperte Win + E: deve abrir o Files.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Ainda não está nesta build</h2>
+    <ul>
+      <li>Interceptar <code>explorer.exe &lt;pasta&gt;</code> (D-017, aguardando sua decisão).</li>
+      <li>Botão Abrir/Salvar e caixa de nome de arquivo no modo diálogo; como no original, a seleção volta ao fechar a janela.</li>
+      <li>Correções da revisão do G1 (branch <code>agy/correcoes-g1</code>).</li>
+    </ul>
+  </section>
+</main>

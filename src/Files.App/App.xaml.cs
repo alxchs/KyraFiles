@@ -203,15 +203,15 @@ namespace Files.App
 						SplashScreenLoadingTCS = null;
 					}
 
+					// Files Custom: take over Explorer windows while running, from the start (F012 T9)
+					ExplorerWindowRedirector.Start();
+
 					// Deferred so the first frame renders first
 					MainWindow.Instance.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
 					{
 						SystemTrayIcon = new SystemTrayIcon();
 						if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
 							SystemTrayIcon.Show();
-
-						// Files Custom: take over Explorer windows while running (F012 T9)
-						ExplorerWindowRedirector.Start();
 					});
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);

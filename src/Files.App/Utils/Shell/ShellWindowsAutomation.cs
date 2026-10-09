@@ -24,6 +24,8 @@ namespace Files.App.Utils.Shell
 		private const int GetFolderSlot = 5;
 		private const int GetCurrentFolderSlot = 5;
 		private const int WebBrowserGetHwndSlot = 37;
+		private const int WebBrowserQuitSlot = 32;
+		private const int WebBrowserGetLocationUrlSlot = 30;
 		private static readonly Guid WebBrowser2InterfaceId = new("D30C1661-CDAF-11D0-8A3E-00C04FC9E26E");
 		private const int GetSelectionSlot = 32;
 		private const int ItemArrayGetCountSlot = 7;
@@ -258,6 +260,62 @@ namespace Files.App.Utils.Shell
 					Release(ref shellView);
 					Release(ref shellBrowser);
 					Release(ref serviceProvider);
+					Release(ref webBrowser);
+				}
+			}
+
+			/// <summary>
+			/// Files Custom: reads the window handle and the navigation URL, which Explorer sets before the folder view is ready (F012 T9).
+			/// </summary>
+			public bool TryGetHandleAndUrl(out nint windowHandle, out string? url)
+			{
+				ObjectDisposedException.ThrowIf(window is null, this);
+				windowHandle = 0;
+				url = null;
+				void* webBrowser = null;
+				char* locationUrl = null;
+				try
+				{
+					if (QueryInterface(window, WebBrowser2InterfaceId, out webBrowser).Failed || webBrowser is null)
+						return false;
+					var getHwnd = (delegate* unmanaged[MemberFunction]<void*, nint*, int>)GetVtable(webBrowser)[WebBrowserGetHwndSlot];
+					nint handle = 0;
+					if (new HRESULT(getHwnd(webBrowser, &handle)).Failed || handle == 0)
+						return false;
+					windowHandle = handle;
+
+					var getLocationUrl = (delegate* unmanaged[MemberFunction]<void*, char**, int>)GetVtable(webBrowser)[WebBrowserGetLocationUrlSlot];
+					if (new HRESULT(getLocationUrl(webBrowser, &locationUrl)).Succeeded && locationUrl is not null)
+						url = new string(locationUrl);
+					return true;
+				}
+				finally
+				{
+					if (locationUrl is not null)
+						SysFreeString(locationUrl);
+					Release(ref webBrowser);
+				}
+			}
+
+			[LibraryImport("oleaut32.dll")]
+			private static partial void SysFreeString(char* value);
+
+			/// <summary>
+			/// Files Custom: asks Explorer to close this window (F012 T9).
+			/// </summary>
+			public bool TryQuit()
+			{
+				ObjectDisposedException.ThrowIf(window is null, this);
+				void* webBrowser = null;
+				try
+				{
+					if (QueryInterface(window, WebBrowser2InterfaceId, out webBrowser).Failed || webBrowser is null)
+						return false;
+					var quit = (delegate* unmanaged[MemberFunction]<void*, int>)GetVtable(webBrowser)[WebBrowserQuitSlot];
+					return new HRESULT(quit(webBrowser)).Succeeded;
+				}
+				finally
+				{
 					Release(ref webBrowser);
 				}
 			}

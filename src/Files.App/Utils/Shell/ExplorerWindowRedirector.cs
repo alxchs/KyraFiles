@@ -27,10 +27,17 @@ namespace Files.App.Utils.Shell
 		private const uint LayeredAlpha = 0x00000002;
 		private const uint CloseMessage = 0x0010;
 		private const uint MultithreadedApartment = 0x0;
+		private const uint RedrawInvalidate = 0x0001;
+		private const uint RedrawErase = 0x0004;
+		private const uint RedrawAllChildren = 0x0080;
+		private const uint RedrawFrame = 0x0400;
 		private const string HomeLocation = "::{F874310E-B6B7-47DC-BC84-B9E6B38F5903}";
 
 		private static readonly TimeSpan LookupTimeout = TimeSpan.FromSeconds(8);
-		private static readonly TimeSpan CloseTimeout = TimeSpan.FromSeconds(2);
+		private static readonly TimeSpan CloseTimeout = TimeSpan.FromSeconds(5);
+
+		// How long to wait for the folder view (which carries the "Show in folder" selection) once the URL is known
+		private static readonly TimeSpan UrlGracePeriod = TimeSpan.FromMilliseconds(400);
 
 		// Window handle -> extended style before it was made transparent
 		private static readonly ConcurrentDictionary<nint, int> pendingWindows = new();
@@ -123,23 +130,39 @@ namespace Files.App.Utils.Shell
 		private static void TakeOver(nint window)
 		{
 			var handedOver = false;
+			var started = Environment.TickCount64;
 			var comInitialized = InitializeCom();
 			try
 			{
 				string? location = null;
 				List<string> selection = [];
 				var deadline = Environment.TickCount64 + (long)LookupTimeout.TotalMilliseconds;
+				string? urlPath = null;
+				long urlPathAt = 0;
 				while (Environment.TickCount64 < deadline && IsWindow(window))
 				{
 					if (TryRead(window, out location, out selection))
 						break;
+
+					// The folder view can take seconds; a disk folder is already known from the navigation URL
+					if (urlPath is null && TryReadUrlPath(window) is { } path)
+					{
+						urlPath = path;
+						urlPathAt = Environment.TickCount64;
+					}
+					if (urlPath is not null && Environment.TickCount64 - urlPathAt >= (long)UrlGracePeriod.TotalMilliseconds)
+					{
+						location = urlPath;
+						break;
+					}
+
 					Thread.Sleep(50);
 				}
 
 				var target = location is null ? null : ToFilesLocation(location);
 				if (target is null)
 				{
-					App.Logger.LogInformation("Explorer window left alone: {Location}", location ?? "(not read)");
+					App.Logger.LogInformation("Explorer window left alone after {Elapsed} ms: {Location}", Environment.TickCount64 - started, location ?? "(not read)");
 					return;
 				}
 
@@ -150,30 +173,30 @@ namespace Files.App.Utils.Shell
 					TryRead(window, out _, out selection);
 				}
 
-				PostMessageW(window, CloseMessage, 0, 0);
+				// Files opens the location right away; Explorer closes in parallel
+				var selectItem = selection.Count == 1 && System.IO.Path.IsPathRooted(selection[0]) ? selection[0] : null;
+				App.Logger.LogInformation("Explorer window taken over after {Elapsed} ms: {Location} (selected: {Selected})", Environment.TickCount64 - started, target, selectItem ?? "-");
+				OpenInFiles(target, selectItem);
+
+				// Explorer sometimes ignores WM_CLOSE while it is still loading; asking it through the browser object is reliable
+				if (!TryQuit(window))
+					PostMessageW(window, CloseMessage, 0, 0);
 				var closeDeadline = Environment.TickCount64 + (long)CloseTimeout.TotalMilliseconds;
+				var closeMessageSent = false;
 				while (Environment.TickCount64 < closeDeadline && IsWindow(window))
-					Thread.Sleep(20);
-				if (IsWindow(window))
 				{
-					App.Logger.LogWarning("Explorer window did not close; showing it again: {Location}", location);
-					return;
+					Thread.Sleep(20);
+					if (!closeMessageSent && closeDeadline - Environment.TickCount64 < (long)CloseTimeout.TotalMilliseconds / 2)
+					{
+						PostMessageW(window, CloseMessage, 0, 0);
+						closeMessageSent = true;
+					}
 				}
 
-				handedOver = true;
-				var selectItem = selection.Count == 1 && System.IO.Path.IsPathRooted(selection[0]) ? selection[0] : null;
-				App.Logger.LogInformation("Explorer window taken over: {Location} (selected: {Selected})", target, selectItem ?? "-");
-				MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
-				{
-					try
-					{
-						await MainWindow.Instance.OpenFromExplorerAsync(target, selectItem);
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, "Failed to open {Location} taken over from Explorer", target);
-					}
-				});
+				// Never leave an invisible window behind
+				handedOver = !IsWindow(window);
+				if (!handedOver)
+					App.Logger.LogWarning("Explorer window did not close; showing it again: {Location}", location);
 			}
 			catch (Exception ex)
 			{
@@ -188,8 +211,63 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
+		private static void OpenInFiles(string location, string? selectItem)
+		{
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+			{
+				try
+				{
+					await MainWindow.Instance.OpenFromExplorerAsync(location, selectItem);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Failed to open {Location} taken over from Explorer", location);
+				}
+			});
+		}
+
 		private static unsafe bool InitializeCom()
 			=> CoInitializeEx(null, MultithreadedApartment) >= 0;
+
+		private static string? TryReadUrlPath(nint window)
+		{
+			try
+			{
+				using var shellWindows = new ShellWindowsAutomation();
+				var count = shellWindows.Count;
+				for (var index = 0; index < count; index++)
+				{
+					using var shellWindow = shellWindows.GetWindow(index);
+					if (shellWindow is not null && shellWindow.TryGetHandleAndUrl(out var handle, out var url) && handle == window)
+						return url is not null && Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.IsFile ? uri.LocalPath : null;
+				}
+			}
+			catch (COMException)
+			{
+			}
+
+			return null;
+		}
+
+		private static bool TryQuit(nint window)
+		{
+			try
+			{
+				using var shellWindows = new ShellWindowsAutomation();
+				var count = shellWindows.Count;
+				for (var index = 0; index < count; index++)
+				{
+					using var shellWindow = shellWindows.GetWindow(index);
+					if (shellWindow is not null && shellWindow.TryGetLocation(out var handle, out _, out _) && handle == window)
+						return shellWindow.TryQuit();
+				}
+			}
+			catch (COMException)
+			{
+			}
+
+			return false;
+		}
 
 		private static bool TryRead(nint window, out string? location, out List<string> selection)
 		{
@@ -253,7 +331,14 @@ namespace Files.App.Utils.Shell
 			SetLayeredWindowAttributes(window, 0, 255, LayeredAlpha);
 			if ((extendedStyle & LayeredStyle) == 0)
 				SetWindowLongW(window, ExtendedStyleIndex, extendedStyle);
+
+			// Without a repaint the window stays blank until something else redraws it
+			RedrawWindow(window, 0, 0, RedrawErase | RedrawInvalidate | RedrawFrame | RedrawAllChildren);
 		}
+
+		[LibraryImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static partial bool RedrawWindow(nint window, nint updateRect, nint updateRegion, uint flags);
 
 		[LibraryImport("user32.dll")]
 		private static unsafe partial nint SetWinEventHook(uint eventMin, uint eventMax, nint module, delegate* unmanaged[Stdcall]<nint, uint, nint, int, int, uint, uint, void> callback, uint processId, uint threadId, uint flags);

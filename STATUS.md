@@ -30,7 +30,8 @@
 | F004 | Menu clássico | CONCLUÍDO (MenuBar completa com 6 menus, Alt+keys, toggle em Settings > Appearance, build 0/0, evidências em docs/agents/evidence/f004/) | feature/classic-menu |
 | F006 | Infraestrutura de busca | CONCLUÍDO (benchmark empírico de 3 motores, SDD, arquitetura ISearchProvider/Factory, NativeFilesSearchProvider, build 0/0) | feature/search-provider |
 | F011 | Escolha de motor de busca (Everything / Agent Ransack) | CONCLUÍDO (provedores Agent Ransack CLI silencioso e Everything integrados via ISearchProvider, configuração em Settings > Pastas, roteamento no ShellViewModel, build 0/0) | feature/search-engine-choice |
-| F012 | Files como gerenciador padrão e diálogo de arquivos | EM ANDAMENTO (T1..T5, T7 CONFIRMED; T6: `Win + E` NOT TESTED e `explorer.exe <pasta>` pendente da D-017; ver `docs/specs/F012-explorer-replacement/tasks.md`) | feature/f012-explorer-replacement |
+| F012 | Files como gerenciador padrão e diálogo de arquivos | EM ANDAMENTO (T1..T5, T7, T9 CONFIRMED: `Win + E`, `explorer.exe <pasta>` e `/select` redirecionados com o Files em execução, D-017; pendente: AC-9 desinstalação, AC-10, navegador "Mostrar na pasta", T8; ver `docs/specs/F012-explorer-replacement/tasks.md`) | feature/f012-explorer-replacement |
+| F013 | F3 abre o Agent Ransack na pasta atual | CONCLUÍDA na branch (AC-1, AC-3, AC-4 CONFIRMED; AC-2, AC-5 INFERRED; ver `docs/specs/F013-f3-agent-ransack/tasks.md`) | feature/f012-explorer-replacement |
 | F007-B | Compositor Idle / Repouso WinUI 3 | CONCLUÍDO (bissecção empírica completa em Solid e MicaAlt; causas identificadas: Widgets Home ~3.688ms compositor e 4 Abas ~3.984ms; baseline em pasta simples atinge 78ms em 10s / 7,8ms/s, mais econômico que OneCommander) | feature/compositor-idle-f007b |
 
 ## Observações do ambiente (28/09/2026)
@@ -84,6 +85,9 @@ Correção em 01/10/2026 (Claude): as duas linhas que estavam aqui afirmavam cor
 
 - **D-A11Y-01 — Nome acessível de arquivo com tipo errado (09/10/2026, Claude).** OBSERVED por UI Automation: o item da lista de `arquivo de teste ação.txt` se chama `arquivo de teste ação.txt, Pasta`. Causa não investigada; afeta leitor de tela.
 - **D-PERF-02 — Abrir pasta por fora leva ~4 s (09/10/2026).** OBSERVED: `Start-Process <pasta>` até a janela do Files mudar = 4,0 s (antes 4,7 a 7,1 s); quase tudo no segundo processo do Files que só repassa o pedido (instância única). Ver nota `docs/releases/2026-10-09_0100_...`.
+- **D-PERF-03 — `explorer.exe <pasta>` leva ~3 s até o Files assumir (09/10/2026).** CONFIRMED: o Explorer só registra a janela na `ShellWindows` ~3,2 s depois do comando (medido com o Files fechado). Ideia: ler a barra de endereço do Explorer por UI Automation, que pode ficar pronta antes.
+- **D-LEAK-01 — A DLL do diálogo deixa `fsd*.tmp` vazios no `%TEMP%` (09/10/2026).** OBSERVED: 10 arquivos de 0 byte após os testes da T7 (apagados). Código do upstream (`FilesOpenDialog.cpp` cria o temporário no construtor).
+- **D-C4 — Coluna marcada em pasta que não a exibe (09/10/2026).** OBSERVED no diálogo "Choose Details": "Dimensions" marcada numa pasta sem essa coluna. É o defeito C4 da revisão do G1.
 
 - **D-PERF-01 — Files Dev percebido como lento (01/10/2026, Alexandre).** Abrir o app, entrar em pastas, rolagem/miniaturas e cliques/menus: tudo mais lento que o Explorer e o OneCommander. Decisão: IMPLEMENT como F007 (D-007, meta: superar o OneCommander). Linha de base e scripts em `tools/perf/`.
   - OBSERVED (processo em uso, ~5 min): 2 min 06 s de CPU acumulada, 514 MB de working set, 411 MB privados, 65 threads, 3089 handles; ocioso em 1,4% de CPU. Máquina: 12 núcleos, 16 GB, sem outro processo acima de 3,3% de CPU.

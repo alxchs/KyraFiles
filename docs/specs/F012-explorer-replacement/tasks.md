@@ -86,3 +86,20 @@ Build `mkfile r Files.slnx` = 0 Warning(s), 0 Error(s). Medido por `pwsh tools\p
 | Navegador "Mostrar na pasta" | NOT TESTED | usa o mesmo caminho do `/select` (INFERRED) |
 
 Causa achada no caminho: `IShellBrowser::GetWindow` falha de outro processo (`0x8001010D`, chamada síncrona de entrada); a janela vem de `IWebBrowser2::get_HWND`.
+
+## Estado em 09/10/2026 10:45 (Claude) — T9 revisada
+
+Mudanças depois da primeira medição: o redirecionador liga no início do app (antes ligava só com a interface ociosa e perdia o `Win + E` dos primeiros ~12 s); o Files abre a pasta assim que ela é lida, e o Explorer fecha em paralelo (`IWebBrowser2::Quit`, `WM_CLOSE` de reserva, prazo de 5 s; se não fechar, volta a ficar visível); ao devolver uma janela (Painel de Controle) ela é redesenhada (antes ficava em branco até ~3 s); leitura rápida pelo endereço de navegação para pastas de disco.
+
+`pwsh tools\perf\f012_explorer_redirect.ps1`, 2 rodadas, Files aberto há 8 s:
+
+| Caso | Explorer visível | Decisão do redirecionador (após a janela aparecer) |
+|---|---|---|
+| Win + E | 1 amostra (~10 ms) | 0,6 a 0,8 s |
+| `explorer.exe <pasta>` | 2 a 3 amostras (~30 ms) | 2,7 a 3,0 s |
+| `explorer /select,<arquivo>` | 0 a 2 amostras | 1,9 s, arquivo lido |
+| Painel de Controle | fica visível (correto) | 0,05 a 0,3 s |
+
+Limite medido do Explorer (Files fechado, `timeline.ps1` no TEMP): janela visível em 1,1 s, registrada na `ShellWindows` com a pasta em 3,2 s. Os ~3 s do `explorer.exe <pasta>` vêm desse registro tardio. DISCOVERY: ler a barra de endereço do Explorer por UI Automation, que pode ficar pronta antes.
+
+Regressão: diálogo "Abrir" (T7) continua PASS com o redirecionador ligado (`f012_file_dialog_return.ps1`).

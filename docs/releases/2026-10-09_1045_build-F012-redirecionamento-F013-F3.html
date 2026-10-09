@@ -1,0 +1,125 @@
+<title>Files Custom 09/10 10:45</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one reading column; a status ledger (item / o que muda / estado) is the core of the page */
+  :root {
+    --bg: #f5f7f9; --surface: #ffffff; --fg: #1b2530; --muted: #5a6876; --line: #d8dfe6;
+    --accent: #1d5f9e; --code-bg: #e9eef3;
+    --ok-bg: #dcf2e4; --ok-fg: #1b6b3c; --warn-bg: #fbefd2; --warn-fg: #7a5410;
+    --nt-bg: #e6eaee; --nt-fg: #4a5662; --pend-bg: #dde9f7; --pend-fg: #1d5f9e;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #121820; --surface: #1a222c; --fg: #dde4ea; --muted: #93a1ae; --line: #2c3743;
+    --accent: #7db4ea; --code-bg: #232e3a;
+    --ok-bg: #173a27; --ok-fg: #8fdcaa; --warn-bg: #3d3014; --warn-fg: #f0cd7c;
+    --nt-bg: #28323d; --nt-fg: #aab6c2; --pend-bg: #1c3550; --pend-fg: #9cc8f2; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #121820; --surface: #1a222c; --fg: #dde4ea; --muted: #93a1ae; --line: #2c3743;
+    --accent: #7db4ea; --code-bg: #232e3a;
+    --ok-bg: #173a27; --ok-fg: #8fdcaa; --warn-bg: #3d3014; --warn-fg: #f0cd7c;
+    --nt-bg: #28323d; --nt-fg: #aab6c2; --pend-bg: #1c3550; --pend-fg: #9cc8f2; color-scheme: dark }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.6; }
+  main { max-width: 920px; margin: 0 auto; padding-inline: 16px; padding-block: 40px 56px; display: grid; gap: 32px; }
+  header { display: grid; gap: 6px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font-size: 1.9rem; font-weight: 600; text-wrap: balance; line-height: 1.25; }
+  h2 { margin: 0 0 12px; font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0; max-width: 68ch; }
+  .lede { color: var(--muted); }
+  code { font-family: var(--mono); font-size: .86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+  .facts dt { color: var(--muted); font-size: 13px; }
+  .facts dd { margin: 0; min-width: 0; }
+  .ledger { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; width: 24%; }
+  td:last-child { width: 30%; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; margin-bottom: 4px; }
+  .ok { background: var(--ok-bg); color: var(--ok-fg); }
+  .warn { background: var(--warn-bg); color: var(--warn-fg); }
+  .nt { background: var(--nt-bg); color: var(--nt-fg); }
+  .pend { background: var(--pend-bg); color: var(--pend-fg); }
+  .ev { display: block; color: var(--muted); font-size: 13px; }
+  ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
+  .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .num { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
+  .num b { font-family: var(--mono); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .num span { font-size: 13px; color: var(--muted); }
+  @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } h1 { font-size: 1.5rem; } }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">Nota de liberação · F012 · F013 · G1 C2 · 09/10/2026 10:45</span>
+    <h1>Win + E e explorer.exe abrem no Files; F3 abre o Agent Ransack</h1>
+    <p class="lede">Com o Files aberto ou em segundo plano, as janelas novas do Explorer passam para o Files sem chegar a aparecer. O F3 abre o Agent Ransack na pasta atual, e os nomes das colunas extras seguem o idioma do app.</p>
+  </header>
+
+  <section>
+    <h2>Build</h2>
+    <dl class="facts">
+      <dt>Executável</dt><dd><code>src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.exe</code></dd>
+      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-FilesDev.ps1</code></dd>
+      <dt>Branch</dt><dd><code>feature/f012-explorer-replacement</code>, até <code>5b7e8f865</code> (commits depois do adendo WIP ainda não publicados)</dd>
+      <dt>Compilação</dt><dd><code>mkfile r Files.slnx</code>: 0 Warning(s), 0 Error(s)</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>O que foi liberado</h2>
+    <div class="ledger">
+      <table>
+        <thead><tr><th>Item</th><th>O que muda para você</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Win + E</td><td>Abre "Este Computador" no Files; a janela do Explorer não chega a aparecer (no máximo ~10 ms).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">por teclado simulado, com o Files aberto e em segundo plano</span></td></tr>
+          <tr><td>explorer.exe &lt;pasta&gt;</td><td>A pasta abre no Files, cerca de 3 s depois do comando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">o Explorer leva ~3,2 s para expor a pasta</span></td></tr>
+          <tr><td>Mostrar na pasta</td><td>Abre a pasta no Files com o arquivo marcado.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">com explorer /select; navegadores ainda não testados</span></td></tr>
+          <tr><td>Painel de Controle</td><td>Continua no Explorer, como deve.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
+          <tr><td>Files fechado ou opção desligada</td><td>O Explorer abre normalmente.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
+          <tr><td>F3</td><td>Numa pasta, abre o Agent Ransack nela; fora de pastas, abre a busca do Files. Ctrl+F continua com a busca do Files.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">Agent Ransack em ~2 s, pasta com espaço e acento</span></td></tr>
+          <tr><td>Colunas extras</td><td>Nomes e categorias no idioma do Files (antes sempre em português).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">em inglês; português não visto na tela</span></td></tr>
+          <tr><td>Diálogo "Abrir" do Files</td><td>Continua funcionando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">teste de regressão</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Medido</h2>
+    <div class="numbers">
+      <div class="num"><b>≤ 30 ms</b><span>tempo máximo da janela do Explorer na tela, em 9 aberturas de pasta</span></div>
+      <div class="num"><b>0,6–0,8 s</b><span>do Win + E até o Files assumir</span></div>
+      <div class="num"><b>~2 s</b><span>do F3 até o Agent Ransack abrir</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para valer depois de reiniciar o PC</h2>
+    <p>O Files precisa estar rodando. Ligue <b>Configurações &gt; Avançado &gt; Abrir o Files ao iniciar o Windows</b>; nesta máquina essa opção está desligada. Com o Files fechado, o Win + E abre o Explorer.</p>
+  </section>
+
+  <section>
+    <h2>Como testar</h2>
+    <ol>
+      <li>Feche o Files Dev e rode <code>.\Open-FilesDev.ps1</code>.</li>
+      <li>Aperte Win + E: deve abrir o Files em "Este Computador".</li>
+      <li>Win + R, digite <code>explorer C:\Windows</code>: deve abrir no Files.</li>
+      <li>Numa pasta do Files, aperte F3: o Agent Ransack abre nela.</li>
+      <li>Botão direito no cabeçalho "Nome" &gt; "More...": nomes no idioma do app.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Ainda não está nesta build</h2>
+    <ul>
+      <li>Abertura mais rápida do <code>explorer.exe &lt;pasta&gt;</code> (registrado como D-PERF-03).</li>
+      <li>As outras correções da revisão do G1.</li>
+      <li>Teste de desinstalação e de pastas especiais.</li>
+    </ul>
+  </section>
+</main>

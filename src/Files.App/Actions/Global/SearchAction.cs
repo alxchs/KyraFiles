@@ -20,9 +20,6 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.F, KeyModifiers.Ctrl);
 
-		public HotKey SecondHotKey
-			=> new(Keys.F3);
-
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Omnibar.Search");
 

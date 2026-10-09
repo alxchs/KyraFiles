@@ -4809,4 +4809,10 @@
   <data name="ChooseDetailsDialogSearchPlaceholder" xml:space="preserve">
     <value>Search columns...</value>
   </data>
+  <data name="SearchWithAgentRansack" xml:space="preserve">
+    <value>Search with Agent Ransack</value>
+  </data>
+  <data name="SearchWithAgentRansackDescription" xml:space="preserve">
+    <value>Open Agent Ransack on the current folder (falls back to the Files search when Agent Ransack is not installed)</value>
+  </data>
 </root>

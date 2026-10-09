@@ -110,3 +110,14 @@ Para cumprir a `spec.md` (especialmente o requisito inegociável de fallback aut
 - **T-02:** Ativação em *Configurações > Avançado* e teste com `Win + E`.
 - **T-03:** Abertura de pasta com espaços e caminhos especiais.
 - **T-04:** Simulação de exclusão do Files e prova de abertura automática do Windows Explorer.
+
+## 9. Adendo de 09/10/2026: redirecionamento de janelas do Explorer (FR-009 a FR-011, D-017)
+
+Status: **APROVADO** (Claude, 09/10/2026).
+
+- **Arquitetura atual (CONFIRMED lendo o código):** `Utils/Shell/ShellWindowsAutomation.cs` já fala com a `ShellWindows` por chamadas diretas na tabela de métodos COM (compatível com AOT, sem `dynamic`); `MainWindow.InitializeFromCmdLineArgsAsync` já abre uma pasta vinda de fora (com `-select`) na janela existente; a instância "estacionada" em segundo plano espera o semáforo `Program.Pool`; `Win32Helper.OpenFolderInExistingShellWindow` é onde o Files abre o Explorer de propósito.
+- **Abordagem:** classe nova `Utils/Shell/ExplorerWindowRedirector.cs`. `SetWinEventHook(EVENT_OBJECT_SHOW)` fora de contexto, na thread de UI; janela `CabinetWClass` nova fica transparente (`WS_EX_LAYERED`, alfa 0); em segundo plano, procura a janela na `ShellWindows` (pelo `IShellBrowser::GetWindow`) até ter a pasta atual, lê o nome de análise (`SHGetNameFromIDList`) e a seleção (`IFolderView2::GetSelection`); se for caminho de disco/rede ou "Este Computador", "Início", Lixeira ou Rede, fecha a janela (`WM_CLOSE`) e chama `MainWindow.OpenFromExplorerAsync`; senão, devolve a opacidade. Só a instância principal liga o gancho (mutex nomeado); a de diálogo (`App.OutputPath`) nunca. Só age com o gerenciador padrão ligado (mesma detecção do `AdvancedViewModel`).
+- **Opções descartadas:** chaves de registro (não pegam, D-017); `Image File Execution Options` (exige administrador, risco de travar o shell); DLL dentro do Explorer (invasivo, FR-011); janela fora da tela em vez de transparente (o Explorer demorou mais para montar a pasta no protótipo).
+- **Arquivos a mexer:** `ExplorerWindowRedirector.cs` (novo), `ShellWindowsAutomation.cs` (ler janela, pasta e seleção), `MainWindow.xaml.cs` (método de entrada), `App.xaml.cs` (ligar/desligar), `Win32Helper.Storage.cs` (avisar que o próprio Files abriu o Explorer), `NativeMethods.txt` do CsWin32 se faltar API.
+- **Riscos:** janela fica invisível se o Files cair no meio (tempo máximo de 8 s e restauração em `finally`); Explorer muda a ordem de montagem entre versões (testar Win + E, `explorer.exe`, `/select`, Painel de Controle).
+- **Teste por AC:** AC-1, AC-4, AC-3 (`explorer /select`), AC-11 (Painel de Controle), AC-12 (Files abrindo o Explorer) por script com medição de quanto tempo a janela fica visível (`tools/perf/f012_explorer_redirect.ps1`).

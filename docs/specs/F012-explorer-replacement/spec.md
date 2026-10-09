@@ -33,10 +33,12 @@ Entretanto, essa substituição impõe um requisito mandatório de segurança e 
 
 | ID | Dado (Contexto) | Quando (Ação) | Então (Resultado Esperado) |
 |---|---|---|---|
-| **AC-1** | Files Custom configurado como gerenciador padrão | Pressiono `Win + E` em qualquer janela | O Files Custom abre na tela inicial ou na pasta configurada pelo usuário. |
+| **AC-1** | Files Custom configurado como gerenciador padrão e em execução (aberto ou em segundo plano) | Pressiono `Win + E` em qualquer janela | O Files Custom abre em "Este Computador" (o que o Windows pediria ao Explorer), sem a janela do Explorer ficar visível. Com o Files fechado, o Explorer abre normalmente. |
 | **AC-2** | Files Custom configurado como gerenciador padrão | Dou duplo clique em uma pasta na Área de Trabalho | O Files Custom abre diretamente o caminho dessa pasta. |
 | **AC-3** | Files Custom configurado como gerenciador padrão | Clico em "Mostrar na pasta" / "Abrir local do arquivo" em um navegador web (Chrome, Edge, Firefox) | O Files Custom abre a pasta de destino com o arquivo focado/selecionado. |
-| **AC-4** | Files Custom configurado como gerenciador padrão | Executo `explorer.exe C:\Projetos` ou `start C:\Projetos` via linha de comando ou diálogo Executar (`Win + R`) | A chamada é interceptada e a pasta abre no Files Custom. |
+| **AC-4** | Files Custom configurado como gerenciador padrão (para `explorer.exe`, também em execução) | Executo `explorer.exe C:\Projetos` ou `start C:\Projetos` via linha de comando ou diálogo Executar (`Win + R`) | A pasta abre no Files Custom, sem a janela do Explorer ficar visível. |
+| **AC-11** | Files Custom como gerenciador padrão e em execução | Uma janela do Explorer é aberta numa localização que o Files não exibe (Painel de Controle, Configurações de rede, bibliotecas) | A janela do Explorer fica como está, visível, sem redirecionamento. |
+| **AC-12** | Files Custom como gerenciador padrão e em execução | O próprio Files abre o Explorer (ex.: "Abrir no Explorer", localização que ele não suporta) | A janela do Explorer não é redirecionada de volta ao Files. |
 | **AC-5** | Files Custom já em execução com janelas abertas | Um aplicativo externo solicita a abertura da pasta `D:\Documentos` | O Files Custom não inicia um processo de janela duplicado; adiciona uma nova aba `D:\Documentos` na janela ativa e a traz para o primeiro plano. |
 | **AC-6** | Files Custom configurado como padrão, mas seu executável é apagado, corrompido ou o pacote MSIX desinstalado | O usuário dá duplo clique em qualquer pasta ou pressiona `Win + E` | O Windows Explorer nativo abre a pasta imediatamente, com zero mensagens de erro ou avisos de "arquivo não encontrado". |
 | **AC-7** | O computador é inicializado em Modo de Segurança (Safe Mode) | O usuário abre qualquer pasta | O Windows Explorer nativo abre a pasta diretamente. |
@@ -57,6 +59,9 @@ Entretanto, essa substituição impõe um requisito mandatório de segurança e 
 - **FR-006:** A interface de Configurações do Files Custom DEVE exibir o estado real da associação (Ativado / Desativado) e permitir alterná-la a qualquer momento sem necessidade de reiniciar o Windows.
 - **FR-007:** O instalador executável oficial DEVE oferecer a opção de registrar o Files Custom como gerenciador padrão no momento da instalação e garantir desassociação limpa durante a desinstalação.
 - **FR-008:** A associação DEVE ser configurada prioritariamente no escopo do usuário atual (`HKEY_CURRENT_USER`), evitando exigir privilégios de Administrador global para o uso rotineiro sempre que possível.
+- **FR-009:** Enquanto o Files Custom estiver em execução (inclusive em segundo plano) e configurado como gerenciador padrão, toda janela de pasta do Explorer que abrir DEVE ser redirecionada para o Files: a mesma localização, com o item selecionado quando a janela foi aberta para selecionar um arquivo. Isso cobre os caminhos que o Windows trata dentro do próprio Explorer, sem passar pelas associações do registro (`Win + E`, `explorer.exe <pasta>`, "Mostrar na pasta").
+- **FR-010:** A janela do Explorer redirecionada NÃO DEVE ficar visível para o usuário; se o redirecionamento não acontecer (localização não suportada, falha, tempo esgotado), ela DEVE voltar a ficar visível, como se nada tivesse acontecido.
+- **FR-011:** O redirecionamento NÃO DEVE exigir privilégio de administrador nem instalar nada no processo do Explorer.
 
 ### 4.2. Requisitos Não Funcionais (NFR)
 - **NFR-001 (Resiliência Absoluta):** Sob nenhuma circunstância a exclusão, falha de integridade ou encerramento anômalo do Files Custom pode impedir o usuário de abrir pastas no computador.
@@ -93,7 +98,7 @@ Entretanto, essa substituição impõe um requisito mandatório de segurança e 
 
 ## 8. Pontos em Aberto (decididos em 09/10/2026)
 
-1. **Roteamento de Win+E no Windows 11 moderno:** O Windows 11 intercepta `Win + E` através de `CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}` (Application Association / OpenNewWindow). **Decisão:** usar só essa chave (é o que o upstream já faz); a AC-1 é provada nesta máquina (Windows 11 26340). Hook global de teclado fica fora de escopo; se a AC-1 falhar, volta como `DISCOVERY`.
+1. **Roteamento de Win+E no Windows 11 moderno:** ~~usar só a chave `CLSID\{52205fd8-...}`~~. **Revisto em 09/10/2026 (D-017):** nesta máquina (Windows 11 26340) o `Win + E` e o `explorer.exe <pasta>` são tratados dentro do Explorer e ignoram as chaves do HKCU (CONFIRMED pelo Alexandre com teclado real e por automação). O Alexandre pediu o comportamento do OneCommander e similares, sem administrador. **Decisão:** além das associações, o Files em execução redireciona as janelas do Explorer que abrirem (FR-009 a FR-011). Consequência aceita: com o Files fechado, `Win + E` e `explorer.exe` abrem o Explorer (o mesmo que o OneCommander documenta); para cobrir isso, o usuário liga "Abrir o Files ao iniciar o Windows".
 2. **Abertura de nova aba vs nova janela:** **Decisão provisória:** seguir o comportamento atual do Files ao receber uma pasta de fora (a AC-5 vale como está). Se o Alexandre preferir outro, a spec muda primeiro.
 
 ---
@@ -102,4 +107,5 @@ Entretanto, essa substituição impõe um requisito mandatório de segurança e 
 
 - **08/10/2026:** Especificação inicial elaborada conforme solicitação do Alexandre e metodologia SDD (`METODO.md` §6).
 - **09/10/2026 (Claude):** aprovada; §8 decidida. Comportamento inalterado.
+- **09/10/2026 (Claude, decisão do Alexandre "siga"):** AC-1 e AC-4 reescritas; AC-11, AC-12 e FR-009 a FR-011 novos (redirecionamento de janelas do Explorer); §8.1 revista (D-017).
 

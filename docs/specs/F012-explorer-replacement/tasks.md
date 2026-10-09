@@ -36,6 +36,10 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** relato do Alexandre de 08/10/2026 (fora da spec F012; ver spec §6).
   - **Pronto quando:** com a opção ligada, o diálogo "Abrir" de um app comum (Bloco de Notas) abre o Files; desligada, volta o diálogo do Windows. Capturas.
 
+- [ ] **T9 — Redirecionador de janelas do Explorer** (`ExplorerWindowRedirector.cs`, `ShellWindowsAutomation.cs`, `MainWindow.xaml.cs`, `App.xaml.cs`, `Win32Helper.Storage.cs`)
+  - **Atende:** `FR-009`, `FR-010`, `FR-011`, `AC-1`, `AC-3`, `AC-4`, `AC-11`, `AC-12`. Plan §9.
+  - **Pronto quando:** com o Files em execução e o gerenciador padrão ligado, `Win + E`, `explorer.exe <pasta>` e `explorer /select,<arquivo>` abrem no Files (o arquivo selecionado no terceiro caso) e a janela do Explorer não fica visível por mais de 100 ms; Painel de Controle continua no Explorer; com a opção desligada, nada é redirecionado. Script `tools/perf/f012_explorer_redirect.ps1` com os números.
+
 - [ ] **T8 — Build 0/0, handoff e nota de liberação**
   - **Pronto quando:** `mkfile release` com `0 Warning(s)` e `0 Error(s)`, `git diff --check` limpo, `STATUS.md`, handoff e nota em `docs/releases/`.
 

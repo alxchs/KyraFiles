@@ -16,7 +16,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** `FR-004`, `FR-006`.
   - **Pronto quando:** o script gera `Files.App.Launcher.exe`, `Files.App.OpenDialog32/64.dll` e `Files.App.SaveDialog32/64.dll` em `src/Files.App/Assets/FilesOpenDialog`, e o `mkfile release` os leva para o layout AppX (conferido no disco).
 
-- [ ] **T3 — Configurações > Avançado** (`AdvancedViewModel.cs`)
+- [x] **T3 — Configurações > Avançado** (`AdvancedViewModel.cs`)
   - **Atende:** `FR-006`, `FR-008`, `AC-8`.
   - **Pronto quando:** ligar e desligar "gerenciador padrão" funciona sem UAC e o estado mostrado bate com o registro; "usar como diálogo de arquivos" liga, registra as DLLs existentes e registra falha no log em vez de engolir.
 
@@ -32,7 +32,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** `AC-1`, `AC-2`, `AC-4`, `AC-5`, `AC-8`.
   - **Pronto quando:** com a opção ligada nas Configurações, `Win + E`, `explorer.exe <pasta>` e abertura de pasta pelo shell abrem o Files; desligada, voltam ao Explorer. Capturas em `docs/agents/evidence/f012/`. A opção é desligada no fim do teste.
 
-- [ ] **T7 — Diálogo de arquivos**
+- [x] **T7 — Diálogo de arquivos**
   - **Atende:** relato do Alexandre de 08/10/2026 (fora da spec F012; ver spec §6).
   - **Pronto quando:** com a opção ligada, o diálogo "Abrir" de um app comum (Bloco de Notas) abre o Files; desligada, volta o diálogo do Windows. Capturas.
 
@@ -50,3 +50,18 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
 | T6 | NOT TESTED | `Win + E` e duplo clique; launcher direto CONFIRMED (Files navegou para a pasta) |
 | T7 | OBSERVED | diálogo "Abrir" de outro processo abriu o Files na pasta inicial (`docs/agents/evidence/f012/02_dialogo_abrir_files.png`); retorno do arquivo NOT TESTED |
 | T8 | parcial | build 0/0 e nota `docs/releases/2026-10-09_0100_build-F012-dialogo-e-gerenciador.md`; handoff pendente |
+
+## Estado em 09/10/2026 07:30 (Claude)
+
+Substitui a tabela acima nos itens que mudaram. Build com a correção da D-016: `mkfile r Files.slnx` = `0 Warning(s)`, `0 Error(s)`; pacote registrado por `Open-FilesDev.ps1 -NoLaunch`.
+
+| Tarefa / AC | Estado | Evidência |
+|---|---|---|
+| T3 / AC-8 | CONFIRMED | pela tela, `tools\perf\f012_advanced_settings.ps1 -DefaultManager Off`: `Folder\shell\open\command` = `C:\WINDOWS\Explorer.exe`, chaves CLSID do diálogo removidas, opção do diálogo desligada e desabilitada, sem UAC (nenhum `consent.exe`); `-DefaultManager On -FileDialog On` religou tudo. Capturas 09 e 10 |
+| T7 "Abrir" | CONFIRMED | `pwsh tools\perf\f012_file_dialog_return.ps1 -Mode Open` 3 de 3 PASS: `OpenFileDialog` de outro processo abriu o Files na pasta inicial, com uma aba só, e recebeu `OK\|...\arquivo de teste ação.txt` (caminho com espaço e acento). Captura 07. Antes da D-016: "Cancelar" |
+| T7 "Salvar" | CONFIRMED (arquivo existente) | `-Mode Save` 1 de 1 PASS, captura 08. NOT TESTED: salvar com nome novo (o Files não tem caixa de nome de arquivo no modo diálogo) e app 32 bits |
+| T7 desligado | CONFIRMED | com a opção desligada, o `OpenFileDialog` abriu a janela `#32770` do Windows e nenhum Files |
+| Sessão do usuário | CONFIRMED | 5 usos seguidos do diálogo deixaram `LastSessionTabList` = `Settings \| D:\` (antes da D-016, cada uso acrescentava uma aba) |
+| T6 / AC-2, AC-5 | CONFIRMED (shell) | `Start-Process <pasta>` levou a janela do Files já aberta para a pasta (4,0 s), sem processo novo de janela |
+| T6 / AC-4 | FALHA parcial | `explorer.exe "<pasta>"` abre o Explorer do Windows. PENDING DECISION D-017 |
+| T6 / AC-1 | NOT TESTED | `Win + E` precisa de teclado real (Alexandre) |

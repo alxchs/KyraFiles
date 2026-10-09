@@ -113,3 +113,18 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Trade-offs:** o build completo passa a exigir o C++ do Visual Studio e um passo a mais (`tools/Build-Native.ps1`); o arquivo `FilesLauncher.cpp` do upstream ganha um diff pequeno.
 - **Consequences:** `tools/Create-SelfContained-Release.ps1` recusa gerar pacote sem os binários nativos no layout AppX.
 
+## D-016 — Instância de diálogo de arquivos isolada da sessão do usuário (09/10/2026)
+
+- **Context:** com o Files como diálogo "Abrir", escolher o arquivo e fechar devolvia "Cancelar" ao programa chamador em parte das vezes (CONFIRMED: teste direto com `-outputpath`, 2 falhas em 6; pelo `OpenFileDialog` de outro processo, falha na 1ª tentativa). Causa (CONFIRMED lendo `App.xaml.cs`, `MainWindow.xaml.cs`, `MainPageViewModel.cs`): a instância de diálogo restaurava a sessão de abas do usuário (o `-outputpath` só era lido depois da primeira navegação), e no fechamento salvava a sessão **antes** de ler a seleção. A cada uso a sessão do usuário ganhava uma aba (6 abas depois dos testes, 4 delas a pasta do diálogo). Além disso, o código do upstream saía sem sinalizar o evento `FILEDIALOG` quando não achava a aba atual, e o programa chamador espera esse evento sem prazo.
+- **Options:** (1) só ler a seleção antes de salvar a sessão; (2) tratar a instância de diálogo como isolada: não restaura nem salva sessão, lê a seleção primeiro, sempre sinaliza o chamador, não "estaciona" em segundo plano e não recebe aberturas de outros programas.
+- **Decision:** (2). Arquivos tocados além do `plan.md` da F012: `App.xaml.cs`, `MainWindow.xaml.cs`, `ViewModels/MainPageViewModel.cs`, `Helpers/Application/AppLifecycleHelper.cs` (só no caminho em que `App.OutputPath` está definido).
+- **Reason:** (1) deixava a sessão poluída e o diálogo abrindo com as abas do usuário; o defeito é o mesmo nos dois sintomas.
+- **Trade-offs:** diff pequeno em quatro arquivos do upstream.
+- **Consequences:** 5 em 5 pelo teste direto e 3 em 3 pelo diálogo "Abrir", 1 em 1 pelo "Salvar", sessão inalterada (`tools/perf/f012_file_dialog_return.ps1`). O diálogo abre em ~2,6 s em vez de 4 a 6 s e devolve em ~0,4 s após fechar, em vez de 1,7 s.
+
+## D-017 — PENDING DECISION: `explorer.exe <pasta>` direto (AC-4 da F012) (09/10/2026)
+
+- **Context:** com o Files como gerenciador padrão, abrir pasta pelo shell (`start <pasta>`, `Win + R`, duplo clique) abre no Files (CONFIRMED: `Start-Process <pasta>` levou a janela do Files para a pasta). Mas `explorer.exe "<pasta>"` chamado direto abre o Explorer do Windows (CONFIRMED: janela `CabinetWClass` do processo `explorer`, nenhuma do Files). O `SetFilesAsDefault.reg` do upstream só troca `Folder\shell\open`, `Folder\shell\explore` e o `CLSID` do `Win + E`; uma chamada ao `explorer.exe` não passa por eles.
+- **Options:** (1) aceitar: a AC-4 vale para `start` e `Win + R`, não para `explorer.exe` direto (o upstream é assim); (2) interceptar `explorer.exe` por `Image File Execution Options` (`Debugger`), que é invasivo, exige administrador e pode travar o shell se o launcher falhar; (3) outra forma ainda não estudada.
+- **Escolha que o Claude faria:** (1), mudando a AC-4 na spec. **Pendente:** decisão do Alexandre.
+

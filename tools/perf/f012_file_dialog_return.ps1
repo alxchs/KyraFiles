@@ -24,7 +24,8 @@ public static class F012Dlg {
 $A = [System.Windows.Automation.AutomationElement]
 $Scope = [System.Windows.Automation.TreeScope]
 
-$work = Join-Path $env:TEMP 'f012 diálogo ação'
+# Temporários do projeto ficam em %TEMP%\claude\<caminho do projeto>, fáceis de limpar
+$work = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f012 diálogo ação'
 New-Item -ItemType Directory -Force $work | Out-Null
 $target = Join-Path $work 'arquivo de teste ação.txt'
 Set-Content -LiteralPath $target -Value 'F012 T7' -Encoding utf8

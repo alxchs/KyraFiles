@@ -256,13 +256,22 @@ namespace Files.App.ViewModels
 				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
 			}
 
+			// Files Custom: the file dialog instance opens only the requested folder, never the user's session (F012 T7)
+			var isFileDialog = App.OutputPath is not null;
+			if (isFileDialog)
+				ignoreStartupSettings = true;
+
 			// Re-arm the signal when tabs load again after closing to the background
 			if (startupTabsTcs.Task.IsCompleted)
 				startupTabsTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
 			try
 			{
-				if (parameter is null || (parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
+				if (isFileDialog && (parameter is null || (parameter is string dialogStr && string.IsNullOrEmpty(dialogStr))))
+				{
+					await NavigationHelpers.AddNewTabAsync();
+				}
+				else if (parameter is null || (parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
 				{
 					try
 					{

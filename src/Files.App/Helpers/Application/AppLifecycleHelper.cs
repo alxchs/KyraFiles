@@ -416,6 +416,10 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
+			// Files Custom: a file dialog instance must not overwrite the user's session (F012 T7)
+			if (App.OutputPath is not null)
+				return;
+
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>

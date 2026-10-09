@@ -30,6 +30,7 @@ namespace Files.App
 
 		private static FlyoutBase? _LastOpenedFlyout;
 		private static bool _isWindowTeardownCompleted;
+		private static bool _isFileDialogSignaled;
 		public static FlyoutBase? LastOpenedFlyout
 		{
 			set
@@ -265,8 +266,10 @@ namespace Files.App
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 
-			if (args.WindowActivationState != WindowActivationState.CodeActivated &&
-				args.WindowActivationState != WindowActivationState.PointerActivated)
+			// Files Custom: a file dialog instance never receives other launches (F012 T7)
+			if ((args.WindowActivationState != WindowActivationState.CodeActivated &&
+				args.WindowActivationState != WindowActivationState.PointerActivated) ||
+				OutputPath is not null)
 				return;
 
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
@@ -295,6 +298,28 @@ namespace Files.App
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 			ICommandManager commandManager = Ioc.Default.GetRequiredService<ICommandManager>();
 
+			// Files Custom: as a file dialog, hand the selection back before any teardown can clear it,
+			// always signal the caller (it waits forever otherwise) and never park or save the user's session (F012 T7)
+			var isFileDialog = OutputPath is not null;
+			if (OutputPath is { } outputPath && !_isFileDialogSignaled)
+			{
+				_isFileDialogSignaled = true;
+				AppModel.ForceProcessTermination = true;
+				try
+				{
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent?.IsCurrentInstance ?? false);
+					var items = (instance?.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					System.IO.File.WriteAllLines(outputPath, items?.Select(x => x.ItemPath!) ?? []);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning(ex, "Error writing the file dialog selection");
+				}
+
+				using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
+				PInvoke.SetEvent(eventHandle);
+			}
+
 			// A Workaround for the crash (#10110)
 			if (_LastOpenedFlyout?.IsOpen ?? false)
 			{
@@ -308,28 +333,12 @@ namespace Files.App
 			ActiveSessionTracker.OnActivationChanged(false);
 
 			// Save the current tab list in case it was overwriten by another instance
-			if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
+			if (isFileDialog)
+				await commandManager.CloseAllTabs.ExecuteAsync();
+			else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp || userSettingsService.AppSettingsService.RestoreTabsOnStartup)
 				AppLifecycleHelper.SaveSessionTabs();
 			else
 				await commandManager.CloseAllTabs.ExecuteAsync();
-
-			if (OutputPath is not null)
-			{
-				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x =>
-					(x.TabItemContent ?? throw new InvalidOperationException("A tab does not have content.")).IsCurrentInstance);
-				if (instance is null)
-					return;
-
-				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-				if (items is null)
-					return;
-
-				var results = items.Select(x => x.ItemPath!).ToList();
-				System.IO.File.WriteAllLines(OutputPath, results);
-
-				using var eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
-				PInvoke.SetEvent(eventHandle);
-			}
 
 			// Dev, preview and stable all run as "Files"; only this channel's other instances block parking
 			static bool IsSameChannelInstance(Process p)

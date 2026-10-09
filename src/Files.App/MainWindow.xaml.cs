@@ -322,6 +322,11 @@ namespace Files.App
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
+
+			// Files Custom: a file dialog instance must know it is one before its first tab opens (F012 T7)
+			if (parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.OutputPath) is { } outputPathCommand)
+				App.OutputPath = outputPathCommand.Payload;
+
 			foreach (var command in parsedCommands)
 			{
 				switch (command.Type)

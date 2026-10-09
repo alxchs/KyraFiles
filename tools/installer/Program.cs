@@ -401,6 +401,9 @@ namespace FilesCustomInstaller
                     "if (Test-Path $desktopLnk) { Remove-Item $desktopLnk -Force }\r\n" +
                     "$startLnk = Join-Path ([Environment]::GetFolderPath('StartMenu')) 'Programs\\Files Custom.lnk'\r\n" +
                     "if (Test-Path $startLnk) { Remove-Item $startLnk -Force }\r\n" +
+                    "$unsetReg = Join-Path $PSScriptRoot 'Assets\\FilesOpenDialog\\UnsetFilesAsDefault.reg'\r\n" +
+                    "if (Test-Path $unsetReg) { Start-Process regedit.exe -ArgumentList '/s', ('\"' + $unsetReg + '\"') -Wait -ErrorAction SilentlyContinue }\r\n" +
+                    "Remove-Item -Path (Join-Path $env:LocalAppData 'Files') -Recurse -Force -ErrorAction SilentlyContinue\r\n" +
                     "Remove-Item -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\FilesCustom' -Recurse -Force -ErrorAction SilentlyContinue\r\n" +
                     "Write-Host 'Arquivos do aplicativo prontos para remoção.' -ForegroundColor Green\r\n";
 

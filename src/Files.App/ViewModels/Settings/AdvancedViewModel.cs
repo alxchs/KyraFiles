@@ -88,13 +88,14 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
+				var regFile = Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg");
+				using var regProcess = Process.Start(new ProcessStartInfo("reg.exe", @$"import ""{regFile}""") { CreateNoWindow = true, UseShellExecute = false });
 				if (regProcess is not null)
 					await regProcess.WaitForExitAsync();
 			}
-			catch
+			catch (Exception ex)
 			{
-				// Canceled UAC
+				App.Logger.LogWarning(ex, "Error importing default file manager registry file");
 			}
 
 			await DetectResult();

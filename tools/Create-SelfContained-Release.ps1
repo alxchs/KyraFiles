@@ -14,6 +14,19 @@ if (Test-Path $stageDir) {
 }
 New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
 
+# Garantir que o launcher trampolim esteja compilado e presente no layout
+$launcherSrc = "tools\launcher\Program.cs"
+$launcherOut = "src\Files.App\Assets\FilesOpenDialog\Files.App.Launcher.exe"
+$appxLauncher = Join-Path $appxDir "Assets\FilesOpenDialog\Files.App.Launcher.exe"
+$csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+if ((Test-Path $launcherSrc) -and (Test-Path $csc)) {
+    Write-Host "Compilando Launcher trampolim..." -ForegroundColor Cyan
+    & $csc /target:winexe /platform:x64 /optimize+ /out:$launcherOut /win32icon:src\Files.App\Assets\AppTiles\Dev\Logo.ico $launcherSrc | Out-Null
+    $appxLauncherDir = Split-Path $appxLauncher -Parent
+    if (-not (Test-Path $appxLauncherDir)) { New-Item -ItemType Directory -Path $appxLauncherDir -Force | Out-Null }
+    Copy-Item $launcherOut $appxLauncher -Force
+}
+
 # Copiar arquivos do AppX usando robocopy para máxima velocidade
 Write-Host "Copiando arquivos do layout AppX..." -ForegroundColor Cyan
 & robocopy $appxDir $stageDir /E /NFL /NDL /NJH /NJS /NC /NS /NP | Out-Null

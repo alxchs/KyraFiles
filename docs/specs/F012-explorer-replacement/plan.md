@@ -1,4 +1,4 @@
-# F012 — Substituição Transparente do Windows Explorer com Fallback Automático — PLAN
+﻿# F012 — Substituição Transparente do Windows Explorer com Fallback Automático — PLAN
 
 Status: **PROPOSTO / AGUARDANDO APROVAÇÃO** (08/10/2026).
 Metodologia: Spec-Driven Development (`METODO.md` §6).

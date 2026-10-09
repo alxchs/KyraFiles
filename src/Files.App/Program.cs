@@ -41,6 +41,12 @@ namespace Files.App
 			return string.IsNullOrEmpty(cwd) ? Environment.CurrentDirectory : cwd;
 		}
 
+		/// <summary>
+		/// Files Custom: whether this process was started by the custom file dialog (-outputpath), also when it came through the files-dev: protocol with the command hex-escaped.
+		/// </summary>
+		private static bool IsFileDialogLaunch()
+			=> Uri.UnescapeDataString(Environment.CommandLine).Contains("-outputpath", StringComparison.OrdinalIgnoreCase);
+
 		static Program()
 		{
 			// Capture the source process's working directory before any potential
@@ -50,7 +56,8 @@ namespace Files.App
 
 			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
 
-			if (!isNew)
+			// Files Custom: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
+			if (!isNew && !IsFileDialogLaunch())
 			{
 				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
@@ -246,7 +253,9 @@ namespace Files.App
 			if (currentInstance.IsCurrent)
 				currentInstance.Activated += OnActivated;
 
-			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
+			// Files Custom: a file dialog instance never becomes the target of other launches (F012 T7)
+			if (!IsFileDialogLaunch())
+				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
 			// Optional XAML performance changes must be opted into before XAML initialization
 			XamlOptionalChanges.EnableChange(XamlChangeId.DefaultStyleOptimizations);

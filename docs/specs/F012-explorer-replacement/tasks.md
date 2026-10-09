@@ -45,7 +45,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
 |---|---|---|
 | T1 | CONFIRMED | `pwsh tests\test-launcher-fallback.ps1`: todos PASS |
 | T2 | CONFIRMED | `pwsh tools\Build-Native.ps1` gerou launcher e 4 DLLs; `mkfile release` = 0/0; layout AppX com os 5 binários |
-| T3 | parcial | DLLs registram (exit 0) e as chaves batem com a detecção; alternar pela tela NOT TESTED (Firewall em primeiro plano bloqueou a automação) |
+| T3 | CONFIRMED (diálogo) | pela tela, com outro processo segurando a DLL carregada: desligar removeu as chaves CLSID e religar as recriou (`tools\perf\f012_advanced_settings.ps1 -FileDialog Off`/`On`; capturas 04 e 05). Antes da correção de 01:10, desligar falhava com `IOException ... being used by another process` (debug.log 00:57:02). Desligar o gerenciador padrão pela tela: NOT TESTED |
 | T4 | CONFIRMED | idem T1 |
 | T6 | NOT TESTED | `Win + E` e duplo clique; launcher direto CONFIRMED (Files navegou para a pasta) |
 | T7 | OBSERVED | diálogo "Abrir" de outro processo abriu o Files na pasta inicial (`docs/agents/evidence/f012/02_dialogo_abrir_files.png`); retorno do arquivo NOT TESTED |

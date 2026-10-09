@@ -56,16 +56,11 @@ namespace Files.App.ViewModels.Settings
 				return;
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
-			Directory.CreateDirectory(destFolder);
-
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			if (!CopyFilesOpenDialogAssets(destFolder))
 			{
-				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
-				{
-					// Error copying files
-					await DetectResult();
-					return;
-				}
+				// Error copying files
+				await DetectResult();
+				return;
 			}
 
 			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
@@ -121,14 +116,12 @@ namespace Files.App.ViewModels.Settings
 				return;
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
-			Directory.CreateDirectory(destFolder);
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+
+			// Files Custom: unregistering uses the registered copies; recopying would fail while an app has them loaded
+			if (IsSetAsOpenFileDialog && !CopyFilesOpenDialogAssets(destFolder))
 			{
-				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
-				{
-					// Error copying files
-					goto DetectResult;
-				}
+				// Error copying files
+				goto DetectResult;
 			}
 
 			try
@@ -154,6 +147,24 @@ namespace Files.App.ViewModels.Settings
 
 		DetectResult:
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+		}
+
+		// Files Custom: skip files already copied; the dialog DLLs stay loaded in any app that used them
+		private static bool CopyFilesOpenDialogAssets(string destFolder)
+		{
+			Directory.CreateDirectory(destFolder);
+			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			{
+				var source = new FileInfo(file);
+				var dest = new FileInfo(Path.Combine(destFolder, source.Name));
+				if (dest.Exists && dest.Length == source.Length && dest.LastWriteTimeUtc == source.LastWriteTimeUtc)
+					continue;
+
+				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, dest.FullName, true), App.Logger))
+					return false;
+			}
+
+			return true;
 		}
 
 		private async Task ImportSettingsAsync()

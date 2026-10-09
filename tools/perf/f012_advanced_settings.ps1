@@ -41,7 +41,9 @@ function WaitFind($root, $cond, [int]$ms = 8000) {
     return $null
 }
 
-$proc = Get-Process Files -ErrorAction Stop | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+$procs = Get-Process Files -ErrorAction Stop | Where-Object MainWindowHandle -ne 0
+$proc = $procs | Where-Object MainWindowTitle -like 'Configura*' | Select-Object -First 1
+if (-not $proc) { $proc = $procs | Select-Object -First 1 }
 $win = $A::FromHandle($proc.MainWindowHandle)
 [F012Win]::SetForegroundWindow($proc.MainWindowHandle) | Out-Null
 

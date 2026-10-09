@@ -14,17 +14,11 @@ if (Test-Path $stageDir) {
 }
 New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
 
-# Garantir que o launcher trampolim esteja compilado e presente no layout
-$launcherSrc = "tools\launcher\Program.cs"
-$launcherOut = "src\Files.App\Assets\FilesOpenDialog\Files.App.Launcher.exe"
-$appxLauncher = Join-Path $appxDir "Assets\FilesOpenDialog\Files.App.Launcher.exe"
-$csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
-if ((Test-Path $launcherSrc) -and (Test-Path $csc)) {
-    Write-Host "Compilando Launcher trampolim..." -ForegroundColor Cyan
-    & $csc /target:winexe /platform:x64 /optimize+ /out:$launcherOut /win32icon:src\Files.App\Assets\AppTiles\Dev\Logo.ico $launcherSrc | Out-Null
-    $appxLauncherDir = Split-Path $appxLauncher -Parent
-    if (-not (Test-Path $appxLauncherDir)) { New-Item -ItemType Directory -Path $appxLauncherDir -Force | Out-Null }
-    Copy-Item $launcherOut $appxLauncher -Force
+# Launcher (gerenciador padrão) e DLLs de diálogo vêm de tools\Build-Native.ps1, rodado antes do mkfile
+$nativeFiles = 'Files.App.Launcher.exe', 'Files.App.OpenDialog64.dll', 'Files.App.OpenDialog32.dll', 'Files.App.SaveDialog64.dll', 'Files.App.SaveDialog32.dll'
+$missing = $nativeFiles | Where-Object { -not (Test-Path (Join-Path $appxDir "Assets\FilesOpenDialog\$_")) }
+if ($missing) {
+    throw "Faltam no layout AppX: $($missing -join ', '). Rode tools\Build-Native.ps1 e depois o mkfile release."
 }
 
 # Copiar arquivos do AppX usando robocopy para máxima velocidade

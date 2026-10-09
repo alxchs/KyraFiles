@@ -1,6 +1,6 @@
 ﻿# F012 — Substituição Transparente do Windows Explorer com Fallback Automático — PLAN
 
-Status: **PROPOSTO / AGUARDANDO APROVAÇÃO** (08/10/2026).
+Status: **APROVADO COM REVISÃO** (Claude, 09/10/2026). **A seção 3 e o item "Arquivos a mexer" abaixo foram substituídos pela D-015:** não há trampolim C#; vale o launcher C++ do upstream (`src/Files.App.Launcher`), compilado por `tools/Build-Native.ps1` junto com as DLLs de diálogo, com dois ajustes no caminho "Files desinstalado" (sem `MessageBox`, sem `runas`, reversão do registro concluída antes de abrir o Explorer). Arquivos a mexer: `FilesLauncher.cpp`, `AdvancedViewModel.cs`, `UnsetFilesAsDefault.reg`, `tools/Build-Native.ps1`, `tools/Create-SelfContained-Release.ps1`, `tools/installer/Program.cs`, `tests/test-launcher-fallback.ps1`. O `Files.slnx` continua sem os projetos C++ (o `dotnet build` não os compila).
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Documento arquitetural: define **como** implementar a `spec.md`, mapeando a arquitetura existente no código, reutilizando componentes existentes e definindo a estratégia de teste e riscos.
 

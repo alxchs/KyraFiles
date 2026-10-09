@@ -1,6 +1,6 @@
 # F012 — Substituição Transparente do Windows Explorer com Fallback Automático — SPEC
 
-Status: **PROPOSTA / AGUARDANDO APROVAÇÃO** (08/10/2026).
+Status: **APROVADA** (Claude, 09/10/2026, a pedido do Alexandre para seguir a fase), com os dois pontos da §8 decididos.
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Documento de especificação funcional: define **o quê e por quê**, independente de classes e detalhes internos de implementação (reservados para o `plan.md`).
 
@@ -91,14 +91,15 @@ Entretanto, essa substituição impõe um requisito mandatório de segurança e 
 
 ---
 
-## 8. Pontos em Aberto [NEEDS CLARIFICATION]
+## 8. Pontos em Aberto (decididos em 09/10/2026)
 
-1. **Roteamento de Win+E no Windows 11 moderno:** O Windows 11 intercepta `Win + E` através de `CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}` (Application Association / OpenNewWindow). Validar se no Windows 11 24H2 essa chave atende 100% ou se um hook global de hotkey silencioso é recomendado como contingência.
-2. **Abertura de nova aba vs nova janela:** Quando o comando vier de um aplicativo externo, o comportamento preferido do Alexandre é sempre abrir em uma nova aba da janela existente ou abrir uma nova janela caso a janela principal esteja minimizada/em outro monitor?
+1. **Roteamento de Win+E no Windows 11 moderno:** O Windows 11 intercepta `Win + E` através de `CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}` (Application Association / OpenNewWindow). **Decisão:** usar só essa chave (é o que o upstream já faz); a AC-1 é provada nesta máquina (Windows 11 26340). Hook global de teclado fica fora de escopo; se a AC-1 falhar, volta como `DISCOVERY`.
+2. **Abertura de nova aba vs nova janela:** **Decisão provisória:** seguir o comportamento atual do Files ao receber uma pasta de fora (a AC-5 vale como está). Se o Alexandre preferir outro, a spec muda primeiro.
 
 ---
 
 ## 9. Histórico
 
 - **08/10/2026:** Especificação inicial elaborada conforme solicitação do Alexandre e metodologia SDD (`METODO.md` §6).
+- **09/10/2026 (Claude):** aprovada; §8 decidida. Comportamento inalterado.
 

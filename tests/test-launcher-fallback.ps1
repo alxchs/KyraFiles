@@ -1,35 +1,54 @@
-# Test script for Files.App.Launcher.exe fallback behavior
+﻿# F012 AC-6: launcher com o Files "desinstalado" abre o Explorer, sem caixa de mensagem.
+# Simula a desinstalação apontando LOCALAPPDATA para uma pasta vazia (o alias files-dev.exe
+# não é encontrado); o registro real não é tocado, porque o .reg de reversão também é
+# procurado nessa pasta vazia.
+#
+# Uso: pwsh tests\test-launcher-fallback.ps1
+
 $ErrorActionPreference = 'Stop'
-
-$launcherPath = Resolve-Path "src\Files.App\Assets\FilesOpenDialog\Files.App.Launcher.exe"
-
-Write-Host "Verificando Launcher em: $launcherPath" -ForegroundColor Cyan
-if (-not (Test-Path $launcherPath)) {
-    throw "Launcher não encontrado em $launcherPath"
+$root = Split-Path $PSScriptRoot -Parent
+$launcher = Join-Path $root 'src\Files.App\Assets\FilesOpenDialog\Files.App.Launcher.exe'
+$failed = 0
+function Check([string]$name, [bool]$ok, [string]$detail) {
+    if ($ok) { Write-Host "PASS $name $detail" -ForegroundColor Green }
+    else { Write-Host "FAIL $name $detail" -ForegroundColor Red; $script:failed++ }
 }
 
-# 1. Testar se o binário é x64 válido
-$bytes = [System.IO.File]::ReadAllBytes($launcherPath)
-if ($bytes.Length -lt 1024) {
-    throw "Tamanho do arquivo suspeito"
-}
-Write-Host "Binário válido (Tamanho: $($bytes.Length) bytes)" -ForegroundColor Green
+Check 'launcher existe' (Test-Path $launcher) $launcher
 
-# 2. Testar execução com parâmetro sem crash
-$testPath = [System.IO.Path]::GetTempPath()
-$psi = New-Object System.Diagnostics.ProcessStartInfo
-$psi.FileName = $launcherPath
-$psi.Arguments = "`"$testPath`""
+$fakeLocal = Join-Path ([IO.Path]::GetTempPath()) "f012-fake-localappdata-$PID"
+$target = Join-Path ([IO.Path]::GetTempPath()) "F012 pasta com espaço $PID"
+New-Item -ItemType Directory -Force $fakeLocal, $target | Out-Null
+
+$shell = New-Object -ComObject Shell.Application
+function Get-ExplorerWindowsFor([string]$path) {
+    @($shell.Windows() | Where-Object { $_.Document -and $_.Document.Folder.Self.Path -eq $path })
+}
+$before = (Get-ExplorerWindowsFor $target).Count
+
+$psi = [Diagnostics.ProcessStartInfo]::new($launcher, "`"$target`"")
 $psi.UseShellExecute = $false
-$psi.CreateNoWindow = $true
+$psi.Environment['LOCALAPPDATA'] = $fakeLocal
+$sw = [Diagnostics.Stopwatch]::StartNew()
+$proc = [Diagnostics.Process]::Start($psi)
+$exited = $proc.WaitForExit(10000)
+$sw.Stop()
 
-$proc = [System.Diagnostics.Process]::Start($psi)
-if ($proc -ne $null) {
-    $proc.WaitForExit(3000) | Out-Null
-    Write-Host "Launcher executou e finalizou com sucesso (ExitCode: $($proc.ExitCode))" -ForegroundColor Green
-} else {
-    throw "Falha ao iniciar o processo do Launcher"
+Check 'launcher termina sozinho (sem caixa de mensagem esperando OK)' $exited "($($sw.ElapsedMilliseconds) ms)"
+if (-not $exited) { $proc.Kill() }
+
+$opened = $false
+for ($i = 0; $i -lt 20 -and -not $opened; $i++) {
+    Start-Sleep -Milliseconds 250
+    $opened = (Get-ExplorerWindowsFor $target).Count -gt $before
 }
+Check 'Explorer abriu a pasta pedida' $opened $target
 
-Write-Host "`nTodos os testes do Launcher passaram com sucesso!" -ForegroundColor Green
+$cmd = (Get-ItemProperty 'Registry::HKEY_CLASSES_ROOT\Folder\shell\open\command' -ErrorAction SilentlyContinue).'(default)'
+Write-Host "INFO Folder\shell\open\command = $cmd"
 
+Get-ExplorerWindowsFor $target | ForEach-Object { $_.Quit() }
+Remove-Item $fakeLocal, $target -Recurse -Force -ErrorAction SilentlyContinue
+
+if ($failed) { Write-Host "$failed falha(s)" -ForegroundColor Red; exit 1 }
+Write-Host 'Todos os testes do fallback passaram' -ForegroundColor Green

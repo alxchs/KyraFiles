@@ -13,9 +13,12 @@ namespace Files.App.Data.Models
 
 		public string CanonicalName { get; set; } = string.Empty;
 
-		public string DisplayName { get; set; } = string.Empty;
+		// Files Custom: shown in the app language and not saved; old JSON with these fields is accepted and they are ignored (G1 C2)
+		[JsonIgnore]
+		public string DisplayName => ExplorerPropertyService.GetDisplayName(CanonicalName);
 
-		public string Category { get; set; } = string.Empty;
+		[JsonIgnore]
+		public string Category => ExplorerPropertyService.GetCategory(CanonicalName);
 
 		[JsonConverter(typeof(JsonStringEnumConverter<TextAlignment>))]
 		public TextAlignment TextAlignment { get; set; } = TextAlignment.Left;

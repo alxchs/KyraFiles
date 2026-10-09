@@ -13,57 +13,86 @@ namespace Files.App.Services
 	/// </summary>
 	public sealed class ExplorerPropertyService : IExplorerPropertyService
 	{
-		private static readonly List<DynamicColumnDefinition> Catalog =
+		// Files Custom: names and categories come from the app resources, in the app language (G1 C2).
+		// Resource keys: "ExplorerColumn" + canonical name without "System." and dots; "ExplorerColumnCategory" + category.
+		private static readonly (string CanonicalName, string Category, double Width, TextAlignment Alignment)[] Entries =
 		[
-			// Image
-			new() { CanonicalName = "System.Image.Dimensions", DisplayName = "Dimensões", Category = "Imagem", UserLength = new GridLength(140) },
-			new() { CanonicalName = "System.Photo.DateTaken", DisplayName = "Data de captura", Category = "Imagem", UserLength = new GridLength(150) },
-			new() { CanonicalName = "System.Photo.CameraModel", DisplayName = "Modelo da câmera", Category = "Imagem", UserLength = new GridLength(150) },
-			new() { CanonicalName = "System.Photo.CameraManufacturer", DisplayName = "Fabricante da câmera", Category = "Imagem", UserLength = new GridLength(150) },
-			new() { CanonicalName = "System.Photo.FNumber", DisplayName = "Abertura F", Category = "Imagem", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Photo.ISOSpeed", DisplayName = "Velocidade ISO", Category = "Imagem", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Image.HorizontalSize", DisplayName = "Largura", Category = "Imagem", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Image.VerticalSize", DisplayName = "Altura", Category = "Imagem", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
+			("System.Image.Dimensions", "Image", 140, TextAlignment.Left),
+			("System.Photo.DateTaken", "Image", 150, TextAlignment.Left),
+			("System.Photo.CameraModel", "Image", 150, TextAlignment.Left),
+			("System.Photo.CameraManufacturer", "Image", 150, TextAlignment.Left),
+			("System.Photo.FNumber", "Image", 100, TextAlignment.Right),
+			("System.Photo.ISOSpeed", "Image", 100, TextAlignment.Right),
+			("System.Image.HorizontalSize", "Image", 100, TextAlignment.Right),
+			("System.Image.VerticalSize", "Image", 100, TextAlignment.Right),
 
-			// Media / Audio
-			new() { CanonicalName = "System.Media.Duration", DisplayName = "Duração", Category = "Mídia", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Music.Artist", DisplayName = "Artistas participantes", Category = "Mídia", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.Music.AlbumTitle", DisplayName = "Álbum", Category = "Mídia", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.Music.AlbumArtist", DisplayName = "Artista do álbum", Category = "Mídia", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.Music.TrackNumber", DisplayName = "Número da faixa", Category = "Mídia", UserLength = new GridLength(80), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Music.Genre", DisplayName = "Gênero", Category = "Mídia", UserLength = new GridLength(120) },
-			new() { CanonicalName = "System.Media.Year", DisplayName = "Ano", Category = "Mídia", UserLength = new GridLength(80), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Audio.EncodingBitrate", DisplayName = "Taxa de bits", Category = "Mídia", UserLength = new GridLength(100), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Audio.SampleRate", DisplayName = "Taxa de amostragem", Category = "Mídia", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
+			("System.Media.Duration", "Media", 100, TextAlignment.Right),
+			("System.Music.Artist", "Media", 180, TextAlignment.Left),
+			("System.Music.AlbumTitle", "Media", 180, TextAlignment.Left),
+			("System.Music.AlbumArtist", "Media", 180, TextAlignment.Left),
+			("System.Music.TrackNumber", "Media", 80, TextAlignment.Right),
+			("System.Music.Genre", "Media", 120, TextAlignment.Left),
+			("System.Media.Year", "Media", 80, TextAlignment.Right),
+			("System.Audio.EncodingBitrate", "Media", 100, TextAlignment.Right),
+			("System.Audio.SampleRate", "Media", 120, TextAlignment.Right),
 
-			// Video
-			new() { CanonicalName = "System.Video.FrameWidth", DisplayName = "Largura do quadro", Category = "Vídeo", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Video.FrameHeight", DisplayName = "Altura do quadro", Category = "Vídeo", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Video.FrameRate", DisplayName = "Taxa de quadros", Category = "Vídeo", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Video.TotalBitrate", DisplayName = "Taxa de bits total", Category = "Vídeo", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Media.Director", DisplayName = "Diretores", Category = "Vídeo", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.Media.Producer", DisplayName = "Produtores", Category = "Vídeo", UserLength = new GridLength(160) },
+			("System.Video.FrameWidth", "Video", 120, TextAlignment.Right),
+			("System.Video.FrameHeight", "Video", 120, TextAlignment.Right),
+			("System.Video.FrameRate", "Video", 120, TextAlignment.Right),
+			("System.Video.TotalBitrate", "Video", 120, TextAlignment.Right),
+			("System.Media.Director", "Video", 160, TextAlignment.Left),
+			("System.Media.Producer", "Video", 160, TextAlignment.Left),
 
-			// Document
-			new() { CanonicalName = "System.Author", DisplayName = "Autores", Category = "Documento", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.Title", DisplayName = "Título", Category = "Documento", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.Subject", DisplayName = "Assunto", Category = "Documento", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.Keywords", DisplayName = "Palavras-chave", Category = "Documento", UserLength = new GridLength(140) },
-			new() { CanonicalName = "System.Comment", DisplayName = "Comentários", Category = "Documento", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.Document.PageCount", DisplayName = "Páginas", Category = "Documento", UserLength = new GridLength(80), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Document.WordCount", DisplayName = "Contagem de palavras", Category = "Documento", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
-			new() { CanonicalName = "System.Document.CharacterCount", DisplayName = "Contagem de caracteres", Category = "Documento", UserLength = new GridLength(120), TextAlignment = TextAlignment.Right },
+			("System.Author", "Document", 160, TextAlignment.Left),
+			("System.Title", "Document", 180, TextAlignment.Left),
+			("System.Subject", "Document", 160, TextAlignment.Left),
+			("System.Keywords", "Document", 140, TextAlignment.Left),
+			("System.Comment", "Document", 180, TextAlignment.Left),
+			("System.Document.PageCount", "Document", 80, TextAlignment.Right),
+			("System.Document.WordCount", "Document", 120, TextAlignment.Right),
+			("System.Document.CharacterCount", "Document", 120, TextAlignment.Right),
 
-			// File / Description
-			new() { CanonicalName = "System.FileVersion", DisplayName = "Versão do arquivo", Category = "Arquivo", UserLength = new GridLength(120) },
-			new() { CanonicalName = "System.Rating", DisplayName = "Classificação", Category = "Arquivo", UserLength = new GridLength(100) },
-			new() { CanonicalName = "System.Copyright", DisplayName = "Direitos autorais", Category = "Arquivo", UserLength = new GridLength(180) },
-			new() { CanonicalName = "System.ApplicationName", DisplayName = "Nome do aplicativo", Category = "Arquivo", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.Company", DisplayName = "Empresa", Category = "Arquivo", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.ComputerName", DisplayName = "Computador", Category = "Arquivo", UserLength = new GridLength(120) },
-			new() { CanonicalName = "System.FileOwner", DisplayName = "Proprietário", Category = "Arquivo", UserLength = new GridLength(160) },
-			new() { CanonicalName = "System.FileAttributes", DisplayName = "Atributos", Category = "Arquivo", UserLength = new GridLength(100) },
+			("System.FileVersion", "File", 120, TextAlignment.Left),
+			("System.Rating", "File", 100, TextAlignment.Left),
+			("System.Copyright", "File", 180, TextAlignment.Left),
+			("System.ApplicationName", "File", 160, TextAlignment.Left),
+			("System.Company", "File", 160, TextAlignment.Left),
+			("System.ComputerName", "File", 120, TextAlignment.Left),
+			("System.FileOwner", "File", 160, TextAlignment.Left),
+			("System.FileAttributes", "File", 100, TextAlignment.Left),
 		];
+
+		private static readonly Dictionary<string, string> CategoryByName =
+			Entries.ToDictionary(e => e.CanonicalName, e => e.Category, StringComparer.OrdinalIgnoreCase);
+
+		private static readonly List<DynamicColumnDefinition> Catalog =
+			Entries.Select(e => new DynamicColumnDefinition
+			{
+				CanonicalName = e.CanonicalName,
+				UserLength = new GridLength(e.Width),
+				TextAlignment = e.Alignment,
+			}).ToList();
+
+		/// <summary>
+		/// Gets the column name in the app language, falling back to the last part of the canonical name.
+		/// </summary>
+		public static string GetDisplayName(string canonicalName)
+		{
+			if (string.IsNullOrEmpty(canonicalName))
+				return string.Empty;
+
+			var key = "ExplorerColumn" + canonicalName.Replace("System.", string.Empty, StringComparison.Ordinal).Replace(".", string.Empty, StringComparison.Ordinal);
+			var name = key.GetLocalizedResource();
+			return string.IsNullOrEmpty(name) ? canonicalName[(canonicalName.LastIndexOf('.') + 1)..] : name;
+		}
+
+		/// <summary>
+		/// Gets the column category in the app language.
+		/// </summary>
+		public static string GetCategory(string canonicalName)
+			=> CategoryByName.TryGetValue(canonicalName, out var category)
+				? ("ExplorerColumnCategory" + category).GetLocalizedResource()
+				: string.Empty;
 
 		/// <inheritdoc/>
 		public IReadOnlyList<DynamicColumnDefinition> GetAllAvailableProperties()

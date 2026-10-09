@@ -4809,4 +4809,136 @@
   <data name="SearchWithAgentRansackDescription" xml:space="preserve">
     <value>Abrir o Agent Ransack na pasta atual (sem o Agent Ransack, abre a busca do Files)</value>
   </data>
+  <data name="ExplorerColumnImageDimensions" xml:space="preserve">
+    <value>Dimensões</value>
+  </data>
+  <data name="ExplorerColumnPhotoDateTaken" xml:space="preserve">
+    <value>Data de captura</value>
+  </data>
+  <data name="ExplorerColumnPhotoCameraModel" xml:space="preserve">
+    <value>Modelo da câmera</value>
+  </data>
+  <data name="ExplorerColumnPhotoCameraManufacturer" xml:space="preserve">
+    <value>Fabricante da câmera</value>
+  </data>
+  <data name="ExplorerColumnPhotoFNumber" xml:space="preserve">
+    <value>Abertura F</value>
+  </data>
+  <data name="ExplorerColumnPhotoISOSpeed" xml:space="preserve">
+    <value>Velocidade ISO</value>
+  </data>
+  <data name="ExplorerColumnImageHorizontalSize" xml:space="preserve">
+    <value>Largura</value>
+  </data>
+  <data name="ExplorerColumnImageVerticalSize" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="ExplorerColumnMediaDuration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="ExplorerColumnMusicArtist" xml:space="preserve">
+    <value>Artistas participantes</value>
+  </data>
+  <data name="ExplorerColumnMusicAlbumTitle" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="ExplorerColumnMusicAlbumArtist" xml:space="preserve">
+    <value>Artista do álbum</value>
+  </data>
+  <data name="ExplorerColumnMusicTrackNumber" xml:space="preserve">
+    <value>Número da faixa</value>
+  </data>
+  <data name="ExplorerColumnMusicGenre" xml:space="preserve">
+    <value>Gênero</value>
+  </data>
+  <data name="ExplorerColumnMediaYear" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="ExplorerColumnAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits</value>
+  </data>
+  <data name="ExplorerColumnAudioSampleRate" xml:space="preserve">
+    <value>Taxa de amostragem</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameWidth" xml:space="preserve">
+    <value>Largura do quadro</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameHeight" xml:space="preserve">
+    <value>Altura do quadro</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameRate" xml:space="preserve">
+    <value>Taxa de quadros</value>
+  </data>
+  <data name="ExplorerColumnVideoTotalBitrate" xml:space="preserve">
+    <value>Taxa de bits total</value>
+  </data>
+  <data name="ExplorerColumnMediaDirector" xml:space="preserve">
+    <value>Diretores</value>
+  </data>
+  <data name="ExplorerColumnMediaProducer" xml:space="preserve">
+    <value>Produtores</value>
+  </data>
+  <data name="ExplorerColumnAuthor" xml:space="preserve">
+    <value>Autores</value>
+  </data>
+  <data name="ExplorerColumnTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="ExplorerColumnSubject" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="ExplorerColumnKeywords" xml:space="preserve">
+    <value>Palavras-chave</value>
+  </data>
+  <data name="ExplorerColumnComment" xml:space="preserve">
+    <value>Comentários</value>
+  </data>
+  <data name="ExplorerColumnDocumentPageCount" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="ExplorerColumnDocumentWordCount" xml:space="preserve">
+    <value>Contagem de palavras</value>
+  </data>
+  <data name="ExplorerColumnDocumentCharacterCount" xml:space="preserve">
+    <value>Contagem de caracteres</value>
+  </data>
+  <data name="ExplorerColumnFileVersion" xml:space="preserve">
+    <value>Versão do arquivo</value>
+  </data>
+  <data name="ExplorerColumnRating" xml:space="preserve">
+    <value>Classificação</value>
+  </data>
+  <data name="ExplorerColumnCopyright" xml:space="preserve">
+    <value>Direitos autorais</value>
+  </data>
+  <data name="ExplorerColumnApplicationName" xml:space="preserve">
+    <value>Nome do aplicativo</value>
+  </data>
+  <data name="ExplorerColumnCompany" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="ExplorerColumnComputerName" xml:space="preserve">
+    <value>Computador</value>
+  </data>
+  <data name="ExplorerColumnFileOwner" xml:space="preserve">
+    <value>Proprietário</value>
+  </data>
+  <data name="ExplorerColumnFileAttributes" xml:space="preserve">
+    <value>Atributos</value>
+  </data>
+  <data name="ExplorerColumnCategoryImage" xml:space="preserve">
+    <value>Imagem</value>
+  </data>
+  <data name="ExplorerColumnCategoryMedia" xml:space="preserve">
+    <value>Mídia</value>
+  </data>
+  <data name="ExplorerColumnCategoryVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="ExplorerColumnCategoryDocument" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="ExplorerColumnCategoryFile" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
 </root>

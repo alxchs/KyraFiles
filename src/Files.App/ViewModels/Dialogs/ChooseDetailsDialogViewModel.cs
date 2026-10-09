@@ -96,8 +96,6 @@ namespace Files.App.ViewModels.Dialogs
 				columnsViewModel.DynamicColumns.Add(new DynamicColumnDefinition
 				{
 					CanonicalName = item.CanonicalName,
-					DisplayName = item.DisplayName,
-					Category = item.Category,
 					UserLength = length,
 					TextAlignment = item.TextAlignment,
 					IsVisible = true,

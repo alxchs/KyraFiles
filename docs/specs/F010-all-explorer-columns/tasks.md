@@ -17,7 +17,7 @@ Branch: `feature/all-explorer-columns`
 
 ### Fase 2: Implementação
 - [x] T2.1 — Criar `DynamicColumnDefinition` e adicionar suporte a propriedades esparsas em `ListedItem`.
-- [x] T2.2 — Criar `IExplorerPropertyService` / `ExplorerPropertyService` com catálogo das propriedades `PDEF_COLUMN` (369 propriedades com suporte completo a formatação do Shell).
+- [x] T2.2 — Criar `IExplorerPropertyService` / `ExplorerPropertyService` com catálogo das propriedades `PDEF_COLUMN` (corrigido em 09/10/2026: o catálogo tem 39 colunas, CONFIRMED em `ExplorerPropertyService.cs`; 369 era a contagem da enumeração da T1, não do catálogo).
 - [x] T2.3 — Integrar extração virtualizada em segundo plano no `ShellViewModel.LoadExtendedItemPropertiesAsync`.
 - [x] T2.4 — Renderização dinâmica de cabeçalhos e células no `DetailsLayoutPage` preservando as 16 colunas padrão com splitters redimensionáveis.
 - [x] T2.5 — Criar diálogo seletor de colunas ("Mais..." / `ChooseDetailsDialog`) com busca em tempo real, agrupamento por categoria e suporte a temas.

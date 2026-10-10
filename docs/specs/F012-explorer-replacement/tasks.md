@@ -28,9 +28,9 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** `FR-007`, `AC-9`.
   - **Pronto quando:** o desinstalador reverte o registro; o script de release recusa pacote sem os binários nativos. (Desinstalador: AGY, 08/10; script de release: ajustado em 09/10.) NOT TESTED: desinstalação real.
 
-- [ ] **T6 — Validação no Windows real**
+- [x] **T6 — Validação no Windows real**
   - **Atende:** `AC-1`, `AC-2`, `AC-4`, `AC-5`, `AC-8`.
-  - **Pronto quando:** com a opção ligada nas Configurações, `Win + E`, `explorer.exe <pasta>` e abertura de pasta pelo shell abrem o Files; desligada, voltam ao Explorer. Capturas em `docs/agents/evidence/f012/`. A opção é desligada no fim do teste.
+  - **Pronto quando:** com a opção ligada nas Configurações, `Win + E`, `explorer.exe <pasta>` e abertura de pasta pelo shell abrem o Files; desligada, voltam ao Explorer. Capturas em `docs/agents/evidence/f012/`. A opção é desligada no fim do teste. (CONFIRMED em 09/10 e 10/10 via `f012_advanced_settings.ps1`, `f012_explorer_redirect.ps1` e `f012_show_in_folder.ps1`).
 
 - [x] **T7 — Diálogo de arquivos**
   - **Atende:** relato do Alexandre de 08/10/2026 (fora da spec F012; ver spec §6).
@@ -40,8 +40,8 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
   - **Atende:** `FR-009`, `FR-010`, `FR-011`, `AC-1`, `AC-3`, `AC-4`, `AC-11`, `AC-12`. Plan §9.
   - **Pronto quando:** com o Files em execução e o gerenciador padrão ligado, `Win + E`, `explorer.exe <pasta>` e `explorer /select,<arquivo>` abrem no Files (o arquivo selecionado no terceiro caso) e a janela do Explorer não fica visível por mais de 100 ms; Painel de Controle continua no Explorer; com a opção desligada, nada é redirecionado. Script `tools/perf/f012_explorer_redirect.ps1` com os números.
 
-- [ ] **T8 — Build 0/0, handoff e nota de liberação**
-  - **Pronto quando:** `mkfile release` com `0 Warning(s)` e `0 Error(s)`, `git diff --check` limpo, `STATUS.md`, handoff e nota em `docs/releases/`.
+- [x] **T8 — Build 0/0, handoff e nota de liberação**
+  - **Pronto quando:** `mkfile release` com `0 Warning(s)` e `0 Error(s)`, `git diff --check` limpo, `STATUS.md`, handoff e nota em `docs/releases/`. (CONFIRMED 10/10/2026: build Release x64 0/0, notas e handoff gerados).
 
 ## Estado em 09/10/2026 01:00 (Claude)
 

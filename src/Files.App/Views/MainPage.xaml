@@ -198,6 +198,7 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition x:Name="InfoPaneColumnDefinition" Width="Auto" />
 						<ColumnDefinition x:Name="ShelfPaneColumn" Width="Auto" />
+						<ColumnDefinition x:Name="HelpPaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
@@ -281,6 +282,15 @@
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
+
+					<!--  Help Pane  -->
+					<uc:HelpPane
+						x:Name="HelpPane"
+						Grid.Row="0"
+						Grid.RowSpan="5"
+						Grid.Column="4"
+						Margin="4,0,0,0"
+						Visibility="{x:Bind ViewModel.HelpViewModel.IsHelpOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</Grid>
 			</controls:SidebarView.InnerContent>
 

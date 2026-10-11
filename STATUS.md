@@ -33,6 +33,7 @@
 | F012 | Files como gerenciador padrão e diálogo de arquivos | CONCLUÍDO (T1..T9 CONFIRMED: launcher nativo C++, silent fallback, associação HKCU sem UAC, diálogos de Abrir/Salvar e redirecionamento de janelas Explorer Win+E, pasta e /select; build 0/0; integrado em colab) | colab |
 | F013 | F3 abre o Agent Ransack na pasta atual | CONCLUÍDA na branch (AC-1, AC-3, AC-4 CONFIRMED; AC-2, AC-5 INFERRED; ver `docs/specs/F013-f3-agent-ransack/tasks.md`) | feature/f012-explorer-replacement |
 | F007-B | Compositor Idle / Repouso WinUI 3 | CONCLUÍDO (bissecção empírica completa em Solid e MicaAlt; causas identificadas: Widgets Home ~3.688ms compositor e 4 Abas ~3.984ms; baseline em pasta simples atinge 78ms em 10s / 7,8ms/s, mais econômico que OneCommander) | feature/compositor-idle-f007b |
+| F014 | Sistema de Ajuda (Help) Completo e Contextual | CONCLUÍDO (T1..T6 CONFIRMED: HelpPane contextual retrátil, F1 contextual routing, Badges editoriais, Settings HelpPage com busca em tempo real, build 0/0, evidências visuais completas em docs/agents/evidence/f014/) | feature/sistema-help-contextual |
 
 ## Observações do ambiente (28/09/2026)
 

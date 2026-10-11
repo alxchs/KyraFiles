@@ -40,7 +40,8 @@ public sealed class QueryMatcher
 				continue;
 
 			bool hasWildcard = normalized.Contains('*') || normalized.Contains('?');
-			termList.Add(new TermPattern(normalized, hasWildcard));
+			byte[] utf8 = Encoding.UTF8.GetBytes(normalized);
+			termList.Add(new TermPattern(normalized, utf8, hasWildcard));
 			termStrings.Add(normalized);
 		}
 
@@ -132,9 +133,79 @@ public sealed class QueryMatcher
 		return patIdx == pattern.Length;
 	}
 
-	private readonly struct TermPattern(string pattern, bool hasWildcard)
+	/// <summary>
+	/// Verifica se o nome já normalizado em bytes UTF-8 satisfaz a consulta (alta performance com SIMD).
+	/// </summary>
+	public bool MatchesNormalizedUtf8(ReadOnlySpan<byte> normalizedCandidateUtf8)
+	{
+		if (IsEmpty)
+			return true;
+
+		for (int i = 0; i < _terms.Length; i++)
+		{
+			ref readonly var term = ref _terms[i];
+			if (term.HasWildcard)
+			{
+				if (!IsWildcardMatchUtf8(normalizedCandidateUtf8, term.Utf8Pattern.AsSpan()))
+					return false;
+			}
+			else
+			{
+				if (normalizedCandidateUtf8.IndexOf(term.Utf8Pattern.AsSpan()) < 0)
+					return false;
+			}
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// Algoritmo iterativo sem alocações de casamento de padrões com curingas (* e ?) sobre bytes UTF-8.
+	/// </summary>
+	public static bool IsWildcardMatchUtf8(ReadOnlySpan<byte> text, ReadOnlySpan<byte> pattern)
+	{
+		int textIdx = 0;
+		int patIdx = 0;
+		int starIdx = -1;
+		int matchIdx = 0;
+
+		while (textIdx < text.Length)
+		{
+			if (patIdx < pattern.Length && (pattern[patIdx] == (byte)'?' || pattern[patIdx] == text[textIdx]))
+			{
+				textIdx++;
+				patIdx++;
+			}
+			else if (patIdx < pattern.Length && pattern[patIdx] == (byte)'*')
+			{
+				starIdx = patIdx;
+				matchIdx = textIdx;
+				patIdx++;
+			}
+			else if (starIdx != -1)
+			{
+				patIdx = starIdx + 1;
+				matchIdx++;
+				textIdx = matchIdx;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		while (patIdx < pattern.Length && pattern[patIdx] == (byte)'*')
+		{
+			patIdx++;
+		}
+
+		return patIdx == pattern.Length;
+	}
+
+	private readonly struct TermPattern(string pattern, byte[] utf8Pattern, bool hasWildcard)
 	{
 		public string Pattern { get; } = pattern;
+		public byte[] Utf8Pattern { get; } = utf8Pattern;
 		public bool HasWildcard { get; } = hasWildcard;
 	}
 }

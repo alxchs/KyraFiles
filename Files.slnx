@@ -15,6 +15,9 @@
     <Project Path="src/Files.Shared/Files.Shared.csproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="src/Files.App.Search.Index/Files.App.Search.Index.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/src/platforms/">
     <Project Path="src/Files.App.BackgroundTasks/Files.App.BackgroundTasks.csproj">
@@ -32,6 +35,11 @@
     <Project Path="src/Files.App/Files.App.csproj">
       <Platform Solution="*|x64" Project="x64" />
       <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj">
+      <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
 </Solution>

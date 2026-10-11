@@ -6,7 +6,7 @@ Estado atual, curto. Atualize ao mudar de tarefa, ao parar e ao receber bloqueio
 PROJECT        Files Custom (derivado do Files Community). Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível (rename, colunas, abas, menu, preview/details, busca). Ver MASTER_SPEC.md §2 e §44
 CURRENT PHASE  F015 (índice de busca próprio): spec, plan e tasks APROVADOS em 11/10/2026
-CURRENT TASK   F015 T3 (biblioteca de índice e projeto de testes) e T4 (normalizador/matcher)
+CURRENT TASK   F015 T4 (NameNormalizer e QueryMatcher)
 ACCEPTANCE     docs/specs/F015-indice-de-busca/tasks.md, coluna "Pronto quando"
 DO NOT CHANGE  Fora dos arquivos listados no plan.md da F015
 REGRA COLAB    A branch colab é estritamente origem e destino final de integração. Nunca desenvolver diretamente nela.

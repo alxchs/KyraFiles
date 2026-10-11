@@ -13,7 +13,7 @@ REGRA COLAB    A branch colab é estritamente origem e destino final de integra�
 OWNER          AGY (execução); Claude revisa
 CURRENT BRANCH feature/f015-indice-de-busca
 LAST DECISION  D-019: índice próprio em dois modos, sem duplicatas de subst/links; rede fora; link físico uma vez no local original
-NEXT ACTION    AGY: T1 e T2. Cliques de UAC e o T2a (admin) são do Alexandre
-BLOCKER        nenhum (disparo da AGY precisa de permissão do Alexandre)
-LAST UPDATE    2026-10-11 — Claude
+NEXT ACTION    Redisparar a AGY na conversa 651efcc3-970d-4b6d-9bcd-a7af6537fa17 (claude-sonnet-4-6) após 07:49 de 11/10. Trabalho parcial dela NÃO commitado: tools/spikes/, tools/perf/f015_*.ps1, DECISIONS.md
+BLOCKER        Cota AGY: grupos claude/gpt até 11/10 07:49; gemini até 12/10 22:05. Trocar perfil não muda a conta do agy --print (contadores idênticos)
+LAST UPDATE    2026-10-11 03:08 — Claude
 ```

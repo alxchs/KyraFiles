@@ -1,6 +1,6 @@
 # F015 — Índice de busca próprio (todos os discos, sem duplicatas) — SPEC
 
-Status: RASCUNHO (Claude, 11/10/2026). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
+Status: APROVADA (Alexandre, 11/10/2026; pontos em aberto decididos em `DECISIONS.md` D-019). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
 
 Substitui, para busca por nome, os motores da F011 (Agent Ransack e Everything). O F3 da F013 (abrir o Agent Ransack) continua como está.
 
@@ -46,6 +46,8 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 | AC-18 | a busca está rodando | troco de pasta, apago o texto ou pressiono Esc | a busca para na hora e a tela não mostra resultados velhos |
 | AC-19 | índice pronto | abro um resultado, uso o menu de contexto, ordeno por tamanho ou data | funciona como numa pasta comum; tamanho e data aparecem sem esperar o disco |
 | AC-20 | busca por nome com o componente e o índice prontos | comparo com o Everything na mesma máquina e consulta | o Files não é mais lento (mesma ordem de grandeza, medido com o mesmo script) e acha os mesmos arquivos, salvo as regras de duplicata desta spec |
+| AC-21 | arquivo `D:\a\orig.txt` com um segundo nome `D:\b\copia.txt` (link físico) | busco `txt` em "Este computador" | aparece só `D:\a\orig.txt` |
+| AC-22 | unidade de rede mapeada | busco em "Este computador" e depois dentro da unidade | no primeiro caso ela não entra; no segundo, os resultados aparecem aos poucos, por varredura, e Esc cancela |
 
 ## 4. Requisitos
 
@@ -61,6 +63,8 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 - **FR-012** A indexação NÃO DEVE entrar em links simbólicos, junções nem pontos de montagem: o link é registrado como item (com o destino dele), e o conteúdo do destino é indexado só no seu lugar real.
 - **FR-013** Volume montado em pasta e também com letra DEVE ser apresentado pelo caminho com letra. Volume montado só em pasta, pelo caminho da pasta.
 - **FR-014** Uma busca DEVE devolver cada arquivo no máximo uma vez.
+- **FR-016** Arquivo com vários nomes no mesmo volume (link físico) DEVE aparecer **uma vez, no local original**: o primeiro nome que o sistema de arquivos registra para ele (em geral, o nome com que foi criado). Os outros nomes não aparecem na busca. Se a busca estiver restrita a uma pasta que só contém um dos outros nomes, esse arquivo não aparece ali.
+- **FR-017** Unidades de rede NÃO DEVEM ser indexadas. Buscar dentro de uma delas DEVE continuar varrendo na hora, com resultados progressivos e cancelamento (FR-023). A busca em "Este computador" não inclui unidades de rede.
 - **FR-015** Quando a busca parte de um caminho alternativo (letra `subst`, pasta-link), o escopo DEVE ser traduzido para o lugar real, e os resultados DEVEM voltar escritos no caminho alternativo por onde o usuário está navegando (AC-4, AC-6).
 
 ### Busca
@@ -110,7 +114,7 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 ## 6. Fora de escopo
 
 - Busca dentro do **conteúdo** dos arquivos (fica para uma spec futura; o Agent Ransack via F3 cobre).
-- Indexar unidades de rede e compartilhamentos remotos (ver ponto em aberto 1).
+- Indexar unidades de rede e compartilhamentos remotos (FR-017).
 - Sintaxe avançada (regex, `size:`, `date:`, `ext:`). Fica para depois, e o índice já guarda os dados que ela vai precisar.
 - Remover o código dos provedores da F011 (fica desativado da busca por nome; a remoção vira tarefa à parte).
 
@@ -122,9 +126,11 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 
 ## 8. Pontos em aberto
 
-- [NEEDS CLARIFICATION 1: **unidades de rede**. Proposta: não indexar (são lentas e podem ser enormes); buscar nelas varrendo na hora, com resultados progressivos, como hoje. Alternativa: opção para incluir uma unidade de rede específica no índice básico.]
-- [NEEDS CLARIFICATION 2: **links físicos** (hard links: o mesmo arquivo com dois nomes, comuns em pastas do Windows). Proposta: mostrar **uma vez**, pelo primeiro nome, coerente com "não localizar duas vezes". Alternativa: mostrar cada nome (é o que o Everything faz).]
+Nenhum. Os dois pontos do rascunho foram decididos pelo Alexandre em 11/10/2026 (D-019):
+1. Unidades de rede: não indexar, busca nelas por varredura na hora (FR-017).
+2. Links físicos: mostrar uma vez, no local original (FR-016).
 
 ## 9. Histórico
 
 - 11/10/2026 — rascunho criado a partir da queixa de lentidão, da medição do Agent Ransack e da decisão do Alexandre pela opção C (índice próprio, modo completo e básico, sem duplicatas de `subst`/links).
+- 11/10/2026 — APROVADA. Acrescentados FR-016 (link físico uma vez, no local original) e FR-017 (unidade de rede fora do índice), decisões do Alexandre.

@@ -186,3 +186,28 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
 | AC-20 | medição comparativa | mesmo script, mesmas consultas, Files × Everything. O `es.exe` não está instalado: baixá-lo do site da voidtools para a pasta temporária do projeto só com autorização do Alexandre; sem isso, cronômetro de UI Automation na janela do Everything |
 | NFR-001 a NFR-005 | medição | scripts `f015_*` versionados; resultados em `STATUS.md` e na nota de liberação |
 | Regressão | funcional | etiquetas, bibliotecas, busca em rede, F3 da F013 e sugestões do Omnibar |
+
+## Medições T2 (11/10/2026)
+
+### T2b — Varredura básica sem admin (`f015_basic_scan.ps1`)
+Medição empírica por volume físico usando `FileIdBothDirectoryInfo` (sem abrir arquivos, sem descer em pontos de reanálise):
+
+| Volume | Arquivos | Pastas | Total Itens | Tempo | Velocidade | RAM Pico (Delta) |
+|---|---|---|---|---|---|---|
+| `C:\` (NVMe) | 2.018.532 | 442.963 | 2.461.495 | 123,00 s | ~20.012 itens/s | 41 MB (+17 MB) |
+| `D:\` (SATA) | 167.230 | 5.405 | 172.635 | 16,63 s | ~10.380 itens/s | 30 MB (+6 MB) |
+| `R:\` (SATA) | 139.046 | 20.089 | 159.135 | 55,85 s | ~2.849 itens/s | 30 MB (+7 MB) |
+| `S:\` (USB)  | 4 | 8 | 12 | 0,10 s | — | 23 MB (+0 MB) |
+
+- **Conclusão T2b:** Viabilidade do modo básico confirmada (CONFIRMED). Mesmo no volume C: com quase 2,5 milhões de itens, o processo consumiu pico de apenas 41 MB de RAM e terminou em ~2 minutos.
+
+### T2c — Google Drive Probe (`f015_gdrive_probe.ps1`)
+- Caminho: `C:\Google\Drive\disk`
+- Listagem: 80 itens em 0,09 s.
+- Processo: `GoogleDriveFS` (PID 26260).
+- I/O Read antes: 5666 bytes; I/O Read depois: 5666 bytes. Delta = 0 bytes (0 MB).
+- **Conclusão T2c:** Listagem segura confirmada (CONFIRMED). Não provoca download em segundo plano.
+
+### T2a — MFT Bruta (`f015_mft_probe.ps1`)
+- Script pronto em `tools/perf/f015_mft_probe.ps1`.
+- Estado: Pendente de execução com elevação de Administrador (UAC do Alexandre).

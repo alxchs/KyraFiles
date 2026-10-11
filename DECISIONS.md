@@ -140,3 +140,31 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Reason:** só (A) iguala o Everything em indexar e acompanhar mudanças com o app fechado; só (B) funciona sem administrador e em volumes não NTFS.
 - **Trade-offs:** dois caminhos de indexação para manter; um componente instalado com UAC.
 - **Consequences:** spec `docs/specs/F015-indice-de-busca/`. A escolha de motor da F011 deixa de valer para busca por nome; o F3 da F013 (Agent Ransack) continua. Numeração: o `AGENT_CONTEXT.md` da F014 cita uma "D-018" que não está neste arquivo; para não colidir, esta é a D-019.
+
+## D-020 — Como instalar o modo completo do serviço de índice (F015 T1) (11/10/2026) — PENDING
+
+**Estado:** PENDING — aguarda o teste elevado (Install-Spike.ps1 + Test-Spike.ps1) para confirmar a opção escolhida. O Claude atualiza esta decisão após rodar os scripts.
+
+- **Context:** o modo completo do índice (F015) roda como SYSTEM para ler a MFT e o diário USN. O Files já tem `allowElevation` e `runFullTrust` no manifesto (`CONFIRMED`). O pacote de desenvolvimento é registrado com `Add-AppxPackage -Register` (layout, sem MSIX assinado).
+
+- **Options:**
+  - **(a) Serviço empacotado no MSIX** (`desktop6:Service`, capacidades `packagedServices` e `localSystemServices`): o serviço faz parte do próprio pacote; instalação automática junto com o app; remoção pelo desinstalador do app.
+    - **Requer:** pacote assinado com certificado confiável na máquina-alvo (exigência da instalação de serviço SYSTEM via MSIX). O fluxo de desenvolvimento usa `Add-AppxPackage -Register` (layout solto, não assinado), que **NÃO instala serviços SYSTEM** — o registro de layout não processa `desktop6:Service/localSystem`. Ou seja: no fluxo `Open-FilesDev.ps1` de desenvolvimento, a opção (a) não instala o serviço sem um MSIX assinado. Para uso em produção (pacote sideload com certificado autofirmado importado como root confiável) funciona normalmente no Windows 10 2004+.
+    - **Desvantagem para desenvolvimento:** exige MSIX assinado ou certificado instalado; não funciona em dev com layout solto.
+  - **(b) Instalador elevado separado** (`allowElevation` já presente): o Files inicia um processo elevado (`Install-Spike.ps1` ou equivalente) que copia o exe para `%ProgramFiles%\FilesCustom\IndexService\` e cria o serviço com `sc create`. Desinstalador remove os dois. Funciona com layout de desenvolvimento e com MSIX.
+    - **Vantagem:** independente do sistema de empacotamento; funciona em qualquer cenário (dev, sideload, Store se aplicável).
+    - **Desvantagem:** dois artefatos separados; o usuário vê um segundo UAC além do Files.
+
+- **Recomendação da AGY (antes do teste):** **(b) instalador elevado separado**, pelos seguintes motivos:
+  1. O fluxo de desenvolvimento `Open-FilesDev.ps1` usa `Add-AppxPackage -Register` (layout não assinado), que não instala `localSystem` services — a opção (a) ficaria sem testar em dev.
+  2. A opção (b) funciona em todos os cenários (dev, sideload, distribuição futura) com o mesmo código.
+  3. O `allowElevation` já está declarado no manifesto; o Files pode usar `ShellExecute` com `runas` para o instalador, com UX clara para o usuário.
+  4. Isola a lógica de instalação do serviço do código do app, facilitando atualização e remoção.
+
+- **Spike construído:** `tools/spikes/f015-service/` — servidor `IndexServiceSpike.exe` (named pipe `FilesCustom.IndexService.Spike`, ACL para usuários autenticados, responde `pong:<identidade>`), cliente `IndexClientSpike.exe` (não elevado). Scripts: `Install-Spike.ps1` (elevado, para Claude disparar), `Uninstall-Spike.ps1` (elevado), `Test-Spike.ps1` (não elevado: `sc query` + ping).
+
+- **Próximo passo para confirmar:** Claude dispara `Install-Spike.ps1` com `Start-Process pwsh -Verb RunAs`; Alexandre clica "Sim"; Claude lê o log e dispara `Test-Spike.ps1`; resultado do ping confirma a identidade SYSTEM. Depois, `Uninstall-Spike.ps1` remove o serviço e os arquivos.
+
+- **Trade-offs da (b):** o usuário vê um prompt de UAC separado ao instalar e ao remover; o serviço não é removido automaticamente se o app for desinstalado sem passar pela UI de configurações (mitigação: instrução clara na UI e na nota de liberação).
+
+- **Consequences:** implementação do modo completo (T15) usa o padrão (b) — script de instalação invocado pelo Files com `allowElevation`, copiando o exe para `%ProgramFiles%\FilesCustom\IndexService\` e criando o serviço com conta LocalSystem.

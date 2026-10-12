@@ -4974,4 +4974,28 @@
   <data name="ExplorerColumnCategoryFile" xml:space="preserve">
     <value>Arquivo</value>
   </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Verificar atualizações</value>
+  </data>
+  <data name="CheckForUpdatesDescription" xml:space="preserve">
+    <value>Verifica se foi publicada uma versão mais recente do Files Custom.</value>
+  </data>
+  <data name="OpenAboutDescription" xml:space="preserve">
+    <value>Abre a página Sobre com o nome e a versão do aplicativo.</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>A versão {0} está disponível. Você está com a {1}.</value>
+  </data>
+  <data name="UpdateOpenDownloadPage" xml:space="preserve">
+    <value>Abrir página de download</value>
+  </data>
+  <data name="UpdateUpToDateMessage" xml:space="preserve">
+    <value>Você está usando a versão mais recente ({0}).</value>
+  </data>
+  <data name="UpdateNoReleasesMessage" xml:space="preserve">
+    <value>Nenhuma versão foi publicada ainda. Você está usando a {0}.</value>
+  </data>
+  <data name="UpdateCheckFailedMessage" xml:space="preserve">
+    <value>Não foi possível verificar as atualizações. Verifique sua conexão com a internet e tente novamente.</value>
+  </data>
 </root>

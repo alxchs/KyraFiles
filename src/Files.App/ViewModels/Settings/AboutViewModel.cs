@@ -35,6 +35,7 @@ namespace Files.App.ViewModels.Settings
 
 		// Commands
 
+		public ICommand CheckForUpdatesCommand { get; }
 		public ICommand CopyAppVersionCommand { get; }
 		public ICommand CopyWindowsVersionCommand { get; }
 		public ICommand CopyUserIDCommand { get; }
@@ -55,6 +56,8 @@ namespace Files.App.ViewModels.Settings
 		/// </summary>
 		public AboutViewModel()
 		{
+			CheckForUpdatesCommand = new AsyncRelayCommand(() => Ioc.Default.GetRequiredService<ICommandManager>().CheckForUpdates.ExecuteAsync());
+
 			OpenSourceLibraries =
 			[
 				new ("https://github.com/omar/ByteSize", "ByteSize"),

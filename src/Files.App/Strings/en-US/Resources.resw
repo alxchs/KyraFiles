@@ -4980,4 +4980,28 @@
   <data name="ExplorerColumnCategoryFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="CheckForUpdatesDescription" xml:space="preserve">
+    <value>Checks whether a newer version of Files Custom has been published.</value>
+  </data>
+  <data name="OpenAboutDescription" xml:space="preserve">
+    <value>Opens the About page with the app name and version.</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>Version {0} is available. You have {1}.</value>
+  </data>
+  <data name="UpdateOpenDownloadPage" xml:space="preserve">
+    <value>Open download page</value>
+  </data>
+  <data name="UpdateUpToDateMessage" xml:space="preserve">
+    <value>You are using the latest version ({0}).</value>
+  </data>
+  <data name="UpdateNoReleasesMessage" xml:space="preserve">
+    <value>No version has been published yet. You are using {0}.</value>
+  </data>
+  <data name="UpdateCheckFailedMessage" xml:space="preserve">
+    <value>Could not check for updates. Check your internet connection and try again.</value>
+  </data>
 </root>

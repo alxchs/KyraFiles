@@ -441,6 +441,12 @@
 				Command="{x:Bind Commands.OpenReleaseNotes, Mode=OneWay}"
 				KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenReleaseNotes.HotKeyText, Mode=OneWay}"
 				Text="{x:Bind Commands.OpenReleaseNotes.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.CheckForUpdates, Mode=OneWay}"
+				Text="{x:Bind Commands.CheckForUpdates.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.OpenAbout, Mode=OneWay}"
+				Text="{x:Bind Commands.OpenAbout.Label, Mode=OneWay}" />
 
 			<MenuFlyoutSeparator />
 

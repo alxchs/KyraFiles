@@ -36,6 +36,8 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE946;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+				<Button Command="{x:Bind ViewModel.CheckForUpdatesCommand}" Content="{helpers:ResourceString Name=CheckForUpdates}" />
 				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
 					<Button.Flyout>
 						<MenuFlyout>
@@ -45,6 +47,7 @@
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
+				</StackPanel>
 			</wctcontrols:SettingsCard>
 
 			<!--  GitHub Sponsor  -->

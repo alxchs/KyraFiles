@@ -182,3 +182,12 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Consequences:** `plan.md` §1.1 e a tarefa T1 mudam de mecanismo (comportamento da spec inalterado). T1 volta a "pendente" até a prova real: Win+E físico/simulado abre o Files, e `explorer.exe` não ganha janela nova.
 
 - **Adendo (12/10/2026):** o URI do protocolo passa a ser `files-dev:` exato. `files-dev:?tab=Home` (da spec/plan originais) cai no ramo do `MainWindow` que lê JSON de aba (`TabBarItemParameter.Deserialize`) e derruba o Files (`debug.log`: "'H' is an invalid start of a value"). Implementada por Claude por falta de cota da AGY (autorização permanente do Alexandre em 12/10/2026).
+
+## D-022 — Fonte da verificação de atualização do Files Custom (F018) (12/10/2026)
+
+- **Context:** o menu Ajuda não permitia verificar versão; o `IUpdateService` do upstream é `Dummy` neste build.
+- **Options:** (a) releases do GitHub de `alxchs/FilesCustom` (público); (b) o `package_manifest.json` da F017 T4 hospedado em outro lugar; (c) trocar o `IUpdateService`.
+- **Decision:** (a), como constante `Constants.ExternalUrl.CustomReleasesApiUrl`. O repositório hoje não tem releases (`gh repo view`: `latestRelease: null`), então a tela mostra "Nenhuma versão foi publicada ainda" até a primeira publicação.
+- **Reason:** não exige servidor próprio, funciona sem autenticação, a F017 T4 pode publicar a release e o manifesto no mesmo lugar.
+- **Trade-offs:** limite de 60 requisições por hora por IP na API do GitHub (suficiente: só roda por clique). O `origin` do dia a dia é o repositório privado `FilesCustom-private`; as releases têm de sair do público.
+- **Consequences:** mudar a fonte = mudar a constante. A F017 T4 reaproveita a mesma consulta para baixar o delta.

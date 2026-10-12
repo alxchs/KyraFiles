@@ -168,3 +168,15 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Trade-offs da (b):** o usuário vê um prompt de UAC separado ao instalar e ao remover; o serviço não é removido automaticamente se o app for desinstalado sem passar pela UI de configurações (mitigação: instrução clara na UI e na nota de liberação).
 
 - **Consequences:** implementação do modo completo (T15) usa o padrão (b) — script de instalação invocado pelo Files com `allowElevation`, copiando o exe para `%ProgramFiles%\FilesCustom\IndexService\` e criando o serviço com conta LocalSystem.
+
+## D-021 — Win+E não pode ser capturado com `RegisterHotKey`; usar hook de teclado de baixo nível (F017 T1) (12/10/2026)
+
+- **Context:** a F017 (`plan.md` §1.1) assumiu `RegisterHotKey(MOD_WIN, 'E')`. O Alexandre pressionou Win+E e abriu o Windows Explorer.
+- **Problem:** medido em 12/10/2026 com P/Invoke: `RegisterHotKey(0, id, MOD_WIN, 'E')` retorna `false`, erro 1409 (`ERROR_HOTKEY_ALREADY_REGISTERED`), com e sem `MOD_NOREPEAT`; o controle Win+Y registra (erro 0). O `explorer.exe` é dono de Win+E. Com `Files.HotkeyService.exe` rodando (processo vivo), Win+E simulado abriu uma janela do Explorer e o Files não iniciou. O `main.cpp` ignora o retorno do segundo `RegisterHotKey`, então o serviço fica "vivo" sem atalho. O protocolo `files-dev:?tab=Home` funciona sozinho (abriu o Files). Além disso, nada instala nem inicia o serviço (sem `Run`, sem instalador executado; `bin\Release\*.exe` só compilados).
+- **Options:**
+  - **(a) `WH_KEYBOARD_LL`** no HotkeyService: detecta Win(down)+E(down), engole o evento e dispara o protocolo. Sem alterar o registro; some ao encerrar o processo (reversão imediata, FR-007).
+  - **(b) `HKCU\...\Explorer\Advanced\DisabledHotkeys = "E"`** e então `RegisterHotKey`. Exige reiniciar o Explorer, grava no registro e a reversão depende do desinstalador.
+- **Decision:** (a).
+- **Reason:** reversão imediata, nenhum estado persistente fora do `Run`, vale sem reiniciar o Explorer.
+- **Trade-offs:** hook de baixo nível roda no caminho de toda tecla (o callback precisa ser mínimo: o Windows desativa o hook que passa de `LowLevelHooksTimeout`); antivírus podem desconfiar de hook global; precisa tratar o menu Iniciar abrindo ao soltar a tecla Win após engolir o E.
+- **Consequences:** `plan.md` §1.1 e a tarefa T1 mudam de mecanismo (comportamento da spec inalterado). T1 volta a "pendente" até a prova real: Win+E físico/simulado abre o Files, e `explorer.exe` não ganha janela nova.

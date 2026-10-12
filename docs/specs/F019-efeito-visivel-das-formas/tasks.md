@@ -12,3 +12,4 @@
 - **T1 (alterada)**: o parâmetro `scale` vem junto do perfil por tamanho (pixels fixos, só-cantos para elementos grandes). AC-7, AC-8.
 - **T1b (nova)**: reescrever os 9 construtores com detalhes de tamanho fixo e contagem calculada (nada de `h/4`, `h/3`, `0.25*h`), nos dois perfis. AC-7, AC-8, AC-9.
 - **T4 (alterada)**: capturas por forma dos 4 cantos da janela e da aba selecionada, com Blue + Thin Acrylic, mostradas ao Alexandre; só então marcar pronto. AC-9, AC-10.
+- **T4 (acrescentada)**: gerar a comparação lado a lado forma 0 x forma N (janela inteira) e verificar AC-11..AC-13 antes de mostrar ao Alexandre. Se a forma alterar estrutura, cor ou espaçamento, é bug.

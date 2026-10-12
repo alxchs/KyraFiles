@@ -15,5 +15,6 @@ CURRENT BRANCH feature/f015-indice-de-busca
 LAST DECISION  D-019: índice próprio em dois modos; D-020 (PENDING teste elevado)
 NEXT ACTION    Executar T7; Alexandre aciona UAC para T1 e T2a quando oportuno
 BLOCKER        Nenhum para T3-T12 (modo básico não requer admin)
-LAST UPDATE    2026-10-11 17:39 — Antigravity
+SIDE WORK      Formas de controle/aba (ControlShapeStyle, 10 modelos), fora do escopo da F015, sem spec: fechada em fbf052335 (build 0/0; abre e não cai nas 10 formas; aparência de cada forma NOT TESTED). Pendente: spec retroativa ou mover para branch própria antes de integrar
+LAST UPDATE    2026-10-12 — Claude (revisão do pendente da AGY)
 ```

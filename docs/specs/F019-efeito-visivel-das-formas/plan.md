@@ -17,3 +17,10 @@ Não mexer: `AppResourcesService` (CornerRadius), F015, F017, F018.
 
 ## Testes por AC
 Capturas por `tools/perf/f019_shapes_capture.ps1 -Shapes '0,1,2,3,4,5,6,7,8,9'` (já commitado; só a janela do Files, em primeiro plano) depois do deploy. AC-1/5: trocar a forma com o app aberto (UI Automation no combo de Aparência ou editar `user_settings.json` com o app aberto) e capturar. AC-4: olhar cada captura nos cantos. AC-6: redimensionar via `SetWindowPos` e capturar.
+
+## Revisão 12/10/2026 (feedback) — perfis por tamanho
+Substitui a abordagem "uma escala por elemento" quando o elemento é grande:
+- `BuildPath(style, w, h, scale)` escolhe o perfil: **lateral completa** se `h < 80` (aba) ou **só cantos** caso contrário. Detalhes em pixels fixos (AC-7): `toothBase = 16*scale`, `toothHeight = 10*scale`, `waveLength = 24*scale`, `cornerDepth = 16*scale`; número de dentes/ondas = `floor(h / toothBase)`, nunca constante.
+- Perfil só-cantos: cada canto recebe o motivo da forma (côncavo, onda curta, chanfro, dentes pequenos) dentro de um quadrado `cornerDepth x cornerDepth`; o resto da borda é reta. Esquerda e direita seguem a descrição de cada forma em `ControlShapeStyleKind` (ex.: TicketWave = esquerda côncava, direita com ondas curtas nos cantos; SawtoothTriangle = esquerda côncava, direita com 2–3 dentes pequenos em cada canto).
+- `ShapeClip.Scale`: janela 1.75 (~28 px), área de arquivos 1.25 (~20 px), aba 1.
+- Teste: capturas dos 4 cantos da janela por forma, com Blue + Thin Acrylic.

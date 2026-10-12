@@ -18,3 +18,11 @@ FR-001 recorte por forma em: contêiner da janela, borda da área de arquivos, c
 
 ## Fora de escopo
 Botões, caixas de texto e diálogos (seguem só com `CornerRadius`).
+
+## Revisão 12/10/2026 — feedback do Alexandre ("não gostei… as cores nas extremidades com um acabando horrível")
+Capturas do app com a forma "Sawtooth Triangle" (Aparência) mostraram: dentes de ~400 px de base na lateral da janela, ondas gigantes cortando a barra lateral e a barra de rolagem, e o fundo translúcido (acrílico) de outra cor aparecendo nas pontas. Causa: os construtores usam proporções da altura do elemento (ex.: 4 dentes em `h`), então o desenho cresce com a janela.
+
+- **AC-7** O tamanho de cada detalhe da forma (dente, onda, chanfro, concavidade) é **fixo em pixels** e não depende do tamanho do elemento. Um dente de serrilha tem ~16 px de base e ~10 px de altura, em qualquer elemento.
+- **AC-8** Em elementos grandes (janela, área de arquivos) a forma só altera os **4 cantos** (profundidade ~28 px e ~20 px); as **bordas longas ficam retas**. O perfil completo da forma (lateral inteira ondulada ou serrilhada) vale só para elementos pequenos (abas, altura < 80 px).
+- **AC-9** Nenhuma faixa ou ponta de cor destoante nas extremidades: fora do contorno aparece apenas o fundo da janela, e nenhum painel (barra lateral, rolagem, cabeçalho) é cortado por dentes ou ondas em tamanho maior que o raio do canto.
+- **AC-10** Conferido com o fundo "Blue" e backdrop "Thin Acrylic" (configuração do Alexandre) nas formas 1 a 9, com capturas dos quatro cantos da janela.

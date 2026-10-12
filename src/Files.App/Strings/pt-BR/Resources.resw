@@ -4746,6 +4746,39 @@
   <data name="AppDensityUltraCompact" xml:space="preserve">
     <value>Ultra-compacto (OneCommander)</value>
   </data>
+  <data name="ControlShapeStyle" xml:space="preserve">
+    <value>Modelo de Formas dos Controles e Abas</value>
+  </data>
+  <data name="ControlShapeFluentStandard" xml:space="preserve">
+    <value>Fluent Padrão (Windows 11)</value>
+  </data>
+  <data name="ControlShapeTicketWave" xml:space="preserve">
+    <value>Ticket com Ondas (Esquerda Côncava / 3 Ondas Direita)</value>
+  </data>
+  <data name="ControlShapeRibbonDock" xml:space="preserve">
+    <value>Encaixe Fita (Esquerda Côncava / Lóbulos com Cava Direita)</value>
+  </data>
+  <data name="ControlShapeCyberpunkTrapezoid" xml:space="preserve">
+    <value>Trapézio Cyberpunk (Chanfrado Dinâmico)</value>
+  </data>
+  <data name="ControlShapeDirectionalPill" xml:space="preserve">
+    <value>Pílula Direcional (Arco Total Esquerda / Direita Plana)</value>
+  </data>
+  <data name="ControlShapeHexagonalTech" xml:space="preserve">
+    <value>Hexagonal Tech (Chanfro Colmeia)</value>
+  </data>
+  <data name="ControlShapeSinusoidalWave" xml:space="preserve">
+    <value>Onda Sinusoidal (Curva Orgânica Contínua)</value>
+  </data>
+  <data name="ControlShapeOrigamiFold" xml:space="preserve">
+    <value>Origami (Dobradura Diagonal Assimétrica)</value>
+  </data>
+  <data name="ControlShapeBoardingPass" xml:space="preserve">
+    <value>Cartão de Embarque (Entalhe Compacto)</value>
+  </data>
+  <data name="ControlShapeOrganicLeaf" xml:space="preserve">
+    <value>Folha Orgânica (Cantos Arredondados Opostos)</value>
+  </data>
   <data name="AppThemeFileAreaFontFamily" xml:space="preserve">
     <value>Fonte dos arquivos e colunas</value>
   </data>

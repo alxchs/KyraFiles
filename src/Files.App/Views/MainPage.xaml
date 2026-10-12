@@ -242,12 +242,16 @@
 					</InfoBar>
 
 					<!--  Page Content  -->
-					<ContentPresenter
-						x:Name="PageContent"
+					<Border
 						Grid.Row="2"
 						Grid.Column="0"
-						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						CornerRadius="{ThemeResource OverlayCornerRadius}"
+						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}">
+						<ContentPresenter
+							x:Name="PageContent"
+							HorizontalContentAlignment="Stretch"
+							Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
+					</Border>
 
 					<!--  Info Pane Splitter  -->
 					<controls:GridSplitter

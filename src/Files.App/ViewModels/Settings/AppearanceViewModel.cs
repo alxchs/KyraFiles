@@ -23,6 +23,7 @@ namespace Files.App.ViewModels.Settings
 
 		public List<string> Themes { get; private set; }
 		public List<string> AppDensityOptions { get; private set; }
+		public List<string> ControlShapeStyleOptions { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
 		public Dictionary<Stretch, string> ImageStretchTypes { get; private set; } = [];
@@ -61,6 +62,21 @@ namespace Files.App.ViewModels.Settings
 				Strings.AppDensityUltraCompact.GetLocalizedResource(),
 			];
 			selectedAppDensityIndex = (int)UserSettingsService.AppearanceSettingsService.AppDensity;
+
+			ControlShapeStyleOptions =
+			[
+				Strings.ControlShapeFluentStandard.GetLocalizedResource(),
+				Strings.ControlShapeTicketWave.GetLocalizedResource(),
+				Strings.ControlShapeRibbonDock.GetLocalizedResource(),
+				Strings.ControlShapeCyberpunkTrapezoid.GetLocalizedResource(),
+				Strings.ControlShapeDirectionalPill.GetLocalizedResource(),
+				Strings.ControlShapeHexagonalTech.GetLocalizedResource(),
+				Strings.ControlShapeSinusoidalWave.GetLocalizedResource(),
+				Strings.ControlShapeOrigamiFold.GetLocalizedResource(),
+				Strings.ControlShapeBoardingPass.GetLocalizedResource(),
+				Strings.ControlShapeOrganicLeaf.GetLocalizedResource(),
+			];
+			selectedControlShapeStyleIndex = (int)UserSettingsService.AppearanceSettingsService.ControlShapeStyle;
 
 			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, Strings.None.GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, Strings.Acrylic.GetLocalizedResource());
@@ -241,6 +257,22 @@ namespace Files.App.ViewModels.Settings
 					var density = (AppDensityKind)value;
 					UserSettingsService.AppearanceSettingsService.AppDensity = density;
 					ResourcesService.SetAppThemeDensity(density);
+					ResourcesService.ApplyResources();
+				}
+			}
+		}
+
+		private int selectedControlShapeStyleIndex;
+		public int SelectedControlShapeStyleIndex
+		{
+			get => selectedControlShapeStyleIndex;
+			set
+			{
+				if (SetProperty(ref selectedControlShapeStyleIndex, value))
+				{
+					var shapeStyle = (ControlShapeStyleKind)value;
+					UserSettingsService.AppearanceSettingsService.ControlShapeStyle = shapeStyle;
+					ResourcesService.SetAppControlShapeStyle(shapeStyle);
 					ResourcesService.ApplyResources();
 				}
 			}

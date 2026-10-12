@@ -110,6 +110,8 @@ namespace Files.App.Helpers
 			if (!string.IsNullOrWhiteSpace(appThemeFileAreaFontFamily) && appThemeFileAreaFontFamily != Constants.Appearance.StandardFont)
 				service.SetAppThemeFileAreaFontFamily(appThemeFileAreaFontFamily);
 
+			service.SetAppControlShapeStyle(appearance.ControlShapeStyle);
+
 			service.ApplyResources();
 		}
 	}

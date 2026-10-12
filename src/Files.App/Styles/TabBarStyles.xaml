@@ -133,7 +133,7 @@
 							BorderBrush="{ThemeResource TabViewItemSeparator}"
 							BorderThickness="1" />
 
-						<!-- Files Custom: Efeito Onda Assimétrica (côncavo à esquerda, convexo à direita) -->
+						<!-- Files Custom: Efeito Onda Assimétrica / Modelo de Forma Dinâmico -->
 						<Grid
 							x:Name="TabContainer"
 							Grid.Column="1"
@@ -142,7 +142,7 @@
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Control.IsTemplateFocusTarget="True"
-							CornerRadius="0,14,0,4"
+							CornerRadius="{ThemeResource App.Theme.Tab.CornerRadius}"
 							FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
 							<Grid.ColumnDefinitions>

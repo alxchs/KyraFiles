@@ -81,5 +81,11 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="density"></param>
 		void SetAppThemeDensity(AppDensityKind density);
+
+		/// <summary>
+		/// Overrides XAML corner radius resources and geometries according to the selected shape style.
+		/// </summary>
+		/// <param name="shapeStyle"></param>
+		void SetAppControlShapeStyle(ControlShapeStyleKind shapeStyle);
 	}
 }

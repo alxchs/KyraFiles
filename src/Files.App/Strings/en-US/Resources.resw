@@ -4752,6 +4752,39 @@
   <data name="AppDensityUltraCompact" xml:space="preserve">
     <value>Ultra-compact (OneCommander)</value>
   </data>
+  <data name="ControlShapeStyle" xml:space="preserve">
+    <value>Control &amp; Tab Shape Model</value>
+  </data>
+  <data name="ControlShapeFluentStandard" xml:space="preserve">
+    <value>Fluent Standard (Windows 11)</value>
+  </data>
+  <data name="ControlShapeTicketWave" xml:space="preserve">
+    <value>Ticket Wave (Concave Left / Triple Wave Right)</value>
+  </data>
+  <data name="ControlShapeRibbonDock" xml:space="preserve">
+    <value>Ribbon Dock (Concave Left / Dual Lobe Notch Right)</value>
+  </data>
+  <data name="ControlShapeCyberpunkTrapezoid" xml:space="preserve">
+    <value>Cyberpunk Trapezoid (Chamfered Dynamic)</value>
+  </data>
+  <data name="ControlShapeDirectionalPill" xml:space="preserve">
+    <value>Directional Pill (Full Left Arc / Flat Right)</value>
+  </data>
+  <data name="ControlShapeHexagonalTech" xml:space="preserve">
+    <value>Hexagonal Tech (Honeycomb Chamfer)</value>
+  </data>
+  <data name="ControlShapeSinusoidalWave" xml:space="preserve">
+    <value>Sinusoidal S-Curve (Continuous Organic)</value>
+  </data>
+  <data name="ControlShapeOrigamiFold" xml:space="preserve">
+    <value>Origami Fold (Asymmetric Diagonal)</value>
+  </data>
+  <data name="ControlShapeBoardingPass" xml:space="preserve">
+    <value>Boarding Pass (Compact Notch Punch)</value>
+  </data>
+  <data name="ControlShapeOrganicLeaf" xml:space="preserve">
+    <value>Organic Leaf (Opposing Rounded Pairs)</value>
+  </data>
   <data name="AppThemeFileAreaFontFamily" xml:space="preserve">
     <value>Files and columns font</value>
   </data>

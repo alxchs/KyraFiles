@@ -202,6 +202,13 @@ namespace Files.App.Services.Settings
 			set => Set((int)value);
 		}
 
+		/// <inheritdoc/>
+		public ControlShapeStyleKind ControlShapeStyle
+		{
+			get => (ControlShapeStyleKind)Get((int)ControlShapeStyleKind.FluentStandard);
+			set => Set((int)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

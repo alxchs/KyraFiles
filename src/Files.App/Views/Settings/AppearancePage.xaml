@@ -124,6 +124,17 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedAppDensityIndex, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
+			<!--  Control & Tab Shape Model (Files Custom)  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ControlShapeStyle}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE790;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=ControlShapeStyle}"
+					ItemsSource="{x:Bind ViewModel.ControlShapeStyleOptions, Mode=OneWay}"
+					SelectedIndex="{x:Bind ViewModel.SelectedControlShapeStyleIndex, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  App Background  -->
 			<wctcontrols:SettingsExpander
 				HorizontalAlignment="Stretch"

@@ -150,5 +150,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets the application density kind (Normal, Compact, UltraCompact).
 		/// </summary>
 		AppDensityKind AppDensity { get; set; }
+
+		/// <summary>
+		/// Gets or sets the geometric shape style model for controls, tabs and cards.
+		/// </summary>
+		ControlShapeStyleKind ControlShapeStyle { get; set; }
 	}
 }

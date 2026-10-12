@@ -18,6 +18,12 @@
 - OBSERVED (simulação `keybd_event`, não substitui o teclado físico): o teste acima. **NOT TESTED:** Win+E com o teclado físico do Alexandre; `HKCU...Run` do instalador (tarefa `startupwatchdog` do `FilesCustomSetup.iss` vem **desmarcada**; o instalador nunca foi executado).
 - Mudança no Watchdog: se o serviço sai com código 2 (hook não instalado, ver `hotkey.log` ao lado do exe), espera 5 s antes de reiniciar, em vez de 200 ms em loop.
 
+## F018 — Sobre e Verificar atualizações (12/10/2026)
+
+- CONFIRMED (`pwsh -File tools\perf\f018_help_menu_test.ps1`, app aberto, UI Automation + captura): menu Ajuda = Help | Release Notes | Check for updates | About | Open log file | ...; AC-1 True; AC-5 diálogo "No version has been published yet. You are using 4.2.37.0."; AC-2 página Sobre com "Version: 4.2.37.0" e botão "Check for updates" ao lado do "Copy". Build: 0 avisos, 0 erros.
+- NOT TESTED: AC-3 (mesma versão), AC-4 (versão maior: botão abre a página), AC-6 (sem rede); exigem apontar `CustomReleasesApiUrl` para um servidor de teste.
+- LIÇÃO (CONFIRMED): `dotnet build`/`mkfile d` **não atualiza** o layout `AppX\` registrado; só `.\Open-FilesDev.ps1 -Configuration Debug -NoLaunch` copia. Até 12/10 ~18:30 os testes visuais desta sessão rodaram um `Files.dll` das 13:11 (layout) enquanto o build era das 18:32. A prova "as 10 formas não derrubam o app" valia para o binário antigo e foi refeita depois do deploy.
+
 ## Gates
 
 | Gate | Descrição | Estado |

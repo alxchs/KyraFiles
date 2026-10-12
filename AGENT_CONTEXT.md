@@ -6,16 +6,16 @@ Estado atual, curto. Atualize ao mudar de tarefa, ao parar e ao receber bloqueio
 PROJECT        Files Custom (derivado do Files Community). Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível (rename, colunas, abas, menu, preview/details, busca). Ver MASTER_SPEC.md §2 e §44
 CURRENT PHASE  F015 (índice de busca próprio): spec, plan e tasks APROVADOS em 11/10/2026
-CURRENT TASK   F015 T7 (DirectoryScanner e HardLinkResolver)
+CURRENT TASK   Fila da AGY (12/10/2026, cota voltou): 1) F019 T1-T5 (docs/specs/F019-efeito-visivel-das-formas); 2) F017 T3-T5 (instalador/Run/desinstalação); 3) F015 T7
 ACCEPTANCE     docs/specs/F015-indice-de-busca/tasks.md, coluna "Pronto quando"
 DO NOT CHANGE  Fora dos arquivos listados no plan.md da F015
 REGRA COLAB    A branch colab é estritamente origem e destino final de integração. Nunca desenvolver diretamente nela.
-OWNER          Antigravity (execução autônoma T3-T12); Alexandre para cliques UAC (T1, T2a)
+OWNER          Antigravity (F019, F017 T3-T6, F015 T7-T12); Claude revisa; Alexandre para cliques UAC (T1, T2a)
 CURRENT BRANCH feature/f015-indice-de-busca
 LAST DECISION  D-019: índice próprio em dois modos; D-020 (PENDING teste elevado)
-NEXT ACTION    Executar T7; Alexandre aciona UAC para T1 e T2a quando oportuno
+NEXT ACTION    AGY executa a fila acima na ordem; testar visual SO depois de .Open-FilesDev.ps1 -Configuration Debug -NoLaunch
 BLOCKER        Nenhum para T3-T12 (modo básico não requer admin)
 SIDE WORK      Formas de controle/aba (ControlShapeStyle, 10 modelos), fora do escopo da F015, sem spec: fechada em fbf052335 (build 0/0; abre e não cai nas 10 formas; aparência de cada forma NOT TESTED). Pendente: spec retroativa ou mover para branch própria antes de integrar
 F017 WIN+E    T1/T2 corrigidas pelo Claude em 12/10/2026 (AGY sem cota; autorização permanente + delegar de volta quando a cota voltar): hook WH_KEYBOARD_LL + URI files-dev: exato; OBSERVED por simulação (f017_win_e_test.ps1), teclado físico e instalador NOT TESTED. Próximo da F017: T3-T6 (instalador/Run/atualizador/medição)
-LAST UPDATE    2026-10-12 — Claude (F017 T1/T2)
+LAST UPDATE    2026-10-12 — Claude (delegado à AGY)
 ```

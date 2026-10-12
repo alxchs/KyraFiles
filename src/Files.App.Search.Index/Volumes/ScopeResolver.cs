@@ -152,3 +152,4 @@ public readonly record struct ResolvedScope(
 	string UserPrefix,
 	string RealPrefix,
 	bool IsGlobal);
+

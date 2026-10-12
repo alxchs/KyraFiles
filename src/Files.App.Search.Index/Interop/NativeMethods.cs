@@ -68,3 +68,4 @@ internal static partial class NativeMethods
 		uint cchFilePath,
 		uint dwFlags);
 }
+

@@ -32,3 +32,4 @@ public sealed class VolumeInfo
 
 	public override string ToString() => $"{DisplayRoot} ({VolumeGuid})";
 }
+

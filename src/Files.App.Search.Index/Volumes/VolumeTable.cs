@@ -240,3 +240,4 @@ public sealed class VolumeTable
 		return idx >= 0 ? idx : span.Length;
 	}
 }
+

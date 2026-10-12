@@ -246,7 +246,7 @@
 										<Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
 										<Setter Target="SelectedBackgroundPath.Visibility" Value="Collapsed" />
 										<Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
-										<Setter Target="TabContainer.CornerRadius" Value="0,14,0,4" />
+										<Setter Target="TabContainer.CornerRadius" Value="{ThemeResource App.Theme.Tab.CornerRadius}" />
 										<Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
 										<Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
 										<Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
@@ -263,10 +263,11 @@
 								<VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="BottomBorderLine.Visibility" Value="Collapsed" />
-										<Setter Target="RightRadiusRenderArc.Visibility" Value="Visible" />
-										<Setter Target="LeftRadiusRenderArc.Visibility" Value="Visible" />
-										<Setter Target="SelectedBackgroundPath.Visibility" Value="Visible" />
-										<Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+										<Setter Target="RightRadiusRenderArc.Visibility" Value="Collapsed" />
+										<Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
+										<Setter Target="SelectedBackgroundPath.Visibility" Value="Collapsed" />
+										<Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+										<Setter Target="TabContainer.CornerRadius" Value="{ThemeResource App.Theme.Tab.CornerRadius}" />
 										<Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
 										<Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
 										<Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
@@ -284,10 +285,11 @@
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="BottomBorderLine.Visibility" Value="Collapsed" />
-										<Setter Target="RightRadiusRenderArc.Visibility" Value="Visible" />
-										<Setter Target="LeftRadiusRenderArc.Visibility" Value="Visible" />
-										<Setter Target="SelectedBackgroundPath.Visibility" Value="Visible" />
-										<Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+										<Setter Target="RightRadiusRenderArc.Visibility" Value="Collapsed" />
+										<Setter Target="LeftRadiusRenderArc.Visibility" Value="Collapsed" />
+										<Setter Target="SelectedBackgroundPath.Visibility" Value="Collapsed" />
+										<Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
+										<Setter Target="TabContainer.CornerRadius" Value="{ThemeResource App.Theme.Tab.CornerRadius}" />
 										<Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
 										<Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
 										<Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />

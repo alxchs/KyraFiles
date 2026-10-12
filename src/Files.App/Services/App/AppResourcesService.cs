@@ -139,22 +139,22 @@ namespace Files.App.Services
 				ControlShapeStyleKind.CyberpunkTrapezoid => (new CornerRadius(0, 12, 0, 6), new CornerRadius(0, 16, 0, 8), new CornerRadius(0, 16, 0, 4)),
 
 				// Pílula Direcional: Esquerda 100% arredondada, direita reta
-				ControlShapeStyleKind.DirectionalPill => (new CornerRadius(12, 2, 2, 12), new CornerRadius(16, 4, 4, 16), new CornerRadius(14, 4, 0, 0)),
+				ControlShapeStyleKind.DirectionalPill => (new CornerRadius(14, 0, 0, 14), new CornerRadius(18, 0, 0, 18), new CornerRadius(16, 0, 0, 0)),
 
 				// Hexagonal Tech: Chanfros moderados simétricos
 				ControlShapeStyleKind.HexagonalTech => (new CornerRadius(2, 12, 2, 12), new CornerRadius(4, 16, 4, 16), new CornerRadius(4, 14, 0, 0)),
 
-				// Onda Sinusoidal: Curva orgânica contínua
-				ControlShapeStyleKind.SinusoidalWave => (new CornerRadius(0, 14, 4, 10), new CornerRadius(0, 18, 6, 12), new CornerRadius(0, 16, 4, 6)),
+				// Onda Sinusoidal com Inversão no Meio (convexa no topo -> côncava na base)
+				ControlShapeStyleKind.SinusoidalWave => (new CornerRadius(14, 0, 14, 0), new CornerRadius(18, 0, 18, 0), new CornerRadius(14, 0, 12, 0)),
 
-				// Origami Fold: Dobradura assimétrica
-				ControlShapeStyleKind.OrigamiFold => (new CornerRadius(14, 0, 14, 0), new CornerRadius(18, 0, 18, 0), new CornerRadius(16, 0, 4, 0)),
+				// Serrilhado Triangular (Zigue-zague)
+				ControlShapeStyleKind.SawtoothTriangle => (new CornerRadius(0, 8, 8, 0), new CornerRadius(0, 14, 14, 0), new CornerRadius(0, 14, 0, 4)),
 
-				// Cartão de Embarque: Canto compacto
-				ControlShapeStyleKind.BoardingPass => (new CornerRadius(4, 4, 4, 4), new CornerRadius(6, 6, 6, 6), new CornerRadius(6, 6, 0, 0)),
+				// Bi-Côncavo (Ampulheta / Curva dos 2 lados para dentro)
+				ControlShapeStyleKind.BiConcaveHourglass => (new CornerRadius(0, 0, 0, 0), new CornerRadius(2, 2, 2, 2), new CornerRadius(0, 0, 0, 0)),
 
-				// Folha Orgânica: Diagonal suave
-				ControlShapeStyleKind.OrganicLeaf => (new CornerRadius(14, 0, 14, 0), new CornerRadius(18, 2, 18, 2), new CornerRadius(14, 2, 2, 0)),
+				// Híbrido Tech: Topo em curva, base em cantos retos vivos de 90°
+				ControlShapeStyleKind.HybridRectangular => (new CornerRadius(12, 12, 0, 0), new CornerRadius(16, 16, 0, 0), new CornerRadius(14, 14, 0, 0)),
 
 				// Padrão Fluent (original do Windows 11)
 				_ => (new CornerRadius(4), new CornerRadius(8), new CornerRadius(8, 8, 0, 0))

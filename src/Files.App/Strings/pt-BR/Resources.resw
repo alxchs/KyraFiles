@@ -4768,16 +4768,16 @@
     <value>Hexagonal Tech (Chanfro Colmeia)</value>
   </data>
   <data name="ControlShapeSinusoidalWave" xml:space="preserve">
-    <value>Onda Sinusoidal (Curva Orgânica Contínua)</value>
+    <value>Inversão Central S-Curve (Convexo no topo e Côncavo na base)</value>
   </data>
-  <data name="ControlShapeOrigamiFold" xml:space="preserve">
-    <value>Origami (Dobradura Diagonal Assimétrica)</value>
+  <data name="ControlShapeSawtoothTriangle" xml:space="preserve">
+    <value>Serrilhado Triangular (Esquerda Côncava / Dentes Zigue-Zague Direita)</value>
   </data>
-  <data name="ControlShapeBoardingPass" xml:space="preserve">
-    <value>Cartão de Embarque (Entalhe Compacto)</value>
+  <data name="ControlShapeBiConcaveHourglass" xml:space="preserve">
+    <value>Bi-Côncavo Ampulheta (Ambos os lados curvados para dentro)</value>
   </data>
-  <data name="ControlShapeOrganicLeaf" xml:space="preserve">
-    <value>Folha Orgânica (Cantos Arredondados Opostos)</value>
+  <data name="ControlShapeHybridRectangular" xml:space="preserve">
+    <value>Híbrido Tech (Topo Curvo / Base em Cantos Retos 90°)</value>
   </data>
   <data name="AppThemeFileAreaFontFamily" xml:space="preserve">
     <value>Fonte dos arquivos e colunas</value>

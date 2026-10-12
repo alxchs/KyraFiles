@@ -4774,16 +4774,16 @@
     <value>Hexagonal Tech (Honeycomb Chamfer)</value>
   </data>
   <data name="ControlShapeSinusoidalWave" xml:space="preserve">
-    <value>Sinusoidal S-Curve (Continuous Organic)</value>
+    <value>Midpoint S-Curve Invert (Convex to Concave Wave)</value>
   </data>
-  <data name="ControlShapeOrigamiFold" xml:space="preserve">
-    <value>Origami Fold (Asymmetric Diagonal)</value>
+  <data name="ControlShapeSawtoothTriangle" xml:space="preserve">
+    <value>Sawtooth Triangle (Left Concave / Right Zig-Zag Teeth)</value>
   </data>
-  <data name="ControlShapeBoardingPass" xml:space="preserve">
-    <value>Boarding Pass (Compact Notch Punch)</value>
+  <data name="ControlShapeBiConcaveHourglass" xml:space="preserve">
+    <value>Bi-Concave Hourglass (Both Sides Inward Curve)</value>
   </data>
-  <data name="ControlShapeOrganicLeaf" xml:space="preserve">
-    <value>Organic Leaf (Opposing Rounded Pairs)</value>
+  <data name="ControlShapeHybridRectangular" xml:space="preserve">
+    <value>Hybrid Tech (Top Curve / Bottom Sharp 90° Corner)</value>
   </data>
   <data name="AppThemeFileAreaFontFamily" xml:space="preserve">
     <value>Files and columns font</value>

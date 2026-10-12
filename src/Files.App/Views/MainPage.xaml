@@ -111,7 +111,7 @@
 			Modifiers="Control" />
 	</Page.KeyboardAccelerators>
 
-	<Grid>
+	<Grid x:Name="ShellWindowContainer" Margin="4">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -243,6 +243,7 @@
 
 					<!--  Page Content  -->
 					<Border
+						x:Name="FileAreaBorder"
 						Grid.Row="2"
 						Grid.Column="0"
 						CornerRadius="{ThemeResource OverlayCornerRadius}"

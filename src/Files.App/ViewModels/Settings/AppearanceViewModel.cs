@@ -72,9 +72,9 @@ namespace Files.App.ViewModels.Settings
 				Strings.ControlShapeDirectionalPill.GetLocalizedResource(),
 				Strings.ControlShapeHexagonalTech.GetLocalizedResource(),
 				Strings.ControlShapeSinusoidalWave.GetLocalizedResource(),
-				Strings.ControlShapeOrigamiFold.GetLocalizedResource(),
-				Strings.ControlShapeBoardingPass.GetLocalizedResource(),
-				Strings.ControlShapeOrganicLeaf.GetLocalizedResource(),
+				Strings.ControlShapeSawtoothTriangle.GetLocalizedResource(),
+				Strings.ControlShapeBiConcaveHourglass.GetLocalizedResource(),
+				Strings.ControlShapeHybridRectangular.GetLocalizedResource(),
 			];
 			selectedControlShapeStyleIndex = (int)UserSettingsService.AppearanceSettingsService.ControlShapeStyle;
 

@@ -114,7 +114,18 @@ namespace Files.App.Views
 				case nameof(IAppearanceSettingsService.SidebarWidth):
 					ApplySidebarWidthState();
 					break;
+				case nameof(IAppearanceSettingsService.ControlShapeStyle):
+					ApplyShapeClip();
+					break;
 			}
+		}
+
+		private void ApplyShapeClip()
+		{
+			var style = UserSettingsService.AppearanceSettingsService.ControlShapeStyle;
+
+			ShapeGeometryHelper.ApplyClip(ShellWindowContainer, style);
+			ShapeGeometryHelper.ApplyClip(FileAreaBorder, style);
 		}
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -345,6 +356,17 @@ namespace Files.App.Views
 			{
 				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
 			}
+
+			ApplyShapeClip();
+			ShellWindowContainer.SizeChanged -= ShapeTarget_SizeChanged;
+			ShellWindowContainer.SizeChanged += ShapeTarget_SizeChanged;
+			FileAreaBorder.SizeChanged -= ShapeTarget_SizeChanged;
+			FileAreaBorder.SizeChanged += ShapeTarget_SizeChanged;
+		}
+
+		private void ShapeTarget_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			ApplyShapeClip();
 		}
 
 		private void PreviewPane_Loaded(object sender, RoutedEventArgs e)

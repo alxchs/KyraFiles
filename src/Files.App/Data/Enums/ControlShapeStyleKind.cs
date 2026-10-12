@@ -39,24 +39,23 @@ namespace Files.App.Data.Enums
 		HexagonalTech = 5,
 
 		/// <summary>
-		/// Sinusoidal S-Curve: Smooth continuous sine wave transitions.
+		/// Sinusoidal Invert: Left curve inverts at midpoint (convex to concave), right complementary wave.
 		/// </summary>
 		SinusoidalWave = 6,
 
 		/// <summary>
-		/// Origami Fold: Asymmetric folded corner geometry.
+		/// Triangular Sawtooth: Left concave curve, right with prominent triangular zig-zag sawtooth teeth.
 		/// </summary>
-		OrigamiFold = 7,
+		SawtoothTriangle = 7,
 
 		/// <summary>
-		/// Boarding Pass: Symmetric side circular punch notches.
+		/// Bi-Concave Hourglass: Both left and right curved deeply inward towards the center.
 		/// </summary>
-		BoardingPass = 8,
+		BiConcaveHourglass = 8,
 
 		/// <summary>
-		/// Organic Leaf: Diagonal rounded pairs (top-left and bottom-right rounded, others straight).
+		/// Hybrid Tech: Top half curved, bottom half sharp rectangular 90° corner.
 		/// </summary>
-		OrganicLeaf = 9,
+		HybridRectangular = 9,
 	}
 }
-

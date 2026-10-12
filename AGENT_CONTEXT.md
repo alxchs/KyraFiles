@@ -16,5 +16,6 @@ LAST DECISION  D-019: índice próprio em dois modos; D-020 (PENDING teste eleva
 NEXT ACTION    Executar T7; Alexandre aciona UAC para T1 e T2a quando oportuno
 BLOCKER        Nenhum para T3-T12 (modo básico não requer admin)
 SIDE WORK      Formas de controle/aba (ControlShapeStyle, 10 modelos), fora do escopo da F015, sem spec: fechada em fbf052335 (build 0/0; abre e não cai nas 10 formas; aparência de cada forma NOT TESTED). Pendente: spec retroativa ou mover para branch própria antes de integrar
-LAST UPDATE    2026-10-12 — Claude (revisão do pendente da AGY)
+F017 WIN+E    T1/T2 corrigidas pelo Claude em 12/10/2026 (AGY sem cota; autorização permanente + delegar de volta quando a cota voltar): hook WH_KEYBOARD_LL + URI files-dev: exato; OBSERVED por simulação (f017_win_e_test.ps1), teclado físico e instalador NOT TESTED. Próximo da F017: T3-T6 (instalador/Run/atualizador/medição)
+LAST UPDATE    2026-10-12 — Claude (F017 T1/T2)
 ```

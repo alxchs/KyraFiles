@@ -9,6 +9,15 @@
 - CONFIRMED (03/10/2026, G0 FECHADO): smoke test completo do §16 (itens 1 a 9) executado e validado no app aberto por `Open-FilesDev.ps1` (pacote 4.2.37.0), com capturas de tela e comandos de evidência registrados. Linha de base de CPU/RAM e A/B do backdrop (F007-A) medidos e documentados em `tools/perf/README.md`.
 - Pendente: o merge ainda não foi enviado (push) para `custom/main`.
 
+## F017 — Win+E (12/10/2026, Claude por falta de cota da AGY)
+
+- CONFIRMED: `RegisterHotKey(MOD_WIN,'E')` falha com erro 1409; o Win+Y (controle) registra. Teste: P/Invoke em PowerShell. Com o serviço antigo vivo, Win+E simulado abriu o Explorer (janelas 3 -> 4) e o Files não abriu. Ver D-021.
+- CONFIRMED: o URI `files-dev:?tab=Home` derrubava o Files (`TabBarItemParameter.Deserialize`: "'H' is an invalid start of a value", em `debug.log`). O ramo do `MainWindow` feito para Win+E é o URI exato `files-dev:`. O serviço passou a usá-lo.
+- CONFIRMED (hook `WH_KEYBOARD_LL`): `pwsh -File toolsperf017_win_e_test.ps1`, 2 rodadas seguidas, saídas idênticas: AC-1 Files rodando = True e janelas do Explorer 2/2, menu Iniciar não abriu; AC-2 Files em primeiro plano com o Files já aberto (Explorer 2/2); AC-3 `taskkill /F` do serviço reaparece em 228 ms e 242 ms (inclui polling de 10 ms) e o Win+E segue funcionando (Explorer 2/2, Files rodando); AC-7 encerrar pelo evento `GlobalFilesCustom_ShutdownHotkeyService` devolve o Win+E ao Explorer (janelas 2 -> 3, Files não abre).
+- CONFIRMED: build com MSBuild Release x64, 0 avisos: `Files.HotkeyService.exe` 107008 bytes, `Files.Watchdog.exe` 108032 bytes (< 150 KB).
+- OBSERVED (simulação `keybd_event`, não substitui o teclado físico): o teste acima. **NOT TESTED:** Win+E com o teclado físico do Alexandre; `HKCU...Run` do instalador (tarefa `startupwatchdog` do `FilesCustomSetup.iss` vem **desmarcada**; o instalador nunca foi executado).
+- Mudança no Watchdog: se o serviço sai com código 2 (hook não instalado, ver `hotkey.log` ao lado do exe), espera 5 s antes de reiniciar, em vez de 200 ms em loop.
+
 ## Gates
 
 | Gate | Descrição | Estado |

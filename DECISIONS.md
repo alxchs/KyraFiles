@@ -180,3 +180,5 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Reason:** reversão imediata, nenhum estado persistente fora do `Run`, vale sem reiniciar o Explorer.
 - **Trade-offs:** hook de baixo nível roda no caminho de toda tecla (o callback precisa ser mínimo: o Windows desativa o hook que passa de `LowLevelHooksTimeout`); antivírus podem desconfiar de hook global; precisa tratar o menu Iniciar abrindo ao soltar a tecla Win após engolir o E.
 - **Consequences:** `plan.md` §1.1 e a tarefa T1 mudam de mecanismo (comportamento da spec inalterado). T1 volta a "pendente" até a prova real: Win+E físico/simulado abre o Files, e `explorer.exe` não ganha janela nova.
+
+- **Adendo (12/10/2026):** o URI do protocolo passa a ser `files-dev:` exato. `files-dev:?tab=Home` (da spec/plan originais) cai no ramo do `MainWindow` que lê JSON de aba (`TabBarItemParameter.Deserialize`) e derruba o Files (`debug.log`: "'H' is an invalid start of a value"). Implementada por Claude por falta de cota da AGY (autorização permanente do Alexandre em 12/10/2026).

@@ -65,6 +65,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             HANDLE waitHandles[2] = { pi.hProcess, hShutdownEvent };
             DWORD waitResult = WaitForMultipleObjects(2, waitHandles, FALSE, INFINITE);
 
+            DWORD exitCode = 0;
+            if (waitResult == WAIT_OBJECT_0)
+            {
+                GetExitCodeProcess(pi.hProcess, &exitCode);
+            }
+
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
 
@@ -74,8 +80,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
                 break;
             }
 
-            // Se o Worker morreu (WAIT_OBJECT_0), aguarda ~200ms e recria imediatamente
-            Sleep(200);
+            // Codigo 2: o Worker nao conseguiu instalar o hook (ver hotkey.log). Reiniciar a cada 200ms so
+            // gastaria CPU, entao espera mais; qualquer outra morte volta em ~200ms.
+            Sleep(exitCode == 2 ? 5000 : 200);
         }
         else
         {

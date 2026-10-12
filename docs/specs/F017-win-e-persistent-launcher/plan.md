@@ -11,9 +11,9 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
 1. **`Files.HotkeyService.exe` (Worker de Atalho)**:
    - Executável C++ nativo puro (~100 KB).
    - Sem UI (`WinMain`, sem janelas visíveis).
-   - Registra `RegisterHotKey(hWnd, 1, MOD_WIN | MOD_NOREPEAT, 'E')`.
+   - Instala um hook `WH_KEYBOARD_LL` que engole Win+E (D-021: `RegisterHotKey` falha com erro 1409 porque o Explorer é dono do atalho).
    - Ao receber o evento:
-     - Dispara `ShellExecuteW(NULL, L"open", L"files-dev:?tab=Home", NULL, NULL, SW_SHOWNORMAL)`.
+     - Dispara `ShellExecuteW(NULL, L"open", L"files-dev:", NULL, NULL, SW_SHOWNORMAL)` (URI exato do ramo Win+E do `MainWindow`; com query o app tenta ler JSON de aba e quebra).
      - Se o Files estiver aberto, o protocolo cai na instância ativa em < 15 ms.
      - Se estiver fechado, o Files é acionado imediatamente sem acionar o Windows Explorer.
 

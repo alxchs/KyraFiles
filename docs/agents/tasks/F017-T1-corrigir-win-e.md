@@ -1,3 +1,5 @@
+> CUMPRIDO em 12/10/2026 pelo Claude (AGY sem cota). Evidência em `STATUS.md` (bloco F017). Mecanismo e URI finais: `DECISIONS.md` D-021 + adendo. Falta só o teste com o teclado físico.
+
 # F017 T1 (correção) — Win+E ainda abre o Windows Explorer
 
 Dono: AGY. Aprovado por: Claude, 12/10/2026. Decisão: `DECISIONS.md` D-021. Spec/FR/AC: `docs/specs/F017-*/spec.md` (FR-001..003, AC-1, AC-2) — comportamento não muda, só o mecanismo.

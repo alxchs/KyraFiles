@@ -1,4 +1,4 @@
-﻿# Compila os projetos C++ do upstream que o `dotnet build` (mkfile) não compila:
+# Compila os projetos C++ do upstream que o `dotnet build` (mkfile) não compila:
 # Files.App.Launcher (gerenciador padrão / Win+E) e as DLLs de diálogo de abrir/salvar.
 # O pós-build de cada projeto copia a saída para src\Files.App\Assets\FilesOpenDialog,
 # que entra no pacote. Rode antes do mkfile quando esses projetos mudarem ou num clone novo.
@@ -41,6 +41,8 @@ if ($LASTEXITCODE) { throw 'Falha no restore do launcher.' }
 
 $builds = @(
     @('src\Files.App.Launcher\Files.App.Launcher.vcxproj', 'x64'),
+    @('src\Files.HotkeyService\Files.HotkeyService.vcxproj', 'x64'),
+    @('src\Files.Watchdog\Files.Watchdog.vcxproj', 'x64'),
     @('src\Files.App.OpenDialog\Files.App.OpenDialog.vcxproj', 'x64'),
     @('src\Files.App.OpenDialog\Files.App.OpenDialog.Win32.vcxproj', 'Win32'),
     @('src\Files.App.SaveDialog\Files.App.SaveDialog.vcxproj', 'x64'),

@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:helpers="using:Files.App.Helpers">
 
 	<Style x:Key="TabBarCloseButtonStyle" TargetType="Button">
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -143,7 +146,8 @@
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Control.IsTemplateFocusTarget="True"
 							CornerRadius="{ThemeResource App.Theme.Tab.CornerRadius}"
-							FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
+							FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+							helpers:ShapeClip.Scale="1">
 
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="Auto" />

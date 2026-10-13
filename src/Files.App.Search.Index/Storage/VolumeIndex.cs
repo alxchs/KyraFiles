@@ -11,6 +11,9 @@ namespace Files.App.Search.Index.Storage;
 /// </summary>
 public sealed class VolumeIndex
 {
+	public const int RootParentIndex = -1;
+	public const int DeletedParentIndex = -2;
+
 	private const int DefaultInitialCapacity = 1024;
 	private const int FileAttributeDirectory = 0x00000010;
 	private const int MaxDirectoryDepth = 256;
@@ -33,6 +36,10 @@ public sealed class VolumeIndex
 	private int _count;
 	private int _bytesCount;
 
+	// Mapa opcional construído sob demanda para atualizações em tempo real (ChangeWatcher / Reconciler)
+	private Dictionary<ulong, int>? _indexByFileRef;
+
+	public object SyncRoot { get; } = new();
 	public Guid VolumeGuid { get; }
 	public string VolumeRoot { get; set; }
 	public int Count => _count;
@@ -81,11 +88,119 @@ public sealed class VolumeIndex
 		_lastWriteTimesUtcTicks[index] = lastWriteTime.UtcTicks;
 		_fileAttributes[index] = attributes;
 
-		// 1. Gera bytes normalizados
+		WriteNames(index, name);
+
+		if (_indexByFileRef is not null && fileReference != 0)
+			_indexByFileRef[fileReference] = index;
+
+		return index;
+	}
+
+	/// <summary>
+	/// Atualiza o pai e o nome de uma entrada já registrada (usado quando um hardlink secundário
+	/// foi encontrado antes do caminho primário retornado por FindFirstFileNameW — FR-016).
+	/// </summary>
+	public void UpdateLocationAndName(int index, int parentIndex, string name)
+	{
+		if (index < 0 || index >= _count)
+			return;
+
+		_parentIndices[index] = parentIndex;
+		WriteNames(index, name);
+	}
+
+	/// <summary>
+	/// Atualiza todos os metadados de uma entrada existente no índice (usado por ChangeWatcher e Reconciler).
+	/// </summary>
+	public void UpdateEntry(
+		int index,
+		int parentIndex,
+		string name,
+		long size,
+		DateTimeOffset creationTime,
+		DateTimeOffset lastWriteTime,
+		uint attributes)
+	{
+		if (index < 0 || index >= _count)
+			return;
+
+		_parentIndices[index] = parentIndex;
+		_fileSizes[index] = size;
+		_creationTimesUtcTicks[index] = creationTime.UtcTicks;
+		_lastWriteTimesUtcTicks[index] = lastWriteTime.UtcTicks;
+		_fileAttributes[index] = attributes;
+
+		if (!string.Equals(GetName(index), name, StringComparison.Ordinal))
+		{
+			WriteNames(index, name);
+		}
+	}
+
+	/// <summary>
+	/// Atualiza a data de última modificação de uma entrada (ex.: pasta reconciliada).
+	/// </summary>
+	public void SetLastWriteTime(int index, DateTimeOffset lastWriteTime)
+	{
+		if (index >= 0 && index < _count)
+			_lastWriteTimesUtcTicks[index] = lastWriteTime.UtcTicks;
+	}
+
+	/// <summary>
+	/// Marca um item (e todos os seus descendentes, se for diretório) como excluído.
+	/// </summary>
+	public int MarkDeleted(int index)
+	{
+		if (index < 0 || index >= _count || _parentIndices[index] == DeletedParentIndex)
+			return 0;
+
+		bool isDir = IsDirectory(index);
+		DeleteSingleEntry(index);
+		int deletedCount = 1;
+
+		if (isDir)
+		{
+			var targetDirs = new HashSet<int> { index };
+			bool addedSubDir = true;
+			while (addedSubDir)
+			{
+				addedSubDir = false;
+				for (int i = 0; i < _count; i++)
+				{
+					int p = _parentIndices[i];
+					if (p >= 0 && targetDirs.Contains(p))
+					{
+						if (IsDirectory(i) && targetDirs.Add(i))
+							addedSubDir = true;
+
+						if (_parentIndices[i] != DeletedParentIndex)
+						{
+							DeleteSingleEntry(i);
+							deletedCount++;
+						}
+					}
+				}
+			}
+		}
+
+		return deletedCount;
+	}
+
+	private void DeleteSingleEntry(int index)
+	{
+		ulong fileRef = _fileReferences[index];
+		if (_indexByFileRef is not null && fileRef != 0)
+			_indexByFileRef.Remove(fileRef);
+
+		_fileReferences[index] = 0;
+		_parentIndices[index] = DeletedParentIndex;
+		_normalizedNameLengths[index] = 0;
+		_originalNameLengths[index] = 0;
+	}
+
+	private void WriteNames(int index, string name)
+	{
 		byte[] normalizedBytes = NameNormalizer.NormalizeToUtf8(name);
 		ushort normLen = (ushort)Math.Min(ushort.MaxValue, normalizedBytes.Length);
-
-		// 2. Calcula bytes originais
 		int origLen = Encoding.UTF8.GetByteCount(name);
 		ushort origLenU16 = (ushort)Math.Min(ushort.MaxValue, origLen);
 
@@ -97,15 +212,97 @@ public sealed class VolumeIndex
 		_normalizedNameLengths[index] = normLen;
 		_originalNameLengths[index] = origLenU16;
 
-		// Copia normalizado
 		Array.Copy(normalizedBytes, 0, _namesBuffer, offset, normLen);
-
-		// Grava original logo em seguida
 		Encoding.UTF8.GetBytes(name, 0, name.Length, _namesBuffer, offset + normLen);
 
 		_bytesCount += totalBytesForItem;
-		return index;
 	}
+
+	/// <summary>
+	/// Busca o índice de um item pelo seu FileReference (O(1) após inicialização do mapa).
+	/// Retorna -1 se não encontrado ou excluído.
+	/// </summary>
+	public int FindByFileReference(ulong fileReference)
+	{
+		if (fileReference == 0)
+			return -1;
+
+		if (_indexByFileRef is null)
+		{
+			_indexByFileRef = new Dictionary<ulong, int>(_count);
+			for (int i = 0; i < _count; i++)
+			{
+				if (_parentIndices[i] != DeletedParentIndex && _fileReferences[i] != 0)
+					_indexByFileRef[_fileReferences[i]] = i;
+			}
+		}
+
+		return _indexByFileRef.TryGetValue(fileReference, out int idx) && _parentIndices[idx] != DeletedParentIndex
+			? idx
+			: -1;
+	}
+
+	/// <summary>
+	/// Busca o índice de um filho imediato de <paramref name="parentIndex"/> pelo nome (case-insensitive).
+	/// Retorna -1 se não encontrado.
+	/// </summary>
+	public int FindByParentAndName(int parentIndex, ReadOnlySpan<char> name)
+	{
+		for (int i = 0; i < _count; i++)
+		{
+			if (_parentIndices[i] == parentIndex && _originalNameLengths[i] > 0)
+			{
+				if (GetName(i).AsSpan().Equals(name, StringComparison.OrdinalIgnoreCase))
+					return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/// <summary>
+	/// Resolve o índice de um diretório a partir do caminho relativo à raiz do volume (ex.: "SubA\SubB").
+	/// Retorna -1 para a própria raiz do volume, ou -2 se algum segmento não existir.
+	/// </summary>
+	public int FindDirectoryIndexByRelativePath(ReadOnlySpan<char> relativePath)
+	{
+		ReadOnlySpan<char> trimmed = relativePath.Trim('\\');
+		if (trimmed.IsEmpty)
+			return RootParentIndex;
+
+		int currentParent = RootParentIndex;
+		while (!trimmed.IsEmpty)
+		{
+			int slash = trimmed.IndexOf('\\');
+			ReadOnlySpan<char> segment = slash >= 0 ? trimmed[..slash] : trimmed;
+			trimmed = slash >= 0 ? trimmed[(slash + 1)..].TrimStart('\\') : ReadOnlySpan<char>.Empty;
+
+			int found = -1;
+			for (int i = 0; i < _count; i++)
+			{
+				if (_parentIndices[i] == currentParent && IsDirectory(i) && _originalNameLengths[i] > 0)
+				{
+					if (GetName(i).AsSpan().Equals(segment, StringComparison.OrdinalIgnoreCase))
+					{
+						found = i;
+						break;
+					}
+				}
+			}
+
+			if (found < 0)
+				return DeletedParentIndex;
+
+			currentParent = found;
+		}
+
+		return currentParent;
+	}
+
+	/// <summary>
+	/// Indica se a entrada na posição <paramref name="index"/> foi marcada como excluída.
+	/// </summary>
+	public bool IsDeleted(int index) => index < 0 || index >= _count || _parentIndices[index] == DeletedParentIndex;
 
 	/// <summary>
 	/// Retorna a referência de arquivo (FRN / FileId).
@@ -113,7 +310,7 @@ public sealed class VolumeIndex
 	public ulong GetFileReference(int index) => _fileReferences[index];
 
 	/// <summary>
-	/// Retorna o índice do nó pai (-1 para raiz).
+	/// Retorna o índice do nó pai (-1 para raiz, -2 para excluído).
 	/// </summary>
 	public int GetParentIndex(int index) => _parentIndices[index];
 
@@ -270,4 +467,94 @@ public sealed class VolumeIndex
 			Array.Resize(ref _namesBuffer, _bytesCount);
 		}
 	}
+
+	private VolumeIndex(
+		Guid volumeGuid,
+		string volumeRoot,
+		int count,
+		int bytesCount,
+		ulong[] fileReferences,
+		int[] parentIndices,
+		long[] fileSizes,
+		long[] creationTimesUtcTicks,
+		long[] lastWriteTimesUtcTicks,
+		uint[] fileAttributes,
+		int[] nameOffsets,
+		ushort[] normalizedNameLengths,
+		ushort[] originalNameLengths,
+		byte[] namesBuffer)
+	{
+		VolumeGuid = volumeGuid;
+		VolumeRoot = volumeRoot.TrimEnd('\\') + '\\';
+		_count = count;
+		_bytesCount = bytesCount;
+		_fileReferences = fileReferences;
+		_parentIndices = parentIndices;
+		_fileSizes = fileSizes;
+		_creationTimesUtcTicks = creationTimesUtcTicks;
+		_lastWriteTimesUtcTicks = lastWriteTimesUtcTicks;
+		_fileAttributes = fileAttributes;
+		_nameOffsets = nameOffsets;
+		_normalizedNameLengths = normalizedNameLengths;
+		_originalNameLengths = originalNameLengths;
+		_namesBuffer = namesBuffer;
+	}
+
+	internal static VolumeIndex FromRawArrays(
+		Guid volumeGuid,
+		string volumeRoot,
+		int count,
+		int bytesCount,
+		ulong[] fileReferences,
+		int[] parentIndices,
+		long[] fileSizes,
+		long[] creationTimesUtcTicks,
+		long[] lastWriteTimesUtcTicks,
+		uint[] fileAttributes,
+		int[] nameOffsets,
+		ushort[] normalizedNameLengths,
+		ushort[] originalNameLengths,
+		byte[] namesBuffer)
+		=> new(
+			volumeGuid,
+			volumeRoot,
+			count,
+			bytesCount,
+			fileReferences,
+			parentIndices,
+			fileSizes,
+			creationTimesUtcTicks,
+			lastWriteTimesUtcTicks,
+			fileAttributes,
+			nameOffsets,
+			normalizedNameLengths,
+			originalNameLengths,
+			namesBuffer);
+
+	internal (
+		int Count,
+		int BytesCount,
+		ulong[] FileReferences,
+		int[] ParentIndices,
+		long[] FileSizes,
+		long[] CreationTimesUtcTicks,
+		long[] LastWriteTimesUtcTicks,
+		uint[] FileAttributes,
+		int[] NameOffsets,
+		ushort[] NormalizedNameLengths,
+		ushort[] OriginalNameLengths,
+		byte[] NamesBuffer) GetRawArrays()
+		=> (
+			_count,
+			_bytesCount,
+			_fileReferences,
+			_parentIndices,
+			_fileSizes,
+			_creationTimesUtcTicks,
+			_lastWriteTimesUtcTicks,
+			_fileAttributes,
+			_nameOffsets,
+			_normalizedNameLengths,
+			_originalNameLengths,
+			_namesBuffer);
 }

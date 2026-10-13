@@ -70,6 +70,9 @@ public sealed class QueryEngine
 				break;
 			}
 
+			if (volume.IsDeleted(i))
+				continue;
+
 			// 1. Filtro de escopo de subárvore
 			if (scopeFolders is not null)
 			{
@@ -80,7 +83,7 @@ public sealed class QueryEngine
 
 			// 2. Avaliação de correspondência sobre bytes UTF-8 (zero alocações)
 			var normalizedUtf8 = volume.GetNormalizedNameUtf8(i);
-			if (!matcher.MatchesNormalizedUtf8(normalizedUtf8))
+			if (normalizedUtf8.IsEmpty || !matcher.MatchesNormalizedUtf8(normalizedUtf8))
 				continue;
 
 			// 3. Monta o SearchResultItem sob demanda para os itens que deram match

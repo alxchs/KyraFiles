@@ -227,5 +227,92 @@ internal static partial class NativeMethods
 	[LibraryImport("kernel32.dll", SetLastError = true)]
 	[return: MarshalAs(UnmanagedType.Bool)]
 	public static partial bool CancelIoEx(SafeFileHandle hFile, IntPtr lpOverlapped);
-}
 
+	public const uint GENERIC_READ = 0x80000000;
+	public const uint FILE_TRAVERSE = 0x0020;
+	public const uint FILE_FLAG_SEQUENTIAL_SCAN = 0x08000000;
+
+	public const uint FSCTL_GET_NTFS_VOLUME_DATA = 0x00090064;
+	public const uint FSCTL_READ_USN_JOURNAL = 0x000900BB;
+	public const uint FSCTL_QUERY_USN_JOURNAL = 0x000900F4;
+
+	public const int ERROR_HANDLE_EOF = 38;
+	public const int ERROR_MORE_DATA = 234;
+	public const int ERROR_JOURNAL_DELETE_IN_PROGRESS = 1178;
+	public const int ERROR_JOURNAL_NOT_ACTIVE = 1179;
+	public const int ERROR_JOURNAL_ENTRY_DELETED = 1181;
+	public const uint ERROR_FVE_LOCKED_VOLUME = 0x80310000;
+
+	public const uint USN_REASON_DATA_OVERWRITE = 0x00000001;
+	public const uint USN_REASON_DATA_EXTEND = 0x00000002;
+	public const uint USN_REASON_DATA_TRUNCATION = 0x00000004;
+	public const uint USN_REASON_FILE_CREATE = 0x00000100;
+	public const uint USN_REASON_FILE_DELETE = 0x00000200;
+	public const uint USN_REASON_RENAME_OLD_NAME = 0x00001000;
+	public const uint USN_REASON_RENAME_NEW_NAME = 0x00002000;
+	public const uint USN_REASON_BASIC_INFO_CHANGE = 0x00008000;
+	public const uint USN_REASON_CLOSE = 0x80000000;
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct NTFS_VOLUME_DATA_BUFFER
+	{
+		public long VolumeSerialNumber;
+		public long NumberSectors;
+		public long TotalClusters;
+		public long FreeClusters;
+		public long TotalReserved;
+		public uint BytesPerSector;
+		public uint BytesPerCluster;
+		public uint BytesPerFileRecordSegment;
+		public uint ClustersPerFileRecordSegment;
+		public long MftValidDataLength;
+		public long MftStartLcn;
+		public long Mft2StartLcn;
+		public long MftZoneStart;
+		public long MftZoneEnd;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct USN_JOURNAL_DATA_V0
+	{
+		public ulong UsnJournalID;
+		public long FirstUsn;
+		public long NextUsn;
+		public long LowestValidUsn;
+		public long MaxUsn;
+		public ulong MaximumSize;
+		public ulong AllocationDelta;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct READ_USN_JOURNAL_DATA_V0
+	{
+		public long StartUsn;
+		public uint ReasonMask;
+		public uint ReturnOnlyOnClose;
+		public ulong Timeout;
+		public ulong BytesToWaitFor;
+		public ulong UsnJournalID;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct WIN32_FILE_ATTRIBUTE_DATA
+	{
+		public uint dwFileAttributes;
+		public uint ftCreationTimeLow;
+		public uint ftCreationTimeHigh;
+		public uint ftLastAccessTimeLow;
+		public uint ftLastAccessTimeHigh;
+		public uint ftLastWriteTimeLow;
+		public uint ftLastWriteTimeHigh;
+		public uint nFileSizeHigh;
+		public uint nFileSizeLow;
+	}
+
+	[LibraryImport("kernel32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	public static partial bool GetFileAttributesExW(
+		string lpFileName,
+		int fInfoLevelId,
+		out WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
+}

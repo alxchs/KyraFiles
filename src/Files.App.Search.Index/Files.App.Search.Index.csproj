@@ -14,5 +14,9 @@
         <IsAotCompatible>true</IsAotCompatible>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Files.App.Search.Index.Tests" />
+    </ItemGroup>
+
 </Project>
 

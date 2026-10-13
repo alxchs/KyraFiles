@@ -172,17 +172,27 @@
     <ItemGroup>
         <None Include="..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.exe" Condition="Exists('..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.exe')">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.IndexService.exe</Link>
+            <Link>Files.App.IndexService\Files.App.IndexService.exe</Link>
             <Visible>false</Visible>
         </None>
         <None Include="..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.dll" Condition="Exists('..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.dll')">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.IndexService.dll</Link>
+            <Link>Files.App.IndexService\Files.App.IndexService.dll</Link>
             <Visible>false</Visible>
         </None>
         <None Include="..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.runtimeconfig.json" Condition="Exists('..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.runtimeconfig.json')">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.IndexService.runtimeconfig.json</Link>
+            <Link>Files.App.IndexService\Files.App.IndexService.runtimeconfig.json</Link>
+            <Visible>false</Visible>
+        </None>
+        <None Include="..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.deps.json" Condition="Exists('..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.IndexService.deps.json')">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>Files.App.IndexService\Files.App.IndexService.deps.json</Link>
+            <Visible>false</Visible>
+        </None>
+        <None Include="..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Search.Index.dll" Condition="Exists('..\Files.App.IndexService\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Search.Index.dll')">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>Files.App.IndexService\Files.App.Search.Index.dll</Link>
             <Visible>false</Visible>
         </None>
     </ItemGroup>

@@ -371,6 +371,8 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
 					.AddSingleton<IIconCacheService, IconCacheService>()
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
+					.AddSingleton<IndexedSearchProvider>()
+					.AddSingleton<ISearchProvider>(sp => sp.GetRequiredService<IndexedSearchProvider>())
 					.AddSingleton<ISearchProvider, NativeFilesSearchProvider>()
 					.AddSingleton<ISearchProvider, AgentRansackSearchProvider>()
 					.AddSingleton<ISearchProvider, EverythingSearchProvider>()
@@ -412,7 +414,18 @@ namespace Files.App.Helpers
 			else
 				services.AddSingleton<IUpdateService, DummyUpdateService>();
 
-			return services.BuildServiceProvider();
+			var serviceProvider = services.BuildServiceProvider();
+			_ = Task.Run(() =>
+			{
+				try
+				{
+					_ = serviceProvider.GetService<IndexedSearchProvider>();
+				}
+				catch
+				{
+				}
+			});
+			return serviceProvider;
 		}
 
 		/// <summary>

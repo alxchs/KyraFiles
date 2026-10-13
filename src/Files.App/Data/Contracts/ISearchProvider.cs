@@ -25,6 +25,21 @@ namespace Files.App.Data.Contracts
 		public uint MaxItemCount { get; init; }
 		public bool SearchSubfolders { get; init; } = true;
 		public bool SearchContent { get; init; }
+
+		/// <summary>
+		/// Callback invocado a cada lote de resultados recebido do motor de busca (FR-023).
+		/// </summary>
+		public Action<IReadOnlyList<ListedItem>>? OnBatchReceived { get; init; }
+
+		/// <summary>
+		/// Callback invocado quando a busca cai no FolderSearch de reserva, informando o motivo para exibição na tela (FR-041).
+		/// </summary>
+		public Action<string>? OnFallbackNotice { get; init; }
+
+		/// <summary>
+		/// Callback invocado quando o resultado atinge o teto de itens (FR-023).
+		/// </summary>
+		public Action<int>? OnTruncated { get; init; }
 	}
 
 	/// <summary>

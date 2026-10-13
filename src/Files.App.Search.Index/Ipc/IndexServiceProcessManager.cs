@@ -48,15 +48,15 @@ public sealed class IndexServiceProcessManager : IDisposable
 	public static string ResolveDefaultExecutablePath()
 	{
 		string baseDir = AppContext.BaseDirectory;
-		string candidate1 = Path.Combine(baseDir, "Files.App.IndexService.exe");
-		if (File.Exists(candidate1))
-			return candidate1;
+		string candidateSub = Path.Combine(baseDir, "Files.App.IndexService", "Files.App.IndexService.exe");
+		if (File.Exists(candidateSub))
+			return candidateSub;
 
-		string candidate2 = Path.Combine(baseDir, "Files.App.IndexService", "Files.App.IndexService.exe");
-		if (File.Exists(candidate2))
-			return candidate2;
+		string candidateRoot = Path.Combine(baseDir, "Files.App.IndexService.exe");
+		if (File.Exists(candidateRoot))
+			return candidateRoot;
 
-		return candidate1;
+		return candidateSub;
 	}
 
 	/// <summary>
@@ -210,3 +210,4 @@ public sealed class IndexServiceProcessManager : IDisposable
 		_cts.Dispose();
 	}
 }
+

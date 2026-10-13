@@ -3489,9 +3489,10 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
-			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+			var baseHeaderTitle = !string.IsNullOrEmpty(search.Query)
 				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
 				: string.Empty;
+			SearchHeaderTitle = baseHeaderTitle;
 
 			if (SearchIconBitmapImage is null)
 				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
@@ -3510,11 +3511,45 @@ namespace Files.App.ViewModels
 			var provider = searchProviderFactory?.GetCurrentProvider();
 			if (provider is not null && provider.Id != "native")
 			{
+				long lastBatchUiTick = 0;
 				var request = new SearchRequest
 				{
 					Query = search.Query ?? string.Empty,
 					Folder = search.Folder ?? string.Empty,
-					MaxItemCount = search.MaxItemCount
+					MaxItemCount = search.MaxItemCount,
+					OnBatchReceived = async _ =>
+					{
+						long now = Environment.TickCount64;
+						if (lastBatchUiTick != 0 && (now - lastBatchUiTick) < 120)
+							return;
+						lastBatchUiTick = now;
+						try
+						{
+							var snapshot = results.ToList();
+							filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+							await OrderFilesAndFoldersAsync();
+							await ApplyFilesAndFoldersChangesAsync();
+						}
+						catch
+						{
+						}
+					},
+					OnFallbackNotice = notice =>
+					{
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							SearchHeaderTitle = string.IsNullOrEmpty(baseHeaderTitle)
+								? notice
+								: $"{baseHeaderTitle} ({notice})";
+						});
+					},
+					OnTruncated = maxCount =>
+					{
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							SearchHeaderTitle = $"{baseHeaderTitle} (primeiros {maxCount:N0} resultados — refine a busca)";
+						});
+					}
 				};
 				await provider.SearchAsync(request, results, searchCTS.Token);
 			}

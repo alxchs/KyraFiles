@@ -1214,15 +1214,29 @@ namespace Files.App.ViewModels.UserControls
 					var shellViewModel = ContentPageContext.ShellPage?.ShellViewModel
 						?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
-					var search = new FolderSearch
-					{
-						Query = OmnibarSearchModeText,
-						Folder = shellViewModel.WorkingDirectory,
-						MaxItemCount = 10,
-					};
-
 					var results = new List<ListedItem>();
-					await search.SearchAsync(results, token);
+					var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
+					var provider = searchProviderFactory?.GetCurrentProvider();
+					if (provider is not null && provider.Id != "native")
+					{
+						var request = new SearchRequest
+						{
+							Query = OmnibarSearchModeText,
+							Folder = shellViewModel.WorkingDirectory ?? string.Empty,
+							MaxItemCount = 10,
+						};
+						await provider.SearchAsync(request, results, token);
+					}
+					else
+					{
+						var search = new FolderSearch
+						{
+							Query = OmnibarSearchModeText,
+							Folder = shellViewModel.WorkingDirectory,
+							MaxItemCount = 10,
+						};
+						await search.SearchAsync(results, token);
+					}
 					newSuggestions.AddRange(results.Select(result => new SuggestionModel(result)));
 				}
 				catch (OperationCanceledException)

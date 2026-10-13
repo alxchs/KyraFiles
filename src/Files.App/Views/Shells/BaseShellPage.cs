@@ -400,6 +400,15 @@ namespace Files.App.Views.Shells
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
+				// Escape cancels an ongoing search (F015 FR-023 / AC-18)
+				case (false, false, false, _, VirtualKey.Escape):
+					if (ShellViewModel is { IsLoadingItems: true, IsSearchResults: true })
+					{
+						ShellViewModel.CancelSearch();
+						args.Handled = true;
+					}
+					break;
+
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
@@ -603,6 +612,7 @@ namespace Files.App.Views.Shells
 				};
 
 				await shellViewModel.SearchAsync(searchInstance);
+				ToolbarViewModel.CanRefresh = true;
 			}
 			else if (CurrentPageType != typeof(HomePage))
 			{

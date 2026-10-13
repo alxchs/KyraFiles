@@ -24,7 +24,6 @@ public sealed class ManagedVolume : IDisposable
 	public string Mode { get; set; }
 	public volatile string State = "Indexing";
 	public string? StatusDetail { get; set; }
-	public long ScanningItemCount;
 	public VolumeIndex? Index { get; set; }
 	public DateTimeOffset RootLastWriteTime;
 	public DateTimeOffset LastIndexedUtc;
@@ -43,11 +42,6 @@ public sealed class ManagedVolume : IDisposable
 		Watcher?.Dispose();
 		Watcher = null;
 	}
-}
-
-internal sealed class DirectScanProgress(Action<ScanProgress> callback) : IProgress<ScanProgress>
-{
-	public void Report(ScanProgress value) => callback(value);
 }
 
 /// <summary>
@@ -201,42 +195,31 @@ public sealed class IndexPipeServer : IDisposable
 
 				if (candidates.Count > 0)
 				{
-					var scanProgress = new DirectScanProgress(p =>
+					var scanned = await DirectoryScanner.ScanVolumesAsync(candidates, progress: null, _serverCts.Token)
+						.ConfigureAwait(false);
+
+					foreach (var kvp in scanned)
 					{
-						if (_volumes.TryGetValue(p.VolumeGuid, out ManagedVolume? mv) && mv.State == "Indexing")
+						if (_volumes.TryGetValue(kvp.Key, out ManagedVolume? mv))
 						{
-							Interlocked.Exchange(ref mv.ScanningItemCount, p.TotalItems);
-							mv.StatusDetail = $"Indexando ({p.TotalItems:N0} itens)...";
-						}
-					});
+							mv.Index = kvp.Value;
+							mv.RootLastWriteTime = TryGetRootWriteTime(mv.DisplayRoot);
+							mv.LastIndexedUtc = DateTimeOffset.UtcNow;
+							mv.State = "Ready";
+							mv.StatusDetail = "Indexado";
 
-					await DirectoryScanner.ScanVolumesAsync(
-						candidates,
-						progress: scanProgress,
-						cancellationToken: _serverCts.Token,
-						onVolumeCompleted: (vol, idx) =>
-						{
-							if (_volumes.TryGetValue(vol.VolumeGuid, out ManagedVolume? mv))
+							StartWatcherSafe(mv);
+
+							try
 							{
-								mv.Index = idx;
-								Interlocked.Exchange(ref mv.ScanningItemCount, idx.Count);
-								mv.RootLastWriteTime = TryGetRootWriteTime(mv.DisplayRoot);
-								mv.LastIndexedUtc = DateTimeOffset.UtcNow;
-								mv.State = "Ready";
-								mv.StatusDetail = "Indexado";
-
-								StartWatcherSafe(mv);
-
-								try
-								{
-									string snapPath = VolumeSnapshot.GetSnapshotFilePath(_cacheDirectory, mv.VolumeGuid);
-									VolumeSnapshot.Save(snapPath, idx, rootLastWriteTime: mv.RootLastWriteTime);
-								}
-								catch
-								{
-								}
+								string snapPath = VolumeSnapshot.GetSnapshotFilePath(_cacheDirectory, mv.VolumeGuid);
+								VolumeSnapshot.Save(snapPath, kvp.Value, rootLastWriteTime: mv.RootLastWriteTime);
 							}
-						}).ConfigureAwait(false);
+							catch
+							{
+							}
+						}
+					}
 				}
 			}
 			catch (Exception ex)
@@ -746,7 +729,7 @@ public sealed class IndexPipeServer : IDisposable
 				FileSystem = mv.FileSystem,
 				Mode = mv.Mode,
 				State = mv.State,
-				ItemCount = mv.Index?.Count ?? (int)Interlocked.Read(ref mv.ScanningItemCount),
+				ItemCount = mv.Index?.Count ?? 0,
 				LastIndexedUtcTicks = mv.LastIndexedUtc.UtcTicks,
 				StatusDetail = mv.StatusDetail
 			});
@@ -814,8 +797,6 @@ public sealed class IndexPipeServer : IDisposable
 
 			mv.State = "Indexing";
 			mv.StatusDetail = "Reindexando...";
-			mv.Index = null;
-			Interlocked.Exchange(ref mv.ScanningItemCount, 0);
 			mv.Watcher?.Dispose();
 			mv.Watcher = null;
 
@@ -823,14 +804,8 @@ public sealed class IndexPipeServer : IDisposable
 			{
 				try
 				{
-					var progress = new DirectScanProgress(p =>
-					{
-						Interlocked.Exchange(ref mv.ScanningItemCount, p.TotalItems);
-						mv.StatusDetail = $"Indexando ({p.TotalItems:N0} itens)...";
-					});
-					var idx = DirectoryScanner.ScanDirectory(mv.VolumeGuid, mv.DisplayRoot, progress, _serverCts.Token);
+					var idx = DirectoryScanner.ScanDirectory(mv.VolumeGuid, mv.DisplayRoot, progress: null, _serverCts.Token);
 					mv.Index = idx;
-					Interlocked.Exchange(ref mv.ScanningItemCount, idx.Count);
 					mv.RootLastWriteTime = TryGetRootWriteTime(mv.DisplayRoot);
 					mv.LastIndexedUtc = DateTimeOffset.UtcNow;
 					mv.State = "Ready";

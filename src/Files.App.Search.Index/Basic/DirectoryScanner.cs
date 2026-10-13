@@ -40,8 +40,7 @@ public static class DirectoryScanner
 	public static async Task<IReadOnlyDictionary<Guid, VolumeIndex>> ScanVolumesAsync(
 		IEnumerable<VolumeInfo> volumes,
 		IProgress<ScanProgress>? progress = null,
-		CancellationToken cancellationToken = default,
-		Action<VolumeInfo, VolumeIndex>? onVolumeCompleted = null)
+		CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(volumes);
 
@@ -59,7 +58,6 @@ public static class DirectoryScanner
 				cancellationToken.ThrowIfCancellationRequested();
 				var index = ScanDirectory(volume.VolumeGuid, volume.DisplayRoot, progress, cancellationToken);
 				results[volume.VolumeGuid] = index;
-				onVolumeCompleted?.Invoke(volume, index);
 			}
 		}, cancellationToken));
 
@@ -89,8 +87,6 @@ public static class DirectoryScanner
 		{
 			// Mapa FileId -> índice no VolumeIndex para deduplicar hardlinks (FR-016 / AC-21)
 			var fileIdToIndex = new Dictionary<ulong, int>(4096);
-			// Cache de caminhos primários de hardlinks já consultados via FindFirstFileNameW (evita I/O repetido em WinSxS)
-			var resolvedPrimaryByFileId = new Dictionary<ulong, string?>(256);
 			// Proteção adicional contra ciclos de diretório mesmo sem flag de reparse
 			var visitedDirIds = new HashSet<ulong>();
 
@@ -155,16 +151,15 @@ public static class DirectoryScanner
 						normalizedRoot,
 						index,
 						fileIdToIndex,
-						resolvedPrimaryByFileId,
 						visitedDirIds,
 						stack,
 						ref dirsScanned,
 						ref filesScanned);
 
-					long currentTotal = dirsScanned + filesScanned;
-					if (progress is not null && (currentTotal - sinceLastReport) >= ProgressReportInterval)
+					sinceLastReport = (dirsScanned + filesScanned);
+					if (progress is not null && sinceLastReport >= ProgressReportInterval)
 					{
-						sinceLastReport = currentTotal;
+						sinceLastReport = 0;
 						progress.Report(new ScanProgress(volumeGuid, normalizedRoot, dirsScanned, filesScanned, IsCompleted: false));
 					}
 				}
@@ -191,7 +186,6 @@ public static class DirectoryScanner
 		string normalizedRoot,
 		VolumeIndex index,
 		Dictionary<ulong, int> fileIdToIndex,
-		Dictionary<ulong, string?> resolvedPrimaryByFileId,
 		HashSet<ulong> visitedDirIds,
 		Stack<(string FullPath, int ParentIndex)> stack,
 		ref long dirsScanned,
@@ -258,14 +252,11 @@ public static class DirectoryScanner
 								string candidateFullPath = currentDir.EndsWith('\\')
 									? currentDir + name
 									: currentDir + "\\" + name;
-								if (!resolvedPrimaryByFileId.TryGetValue(fileId, out string? primaryFullPath))
-								{
-									primaryFullPath = HardLinkResolver.ResolvePrimaryFullPath(candidateFullPath, normalizedRoot);
-									resolvedPrimaryByFileId[fileId] = primaryFullPath;
-								}
+								string? primaryFullPath = HardLinkResolver.ResolvePrimaryFullPath(candidateFullPath, normalizedRoot);
 
 								if (primaryFullPath is not null &&
-									string.Equals(candidateFullPath, primaryFullPath, StringComparison.OrdinalIgnoreCase))
+									(string.Equals(candidateFullPath, primaryFullPath, StringComparison.OrdinalIgnoreCase) ||
+									 string.Equals(Path.GetFileName(primaryFullPath), name, StringComparison.OrdinalIgnoreCase)))
 								{
 									index.UpdateLocationAndName(existingIndex, parentIdx, name);
 								}
@@ -355,9 +346,6 @@ public static class DirectoryScanner
 			out _,
 			IntPtr.Zero))
 		{
-			if (sdn.PartitionNumber == 0 || sdn.PartitionNumber == uint.MaxValue)
-				return null;
-
 			return (int)sdn.DeviceNumber;
 		}
 

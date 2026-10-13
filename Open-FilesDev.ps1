@@ -18,6 +18,7 @@ $ErrorActionPreference = 'Stop'
 $tfm = 'net10.0-windows10.0.26100.0'
 $appBin = Join-Path $PSScriptRoot "src\Files.App\bin\x64\$Configuration\$tfm\win-x64"
 $serverBin = Join-Path $PSScriptRoot "src\Files.App.Server\bin\x64\$Configuration\$tfm\win-x64"
+$indexServiceBin = Join-Path $PSScriptRoot "src\Files.App.IndexService\bin\x64\$Configuration\$tfm"
 $recipePath = Join-Path $appBin 'Files.App.build.appxrecipe'
 
 if (-not (Test-Path $recipePath)) {
@@ -34,7 +35,7 @@ $identity = $manifest.Package.Identity
 $appId = $manifest.Package.Applications.Application.Id
 
 # Arquivos em uso impedem a cópia
-Get-Process Files, Files.App.Server -ErrorAction SilentlyContinue |
+Get-Process Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue |
     Where-Object { $_.Path -and $_.Path.StartsWith($layoutDir, [StringComparison]::OrdinalIgnoreCase) } |
     Stop-Process -Force
 
@@ -69,6 +70,13 @@ if (-not (Test-Path (Join-Path $serverBin 'Files.App.Server.exe'))) { throw "Fil
 Get-ChildItem $serverBin -File -Recurse | ForEach-Object {
     $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('Files.App.Server' + $_.FullName.Substring($serverBin.Length)))
 }
+
+# Serviço de índice de busca fora de processo (F015 T10/T11: Files.App.IndexService\Files.App.IndexService.exe)
+if (Test-Path (Join-Path $indexServiceBin 'Files.App.IndexService.exe')) {
+    Get-ChildItem $indexServiceBin -File -Recurse | ForEach-Object {
+        $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('Files.App.IndexService' + $_.FullName.Substring($indexServiceBin.Length)))
+    }
+}
 Write-Host "Layout: $layoutDir ($($items.Count) itens da receita, $copied copiados)"
 
 # Registro de desenvolvimento (pasta solta). Precisa do Modo de Desenvolvedor do Windows.
@@ -82,5 +90,5 @@ $package = Get-AppxPackage -Name $identity.Name
 Write-Host "Registrado: $($package.PackageFullName) -> $($package.InstallLocation)"
 
 if (-not $NoLaunch) {
-    Start-Process "shell:AppsFolder\$($package.PackageFamilyName)!$appId"
+    Start-Process explorer.exe -ArgumentList "shell:AppsFolder\$($package.PackageFamilyName)!$appId"
 }

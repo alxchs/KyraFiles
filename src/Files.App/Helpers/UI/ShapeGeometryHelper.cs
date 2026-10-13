@@ -83,151 +83,424 @@ namespace Files.App.Helpers
 			return new CompositionPath(CanvasGeometry.CreatePath(builder));
 		}
 
-		/// <summary>Left concave; right with 3 convex wave ripples.</summary>
+		/// <summary>Ticket Wave: Left concave; right wave ripples.</summary>
 		private static void BuildTicketWave(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f * s, w * 0.15f);
-			float waveAmp = Math.Min(10f * s, w * 0.1f);
-			float rightBase = w - waveAmp;
-
-			b.BeginFigure(concaveDepth, 0);
-			b.AddLine(rightBase, 0);
-
-			float hSeg = h / 3f;
-			for (int i = 0; i < 3; i++)
+			if (isSmall)
 			{
-				float y0 = i * hSeg;
-				b.AddCubicBezier(
-					new Vector2(rightBase + waveAmp, y0 + hSeg * 0.25f),
-					new Vector2(rightBase + waveAmp, y0 + hSeg * 0.5f),
-					new Vector2(rightBase, y0 + hSeg));
-			}
+				float concaveDepth = Math.Min(12f * s, w * 0.15f);
+				float waveLen = 16f * s;
+				int count = Math.Max(1, (int)Math.Floor(h / waveLen));
+				float segH = h / count;
+				float waveAmp = Math.Min(8f * s, w * 0.1f);
+				float rightBase = w - waveAmp;
 
-			b.AddLine(concaveDepth, h);
-			b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(concaveDepth, 0);
+				b.AddLine(rightBase, 0);
+				for (int i = 0; i < count; i++)
+				{
+					float y0 = i * segH;
+					b.AddCubicBezier(
+						new Vector2(rightBase + waveAmp, y0 + segH * 0.25f),
+						new Vector2(rightBase + waveAmp, y0 + segH * 0.75f),
+						new Vector2(rightBase, y0 + segH));
+				}
+				b.AddLine(concaveDepth, h);
+				b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
+
+				// Top-Right: wave ripple
+				b.AddCubicBezier(new Vector2(w - cd * 0.3f, 0), new Vector2(w, cd * 0.3f), new Vector2(w - 3f * s, cd * 0.6f));
+				b.AddCubicBezier(new Vector2(w - 2f * s, cd * 0.8f), new Vector2(w, cd), new Vector2(w, cd));
+
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right: wave ripple
+				b.AddCubicBezier(new Vector2(w, h - cd * 0.7f), new Vector2(w - 3f * s, h - cd * 0.4f), new Vector2(w - cd * 0.5f, h - cd * 0.2f));
+				b.AddCubicBezier(new Vector2(w - cd * 0.8f, h), new Vector2(w - cd, h), new Vector2(w - cd, h));
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left: concave arc
+				b.AddArc(new Vector2(0, h - cd), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(0, cd);
+
+				// Top-Left: concave arc
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Left concave; right with 2 lobes and a central notch.</summary>
+		/// <summary>Ribbon Dock: Left concave; right dual rounded lobes with inner notch.</summary>
 		private static void BuildRibbonDock(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f * s, w * 0.15f);
-			float lobeDepth = Math.Min(12f * s, w * 0.1f);
-			float midNotch = Math.Min(14f * s, w * 0.12f);
-			float rightBase = w - lobeDepth;
+			if (isSmall)
+			{
+				float concaveDepth = Math.Min(12f * s, w * 0.15f);
+				float lobeDepth = Math.Min(10f * s, w * 0.1f);
+				float midNotch = Math.Min(12f * s, w * 0.12f);
+				float rightBase = w - lobeDepth;
 
-			b.BeginFigure(concaveDepth, 0);
-			b.AddLine(rightBase, 0);
-			b.AddCubicBezier(new Vector2(w, h * 0.15f), new Vector2(w, h * 0.35f), new Vector2(w - midNotch, h * 0.5f));
-			b.AddCubicBezier(new Vector2(w, h * 0.65f), new Vector2(w, h * 0.85f), new Vector2(rightBase, h));
-			b.AddLine(concaveDepth, h);
-			b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(concaveDepth, 0);
+				b.AddLine(rightBase, 0);
+				b.AddCubicBezier(new Vector2(w, h * 0.15f), new Vector2(w, h * 0.35f), new Vector2(w - midNotch, h * 0.5f));
+				b.AddCubicBezier(new Vector2(w, h * 0.65f), new Vector2(w, h * 0.85f), new Vector2(rightBase, h));
+				b.AddLine(concaveDepth, h);
+				b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
+
+				// Top-Right: rounded lobe
+				b.AddCubicBezier(new Vector2(w - cd * 0.2f, 0), new Vector2(w, cd * 0.3f), new Vector2(w - 3f * s, cd * 0.5f));
+				b.AddCubicBezier(new Vector2(w - 4f * s, cd * 0.7f), new Vector2(w, cd * 0.8f), new Vector2(w, cd));
+
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right: rounded lobe
+				b.AddCubicBezier(new Vector2(w, h - cd * 0.7f), new Vector2(w - 4f * s, h - cd * 0.5f), new Vector2(w - 3f * s, h - cd * 0.3f));
+				b.AddCubicBezier(new Vector2(w, h - cd * 0.2f), new Vector2(w - cd * 0.5f, h), new Vector2(w - cd, h));
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left: concave arc
+				b.AddArc(new Vector2(0, h - cd), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(0, cd);
+
+				// Top-Left: concave arc
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Left concave; right with sharp triangular zig-zag teeth.</summary>
+		/// <summary>Sawtooth Triangle: Left concave; right sharp triangular teeth.</summary>
 		private static void BuildSawtoothTriangle(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f * s, w * 0.15f);
-			float toothAmp = Math.Min(12f * s, w * 0.1f);
-			float rightBase = w - toothAmp;
-
-			b.BeginFigure(concaveDepth, 0);
-			b.AddLine(rightBase, 0);
-
-			const int toothCount = 4;
-			float segH = h / toothCount;
-			for (int i = 0; i < toothCount; i++)
+			if (isSmall)
 			{
-				float yStart = i * segH;
-				b.AddLine(w, yStart + segH * 0.5f);
-				b.AddLine(rightBase, yStart + segH);
-			}
+				float concaveDepth = Math.Min(12f * s, w * 0.15f);
+				float toothBase = 16f * s;
+				int count = Math.Max(1, (int)Math.Floor(h / toothBase));
+				float segH = h / count;
+				float toothAmp = Math.Min(10f * s, w * 0.1f);
+				float rightBase = w - toothAmp;
 
-			b.AddLine(concaveDepth, h);
-			b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(concaveDepth, 0);
+				b.AddLine(rightBase, 0);
+				for (int i = 0; i < count; i++)
+				{
+					float yStart = i * segH;
+					b.AddLine(w, yStart + segH * 0.5f);
+					b.AddLine(rightBase, yStart + segH);
+				}
+				b.AddLine(concaveDepth, h);
+				b.AddCubicBezier(new Vector2(0, h * 0.75f), new Vector2(0, h * 0.25f), new Vector2(concaveDepth, 0));
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				float toothAmp = Math.Min(6f * s, cd * 0.4f);
+
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
+
+				// Top-Right: 2 small teeth in corner
+				b.AddLine(w - toothAmp, cd * 0.2f);
+				b.AddLine(w, cd * 0.5f);
+				b.AddLine(w - toothAmp, cd * 0.8f);
+				b.AddLine(w, cd);
+
+				// Straight right border
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right: 2 small teeth in corner
+				b.AddLine(w - toothAmp, h - cd * 0.8f);
+				b.AddLine(w, h - cd * 0.5f);
+				b.AddLine(w - toothAmp, h - cd * 0.2f);
+				b.AddLine(w - cd, h);
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left: concave arc
+				b.AddArc(new Vector2(0, h - cd), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(0, cd);
+
+				// Top-Left: concave arc
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Both sides are S-curves that invert at the midpoint.</summary>
+		/// <summary>Sinusoidal Invert: S-curves that invert at the midpoint.</summary>
 		private static void BuildSinusoidalInvert(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float amp = Math.Min(12f * s, w * 0.1f);
-			float leftBase = amp;
-			float rightBase = w - amp;
+			if (isSmall)
+			{
+				float amp = Math.Min(10f * s, w * 0.1f);
+				float leftBase = amp;
+				float rightBase = w - amp;
 
-			b.BeginFigure(leftBase, 0);
-			b.AddLine(rightBase, 0);
-			b.AddCubicBezier(new Vector2(rightBase - amp, h * 0.25f), new Vector2(rightBase + amp, h * 0.75f), new Vector2(rightBase, h));
-			b.AddLine(leftBase, h);
-			b.AddCubicBezier(new Vector2(leftBase - amp, h * 0.75f), new Vector2(leftBase + amp, h * 0.25f), new Vector2(leftBase, 0));
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(leftBase, 0);
+				b.AddLine(rightBase, 0);
+				b.AddCubicBezier(new Vector2(rightBase - amp, h * 0.25f), new Vector2(rightBase + amp, h * 0.75f), new Vector2(rightBase, h));
+				b.AddLine(leftBase, h);
+				b.AddCubicBezier(new Vector2(leftBase - amp, h * 0.75f), new Vector2(leftBase + amp, h * 0.25f), new Vector2(leftBase, 0));
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
+
+				// Top-Right S-curve
+				b.AddCubicBezier(new Vector2(w - cd * 0.5f, 0), new Vector2(w, cd * 0.5f), new Vector2(w, cd));
+
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right S-curve
+				b.AddCubicBezier(new Vector2(w, h - cd * 0.5f), new Vector2(w - cd * 0.5f, h), new Vector2(w - cd, h));
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left S-curve
+				b.AddCubicBezier(new Vector2(cd * 0.5f, h), new Vector2(0, h - cd * 0.5f), new Vector2(0, h - cd));
+
+				b.AddLine(0, cd);
+
+				// Top-Left S-curve
+				b.AddCubicBezier(new Vector2(0, cd * 0.5f), new Vector2(cd * 0.5f, 0), new Vector2(cd, 0));
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Both sides curve inward (hourglass).</summary>
+		/// <summary>Bi-Concave Hourglass: Both sides curved deeply inward.</summary>
 		private static void BuildBiConcave(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float depth = Math.Min(14f * s, w * 0.12f);
+			if (isSmall)
+			{
+				float depth = Math.Min(12f * s, w * 0.12f);
+				b.BeginFigure(0, 0);
+				b.AddLine(w, 0);
+				b.AddCubicBezier(new Vector2(w - depth, h * 0.25f), new Vector2(w - depth, h * 0.75f), new Vector2(w, h));
+				b.AddLine(0, h);
+				b.AddCubicBezier(new Vector2(depth, h * 0.75f), new Vector2(depth, h * 0.25f), new Vector2(0, 0));
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
 
-			b.BeginFigure(0, 0);
-			b.AddLine(w, 0);
-			b.AddCubicBezier(new Vector2(w - depth, h * 0.25f), new Vector2(w - depth, h * 0.75f), new Vector2(w, h));
-			b.AddLine(0, h);
-			b.AddCubicBezier(new Vector2(depth, h * 0.75f), new Vector2(depth, h * 0.25f), new Vector2(0, 0));
-			b.EndFigure(CanvasFigureLoop.Closed);
+				// Top-Right concave
+				b.AddArc(new Vector2(w, cd), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right concave
+				b.AddArc(new Vector2(w - cd, h), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left concave
+				b.AddArc(new Vector2(0, h - cd), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.AddLine(0, cd);
+
+				// Top-Left concave
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.CounterClockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Curved top, sharp 90° bottom corners.</summary>
+		/// <summary>Hybrid Rectangular: Curved top, sharp 90° bottom corners.</summary>
 		private static void BuildHybridRectangular(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float r = Math.Min(18f * s, Math.Min(w * 0.25f, h * 0.5f));
+			if (isSmall)
+			{
+				float r = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.5f));
+				b.BeginFigure(0, r);
+				b.AddArc(new Vector2(r, 0), r, r, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+				b.AddLine(w - r, 0);
+				b.AddArc(new Vector2(w, r), r, r, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+				b.AddLine(w, h);
+				b.AddLine(0, h);
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
 
-			b.BeginFigure(0, r);
-			b.AddCubicBezier(new Vector2(r * 0.5f, r * 0.5f), new Vector2(r * 0.5f, 0), new Vector2(r, 0));
-			b.AddLine(w - r, 0);
-			b.AddArc(new Vector2(w, r), r, r, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
-			b.AddLine(w, h);
-			b.AddLine(0, h);
-			b.EndFigure(CanvasFigureLoop.Closed);
+				// Top-Right rounded
+				b.AddArc(new Vector2(w, cd), cd, cd, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				// Right edge to bottom corner (sharp 90°)
+				b.AddLine(w, h);
+				b.AddLine(0, h);
+
+				// Left edge to top corner
+				b.AddLine(0, cd);
+
+				// Top-Left rounded
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>45° slanted sides.</summary>
+		/// <summary>Cyberpunk: 45° slanted / chamfered edges.</summary>
 		private static void BuildCyberpunk(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float cut = Math.Min(14f * s, Math.Min(w * 0.2f, h * 0.4f));
+			if (isSmall)
+			{
+				float cut = Math.Min(12f * s, Math.Min(w * 0.2f, h * 0.4f));
+				b.BeginFigure(cut, 0);
+				b.AddLine(w - cut, 0);
+				b.AddLine(w, cut);
+				b.AddLine(w, h - cut);
+				b.AddLine(w - cut, h);
+				b.AddLine(cut, h);
+				b.AddLine(0, h - cut);
+				b.AddLine(0, cut);
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - cd, 0);
 
-			b.BeginFigure(cut, 0);
-			b.AddLine(w, 0);
-			b.AddLine(w - cut, h);
-			b.AddLine(0, h);
-			b.EndFigure(CanvasFigureLoop.Closed);
+				// Top-Right chamfer
+				b.AddLine(w, cd);
+
+				b.AddLine(w, h - cd);
+
+				// Bottom-Right chamfer
+				b.AddLine(w - cd, h);
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left chamfer
+				b.AddLine(0, h - cd);
+
+				b.AddLine(0, cd);
+
+				// Top-Left chamfer
+				b.AddLine(cd, 0);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Left side a full half-circle, right side straight.</summary>
+		/// <summary>Directional Pill: Left side rounded pill, right side crisp edge.</summary>
 		private static void BuildDirectionalPill(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float r = Math.Min(h * 0.5f, w);
+			if (isSmall)
+			{
+				float r = Math.Min(h * 0.5f, w);
+				b.BeginFigure(r, 0);
+				b.AddLine(w, 0);
+				b.AddLine(w, h);
+				b.AddLine(r, h);
+				b.AddArc(new Vector2(r, 0), r, r, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				float microR = Math.Min(4f * s, cd * 0.25f);
 
-			b.BeginFigure(r, 0);
-			b.AddLine(w, 0);
-			b.AddLine(w, h);
-			b.AddLine(r, h);
-			b.AddArc(new Vector2(r, 0), r, r, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - microR, 0);
+
+				// Top-Right: micro-rounded
+				b.AddArc(new Vector2(w, microR), microR, microR, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				b.AddLine(w, h - microR);
+
+				// Bottom-Right: micro-rounded
+				b.AddArc(new Vector2(w - microR, h), microR, microR, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left: full rounded arc
+				b.AddArc(new Vector2(0, h - cd), cd, cd, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				b.AddLine(0, cd);
+
+				// Top-Left: full rounded arc
+				b.AddArc(new Vector2(cd, 0), cd, cd, 0, CanvasSweepDirection.Clockwise, CanvasArcSize.Small);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
-		/// <summary>Hexagon with pointed left and right edges.</summary>
+		/// <summary>Hexagonal Tech: Left notch inward, right hex projection outward.</summary>
 		private static void BuildHexagonal(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float notch = Math.Min(12f * s, w * 0.1f);
+			if (isSmall)
+			{
+				float notch = Math.Min(10f * s, w * 0.1f);
+				b.BeginFigure(notch, 0);
+				b.AddLine(w - notch, 0);
+				b.AddLine(w, h * 0.5f);
+				b.AddLine(w - notch, h);
+				b.AddLine(notch, h);
+				b.AddLine(0, h * 0.5f);
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
+			else
+			{
+				float cd = Math.Min(16f * s, Math.Min(w * 0.25f, h * 0.25f));
+				float hexCut = cd * 0.6f;
 
-			b.BeginFigure(notch, 0);
-			b.AddLine(w - notch, 0);
-			b.AddLine(w, h * 0.5f);
-			b.AddLine(w - notch, h);
-			b.AddLine(notch, h);
-			b.AddLine(0, h * 0.5f);
-			b.EndFigure(CanvasFigureLoop.Closed);
+				b.BeginFigure(cd, 0);
+				b.AddLine(w - hexCut, 0);
+
+				// Top-Right hex projection chamfer
+				b.AddLine(w, hexCut);
+
+				b.AddLine(w, h - hexCut);
+
+				// Bottom-Right hex projection chamfer
+				b.AddLine(w - hexCut, h);
+
+				b.AddLine(cd, h);
+
+				// Bottom-Left inward notch
+				b.AddLine(cd * 0.5f, h - cd * 0.5f);
+				b.AddLine(0, h - cd);
+
+				b.AddLine(0, cd);
+
+				// Top-Left inward notch
+				b.AddLine(cd * 0.5f, cd * 0.5f);
+				b.AddLine(cd, 0);
+
+				b.EndFigure(CanvasFigureLoop.Closed);
+			}
 		}
 
 		/// <summary>Rounded rectangle.</summary>

@@ -18,6 +18,9 @@
     <Project Path="src/Files.App.Search.Index/Files.App.Search.Index.csproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="src/Files.App.IndexService/Files.App.IndexService.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/src/platforms/">
     <Project Path="src/Files.App.BackgroundTasks/Files.App.BackgroundTasks.csproj">

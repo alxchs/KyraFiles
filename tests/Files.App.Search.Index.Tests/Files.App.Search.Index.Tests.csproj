@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Files.App.Search.Index\Files.App.Search.Index.csproj" />
+        <ProjectReference Include="..\..\src\Files.App.IndexService\Files.App.IndexService.csproj" />
     </ItemGroup>
 
 </Project>

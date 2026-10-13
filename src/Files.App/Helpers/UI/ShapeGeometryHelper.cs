@@ -20,9 +20,9 @@ namespace Files.App.Helpers
 	{
 		/// <summary>
 		/// Clips <paramref name="element"/> to the outline of <paramref name="style"/> sized to its current
-		/// actual size. <see cref="ControlShapeStyleKind.FluentStandard"/> (or an element not laid out yet) removes the clip.
+		/// actual size and scaled by <paramref name="scale"/>. <see cref="ControlShapeStyleKind.FluentStandard"/> (or an element not laid out yet) removes the clip.
 		/// </summary>
-		public static void ApplyClip(FrameworkElement element, ControlShapeStyleKind style)
+		public static void ApplyClip(FrameworkElement element, ControlShapeStyleKind style, float scale = 1f)
 		{
 			var visual = ElementCompositionPreview.GetElementVisual(element);
 
@@ -33,48 +33,50 @@ namespace Files.App.Helpers
 			}
 
 			var compositor = visual.Compositor;
-			var geometry = compositor.CreatePathGeometry(BuildPath(style, (float)element.ActualWidth, (float)element.ActualHeight));
+			var geometry = compositor.CreatePathGeometry(BuildPath(style, (float)element.ActualWidth, (float)element.ActualHeight, scale));
 			visual.Clip = compositor.CreateGeometricClip(geometry);
 		}
 
 		/// <summary>
-		/// Builds the closed outline of the requested shape style for the given width and height.
+		/// Builds the closed outline of the requested shape style for the given width and height, scaled by <paramref name="scale"/>.
+		/// Elements with height &lt; 80px use a full lateral profile; larger elements only profile the 4 corners.
 		/// </summary>
-		public static CompositionPath BuildPath(ControlShapeStyleKind style, float width, float height)
+		public static CompositionPath BuildPath(ControlShapeStyleKind style, float width, float height, float scale = 1f)
 		{
 			using var builder = new CanvasPathBuilder(null);
+			bool isSmall = height < 80f;
 
 			switch (style)
 			{
 				case ControlShapeStyleKind.TicketWave:
-					BuildTicketWave(builder, width, height);
+					BuildTicketWave(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.RibbonDock:
-					BuildRibbonDock(builder, width, height);
+					BuildRibbonDock(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.SawtoothTriangle:
-					BuildSawtoothTriangle(builder, width, height);
+					BuildSawtoothTriangle(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.SinusoidalWave:
-					BuildSinusoidalInvert(builder, width, height);
+					BuildSinusoidalInvert(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.BiConcaveHourglass:
-					BuildBiConcave(builder, width, height);
+					BuildBiConcave(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.HybridRectangular:
-					BuildHybridRectangular(builder, width, height);
+					BuildHybridRectangular(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.CyberpunkTrapezoid:
-					BuildCyberpunk(builder, width, height);
+					BuildCyberpunk(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.DirectionalPill:
-					BuildDirectionalPill(builder, width, height);
+					BuildDirectionalPill(builder, width, height, scale, isSmall);
 					break;
 				case ControlShapeStyleKind.HexagonalTech:
-					BuildHexagonal(builder, width, height);
+					BuildHexagonal(builder, width, height, scale, isSmall);
 					break;
 				default:
-					BuildStandardRounded(builder, width, height, 8f);
+					BuildStandardRounded(builder, width, height, 8f * scale);
 					break;
 			}
 
@@ -82,10 +84,10 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Left concave; right with 3 convex wave ripples.</summary>
-		private static void BuildTicketWave(CanvasPathBuilder b, float w, float h)
+		private static void BuildTicketWave(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f, w * 0.15f);
-			float waveAmp = Math.Min(10f, w * 0.1f);
+			float concaveDepth = Math.Min(16f * s, w * 0.15f);
+			float waveAmp = Math.Min(10f * s, w * 0.1f);
 			float rightBase = w - waveAmp;
 
 			b.BeginFigure(concaveDepth, 0);
@@ -107,11 +109,11 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Left concave; right with 2 lobes and a central notch.</summary>
-		private static void BuildRibbonDock(CanvasPathBuilder b, float w, float h)
+		private static void BuildRibbonDock(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f, w * 0.15f);
-			float lobeDepth = Math.Min(12f, w * 0.1f);
-			float midNotch = Math.Min(14f, w * 0.12f);
+			float concaveDepth = Math.Min(16f * s, w * 0.15f);
+			float lobeDepth = Math.Min(12f * s, w * 0.1f);
+			float midNotch = Math.Min(14f * s, w * 0.12f);
 			float rightBase = w - lobeDepth;
 
 			b.BeginFigure(concaveDepth, 0);
@@ -124,10 +126,10 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Left concave; right with sharp triangular zig-zag teeth.</summary>
-		private static void BuildSawtoothTriangle(CanvasPathBuilder b, float w, float h)
+		private static void BuildSawtoothTriangle(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float concaveDepth = Math.Min(16f, w * 0.15f);
-			float toothAmp = Math.Min(12f, w * 0.1f);
+			float concaveDepth = Math.Min(16f * s, w * 0.15f);
+			float toothAmp = Math.Min(12f * s, w * 0.1f);
 			float rightBase = w - toothAmp;
 
 			b.BeginFigure(concaveDepth, 0);
@@ -148,9 +150,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Both sides are S-curves that invert at the midpoint.</summary>
-		private static void BuildSinusoidalInvert(CanvasPathBuilder b, float w, float h)
+		private static void BuildSinusoidalInvert(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float amp = Math.Min(12f, w * 0.1f);
+			float amp = Math.Min(12f * s, w * 0.1f);
 			float leftBase = amp;
 			float rightBase = w - amp;
 
@@ -163,9 +165,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Both sides curve inward (hourglass).</summary>
-		private static void BuildBiConcave(CanvasPathBuilder b, float w, float h)
+		private static void BuildBiConcave(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float depth = Math.Min(14f, w * 0.12f);
+			float depth = Math.Min(14f * s, w * 0.12f);
 
 			b.BeginFigure(0, 0);
 			b.AddLine(w, 0);
@@ -176,9 +178,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Curved top, sharp 90° bottom corners.</summary>
-		private static void BuildHybridRectangular(CanvasPathBuilder b, float w, float h)
+		private static void BuildHybridRectangular(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float r = Math.Min(18f, Math.Min(w * 0.25f, h * 0.5f));
+			float r = Math.Min(18f * s, Math.Min(w * 0.25f, h * 0.5f));
 
 			b.BeginFigure(0, r);
 			b.AddCubicBezier(new Vector2(r * 0.5f, r * 0.5f), new Vector2(r * 0.5f, 0), new Vector2(r, 0));
@@ -190,9 +192,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>45° slanted sides.</summary>
-		private static void BuildCyberpunk(CanvasPathBuilder b, float w, float h)
+		private static void BuildCyberpunk(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float cut = Math.Min(14f, Math.Min(w * 0.2f, h * 0.4f));
+			float cut = Math.Min(14f * s, Math.Min(w * 0.2f, h * 0.4f));
 
 			b.BeginFigure(cut, 0);
 			b.AddLine(w, 0);
@@ -202,7 +204,7 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Left side a full half-circle, right side straight.</summary>
-		private static void BuildDirectionalPill(CanvasPathBuilder b, float w, float h)
+		private static void BuildDirectionalPill(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
 			float r = Math.Min(h * 0.5f, w);
 
@@ -215,9 +217,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>Hexagon with pointed left and right edges.</summary>
-		private static void BuildHexagonal(CanvasPathBuilder b, float w, float h)
+		private static void BuildHexagonal(CanvasPathBuilder b, float w, float h, float s, bool isSmall)
 		{
-			float notch = Math.Min(12f, w * 0.1f);
+			float notch = Math.Min(12f * s, w * 0.1f);
 
 			b.BeginFigure(notch, 0);
 			b.AddLine(w - notch, 0);

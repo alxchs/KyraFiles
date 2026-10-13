@@ -11,7 +11,9 @@ if (-not (Test-Path $PackageDir)) {
 }
 
 Write-Host "Calculando hashes SHA256 para arquivos em: $PackageDir"
-$files = Get-ChildItem -Path $PackageDir -File -Recurse
+$files = Get-ChildItem -Path $PackageDir -File -Recurse | Where-Object {
+    $_.Name -notmatch '\.locked\.' -and $_.Extension -ne '.pdb'
+}
 
 $manifestItems = [System.Collections.Generic.List[PSObject]]::new()
 $totalBytes = 0

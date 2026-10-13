@@ -210,6 +210,130 @@
 						Severity="Warning" />
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
+
+			<!--  F015 Search Index  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=SearchIndexSectionTitle}" />
+
+			<wctcontrols:SettingsExpander
+				Description="{x:Bind ViewModel.SearchIndexServiceSummary, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=SearchIndexStatusHeader}"
+				IsExpanded="True">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xE721;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<Button
+						Command="{x:Bind ViewModel.RefreshSearchIndexStatusCommand}"
+						Content="{helpers:ResourceString Name=SearchIndexRefreshStatusButton}" />
+					<Button
+						Command="{x:Bind ViewModel.ReindexAllVolumesCommand}"
+						Content="{helpers:ResourceString Name=SearchIndexReindexAllButton}" />
+				</StackPanel>
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<ListView
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						IsItemClickEnabled="False"
+						ItemsSource="{x:Bind ViewModel.SearchIndexVolumes, Mode=OneWay}"
+						SelectionMode="None">
+						<ListView.ItemTemplate>
+							<DataTemplate x:DataType="vm:SearchIndexVolumeItemViewModel">
+								<Grid Padding="4" ColumnSpacing="12">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<StackPanel Grid.Column="0" Spacing="2">
+										<TextBlock FontWeight="SemiBold" Text="{x:Bind TitleLine}" />
+										<TextBlock
+											FontSize="12"
+											Opacity="0.8"
+											Text="{x:Bind DetailLine}" />
+									</StackPanel>
+									<Button
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Click="ReindexVolume_Click"
+										Content="{helpers:ResourceString Name=SearchIndexReindexVolumeButton}"
+										Tag="{x:Bind}" />
+									<Button
+										Grid.Column="2"
+										VerticalAlignment="Center"
+										Click="ToggleExcludeVolume_Click"
+										Content="{x:Bind ToggleExcludeLabel}"
+										Tag="{x:Bind}" />
+								</Grid>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
+
+			<wctcontrols:SettingsExpander
+				Description="{helpers:ResourceString Name=SearchIndexExcludedPathsDescription}"
+				Header="{helpers:ResourceString Name=SearchIndexExcludedPathsHeader}"
+				IsExpanded="True">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xF140;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<TextBox
+						x:Name="ExcludedPathTextBox"
+						MinWidth="240"
+						PlaceholderText="{helpers:ResourceString Name=SearchIndexExcludedPathPlaceholder}"
+						Text="{x:Bind ViewModel.NewExcludedPathText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<Button
+						x:Name="AddExcludedPathButton"
+						Command="{x:Bind ViewModel.AddExcludedPathCommand}"
+						Content="{helpers:ResourceString Name=SearchIndexAddExcludedPathButton}" />
+				</StackPanel>
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<ListView
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						IsItemClickEnabled="False"
+						ItemsSource="{x:Bind ViewModel.SearchIndexExcludedPaths, Mode=OneWay}"
+						SelectionMode="None">
+						<ListView.ItemTemplate>
+							<DataTemplate x:DataType="x:String">
+								<Grid Padding="4" ColumnSpacing="12">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<TextBlock
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										Text="{x:Bind}" />
+									<Button
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Click="RemoveExcludedPath_Click"
+										Content="{helpers:ResourceString Name=SearchIndexRemoveExcludedPathButton}"
+										Tag="{x:Bind}" />
+								</Grid>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
+
+			<wctcontrols:SettingsCard
+				Description="{helpers:ResourceString Name=SearchIndexFullModeDescription}"
+				Header="{helpers:ResourceString Name=SearchIndexFullModeHeader}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE7EF;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<Button
+					x:Name="InstallFullModeButton"
+					Content="{helpers:ResourceString Name=SearchIndexInstallFullModeButton}"
+					IsEnabled="False" />
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>

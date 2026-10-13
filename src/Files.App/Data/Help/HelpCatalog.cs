@@ -156,22 +156,23 @@ namespace Files.App.Data.Help
 
 			new HelpTopic(
 				HelpContextId.SearchEngine,
-				"Busca Rápida e Integração com Ferramentas Externas",
+				"Índice de Busca Instantânea e Filtros Avançados",
 				"Busca e Localização",
 				HelpBadgeType.ExplorerAdvantage,
 				"Superior ao Windows Explorer",
-				"Pesquisa local com filtros por extensão, data e tamanho, além de disparo externo com F3.",
-				"Diferente da busca do Windows Explorer que frequentemente trava ou demora para indexar:\n\n" +
-				"• Busca Instantânea por Prefixo: Digite o nome ou extensão e os itens são filtrados em tempo real na pasta.\n" +
-				"• Tecla F3 para Busca Especializada: Acione indexadores externos avançados (como Agent Ransack ou Everything) diretamente na pasta atual.\n" +
-				"• Filtros de Busca Rápida: Filtre facilmente por tipo (imagens, vídeos, documentos) na barra superior.",
+				"Índice próprio em memória (< 100 ms), sem duplicatas por subst/junções e com operadores avançados.",
+				"Diferente da busca do Windows Explorer que trava ou demora minutos:\n\n" +
+				"• Índice Próprio Instantâneo (F015): Funciona no Modo Básico sem administrador (snapshots em disco + ReadDirectoryChangesExW) e no Modo Completo (leitura direta da MFT + USN Journal).\n" +
+				"• Busca Sem Acentos e Sem Duplicatas: Digitar 'acao' encontra 'Ação' e 'AÇÃO' (NFC/NFD), e unidades subst, junções, links simbólicos e hardlinks nunca geram resultados repetidos.\n" +
+				"• Operadores Avançados: Use ext:cs;ts, size:>10mb, dm:today, dc:thisweek, type:folder, type:file, path:src\\, re:<regex> e case:Abc.\n" +
+				"• Tecla F3 para Busca de Conteúdo Externa: Acione Agent Ransack ou Everything diretamente na pasta atual.",
 				new List<HelpShortcut>
 				{
-					new("Ctrl + F", "Focar na Caixa de Busca"),
-					new("F3", "Disparar Busca Externa Avançada na Pasta"),
-					new("Esc", "Limpar Busca e Restaurar Itens"),
+					new("Ctrl + F", "Focar na Caixa de Busca Instantânea"),
+					new("F3", "Disparar Busca Externa na Pasta Atual"),
+					new("Esc", "Cancelar Busca em Andamento"),
 				},
-				new[] { "busca", "pesquisar", "f3", "agent ransack", "everything", "encontrar" }
+				new[] { "busca", "pesquisar", "índice", "mft", "usn", "f3", "agent ransack", "everything", "encontrar" }
 			),
 
 			new HelpTopic(

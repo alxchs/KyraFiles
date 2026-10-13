@@ -4998,4 +4998,43 @@
   <data name="UpdateCheckFailedMessage" xml:space="preserve">
     <value>Não foi possível verificar as atualizações. Verifique sua conexão com a internet e tente novamente.</value>
   </data>
+  <data name="SearchIndexSectionTitle" xml:space="preserve">
+    <value>Índice de Busca Instantânea</value>
+  </data>
+  <data name="SearchIndexStatusHeader" xml:space="preserve">
+    <value>Estado do Índice por Volume</value>
+  </data>
+  <data name="SearchIndexRefreshStatusButton" xml:space="preserve">
+    <value>Atualizar estado</value>
+  </data>
+  <data name="SearchIndexReindexAllButton" xml:space="preserve">
+    <value>Reindexar tudo</value>
+  </data>
+  <data name="SearchIndexReindexVolumeButton" xml:space="preserve">
+    <value>Reindexar</value>
+  </data>
+  <data name="SearchIndexExcludedPathsHeader" xml:space="preserve">
+    <value>Pastas e Volumes Excluídos do Índice</value>
+  </data>
+  <data name="SearchIndexExcludedPathsDescription" xml:space="preserve">
+    <value>Itens dentro destas pastas ou unidades não serão indexados nem exibidos na busca.</value>
+  </data>
+  <data name="SearchIndexExcludedPathPlaceholder" xml:space="preserve">
+    <value>Ex.: C:\Temp ou D:\</value>
+  </data>
+  <data name="SearchIndexAddExcludedPathButton" xml:space="preserve">
+    <value>Excluir caminho</value>
+  </data>
+  <data name="SearchIndexRemoveExcludedPathButton" xml:space="preserve">
+    <value>Incluir novamente</value>
+  </data>
+  <data name="SearchIndexFullModeHeader" xml:space="preserve">
+    <value>Modo Completo (Leitura Direta da MFT + Diário USN)</value>
+  </data>
+  <data name="SearchIndexFullModeDescription" xml:space="preserve">
+    <value>Serviço opcional do Windows para indexação ultrarrápida de volumes NTFS. Pede permissão de administrador (UAC) apenas na instalação.</value>
+  </data>
+  <data name="SearchIndexInstallFullModeButton" xml:space="preserve">
+    <value>Instalar Modo Completo (UAC)</value>
+  </data>
 </root>

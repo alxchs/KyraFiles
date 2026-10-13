@@ -1,15 +1,40 @@
 using Files.App.Data.Enums;
+using Files.App.Services.Search;
 
 namespace Files.App.ViewModels.Settings
 {
+	public sealed partial class SearchIndexVolumeItemViewModel : ObservableObject
+	{
+		public Guid VolumeGuid { get; set; }
+		public string DisplayRoot { get; set; } = string.Empty;
+		public string FileSystem { get; set; } = string.Empty;
+		public string ModeDisplay { get; set; } = string.Empty;
+		public string ItemCountDisplay { get; set; } = string.Empty;
+		public string StateDisplay { get; set; } = string.Empty;
+		public bool IsExcluded { get; set; }
+
+		public string TitleLine => $"{DisplayRoot} ({FileSystem})";
+		public string DetailLine => $"Modo {ModeDisplay} • {ItemCountDisplay} • {StateDisplay}";
+		public string ToggleExcludeLabel => IsExcluded ? "Incluir volume" : "Excluir volume";
+	}
+
 	public sealed partial class FoldersViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private IndexedSearchProvider? IndexedSearchProvider => Ioc.Default.GetService<IndexedSearchProvider>();
 
 		public Dictionary<SizeUnitTypes, string> SizeUnitsOptions { get; private set; } = [];
 		public Dictionary<SingleClickOpenMode, string> SingleClickOpenModeOptions { get; private set; } = [];
-		public Dictionary<SearchEngineKind, string> SearchEngineOptions { get; private set; } = [];
+
+		public ObservableCollection<SearchIndexVolumeItemViewModel> SearchIndexVolumes { get; } = [];
+		public ObservableCollection<string> SearchIndexExcludedPaths { get; } = [];
+
+		public IAsyncRelayCommand RefreshSearchIndexStatusCommand { get; }
+		public IAsyncRelayCommand ReindexAllVolumesCommand { get; }
+		public IAsyncRelayCommand<Guid> ReindexVolumeCommand { get; }
+		public IAsyncRelayCommand<SearchIndexVolumeItemViewModel> ToggleExcludeVolumeCommand { get; }
+		public IAsyncRelayCommand AddExcludedPathCommand { get; }
+		public IAsyncRelayCommand<string> RemoveExcludedPathCommand { get; }
 
 		public FoldersViewModel()
 		{
@@ -28,31 +53,21 @@ namespace Files.App.ViewModels.Settings
 			SelectedOpenFoldersWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick];
 			SelectedOpenFoldersInColumnsViewWithSingleClickOption = SingleClickOpenModeOptions[UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick];
 
-			// Search Engine format
-			SearchEngineOptions.Add(SearchEngineKind.Native, Strings.SearchEngine_Native.GetLocalizedResource());
-			SearchEngineOptions.Add(SearchEngineKind.AgentRansack, Strings.SearchEngine_AgentRansack.GetLocalizedResource());
-			SearchEngineOptions.Add(SearchEngineKind.Everything, Strings.SearchEngine_Everything.GetLocalizedResource());
-			selectedSearchEngineOption = SearchEngineOptions.TryGetValue(UserSettingsService.FoldersSettingsService.SearchEnginePreference, out var currentEngine)
-				? currentEngine
-				: SearchEngineOptions[SearchEngineKind.Native];
-		}
-
-		private string selectedSearchEngineOption = string.Empty;
-		public string SelectedSearchEngineOption
-		{
-			get => selectedSearchEngineOption;
-			set
+			var savedExcluded = UserSettingsService.FoldersSettingsService.SearchIndexExcludedPaths;
+			if (savedExcluded is not null)
 			{
-				if (SetProperty(ref selectedSearchEngineOption, value))
-				{
-					var match = SearchEngineOptions.FirstOrDefault(x => x.Value == value).Key;
-					if (UserSettingsService.FoldersSettingsService.SearchEnginePreference != match)
-					{
-						UserSettingsService.FoldersSettingsService.SearchEnginePreference = match;
-						OnPropertyChanged();
-					}
-				}
+				foreach (var p in savedExcluded.Where(x => !string.IsNullOrWhiteSpace(x)))
+					SearchIndexExcludedPaths.Add(p);
 			}
+
+			RefreshSearchIndexStatusCommand = new AsyncRelayCommand(RefreshSearchIndexStatusAsync);
+			ReindexAllVolumesCommand = new AsyncRelayCommand(() => ReindexVolumeAsync(null));
+			ReindexVolumeCommand = new AsyncRelayCommand<Guid>(guid => ReindexVolumeAsync(guid));
+			ToggleExcludeVolumeCommand = new AsyncRelayCommand<SearchIndexVolumeItemViewModel>(ToggleExcludeVolumeAsync);
+			AddExcludedPathCommand = new AsyncRelayCommand(AddExcludedPathAsync);
+			RemoveExcludedPathCommand = new AsyncRelayCommand<string>(RemoveExcludedPathAsync);
+
+			_ = RefreshSearchIndexStatusAsync();
 		}
 
 		// Properties
@@ -319,6 +334,166 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.FoldersSettingsService.SizeUnitFormat = SizeUnitsOptions.First(e => e.Value == value).Key;
 				}
 			}
+		}
+
+		private string searchIndexServiceSummary = "Consultando serviço de índice...";
+		public string SearchIndexServiceSummary
+		{
+			get => searchIndexServiceSummary;
+			set => SetProperty(ref searchIndexServiceSummary, value);
+		}
+
+		private string newExcludedPathText = string.Empty;
+		public string NewExcludedPathText
+		{
+			get => newExcludedPathText;
+			set => SetProperty(ref newExcludedPathText, value);
+		}
+
+		public async Task RefreshSearchIndexStatusAsync()
+		{
+			var provider = IndexedSearchProvider;
+			if (provider is null)
+			{
+				SearchIndexServiceSummary = "Provedor de índice não registrado";
+				return;
+			}
+
+			try
+			{
+				bool alive = await provider.EnsureReadyAndConfiguredAsync();
+				if (!alive)
+				{
+					SearchIndexServiceSummary = "Serviço de índice indisponível (usando busca direta de reserva)";
+					return;
+				}
+
+				var status = await provider.Client.GetStatusAsync();
+				if (status is null)
+				{
+					SearchIndexServiceSummary = "Não foi possível obter o estado do serviço de índice";
+					return;
+				}
+
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					string modePt = status.Mode == "Full" ? "Completo (MFT + USN)" : "Básico (sem administrador)";
+					int totalItems = status.Volumes?.Sum(v => v.ItemCount) ?? 0;
+					SearchIndexServiceSummary = $"Modo {modePt} ativo (PID {status.ServerProcessId}) • {totalItems:N0} itens indexados";
+
+					SearchIndexVolumes.Clear();
+					if (status.Volumes is not null)
+					{
+						foreach (var vol in status.Volumes)
+						{
+							string volMode = vol.Mode == "Full" ? "Completo" : "Básico";
+							string statePt = vol.State switch
+							{
+								"Ready" => string.IsNullOrWhiteSpace(vol.StatusDetail) ? "Pronto" : vol.StatusDetail,
+								"Indexing" => "Indexando em segundo plano...",
+								"Excluded" => "Excluído pelo usuário",
+								"BitLockerLocked" => "BitLocker bloqueado",
+								_ => vol.State
+							};
+
+							SearchIndexVolumes.Add(new SearchIndexVolumeItemViewModel
+							{
+								VolumeGuid = vol.VolumeGuid,
+								DisplayRoot = vol.DisplayRoot,
+								FileSystem = vol.FileSystem,
+								ModeDisplay = volMode,
+								ItemCountDisplay = $"{vol.ItemCount:N0} itens",
+								StateDisplay = statePt,
+								IsExcluded = vol.State == "Excluded" || SearchIndexExcludedPaths.Any(p => p.Equals(vol.DisplayRoot, StringComparison.OrdinalIgnoreCase))
+							});
+						}
+					}
+				});
+			}
+			catch (Exception ex)
+			{
+				SearchIndexServiceSummary = $"Erro ao consultar índice: {ex.Message}";
+			}
+		}
+
+		public async Task ReindexVolumeAsync(Guid? volumeGuid)
+		{
+			var provider = IndexedSearchProvider;
+			if (provider is null)
+				return;
+
+			try
+			{
+				await provider.EnsureReadyAndConfiguredAsync();
+				await provider.Client.ReindexAsync(volumeGuid);
+				await Task.Delay(250);
+				await RefreshSearchIndexStatusAsync();
+			}
+			catch
+			{
+			}
+		}
+
+		public async Task ToggleExcludeVolumeAsync(SearchIndexVolumeItemViewModel? item)
+		{
+			if (item is null || string.IsNullOrWhiteSpace(item.DisplayRoot))
+				return;
+
+			var existing = SearchIndexExcludedPaths.FirstOrDefault(p => p.Equals(item.DisplayRoot, StringComparison.OrdinalIgnoreCase));
+			if (existing is not null)
+				SearchIndexExcludedPaths.Remove(existing);
+			else
+				SearchIndexExcludedPaths.Add(item.DisplayRoot);
+
+			await SaveAndApplyExcludedPathsAsync();
+		}
+
+		public async Task AddExcludedPathAsync()
+		{
+			string candidate = NewExcludedPathText?.Trim().Trim('"') ?? string.Empty;
+			if (string.IsNullOrWhiteSpace(candidate))
+				return;
+
+			if (!SearchIndexExcludedPaths.Any(p => p.Equals(candidate, StringComparison.OrdinalIgnoreCase)))
+			{
+				SearchIndexExcludedPaths.Add(candidate);
+				NewExcludedPathText = string.Empty;
+				await SaveAndApplyExcludedPathsAsync();
+			}
+		}
+
+		public async Task RemoveExcludedPathAsync(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			var existing = SearchIndexExcludedPaths.FirstOrDefault(p => p.Equals(path, StringComparison.OrdinalIgnoreCase));
+			if (existing is not null)
+			{
+				SearchIndexExcludedPaths.Remove(existing);
+				await SaveAndApplyExcludedPathsAsync();
+			}
+		}
+
+		private async Task SaveAndApplyExcludedPathsAsync()
+		{
+			var list = SearchIndexExcludedPaths.ToList();
+			UserSettingsService.FoldersSettingsService.SearchIndexExcludedPaths = list;
+
+			var provider = IndexedSearchProvider;
+			if (provider is not null)
+			{
+				try
+				{
+					await provider.EnsureReadyAndConfiguredAsync();
+					await provider.Client.ConfigureAsync(list.ToArray());
+				}
+				catch
+				{
+				}
+			}
+
+			await RefreshSearchIndexStatusAsync();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.ViewModels.Help;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -28,6 +29,7 @@ namespace Files.App.ViewModels
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
+		public HelpViewModel HelpViewModel { get; } = Ioc.Default.GetRequiredService<HelpViewModel>();
 
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 

@@ -15,6 +15,15 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:StringToFontFamilyConverter x:Key="StringToFontFamilyConverter" />
+
+			<DataTemplate x:Key="FontFamilyItemTemplate" x:DataType="x:String">
+				<TextBlock
+					Text="{x:Bind}"
+					FontFamily="{x:Bind converters:StringToFontFamilyConverter.ConvertToFontFamily((x:String))}"
+					FontSize="15"
+					VerticalAlignment="Center" />
+			</DataTemplate>
 
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="dataitem:AppThemeResourceItem">
 				<Grid
@@ -246,6 +255,7 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=Font}"
+					ItemTemplate="{StaticResource FontFamilyItemTemplate}"
 					ItemsSource="{x:Bind ViewModel.AppThemeFontFamilyOptions.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedAppThemeFontFamilyOption, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
@@ -257,6 +267,7 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=AppThemeFileAreaFontFamily}"
+					ItemTemplate="{StaticResource FontFamilyItemTemplate}"
 					ItemsSource="{x:Bind ViewModel.AppThemeFontFamilyOptions.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedAppThemeFileAreaFontFamilyOption, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>

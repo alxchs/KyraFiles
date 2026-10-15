@@ -175,3 +175,7 @@ Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\p
 
 - OBSERVED: C: NTFS, `MftValidDataLength` 3.189.768.192 bytes, registro de 1024 bytes → ~3.115.008 registros (estimado pela divisão).
 - NOT TESTED: velocidade de leitura da MFT bruta. `\.\C:\$MFT` não abriu (HR=5, acesso negado, mesmo elevado). Precisa de outro caminho (`FSCTL_GET_NTFS_FILE_RECORD`/leitura por extents em `\.\C:`).
+
+## F015 AC-20 — comparação com o Everything (15/10/2026)
+
+- O Alexandre buscou `es.exe` com o próprio Everything e informou que não existe nesta máquina (relato dele, não busca minha). AC-20 fica `NOT TESTED` até haver o `es.exe` (CLI do Everything, download separado do Everything) ou outra forma de medir o Everything.

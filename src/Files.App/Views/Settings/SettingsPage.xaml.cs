@@ -138,7 +138,6 @@ namespace Files.App.Views
 				SettingsPageKind.TagsPage => typeof(TagsPage),
 				SettingsPageKind.DevToolsPage => typeof(DevToolsPage),
 				SettingsPageKind.AdvancedPage => typeof(AdvancedPage),
-				SettingsPageKind.HelpPage => typeof(HelpPage),
 				SettingsPageKind.AboutPage => typeof(AboutPage),
 				_ => typeof(GeneralPage),
 			};

@@ -3,6 +3,7 @@
 
 using Files.App.Data.Contracts;
 using Files.App.Services.SizeProvider;
+using Files.App.Utils.Git;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
@@ -255,11 +256,20 @@ namespace Files.App.ViewModels
 			}
 
 			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (gitDirectory is null)
+			{
+				var svnDirectory = await Task.Run(() => SvnHelpers.GetSvnRepositoryPath(value, pathRoot));
+				if (svnDirectory is not null)
+					gitDirectory = svnDirectory;
+			}
+
 			if (isDisposed || WorkingDirectory != value)
 				return;
 
 			GitDirectory = gitDirectory;
-			var headName = await GitHelpers.GetRepositoryHeadName(gitDirectory);
+			var headName = gitDirectory is not null && Directory.Exists(Path.Combine(gitDirectory, ".svn"))
+				? SvnHelpers.GetSvnHead(gitDirectory)?.Name
+				: await GitHelpers.GetRepositoryHeadName(gitDirectory);
 			if (isDisposed || WorkingDirectory != value)
 				return;
 

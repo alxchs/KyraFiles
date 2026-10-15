@@ -71,6 +71,18 @@
 				Command="{x:Bind Commands.OpenTerminalAsAdmin, Mode=OneWay}"
 				KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenTerminalAsAdmin.HotKeyText, Mode=OneWay}"
 				Text="{x:Bind Commands.OpenTerminalAsAdmin.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.OpenCmd, Mode=OneWay}"
+				Text="{x:Bind Commands.OpenCmd.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.OpenCmdAsAdmin, Mode=OneWay}"
+				Text="{x:Bind Commands.OpenCmdAsAdmin.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.OpenPowerShell, Mode=OneWay}"
+				Text="{x:Bind Commands.OpenPowerShell.Label, Mode=OneWay}" />
+			<MenuFlyoutItem
+				Command="{x:Bind Commands.OpenPowerShellAsAdmin, Mode=OneWay}"
+				Text="{x:Bind Commands.OpenPowerShellAsAdmin.Label, Mode=OneWay}" />
 
 			<MenuFlyoutSeparator />
 

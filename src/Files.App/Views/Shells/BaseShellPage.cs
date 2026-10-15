@@ -6,8 +6,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Files.App.Utils.Git;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
@@ -285,7 +287,9 @@ namespace Files.App.Views.Shells
 			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(shellViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = InstanceViewModel.IsGitRepository
-					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+					? (Directory.Exists(Path.Combine(InstanceViewModel.GitRepositoryPath ?? string.Empty, ".svn"))
+						? SvnHelpers.GetSvnHead(InstanceViewModel.GitRepositoryPath)
+						: await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath))
 					: null;
 
 			shellViewModel = this.GetRequiredShellViewModel();
@@ -342,7 +346,9 @@ namespace Files.App.Views.Shells
 				return;
 
 			var head = InstanceViewModel.IsGitRepository
-				? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+				? (Directory.Exists(Path.Combine(InstanceViewModel.GitRepositoryPath ?? string.Empty, ".svn"))
+					? SvnHelpers.GetSvnHead(InstanceViewModel.GitRepositoryPath)
+					: await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath))
 				: null;
 
 			InstanceViewModel.GitBranchName = head is not null

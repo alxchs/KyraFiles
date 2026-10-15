@@ -4,11 +4,9 @@
 
 using Files.App.Helpers.Application;
 using Files.App.Services.Git;
-using Files.App.Services.Help;
 using Files.App.Services.Search;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
-using Files.App.ViewModels.Help;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -380,11 +378,9 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					.AddSingleton<IExplorerPropertyService, ExplorerPropertyService>()
-					.AddSingleton<IHelpService, HelpService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
-					.AddSingleton<HelpViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
 					.AddSingleton<DrivesViewModel>()

@@ -652,6 +652,22 @@ namespace Files.App.Data.Factories
 						Commands.OpenTerminal.IsExecutable &&
 						UserSettingsService.GeneralSettingsService.ShowOpenTerminal
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenCmd)
+				{
+					IsVisible = (!itemsSelected || areAllItemsFolders) && Commands.OpenCmd.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenCmdAsAdmin)
+				{
+					IsVisible = (!itemsSelected || areAllItemsFolders) && Commands.OpenCmdAsAdmin.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenPowerShell)
+				{
+					IsVisible = (!itemsSelected || areAllItemsFolders) && Commands.OpenPowerShell.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenPowerShellAsAdmin)
+				{
+					IsVisible = (!itemsSelected || areAllItemsFolders) && Commands.OpenPowerShellAsAdmin.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				// Shell extensions are not available on the FTP server or in the archive,

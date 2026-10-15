@@ -24,6 +24,15 @@
 - NOT TESTED: AC-3 (mesma versão), AC-4 (versão maior: botão abre a página), AC-6 (sem rede); exigem apontar `CustomReleasesApiUrl` para um servidor de teste.
 - LIÇÃO (CONFIRMED): `dotnet build`/`mkfile d` **não atualiza** o layout `AppX\` registrado; só `.\Open-FilesDev.ps1 -Configuration Debug -NoLaunch` copia. Até 12/10 ~18:30 os testes visuais desta sessão rodaram um `Files.dll` das 13:11 (layout) enquanto o build era das 18:32. A prova "as 10 formas não derrubam o app" valia para o binário antigo e foi refeita depois do deploy.
 
+## F020 — Aba única por endereço e Configurações na primeira posição (15/10/2026)
+
+- CONFIRMED: Normalização de caminhos (`NormalizeNavigationPath`) tratando maiúsculas/minúsculas, barras normais/invertidas e raízes de drive (`test_f020_logic.ps1`: 16/16 casos aprovados).
+- CONFIRMED: `AddNewTabByPathAsync` e `AddNewTabByParamAsync` em `NavigationHelpers.cs` verificam unicidade antes de instanciar abas. Ao abrir aba com endereço existente, alternam foco para ela sem criar aba duplicada.
+- CONFIRMED: Aba de Configurações posicionada sempre no índice 0 (`atIndex = 0`). Ao reabrir com ela já aberta, é movida para o índice 0 (`AppInstances.Move`) e recebe o foco.
+- CONFIRMED: Clique no botão de Configurações da barra lateral (`SidebarViewModel.cs`) chama `NavigationHelpers.OpenPathInNewTab("Settings", true)`, preservando o conteúdo da pasta ativa.
+- CONFIRMED: Navegação no Omnibar / barra de endereço (`NavigationToolbarViewModel.cs`) e duplicação (`DuplicateSelectedTabAction.cs`) respeitam a regra de aba única.
+- CONFIRMED: Build Release com `0 Error(s), 0 Warning(s)`, layout AppX atualizado.
+
 ## Gates
 
 | Gate | Descrição | Estado |
@@ -49,6 +58,7 @@
 | F013 | F3 abre o Agent Ransack na pasta atual | CONCLUÍDA na branch (AC-1, AC-3, AC-4 CONFIRMED; AC-2, AC-5 INFERRED; ver `docs/specs/F013-f3-agent-ransack/tasks.md`) | feature/f012-explorer-replacement |
 | F007-B | Compositor Idle / Repouso WinUI 3 | CONCLUÍDO (bissecção empírica completa em Solid e MicaAlt; causas identificadas: Widgets Home ~3.688ms compositor e 4 Abas ~3.984ms; baseline em pasta simples atinge 78ms em 10s / 7,8ms/s, mais econômico que OneCommander) | feature/compositor-idle-f007b |
 | F014 | Sistema de Ajuda (Help) Completo e Contextual | CONCLUÍDO (T1..T6 CONFIRMED: HelpPane contextual retrátil, F1 contextual routing, Badges editoriais, Settings HelpPage com busca em tempo real, build 0/0, evidências visuais completas em docs/agents/evidence/f014/) | feature/sistema-help-contextual |
+| F020 | Aba única por endereço e Configurações na primeira posição | CONCLUÍDO (T1..T6 CONFIRMED: normalização de caminhos, prevenção de abas duplicadas, Settings no índice 0, build Release 0/0, testes lógicos 16/16) | feature/f020-aba-unica-config-primeira-posicao |
 
 ## Observações do ambiente (28/09/2026)
 

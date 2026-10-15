@@ -565,18 +565,41 @@ namespace Files.App.ViewModels.UserControls
 			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
+				var existingIdx = NavigationHelpers.FindExistingTabIndex("Home");
+				if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+				{
+					App.AppModel.TabStripSelectedIndex = existingIdx;
+					return true;
+				}
+
 				SavePathToHistory("Home");
 				shellPage.NavigateHome();
 			}
 			else if (normalizedInput.Equals("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.ReleaseNotes.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
+				var existingIdx = NavigationHelpers.FindExistingTabIndex("ReleaseNotes");
+				if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+				{
+					App.AppModel.TabStripSelectedIndex = existingIdx;
+					return true;
+				}
+
 				SavePathToHistory("ReleaseNotes");
 				shellPage.NavigateToReleaseNotes();
 			}
 			else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
+				var existingIdx = NavigationHelpers.FindExistingTabIndex("Settings");
+				if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+				{
+					if (existingIdx != 0)
+						MainPageViewModel.AppInstances.Move(existingIdx, 0);
+					App.AppModel.TabStripSelectedIndex = 0;
+					return true;
+				}
+
 				SavePathToHistory("Settings");
 				shellPage.NavigateToSettings();
 			}
@@ -607,11 +630,25 @@ namespace Files.App.ViewModels.UserControls
 					}
 
 					var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
+					var existingIdx = NavigationHelpers.FindExistingTabIndex(pathToNavigate);
+					if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+					{
+						App.AppModel.TabStripSelectedIndex = existingIdx;
+						return true;
+					}
+
 					SavePathToHistory(pathToNavigate);
 					shellPage.NavigateToPath(pathToNavigate);
 				}
 				else if (isFtp)
 				{
+					var existingIdx = NavigationHelpers.FindExistingTabIndex(normalizedInput);
+					if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+					{
+						App.AppModel.TabStripSelectedIndex = existingIdx;
+						return true;
+					}
+
 					SavePathToHistory(normalizedInput);
 					shellPage.NavigateToPath(normalizedInput);
 				}
@@ -877,16 +914,39 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
+					var existingIdx = NavigationHelpers.FindExistingTabIndex("Home");
+					if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+					{
+						App.AppModel.TabStripSelectedIndex = existingIdx;
+						return;
+					}
+
 					SavePathToHistory("Home");
 					shellPage.NavigateHome();
 				}
 				else if (normalizedInput.Equals("ReleaseNotes", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.ReleaseNotes.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
+					var existingIdx = NavigationHelpers.FindExistingTabIndex("ReleaseNotes");
+					if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+					{
+						App.AppModel.TabStripSelectedIndex = existingIdx;
+						return;
+					}
+
 					SavePathToHistory("ReleaseNotes");
 					shellPage.NavigateToReleaseNotes();
 				}
 				else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
+					var existingIdx = NavigationHelpers.FindExistingTabIndex("Settings");
+					if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+					{
+						if (existingIdx != 0)
+							MainPageViewModel.AppInstances.Move(existingIdx, 0);
+						App.AppModel.TabStripSelectedIndex = 0;
+						return;
+					}
+
 					SavePathToHistory("Settings");
 					shellPage.NavigateToSettings();
 				}
@@ -913,11 +973,25 @@ namespace Files.App.ViewModels.UserControls
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
+						var existingIdx = NavigationHelpers.FindExistingTabIndex(pathToNavigate);
+						if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+						{
+							App.AppModel.TabStripSelectedIndex = existingIdx;
+							return;
+						}
+
 						SavePathToHistory(pathToNavigate);
 						shellPage.NavigateToPath(pathToNavigate);
 					}
 					else if (isFtp)
 					{
+						var existingIdx = NavigationHelpers.FindExistingTabIndex(normalizedInput);
+						if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
+						{
+							App.AppModel.TabStripSelectedIndex = existingIdx;
+							return;
+						}
+
 						SavePathToHistory(normalizedInput);
 						shellPage.NavigateToPath(normalizedInput);
 					}

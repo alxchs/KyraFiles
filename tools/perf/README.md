@@ -168,3 +168,10 @@ Script: `tools/perf/f019_clip_ab.ps1 -Backdrop 4 -Shapes '0,6' -Rounds 3 -Warmup
 - Diferença ~10 ms/s, na faixa do ruído (N=3). **Os 65 ms/s relatados pela AGY não se reproduzem com o app parado** nesta máquina. Nenhuma thread passou de 10 ms (o filtro do `idle.ps1`) como "DWM Compositor Thread".
 - Com aquecimento de 8 s a medição é inválida (CPU de 12–17 s em 10 s, é a inicialização); use 30 s.
 - Não medido: custo durante redimensionamento/arraste e com as outras 8 formas. Sem esse dado, não há base para mexer no `ShapeClip`.
+
+## F015 T2a — sonda da MFT (15/10/2026)
+
+Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\perf\f015_mft_probe.ps1"` (UAC aceito pelo Alexandre). Log: `%TEMP%\claude\desenv\utils\FilesApp\f015\f015_mft_probe-20261015_203038.log`.
+
+- OBSERVED: C: NTFS, `MftValidDataLength` 3.189.768.192 bytes, registro de 1024 bytes → ~3.115.008 registros (estimado pela divisão).
+- NOT TESTED: velocidade de leitura da MFT bruta. `\.\C:\$MFT` não abriu (HR=5, acesso negado, mesmo elevado). Precisa de outro caminho (`FSCTL_GET_NTFS_FILE_RECORD`/leitura por extents em `\.\C:`).

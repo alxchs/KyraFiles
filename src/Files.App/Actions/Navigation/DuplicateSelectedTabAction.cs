@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -40,6 +40,14 @@ namespace Files.App.Actions
 			}
 			else
 			{
+				var targetPath = NavigationHelpers.ExtractNavigationPath(arguments.NavigationParameter);
+				var existingIndex = NavigationHelpers.FindExistingTabIndex(targetPath);
+				if (existingIndex != -1)
+				{
+					App.AppModel.TabStripSelectedIndex = existingIndex;
+					return;
+				}
+
 				await NavigationHelpers.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
 			}
 		}

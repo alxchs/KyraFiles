@@ -1,0 +1,50 @@
+# Gera manifesto SHA256 do pacote para permitir atualizações diferenciais (delta) e detecção de integridade
+param(
+    [string]$PackageDir = "src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX",
+    [string]$OutputFile = "installer\package_manifest.json"
+)
+
+$ErrorActionPreference = 'Stop'
+
+if (-not (Test-Path $PackageDir)) {
+    throw "Diretório de pacote não encontrado: $PackageDir"
+}
+
+Write-Host "Calculando hashes SHA256 para arquivos em: $PackageDir"
+$files = Get-ChildItem -Path $PackageDir -File -Recurse | Where-Object {
+    $_.Name -notmatch '\.locked\.' -and $_.Extension -ne '.pdb'
+}
+
+$manifestItems = [System.Collections.Generic.List[PSObject]]::new()
+$totalBytes = 0
+
+foreach ($f in $files) {
+    $relPath = $f.FullName.Substring((Resolve-Path $PackageDir).Path.Length).TrimStart('\')
+    
+    # Classifica se é binário principal ou dependência pesada
+    $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'Files.dll' -and $f.Name -ne 'Files.exe'
+    
+    $hash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
+    $totalBytes += $f.Length
+    
+    $manifestItems.Add([PSCustomObject]@{
+        Path = $relPath
+        Length = $f.Length
+        SHA256 = $hash
+        IsDependency = $isDependency
+    })
+}
+
+$manifest = [PSCustomObject]@{
+    Version = "4.2.37"
+    GeneratedAtUtc = [System.DateTime]::UtcNow.ToString("o")
+    TotalFiles = $manifestItems.Count
+    TotalBytes = $totalBytes
+    Files = $manifestItems
+}
+
+$json = $manifest | ConvertTo-Json -Depth 5
+[System.IO.File]::WriteAllText((Join-Path $PSScriptRoot "package_manifest.json"), $json, [System.Text.Encoding]::UTF8)
+
+Write-Host "Manifesto gerado com sucesso: $(Join-Path $PSScriptRoot 'package_manifest.json') ($($manifestItems.Count) arquivos, $([math]::Round($totalBytes / 1MB, 2)) MB)"
+

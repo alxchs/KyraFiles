@@ -1,0 +1,110 @@
+﻿. "$PSScriptRoot\SmokeTest-Helper.ps1"
+
+$p = Get-Process Files | Select-Object -First 1
+$hwnd = [VC]::FindMainWindow($p.Id)
+$hwndVal = $hwnd.ToInt64()
+
+$script = @"
+Add-Type -AssemblyName UIAutomationClient
+`$hwnd = [IntPtr]$hwndVal
+`$root = [System.Windows.Automation.AutomationElement]::FromHandle(`$hwnd)
+
+`$code = @'
+using System;
+using System.Runtime.InteropServices;
+public static class UndoTester {
+    [DllImport("user32.dll", SetLastError = true)] public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+    [StructLayout(LayoutKind.Explicit, Size = 40)]
+    public struct INPUT {
+        [FieldOffset(0)] public uint type;
+        [FieldOffset(8)] public KEYBDINPUT ki;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct KEYBDINPUT {
+        public ushort wVk;
+        public ushort wScan;
+        public uint dwFlags;
+        public uint time;
+        public IntPtr dwExtraInfo;
+    }
+    public static void SendKey(ushort key, ushort m1 = 0) {
+        if (m1 == 0) {
+            INPUT[] inp = new INPUT[2];
+            inp[0].type = 1; inp[0].ki.wVk = key;
+            inp[1].type = 1; inp[1].ki.wVk = key; inp[1].ki.dwFlags = 2;
+            SendInput(2, inp, 40);
+        } else {
+            INPUT[] inp = new INPUT[4];
+            inp[0].type = 1; inp[0].ki.wVk = m1;
+            inp[1].type = 1; inp[1].ki.wVk = key;
+            inp[2].type = 1; inp[2].ki.wVk = key; inp[2].ki.dwFlags = 2;
+            inp[3].type = 1; inp[3].ki.wVk = m1; inp[3].ki.dwFlags = 2;
+            SendInput(4, inp, 40);
+        }
+    }
+    public static void SendText(string text) {
+        INPUT[] inp = new INPUT[text.Length * 2];
+        for (int i = 0; i < text.Length; i++) {
+            inp[i * 2].type = 1;
+            inp[i * 2].ki.wScan = (ushort)text[i];
+            inp[i * 2].ki.dwFlags = 4;
+            inp[i * 2 + 1].type = 1;
+            inp[i * 2 + 1].ki.wScan = (ushort)text[i];
+            inp[i * 2 + 1].ki.dwFlags = 4 | 2;
+        }
+        SendInput((uint)inp.Length, inp, 40);
+    }
+}
+'@
+Add-Type -TypeDefinition `$code -ErrorAction SilentlyContinue
+
+# 1. Select activate_test.txt
+`$condItem = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'activate_test.txt')
+`$el = `$root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, `$condItem)
+`$walker = [System.Windows.Automation.TreeWalker]::ControlViewWalker
+`$cur = `$el
+while (`$cur -and `$cur.Current.ControlType -ne [System.Windows.Automation.ControlType]::ListItem) {
+    `$cur = `$walker.GetParent(`$cur)
+}
+`$sel = `$cur.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern) -as [System.Windows.Automation.SelectionItemPattern]
+if (`$sel) { `$sel.Select() }
+`$cur.SetFocus()
+Start-Sleep -Milliseconds 300
+
+# 2. Invoke Rename
+`$condBtn = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'InnerNavigationToolbarRenameButton')
+`$btn = `$root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, `$condBtn)
+`$inv = `$btn.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern) -as [System.Windows.Automation.InvokePattern]
+`$inv.Invoke()
+Start-Sleep -Milliseconds 500
+
+# 3. Type new name part (replaces 'activate_test' since it is selected)
+[UndoTester]::SendText("activate_renamed")
+Start-Sleep -Milliseconds 400
+
+# 4. Press Enter to commit
+[UndoTester]::SendKey(0x0D)
+Start-Sleep -Milliseconds 1000
+"@
+
+$res = Invoke-OnDefault -PowerShellScript $script
+Write-Output $res
+
+# Capture committed state
+Capture-FilesWindow -OutFile 'docs\agents\evidence\f001\13_rename_committed.png' | Out-Null
+
+# Verify on disk
+$renamedPath = "C:\FilesUXLab\activate_renamed.txt"
+$origPath = "C:\FilesUXLab\activate_test.txt"
+Write-Output ("Disk check: renamed exists = " + (Test-Path $renamedPath))
+
+# 5. Send Ctrl+Z to undo
+$scriptUndo = @"
+[UndoTester]::SendKey(0x5A, 0x11) # VK_Z = 0x5A, VK_CONTROL = 0x11
+Start-Sleep -Milliseconds 1000
+"@
+Invoke-OnDefault -PowerShellScript $scriptUndo | Out-Null
+
+# Capture undone state
+Capture-FilesWindow -OutFile 'docs\agents\evidence\f001\14_rename_undone.png' | Out-Null
+Write-Output ("Disk check after Undo: orig exists = " + (Test-Path $origPath))

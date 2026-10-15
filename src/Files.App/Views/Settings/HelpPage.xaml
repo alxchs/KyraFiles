@@ -1,0 +1,139 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.Views.Settings.HelpPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:help="using:Files.App.Data.Help"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Grid>
+		<StackPanel
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Spacing="12">
+
+			<!--  Title  -->
+			<TextBlock
+				Padding="0,0,0,4"
+				Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+				Text="Ajuda, Atalhos e Diferenciais" />
+
+			<TextBlock
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+				Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+				Text="Conheça os recursos modernos que tornam o Files Custom superior ao Windows Explorer e as ferramentas inspiradas no OneCommander." />
+
+			<!--  Search Box  -->
+			<TextBox
+				PlaceholderText="Filtrar por tópico, atalho ou palavra-chave..."
+				Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				HorizontalAlignment="Stretch"
+				Margin="0,4,0,8" />
+
+			<!--  List of Topics  -->
+			<ItemsControl ItemsSource="{x:Bind ViewModel.FilteredTopics, Mode=OneWay}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate x:DataType="help:HelpTopic">
+						<Border
+							Margin="0,0,0,12"
+							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							CornerRadius="8"
+							Padding="16">
+							<StackPanel Spacing="8">
+								<!--  Header row with Title and Badge  -->
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+
+									<StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+										<FontIcon Glyph="&#xE897;" FontSize="16" Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
+										<TextBlock
+											Text="{x:Bind Title}"
+											Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
+											FontSize="15" />
+									</StackPanel>
+
+									<Border
+										Grid.Column="1"
+										Background="{ThemeResource AccentFillColorTertiaryBrush}"
+										CornerRadius="4"
+										Padding="8,3,8,3">
+										<TextBlock
+											Text="{x:Bind BadgeLabel}"
+											FontSize="11"
+											FontWeight="SemiBold"
+											Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+									</Border>
+								</Grid>
+
+								<!--  Summary  -->
+								<TextBlock
+									Text="{x:Bind Summary}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									TextWrapping="Wrap" />
+
+								<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" Margin="0,4,0,4" />
+
+								<!--  Content  -->
+								<TextBlock
+									Text="{x:Bind Content}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+									TextWrapping="Wrap" />
+
+								<!--  Shortcuts section  -->
+								<StackPanel Spacing="6" Margin="0,6,0,0">
+									<TextBlock
+										Text="Atalhos Relacionados:"
+										FontWeight="SemiBold"
+										FontSize="12"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+
+									<ItemsControl ItemsSource="{x:Bind Shortcuts}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate x:DataType="help:HelpShortcut">
+												<Grid Margin="0,3,0,3">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto" />
+														<ColumnDefinition Width="*" />
+													</Grid.ColumnDefinitions>
+													<Border
+														Grid.Column="0"
+														Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+														BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+														BorderThickness="1"
+														CornerRadius="4"
+														Padding="6,2,6,2"
+														Margin="0,0,10,0">
+														<TextBlock
+															Text="{x:Bind Keys}"
+															FontFamily="Consolas, Cascadia Code"
+															FontWeight="Bold"
+															FontSize="11" />
+													</Border>
+													<TextBlock
+														Grid.Column="1"
+														Text="{x:Bind Description}"
+														VerticalAlignment="Center"
+														FontSize="12" />
+												</Grid>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</StackPanel>
+							</StackPanel>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+		</StackPanel>
+	</Grid>
+</Page>

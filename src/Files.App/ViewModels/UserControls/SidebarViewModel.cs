@@ -835,15 +835,18 @@ namespace Files.App.ViewModels.UserControls
 			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
 			if (string.Equals(navigationControlItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
 			{
-				if (ctrlPressed || middleClickPressed)
+				_ = NavigationHelpers.OpenPathInNewTab("Settings", true);
+				return;
+			}
+
+			if (navigationControlItem.Path is not null)
+			{
+				var existingIdx = NavigationHelpers.FindExistingTabIndex(navigationControlItem.Path);
+				if (existingIdx != -1 && existingIdx != App.AppModel.TabStripSelectedIndex)
 				{
-					_ = NavigationHelpers.OpenPathInNewTab("Settings");
+					App.AppModel.TabStripSelectedIndex = existingIdx;
 					return;
 				}
-
-				if (PaneHolder?.ActivePane is IShellPage settingsShellPage)
-					settingsShellPage.NavigateToSettings();
-				return;
 			}
 
 			if ((ctrlPressed ||

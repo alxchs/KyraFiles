@@ -1,6 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
@@ -68,6 +69,11 @@ namespace Files.App.Data.Contracts
 		String AppThemeFontFamily { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the files and columns font family.
+		/// </summary>
+		String AppThemeFileAreaFontFamily { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value for the theme system backdrop.
 		/// </summary>
 		BackdropMaterialType AppThemeBackdropMaterial { get; set; }
@@ -96,6 +102,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value for the app background image Horizontal Alignment.
 		/// </summary>
 		HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value whether the classic menu bar should be displayed.
+		/// </summary>
+		bool ShowClassicMenuBar { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value whether the toolbar should be displayed.
@@ -134,5 +145,15 @@ namespace Files.App.Data.Contracts
 		/// This is used to inject only newly introduced default actions for existing user configs.
 		/// </summary>
 		Dictionary<string, List<string>>? LastKnownToolbarDefaults { get; set; }
+
+		/// <summary>
+		/// Gets or sets the application density kind (Normal, Compact, UltraCompact).
+		/// </summary>
+		AppDensityKind AppDensity { get; set; }
+
+		/// <summary>
+		/// Gets or sets the geometric shape style model for controls, tabs and cards.
+		/// </summary>
+		ControlShapeStyleKind ControlShapeStyle { get; set; }
 	}
 }

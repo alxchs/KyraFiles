@@ -56,7 +56,7 @@
 			</Style>
 
 			<Style TargetType="ListViewHeaderItem">
-				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+				<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
 				<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
 				<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
 				<Setter Property="Margin" Value="0,0,0,4" />
@@ -229,6 +229,7 @@
 					Padding="8,0,8,12"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
+					FontFamily="{ThemeResource App.Theme.FileArea.FontFamily}"
 					ext:ScrollViewerMiddleClickExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -403,6 +404,12 @@
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
+
+									<!--  More Columns...  -->
+									<MenuFlyoutItem
+										x:Name="MoreColumnsMenuFlyoutItem"
+										Click="MoreColumns_Click"
+										Text="{helpers:ResourceString Name=MoreColumns}" />
 
 									<!--  Set Current Columns As Default  -->
 									<MenuFlyoutItem
@@ -1280,7 +1287,7 @@
 											VerticalAlignment="Center"
 											Click="ViewSizeButton_Click"
 											Content="{helpers:ResourceString Name=ViewSize}"
-											FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+											FontFamily="{ThemeResource App.Theme.FileArea.FontFamily}"
 											FontSize="{StaticResource CaptionTextBlockFontSize}"
 											FontWeight="Normal"
 											Visibility="{x:Bind ShowViewSizeButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -1303,6 +1310,30 @@
 											HorizontalAlignment="Left"
 											Style="{x:Bind SyncStatusUI.ThemedIconStyle, Mode=OneWay}" />
 									</Border>
+
+									<!--  Dynamic Columns  -->
+									<ItemsControl ItemsSource="{x:Bind DynamicColumnValues, Mode=OneWay}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<StackPanel Orientation="Horizontal" />
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate x:DataType="datamodels:DynamicColumnValue">
+												<TextBlock
+													Width="{Binding Path=Definition.LengthIncludingGridSplitterPixels, Mode=OneWay}"
+													Padding="10,0,0,0"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Center"
+													DataContextChanged="TextBlock_DataContextChanged"
+													IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+													Style="{StaticResource ColumnContentTextBlock}"
+													Text="{x:Bind Text, Mode=OneWay}"
+													TextAlignment="{x:Bind Definition.TextAlignment, Mode=OneWay}"
+													Visibility="{Binding Path=Definition.Visibility, Mode=OneWay}" />
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
 
 									<!--  Visual Status Managing  -->
 									<VisualStateManager.VisualStateGroups>
@@ -1353,7 +1384,7 @@
 								<Setter Property="ItemsPanel">
 									<Setter.Value>
 										<ItemsPanelTemplate>
-											<ItemsStackPanel Orientation="Vertical" />
+											<ItemsStackPanel Orientation="Vertical" CacheLength="10.0" />
 										</ItemsPanelTemplate>
 									</Setter.Value>
 								</Setter>
@@ -1462,7 +1493,7 @@
 					<!--  ListView Item Displaying Style  -->
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
-							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
+							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" CacheLength="10.0" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
 

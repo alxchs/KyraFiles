@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.ViewModels.Help;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -28,6 +29,7 @@ namespace Files.App.ViewModels
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
+		public HelpViewModel HelpViewModel { get; } = Ioc.Default.GetRequiredService<HelpViewModel>();
 
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -117,6 +119,9 @@ namespace Files.App.ViewModels
 
 		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
 			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
+
+		public bool ShowClassicMenuBar =>
+			AppearanceSettingsService.ShowClassicMenuBar;
 
 		public bool ShowToolbar =>
 			AppearanceSettingsService.ShowToolbar &&
@@ -211,6 +216,9 @@ namespace Files.App.ViewModels
 					case nameof(AppearanceSettingsService.ShowToolbar):
 						OnPropertyChanged(nameof(ShowToolbar));
 						break;
+					case nameof(AppearanceSettingsService.ShowClassicMenuBar):
+						OnPropertyChanged(nameof(ShowClassicMenuBar));
+						break;
 				}
 			};
 
@@ -250,13 +258,22 @@ namespace Files.App.ViewModels
 				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
 			}
 
+			// Files Custom: the file dialog instance opens only the requested folder, never the user's session (F012 T7)
+			var isFileDialog = App.OutputPath is not null;
+			if (isFileDialog)
+				ignoreStartupSettings = true;
+
 			// Re-arm the signal when tabs load again after closing to the background
 			if (startupTabsTcs.Task.IsCompleted)
 				startupTabsTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
 			try
 			{
-				if (parameter is null || (parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
+				if (isFileDialog && (parameter is null || (parameter is string dialogStr && string.IsNullOrEmpty(dialogStr))))
+				{
+					await NavigationHelpers.AddNewTabAsync();
+				}
+				else if (parameter is null || (parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
 				{
 					try
 					{

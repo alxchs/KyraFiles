@@ -1,0 +1,138 @@
+# F019: captura a janela do Files com cada forma (ControlShapeStyle) para conferir os efeitos visuais.
+# Antes: .\Open-FilesDev.ps1 -Configuration Debug -NoLaunch (o build sozinho nao atualiza o layout registrado).
+# Saida: %TEMP%\claude\desenv\utils\FilesApp\shape_<n>.png
+param([string]$Shapes = '0,1,2,3,4,5,6,7,8,9', [string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
+
+$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.Drawing
+Add-Type @"
+using System; using System.Runtime.InteropServices;
+public class F019W { [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r); [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f); [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h); [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags); public struct RECT { public int L, T, R, B; } }
+"@
+Add-Type -Path (Join-Path $PSScriptRoot 'vc.cs') -ErrorAction SilentlyContinue
+$tmp = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp'
+New-Item -ItemType Directory -Force $tmp | Out-Null
+$pkg = Split-Path $Aumid.Split('!')[0] -Leaf
+$settings = Join-Path $env:LOCALAPPDATA "Packages\$($Aumid.Split('!')[0])\LocalState\settings\user_settings.json"
+$orig = Get-Content $settings -Raw
+
+$bmp0 = $null
+
+try {
+    foreach ($k in ($Shapes -split ',' | ForEach-Object { [int]$_ })) {
+        Stop-Process -Name Files -Force -ErrorAction SilentlyContinue; Start-Sleep 2
+        [IO.File]::WriteAllText($settings, ($orig -replace '"ControlShapeStyle":\s*\d+', "`"ControlShapeStyle`": $k"))
+        Start-Process "shell:AppsFolder\$Aumid"
+
+        $hwnd = [IntPtr]::Zero
+        $p = $null
+        for ($retry = 0; $retry -lt 15; $retry++) {
+            Start-Sleep 1
+            $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($p) {
+                if ($p.MainWindowHandle -ne [IntPtr]::Zero) {
+                    $hwnd = $p.MainWindowHandle
+                    break
+                }
+                $h = [VC]::FindMainWindow($p.Id)
+                if ($h -ne [IntPtr]::Zero) {
+                    $hwnd = $h
+                    break
+                }
+            }
+        }
+
+        if ($hwnd -eq [IntPtr]::Zero) {
+            throw "Janela do Files não encontrada para a forma $k"
+        }
+
+        Start-Sleep 3
+        [void][F019W]::SetWindowPos($hwnd, [IntPtr](-1), 0, 0, 0, 0, 0x43)
+        [void][F019W]::SetForegroundWindow($hwnd); Start-Sleep 2
+        $r = New-Object F019W+RECT; [void][F019W]::GetWindowRect($hwnd, [ref]$r)
+        $w = $r.R - $r.L
+        $h = $r.B - $r.T
+        $bmp = New-Object System.Drawing.Bitmap $w, $h
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        try {
+            $g.CopyFromScreen($r.L, $r.T, 0, 0, $bmp.Size)
+        } catch {
+            $hdc = $g.GetHdc()
+            [void][F019W]::PrintWindow($hwnd, $hdc, 2)
+            $g.ReleaseHdc($hdc)
+        }
+        $g.Dispose()
+        [void][F019W]::SetWindowPos($hwnd, [IntPtr](-2), 0, 0, 0, 0, 0x43)
+
+        $f = Join-Path $tmp "shape_$k.png"; $bmp.Save($f)
+        '{0}: vivo={1} {2}x{3} -> {4}' -f $k, (-not $p.HasExited), $bmp.Width, $bmp.Height, $f
+
+        # Recorte dos 4 cantos e da aba selecionada
+        $cw = [Math]::Min(120, [int]($w / 4))
+        $ch = [Math]::Min(120, [int]($h / 4))
+
+        # TL
+        $tl = New-Object System.Drawing.Bitmap $cw, $ch
+        $gtl = [System.Drawing.Graphics]::FromImage($tl)
+        $gtl.DrawImage($bmp, (New-Object System.Drawing.Rectangle 0, 0, $cw, $ch), 0, 0, $cw, $ch, [System.Drawing.GraphicsUnit]::Pixel)
+        $gtl.Dispose()
+        $tl.Save((Join-Path $tmp "shape_${k}_corner_tl.png"))
+        $tl.Dispose()
+
+        # TR
+        $tr = New-Object System.Drawing.Bitmap $cw, $ch
+        $gtr = [System.Drawing.Graphics]::FromImage($tr)
+        $gtr.DrawImage($bmp, (New-Object System.Drawing.Rectangle 0, 0, $cw, $ch), ($w - $cw), 0, $cw, $ch, [System.Drawing.GraphicsUnit]::Pixel)
+        $gtr.Dispose()
+        $tr.Save((Join-Path $tmp "shape_${k}_corner_tr.png"))
+        $tr.Dispose()
+
+        # BR
+        $br = New-Object System.Drawing.Bitmap $cw, $ch
+        $gbr = [System.Drawing.Graphics]::FromImage($br)
+        $gbr.DrawImage($bmp, (New-Object System.Drawing.Rectangle 0, 0, $cw, $ch), ($w - $cw), ($h - $ch), $cw, $ch, [System.Drawing.GraphicsUnit]::Pixel)
+        $gbr.Dispose()
+        $br.Save((Join-Path $tmp "shape_${k}_corner_br.png"))
+        $br.Dispose()
+
+        # BL
+        $bl = New-Object System.Drawing.Bitmap $cw, $ch
+        $gbl = [System.Drawing.Graphics]::FromImage($bl)
+        $gbl.DrawImage($bmp, (New-Object System.Drawing.Rectangle 0, 0, $cw, $ch), 0, ($h - $ch), $cw, $ch, [System.Drawing.GraphicsUnit]::Pixel)
+        $gbl.Dispose()
+        $bl.Save((Join-Path $tmp "shape_${k}_corner_bl.png"))
+        $bl.Dispose()
+
+        # Aba selecionada (topo, à esquerda)
+        $tabW = [Math]::Min(260, [int]($w / 2))
+        $tabH = [Math]::Min(50, [int]($h / 6))
+        $tab = New-Object System.Drawing.Bitmap $tabW, $tabH
+        $gtab = [System.Drawing.Graphics]::FromImage($tab)
+        $gtab.DrawImage($bmp, (New-Object System.Drawing.Rectangle 0, 0, $tabW, $tabH), 35, 0, $tabW, $tabH, [System.Drawing.GraphicsUnit]::Pixel)
+        $gtab.Dispose()
+        $tab.Save((Join-Path $tmp "shape_${k}_tab.png"))
+        $tab.Dispose()
+
+        if ($k -eq 0) {
+            $bmp0 = New-Object System.Drawing.Bitmap $bmp
+        } elseif ($bmp0 -ne $null) {
+            # Comparação lado a lado forma 0 x forma N
+            $cmp = New-Object System.Drawing.Bitmap ($bmp0.Width + $bmp.Width + 10), ([Math]::Max($bmp0.Height, $bmp.Height))
+            $gcmp = [System.Drawing.Graphics]::FromImage($cmp)
+            $gcmp.Clear([System.Drawing.Color]::FromArgb(40, 40, 40))
+            $gcmp.DrawImage($bmp0, 0, 0)
+            $gcmp.DrawImage($bmp, ($bmp0.Width + 10), 0)
+            $gcmp.Dispose()
+            $cmpFile = Join-Path $tmp "shape_0_vs_${k}.png"
+            $cmp.Save($cmpFile)
+            $cmp.Dispose()
+        }
+
+        $bmp.Dispose()
+    }
+}
+finally {
+    if ($bmp0 -ne $null) { $bmp0.Dispose() }
+    [IO.File]::WriteAllText($settings, $orig)
+    Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
+}

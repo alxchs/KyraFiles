@@ -1,5 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
+#pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
@@ -1760,7 +1761,7 @@ namespace Files.App.Views.Layouts
 			tapDebounceTimer?.Stop();
 		}
 
-		protected async Task ValidateItemNameInputTextAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+		protected virtual async Task ValidateItemNameInputTextAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
 		{
 			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 			{

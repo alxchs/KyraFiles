@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -8,6 +8,7 @@ namespace Files.App.Actions
 	{
 		private readonly InfoPaneViewModel infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		private readonly IInfoPaneSettingsService infoPaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
+		private readonly IContentPageContext contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> Strings.TogglePreviewPane.GetLocalizedResource();
@@ -21,28 +22,42 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.PanelRight");
 
+		public HotKey HotKey
+			=> new(Keys.P, KeyModifiers.Alt);
+
 		public bool IsAccessibleGlobally
-			=> false;
+			=> true;
 
 		public bool IsExecutable
-			=> infoPaneViewModel.IsEnabled;
+			=> true;
 
 		public TogglePreviewPaneAction()
 		{
-			infoPaneViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			infoPaneSettingsService.SelectedTab = InfoPaneTabs.Preview;
+			if (parameter is "Tab")
+			{
+				infoPaneSettingsService.SelectedTab = InfoPaneTabs.Preview;
+				return Task.CompletedTask;
+			}
+
+			var (isPaneOpen, selectedTab) = InfoPaneToggleHelper.Toggle(
+				infoPaneViewModel.IsEnabled,
+				infoPaneSettingsService.SelectedTab,
+				InfoPaneTabs.Preview);
+
+			infoPaneSettingsService.SelectedTab = selectedTab;
+			infoPaneViewModel.IsEnabled = isPaneOpen;
+
+			if (!isPaneOpen && contentPageContext.ShellPage is { } shellPage)
+			{
+				var paneHolder = shellPage.GetRequiredPaneHolder();
+				paneHolder.FocusActivePane();
+			}
 
 			return Task.CompletedTask;
-		}
-
-		private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(InfoPaneViewModel.IsEnabled))
-				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

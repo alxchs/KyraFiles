@@ -76,18 +76,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		std::cout << "Files has been uninstalled" << std::endl;
 
-		MessageBox(
-			NULL,
-			(LPCWSTR)L"Files has been uninstalled. Restoring File Explorer.",
-			(LPCWSTR)L"Files",
-			(UINT)(MB_OK)
-		);
-
-		// Uninstall launcher
+		// Files Custom: silent fallback (no message box, no UAC); the unset file only touches HKCU.
+		// Wait for it so explorer.exe does not resolve the folder verb back to this launcher.
 		TCHAR szCmd[MAX_PATH];
 		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\Files\\UnsetFilesAsDefault.reg");
-		if (((int)ShellExecute(0, L"runas", L"cmd.exe", szCmd, 0, SW_HIDE) > 32))
+		SHELLEXECUTEINFO unsetInfo = { 0 };
+		unsetInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		unsetInfo.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_DOENVSUBST;
+		unsetInfo.lpFile = L"cmd.exe";
+		unsetInfo.lpParameters = szCmd;
+		unsetInfo.nShow = SW_HIDE;
+		if (ShellExecuteEx(&unsetInfo))
 		{
+			if (unsetInfo.hProcess)
+			{
+				WaitForSingleObject(unsetInfo.hProcess, 5000);
+				CloseHandle(unsetInfo.hProcess);
+			}
+
 			std::cout << "Launcher unset as default" << std::endl;
 			swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
 			if ((int)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)

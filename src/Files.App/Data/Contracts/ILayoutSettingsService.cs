@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
@@ -59,6 +59,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not the date created column should be visible by default.
 		/// </summary>
 		bool ShowDateCreatedColumn { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating default dynamic columns configuration in JSON format.
+		/// </summary>
+		string DefaultCustomColumnsJson { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the type column should be visible by default.

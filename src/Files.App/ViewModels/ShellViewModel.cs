@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Contracts;
 using Files.App.Services.SizeProvider;
+using Files.App.Utils.Git;
 using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
@@ -64,6 +66,7 @@ namespace Files.App.ViewModels
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IExplorerPropertyService explorerPropertyService = Ioc.Default.GetRequiredService<IExplorerPropertyService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -253,11 +256,20 @@ namespace Files.App.ViewModels
 			}
 
 			var gitDirectory = await Task.Run(() => GitHelpers.GetGitRepositoryPath(value, pathRoot));
+			if (gitDirectory is null)
+			{
+				var svnDirectory = await Task.Run(() => SvnHelpers.GetSvnRepositoryPath(value, pathRoot));
+				if (svnDirectory is not null)
+					gitDirectory = svnDirectory;
+			}
+
 			if (isDisposed || WorkingDirectory != value)
 				return;
 
 			GitDirectory = gitDirectory;
-			var headName = await GitHelpers.GetRepositoryHeadName(gitDirectory);
+			var headName = gitDirectory is not null && Directory.Exists(Path.Combine(gitDirectory, ".svn"))
+				? SvnHelpers.GetSvnHead(gitDirectory)?.Name
+				: await GitHelpers.GetRepositoryHeadName(gitDirectory);
 			if (isDisposed || WorkingDirectory != value)
 				return;
 
@@ -1715,6 +1727,30 @@ namespace Files.App.ViewModels
 								// Extended properties open each file; load them in the background on a share
 								var extraProperties = isItemNetwork ? null : await GetExtraProperties(matchingStorageFile);
 
+								Dictionary<string, string>? dynamicPropValues = null;
+								if (folderSettings?.ColumnsViewModel?.DynamicColumns is { Count: > 0 } dynamicColumns)
+								{
+									dynamicPropValues = new(StringComparer.OrdinalIgnoreCase);
+									foreach (var dynCol in dynamicColumns)
+									{
+										if (dynCol.IsVisible)
+										{
+											string? val = null;
+											if (extraProperties?.Result is not null && extraProperties.Result.TryGetValue(dynCol.CanonicalName, out var propVal) && propVal is not null)
+											{
+												val = propVal.ToString();
+											}
+											else
+											{
+												val = explorerPropertyService.GetFormattedProperty(item.GetRequiredPath(), dynCol.CanonicalName);
+											}
+
+											if (!string.IsNullOrEmpty(val))
+												dynamicPropValues[dynCol.CanonicalName] = val;
+										}
+									}
+								}
+
 								var syncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 								var isElevationRequired = !syncStatusUI.LoadSyncStatus && await Task.Run(() => CheckElevationRights(item));
 
@@ -1736,6 +1772,14 @@ namespace Files.App.ViewModels
 									item.MediaDuration = ulong.TryParse(properties?["System.Media.Duration"]?.ToString(), out ulong duration)
 											? TimeSpan.FromTicks((long)duration).ToString(@"hh\:mm\:ss")
 											: string.Empty;
+
+									if (dynamicPropValues is not null)
+									{
+										foreach (var (propName, propVal) in dynamicPropValues)
+										{
+											item.SetDynamicProperty(propName, propVal);
+										}
+									}
 
 									switch (true)
 									{
@@ -2684,7 +2728,18 @@ namespace Files.App.ViewModels
 		private async Task<FilesystemResult<IDictionary<string, object>>?> GetExtraProperties(IStorageItem matchingStorageItem)
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
-				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync((string[])["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+			{
+				var requestedProps = new List<string> { "System.Image.Dimensions", "System.Media.Duration", "System.FileVersion" };
+				if (folderSettings?.ColumnsViewModel?.DynamicColumns is { Count: > 0 } dynCols)
+				{
+					foreach (var dynCol in dynCols)
+					{
+						if (dynCol.IsVisible && !requestedProps.Contains(dynCol.CanonicalName))
+							requestedProps.Add(dynCol.CanonicalName);
+					}
+				}
+				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(requestedProps).AsTask());
+			}
 
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
 				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync((string[])["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
@@ -3444,9 +3499,10 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
-			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+			var baseHeaderTitle = !string.IsNullOrEmpty(search.Query)
 				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
 				: string.Empty;
+			SearchHeaderTitle = baseHeaderTitle;
 
 			if (SearchIconBitmapImage is null)
 				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
@@ -3461,7 +3517,56 @@ namespace Files.App.ViewModels
 				await ApplyFilesAndFoldersChangesAsync();
 			};
 
-			await search.SearchAsync(results, searchCTS.Token);
+			var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
+			var provider = searchProviderFactory?.GetCurrentProvider();
+			if (provider is not null && provider.Id != "native")
+			{
+				long lastBatchUiTick = 0;
+				var request = new SearchRequest
+				{
+					Query = search.Query ?? string.Empty,
+					Folder = search.Folder ?? string.Empty,
+					MaxItemCount = search.MaxItemCount,
+					OnBatchReceived = async _ =>
+					{
+						long now = Environment.TickCount64;
+						if (lastBatchUiTick != 0 && (now - lastBatchUiTick) < 120)
+							return;
+						lastBatchUiTick = now;
+						try
+						{
+							var snapshot = results.ToList();
+							filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+							await OrderFilesAndFoldersAsync();
+							await ApplyFilesAndFoldersChangesAsync();
+						}
+						catch
+						{
+						}
+					},
+					OnFallbackNotice = notice =>
+					{
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							SearchHeaderTitle = string.IsNullOrEmpty(baseHeaderTitle)
+								? notice
+								: $"{baseHeaderTitle} ({notice})";
+						});
+					},
+					OnTruncated = maxCount =>
+					{
+						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							SearchHeaderTitle = $"{baseHeaderTitle} (primeiros {maxCount:N0} resultados — refine a busca)";
+						});
+					}
+				};
+				await provider.SearchAsync(request, results, searchCTS.Token);
+			}
+			else
+			{
+				await search.SearchAsync(results, searchCTS.Token);
+			}
 
 			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
 

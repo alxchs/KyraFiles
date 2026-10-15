@@ -149,12 +149,23 @@ internal sealed partial class LibGit2Service // : IVersionControl
 				if (branch?.Tip is not null)
 				{
 					var trackingDetails = TryGetTrackingDetails(branch);
+					int pendingCount = 0;
+					try
+					{
+						var status = repository.RetrieveStatus();
+						pendingCount = status.Count();
+					}
+					catch
+					{
+					}
+
 					head = new BranchItem(
 						branch.FriendlyName,
 						true,
 						branch.IsRemote,
 						trackingDetails?.AheadBy ?? 0,
-						trackingDetails?.BehindBy ?? 0
+						trackingDetails?.BehindBy ?? 0,
+						pendingCount
 					);
 				}
 			}

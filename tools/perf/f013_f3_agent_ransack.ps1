@@ -1,0 +1,90 @@
+# F013: aperta F3 e Ctrl+F no Files por SendInput e confere quem abriu (Agent Ransack ou a busca do Files).
+#
+# Uso: pwsh tools\perf\f013_f3_agent_ransack.ps1 [-Capture]
+# Temporários em %TEMP%\claude\desenv\utils\FilesApp\f013.
+
+param([switch]$Capture)
+$ErrorActionPreference = 'Stop'
+$folder = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f013\pasta com espaço e ação'
+New-Item -ItemType Directory -Force $folder | Out-Null
+Set-Content -LiteralPath (Join-Path $folder 'exemplo.txt') -Value 'F013' -Encoding utf8
+
+Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing
+Add-Type @'
+using System; using System.Runtime.InteropServices;
+public static class F013 {
+ [StructLayout(LayoutKind.Sequential)] public struct KI { public ushort vk, scan; public uint flags, time; public IntPtr extra; }
+ [StructLayout(LayoutKind.Sequential, Size=40)] public struct IN { public uint type; public KI ki; }
+ [DllImport("user32.dll")] static extern uint SendInput(uint n, IN[] i, int cb);
+ [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+ [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+ [DllImport("user32.dll")] public static extern void keybd_event(byte vk, byte scan, uint f, UIntPtr e);
+ [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr hdc, uint f);
+ [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out R r);
+ [StructLayout(LayoutKind.Sequential)] public struct R { public int L,T,Rr,B; }
+ public static void Keys(params ushort[] vks) {
+  var a = new IN[vks.Length * 2];
+  for (int i = 0; i < vks.Length; i++) { a[i].type = 1; a[i].ki.vk = vks[i]; }
+  for (int i = 0; i < vks.Length; i++) { var j = vks.Length + i; a[j].type = 1; a[j].ki.vk = vks[vks.Length - 1 - i]; a[j].ki.flags = 2; }
+  SendInput((uint)a.Length, a, Marshal.SizeOf(typeof(IN)));
+ }
+}
+'@
+$A = [System.Windows.Automation.AutomationElement]
+
+function Get-FilesWindow { Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1 }
+function Set-FilesFocus($p) {
+    if ([F013]::GetForegroundWindow() -ne $p.MainWindowHandle) {
+        # Alt destrava SetForegroundWindow, mas liga as teclas de acesso da barra de menus: Esc desliga
+        [F013]::keybd_event(0x12, 0, 0, [UIntPtr]::Zero); [F013]::keybd_event(0x12, 0, 2, [UIntPtr]::Zero)
+        [F013]::SetForegroundWindow($p.MainWindowHandle) | Out-Null
+        Start-Sleep -Milliseconds 300
+        [F013]::Keys(0x1B)
+    }
+    Start-Sleep -Milliseconds 400
+    if ([F013]::GetForegroundWindow() -ne $p.MainWindowHandle) { throw 'O Files não ficou em primeiro plano; teclas canceladas.' }
+}
+function Get-RansackWindows { @(Get-Process AgentRansack -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0) }
+function Save-Capture($p, $name) {
+    if (-not $Capture) { return }
+    $dir = Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) 'docs\agents\evidence\f013'
+    New-Item -ItemType Directory -Force $dir | Out-Null
+    $r = New-Object F013+R; [F013]::GetWindowRect($p.MainWindowHandle, [ref]$r) | Out-Null
+    $b = [System.Drawing.Bitmap]::new($r.Rr - $r.L, $r.B - $r.T); $g = [System.Drawing.Graphics]::FromImage($b)
+    $h = $g.GetHdc(); [F013]::PrintWindow($p.MainWindowHandle, $h, 2) | Out-Null; $g.ReleaseHdc($h)
+    $b.Save((Join-Path $dir "$name.png")); "CAPTURA $name.png"
+}
+function Test-SearchMode($p) {
+    # A caixa de busca do Files fica com o foco do teclado
+    $focused = $A::FocusedElement
+    $focused -and $focused.Current.ProcessId -eq $p.Id -and $focused.Current.ControlType -eq [System.Windows.Automation.ControlType]::Edit
+}
+
+Get-Process AgentRansack -ErrorAction SilentlyContinue | Stop-Process
+Start-Process "$env:LOCALAPPDATA\Microsoft\WindowsApps\files-dev.exe" -ArgumentList "-directory `"$folder`""
+Start-Sleep 6
+$p = Get-FilesWindow
+"Files: $($p.MainWindowTitle)"
+
+# AC-1: F3 numa pasta de disco
+Set-FilesFocus $p; [F013]::Keys(0x72)
+$sw = [Diagnostics.Stopwatch]::StartNew(); $ar = @()
+while ($sw.ElapsedMilliseconds -lt 20000 -and -not $ar) { Start-Sleep -Milliseconds 200; $ar = Get-RansackWindows }
+"Agent Ransack apareceu em $($sw.ElapsedMilliseconds) ms"
+"AC-1 F3 em pasta: " + $(if ($ar) { "Agent Ransack aberto: '$($ar[0].MainWindowTitle)'" } else { 'Agent Ransack NÃO abriu' })
+if ($ar -and $ar[0].MainWindowTitle -like "*$folder*") { 'AC-1 PASS' } else { 'AC-1 FAIL' }
+$ar | Stop-Process -ErrorAction SilentlyContinue; Start-Sleep 1
+
+# AC-4: Ctrl+F abre a busca do Files
+Set-FilesFocus $p; [F013]::Keys(0x11, 0x46); Start-Sleep 2
+"AC-4 Ctrl+F: busca do Files com foco = $(Test-SearchMode $p); Agent Ransack aberto = $([bool](Get-RansackWindows))"
+Save-Capture $p '01_ctrl_f_busca_files'
+[F013]::Keys(0x1B); Start-Sleep 1
+
+# AC-3: F3 em "Início" abre a busca do Files
+Set-FilesFocus $p; [F013]::Keys(0x11, 0x54)   # Ctrl+T: aba nova em Início
+Start-Sleep 3
+Set-FilesFocus $p; [F013]::Keys(0x72); Start-Sleep 3
+"AC-3 F3 em Início ($((Get-FilesWindow).MainWindowTitle)): busca do Files com foco = $(Test-SearchMode $p); Agent Ransack aberto = $([bool](Get-RansackWindows))"
+[F013]::Keys(0x1B)
+Get-RansackWindows | Stop-Process -ErrorAction SilentlyContinue

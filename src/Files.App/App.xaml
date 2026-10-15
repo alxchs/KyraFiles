@@ -23,6 +23,11 @@
 			<CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
 			<CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
 
+			<!-- Files Custom: Dynamic Control and Tab Shape Geometry Resources -->
+			<CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+			<CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+			<CornerRadius x:Key="App.Theme.Tab.CornerRadius">0,14,0,4</CornerRadius>
+
 			<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
 			<Style TargetType="FlyoutPresenter">
 				<Setter Target="HighContrastAdjustment" Value="None" />
@@ -105,6 +110,12 @@
 			<Style TargetType="ScrollViewer">
 				<Setter Property="IsScrollInertiaEnabled" Value="{ThemeResource App.ScrollInertiaEnabled}" />
 			</Style>
+
+			<!--  Default sidebar item height  -->
+			<x:Double x:Key="App.Theme.Sidebar.ItemHeight">40</x:Double>
+
+			<!--  Default file area font family  -->
+			<FontFamily x:Key="App.Theme.FileArea.FontFamily">Segoe UI Variable Text</FontFamily>
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />

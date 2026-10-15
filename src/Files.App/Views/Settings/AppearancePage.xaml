@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,6 +15,15 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:StringToFontFamilyConverter x:Key="StringToFontFamilyConverter" />
+
+			<DataTemplate x:Key="FontFamilyItemTemplate" x:DataType="x:String">
+				<TextBlock
+					Text="{x:Bind}"
+					FontFamily="{x:Bind converters:StringToFontFamilyConverter.ConvertToFontFamily((x:String))}"
+					FontSize="15"
+					VerticalAlignment="Center" />
+			</DataTemplate>
 
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="dataitem:AppThemeResourceItem">
 				<Grid
@@ -111,6 +120,28 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Interface Density  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=AppDensity}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE736;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=AppDensity}"
+					ItemsSource="{x:Bind ViewModel.AppDensityOptions, Mode=OneWay}"
+					SelectedIndex="{x:Bind ViewModel.SelectedAppDensityIndex, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Control & Tab Shape Model (Files Custom)  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ControlShapeStyle}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE790;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=ControlShapeStyle}"
+					ItemsSource="{x:Bind ViewModel.ControlShapeStyleOptions, Mode=OneWay}"
+					SelectedIndex="{x:Bind ViewModel.SelectedControlShapeStyleIndex, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  App Background  -->
@@ -235,8 +266,21 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=Font}"
+					ItemTemplate="{StaticResource FontFamilyItemTemplate}"
 					ItemsSource="{x:Bind ViewModel.AppThemeFontFamilyOptions.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedAppThemeFontFamilyOption, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Files and Columns Font  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=AppThemeFileAreaFontFamily}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE8D2;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=AppThemeFileAreaFontFamily}"
+					ItemTemplate="{StaticResource FontFamilyItemTemplate}"
+					ItemsSource="{x:Bind ViewModel.AppThemeFontFamilyOptions.Values, Mode=OneWay}"
+					SelectedItem="{x:Bind ViewModel.SelectedAppThemeFileAreaFontFamilyOption, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Show tab actions  -->
@@ -307,6 +351,17 @@
 					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
 					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Show Classic Menu Bar  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowClassicMenuBar}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE700;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowClassicMenuBar}"
+					IsOn="{x:Bind ViewModel.ShowClassicMenuBar, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>

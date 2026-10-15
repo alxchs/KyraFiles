@@ -1,0 +1,163 @@
+﻿. "$PSScriptRoot\SmokeTest-Helper.ps1"
+
+$p = Get-Process Files | Select-Object -First 1
+$hwnd = [VC]::FindMainWindow($p.Id)
+$env:FILES_HWND_VAL = $hwnd.ToInt64().ToString()
+
+$script = @'
+Add-Type -AssemblyName UIAutomationClient
+Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
+
+$code = "using System; using System.Runtime.InteropServices; public static class WinHelper { [DllImport(`"user32.dll`")] public static extern bool SetCursorPos(int X, int Y); [DllImport(`"user32.dll`")] public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo); [DllImport(`"user32.dll`")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow); [DllImport(`"user32.dll`")] public static extern bool SetForegroundWindow(IntPtr hWnd); [DllImport(`"user32.dll`")] public static extern bool IsIconic(IntPtr hWnd); [DllImport(`"user32.dll`", SetLastError = true)] public static extern bool SetProcessDpiAwarenessContext(IntPtr dpiContext); public static void EnsureWindow(IntPtr hwnd) { SetProcessDpiAwarenessContext((IntPtr)(-4)); if (IsIconic(hwnd)) ShowWindow(hwnd, 9); SetForegroundWindow(hwnd); System.Threading.Thread.Sleep(300); } public static void RightClick(int x, int y) { SetCursorPos(x, y); System.Threading.Thread.Sleep(100); mouse_event(0x08, 0, 0, 0, 0); System.Threading.Thread.Sleep(100); mouse_event(0x10, 0, 0, 0, 0); } public static void LeftClick(int x, int y) { SetCursorPos(x, y); System.Threading.Thread.Sleep(100); mouse_event(0x02, 0, 0, 0, 0); System.Threading.Thread.Sleep(100); mouse_event(0x04, 0, 0, 0, 0); } }"
+Add-Type -TypeDefinition $code -ErrorAction SilentlyContinue
+
+$hwndVal = [Int64]::Parse($env:FILES_HWND_VAL)
+$hwnd = [IntPtr]$hwndVal
+[WinHelper]::EnsureWindow($hwnd)
+
+$root = [System.Windows.Automation.AutomationElement]::RootElement
+
+# Check if dialog is already open
+$condPrimary = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'PrimaryButton')
+$primaryBtn = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condPrimary)
+
+if (!$primaryBtn) {
+    # 1. Find Header elements
+    $condText = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Text)
+    $texts = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condText)
+    $nameHeader = $null
+    foreach ($t in $texts) {
+        if ($t.Current.Name -eq 'Name' -and $t.Current.BoundingRectangle.Top -gt 500 -and $t.Current.BoundingRectangle.Top -lt 800) {
+            $nameHeader = $t
+            break
+        }
+    }
+
+    if (!$nameHeader) {
+        Write-Output "ERROR: Name header not found in range"
+        exit 1
+    }
+
+    $r = $nameHeader.Current.BoundingRectangle
+    Write-Output ("Found Name header: Rect={0}" -f $r)
+    $clickX = [int]($r.Left + 50)
+    $clickY = [int]($r.Top + 10)
+    Write-Output ("Right-clicking at {0}, {1}" -f $clickX, $clickY)
+    [WinHelper]::RightClick($clickX, $clickY)
+    Start-Sleep -Seconds 1
+
+    # 2. Find MoreColumnsMenuFlyoutItem
+    $condMore = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'MoreColumnsMenuFlyoutItem')
+    $moreItem = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condMore)
+    if (!$moreItem) {
+        Write-Output "ERROR: MoreColumnsMenuFlyoutItem not found in menu"
+        exit 1
+    }
+
+    Write-Output ("Found MoreColumnsMenuFlyoutItem: Rect={0}. Invoking..." -f $moreItem.Current.BoundingRectangle)
+    $invMore = $moreItem.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern) -as [System.Windows.Automation.InvokePattern]
+    if ($invMore) {
+        $invMore.Invoke()
+    } else {
+        $mr = $moreItem.Current.BoundingRectangle
+        [WinHelper]::LeftClick([int]($mr.Left + 20), [int]($mr.Top + 10))
+    }
+
+    Start-Sleep -Seconds 2
+}
+
+Write-Output "Dialog active. Searching for Dimensoes text..."
+
+# 3. Find Dimensoes text
+$condText = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Text)
+$allTexts = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condText)
+$dimText = $null
+foreach ($t in $allTexts) {
+    if ($t.Current.Name -and ($t.Current.Name -like 'Dimenso*')) {
+        $dimText = $t
+        break
+    }
+}
+
+if (!$dimText) {
+    Write-Output "ERROR: Dimensoes text not found in dialog"
+    exit 1
+}
+
+$dimRect = $dimText.Current.BoundingRectangle
+Write-Output ("Found Dimensoes Text: Name='{0}', Rect={1}" -f $dimText.Current.Name, $dimRect)
+
+# Find checkbox near this text
+$condCb = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::CheckBox)
+$allCbs = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condCb)
+$targetCb = $null
+foreach ($cb in $allCbs) {
+    $cr = $cb.Current.BoundingRectangle
+    if ([Math]::Abs($cr.Top - $dimRect.Top) -lt 25 -and $cr.Left -lt $dimRect.Left -and $cr.Left -gt ($dimRect.Left - 100)) {
+        $targetCb = $cb
+        break
+    }
+}
+
+if ($targetCb) {
+    Write-Output ("Found CheckBox by position: Rect={0}" -f $targetCb.Current.BoundingRectangle)
+    $toggle = $targetCb.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern) -as [System.Windows.Automation.TogglePattern]
+    if ($toggle) {
+        Write-Output ("Current ToggleState={0}, calling Toggle()..." -f $toggle.Current.ToggleState)
+        $toggle.Toggle()
+        Start-Sleep -Milliseconds 300
+        Write-Output ("New ToggleState={0}" -f $toggle.Current.ToggleState)
+    } else {
+        $cr = $targetCb.Current.BoundingRectangle
+        [WinHelper]::LeftClick([int]($cr.Left + $cr.Width / 2), [int]($cr.Top + $cr.Height / 2))
+    }
+} else {
+    Write-Output "CheckBox not found near text, clicking coordinate..."
+    [WinHelper]::LeftClick([int]($dimRect.Left - 40), [int]($dimRect.Top + 12))
+}
+
+Start-Sleep -Milliseconds 500
+
+# 4. Click OK (PrimaryButton)
+$primaryBtn = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condPrimary)
+if ($primaryBtn) {
+    Write-Output ("Found PrimaryButton: Rect={0}. Invoking..." -f $primaryBtn.Current.BoundingRectangle)
+    $invBtn = $primaryBtn.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern) -as [System.Windows.Automation.InvokePattern]
+    if ($invBtn) {
+        $invBtn.Invoke()
+    } else {
+        $pr = $primaryBtn.Current.BoundingRectangle
+        [WinHelper]::LeftClick([int]($pr.Left + $pr.Width / 2), [int]($pr.Top + $pr.Height / 2))
+    }
+} else {
+    Write-Output "PrimaryButton not found!"
+}
+
+Start-Sleep -Seconds 3
+
+# 5. Check if Dimensoes header is now present
+$allTextsAfter = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condText)
+$headerFound = $false
+foreach ($t in $allTextsAfter) {
+    if ($t.Current.Name -and ($t.Current.Name -like 'Dimenso*') -and $t.Current.BoundingRectangle.Top -lt 800) {
+        Write-Output ("VERIFIED: Added column header found in UI! Name='{0}', Rect={1}" -f $t.Current.Name, $t.Current.BoundingRectangle)
+        $headerFound = $true
+        break
+    }
+}
+
+if (!$headerFound) {
+    Write-Output "Header not immediately found in top area; will capture screen to inspect."
+}
+
+Write-Output "Verification complete."
+'@
+
+$res = Invoke-OnDefault -PowerShellScript $script
+Write-Output $res
+
+# Capture screen showing the added column!
+$outPath = 'c:\desenv\utils\FilesApp\docs\releases\evidence\f010_added_column.png'
+Capture-FilesWindow -OutFile $outPath
+Write-Output "Captured evidence to $outPath"

@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
@@ -90,6 +91,13 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
+		public String AppThemeFileAreaFontFamily
+		{
+			get => Get(Constants.Appearance.StandardFont);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public BackdropMaterialType AppThemeBackdropMaterial
 		{
 			get => Get(BackdropMaterialType.MicaAlt);
@@ -128,6 +136,13 @@ namespace Files.App.Services.Settings
 		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
 		{
 			get => Get(HorizontalAlignment.Center);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public bool ShowClassicMenuBar
+		{
+			get => Get(false);
 			set => Set(value);
 		}
 
@@ -178,6 +193,20 @@ namespace Files.App.Services.Settings
 		{
 			get => Get<Dictionary<string, List<string>>?>(null);
 			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public AppDensityKind AppDensity
+		{
+			get => (AppDensityKind)Get((int)AppDensityKind.Normal);
+			set => Set((int)value);
+		}
+
+		/// <inheritdoc/>
+		public ControlShapeStyleKind ControlShapeStyle
+		{
+			get => (ControlShapeStyleKind)Get((int)ControlShapeStyleKind.FluentStandard);
+			set => Set((int)value);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)

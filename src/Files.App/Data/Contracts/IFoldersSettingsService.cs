@@ -1,10 +1,17 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
+
+using Files.App.Data.Enums;
 
 namespace Files.App.Data.Contracts
 {
 	public interface IFoldersSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
+		/// <summary>
+		/// Gets or sets the preferred search engine.
+		/// </summary>
+		SearchEngineKind SearchEnginePreference { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
 		/// </summary>
@@ -94,5 +101,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating which format to use when displaying item sizes.
 		/// </summary>
 		SizeUnitTypes SizeUnitFormat { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of folder or volume paths excluded from the F015 search index.
+		/// </summary>
+		List<string>? SearchIndexExcludedPaths { get; set; }
 	}
 }

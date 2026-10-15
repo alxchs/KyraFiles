@@ -6,12 +6,14 @@ using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using Windows.Storage;
 using Windows.Win32.UI.WindowsAndMessaging;
 using ByteSize = ByteSizeLib.ByteSize;
+using Files.App.Data.Models;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -423,6 +425,69 @@ namespace Files.App.Utils
 		{
 			get => contextualProperty;
 			set => SetProperty(ref contextualProperty, value);
+		}
+
+		private Dictionary<string, string>? dynamicProperties;
+
+		public ObservableCollection<DynamicColumnValue> DynamicColumnValues { get; } = [];
+
+		public string? GetDynamicProperty(string canonicalName)
+		{
+			if (dynamicProperties is not null && dynamicProperties.TryGetValue(canonicalName, out var val))
+				return val;
+
+			return canonicalName switch
+			{
+				"System.Image.Dimensions" => ImageDimensions,
+				"System.Media.Duration" => MediaDuration,
+				"System.FileVersion" => FileVersion,
+				_ => null,
+			};
+		}
+
+		public void SetDynamicProperty(string canonicalName, string value)
+		{
+			dynamicProperties ??= new(StringComparer.OrdinalIgnoreCase);
+			dynamicProperties[canonicalName] = value;
+			OnPropertyChanged($"Item[{canonicalName}]");
+
+			foreach (var colVal in DynamicColumnValues)
+			{
+				if (string.Equals(colVal.Definition.CanonicalName, canonicalName, StringComparison.OrdinalIgnoreCase))
+				{
+					colVal.Text = value;
+					break;
+				}
+			}
+		}
+
+		public void SyncDynamicColumns(IEnumerable<DynamicColumnDefinition> activeDefinitions)
+		{
+			var activeList = activeDefinitions.ToList();
+			if (activeList.Count == 0 && DynamicColumnValues.Count == 0)
+				return;
+
+			for (int i = DynamicColumnValues.Count - 1; i >= 0; i--)
+			{
+				var current = DynamicColumnValues[i];
+				if (!activeList.Any(d => string.Equals(d.CanonicalName, current.Definition.CanonicalName, StringComparison.OrdinalIgnoreCase)))
+					DynamicColumnValues.RemoveAt(i);
+			}
+
+			for (int i = 0; i < activeList.Count; i++)
+			{
+				var def = activeList[i];
+				var existing = DynamicColumnValues.FirstOrDefault(v => string.Equals(v.Definition.CanonicalName, def.CanonicalName, StringComparison.OrdinalIgnoreCase));
+				if (existing is null)
+				{
+					var propVal = GetDynamicProperty(def.CanonicalName) ?? string.Empty;
+					DynamicColumnValues.Insert(Math.Min(i, DynamicColumnValues.Count), new DynamicColumnValue
+					{
+						Definition = def,
+						Text = propVal,
+					});
+				}
+			}
 		}
 
 		/// <summary>

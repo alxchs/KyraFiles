@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using System.Collections.ObjectModel;
 
 namespace Files.App.Data.Models
 {
@@ -23,6 +25,7 @@ namespace Files.App.Data.Models
 			nameof(DateDeletedColumn),
 			nameof(DateCreatedColumn),
 			nameof(SizeColumn),
+			nameof(DynamicColumns),
 		],
 		[])]
 	public sealed partial class ColumnsViewModel : ObservableObject
@@ -161,6 +164,15 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref sizeColumn, value);
 		}
 
+		private ObservableCollection<DynamicColumnDefinition> dynamicColumns = [];
+
+		[RegistryIgnore]
+		public ObservableCollection<DynamicColumnDefinition> DynamicColumns
+		{
+			get => dynamicColumns;
+			set => SetProperty(ref dynamicColumns, value);
+		}
+
 		public double TotalWidth =>
 			IconColumn.Length.Value +
 			GitStatusColumn.Length.Value +
@@ -177,7 +189,8 @@ namespace Files.App.Data.Models
 			DateDeletedColumn.Length.Value +
 			DateCreatedColumn.Length.Value +
 			SizeColumn.Length.Value +
-			StatusColumn.Length.Value;
+			StatusColumn.Length.Value +
+			DynamicColumns.Where(c => c.IsVisible).Sum(c => c.LengthPixels);
 
 		public override bool Equals(object? obj)
 		{
@@ -204,7 +217,9 @@ namespace Files.App.Data.Models
 					model.GitLastCommitDateColumn.Equals(GitLastCommitDateColumn) &&
 					model.GitLastCommitMessageColumn.Equals(GitLastCommitMessageColumn) &&
 					model.GitCommitAuthorColumn.Equals(GitCommitAuthorColumn) &&
-					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn);
+					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn) &&
+					model.DynamicColumns.Count == DynamicColumns.Count &&
+					model.DynamicColumns.Zip(DynamicColumns).All(p => p.First.CanonicalName == p.Second.CanonicalName && p.First.UserLengthPixels == p.Second.UserLengthPixels && p.First.IsVisible == p.Second.IsVisible);
 			}
 
 			return base.Equals(obj);
@@ -229,6 +244,46 @@ namespace Files.App.Data.Models
 			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
 
 			return hashCode;
+		}
+
+		public string ToDynamicColumnsJson()
+		{
+			if (DynamicColumns.Count == 0)
+				return string.Empty;
+
+			try
+			{
+				return System.Text.Json.JsonSerializer.Serialize(DynamicColumns.ToList(), Utils.Serialization.AppJsonSerializerContext.Default.ListDynamicColumnDefinition);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.LogWarning(ex, "Failed to serialize dynamic columns");
+				return string.Empty;
+			}
+		}
+
+		public void LoadDynamicColumnsFromJson(string? json)
+		{
+			DynamicColumns.Clear();
+			if (string.IsNullOrWhiteSpace(json))
+				return;
+
+			try
+			{
+				var list = System.Text.Json.JsonSerializer.Deserialize(json, Utils.Serialization.AppJsonSerializerContext.Default.ListDynamicColumnDefinition);
+				if (list is not null)
+				{
+					foreach (var item in list)
+					{
+						item.UserLength = new GridLength(item.UserLengthPixels > 0 ? item.UserLengthPixels : 140, GridUnitType.Pixel);
+						DynamicColumns.Add(item);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.LogWarning(ex, "Failed to deserialize dynamic columns");
+			}
 		}
 	}
 }

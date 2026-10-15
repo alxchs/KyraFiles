@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Helpers;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -9,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Runtime.InteropServices;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
@@ -29,8 +31,14 @@ namespace Files.App.Views.Layouts
 
 		protected int NextRenameIndex = 0;
 		protected TextBox? renameTextBox;
+		private bool _pointerPressedInExtension;
+		private PointerEventHandler? renameTextBoxPointerPressedHandler;
 
 		// Properties
+
+		protected FileNameParts ActiveRenameParts { get; set; } = new FileNameParts(string.Empty, string.Empty, string.Empty);
+		protected bool IsExtensionUnlocked { get; set; }
+		protected bool IsExtensionDeliberatelyModified { get; set; }
 
 		protected abstract ListViewBase ListViewBase { get; }
 		protected abstract SemanticZoom RootZoom { get; }
@@ -290,8 +298,6 @@ namespace Files.App.Views.Layouts
 			if (renamingItem is null)
 				return;
 
-			int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-
 			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(renamingItem) as ListViewItem;
 			if (listViewItem is null)
 				return;
@@ -321,17 +327,143 @@ namespace Files.App.Views.Layouts
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = editText.Length;
+			renameTextBoxPointerPressedHandler = new PointerEventHandler(RenameTextBox_PointerPressed);
+			textBox.AddHandler(UIElement.PointerPressedEvent, renameTextBoxPointerPressedHandler, true);
 
-			if (!renamingItem.IsShortcut && (ShouldShowExtensionInRename(renamingItem) || UserSettingsService.FoldersSettingsService.ShowFileExtensions))
-				selectedTextLength -= extensionLength;
-
-			textBox.Select(0, selectedTextLength);
+			InitializeRenameSelection(textBox, editText, renamingItem);
 			IsRenamingItem = true;
 
 			renameTextBox = textBox;
 			if (guardRenameFromDoubleClick)
 				DeferRenameTextBoxHitTesting(textBox);
+		}
+
+		protected void InitializeRenameSelection(TextBox textBox, string editText, ListedItem item)
+		{
+			bool showExtension = ShouldShowExtensionInRename(item);
+			ActiveRenameParts = showExtension
+				? FileNameExtensionHelper.Split(editText, isFolder: item.PrimaryItemAttribute == StorageItemTypes.Folder, isShortcut: item.IsShortcut)
+				: new FileNameParts(editText, editText, string.Empty);
+
+			IsExtensionUnlocked = !ActiveRenameParts.HasExtension;
+			IsExtensionDeliberatelyModified = false;
+
+			int selectLength = ActiveRenameParts.HasExtension
+				? ActiveRenameParts.NamePart.Length
+				: editText.Length;
+
+			textBox.Select(0, selectLength);
+			textBox.SelectionChanged += RenameTextBox_SelectionChanged;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		protected virtual void RenameTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+		{
+			if (sender is not TextBox textBox || !IsRenamingItem)
+				return;
+
+			if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+			{
+				int extLen = ActiveRenameParts.ExtensionPart.Length;
+				int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+
+				if (_pointerPressedInExtension)
+				{
+					_pointerPressedInExtension = false;
+					IsExtensionUnlocked = true;
+					IsExtensionDeliberatelyModified = true;
+					return;
+				}
+
+				if (textBox.SelectionStart > nameLen)
+				{
+					textBox.Select(nameLen, 0);
+				}
+				else if (textBox.SelectionStart < nameLen && (textBox.SelectionStart + textBox.SelectionLength) > nameLen)
+				{
+					textBox.Select(textBox.SelectionStart, nameLen - textBox.SelectionStart);
+				}
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		private void RenameTextBox_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is not TextBox textBox || !IsRenamingItem || IsExtensionUnlocked || !ActiveRenameParts.HasExtension)
+				return;
+
+			var pointerPt = e.GetCurrentPoint(textBox);
+			if (!pointerPt.Properties.IsLeftButtonPressed)
+				return;
+
+			var x = pointerPt.Position.X;
+			var nameWidth = MeasureTextWidth(textBox, ActiveRenameParts.NamePart);
+			var fullWidth = MeasureTextWidth(textBox, textBox.Text);
+			var offset = textBox.Padding.Left + textBox.BorderThickness.Left;
+			var extStartX = offset + nameWidth;
+			var extEndX = offset + fullWidth;
+
+			if (x >= extStartX && x <= extEndX + 4)
+			{
+				_pointerPressedInExtension = true;
+			}
+			else
+			{
+				_pointerPressedInExtension = false;
+			}
+		}
+
+		private static double MeasureTextWidth(TextBox textBox, string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return 0;
+
+			var tb = new TextBlock
+			{
+				Text = text,
+				FontSize = textBox.FontSize,
+				FontFamily = textBox.FontFamily,
+				FontStyle = textBox.FontStyle,
+				FontWeight = textBox.FontWeight,
+			};
+			tb.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+			return tb.DesiredSize.Width;
+		}
+
+		protected void ResetRenameState(TextBox? textBox)
+		{
+			if (textBox is not null)
+			{
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+				textBox.SelectionChanged -= RenameTextBox_SelectionChanged;
+
+				if (renameTextBoxPointerPressedHandler is not null)
+				{
+					textBox.RemoveHandler(UIElement.PointerPressedEvent, renameTextBoxPointerPressedHandler);
+					renameTextBoxPointerPressedHandler = null;
+				}
+			}
+
+			_pointerPressedInExtension = false;
+			IsExtensionUnlocked = false;
+			IsExtensionDeliberatelyModified = false;
+			ActiveRenameParts = new FileNameParts(string.Empty, string.Empty, string.Empty);
+		}
+
+		protected override async Task ValidateItemNameInputTextAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+		{
+			if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+			{
+				if (args.NewText.Length < ActiveRenameParts.ExtensionPart.Length ||
+					!args.NewText.EndsWith(ActiveRenameParts.ExtensionPart, StringComparison.Ordinal))
+				{
+					args.Cancel = true;
+					return;
+				}
+			}
+
+			await base.ValidateItemNameInputTextAsync(textBox, args, showError);
 		}
 
 		protected async void DeferRenameTextBoxHitTesting(TextBox textBox)
@@ -356,13 +488,19 @@ namespace Files.App.Views.Layouts
 		{
 			var renamingItem = RenamingItem;
 			var parentShellPage = ParentShellPageInstance;
+			bool suppressExtensionDialog = IsExtensionDeliberatelyModified;
 			EndRename(textBox);
 			if (renamingItem is null || parentShellPage is null)
 				throw new InvalidOperationException("The rename operation does not have an item and shell page.");
 
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-			await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, newItemName, parentShellPage, nameIsComplete: ShouldShowExtensionInRename(renamingItem));
+			await UIFilesystemHelpers.RenameFileItemAsync(
+				renamingItem,
+				newItemName,
+				parentShellPage,
+				showExtensionDialog: !suppressExtensionDialog,
+				nameIsComplete: ShouldShowExtensionInRename(renamingItem));
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(AppBarButton))]
@@ -392,6 +530,7 @@ namespace Files.App.Views.Layouts
 		{
 			var textBox = (TextBox)sender;
 			var isShiftPressed = (PInvoke.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
+			var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & KEY_DOWN_MASK) != 0;
 
 			switch (e.Key)
 			{
@@ -406,10 +545,61 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 					e.Handled = true;
 					break;
+				case VirtualKey.A:
+					if (isCtrlPressed && !IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+					{
+						int extLen = ActiveRenameParts.ExtensionPart.Length;
+						int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+						textBox.Select(0, nameLen);
+						e.Handled = true;
+					}
+					break;
+				case VirtualKey.Delete:
+					if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+					{
+						int extLen = ActiveRenameParts.ExtensionPart.Length;
+						int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+						if (textBox.SelectionStart == nameLen && textBox.SelectionLength == 0)
+						{
+							e.Handled = true;
+						}
+					}
+					break;
+				case VirtualKey.Decimal:
+				case (VirtualKey)190: // OEM Period
+					{
+						if (IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+						{
+							int extLen = ActiveRenameParts.ExtensionPart.Length;
+							int extStart = Math.Max(0, textBox.Text.Length - extLen);
+							if (textBox.SelectionStart == extStart + 1 && textBox.SelectionLength == extLen - 1)
+							{
+								textBox.Select(extStart, extLen);
+							}
+						}
+						break;
+					}
 				case VirtualKey.Home:
 					textBox.SelectionStart = 0;
 					textBox.SelectionLength = 0;
 					e.Handled = true;
+					break;
+				case VirtualKey.End:
+					if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+					{
+						int extLen = ActiveRenameParts.ExtensionPart.Length;
+						int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+						if (isShiftPressed)
+						{
+							int start = textBox.SelectionStart;
+							textBox.Select(start, Math.Max(0, nameLen - start));
+						}
+						else
+						{
+							textBox.Select(nameLen, 0);
+						}
+						e.Handled = true;
+					}
 					break;
 				case VirtualKey.Up:
 					if (!isShiftPressed)
@@ -418,40 +608,75 @@ namespace Files.App.Views.Layouts
 					break;
 				case VirtualKey.Down:
 					if (!isShiftPressed)
-						textBox.SelectionStart = textBox.Text.Length;
+					{
+						if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+						{
+							int extLen = ActiveRenameParts.ExtensionPart.Length;
+							int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+							textBox.Select(nameLen, 0);
+						}
+						else
+						{
+							textBox.SelectionStart = textBox.Text.Length;
+						}
+					}
 					e.Handled = true;
 					break;
 				case VirtualKey.Left:
 					e.Handled = textBox.SelectionStart == 0;
 					break;
 				case VirtualKey.Right:
+					if (!IsExtensionUnlocked && ActiveRenameParts.HasExtension)
+					{
+						int extLen = ActiveRenameParts.ExtensionPart.Length;
+						int nameLen = Math.Max(0, textBox.Text.Length - extLen);
+						if (textBox.SelectionStart >= nameLen)
+						{
+							e.Handled = true;
+							break;
+						}
+					}
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
 				case VirtualKey.Tab:
-					textBox.LostFocus -= RenameTextBox_LostFocus;
-
-					NextRenameIndex = isShiftPressed ? -1 : 1;
-
-					if (textBox.Text != OldItemName)
 					{
-						await CommitRenameAsync(textBox);
-					}
-					else
-					{
-						var newIndex = ListViewBase.SelectedIndex + NextRenameIndex;
-						NextRenameIndex = 0;
-						EndRename(textBox);
-
-						if (newIndex >= 0 &&
-							newIndex < ListViewBase.Items.Count)
+						if (!ActiveRenameParts.HasExtension)
 						{
-							ListViewBase.SelectedIndex = newIndex;
-							StartRenameItem();
+							e.Handled = true;
+							break;
 						}
-					}
 
-					e.Handled = true;
-					break;
+						var currentParts = FileNameExtensionHelper.Split(textBox.Text);
+						if (currentParts.HasExtension)
+							ActiveRenameParts = currentParts;
+
+						int extLength = ActiveRenameParts.ExtensionPart.Length;
+						int extStart = Math.Max(0, textBox.Text.Length - extLength);
+						int nameLength = extStart;
+
+						bool currentlyOnExtension = textBox.SelectionStart >= extStart;
+
+						if (isShiftPressed || currentlyOnExtension)
+						{
+							IsExtensionUnlocked = false;
+							textBox.Select(0, nameLength);
+						}
+						else
+						{
+							IsExtensionUnlocked = true;
+							IsExtensionDeliberatelyModified = true;
+							if (ActiveRenameParts.ExtensionPart.StartsWith('.') && extLength > 1)
+							{
+								textBox.Select(extStart + 1, extLength - 1);
+							}
+							else
+							{
+								textBox.Select(extStart, extLength);
+							}
+						}
+						e.Handled = true;
+						break;
+					}
 			}
 		}
 

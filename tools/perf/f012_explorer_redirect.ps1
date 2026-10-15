@@ -1,0 +1,77 @@
+# F012 / T9: com o Files aberto e o gerenciador padrão ligado, dispara aberturas do Explorer e mede
+# quanto tempo a janela dele fica visível na tela e se o Files assumiu a localização (debug.log).
+#
+# Uso: pwsh tools\perf\f012_explorer_redirect.ps1
+# Temporários em %TEMP%\claude\desenv\utils\FilesApp\f012 redirect.
+
+$ErrorActionPreference = 'Stop'
+$work = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f012 redirect'
+$folder = Join-Path $work 'pasta com espaço e ação'
+New-Item -ItemType Directory -Force $folder | Out-Null
+$file = Join-Path $folder 'arquivo selecionado ação.txt'
+Set-Content -LiteralPath $file -Value 'F012 T9' -Encoding utf8
+$log = "$env:LOCALAPPDATA\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\debug.log"
+
+Add-Type @'
+using System; using System.Collections.Generic; using System.Runtime.InteropServices; using System.Text;
+public static class F012Cab {
+ delegate bool EP(IntPtr h, IntPtr l);
+ [DllImport("user32.dll")] static extern bool EnumWindows(EP f, IntPtr l);
+ [DllImport("user32.dll")] static extern int GetClassName(IntPtr h, StringBuilder s, int n);
+ [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
+ [DllImport("user32.dll")] static extern int GetWindowLong(IntPtr h, int i);
+ [DllImport("user32.dll")] static extern bool GetLayeredWindowAttributes(IntPtr h, out uint k, out byte a, out uint f);
+ [DllImport("user32.dll")] public static extern bool PostMessage(IntPtr h, uint m, IntPtr w, IntPtr l);
+ [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern int GetWindowText(IntPtr h, StringBuilder s, int n);
+ public static string Title(IntPtr h) { var s = new StringBuilder(512); GetWindowText(h, s, 512); return s.ToString(); }
+ // Explorer folder windows the user can see: visible and not fully transparent
+ public static List<long> Visible() { var r = new List<long>(); EnumWindows((h,l)=>{ var s=new StringBuilder(64); GetClassName(h,s,64);
+   if (s.ToString()=="CabinetWClass" && IsWindowVisible(h)) { bool clear=false;
+     if ((GetWindowLong(h,-20) & 0x80000)!=0) { uint k,f; byte a; if (GetLayeredWindowAttributes(h,out k,out a,out f) && (f&2)!=0 && a==0) clear=true; }
+     if (!clear) r.Add(h.ToInt64()); }
+   return true; }, IntPtr.Zero); return r; }
+ [StructLayout(LayoutKind.Sequential)] public struct KI { public ushort vk, scan; public uint flags, time; public IntPtr extra; }
+ [StructLayout(LayoutKind.Sequential, Size=40)] public struct IN { public uint type; public KI ki; }
+ [DllImport("user32.dll")] static extern uint SendInput(uint n, IN[] i, int cb);
+ public static void WinE() { var a = new IN[4];
+  a[0].type=1; a[0].ki.vk=0x5B; a[1].type=1; a[1].ki.vk=0x45; a[2].type=1; a[2].ki.vk=0x45; a[2].ki.flags=2; a[3].type=1; a[3].ki.vk=0x5B; a[3].ki.flags=2;
+  SendInput(4, a, Marshal.SizeOf(typeof(IN))); }
+}
+'@
+
+function Test-Case([string]$label, [scriptblock]$action, [int]$ms = 7000) {
+    $logStart = (Get-Item $log).Length
+    $pre = [F012Cab]::Visible()
+    $filesWindow = (Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1).MainWindowHandle
+    $preTitle = if ($filesWindow) { [F012Cab]::Title($filesWindow) } else { $null }
+    $filesAt = $null
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    & $action
+    $seen = @{}
+    while ($sw.ElapsedMilliseconds -lt $ms) {
+        foreach ($h in [F012Cab]::Visible()) {
+            if ($pre -notcontains $h) { if (-not $seen.ContainsKey($h)) { $seen[$h] = [Collections.Generic.List[long]]::new() }; $seen[$h].Add($sw.ElapsedMilliseconds) }
+        }
+        if (-not $filesAt -and $filesWindow -and [F012Cab]::Title($filesWindow) -ne $preTitle) { $filesAt = $sw.ElapsedMilliseconds }
+        Start-Sleep -Milliseconds 10
+    }
+    # O log do Files chega ao disco com atraso: espera até 5 s pela linha do redirecionador
+    $lines = @()
+    $logWait = [Diagnostics.Stopwatch]::StartNew()
+    while (-not $lines -and $logWait.ElapsedMilliseconds -lt 5000) {
+        $fs = [IO.File]::Open($log, 'Open', 'Read', 'ReadWrite'); $null = $fs.Seek($logStart, 'Begin')
+        $newLog = [IO.StreamReader]::new($fs).ReadToEnd(); $fs.Close()
+        $lines = @($newLog -split "`r?`n" | Where-Object { $_ -match 'Explorer window' } | ForEach-Object { ($_ -split '\|', 3)[2] })
+        if (-not $lines) { Start-Sleep -Milliseconds 250 }
+    }
+    $visible = if ($seen.Count) { ($seen.Values | ForEach-Object { "visível de $($_[0]) a $($_[$_.Count - 1]) ms ($($_.Count) amostras)" }) -join '; ' } else { 'nunca visível' }
+    "$label | Explorer: $visible | janela do Files mudou em: $(if ($filesAt) { "$filesAt ms" } else { '-' }) | log: $($lines -join ' / ')"
+    # Fecha o que ficou visível (casos que devem ficar no Explorer)
+    foreach ($h in $seen.Keys) { [F012Cab]::PostMessage([IntPtr]$h, 0x10, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null }
+}
+
+Test-Case 'Win + E' { [F012Cab]::WinE() }
+Test-Case 'explorer.exe <pasta>' { Start-Process explorer.exe ('"' + $folder + '"') }
+Test-Case 'explorer selecionando arquivo' { Start-Process explorer.exe ('/sel' + 'ect,"' + $file + '"') }
+Test-Case 'Painel de Controle (deve ficar no Explorer)' { Start-Process control.exe }
+Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowTitle | ForEach-Object { "Janela do Files: $($_.MainWindowTitle)" }

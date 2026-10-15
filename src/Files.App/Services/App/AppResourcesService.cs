@@ -1,6 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Windows.UI;
 
@@ -15,8 +16,11 @@ namespace Files.App.Services
 		public ResourcesService()
 		{
 			SetScrollInertiaEnabled(UserSettingsService.GeneralSettingsService.EnableSmoothScrolling);
+			SetAppThemeDensity(UserSettingsService.AppearanceSettingsService.AppDensity);
+			SetAppControlShapeStyle(UserSettingsService.AppearanceSettingsService.ControlShapeStyle);
 
 			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 		}
 
 		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -24,6 +28,20 @@ namespace Files.App.Services
 			if (e.PropertyName == nameof(IGeneralSettingsService.EnableSmoothScrolling))
 			{
 				SetScrollInertiaEnabled(UserSettingsService.GeneralSettingsService.EnableSmoothScrolling);
+				ApplyResources();
+			}
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IAppearanceSettingsService.AppDensity))
+			{
+				SetAppThemeDensity(UserSettingsService.AppearanceSettingsService.AppDensity);
+				ApplyResources();
+			}
+			else if (e.PropertyName == nameof(IAppearanceSettingsService.ControlShapeStyle))
+			{
+				SetAppControlShapeStyle(UserSettingsService.AppearanceSettingsService.ControlShapeStyle);
 				ApplyResources();
 			}
 		}
@@ -80,9 +98,72 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public void SetAppThemeFileAreaFontFamily(string appThemeFileAreaFontFamily)
+		{
+			Application.Current.Resources["App.Theme.FileArea.FontFamily"] = appThemeFileAreaFontFamily;
+		}
+
+		/// <inheritdoc/>
 		public void SetScrollInertiaEnabled(bool enableScrollInertia)
 		{
 			Application.Current.Resources["App.ScrollInertiaEnabled"] = enableScrollInertia;
+		}
+
+		/// <inheritdoc/>
+		public void SetAppThemeDensity(AppDensityKind density)
+		{
+			double itemHeight = density switch
+			{
+				AppDensityKind.UltraCompact => 30.0,
+				AppDensityKind.Compact => 32.0,
+				_ => 40.0,
+			};
+			Application.Current.Resources["App.Theme.Sidebar.ItemHeight"] = itemHeight;
+		}
+
+		/// <inheritdoc/>
+		public void SetAppControlShapeStyle(ControlShapeStyleKind shapeStyle)
+		{
+			// ControlCornerRadius (buttons, textboxes, previews, items)
+			// OverlayCornerRadius (dialogs, flyouts, status center, toolbars)
+			// App.Theme.Tab.CornerRadius (tab container)
+			(CornerRadius controlRadius, CornerRadius overlayRadius, CornerRadius tabRadius) = shapeStyle switch
+			{
+				// Opção 1 do desenho: Côncavo à esquerda (0px), ondas/lóbulos à direita (14px superior direito, 4px inferior direito)
+				ControlShapeStyleKind.TicketWave => (new CornerRadius(0, 10, 4, 0), new CornerRadius(0, 14, 6, 0), new CornerRadius(0, 14, 0, 4)),
+
+				// Opção 2 do desenho: Encaixe fita / macho-fêmea
+				ControlShapeStyleKind.RibbonDock => (new CornerRadius(0, 12, 12, 0), new CornerRadius(0, 16, 16, 0), new CornerRadius(0, 14, 4, 0)),
+
+				// Cyberpunk: Chanfro agressivo
+				ControlShapeStyleKind.CyberpunkTrapezoid => (new CornerRadius(0, 12, 0, 6), new CornerRadius(0, 16, 0, 8), new CornerRadius(0, 16, 0, 4)),
+
+				// Pílula Direcional: Esquerda 100% arredondada, direita reta
+				ControlShapeStyleKind.DirectionalPill => (new CornerRadius(14, 0, 0, 14), new CornerRadius(18, 0, 0, 18), new CornerRadius(16, 0, 0, 0)),
+
+				// Hexagonal Tech: Chanfros moderados simétricos
+				ControlShapeStyleKind.HexagonalTech => (new CornerRadius(2, 12, 2, 12), new CornerRadius(4, 16, 4, 16), new CornerRadius(4, 14, 0, 0)),
+
+				// Onda Sinusoidal com Inversão no Meio (convexa no topo -> côncava na base)
+				ControlShapeStyleKind.SinusoidalWave => (new CornerRadius(14, 0, 14, 0), new CornerRadius(18, 0, 18, 0), new CornerRadius(14, 0, 12, 0)),
+
+				// Serrilhado Triangular (Zigue-zague)
+				ControlShapeStyleKind.SawtoothTriangle => (new CornerRadius(0, 8, 8, 0), new CornerRadius(0, 14, 14, 0), new CornerRadius(0, 14, 0, 4)),
+
+				// Bi-Côncavo (Ampulheta / Curva dos 2 lados para dentro)
+				ControlShapeStyleKind.BiConcaveHourglass => (new CornerRadius(0, 0, 0, 0), new CornerRadius(2, 2, 2, 2), new CornerRadius(0, 0, 0, 0)),
+
+				// Híbrido Tech: Topo em curva, base em cantos retos vivos de 90°
+				ControlShapeStyleKind.HybridRectangular => (new CornerRadius(12, 12, 0, 0), new CornerRadius(16, 16, 0, 0), new CornerRadius(14, 14, 0, 0)),
+
+				// Padrão Fluent (original do Windows 11)
+				_ => (new CornerRadius(4), new CornerRadius(8), new CornerRadius(8, 8, 0, 0))
+			};
+
+			Application.Current.Resources["ControlCornerRadius"] = controlRadius;
+			Application.Current.Resources["OverlayCornerRadius"] = overlayRadius;
+			Application.Current.Resources["App.Theme.Tab.CornerRadius"] = tabRadius;
+			Application.Current.Resources["App.Theme.ShapeStyle"] = shapeStyle;
 		}
 
 		/// <inheritdoc/>

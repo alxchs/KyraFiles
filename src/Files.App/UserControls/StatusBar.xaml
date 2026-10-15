@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.StatusBar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -246,7 +246,21 @@
 							Style="{StaticResource App.ThemedIcons.Git.Branch}" />
 
 						<!--  Branch Name  -->
-						<TextBlock Text="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay}" />
+						<TextBlock Text="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay}" VerticalAlignment="Center" />
+
+						<!--  VCS Status (Sincronizado / Pendências)  -->
+						<Border
+							Padding="6,1,6,1"
+							VerticalAlignment="Center"
+							CornerRadius="4"
+							Background="{ThemeResource ControlFillColorDefaultBrush}"
+							ToolTipService.ToolTip="{x:Bind StatusBarViewModel.VcsStatusToolTip, Mode=OneWay}">
+							<TextBlock
+								Text="{x:Bind StatusBarViewModel.VcsStatusIndicator, Mode=OneWay}"
+								FontSize="11"
+								Foreground="{x:Bind StatusBarViewModel.VcsStatusForeground, Mode=OneWay}"
+								VerticalAlignment="Center" />
+						</Border>
 					</StackPanel>
 				</Button.Content>
 

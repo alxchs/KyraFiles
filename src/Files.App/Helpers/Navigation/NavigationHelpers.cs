@@ -1,5 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
+#pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
@@ -50,6 +51,113 @@ namespace Files.App.Helpers
 			return AddNewTabByPathAsync(typeof(ShellPanesPage), "Home", true);
 		}
 
+		public static string NormalizeNavigationPath(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return "Home";
+
+			var trimmed = path.Trim();
+
+			if (trimmed.EndsWith("\\?", StringComparison.Ordinal))
+				trimmed = trimmed.Substring(0, trimmed.Length - 1);
+
+			if (string.Equals(trimmed, "Home", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(trimmed, Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				return "Home";
+
+			if (string.Equals(trimmed, "Settings", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(trimmed, Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				return "Settings";
+
+			if (string.Equals(trimmed, "ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(trimmed, Strings.ReleaseNotes.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				return "ReleaseNotes";
+
+			trimmed = trimmed.Replace('/', '\\');
+
+			if (trimmed.Length == 2 && trimmed[1] == ':')
+				return $"{char.ToUpperInvariant(trimmed[0])}:\\";
+
+			if (trimmed.Length == 3 && trimmed[1] == ':' && trimmed[2] == '\\')
+				return $"{char.ToUpperInvariant(trimmed[0])}:\\";
+
+			try
+			{
+				var norm = PathNormalization.NormalizePath(trimmed);
+				if (!string.IsNullOrEmpty(norm))
+				{
+					if (norm.Length == 2 && norm[1] == ':')
+						return $"{char.ToUpperInvariant(norm[0])}:\\";
+					return norm;
+				}
+			}
+			catch
+			{
+			}
+
+			var clean = trimmed.TrimEnd('\\');
+			if (clean.Length == 2 && clean[1] == ':')
+				return $"{char.ToUpperInvariant(clean[0])}:\\";
+
+			return clean.ToUpperInvariant();
+		}
+
+		public static string ExtractNavigationPath(object? navigationArg)
+		{
+			if (navigationArg is null)
+				return "Home";
+
+			if (navigationArg is string str)
+				return NormalizeNavigationPath(str);
+
+			if (navigationArg is PaneNavigationArguments paneArgs)
+			{
+				var path = !string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam)
+					? paneArgs.LeftPaneNavPathParam
+					: paneArgs.RightPaneNavPathParam;
+				return NormalizeNavigationPath(path);
+			}
+
+			if (navigationArg is TabBarItemParameter tabParam)
+			{
+				return ExtractNavigationPath(tabParam.NavigationParameter);
+			}
+
+			return NormalizeNavigationPath(navigationArg.ToString());
+		}
+
+		public static string GetTabPath(TabBarItem tabItem)
+		{
+			var contentParam = tabItem.TabItemContent?.TabBarItemParameter?.NavigationParameter;
+			if (contentParam is not null)
+				return ExtractNavigationPath(contentParam);
+
+			var navParam = tabItem.NavigationParameter?.NavigationParameter;
+			if (navParam is not null)
+				return ExtractNavigationPath(navParam);
+
+			return "Home";
+		}
+
+		public static int FindExistingTabIndex(string? targetPath)
+		{
+			var normalizedTarget = NormalizeNavigationPath(targetPath);
+			for (int i = 0; i < MainPageViewModel.AppInstances.Count; i++)
+			{
+				var tab = MainPageViewModel.AppInstances[i];
+				var tabPath = GetTabPath(tab);
+				if (string.Equals(normalizedTarget, tabPath, StringComparison.OrdinalIgnoreCase))
+					return i;
+			}
+			return -1;
+		}
+
+		public static int FindExistingTabIndex(object? navigationArg)
+		{
+			var targetPath = ExtractNavigationPath(navigationArg);
+			return FindExistingTabIndex(targetPath);
+		}
+
 		public static async Task AddNewTabByPathAsync(Type type, string? path, bool switchToNewTab, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
@@ -60,6 +168,35 @@ namespace Files.App.Helpers
 			else if (path.EndsWith("\\?", StringComparison.Ordinal))
 			{
 				path = path.Remove(path.Length - 1);
+			}
+
+			var normalizedPath = NormalizeNavigationPath(path);
+			bool isSettings = string.Equals(normalizedPath, "Settings", StringComparison.OrdinalIgnoreCase);
+
+			if (isSettings)
+			{
+				var existingSettingsIndex = FindExistingTabIndex("Settings");
+				if (existingSettingsIndex != -1)
+				{
+					if (existingSettingsIndex != 0)
+					{
+						MainPageViewModel.AppInstances.Move(existingSettingsIndex, 0);
+					}
+					App.AppModel.TabStripSelectedIndex = 0;
+					return;
+				}
+
+				atIndex = 0;
+			}
+			else
+			{
+				var existingIndex = FindExistingTabIndex(normalizedPath);
+				if (existingIndex != -1)
+				{
+					if (switchToNewTab)
+						App.AppModel.TabStripSelectedIndex = existingIndex;
+					return;
+				}
 			}
 
 			var tabItem = new TabBarItem()
@@ -89,6 +226,35 @@ namespace Files.App.Helpers
 
 		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
 		{
+			var normalizedPath = ExtractNavigationPath(tabViewItemArgs);
+			bool isSettings = string.Equals(normalizedPath, "Settings", StringComparison.OrdinalIgnoreCase);
+
+			if (isSettings)
+			{
+				var existingSettingsIndex = FindExistingTabIndex("Settings");
+				if (existingSettingsIndex != -1)
+				{
+					if (existingSettingsIndex != 0)
+					{
+						MainPageViewModel.AppInstances.Move(existingSettingsIndex, 0);
+					}
+					App.AppModel.TabStripSelectedIndex = 0;
+					return;
+				}
+
+				atIndex = 0;
+			}
+			else
+			{
+				var existingIndex = FindExistingTabIndex(normalizedPath);
+				if (existingIndex != -1)
+				{
+					if (switchToNewTab)
+						App.AppModel.TabStripSelectedIndex = existingIndex;
+					return;
+				}
+			}
+
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
 				Header = null,

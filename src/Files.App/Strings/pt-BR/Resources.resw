@@ -4734,4 +4734,307 @@
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Tem certeza que deseja remover as etiquetas dos itens selecionadas?</value>
   </data>
+  <data name="AppDensity" xml:space="preserve">
+    <value>Densidade da interface</value>
+  </data>
+  <data name="AppDensityNormal" xml:space="preserve">
+    <value>Normal (padrão)</value>
+  </data>
+  <data name="AppDensityCompact" xml:space="preserve">
+    <value>Compacto</value>
+  </data>
+  <data name="AppDensityUltraCompact" xml:space="preserve">
+    <value>Ultra-compacto (OneCommander)</value>
+  </data>
+  <data name="ControlShapeStyle" xml:space="preserve">
+    <value>Modelo de Formas dos Controles e Abas</value>
+  </data>
+  <data name="ControlShapeFluentStandard" xml:space="preserve">
+    <value>Fluent Padrão (Windows 11)</value>
+  </data>
+  <data name="ControlShapeTicketWave" xml:space="preserve">
+    <value>Ticket com Ondas (Esquerda Côncava / 3 Ondas Direita)</value>
+  </data>
+  <data name="ControlShapeRibbonDock" xml:space="preserve">
+    <value>Encaixe Fita (Esquerda Côncava / Lóbulos com Cava Direita)</value>
+  </data>
+  <data name="ControlShapeCyberpunkTrapezoid" xml:space="preserve">
+    <value>Trapézio Cyberpunk (Chanfrado Dinâmico)</value>
+  </data>
+  <data name="ControlShapeDirectionalPill" xml:space="preserve">
+    <value>Pílula Direcional (Arco Total Esquerda / Direita Plana)</value>
+  </data>
+  <data name="ControlShapeHexagonalTech" xml:space="preserve">
+    <value>Hexagonal Tech (Chanfro Colmeia)</value>
+  </data>
+  <data name="ControlShapeSinusoidalWave" xml:space="preserve">
+    <value>Inversão Central S-Curve (Convexo no topo e Côncavo na base)</value>
+  </data>
+  <data name="ControlShapeSawtoothTriangle" xml:space="preserve">
+    <value>Serrilhado Triangular (Esquerda Côncava / Dentes Zigue-Zague Direita)</value>
+  </data>
+  <data name="ControlShapeBiConcaveHourglass" xml:space="preserve">
+    <value>Bi-Côncavo Ampulheta (Ambos os lados curvados para dentro)</value>
+  </data>
+  <data name="ControlShapeHybridRectangular" xml:space="preserve">
+    <value>Híbrido Tech (Topo Curvo / Base em Cantos Retos 90°)</value>
+  </data>
+  <data name="AppThemeFileAreaFontFamily" xml:space="preserve">
+    <value>Fonte dos arquivos e colunas</value>
+  </data>
+  <data name="ShowClassicMenuBar" xml:space="preserve">
+    <value>Mostrar barra de menus clássica</value>
+  </data>
+  <data name="ShowClassicMenuBarDescription" xml:space="preserve">
+    <value>Exibir a barra de menus tradicional com Arquivo, Editar, Exibir</value>
+  </data>
+  <data name="Menu_File" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="Menu_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Menu_View" xml:space="preserve">
+    <value>Exibir</value>
+  </data>
+  <data name="Menu_Go" xml:space="preserve">
+    <value>Ir</value>
+  </data>
+  <data name="Menu_Tools" xml:space="preserve">
+    <value>Ferramentas</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Menu_New" xml:space="preserve">
+    <value>Novo</value>
+  </data>
+  <data name="Menu_Panes" xml:space="preserve">
+    <value>Painéis</value>
+  </data>
+  <data name="SearchEngine" xml:space="preserve">
+    <value>Motor de busca</value>
+  </data>
+  <data name="SearchEngineDescription" xml:space="preserve">
+    <value>Escolha o motor de busca usado para pesquisas no Files</value>
+  </data>
+  <data name="SearchEngine_Native" xml:space="preserve">
+    <value>Files Nativo (Windows Search / Win32)</value>
+  </data>
+  <data name="SearchEngine_AgentRansack" xml:space="preserve">
+    <value>Agent Ransack (Conteúdo e regex)</value>
+  </data>
+  <data name="SearchEngine_Everything" xml:space="preserve">
+    <value>Everything (Índice instantâneo)</value>
+  </data>
+  <data name="MoreColumns" xml:space="preserve">
+    <value>Mais...</value>
+  </data>
+  <data name="ChooseDetailsDialogTitle" xml:space="preserve">
+    <value>Escolher detalhes</value>
+  </data>
+  <data name="ChooseDetailsDialogSearchPlaceholder" xml:space="preserve">
+    <value>Pesquisar colunas...</value>
+  </data>
+  <data name="SearchWithAgentRansack" xml:space="preserve">
+    <value>Pesquisar com o Agent Ransack</value>
+  </data>
+  <data name="SearchWithAgentRansackDescription" xml:space="preserve">
+    <value>Abrir o Agent Ransack na pasta atual (sem o Agent Ransack, abre a busca do Files)</value>
+  </data>
+  <data name="ExplorerColumnImageDimensions" xml:space="preserve">
+    <value>Dimensões</value>
+  </data>
+  <data name="ExplorerColumnPhotoDateTaken" xml:space="preserve">
+    <value>Data de captura</value>
+  </data>
+  <data name="ExplorerColumnPhotoCameraModel" xml:space="preserve">
+    <value>Modelo da câmera</value>
+  </data>
+  <data name="ExplorerColumnPhotoCameraManufacturer" xml:space="preserve">
+    <value>Fabricante da câmera</value>
+  </data>
+  <data name="ExplorerColumnPhotoFNumber" xml:space="preserve">
+    <value>Abertura F</value>
+  </data>
+  <data name="ExplorerColumnPhotoISOSpeed" xml:space="preserve">
+    <value>Velocidade ISO</value>
+  </data>
+  <data name="ExplorerColumnImageHorizontalSize" xml:space="preserve">
+    <value>Largura</value>
+  </data>
+  <data name="ExplorerColumnImageVerticalSize" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="ExplorerColumnMediaDuration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="ExplorerColumnMusicArtist" xml:space="preserve">
+    <value>Artistas participantes</value>
+  </data>
+  <data name="ExplorerColumnMusicAlbumTitle" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="ExplorerColumnMusicAlbumArtist" xml:space="preserve">
+    <value>Artista do álbum</value>
+  </data>
+  <data name="ExplorerColumnMusicTrackNumber" xml:space="preserve">
+    <value>Número da faixa</value>
+  </data>
+  <data name="ExplorerColumnMusicGenre" xml:space="preserve">
+    <value>Gênero</value>
+  </data>
+  <data name="ExplorerColumnMediaYear" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="ExplorerColumnAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits</value>
+  </data>
+  <data name="ExplorerColumnAudioSampleRate" xml:space="preserve">
+    <value>Taxa de amostragem</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameWidth" xml:space="preserve">
+    <value>Largura do quadro</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameHeight" xml:space="preserve">
+    <value>Altura do quadro</value>
+  </data>
+  <data name="ExplorerColumnVideoFrameRate" xml:space="preserve">
+    <value>Taxa de quadros</value>
+  </data>
+  <data name="ExplorerColumnVideoTotalBitrate" xml:space="preserve">
+    <value>Taxa de bits total</value>
+  </data>
+  <data name="ExplorerColumnMediaDirector" xml:space="preserve">
+    <value>Diretores</value>
+  </data>
+  <data name="ExplorerColumnMediaProducer" xml:space="preserve">
+    <value>Produtores</value>
+  </data>
+  <data name="ExplorerColumnAuthor" xml:space="preserve">
+    <value>Autores</value>
+  </data>
+  <data name="ExplorerColumnTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="ExplorerColumnSubject" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="ExplorerColumnKeywords" xml:space="preserve">
+    <value>Palavras-chave</value>
+  </data>
+  <data name="ExplorerColumnComment" xml:space="preserve">
+    <value>Comentários</value>
+  </data>
+  <data name="ExplorerColumnDocumentPageCount" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="ExplorerColumnDocumentWordCount" xml:space="preserve">
+    <value>Contagem de palavras</value>
+  </data>
+  <data name="ExplorerColumnDocumentCharacterCount" xml:space="preserve">
+    <value>Contagem de caracteres</value>
+  </data>
+  <data name="ExplorerColumnFileVersion" xml:space="preserve">
+    <value>Versão do arquivo</value>
+  </data>
+  <data name="ExplorerColumnRating" xml:space="preserve">
+    <value>Classificação</value>
+  </data>
+  <data name="ExplorerColumnCopyright" xml:space="preserve">
+    <value>Direitos autorais</value>
+  </data>
+  <data name="ExplorerColumnApplicationName" xml:space="preserve">
+    <value>Nome do aplicativo</value>
+  </data>
+  <data name="ExplorerColumnCompany" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="ExplorerColumnComputerName" xml:space="preserve">
+    <value>Computador</value>
+  </data>
+  <data name="ExplorerColumnFileOwner" xml:space="preserve">
+    <value>Proprietário</value>
+  </data>
+  <data name="ExplorerColumnFileAttributes" xml:space="preserve">
+    <value>Atributos</value>
+  </data>
+  <data name="ExplorerColumnCategoryImage" xml:space="preserve">
+    <value>Imagem</value>
+  </data>
+  <data name="ExplorerColumnCategoryMedia" xml:space="preserve">
+    <value>Mídia</value>
+  </data>
+  <data name="ExplorerColumnCategoryVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="ExplorerColumnCategoryDocument" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="ExplorerColumnCategoryFile" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Verificar atualizações</value>
+  </data>
+  <data name="CheckForUpdatesDescription" xml:space="preserve">
+    <value>Verifica se foi publicada uma versão mais recente do Files Custom.</value>
+  </data>
+  <data name="OpenAboutDescription" xml:space="preserve">
+    <value>Abre a página Sobre com o nome e a versão do aplicativo.</value>
+  </data>
+  <data name="UpdateAvailableMessage" xml:space="preserve">
+    <value>A versão {0} está disponível. Você está com a {1}.</value>
+  </data>
+  <data name="UpdateOpenDownloadPage" xml:space="preserve">
+    <value>Abrir página de download</value>
+  </data>
+  <data name="UpdateUpToDateMessage" xml:space="preserve">
+    <value>Você está usando a versão mais recente ({0}).</value>
+  </data>
+  <data name="UpdateNoReleasesMessage" xml:space="preserve">
+    <value>Nenhuma versão foi publicada ainda. Você está usando a {0}.</value>
+  </data>
+  <data name="UpdateCheckFailedMessage" xml:space="preserve">
+    <value>Não foi possível verificar as atualizações. Verifique sua conexão com a internet e tente novamente.</value>
+  </data>
+  <data name="SearchIndexSectionTitle" xml:space="preserve">
+    <value>Índice de Busca Instantânea</value>
+  </data>
+  <data name="SearchIndexStatusHeader" xml:space="preserve">
+    <value>Estado do Índice por Volume</value>
+  </data>
+  <data name="SearchIndexRefreshStatusButton" xml:space="preserve">
+    <value>Atualizar estado</value>
+  </data>
+  <data name="SearchIndexReindexAllButton" xml:space="preserve">
+    <value>Reindexar tudo</value>
+  </data>
+  <data name="SearchIndexReindexVolumeButton" xml:space="preserve">
+    <value>Reindexar</value>
+  </data>
+  <data name="SearchIndexExcludedPathsHeader" xml:space="preserve">
+    <value>Pastas e Volumes Excluídos do Índice</value>
+  </data>
+  <data name="SearchIndexExcludedPathsDescription" xml:space="preserve">
+    <value>Itens dentro destas pastas ou unidades não serão indexados nem exibidos na busca.</value>
+  </data>
+  <data name="SearchIndexExcludedPathPlaceholder" xml:space="preserve">
+    <value>Ex.: C:\Temp ou D:\</value>
+  </data>
+  <data name="SearchIndexAddExcludedPathButton" xml:space="preserve">
+    <value>Excluir caminho</value>
+  </data>
+  <data name="SearchIndexRemoveExcludedPathButton" xml:space="preserve">
+    <value>Incluir novamente</value>
+  </data>
+  <data name="SearchIndexFullModeHeader" xml:space="preserve">
+    <value>Modo Completo (Leitura Direta da MFT + Diário USN)</value>
+  </data>
+  <data name="SearchIndexFullModeDescription" xml:space="preserve">
+    <value>Serviço opcional do Windows para indexação ultrarrápida de volumes NTFS. Pede permissão de administrador (UAC) apenas na instalação.</value>
+  </data>
+  <data name="SearchIndexInstallFullModeButton" xml:space="preserve">
+    <value>Instalar Modo Completo (UAC)</value>
+  </data>
 </root>

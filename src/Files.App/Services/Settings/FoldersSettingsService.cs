@@ -1,10 +1,18 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Enums;
+
 namespace Files.App.Services.Settings
 {
 	internal sealed partial class FoldersSettingsService : BaseObservableJsonSettings, IFoldersSettingsService
 	{
+		public SearchEngineKind SearchEnginePreference
+		{
+			get => (SearchEngineKind)Get((long)SearchEngineKind.Native);
+			set => Set((long)value);
+		}
+
 		public FoldersSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			// Register root
@@ -159,6 +167,13 @@ namespace Files.App.Services.Settings
 		public SizeUnitTypes SizeUnitFormat
 		{
 			get => Get(SizeUnitTypes.BinaryUnits);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public List<string>? SearchIndexExcludedPaths
+		{
+			get => Get<List<string>>(null);
 			set => Set(value);
 		}
 

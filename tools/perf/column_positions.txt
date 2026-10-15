@@ -1,0 +1,7 @@
+﻿--- Column Splitters Positions ---
+Splitter NameColumnHeaderGridSplitter        : NOT FOUND
+Splitter TagColumnHeaderGridSplitter         : NOT FOUND
+Splitter DateModifiedColumnHeaderGridSplitter: NOT FOUND
+Splitter DateCreatedColumnHeaderGridSplitter : NOT FOUND
+Splitter FileTypeColumnHeaderGridSplitter    : NOT FOUND
+Splitter ItemSizeColumnHeaderGridSplitter    : NOT FOUND

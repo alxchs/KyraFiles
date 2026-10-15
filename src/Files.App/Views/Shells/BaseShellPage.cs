@@ -6,8 +6,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Files.App.Utils.Git;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
@@ -285,7 +287,9 @@ namespace Files.App.Views.Shells
 			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(shellViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = InstanceViewModel.IsGitRepository
-					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+					? (Directory.Exists(Path.Combine(InstanceViewModel.GitRepositoryPath ?? string.Empty, ".svn"))
+						? SvnHelpers.GetSvnHead(InstanceViewModel.GitRepositoryPath)
+						: await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath))
 					: null;
 
 			shellViewModel = this.GetRequiredShellViewModel();
@@ -342,7 +346,9 @@ namespace Files.App.Views.Shells
 				return;
 
 			var head = InstanceViewModel.IsGitRepository
-				? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+				? (Directory.Exists(Path.Combine(InstanceViewModel.GitRepositoryPath ?? string.Empty, ".svn"))
+					? SvnHelpers.GetSvnHead(InstanceViewModel.GitRepositoryPath)
+					: await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath))
 				: null;
 
 			InstanceViewModel.GitBranchName = head is not null
@@ -400,6 +406,15 @@ namespace Files.App.Views.Shells
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
+				// Escape cancels an ongoing search (F015 FR-023 / AC-18)
+				case (false, false, false, _, VirtualKey.Escape):
+					if (ShellViewModel is { IsLoadingItems: true, IsSearchResults: true })
+					{
+						ShellViewModel.CancelSearch();
+						args.Handled = true;
+					}
+					break;
+
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
 					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
@@ -458,7 +473,9 @@ namespace Files.App.Views.Shells
 		{
 			var queryText = e.QueryText
 				?? throw new InvalidOperationException("The submitted navigation query is missing.");
+#pragma warning disable CS0618 // Upstream still routes Omnibar submits through the legacy toolbar path handler
 			await ToolbarViewModel.CheckPathInputAsync(queryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+#pragma warning restore CS0618
 		}
 
 		protected async void DrivesManager_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -601,6 +618,7 @@ namespace Files.App.Views.Shells
 				};
 
 				await shellViewModel.SearchAsync(searchInstance);
+				ToolbarViewModel.CanRefresh = true;
 			}
 			else if (CurrentPageType != typeof(HomePage))
 			{
@@ -820,7 +838,9 @@ namespace Files.App.Views.Shells
 		protected void SelectSidebarItemFromPath(Type? incomingSourcePageType = null)
 		{
 			if (incomingSourcePageType == typeof(HomePage))
+#pragma warning disable CS0618 // Upstream still sets the legacy toolbar path text here
 				ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
+#pragma warning restore CS0618
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(Frame))]

@@ -23,6 +23,16 @@ namespace Files.App.Utils.Shell
 		private const int QueryActiveShellViewSlot = 15;
 		private const int GetFolderSlot = 5;
 		private const int GetCurrentFolderSlot = 5;
+		private const int WebBrowserGetHwndSlot = 37;
+		private const int WebBrowserQuitSlot = 32;
+		private const int WebBrowserGetLocationUrlSlot = 30;
+		private static readonly Guid WebBrowser2InterfaceId = new("D30C1661-CDAF-11D0-8A3E-00C04FC9E26E");
+		private const int GetSelectionSlot = 32;
+		private const int ItemArrayGetCountSlot = 7;
+		private const int ItemArrayGetItemAtSlot = 8;
+		private const int ShellItemGetDisplayNameSlot = 5;
+		private const uint DesktopAbsoluteParsing = 0x80028000;
+		private static readonly Guid FolderView2InterfaceId = new("1AF3A467-214F-4298-908E-06B03E0B39F9");
 
 		private static readonly Guid ShellWindowsClassId = new("9BA05972-F6A8-11CF-A442-00A0C90A8F39");
 		private static readonly Guid ShellWindowsInterfaceId = new("85CB6900-4D95-11CF-960C-0080C7F4EE85");
@@ -163,6 +173,172 @@ namespace Files.App.Utils.Shell
 					}
 				}
 			}
+
+			/// <summary>
+			/// Files Custom: reads the window handle, the parsing name of the current folder and the selected items (F012 T9).
+			/// </summary>
+			public bool TryGetLocation(out nint windowHandle, out string? parsingName, out List<string> selection)
+			{
+				ObjectDisposedException.ThrowIf(window is null, this);
+				windowHandle = 0;
+				parsingName = null;
+				selection = [];
+				void* serviceProvider = null;
+				void* shellBrowser = null;
+				void* shellView = null;
+				void* folderView = null;
+				void* persistFolder = null;
+				void* itemArray = null;
+				ITEMIDLIST* currentFolderPidl = null;
+				void* webBrowser = null;
+				try
+				{
+					// IShellBrowser::GetWindow is input-synchronous and fails across processes; IWebBrowser2::get_HWND does not
+					if (QueryInterface(window, WebBrowser2InterfaceId, out webBrowser).Failed || webBrowser is null)
+						return false;
+					var getHwnd = (delegate* unmanaged[MemberFunction]<void*, nint*, int>)GetVtable(webBrowser)[WebBrowserGetHwndSlot];
+					nint handle = 0;
+					if (new HRESULT(getHwnd(webBrowser, &handle)).Failed || handle == 0)
+						return false;
+					windowHandle = handle;
+
+					if (QueryInterface(window, ServiceProviderInterfaceId, out serviceProvider).Failed || serviceProvider is null)
+						return false;
+					if (QueryService(serviceProvider, TopLevelBrowserServiceId, ShellBrowserInterfaceId, out shellBrowser).Failed || shellBrowser is null)
+						return false;
+
+					if (QueryActiveShellView(shellBrowser, out shellView).Failed || shellView is null)
+						return false;
+					if (QueryInterface(shellView, FolderView2InterfaceId, out folderView).Failed || folderView is null)
+						return false;
+					if (GetFolder(folderView, PersistFolder2InterfaceId, out persistFolder).Failed || persistFolder is null)
+						return false;
+					if (GetCurrentFolder(persistFolder, out currentFolderPidl).Failed || currentFolderPidl is null)
+						return false;
+
+					parsingName = GetParsingName(currentFolderPidl);
+					if (parsingName is null)
+						return false;
+
+					var getSelection = (delegate* unmanaged[MemberFunction]<void*, int, void**, int>)GetVtable(folderView)[GetSelectionSlot];
+					void* items = null;
+					if (new HRESULT(getSelection(folderView, 0, &items)).Succeeded && items is not null)
+					{
+						itemArray = items;
+						var getCount = (delegate* unmanaged[MemberFunction]<void*, uint*, int>)GetVtable(itemArray)[ItemArrayGetCountSlot];
+						var getItemAt = (delegate* unmanaged[MemberFunction]<void*, uint, void**, int>)GetVtable(itemArray)[ItemArrayGetItemAtSlot];
+						uint count = 0;
+						if (new HRESULT(getCount(itemArray, &count)).Succeeded)
+						{
+							for (uint index = 0; index < count; index++)
+							{
+								void* item = null;
+								if (new HRESULT(getItemAt(itemArray, index, &item)).Failed || item is null)
+									continue;
+
+								var getDisplayName = (delegate* unmanaged[MemberFunction]<void*, uint, char**, int>)GetVtable(item)[ShellItemGetDisplayNameSlot];
+								char* name = null;
+								if (new HRESULT(getDisplayName(item, DesktopAbsoluteParsing, &name)).Succeeded && name is not null)
+								{
+									selection.Add(new string(name));
+									PInvoke.CoTaskMemFree(name);
+								}
+
+								Release(ref item);
+							}
+						}
+					}
+
+					return true;
+				}
+				finally
+				{
+					PInvoke.CoTaskMemFree(currentFolderPidl);
+					Release(ref itemArray);
+					Release(ref persistFolder);
+					Release(ref folderView);
+					Release(ref shellView);
+					Release(ref shellBrowser);
+					Release(ref serviceProvider);
+					Release(ref webBrowser);
+				}
+			}
+
+			/// <summary>
+			/// Files Custom: reads the window handle and the navigation URL, which Explorer sets before the folder view is ready (F012 T9).
+			/// </summary>
+			public bool TryGetHandleAndUrl(out nint windowHandle, out string? url)
+			{
+				ObjectDisposedException.ThrowIf(window is null, this);
+				windowHandle = 0;
+				url = null;
+				void* webBrowser = null;
+				char* locationUrl = null;
+				try
+				{
+					if (QueryInterface(window, WebBrowser2InterfaceId, out webBrowser).Failed || webBrowser is null)
+						return false;
+					var getHwnd = (delegate* unmanaged[MemberFunction]<void*, nint*, int>)GetVtable(webBrowser)[WebBrowserGetHwndSlot];
+					nint handle = 0;
+					if (new HRESULT(getHwnd(webBrowser, &handle)).Failed || handle == 0)
+						return false;
+					windowHandle = handle;
+
+					var getLocationUrl = (delegate* unmanaged[MemberFunction]<void*, char**, int>)GetVtable(webBrowser)[WebBrowserGetLocationUrlSlot];
+					if (new HRESULT(getLocationUrl(webBrowser, &locationUrl)).Succeeded && locationUrl is not null)
+						url = new string(locationUrl);
+					return true;
+				}
+				finally
+				{
+					if (locationUrl is not null)
+						SysFreeString(locationUrl);
+					Release(ref webBrowser);
+				}
+			}
+
+			[LibraryImport("oleaut32.dll")]
+			private static partial void SysFreeString(char* value);
+
+			/// <summary>
+			/// Files Custom: asks Explorer to close this window (F012 T9).
+			/// </summary>
+			public bool TryQuit()
+			{
+				ObjectDisposedException.ThrowIf(window is null, this);
+				void* webBrowser = null;
+				try
+				{
+					if (QueryInterface(window, WebBrowser2InterfaceId, out webBrowser).Failed || webBrowser is null)
+						return false;
+					var quit = (delegate* unmanaged[MemberFunction]<void*, int>)GetVtable(webBrowser)[WebBrowserQuitSlot];
+					return new HRESULT(quit(webBrowser)).Succeeded;
+				}
+				finally
+				{
+					Release(ref webBrowser);
+				}
+			}
+
+			private static string? GetParsingName(ITEMIDLIST* pidl)
+			{
+				char* name = null;
+				if (SHGetNameFromIDList(pidl, DesktopAbsoluteParsing, &name) < 0 || name is null)
+					return null;
+
+				try
+				{
+					return new string(name);
+				}
+				finally
+				{
+					PInvoke.CoTaskMemFree(name);
+				}
+			}
+
+			[LibraryImport("shell32.dll", EntryPoint = "SHGetNameFromIDList")]
+			[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+			private static partial int SHGetNameFromIDList(ITEMIDLIST* pidl, uint sigdnName, char** name);
 
 			public void Dispose()
 			{

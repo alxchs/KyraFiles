@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
+using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.Drawing.Text;
@@ -21,6 +22,8 @@ namespace Files.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
+		public List<string> AppDensityOptions { get; private set; }
+		public List<string> ControlShapeStyleOptions { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
 		public Dictionary<Stretch, string> ImageStretchTypes { get; private set; } = [];
@@ -51,6 +54,29 @@ namespace Files.App.ViewModels.Settings
 				Strings.LightTheme.GetLocalizedResource(),
 				Strings.DarkTheme.GetLocalizedResource()
 			];
+
+			AppDensityOptions =
+			[
+				Strings.AppDensityNormal.GetLocalizedResource(),
+				Strings.AppDensityCompact.GetLocalizedResource(),
+				Strings.AppDensityUltraCompact.GetLocalizedResource(),
+			];
+			selectedAppDensityIndex = (int)UserSettingsService.AppearanceSettingsService.AppDensity;
+
+			ControlShapeStyleOptions =
+			[
+				Strings.ControlShapeFluentStandard.GetLocalizedResource(),
+				Strings.ControlShapeTicketWave.GetLocalizedResource(),
+				Strings.ControlShapeRibbonDock.GetLocalizedResource(),
+				Strings.ControlShapeCyberpunkTrapezoid.GetLocalizedResource(),
+				Strings.ControlShapeDirectionalPill.GetLocalizedResource(),
+				Strings.ControlShapeHexagonalTech.GetLocalizedResource(),
+				Strings.ControlShapeSinusoidalWave.GetLocalizedResource(),
+				Strings.ControlShapeSawtoothTriangle.GetLocalizedResource(),
+				Strings.ControlShapeBiConcaveHourglass.GetLocalizedResource(),
+				Strings.ControlShapeHybridRectangular.GetLocalizedResource(),
+			];
+			selectedControlShapeStyleIndex = (int)UserSettingsService.AppearanceSettingsService.ControlShapeStyle;
 
 			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, Strings.None.GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, Strings.Acrylic.GetLocalizedResource());
@@ -154,6 +180,10 @@ namespace Files.App.ViewModels.Settings
 			var selectedFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
 			if (!string.IsNullOrWhiteSpace(selectedFontFamily) && !AppThemeFontFamilyOptions.ContainsKey(selectedFontFamily))
 				AppThemeFontFamilyOptions.Add(selectedFontFamily, selectedFontFamily);
+
+			var selectedFileAreaFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFileAreaFontFamily;
+			if (!string.IsNullOrWhiteSpace(selectedFileAreaFontFamily) && !AppThemeFontFamilyOptions.ContainsKey(selectedFileAreaFontFamily))
+				AppThemeFontFamilyOptions.Add(selectedFileAreaFontFamily, selectedFileAreaFontFamily);
 		}
 
 		/// <summary>
@@ -214,6 +244,38 @@ namespace Files.App.ViewModels.Settings
 		public ElementTheme SelectedElementTheme
 		{
 			get => (ElementTheme)selectedThemeIndex;
+		}
+
+		private int selectedAppDensityIndex;
+		public int SelectedAppDensityIndex
+		{
+			get => selectedAppDensityIndex;
+			set
+			{
+				if (SetProperty(ref selectedAppDensityIndex, value))
+				{
+					var density = (AppDensityKind)value;
+					UserSettingsService.AppearanceSettingsService.AppDensity = density;
+					ResourcesService.SetAppThemeDensity(density);
+					ResourcesService.ApplyResources();
+				}
+			}
+		}
+
+		private int selectedControlShapeStyleIndex;
+		public int SelectedControlShapeStyleIndex
+		{
+			get => selectedControlShapeStyleIndex;
+			set
+			{
+				if (SetProperty(ref selectedControlShapeStyleIndex, value))
+				{
+					var shapeStyle = (ControlShapeStyleKind)value;
+					UserSettingsService.AppearanceSettingsService.ControlShapeStyle = shapeStyle;
+					ResourcesService.SetAppControlShapeStyle(shapeStyle);
+					ResourcesService.ApplyResources();
+				}
+			}
 		}
 
 		public string AppThemeBackgroundColor
@@ -283,6 +345,35 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public string AppThemeFileAreaFontFamily
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppThemeFileAreaFontFamily;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeFileAreaFontFamily)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeFileAreaFontFamily = value;
+					ResourcesService.SetAppThemeFileAreaFontFamily(value);
+					ResourcesService.ApplyResources();
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(SelectedAppThemeFileAreaFontFamilyOption));
+				}
+			}
+		}
+
+		public string SelectedAppThemeFileAreaFontFamilyOption
+		{
+			get => AppThemeFontFamilyOptions.TryGetValue(AppThemeFileAreaFontFamily, out var label)
+				? label
+				: AppThemeFontFamilyOptions[Constants.Appearance.StandardFont];
+			set
+			{
+				var key = AppThemeFontFamilyOptions.FirstOrDefault(e => e.Value == value).Key;
+				if (key is not null)
+					AppThemeFileAreaFontFamily = key;
+			}
+		}
+
 		public string AppThemeBackgroundImageSource
 		{
 			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource;
@@ -346,6 +437,20 @@ namespace Files.App.ViewModels.Settings
 				if (SetProperty(ref selectedImageHorizontalAlignmentType, value))
 				{
 					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment = ImageHorizontalAlignmentTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		public bool ShowClassicMenuBar
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowClassicMenuBar;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowClassicMenuBar)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowClassicMenuBar = value;
+
+					OnPropertyChanged();
 				}
 			}
 		}

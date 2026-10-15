@@ -223,6 +223,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public string DefaultCustomColumnsJson
+		{
+			get => Get(string.Empty);
+			set => Set(value);
+		}
+
 		public bool ShowTypeColumn
 		{
 			get => Get(true);

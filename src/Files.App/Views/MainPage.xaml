@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,6 +9,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:menus="using:Files.App.UserControls.Menus"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
@@ -53,6 +54,7 @@
 			<x:Boolean x:Key="False">False</x:Boolean>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 
 			<MenuFlyout x:Key="SidebarContextMenu">
@@ -109,8 +111,12 @@
 			Modifiers="Control" />
 	</Page.KeyboardAccelerators>
 
-	<Grid>
+	<Grid
+		x:Name="ShellWindowContainer"
+		Margin="4"
+		helpers:ShapeClip.Scale="1.75">
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -118,7 +124,7 @@
 
 		<!--  Background Image  -->
 		<Image
-			Grid.RowSpan="3"
+			Grid.RowSpan="4"
 			HorizontalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=OneWay}"
@@ -133,10 +139,17 @@
 			Loaded="HorizontalMultitaskingControl_Loaded"
 			TabIndex="0" />
 
+		<!--  Classic Menu Bar  -->
+		<menus:ClassicMenuBar
+			x:Name="ClassicMenuBarControl"
+			Grid.Row="1"
+			HorizontalAlignment="Stretch"
+			Visibility="{x:Bind ViewModel.ShowClassicMenuBar, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 		<!--  Address Bar  -->
 		<uc:NavigationToolbar
 			x:Name="NavToolbar"
-			Grid.Row="1"
+			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			x:Load="False"
@@ -147,7 +160,7 @@
 		<!--  Content Area  -->
 		<controls:SidebarView
 			x:Name="SidebarControl"
-			Grid.Row="2"
+			Grid.Row="3"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
@@ -188,6 +201,7 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition x:Name="InfoPaneColumnDefinition" Width="Auto" />
 						<ColumnDefinition x:Name="ShelfPaneColumn" Width="Auto" />
+						<ColumnDefinition x:Name="HelpPaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
@@ -231,12 +245,18 @@
 					</InfoBar>
 
 					<!--  Page Content  -->
-					<ContentPresenter
-						x:Name="PageContent"
+					<Border
+						x:Name="FileAreaBorder"
 						Grid.Row="2"
 						Grid.Column="0"
-						HorizontalContentAlignment="Stretch"
-						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
+						helpers:ShapeClip.Scale="1.25"
+						CornerRadius="{ThemeResource OverlayCornerRadius}"
+						Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}">
+						<ContentPresenter
+							x:Name="PageContent"
+							HorizontalContentAlignment="Stretch"
+							Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
+					</Border>
 
 					<!--  Info Pane Splitter  -->
 					<controls:GridSplitter
@@ -271,6 +291,15 @@
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
+
+					<!--  Help Pane  -->
+					<uc:HelpPane
+						x:Name="HelpPane"
+						Grid.Row="0"
+						Grid.RowSpan="5"
+						Grid.Column="4"
+						Margin="4,0,0,0"
+						Visibility="{x:Bind ViewModel.HelpViewModel.IsHelpOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</Grid>
 			</controls:SidebarView.InnerContent>
 

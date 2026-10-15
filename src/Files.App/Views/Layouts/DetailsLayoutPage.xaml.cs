@@ -3,7 +3,12 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
+using Files.App.Data.Contracts;
+using Files.App.Data.Models;
+using Files.App.Dialogs;
+using Files.App.UserControls;
 using Files.App.UserControls.Selection;
+using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -33,9 +38,11 @@ namespace Files.App.Views.Layouts
 		// Constants
 
 		private const int TAG_TEXT_BLOCK = 1;
+		private const int STATIC_COLUMN_COUNT = 33;
 
 		// Fields
 
+		private readonly List<UIElement> dynamicHeaderElements = [];
 		private ListedItem? _nextItemToSelect;
 
 		/// <summary>
@@ -191,6 +198,14 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitLastCommitMessageColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn);
 				ColumnsViewModel.GitCommitAuthorColumn.Update(FolderSettings.ColumnsViewModel.GitCommitAuthorColumn);
 				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
+
+				ColumnsViewModel.DynamicColumns.Clear();
+				foreach (var dyn in FolderSettings.ColumnsViewModel.DynamicColumns)
+				{
+					ColumnsViewModel.DynamicColumns.Add(dyn);
+				}
+				UpdateDynamicColumnsHeaders();
+				SyncDynamicColumnsToItems();
 			}
 
 			shellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
@@ -201,6 +216,7 @@ namespace Files.App.Views.Layouts
 			shellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged += ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged += FileListItems_VectorChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -232,6 +248,7 @@ namespace Files.App.Views.Layouts
 			shellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
 			_autoFitColumnsTimer?.Stop();
 		}
@@ -251,6 +268,7 @@ namespace Files.App.Views.Layouts
 				shellViewModel.ItemLoadStatusChanged -= ShellViewModel_ItemLoadStatusChanged;
 			}
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 			FileList.Items.VectorChanged -= FileListItems_VectorChanged;
 			_autoFitColumnsTimer?.Stop();
 			base.Dispose();
@@ -307,17 +325,29 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IAppearanceSettingsService.AppDensity))
+			{
+				var previousOffset = ContentScroller?.VerticalOffset;
+				NotifyPropertyChanged(nameof(RowHeight));
+				SetItemContainerStyle();
+				ContentScroller?.ChangeView(null, previousOffset, null);
+			}
+		}
+
 		/// <summary>
 		/// Sets the item size and spacing
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
 			var size = UserSettingsService.LayoutSettingsService.DetailsViewSize;
-			if (itemContainerSize != size)
+			var isCompact = size == DetailsViewSizeKind.Compact || UserSettingsService.AppearanceSettingsService.AppDensity != AppDensityKind.Normal;
+			if (itemContainerSize != size || isCompact)
 			{
 				// Changing size still requires a style refresh, even when both sizes use the same style.
-				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? RegularItemContainerStyle : CompactItemContainerStyle;
-				FileList.ItemContainerStyle = size == DetailsViewSizeKind.Compact ? CompactItemContainerStyle : RegularItemContainerStyle;
+				FileList.ItemContainerStyle = isCompact ? RegularItemContainerStyle : CompactItemContainerStyle;
+				FileList.ItemContainerStyle = isCompact ? CompactItemContainerStyle : RegularItemContainerStyle;
 				itemContainerSize = size;
 			}
 
@@ -326,7 +356,7 @@ namespace Files.App.Views.Layouts
 
 			// Compact rows use a -2px ItemContainer margin, so the header checkbox needs an extra
 			// left offset to stay aligned with row checkboxes.
-			var leftOffset = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact ? -4 : 0;
+			var leftOffset = isCompact ? -4 : 0;
 			SelectAllCheckbox.Margin = new Thickness(leftOffset, 14, 0, 0);
 		}
 
@@ -472,10 +502,12 @@ namespace Files.App.Views.Layouts
 				return;
 
 			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null || textBox.FindParent<Grid>() is null)
+			if (textBox is null || textBox.FindParent<Grid>() is not Grid parentGrid)
 				return;
 
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+			Grid.SetColumnSpan(parentGrid, 8);
+			parentGrid.MinWidth = Math.Max(260, parentGrid.ActualWidth);
+			textBox.MinWidth = 220;
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -495,7 +527,11 @@ namespace Files.App.Views.Layouts
 		protected override void EndRename(TextBox textBox)
 		{
 			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
+			{
 				Grid.SetColumnSpan(parent, 1);
+				parent.ClearValue(FrameworkElement.MinWidthProperty);
+				textBox.ClearValue(FrameworkElement.MinWidthProperty);
+			}
 
 			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 
@@ -510,12 +546,8 @@ namespace Files.App.Views.Layouts
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			// Unsubscribe from events
-			if (textBox is not null)
-			{
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.KeyDown -= RenameTextBox_KeyDown;
-			}
+			// Unsubscribe from events and reset rename state
+			ResetRenameState(textBox);
 
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
@@ -825,6 +857,16 @@ namespace Files.App.Views.Layouts
 			ColumnsViewModel.ItemTypeColumn.UserLength = Column10.Width;
 			ColumnsViewModel.SizeColumn.UserLength = Column11.Width;
 			ColumnsViewModel.StatusColumn.UserLength = Column12.Width;
+
+			var activeCols = ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible).ToList();
+			for (int i = 0; i < activeCols.Count; i++)
+			{
+				int colIndex = STATIC_COLUMN_COUNT + (i * 2);
+				if (colIndex < HeaderGrid.ColumnDefinitions.Count)
+				{
+					activeCols[i].UserLength = HeaderGrid.ColumnDefinitions[colIndex].Width;
+				}
+			}
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -1087,6 +1129,163 @@ namespace Files.App.Views.Layouts
 			};
 		}
 
+		private async void MoreColumns_Click(object sender, RoutedEventArgs e)
+		{
+			var propertyService = Ioc.Default.GetRequiredService<IExplorerPropertyService>();
+			var dialog = new ChooseDetailsDialog
+			{
+				XamlRoot = XamlRoot ?? MainWindow.Instance?.Content?.XamlRoot
+			};
+			var dialogVm = new ChooseDetailsDialogViewModel(ColumnsViewModel, propertyService);
+			dialog.ViewModel = dialogVm;
+
+			var result = await dialog.ShowAsync();
+			if (result == DialogResult.Primary)
+			{
+				UpdateDynamicColumnsHeaders();
+
+				var folderSettings = FolderSettings;
+				if (folderSettings is not null)
+				{
+					folderSettings.ColumnsViewModel = ColumnsViewModel;
+				}
+
+				LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
+
+				SyncDynamicColumnsToItems();
+
+				var shellViewModel = ParentShellPageInstance?.GetRequiredShellViewModel();
+				if (shellViewModel is not null)
+				{
+					var filesAndFolders = shellViewModel.FilesAndFolders.ToList();
+					await Task.WhenAll(filesAndFolders.Select(listedItem =>
+					{
+						if (FileList.ContainerFromItem(listedItem) is not null)
+							return shellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+						return Task.CompletedTask;
+					}));
+				}
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(Style))]
+		private void UpdateDynamicColumnsHeaders()
+		{
+			foreach (var element in dynamicHeaderElements)
+			{
+				HeaderGrid.Children.Remove(element);
+			}
+			dynamicHeaderElements.Clear();
+
+			while (HeaderGrid.ColumnDefinitions.Count > STATIC_COLUMN_COUNT)
+			{
+				HeaderGrid.ColumnDefinitions.RemoveAt(HeaderGrid.ColumnDefinitions.Count - 1);
+			}
+
+			var activeCols = ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible).ToList();
+			for (int i = 0; i < activeCols.Count; i++)
+			{
+				var dynCol = activeCols[i];
+				int colIndex = STATIC_COLUMN_COUNT + (i * 2);
+
+				var colDef = new ColumnDefinition
+				{
+					Width = dynCol.UserLength,
+				};
+				HeaderGrid.ColumnDefinitions.Add(colDef);
+
+				var splitDef = new ColumnDefinition
+				{
+					Width = GridLength.Auto,
+				};
+				HeaderGrid.ColumnDefinitions.Add(splitDef);
+
+				var header = new DataGridHeader
+				{
+					Header = dynCol.DisplayName,
+					Tag = dynCol,
+					CanBeSorted = false,
+				};
+				Grid.SetColumn(header, colIndex);
+				HeaderGrid.Children.Add(header);
+				dynamicHeaderElements.Add(header);
+
+				var splitter = new Files.App.Controls.GridSplitter
+				{
+					Style = (Style)Resources["HeaderGridSplitterStyle"],
+					Tag = dynCol,
+				};
+				Grid.SetColumn(splitter, colIndex + 1);
+				splitter.Loaded += GridSplitter_Loaded;
+				splitter.ManipulationStarted += GridSplitter_ManipulationStarted;
+				splitter.ManipulationDelta += DynamicGridSplitter_ManipulationDelta;
+				splitter.ManipulationCompleted += DynamicGridSplitter_ManipulationCompleted;
+				splitter.DoubleTapped += DynamicGridSplitter_DoubleTapped;
+
+				HeaderGrid.Children.Add(splitter);
+				dynamicHeaderElements.Add(splitter);
+			}
+		}
+
+		private void SyncDynamicColumnsToItems()
+		{
+			var shellViewModel = ParentShellPageInstance?.GetRequiredShellViewModel();
+			if (shellViewModel is null)
+				return;
+
+			var activeDefs = ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible).ToList();
+			foreach (var item in shellViewModel.FilesAndFolders)
+			{
+				item.SyncDynamicColumns(activeDefs);
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private void DynamicGridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement fe && fe.Tag is DynamicColumnDefinition dynCol)
+			{
+				var colIndex = Grid.GetColumn(fe) - 1;
+				if (colIndex >= 0 && colIndex < HeaderGrid.ColumnDefinitions.Count)
+				{
+					var newWidth = Math.Max(40, dynCol.UserLength.Value + e.Delta.Translation.X);
+					dynCol.UserLength = new GridLength(newWidth, GridUnitType.Pixel);
+					HeaderGrid.ColumnDefinitions[colIndex].Width = dynCol.UserLength;
+				}
+			}
+			e.Handled = true;
+		}
+
+		private void DynamicGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+		{
+			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			var folderSettings = FolderSettings;
+			if (folderSettings is not null)
+			{
+				folderSettings.ColumnsViewModel = ColumnsViewModel;
+			}
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private void DynamicGridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement fe && fe.Tag is DynamicColumnDefinition dynCol)
+			{
+				var colIndex = Grid.GetColumn(fe) - 1;
+				dynCol.UserLength = new GridLength(140, GridUnitType.Pixel);
+				if (colIndex >= 0 && colIndex < HeaderGrid.ColumnDefinitions.Count)
+				{
+					HeaderGrid.ColumnDefinitions[colIndex].Width = dynCol.UserLength;
+				}
+				var folderSettings = FolderSettings;
+				if (folderSettings is not null)
+				{
+					folderSettings.ColumnsViewModel = ColumnsViewModel;
+				}
+			}
+			e.Handled = true;
+		}
+
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
 			LayoutPreferencesManager.SetDefaultLayoutPreferences(ColumnsViewModel);
@@ -1131,6 +1330,11 @@ namespace Files.App.Views.Layouts
 			base.FileList_ContainerContentChanging(sender, args);
 			if (args.InRecycleQueue)
 				return;
+
+			if (args.Item is ListedItem listedItem && ColumnsViewModel.DynamicColumns.Count > 0)
+			{
+				listedItem.SyncDynamicColumns(ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible));
+			}
 
 			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
 

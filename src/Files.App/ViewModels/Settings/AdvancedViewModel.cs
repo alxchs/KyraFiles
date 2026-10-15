@@ -56,16 +56,11 @@ namespace Files.App.ViewModels.Settings
 				return;
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
-			Directory.CreateDirectory(destFolder);
-
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			if (!CopyFilesOpenDialogAssets(destFolder))
 			{
-				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
-				{
-					// Error copying files
-					await DetectResult();
-					return;
-				}
+				// Error copying files
+				await DetectResult();
+				return;
 			}
 
 			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
@@ -88,13 +83,14 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
+				var regFile = Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg");
+				using var regProcess = Process.Start(new ProcessStartInfo("reg.exe", @$"import ""{regFile}""") { CreateNoWindow = true, UseShellExecute = false });
 				if (regProcess is not null)
 					await regProcess.WaitForExitAsync();
 			}
-			catch
+			catch (Exception ex)
 			{
-				// Canceled UAC
+				App.Logger.LogWarning(ex, "Error importing default file manager registry file");
 			}
 
 			await DetectResult();
@@ -120,37 +116,55 @@ namespace Files.App.ViewModels.Settings
 				return;
 
 			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
-			Directory.CreateDirectory(destFolder);
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+
+			// Files Custom: unregistering uses the registered copies; recopying would fail while an app has them loaded
+			if (IsSetAsOpenFileDialog && !CopyFilesOpenDialogAssets(destFolder))
 			{
-				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
-				{
-					// Error copying files
-					goto DetectResult;
-				}
+				// Error copying files
+				goto DetectResult;
 			}
 
 			try
 			{
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog32.dll")}"""))
+				// Files Custom: only the DLLs built for this machine exist (see tools/Build-Native.ps1)
+				string[] dialogDlls = ["Files.App.OpenDialog32.dll", "Files.App.OpenDialog64.dll", "Files.App.OpenDialogARM64.dll", "Files.App.SaveDialog32.dll", "Files.App.SaveDialog64.dll", "Files.App.SaveDialogARM64.dll"];
+				foreach (var dll in dialogDlls)
+				{
+					var dllPath = Path.Combine(destFolder, dll);
+					if (!File.Exists(dllPath))
+						continue;
+
+					using var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{dllPath}""");
 					await regProc.WaitForExitAsync();
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog64.dll")}"""))
-					await regProc.WaitForExitAsync();
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialogARM64.dll")}"""))
-					await regProc.WaitForExitAsync();
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialog32.dll")}"""))
-					await regProc.WaitForExitAsync();
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialog64.dll")}"""))
-					await regProc.WaitForExitAsync();
-				using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.SaveDialogARM64.dll")}"""))
-					await regProc.WaitForExitAsync();
+					if (regProc.ExitCode != 0)
+						App.Logger.LogWarning("regsvr32 failed for {Dll} with exit code {ExitCode}", dll, regProc.ExitCode);
+				}
 			}
-			catch
+			catch (Exception ex)
 			{
+				App.Logger.LogWarning(ex, "Error registering the custom file dialogs");
 			}
 
 		DetectResult:
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+		}
+
+		// Files Custom: skip files already copied; the dialog DLLs stay loaded in any app that used them
+		private static bool CopyFilesOpenDialogAssets(string destFolder)
+		{
+			Directory.CreateDirectory(destFolder);
+			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			{
+				var source = new FileInfo(file);
+				var dest = new FileInfo(Path.Combine(destFolder, source.Name));
+				if (dest.Exists && dest.Length == source.Length && dest.LastWriteTimeUtc == source.LastWriteTimeUtc)
+					continue;
+
+				if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, dest.FullName, true), App.Logger))
+					return false;
+			}
+
+			return true;
 		}
 
 		private async Task ImportSettingsAsync()

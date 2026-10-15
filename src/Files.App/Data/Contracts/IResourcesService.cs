@@ -1,6 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
+using Files.App.Data.Enums;
 using Windows.UI;
 
 namespace Files.App.Data.Contracts
@@ -64,9 +65,27 @@ namespace Files.App.Data.Contracts
 		void SetAppThemeFontFamily(string contentControlThemeFontFamily);
 
 		/// <summary>
+		/// Overrides the XAML resource for App.Theme.FileArea.FontFamily
+		/// </summary>
+		/// <param name="appThemeFileAreaFontFamily"></param>
+		void SetAppThemeFileAreaFontFamily(string appThemeFileAreaFontFamily);
+
+		/// <summary>
 		/// Overrides the XAML resource for scroll inertia enabled state
 		/// </summary>
 		/// <param name="enableScrollInertia"></param>
 		void SetScrollInertiaEnabled(bool enableScrollInertia);
+
+		/// <summary>
+		/// Overrides the XAML resource for App.Theme.Sidebar.ItemHeight according to density
+		/// </summary>
+		/// <param name="density"></param>
+		void SetAppThemeDensity(AppDensityKind density);
+
+		/// <summary>
+		/// Overrides XAML corner radius resources and geometries according to the selected shape style.
+		/// </summary>
+		/// <param name="shapeStyle"></param>
+		void SetAppControlShapeStyle(ControlShapeStyleKind shapeStyle);
 	}
 }

@@ -1,0 +1,181 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<UserControl
+	x:Class="Files.App.UserControls.HelpPane"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:help="using:Files.App.Data.Help"
+	mc:Ignorable="d">
+
+	<Grid
+		Width="340"
+		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Help Header  -->
+		<Grid
+			Grid.Row="0"
+			Padding="14,12,8,8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+				<FontIcon Glyph="&#xE897;" FontSize="16" Foreground="{ThemeResource AccentFillColorDefaultBrush}" />
+				<TextBlock
+					Text="Ajuda e Recursos"
+					FontWeight="SemiBold"
+					Style="{StaticResource App.Theme.BodyTextBlockStyle}" />
+			</StackPanel>
+
+			<Button
+				Grid.Column="1"
+				Click="CloseButton_Click"
+				Background="Transparent"
+				BorderThickness="0"
+				Padding="6"
+				ToolTipService.ToolTip="Fechar Painel de Ajuda">
+				<FontIcon Glyph="&#xE711;" FontSize="12" />
+			</Button>
+		</Grid>
+
+		<!--  Search & Context Status  -->
+		<StackPanel Grid.Row="1" Padding="12,0,12,8" Spacing="8">
+			<TextBox
+				x:Name="SearchBox"
+				PlaceholderText="Buscar recursos, atalhos, colunas..."
+				Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.AccessKey>H</TextBox.AccessKey>
+			</TextBox>
+			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+		</StackPanel>
+
+		<!--  Content (List of topics or selected topic details)  -->
+		<ScrollViewer Grid.Row="2" Padding="12,0,12,12">
+			<StackPanel Spacing="14">
+
+				<!--  Topics Carousel / Selector  -->
+				<ComboBox
+					ItemsSource="{x:Bind ViewModel.FilteredTopics, Mode=OneWay}"
+					SelectedItem="{x:Bind ViewModel.SelectedTopic, Mode=TwoWay}"
+					HorizontalAlignment="Stretch">
+					<ComboBox.ItemTemplate>
+						<DataTemplate x:DataType="help:HelpTopic">
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<TextBlock Text="{x:Bind Title}" FontWeight="Medium" />
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<!--  Selected Topic Detail Card  -->
+				<Border
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="6"
+					Padding="14">
+					<StackPanel Spacing="10">
+
+						<!--  Badge / Differentiator  -->
+						<Border
+							Background="{ThemeResource AccentFillColorTertiaryBrush}"
+							HorizontalAlignment="Left"
+							CornerRadius="4"
+							Padding="6,2,6,2">
+							<TextBlock
+								Text="{x:Bind ViewModel.SelectedTopic.BadgeLabel, Mode=OneWay}"
+								FontSize="11"
+								FontWeight="SemiBold"
+								Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+						</Border>
+
+						<!--  Title & Category  -->
+						<StackPanel Spacing="2">
+							<TextBlock
+								Text="{x:Bind ViewModel.SelectedTopic.Title, Mode=OneWay}"
+								Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
+								TextWrapping="Wrap" />
+							<TextBlock
+								Text="{x:Bind ViewModel.SelectedTopic.Category, Mode=OneWay}"
+								Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+								Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+						</StackPanel>
+
+						<!--  Summary  -->
+						<TextBlock
+							Text="{x:Bind ViewModel.SelectedTopic.Summary, Mode=OneWay}"
+							Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							TextWrapping="Wrap" />
+
+						<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" Margin="0,4,0,4" />
+
+						<!--  Detailed Content  -->
+						<TextBlock
+							Text="{x:Bind ViewModel.SelectedTopic.Content, Mode=OneWay}"
+							Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+							TextWrapping="Wrap" />
+
+						<!--  Keyboard Shortcuts section  -->
+						<StackPanel Spacing="6" Margin="0,8,0,0">
+							<TextBlock
+								Text="Atalhos Rápidos Relacionados:"
+								FontWeight="SemiBold"
+								FontSize="12"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+
+							<ItemsControl ItemsSource="{x:Bind ViewModel.SelectedTopic.Shortcuts, Mode=OneWay}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate x:DataType="help:HelpShortcut">
+										<Grid Margin="0,3,0,3">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Border
+												Grid.Column="0"
+												Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+												BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+												BorderThickness="1"
+												CornerRadius="4"
+												Padding="5,1,5,1"
+												Margin="0,0,8,0">
+												<TextBlock
+													Text="{x:Bind Keys}"
+													FontFamily="Consolas, Cascadia Code"
+													FontWeight="Bold"
+													FontSize="11" />
+											</Border>
+											<TextBlock
+												Grid.Column="1"
+												Text="{x:Bind Description}"
+												VerticalAlignment="Center"
+												FontSize="12"
+												TextWrapping="Wrap" />
+										</Grid>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+
+					</StackPanel>
+				</Border>
+
+			</StackPanel>
+		</ScrollViewer>
+
+	</Grid>
+</UserControl>
+

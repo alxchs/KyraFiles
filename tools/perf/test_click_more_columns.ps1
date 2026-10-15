@@ -1,0 +1,71 @@
+﻿. "$PSScriptRoot\SmokeTest-Helper.ps1"
+
+$p = Get-Process Files | Select-Object -First 1
+$hwnd = [VC]::FindMainWindow($p.Id)
+$hwndVal = $hwnd.ToInt64()
+
+$script = @"
+Add-Type -AssemblyName UIAutomationClient
+Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
+
+`$root = [System.Windows.Automation.AutomationElement]::RootElement
+
+# Find MoreColumnsMenuFlyoutItem
+`$condMore = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'MoreColumnsMenuFlyoutItem')
+`$moreItem = `$root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, `$condMore)
+
+if (`$moreItem) {
+    Write-Output "Found MoreColumnsMenuFlyoutItem, invoking..."
+    `$inv = `$moreItem.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern) -as [System.Windows.Automation.InvokePattern]
+    if (`$inv) {
+        `$inv.Invoke()
+    } else {
+        # Click it
+        `$r = `$moreItem.Current.BoundingRectangle
+        `$code = @'
+using System;
+using System.Runtime.InteropServices;
+public static class Clicker {
+    [DllImport("user32.dll")] public static extern bool SetCursorPos(int X, int Y);
+    [DllImport("user32.dll")] public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
+    public static void Click(int x, int y) {
+        SetCursorPos(x, y);
+        System.Threading.Thread.Sleep(50);
+        mouse_event(0x02, 0, 0, 0, 0);
+        System.Threading.Thread.Sleep(50);
+        mouse_event(0x04, 0, 0, 0, 0);
+    }
+}
+'@
+        Add-Type -TypeDefinition `$code -ErrorAction SilentlyContinue
+        [Clicker]::Click([int](`$r.Left + 20), [int](`$r.Top + 10))
+    }
+} else {
+    Write-Output "MoreColumnsMenuFlyoutItem not found"
+}
+Start-Sleep -Seconds 2
+"@
+
+$res = Invoke-OnDefault -PowerShellScript $script
+Write-Output $res
+
+# Capture screen showing dialog
+$scriptCapture = @"
+Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
+
+`$bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+`$bmp = New-Object System.Drawing.Bitmap `$bounds.Width, `$bounds.Height
+`$g = [System.Drawing.Graphics]::FromImage(`$bmp)
+`$g.CopyFromScreen(`$bounds.Location, [System.Drawing.Point]::Empty, `$bounds.Size)
+`$g.Dispose()
+
+`$outPath = 'c:\desenv\utils\FilesApp\docs\releases\evidence\f010_choose_details_dialog.png'
+`$bmp.Save(`$outPath, [System.Drawing.Imaging.ImageFormat]::Png)
+`$bmp.Dispose()
+Write-Output "Saved full screen to `$outPath"
+"@
+
+$capRes = Invoke-OnDefault -PowerShellScript $scriptCapture
+Write-Output $capRes

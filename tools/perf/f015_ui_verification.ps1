@@ -1,0 +1,225 @@
+# tools/perf/f015_ui_verification.ps1
+# Verifica na aplicação aberta (WinSta0\Default via UI Automation) as tarefas T11 e T12 da F015:
+# - T11: busca indexada em C:\desenv e em Home / Este Computador (todos os discos)
+# - T12: seção "Índice de Busca Instantânea" em Configurações -> Arquivos e pastas (volumes, itens, estado e exclusão)
+
+param(
+    [ValidateSet('All', 'Desenv', 'ThisPC', 'Settings')]
+    [string]$Step = 'All'
+)
+
+$ErrorActionPreference = 'Stop'
+. "$PSScriptRoot\SmokeTest-Helper.ps1"
+
+$outDir = Join-Path $env:TEMP "claude\desenv\utils\FilesApp\f015"
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+$innerScript = @'
+Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms
+
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public static class Win32Uia {
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hWnd, out RECT r);
+    [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
+    [DllImport("user32.dll")] public static extern bool SetCursorPos(int X, int Y);
+    [DllImport("user32.dll")] public static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, UIntPtr dwExtraInfo);
+    public struct RECT { public int L, T, R, B; }
+    public static void ClickAt(int x, int y) {
+        SetCursorPos(x, y);
+        System.Threading.Thread.Sleep(60);
+        mouse_event(0x0002, 0, 0, 0, UIntPtr.Zero);
+        System.Threading.Thread.Sleep(60);
+        mouse_event(0x0004, 0, 0, 0, UIntPtr.Zero);
+    }
+}
+"@
+
+$outDir = Join-Path $env:TEMP "claude\desenv\utils\FilesApp\f015"
+$AE = [System.Windows.Automation.AutomationElement]
+$CT = [System.Windows.Automation.ControlType]
+$Scope = [System.Windows.Automation.TreeScope]
+
+$p = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
+if (-not $p) {
+    Write-Output "ERROR: Files process not running"
+    exit 1
+}
+
+$condPid = New-Object System.Windows.Automation.PropertyCondition($AE::ProcessIdProperty, $p.Id)
+$win = $AE::RootElement.FindFirst($Scope::Children, $condPid)
+if (-not $win) {
+    Write-Output "ERROR: UIA Window not found for PID $($p.Id)"
+    exit 1
+}
+
+$hwnd = [IntPtr]$win.Current.NativeWindowHandle
+[Win32Uia]::ShowWindow($hwnd, 9) | Out-Null
+[Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
+Start-Sleep -Milliseconds 500
+
+function Save-WindowPng([string]$fileName) {
+    [Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
+    Start-Sleep -Milliseconds 300
+    $r = New-Object Win32Uia+RECT
+    [Win32Uia]::GetWindowRect($hwnd, [ref]$r) | Out-Null
+    $w = [Math]::Max(800, $r.R - $r.L)
+    $h = [Math]::Max(600, $r.B - $r.T)
+    $bmp = New-Object System.Drawing.Bitmap $w, $h
+    $g = [System.Drawing.Graphics]::FromImage($bmp)
+    $hdc = $g.GetHdc()
+    [Win32Uia]::PrintWindow($hwnd, $hdc, 2) | Out-Null
+    $g.ReleaseHdc($hdc)
+    $g.Dispose()
+    $full = Join-Path $outDir $fileName
+    $bmp.Save($full, [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Dispose()
+    Write-Output "SAVED: $full ($w x $h)"
+}
+
+function Invoke-Uia($el) {
+    if (-not $el) { return $false }
+    $pat = $null
+    if ($el.TryGetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern, [ref]$pat)) {
+        $pat.Invoke()
+        return $true
+    }
+    if ($el.TryGetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern, [ref]$pat)) {
+        $pat.Select()
+        return $true
+    }
+    return $false
+}
+
+$okBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::NameProperty, "OK")))
+if ($okBtn) {
+    Invoke-Uia $okBtn | Out-Null
+    Start-Sleep -Milliseconds 600
+}
+
+if ($STEP_TO_RUN -eq 'All' -or $STEP_TO_RUN -eq 'Desenv') {
+    $newTabBtn0 = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::AutomationIdProperty, "TabBarAddNewTabButton")))
+    if ($newTabBtn0) {
+        Invoke-Uia $newTabBtn0 | Out-Null
+        Start-Sleep -Milliseconds 1500
+    }
+    $r0 = New-Object Win32Uia+RECT
+    [Win32Uia]::GetWindowRect($hwnd, [ref]$r0) | Out-Null
+    [Win32Uia]::ClickAt($r0.L + 450, $r0.T + 96)
+    Start-Sleep -Milliseconds 700
+    [System.Windows.Forms.SendKeys]::SendWait("C:\desenv{ENTER}")
+    Start-Sleep -Milliseconds 1800
+    $searchBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::NameProperty, "Search (Ctrl+F)")))
+    if ($searchBtn) {
+        Invoke-Uia $searchBtn | Out-Null
+        Start-Sleep -Milliseconds 800
+    }
+    [Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
+    [System.Windows.Forms.SendKeys]::SendWait("ShellViewModel{ENTER}")
+    Start-Sleep -Milliseconds 2200
+
+    $allTexts = $win.FindAll($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $CT::Text)))
+    $matchedTexts = @()
+    foreach ($t in $allTexts) {
+        $n = $t.Current.Name
+        if ($n -match "ShellViewModel|items|itens") { $matchedTexts += $n }
+    }
+    Write-Output "T11_DESENV_MATCHES: $(($matchedTexts | Select-Object -Unique) -join ' | ')"
+    Save-WindowPng "f015_t11_search_desenv.png"
+}
+
+if ($STEP_TO_RUN -eq 'All' -or $STEP_TO_RUN -eq 'ThisPC') {
+    $newTabBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::AutomationIdProperty, "TabBarAddNewTabButton")))
+    if ($newTabBtn) {
+        Invoke-Uia $newTabBtn | Out-Null
+        Start-Sleep -Milliseconds 1500
+    }
+    $searchBtn2 = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::NameProperty, "Search (Ctrl+F)")))
+    if ($searchBtn2) {
+        Invoke-Uia $searchBtn2 | Out-Null
+        Start-Sleep -Milliseconds 800
+    }
+    [Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
+    [System.Windows.Forms.SendKeys]::SendWait("Files.App.csproj{ENTER}")
+    Start-Sleep -Milliseconds 2500
+
+    $allTexts2 = $win.FindAll($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $CT::Text)))
+    $matchedTexts2 = @()
+    foreach ($t in $allTexts2) {
+        $n = $t.Current.Name
+        if ($n -match "Files\.App\.csproj|items|itens") { $matchedTexts2 += $n }
+    }
+    Write-Output "T11_THISPC_MATCHES: $(($matchedTexts2 | Select-Object -Unique) -join ' | ')"
+    Save-WindowPng "f015_t11_search_thispc.png"
+}
+
+if ($STEP_TO_RUN -eq 'All' -or $STEP_TO_RUN -eq 'Settings') {
+    $settingsBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::AutomationIdProperty, "SettingsButton")))
+    if (-not $settingsBtn) {
+        $settingsBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::NameProperty, "Settings")))
+    }
+    if ($settingsBtn) {
+        Invoke-Uia $settingsBtn | Out-Null
+    } else {
+        [Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
+        [System.Windows.Forms.SendKeys]::SendWait("^,")
+    }
+    Start-Sleep -Milliseconds 2000
+
+    $foldersNav = $null
+    foreach ($name in @("Arquivos e pastas", "Files & folders", "Pastas", "Folders")) {
+        $foldersNav = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::NameProperty, $name)))
+        if ($foldersNav) { break }
+    }
+    if ($foldersNav) {
+        Invoke-Uia $foldersNav | Out-Null
+        Start-Sleep -Milliseconds 2000
+    }
+
+    $scrollables = $win.FindAll($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::IsScrollPatternAvailableProperty, $true)))
+    foreach ($sc in $scrollables) {
+        $sp = $null
+        if ($sc.TryGetCurrentPattern([System.Windows.Automation.ScrollPattern]::Pattern, [ref]$sp)) {
+            try {
+                if ($sp.Current.VerticallyScrollable) {
+                    $sp.SetScrollPercent([System.Windows.Automation.ScrollPattern]::NoScroll, 100.0)
+                }
+            } catch {}
+        }
+    }
+    Start-Sleep -Milliseconds 1500
+
+    Save-WindowPng "f015_t12_settings_index.png"
+
+    $settingsTexts = $win.FindAll($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $CT::Text)))
+    $indexSeen = @()
+    foreach ($t in $settingsTexts) {
+        $n = $t.Current.Name
+        if ($n -match "Índice|Instant|Pronto|Ready|itens|items|C:\\|D:\\|R:\\|S:\\|Reindex") {
+            $indexSeen += $n
+        }
+    }
+    Write-Output "T12_SETTINGS_TEXTS: $(($indexSeen | Select-Object -Unique) -join ' || ')"
+
+    $backBtn = $win.FindFirst($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::AutomationIdProperty, "Back")))
+    if ($backBtn) {
+        Invoke-Uia $backBtn | Out-Null
+        Start-Sleep -Milliseconds 600
+    }
+}
+'@
+
+$tmpPs1 = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), [System.IO.Path]::GetRandomFileName() + ".ps1")
+$tmpLog = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), [System.IO.Path]::GetRandomFileName() + ".log")
+$wrapped = "`$ProgressPreference = 'SilentlyContinue'`r`n`$STEP_TO_RUN = '$Step'`r`n$innerScript"
+[System.IO.File]::WriteAllText($tmpPs1, $wrapped, [System.Text.Encoding]::UTF8)
+$cmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$tmpPs1`" > `"$tmpLog`" 2>&1"
+[DesktopLauncher]::Run("cmd.exe /c $cmd", 45000) | Out-Null
+if (Test-Path $tmpLog) {
+    Get-Content -Raw $tmpLog | Write-Host
+    Remove-Item $tmpLog -Force -ErrorAction SilentlyContinue
+}
+Remove-Item $tmpPs1 -Force -ErrorAction SilentlyContinue

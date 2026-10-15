@@ -180,6 +180,9 @@ namespace Files.App
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
 			public const string SupportUsUrl = @"https://files.community/sponsor";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
+			// Files Custom releases (F018, D-022). Change here to point the update check elsewhere.
+			public const string CustomReleasesApiUrl = @"https://api.github.com/repos/alxchs/FilesCustom/releases/latest";
+			public const string CustomReleasesPageUrl = @"https://github.com/alxchs/FilesCustom/releases";
 			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
 		}
 

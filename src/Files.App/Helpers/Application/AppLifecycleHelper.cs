@@ -1,8 +1,10 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
+#pragma warning disable CS0618 // NativeStorageLegacyService obsolete; migrate to WindowsStorable when ready
 
 using Files.App.Helpers.Application;
 using Files.App.Services.Git;
+using Files.App.Services.Search;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
@@ -119,20 +121,18 @@ namespace Files.App.Helpers
 				);
 
 				//Start the tasks separately to reduce resource contention
-				await Task.WhenAll(
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
-			});
+				await addItemService.InitializeAsync();
 
-			_ = Task.Run(FileTagsHelper.UpdateTagsDb);
-
-			_ = Task.Run(async () =>
-			{
-				// The follwing method invokes UI thread, so we run it in a separate task
-				await CheckAppUpdate();
-
-				await PeriodicallyCheckForUpdatesAsync();
+				// Defer heavy COM shell extension DLL warmup, tags DB migration and update checks
+				// so the main window is fully rendered and interactive without startup lockups.
+				_ = Task.Run(async () =>
+				{
+					await Task.Delay(3500);
+					await ContextMenu.WarmUpQueryContextMenuAsync();
+					FileTagsHelper.UpdateTagsDb();
+					await CheckAppUpdate();
+					await PeriodicallyCheckForUpdatesAsync();
+				});
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -369,8 +369,15 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
 					.AddSingleton<IIconCacheService, IconCacheService>()
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
+					.AddSingleton<IndexedSearchProvider>()
+					.AddSingleton<ISearchProvider>(sp => sp.GetRequiredService<IndexedSearchProvider>())
+					.AddSingleton<ISearchProvider, NativeFilesSearchProvider>()
+					.AddSingleton<ISearchProvider, AgentRansackSearchProvider>()
+					.AddSingleton<ISearchProvider, EverythingSearchProvider>()
+					.AddSingleton<ISearchProviderFactory, SearchProviderFactory>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IExplorerPropertyService, ExplorerPropertyService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
@@ -403,7 +410,18 @@ namespace Files.App.Helpers
 			else
 				services.AddSingleton<IUpdateService, DummyUpdateService>();
 
-			return services.BuildServiceProvider();
+			var serviceProvider = services.BuildServiceProvider();
+			_ = Task.Run(() =>
+			{
+				try
+				{
+					_ = serviceProvider.GetService<IndexedSearchProvider>();
+				}
+				catch
+				{
+				}
+			});
+			return serviceProvider;
 		}
 
 		/// <summary>
@@ -411,6 +429,10 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
+			// Files Custom: a file dialog instance must not overwrite the user's session (F012 T7)
+			if (App.OutputPath is not null)
+				return;
+
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>

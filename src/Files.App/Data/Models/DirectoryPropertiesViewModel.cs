@@ -163,6 +163,27 @@ namespace Files.App.ViewModels.UserControls
 			_ = UpdateZipEncodingStateAsync();
 		}
 
+		private string? _VcsStatusIndicator;
+		public string? VcsStatusIndicator
+		{
+			get => _VcsStatusIndicator;
+			private set => SetProperty(ref _VcsStatusIndicator, value);
+		}
+
+		private string? _VcsStatusToolTip;
+		public string? VcsStatusToolTip
+		{
+			get => _VcsStatusToolTip;
+			private set => SetProperty(ref _VcsStatusToolTip, value);
+		}
+
+		private Microsoft.UI.Xaml.Media.SolidColorBrush? _VcsStatusForeground;
+		public Microsoft.UI.Xaml.Media.SolidColorBrush? VcsStatusForeground
+		{
+			get => _VcsStatusForeground;
+			private set => SetProperty(ref _VcsStatusForeground, value);
+		}
+
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
 		{
 			GitBranchDisplayName =
@@ -181,9 +202,32 @@ namespace Files.App.ViewModels.UserControls
 
 			var behind = head is not null ? head.BehindBy ?? 0 : 0;
 			var ahead = head is not null ? head.AheadBy ?? 0 : 0;
+			var pending = head is not null ? head.PendingChanges : 0;
 
 			ExtendedStatusInfo = string.Format(Strings.GitSyncStatusExtendedInfo.GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
+
+			if (isGitRepository && head is not null)
+			{
+				if (pending > 0)
+				{
+					VcsStatusIndicator = $"● {pending} {(pending == 1 ? "pendência" : "pendências")}";
+					VcsStatusToolTip = $"{pending} {(pending == 1 ? "arquivo pendente" : "arquivos pendentes")} de commit na branch {head.Name}";
+					VcsStatusForeground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(255, 235, 160, 45));
+				}
+				else
+				{
+					VcsStatusIndicator = "✔ Sincronizado";
+					VcsStatusToolTip = $"Repositório sincronizado (0 pendências locais na branch {head.Name})";
+					VcsStatusForeground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(255, 52, 168, 83));
+				}
+			}
+			else
+			{
+				VcsStatusIndicator = null;
+				VcsStatusToolTip = null;
+				VcsStatusForeground = null;
+			}
 
 			OnPropertyChanged(nameof(ShowOpenInIDEButton));
 		}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files Custom Setup v4.2.37 — Release Note</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #f5f7f9; --surface: #ffffff; --fg: #1b2530; --muted: #5a6876; --line: #d8dfe6;
+    --accent: #1d5f9e; --code-bg: #e9eef3;
+    --ok-bg: #dcf2e4; --ok-fg: #1b6b3c; --warn-bg: #fbefd2; --warn-fg: #7a5410;
+    --nt-bg: #e6eaee; --nt-fg: #4a5662; --pend-bg: #dde9f7; --pend-fg: #1d5f9e;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #121820; --surface: #1a222c; --fg: #dde4ea; --muted: #93a1ae; --line: #2c3743;
+    --accent: #7db4ea; --code-bg: #232e3a;
+    --ok-bg: #173a27; --ok-fg: #8fdcaa; --warn-bg: #3d3014; --warn-fg: #f0cd7c;
+    --nt-bg: #28323d; --nt-fg: #aab6c2; --pend-bg: #1c3550; --pend-fg: #9cc8f2; color-scheme: dark;
+  } }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.6; margin: 0; }
+  main { max-width: 920px; margin: 0 auto; padding-inline: 16px; padding-block: 40px 56px; display: grid; gap: 32px; }
+  header { display: grid; gap: 6px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font-size: 1.9rem; font-weight: 600; text-wrap: balance; line-height: 1.25; }
+  h2 { margin: 0 0 12px; font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0; max-width: 68ch; }
+  .lede { color: var(--muted); }
+  code { font-family: var(--mono); font-size: .86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+  .facts dt { color: var(--muted); font-size: 13px; }
+  .facts dd { margin: 0; min-width: 0; }
+  .ledger { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; width: 26%; }
+  td:last-child { width: 28%; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; margin-bottom: 4px; }
+  .ok { background: var(--ok-bg); color: var(--ok-fg); }
+  .warn { background: var(--warn-bg); color: var(--warn-fg); }
+  .nt { background: var(--nt-bg); color: var(--nt-fg); }
+  .pend { background: var(--pend-bg); color: var(--pend-fg); }
+  .ev { display: block; color: var(--muted); font-size: 13px; }
+  ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
+  .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .num { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
+  .num b { font-family: var(--mono); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .num span { font-size: 13px; color: var(--muted); }
+  @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } h1 { font-size: 1.5rem; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">Nota de liberação · Files Custom · Baseline v4.2.37 · 15/10/2026 02:05</span>
+    <h1>Files Custom Setup v4.2.37 — Baseline Consolidada F001–F020</h1>
+    <p class="lede">Novo instalador modular Inno Setup contendo o runtime AppX completo, registro automático de protocolo e alias, interceptação de Win+E pareada com Watchdog e as funcionalidades F001 a F020 consolidadas.</p>
+  </header>
+
+  <section class="numbers">
+    <div class="num">
+      <b>67,4 MB</b>
+      <span>Tamanho do instalador .exe</span>
+    </div>
+    <div class="num">
+      <b>0 Erros / 0 Avisos</b>
+      <span>Build Release x64 verificado</span>
+    </div>
+    <div class="num">
+      <b>16 / 16</b>
+      <span>Testes de lógica F020 aprovados</span>
+    </div>
+    <div class="num">
+      <b>245 ms</b>
+      <span>Recuperação automática do Watchdog</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dados do Executável e Ambiente</h2>
+    <dl class="facts">
+      <dt>Instalador</dt>
+      <dd><code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code></dd>
+      <dt>Pasta de Instalação</dt>
+      <dd><code>%LocalAppData%\Programs\FilesCustom\Files.exe</code></dd>
+      <dt>Identidade de Pacote</dt>
+      <dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code> (AppX Manifest)</dd>
+      <dt>Serviços em Background</dt>
+      <dd><code>Files.HotkeyService.exe</code> e <code>Files.Watchdog.exe</code></dd>
+      <dt>Código-Fonte</dt>
+      <dd>Commit <code>22fd57762</code> (Baseline consolidado do Files Custom)</dd>
+      <dt>Instalação Silenciosa</dt>
+      <dd>ExitCode <code>0</code> (via <code>/VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code>)</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>O que foi liberado neste pacote</h2>
+    <div class="ledger">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>O que muda para o usuário</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Instalador modular Inno Setup</td>
+            <td>Instalação autônoma em pasta isolada de usuário com layout completo AppX, sem falhas de carregamento de bibliotecas do .NET Core (hostpolicy.dll).</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">FilesCustomSetup.iss / ISCC.exe</span></td>
+          </tr>
+          <tr>
+            <td>Registro automático AppX</td>
+            <td>Registra a identidade do pacote na conclusão da instalação, habilitando WinUI 3, alias <code>files-dev.exe</code> e protocolo <code>files-dev:</code>.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">Add-AppxPackage -Register</span></td>
+          </tr>
+          <tr>
+            <td>F020: Aba única por endereço</td>
+            <td>Abrir caminho já aberto em outra aba não gera duplicatas: transfere imediatamente o foco para a aba existente.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">test_f020_logic.ps1 (16/16)</span></td>
+          </tr>
+          <tr>
+            <td>F020: Configurações na posição 0</td>
+            <td>A aba de Configurações abre sempre na extrema esquerda (índice 0). Reabrir traz foco e move ao índice 0 preservando a pasta ativa.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">SidebarViewModel / NavigationHelpers</span></td>
+          </tr>
+          <tr>
+            <td>F017: Interceptador Win+E e Watchdog</td>
+            <td>Hook ultraleve de Win+E abrindo o Files Custom instantaneamente com consumo mínimo e recuperação pelo Watchdog em 245 ms.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">f017_win_e_test.ps1</span></td>
+          </tr>
+          <tr>
+            <td>F018: Verificação de Atualizações</td>
+            <td>Menu Ajuda com Verificação de Versão contra a API de lançamentos e página Sobre com versão 4.2.37.0.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">AboutPage / HelpViewModel</span></td>
+          </tr>
+          <tr>
+            <td>F015: Mecanismo de Busca USN/MFT</td>
+            <td>Serviço desacoplado em background para indexação ultra-rápida de arquivos em discos NTFS.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">Files.App.IndexService.exe</span></td>
+          </tr>
+          <tr>
+            <td>F001 a F014: Recursos do Fork</td>
+            <td>Rename UX com blindagem de extensão, colunas independentes, menu clássico, densidade compacta, fontes customizadas e diálogo de arquivos.</td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">Baseline Integrada</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como testar</h2>
+    <ol>
+      <li>Execute <code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code> e conclua a instalação.</li>
+      <li>Abra o aplicativo pelo atalho na Área de Trabalho ou digite <code>files-dev.exe</code> no terminal.</li>
+      <li>Navegue até uma pasta qualquer (ex: <code>C:\Windows</code>) e abra uma segunda aba.</li>
+      <li>Tente abrir novamente <code>C:\Windows</code>: comprove que o foco retorna à primeira aba sem duplicá-la.</li>
+      <li>Pressione <code>Ctrl+,</code>: comprove que a aba de Configurações posiciona-se no índice 0 (extrema esquerda).</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

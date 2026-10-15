@@ -25,7 +25,7 @@ OutputBaseFilename=FilesCustomSetup-{#MyAppVersion}
 Compression=lzma2/ultra64
 SolidCompression=yes
 CloseApplications=yes
-CloseApplicationsFilter=Files.exe,Files.Watchdog.exe,Files.HotkeyService.exe,Files.App.Server.exe
+CloseApplicationsFilter=Files.exe,Files.Watchdog.exe,Files.HotkeyService.exe,Files.App.Server.exe,Files.App.IndexService.exe
 RestartApplications=no
 ArchitecturesInstallIn64BitMode=x64compatible
 
@@ -38,23 +38,13 @@ Name: "startupwatchdog"; Description: "Iniciar interceptador ultraleve do Win+E 
 Name: "replacewine"; Description: "Redirecionar abertura de pastas do Explorer para o Files Custom"; GroupDescription: "Integração do Sistema:"; Flags: unchecked
 
 [Files]
-; Binários principais na raiz da pasta do aplicativo
-Source: "{#SourceAppX}\Files.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceAppX}\Files.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Layout completo do pacote AppX (necessário para o .NET 10 host e WinUI 3 funcionarem sem quebra de hostpolicy.dll)
+Source: "{#SourceAppX}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.locked.*,*.pdb"
+
+; Binários auxiliares do subsistema F017
 Source: "{#SourceBin}\Files.HotkeyService.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceBin}\Files.Watchdog.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceAppX}\AppxManifest.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceAppX}\resources.pri"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package_manifest.json"; DestDir: "{app}"; Flags: ignoreversion
-
-; Servidor COM fora do processo
-Source: "{#SourceAppX}\Files.App.Server\*"; DestDir: "{app}\Files.App.Server"; Flags: ignoreversion recursesubdirs createallsubdirs
-
-; Subpasta isolada de Dependências e bibliotecas do Runtime
-Source: "{#SourceAppX}\*.dll"; Excludes: "Files.dll,*.locked.*"; DestDir: "{app}\Dependencies"; Flags: ignoreversion skipifsourcedoesntexist
-Source: "{#SourceAppX}\*.winmd"; DestDir: "{app}\Dependencies"; Flags: ignoreversion skipifsourcedoesntexist
-Source: "{#SourceAppX}\*.pri"; Excludes: "resources.pri"; DestDir: "{app}\Dependencies"; Flags: ignoreversion skipifsourcedoesntexist
-Source: "{#SourceAppX}\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -84,8 +74,19 @@ var
   ErrorCode: Integer;
 begin
   // Fecha instâncias anteriores de forma cooperativa
-  ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+  ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   Result := True;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  ErrorCode: Integer;
+begin
+  if CurStep = ssPostInstall then
+  begin
+    // Registra a identidade de pacote AppX com o Windows para ativar WinUI 3, alias files-dev.exe e protocolo files-dev:
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+  end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
@@ -95,11 +96,13 @@ begin
   if CurUninstallStep = usUninstall then
   begin
     // Encerra cooperativamente o Watchdog e HotkeyService e remove chaves de pasta/Run/CLSID para devolver o Win+E ao Explorer
-    ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
     RegDeleteValue(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', 'FilesCustomWatchdog');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\Folder\shell\open');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\Folder\shell\explore');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}');
+
+    // Remove o registro do pacote AppX
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   end;
 end;
-

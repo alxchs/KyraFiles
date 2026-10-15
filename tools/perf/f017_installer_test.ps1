@@ -73,13 +73,17 @@ $pInst.WaitForExit()
 $result['T3 ExitCode instalador'] = $pInst.ExitCode
 
 Start-Sleep -Milliseconds 800
-$rootDlls = @(Get-ChildItem -Path $installDir -Filter *.dll -File -ErrorAction SilentlyContinue)
-$depDlls = @(Get-ChildItem -Path (Join-Path $installDir 'Dependencies') -File -ErrorAction SilentlyContinue)
+$filesExe = Join-Path $installDir 'Files.exe'
+$filesDll = Join-Path $installDir 'Files.dll'
+$hostPolicy = Join-Path $installDir 'hostpolicy.dll'
+$runtimeConfig = Join-Path $installDir 'Files.runtimeconfig.json'
+$appxManifest = Join-Path $installDir 'AppxManifest.xml'
 $runVal = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'FilesCustomWatchdog' -ErrorAction SilentlyContinue).FilesCustomWatchdog
+$appxPkg = Get-AppxPackage FilesDev -ErrorAction SilentlyContinue
 
 $result['T3 Pasta criada'] = (Test-Path $installDir)
-$result['T3 DLLs na raiz (deve ser 1: apenas Files.dll)'] = $rootDlls.Count
-$result['T3 Dependencias isoladas em Dependencies\'] = $depDlls.Count
+$result['T3 Binários e runtime .NET presentes'] = (Test-Path $filesExe) -and (Test-Path $filesDll) -and (Test-Path $hostPolicy) -and (Test-Path $runtimeConfig)
+$result['T3 AppX registrado no Windows'] = ($null -ne $appxPkg) -and ($appxPkg.InstallLocation -eq $installDir)
 $result['T3 Run FilesCustomWatchdog registrado'] = (-not [string]::IsNullOrWhiteSpace($runVal))
 $result['T3 Watchdog e HotkeyService ativos apos instalar'] = (
     [bool](Get-Process Files.Watchdog -ErrorAction SilentlyContinue) -and
@@ -87,8 +91,8 @@ $result['T3 Watchdog e HotkeyService ativos apos instalar'] = (
 )
 $result['T3 OK'] = (
     $pInst.ExitCode -eq 0 -and
-    $rootDlls.Count -eq 1 -and
-    $depDlls.Count -ge 300 -and
+    $result['T3 Binários e runtime .NET presentes'] -and
+    $result['T3 AppX registrado no Windows'] -and
     $result['T3 Run FilesCustomWatchdog registrado'] -and
     $result['T3 Watchdog e HotkeyService ativos apos instalar']
 )

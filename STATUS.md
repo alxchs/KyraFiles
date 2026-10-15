@@ -33,6 +33,14 @@
 - CONFIRMED: Navegação no Omnibar / barra de endereço (`NavigationToolbarViewModel.cs`) e duplicação (`DuplicateSelectedTabAction.cs`) respeitam a regra de aba única.
 - CONFIRMED: Build Release com `0 Error(s), 0 Warning(s)`, layout AppX atualizado.
 
+## Release e Instalador Modular (15/10/2026)
+
+- CONFIRMED: `installer/FilesCustomSetup.iss` atualizado para empacotar o layout completo do AppX (`{#SourceAppX}\*`), eliminando a falha de isolamento de DLLs em `Dependencies\` que quebrava o host do .NET Core (`hostpolicy.dll`).
+- CONFIRMED: Inclusão do registro automático de identidade AppX (`Add-AppxPackage -Register`) no pós-instalação e desregistro no desinstalador, ativando WinUI 3, alias `files-dev.exe` e protocolo `files-dev:`.
+- CONFIRMED: Encerramento completo de processos em execução no instalador e atualizador (`Files.exe`, `Files.HotkeyService.exe`, `Files.Watchdog.exe`, `Files.App.Server.exe`, `Files.App.IndexService.exe`).
+- CONFIRMED: Compilação do instalador Inno Setup (`ISCC.exe`) gerando `artifacts\Setup\FilesCustomSetup-4.2.37.exe` (67,4 MB, 1.380 arquivos comprimidos com LZMA2 Ultra64).
+- CONFIRMED: Instalação silenciosa executada com código de saída 0; aplicativo aberto e validado a partir de `%localappdata%\Programs\FilesCustom` via protocolo e alias; remoção completa de executáveis obsoletos do repositório (`dist\`, spikes, testes, builds temporários).
+
 ## Gates
 
 | Gate | Descrição | Estado |

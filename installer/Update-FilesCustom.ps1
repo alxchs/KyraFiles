@@ -31,14 +31,8 @@ foreach ($entry in $manifest.Files) {
     $relPath = [string]$entry.Path
     $isRootMain = $relPath -in @('Files.exe', 'Files.dll', 'AppxManifest.xml', 'resources.pri')
 
-    # Determina onde o arquivo fica no layout modular do FilesCustomSetup.iss
-    if ($isRootMain -or $relPath.StartsWith('Assets\', [System.StringComparison]::OrdinalIgnoreCase) -or $relPath.StartsWith('Files.App.Server\', [System.StringComparison]::OrdinalIgnoreCase)) {
-        $localTarget = Join-Path $InstallDir $relPath
-    } elseif ($relPath -notmatch '\\' -and $relPath -match '\.(dll|winmd|pri)$') {
-        $localTarget = Join-Path $depDir $relPath
-    } else {
-        $localTarget = Join-Path $InstallDir $relPath
-    }
+    # Determina onde o arquivo fica no layout da instalacao
+    $localTarget = Join-Path $InstallDir $relPath
 
     if ($entry.IsDependency) {
         $totalDeps++
@@ -164,10 +158,10 @@ try {
     # Evento não existia (serviço já parado)
 }
 
-Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 300
 
-$remainingProcs = @(Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server -ErrorAction SilentlyContinue)
+$remainingProcs = @(Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue)
 $processesStoppedCleanly = ($remainingProcs.Count -eq 0)
 
 # Substituição atômica dos arquivos alterados sem travamento
@@ -185,6 +179,12 @@ foreach ($item in $changedEntries) {
 }
 
 Copy-Item -LiteralPath $ManifestPath -Destination (Join-Path $InstallDir "package_manifest.json") -Force
+
+if (Test-Path (Join-Path $InstallDir "AppxManifest.xml")) {
+    try {
+        Add-AppxPackage -Register (Join-Path $InstallDir "AppxManifest.xml") -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction SilentlyContinue
+    } catch {}
+}
 
 $watchdogRestarted = $false
 if ($RestartWatchdog) {

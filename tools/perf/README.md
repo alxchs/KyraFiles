@@ -153,3 +153,18 @@ Método:
 - **Recomendações de Correção Propostas (sem implementação nesta fase):**
   1. *Suspensão de Widgets da Home*: Pausar atualizações de composição e animações dos widgets de drive (`DriveItemViewModel` / `WidgetsPage`) quando não houver interação do usuário.
   2. *Virtualização de Abas Inativas*: Colapsar a visibilidade (`Visibility = Collapsed`) do container das abas inativas para desligá-las do pipeline do compositor XAML até que sejam reativadas.
+
+---
+
+## F019 — custo do ShapeClip com Thin Acrylic (15/10/2026)
+
+Script: `tools/perf/f019_clip_ab.ps1 -Backdrop 4 -Shapes '0,6' -Rounds 3 -WarmupS 30` (intercalado, reinicia o Files a cada rodada, `idle.ps1 -WaitS 10`, restaura o `user_settings.json`). Branch `feature/f019-perf-formas-visuais`, build já implantado (0e3c17ca4 + baseline).
+
+| Forma | CPU parado em 10 s (3 rodadas) | Mediana | Estado |
+|---|---|---|---|
+| 0 (sem recorte) | 141 / 172 / 250 ms | 172 ms (17 ms/s) | OBSERVED |
+| 6 (CyberpunkTrapezoid) | 281 / 266 / 250 ms | 266 ms (27 ms/s) | OBSERVED |
+
+- Diferença ~10 ms/s, na faixa do ruído (N=3). **Os 65 ms/s relatados pela AGY não se reproduzem com o app parado** nesta máquina. Nenhuma thread passou de 10 ms (o filtro do `idle.ps1`) como "DWM Compositor Thread".
+- Com aquecimento de 8 s a medição é inválida (CPU de 12–17 s em 10 s, é a inicialização); use 30 s.
+- Não medido: custo durante redimensionamento/arraste e com as outras 8 formas. Sem esse dado, não há base para mexer no `ShapeClip`.

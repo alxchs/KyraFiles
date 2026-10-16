@@ -41,6 +41,17 @@
 - CONFIRMED: Compilação do instalador Inno Setup (`ISCC.exe`) gerando `artifacts\Setup\FilesCustomSetup-4.2.37.exe` (67,4 MB, 1.380 arquivos comprimidos com LZMA2 Ultra64).
 - CONFIRMED: Instalação silenciosa executada com código de saída 0; aplicativo aberto e validado a partir de `%localappdata%\Programs\FilesCustom` via protocolo e alias; remoção completa de executáveis obsoletos do repositório (`dist\`, spikes, testes, builds temporários).
 
+## F015 — Índice de busca, T17 medições (16/10/2026, Claude)
+
+Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README.md` ("F015 T17 — latência com snapshot"). Serviço do build Release rodando fora do pacote, 4 volumes, ~2,6 milhões de itens.
+
+- OBSERVED NFR-004 (parcial, só o serviço): 4 snapshots carregados e `Ready` em 0,6 s.
+- OBSERVED NFR-001: 1º lote em `C:\desenv` mediana 26,4 ms, p95 42,8 ms (meta < 100 ms: atende). Lista completa p95 533 ms (meta < 300 ms: não atende; parte é o cliente PowerShell, não medido).
+- OBSERVED NFR-003: 299 MB privados por milhão de itens (meta 100: não atende), medido com a reconciliação rodando.
+- OBSERVED NFR-005: a reconciliação do C: não termina em 15 min e ocupa ~2,7 núcleos (não atende). Causa CONFIRMED por perfil: estouro do watcher → revarredura do volume com passada quadrática segurando o lock.
+- CONFIRMED pelo código: NFR-002 não atende ("busca parcial durante a indexação"): volume só é publicado quando todos terminam.
+- Correções: T17a a T17e (APROVADAS, Claude, 16/10/2026). AC-1, AC-2 e AC-20: NOT TESTED como cenário completo (AC-20 sem `es.exe`).
+
 ## Gates
 
 | Gate | Descrição | Estado |
@@ -117,6 +128,8 @@ Correção em 01/10/2026 (Claude): as duas linhas que estavam aqui afirmavam cor
 - INFERRED, NOT TESTED: `WindowsAppSdkBootstrapperAutoInitialize=false` no `Files.App.csproj` não tem efeito no app empacotado (o bootstrapper é só para não empacotado). Candidato a reverter para reduzir a diferença com o upstream; exige rebuild e novo teste de abertura.
 
 ## DISCOVERY
+
+- **D-IDX-01 — Consulta lê o índice sem lock enquanto ele é escrito (16/10/2026, Claude).** INFERRED pela leitura de `VolumeIndex`/`QueryEngine`, não reproduzido: `QueryEngine` percorre os arrays sem o `SyncRoot`, enquanto watcher/reconciliador fazem `Add` (incrementa `_count` antes de gravar o nome) e `WriteNames` (offset e tamanhos gravados em passos separados). Em x64 não deve estourar índice (os arrays crescem antes do `_count++`), mas uma consulta pode ver uma entrada pela metade (nome vazio ou de outro item). Avaliar depois da T17c (lock em fatias), que muda esse cenário.
 
 - **D-A11Y-01 — Nome acessível de arquivo com tipo errado (09/10/2026, Claude).** OBSERVED por UI Automation: o item da lista de `arquivo de teste ação.txt` se chama `arquivo de teste ação.txt, Pasta`. Causa não investigada; afeta leitor de tela.
 - **D-PERF-02 — Abrir pasta por fora leva ~4 s (09/10/2026).** OBSERVED: `Start-Process <pasta>` até a janela do Files mudar = 4,0 s (antes 4,7 a 7,1 s); quase tudo no segundo processo do Files que só repassa o pedido (instância única). Ver nota `docs/releases/2026-10-09_0100_...`.

@@ -19,6 +19,12 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 - `NameNormalizer.Normalize` (T4): FormD → tira `NonSpacingMark` → minúsculas invariantes → FormC. Limitações conhecidas, aceitas por ora: letras sem decomposição (`ø`, `ł`, `ß`, `æ`) não viram ASCII; marca combinante fora do BMP não é removida.
 - `QueryMatcher` (T4): palavras separadas por espaço = E; termo **sem** curinga é substring; termo **com** `*`/`?` casa o nome **inteiro** (ancorado, como o Everything: `rel*` = começa com "rel"; `*.pdf` = termina em ".pdf"). `?` vale um `char` UTF-16.
 - Arquivos novos com fim de linha CRLF (o Git avisa "LF will be replaced by CRLF": converta antes de commitar).
+- **Nada de "para cada X, percorrer o índice inteiro"** (lição da T17, 16/10/2026: a passada 2 do `Reconciler` e o `MarkDeleted` de pasta eram pastas × itens e nunca terminavam no C: com 2,3 milhões de itens). Com mais de um alvo, junte os alvos num `HashSet`/`Dictionary` e faça **um** passe sobre o índice. Todo laço sobre `index.Count` dentro de outro laço precisa de justificativa no commit.
+- **Lock do índice (`SyncRoot`) em fatias curtas.** Trabalho longo (reconciliação, revarredura) solta o lock a cada ~1.000 pastas. Lock segurado por minutos trava watcher, snapshot e a reconciliação da abertura.
+- **Trabalho de fundo em prioridade baixa e sem tempestade**: thread em `THREAD_MODE_BACKGROUND_BEGIN`; evento repetido (estouro do watcher) só marca "pendente" e um único executor roda depois de um intervalo sem eventos.
+- **Publique cada volume assim que ficar pronto**; nunca espere todos os discos para mostrar o primeiro.
+- **Medição do serviço fora do pacote** usa `%LOCALAPPDATA%\FilesCustom\Index` (não a `LocalCache` do pacote). Para indexar do zero sem apagar o cache real, passe `--cache <pasta temporária>`.
+- Perfil de CPU: `tools/perf/f015_trace_reconcile.ps1` (`dotnet-trace` já instalado). Antes de dizer de onde vem o CPU, rode o perfil.
 
 ### UI WinUI 3 (`src/Files.App`)
 
@@ -33,10 +39,11 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 - Número de desempenho só com o comando que mediu; sem isso, "estimado, não medido".
 - Mudança sem conteúdo (só linha em branco no fim do arquivo) não entra em commit.
 
-## Notas para a tarefa atual (T5: `VolumeIndex` + `QueryEngine`)
+## Notas para a tarefa atual (T17a a T17e: correções achadas pela medição da T17)
 
-1. **Casamento sobre UTF-8, sem decodificar por entrada.** O índice guarda o nome normalizado em UTF-8, mas `QueryMatcher.MatchesNormalized` recebe `ReadOnlySpan<char>`. Decodificar 5 milhões de nomes por consulta mata a meta de < 100 ms. Acrescente ao `QueryMatcher` um `MatchesNormalizedUtf8(ReadOnlySpan<byte>)`: substring em bytes é válida em UTF-8 (`IndexOf` de span); no curinga, `?` deve consumir **um ponto de código** (1 a 4 bytes), não um byte. Testes: os mesmos casos da T4 rodando nas duas versões, com resultado igual, mais um caso de `?` sobre `ç`.
-2. Nomes num único `byte[]` grande + offsets (`int[]`), não um `byte[]` por entrada (cada array custa ~24 bytes de cabeçalho e uma referência para o GC).
-3. Caminho montado subindo pelos pais **só para os resultados entregues**, nunca para todo candidato.
-4. Lotes: 200 itens ou 30 ms no primeiro, depois 100 ms; teto com sinal de "limitado"; `CancellationToken` verificado a cada bloco de alguns milhares de entradas.
-5. Microbenchmark fora dos testes unitários (ou marcado para não rodar sempre), com 5 milhões de entradas sintéticas; o commit traz o tempo até o primeiro lote e a RAM por milhão (`GC.GetTotalMemory(true)` e working set), com o comando.
+1. Leia antes: `tools/perf/README.md`, seção "F015 T17 — latência com snapshot" (números, perfil e diagnóstico). As linhas T17a a T17e do `tasks.md` da F015 dizem o "pronto" de cada uma.
+2. **T17a e T17b primeiro, com teste que falha antes da correção.** Na T17b o teste tem de mostrar o arquivo de `A\B\` perdido no código atual.
+3. Na T17a o resultado tem de ser **idêntico** ao do algoritmo antigo: mantenha o antigo num método de teste e compare os conjuntos de itens vivos.
+4. Na T17c, o reconciliador da abertura e o do estouro são **o mesmo** por volume (não dois `Task.Run` concorrendo pelo lock).
+5. Medição de aceite: `pwsh -File tools\perf\f015_latency.ps1` e `pwsh -File tools\perf\f015_trace_reconcile.ps1`, a saída colada no commit. O serviço tem de ser recompilado em Release (`mkfile r` na solução) antes, senão o script roda o binário velho do `AppX`.
+6. A T17e **não muda código**: só mede e propõe.

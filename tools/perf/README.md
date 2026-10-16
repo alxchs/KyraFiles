@@ -187,3 +187,33 @@ Comando: `pwsh -File tools\perf\f015_latency.ps1` (inicia `AppX\Files.App.IndexS
 - As 50 consultas devolveram 0 resultados em ~2,5 ms (mediana): **não é latência de busca**, é consulta sem índice. Não usar para AC-1/AC-2.
 - Pendente: descobrir por que o serviço não conclui (ou não publica) a indexação em 10 min nesta execução, sendo que a T12 (13/10) mostrou 2.808.073 itens. Hipóteses não testadas: build Release do AppX desatualizado; `itemCount` só publicado ao fim do volume; varredura de C:\Google\Drive\disk lenta.
 - CPU do serviço parado, 10 s, ainda indexando: 1.891 ms (não representa o repouso).
+
+## F015 T17 — latência com snapshot (16/10/2026, Claude)
+
+Os snapshots em `%LOCALAPPDATA%\FilesCustom\Index` (gravados às 23:12 de 15/10 por uma execução do serviço não identificada) estavam completos. Fora do pacote, `VolumeSnapshot.GetDefaultBasicCacheDirectory` usa essa pasta (não acha `LocalCache`), então a rodada de 15/10 começou sem snapshot e varreu tudo do zero.
+
+Rodada A — `pwsh -File tools\perf\f015_latency.ps1` (versão antiga, sondagem de 5 s):
+- OBSERVED: pronto em ≤ 5 s; 4 volumes, 2.597.416 itens.
+- 50 consultas em `C:\desenv`: 1º lote mediana 26,4 ms, p95 42,8 ms; lista completa mediana 65,2 ms, p95 533,3 ms, máx. 594,6 ms (`index`, 9.732 resultados: 533 ms; `test`, 5.336: 306 ms).
+- RAM depois das consultas: WorkingSet 501 MB, Private 724 MB. CPU "parado" 27.531 ms em 10 s — a reconciliação ainda rodava, não é repouso.
+
+Rodada B — mesmo script, agora esperando a reconciliação (`-ReconcileTimeoutS 900`) e sondando a cada 0,5 s:
+- OBSERVED: pronto em 0,6 s (carga dos 4 snapshots).
+- **A reconciliação do C: não terminou em 900 s**: CPU 2.461.750 ms nesse período (≈ 2,7 núcleos o tempo todo), pico WorkingSet 644 MB / Private 879 MB, C: passou de 2.266.653 para 2.294.472 itens. D:, R: e Google Drive: "0 pastas reconciliadas".
+- RAM antes das consultas: WorkingSet 274 MB, Private 785 MB, 2.625.147 itens → **299 MB privados por milhão** (meta NFR-003: 100). Medido com a reconciliação rodando.
+- 50 consultas (competindo com a reconciliação): 1º lote mediana 48,2 ms, p95 73,4 ms; lista completa mediana 121,1 ms, p95 926,1 ms, máx. 961,2 ms.
+- O "total" inclui o `ConvertFrom-Json` do PowerShell por lote; quanto disso é custo do cliente: não medido.
+
+Perfil — `pwsh -File tools\perf\f015_trace_reconcile.ps1` (30 s de aquecimento, 30 s de `dotnet-trace collect --profile dotnet-sampled-thread-time`; trace em `%TEMP%\claude\desenv\utils\FilesApp\f015\reconcile-20261016_012437.nettrace`):
+- OBSERVED: 79.953 ms de CPU em 32 s; duas threads em `Ready` com ~50 s de CPU cada.
+- `ChangeWatcher.WatchLoop` 46,9% inclusivo → `HandleBufferOverflow` → `Reconciler.ReconcileSubtree` 35,2% inclusivo / **30,3% exclusivo** (o próprio laço do método).
+- `Reconciler.ReconcileVolume` 11,7%, todo em `Monitor.Enter_Slowpath`: parado esperando o `SyncRoot` que o watcher segura.
+
+Diagnóstico (CONFIRMED pela leitura do código + perfil acima):
+1. O watcher do C: estoura o buffer (disco com muita mudança); `HandleBufferOverflow(-1)` chama `ReconcileSubtree` na raiz, que **revarre o volume inteiro** segurando o lock.
+2. A passada 2 de `ReconcileSubtree` e de `ReconcileVolume` percorre **todos os itens para cada pasta revarrida** (pastas × itens; no C: ≈ 10¹¹ a 10¹² iterações). Não termina; novos estouros se acumulam.
+3. `ReconcileVolume` nunca pega o lock → o snapshot nunca é regravado → cada abertura refaz o mesmo trabalho.
+4. Bug de correção: ao revarrer a pasta P, `UpdateEntry` grava nas subpastas filhas a data atual do disco; quando o laço chega na filha, a data "bate" e ela não é revarrida (mudanças dentro dela se perdem).
+5. `ScanVolumesAsync` só devolve quando todos os volumes terminam: `itemCount = 0` em todos até o mais lento acabar (viola "a busca DEVE funcionar parcialmente durante a indexação", NFR-002). Explica a rodada de 15/10.
+
+Correções: T17a a T17e no `tasks.md` da F015.

@@ -6,7 +6,8 @@ param(
     [string]$Scope = 'C:\desenv',
     [int]$Repeats = 5,
     [int]$ReadyTimeoutS = 600,
-    [int]$IdleS = 10
+    [int]$IdleS = 10,
+    [int]$ReconcileTimeoutS = 900
 )
 $ErrorActionPreference = 'Stop'
 $sid = (Get-Process -Id $PID).SessionId
@@ -45,10 +46,24 @@ $t0 = Get-Date; $ready = $false
 while (-not $ready -and ((Get-Date) - $t0).TotalSeconds -lt $ReadyTimeoutS) {
     Send @{ command = 'status' } { param($o) $script:st = $o; $true }
     $ready = $st.volumes -and -not ($st.volumes | Where-Object { "$($_.state)" -notmatch 'Ready|2' -and "$($_.state)" -notmatch 'Lock|Excl|Unav' })
-    if (-not $ready) { Start-Sleep 5 }
+    if (-not $ready) { Start-Sleep -Milliseconds 500 }
 }
-"Indexacao pronta: $ready em $([int]((Get-Date) - $t0).TotalSeconds) s"
+"Indexacao pronta: $ready em {0:N1} s" -f ((Get-Date) - $t0).TotalSeconds
 $st.volumes | Format-Table -AutoSize | Out-String
+
+# espera a reconciliacao do snapshot terminar (statusDetail deixa de dizer "reconciliando"), medindo CPU e RAM nesse periodo
+$svc = Get-Process -Id $svc.Id; $cR = $svc.TotalProcessorTime; $tR = Get-Date; $peakWs = 0; $peakPriv = 0
+do {
+    Send @{ command = 'status' } { param($o) $script:st = $o; $true }
+    $svc.Refresh(); $peakWs = [math]::Max($peakWs, $svc.WorkingSet64); $peakPriv = [math]::Max($peakPriv, $svc.PrivateMemorySize64)
+    $pending = @($st.volumes | Where-Object { "$($_.statusDetail)" -match 'reconcili' })
+    if ($pending) { Start-Sleep 1 }
+} while ($pending -and ((Get-Date) - $tR).TotalSeconds -lt $ReconcileTimeoutS)
+$svc.Refresh()
+'Reconciliacao: {0} em {1:N1} s, CPU {2:N0} ms, pico WorkingSet {3:N0} MB / Private {4:N0} MB' -f ($(if ($pending) { 'NAO terminou' } else { 'terminou' })), ((Get-Date) - $tR).TotalSeconds, ($svc.TotalProcessorTime - $cR).TotalMilliseconds, ($peakWs / 1MB), ($peakPriv / 1MB)
+$st.volumes | Select-Object displayRoot, itemCount, statusDetail | Format-Table -AutoSize | Out-String
+$items = ($st.volumes | Measure-Object itemCount -Sum).Sum
+'RAM em repouso antes das consultas: WorkingSet {0:N0} MB, Private {1:N0} MB, itens {2:N0} ({3:N0} MB privados por milhao)' -f ($svc.WorkingSet64 / 1MB), ($svc.PrivateMemorySize64 / 1MB), $items, ($svc.PrivateMemorySize64 / 1MB / ($items / 1e6))
 
 $rows = @()
 foreach ($term in $Terms) {

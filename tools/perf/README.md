@@ -179,3 +179,11 @@ Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\p
 ## F015 AC-20 — comparação com o Everything (15/10/2026)
 
 - O Alexandre buscou `es.exe` com o próprio Everything e informou que não existe nesta máquina (relato dele, não busca minha). AC-20 fica `NOT TESTED` até haver o `es.exe` (CLI do Everything, download separado do Everything) ou outra forma de medir o Everything.
+
+## F015 T17 — latência pelo pipe (15/10/2026) — MEDIÇÃO INVÁLIDA
+
+Comando: `pwsh -File tools\perf\f015_latency.ps1` (inicia `AppX\Files.App.IndexService\Files.App.IndexService.exe` do build Release, 50 consultas em `C:\desenv`).
+- OBSERVED: depois de 603 s o serviço ainda estava em `Indexing` com `itemCount = 0` nos 4 volumes (C:, C:\Google\Drive\disk, D:, R:), CPU acumulada 163 s, WorkingSet 129 MB / Private 376 MB.
+- As 50 consultas devolveram 0 resultados em ~2,5 ms (mediana): **não é latência de busca**, é consulta sem índice. Não usar para AC-1/AC-2.
+- Pendente: descobrir por que o serviço não conclui (ou não publica) a indexação em 10 min nesta execução, sendo que a T12 (13/10) mostrou 2.808.073 itens. Hipóteses não testadas: build Release do AppX desatualizado; `itemCount` só publicado ao fim do volume; varredura de C:\Google\Drive\disk lenta.
+- CPU do serviço parado, 10 s, ainda indexando: 1.891 ms (não representa o repouso).

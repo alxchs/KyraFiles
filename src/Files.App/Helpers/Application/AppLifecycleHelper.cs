@@ -8,6 +8,8 @@ using Files.App.Services.Search;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
+using Files.App.Services.Help;
+using Files.App.ViewModels.Help;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -379,6 +381,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					.AddSingleton<IExplorerPropertyService, ExplorerPropertyService>()
 					.AddSingleton</*IVersionControlService,*/ LibGit2Service>()
+					.AddSingleton<IHelpService, HelpService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
@@ -395,6 +398,7 @@ namespace Files.App.Helpers
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
 					.AddSingleton<ReleaseNotesViewModel>()
+					.AddSingleton<HelpViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

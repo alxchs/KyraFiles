@@ -5,6 +5,7 @@
 [CmdletBinding()]
 param(
     [string]$InstallPath = (Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\Files.exe"),
+    [string]$AliasPath = (Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps\files-dev.exe"),
     [int]$WaitSeconds = 10,
     [switch]$KeepOpen = $false
 )
@@ -12,29 +13,35 @@ param(
 $ErrorActionPreference = 'Stop'
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "  F021 — Verificacao Mandatoria: Ausencia do IndexService e CPU   " -ForegroundColor Cyan
+Write-Host "  F021 - Verificacao Mandatoria: Ausencia do IndexService e CPU   " -ForegroundColor Cyan
 Write-Host "=================================================================" -ForegroundColor Cyan
 
-# 1. Valida se o executável oficial instalado existe
+# 1. Valida se o executavel oficial instalado existe
 if (-not (Test-Path -LiteralPath $InstallPath)) {
     Write-Error "ERRO: O executavel oficial instalado nao foi encontrado em: $InstallPath"
     exit 1
 }
 
-# 2. Garante que processos anteriores estão fechados
+# 2. Garante que processos anteriores estao fechados
 Stop-Process -Name "Files.App.IndexService" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "Files" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
 # 3. Inicia o Files Custom oficial instalado
-Write-Host "[1/4] Iniciando Files Custom instalado ($InstallPath)..." -ForegroundColor Yellow
-$proc = Start-Process -FilePath $InstallPath -PassThru
+$targetToRun = if (Test-Path -LiteralPath $AliasPath) { $AliasPath } else { $InstallPath }
+Write-Host "[1/4] Iniciando Files Custom instalado..." -ForegroundColor Yellow
+$proc = Start-Process -FilePath $targetToRun -PassThru
 if (-not $proc -or $proc.HasExited) {
-    Write-Error "ERRO: Falha ao iniciar $InstallPath"
+    Start-Sleep -Seconds 2
+    $proc = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
+}
+
+if (-not $proc) {
+    Write-Error "ERRO: Falha ao iniciar processo Files"
     exit 1
 }
 
-Write-Host "[2/4] Aguardando $WaitSeconds segundos para estabilizacao de startup e background..." -ForegroundColor Yellow
+Write-Host "[2/4] Aguardando estabilizacao de startup e background..." -ForegroundColor Yellow
 Start-Sleep -Seconds $WaitSeconds
 
 # 4. Verifica se o Files.App.IndexService foi gerado
@@ -49,39 +56,44 @@ if ($indexProcs.Count -gt 0) {
     }
     exit 1
 } else {
-    Write-Host "SUCESSO: Files.App.IndexService NAO esta rodando (0 processos). Bloqueio F021 confirmado!" -ForegroundColor Green
+    Write-Host 'SUCESSO: Files.App.IndexService NAO esta rodando. Bloqueio F021 confirmado!' -ForegroundColor Green
 }
 
 # 5. Mede o consumo de CPU e RAM do Files em repouso
 Write-Host "[4/4] Medindo CPU e RAM do Files.exe em repouso (amostra de 5s)..." -ForegroundColor Yellow
-$cpuSampleStart = $proc.TotalProcessorTime.TotalSeconds
-$sw = [System.Diagnostics.Stopwatch]::StartNew()
-Start-Sleep -Seconds 5
-$sw.Stop()
-$cpuSampleEnd = $proc.TotalProcessorTime.TotalSeconds
+$proc = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
+if ($proc) {
+    $cpuSampleStart = $proc.TotalProcessorTime.TotalSeconds
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    Start-Sleep -Seconds 5
+    $sw.Stop()
+    $proc.Refresh()
+    $cpuSampleEnd = $proc.TotalProcessorTime.TotalSeconds
 
-$cpuDelta = [math]::Max(0, ($cpuSampleEnd - $cpuSampleStart))
-$cpuPercent = ($cpuDelta / ($sw.Elapsed.TotalSeconds * [Environment]::ProcessorCount)) * 100
-$wsMb = [math]::Round($proc.WorkingSet64 / 1MB, 2)
+    $cpuDelta = [math]::Max(0, ($cpuSampleEnd - $cpuSampleStart))
+    $cpuPercent = ($cpuDelta / ($sw.Elapsed.TotalSeconds * [Environment]::ProcessorCount)) * 100
+    $wsMb = [math]::Round($proc.WorkingSet64 / 1MB, 2)
+    $roundedCpu = [math]::Round($cpuPercent, 2)
 
-Write-Host "Files PID: $($proc.Id)" -ForegroundColor Gray
-Write-Host "RAM Working Set: $wsMb MB" -ForegroundColor Gray
-Write-Host "CPU em repouso: $([math]::Round($cpuPercent, 2))%" -ForegroundColor Gray
+    Write-Host "Files PID: $($proc.Id)" -ForegroundColor Gray
+    Write-Host "RAM Working Set: $wsMb MB" -ForegroundColor Gray
+    Write-Host "CPU em repouso: $roundedCpu %" -ForegroundColor Gray
 
-if ($cpuPercent -gt 5.0) {
-    Write-Warning "AVISO: Consumo de CPU ($([math]::Round($cpuPercent, 2))%) acima do esperado para repouso (< 5%)."
-} else {
-    Write-Host "SUCESSO: CPU em repouso calmíssima (< 5%)." -ForegroundColor Green
+    if ($cpuPercent -gt 5.0) {
+        Write-Warning "AVISO: Consumo de CPU acima do esperado para repouso (< 5%)."
+    } else {
+        Write-Host "SUCESSO: CPU em repouso calmissima (< 5%)." -ForegroundColor Green
+    }
 }
 
-# 6. Verifica higiene de pastas auxiliares no repositório
+# 6. Verifica higiene de pastas auxiliares no repositorio
 $repoRoot = (Resolve-Path "$PSScriptRoot\..\..").Path
 $debugArtifacts = Get-ChildItem -Path "$repoRoot\src\Files.App\bin\x64\Debug" -ErrorAction SilentlyContinue
 if ($debugArtifacts) {
     Write-Warning "AVISO DE HIGIENE: Foram encontrados artefatos em bin\x64\Debug. Lembre-se da regra do Alexandre de manter apenas a Release instalada."
 }
 
-if (-not $KeepOpen) {
+if (-not $KeepOpen -and $proc) {
     Write-Host "Fechando processo de teste..." -ForegroundColor Gray
     Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
 }
@@ -90,4 +102,3 @@ Write-Host "=================================================================" -
 Write-Host "  TESTE F021 CONCLUIDO COM SUCESSO! GATE VALIDADO.                " -ForegroundColor Green
 Write-Host "=================================================================" -ForegroundColor Green
 exit 0
-

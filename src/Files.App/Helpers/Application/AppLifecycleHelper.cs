@@ -411,16 +411,8 @@ namespace Files.App.Helpers
 				services.AddSingleton<IUpdateService, DummyUpdateService>();
 
 			var serviceProvider = services.BuildServiceProvider();
-			_ = Task.Run(() =>
-			{
-				try
-				{
-					_ = serviceProvider.GetService<IndexedSearchProvider>();
-				}
-				catch
-				{
-				}
-			});
+			// F021: Desarmado o warmup forçado do IndexedSearchProvider no startup para evitar
+			// disparo do processo externo de índice e consumo de recursos da máquina.
 			return serviceProvider;
 		}
 

@@ -28,6 +28,7 @@ public sealed class ManagedVolume : IDisposable
 	public DateTimeOffset RootLastWriteTime;
 	public DateTimeOffset LastIndexedUtc;
 	public ChangeWatcher? Watcher { get; set; }
+	public VolumeReconciler? Reconciler { get; set; }
 
 	public ManagedVolume(Guid volumeGuid, string displayRoot, string fileSystem, string mode = "Basic")
 	{
@@ -37,11 +38,18 @@ public sealed class ManagedVolume : IDisposable
 		Mode = mode;
 	}
 
-	public void Dispose()
+	/// <summary>
+	/// Para watcher e reconciliador (volume excluído, reindexado ou servidor encerrando).
+	/// </summary>
+	public void StopMonitoring()
 	{
 		Watcher?.Dispose();
 		Watcher = null;
+		Reconciler?.Dispose();
+		Reconciler = null;
 	}
+
+	public void Dispose() => StopMonitoring();
 }
 
 /// <summary>
@@ -57,6 +65,9 @@ public sealed class IndexPipeServer : IDisposable
 	private readonly ConcurrentDictionary<string, CancellationTokenSource> _activeQueries = new(StringComparer.Ordinal);
 	private readonly Lock _configLock = new();
 	private readonly CancellationTokenSource _serverCts = new();
+
+	// Reconferência depois de um estouro do watcher só começa após 2 s sem novo estouro (T17c)
+	private static readonly TimeSpan ReconcileQuietPeriod = TimeSpan.FromSeconds(2);
 
 	private HashSet<string> _excludedPaths = new(StringComparer.OrdinalIgnoreCase);
 	private VolumeTable? _volumeTable;
@@ -167,25 +178,9 @@ public sealed class IndexPipeServer : IDisposable
 
 						StartWatcherSafe(mv);
 
-						// Reconcilia pastas modificadas enquanto o app esteve fechado (T9 — FR-032)
-						_ = Task.Run(() =>
-						{
-							try
-							{
-								DateTimeOffset rt = mv.RootLastWriteTime;
-								var rec = Reconciler.ReconcileVolume(snapData.Index, ref rt, _serverCts.Token);
-								mv.RootLastWriteTime = rt;
-								mv.LastIndexedUtc = DateTimeOffset.UtcNow;
-								mv.StatusDetail = $"Pronto ({rec.DirectoriesRescanned} pastas reconciliadas)";
-								if (rec.DirectoriesRescanned > 0)
-								{
-									VolumeSnapshot.Save(snapPath, snapData.Index, serial, rt);
-								}
-							}
-							catch
-							{
-							}
-						});
+						// Reconcilia pastas modificadas enquanto o app esteve fechado (T9 — FR-032), pelo mesmo
+						// reconciliador que depois atende os estouros do watcher (T17c)
+						mv.Reconciler?.RequestNow();
 					}
 					else
 					{
@@ -195,31 +190,13 @@ public sealed class IndexPipeServer : IDisposable
 
 				if (candidates.Count > 0)
 				{
-					var scanned = await DirectoryScanner.ScanVolumesAsync(candidates, progress: null, _serverCts.Token)
+					// Cada volume é publicado assim que termina, sem esperar os outros discos (T17d — NFR-002)
+					await DirectoryScanner.ScanVolumesAsync(
+						candidates,
+						progress: null,
+						_serverCts.Token,
+						onVolumeScanned: (volumeGuid, index) => PublishScannedVolume(volumeGuid, index))
 						.ConfigureAwait(false);
-
-					foreach (var kvp in scanned)
-					{
-						if (_volumes.TryGetValue(kvp.Key, out ManagedVolume? mv))
-						{
-							mv.Index = kvp.Value;
-							mv.RootLastWriteTime = TryGetRootWriteTime(mv.DisplayRoot);
-							mv.LastIndexedUtc = DateTimeOffset.UtcNow;
-							mv.State = "Ready";
-							mv.StatusDetail = "Indexado";
-
-							StartWatcherSafe(mv);
-
-							try
-							{
-								string snapPath = VolumeSnapshot.GetSnapshotFilePath(_cacheDirectory, mv.VolumeGuid);
-								VolumeSnapshot.Save(snapPath, kvp.Value, rootLastWriteTime: mv.RootLastWriteTime);
-							}
-							catch
-							{
-							}
-						}
-					}
 				}
 			}
 			catch (Exception ex)
@@ -731,7 +708,9 @@ public sealed class IndexPipeServer : IDisposable
 				State = mv.State,
 				ItemCount = mv.Index?.Count ?? 0,
 				LastIndexedUtcTicks = mv.LastIndexedUtc.UtcTicks,
-				StatusDetail = mv.StatusDetail
+				StatusDetail = mv.StatusDetail,
+				OverflowCount = mv.Watcher?.OverflowReconcileCount ?? 0,
+				ReconcilePending = mv.Reconciler is { } rc && (rc.IsPending || rc.IsRunning)
 			});
 		}
 
@@ -774,8 +753,7 @@ public sealed class IndexPipeServer : IDisposable
 			{
 				mv.State = "Excluded";
 				mv.StatusDetail = "Excluído pelo usuário";
-				mv.Watcher?.Dispose();
-				mv.Watcher = null;
+				mv.StopMonitoring();
 			}
 			else if (mv.State == "Excluded")
 			{
@@ -797,8 +775,7 @@ public sealed class IndexPipeServer : IDisposable
 
 			mv.State = "Indexing";
 			mv.StatusDetail = "Reindexando...";
-			mv.Watcher?.Dispose();
-			mv.Watcher = null;
+			mv.StopMonitoring();
 
 			_ = Task.Run(() =>
 			{
@@ -812,8 +789,7 @@ public sealed class IndexPipeServer : IDisposable
 					mv.StatusDetail = "Indexado";
 					StartWatcherSafe(mv);
 
-					string snapPath = VolumeSnapshot.GetSnapshotFilePath(_cacheDirectory, mv.VolumeGuid);
-					VolumeSnapshot.Save(snapPath, idx, rootLastWriteTime: mv.RootLastWriteTime);
+					SaveSnapshot(mv);
 				}
 				catch (Exception ex)
 				{
@@ -877,7 +853,61 @@ public sealed class IndexPipeServer : IDisposable
 		}
 	}
 
-	private static void StartWatcherSafe(ManagedVolume mv)
+	private void PublishScannedVolume(Guid volumeGuid, VolumeIndex index)
+	{
+		if (!_volumes.TryGetValue(volumeGuid, out ManagedVolume? mv))
+			return;
+
+		mv.Index = index;
+		mv.RootLastWriteTime = TryGetRootWriteTime(mv.DisplayRoot);
+		mv.LastIndexedUtc = DateTimeOffset.UtcNow;
+		mv.State = "Ready";
+		mv.StatusDetail = "Indexado";
+
+		StartWatcherSafe(mv);
+
+		// Gravar centenas de MB não atrasa a varredura do próximo volume do mesmo disco
+		_ = Task.Run(() => SaveSnapshot(mv));
+	}
+
+	private void OnVolumeReconciled(ManagedVolume mv, VolumeReconciler reconciler, ReconcileResult result)
+	{
+		// O volume pode ter sido reindexado ou excluído enquanto a reconferência rodava
+		if (!ReferenceEquals(mv.Reconciler, reconciler))
+			return;
+
+		mv.RootLastWriteTime = reconciler.RootLastWriteTime;
+		mv.LastIndexedUtc = DateTimeOffset.UtcNow;
+		mv.StatusDetail = $"Pronto ({result.DirectoriesRescanned} pastas reconciliadas)";
+
+		if (result.DirectoriesRescanned > 0 || result.ItemsDeleted > 0)
+			SaveSnapshot(mv);
+	}
+
+	/// <summary>
+	/// Grava o snapshot com o índice travado: watcher e reconciliador não mexem nos arrays durante a cópia para o disco.
+	/// </summary>
+	private void SaveSnapshot(ManagedVolume mv)
+	{
+		VolumeIndex? index = mv.Index;
+		if (index is null)
+			return;
+
+		try
+		{
+			string snapPath = VolumeSnapshot.GetSnapshotFilePath(_cacheDirectory, mv.VolumeGuid);
+			lock (index.SyncRoot)
+			{
+				VolumeSnapshot.Save(snapPath, index, rootLastWriteTime: mv.RootLastWriteTime);
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"[IndexPipeServer] Falha ao gravar snapshot de {mv.DisplayRoot}: {ex.Message}");
+		}
+	}
+
+	private void StartWatcherSafe(ManagedVolume mv)
 	{
 		if (mv.Index is null || !Directory.Exists(mv.DisplayRoot))
 			return;
@@ -885,7 +915,19 @@ public sealed class IndexPipeServer : IDisposable
 		try
 		{
 			mv.Watcher?.Dispose();
-			var watcher = new ChangeWatcher(mv.Index, mv.DisplayRoot);
+			mv.Watcher = null;
+
+			if (mv.Reconciler is null || !ReferenceEquals(mv.Reconciler.Index, mv.Index))
+			{
+				mv.Reconciler?.Dispose();
+				mv.Reconciler = new VolumeReconciler(
+					mv.Index,
+					mv.RootLastWriteTime,
+					ReconcileQuietPeriod,
+					(reconciler, result) => OnVolumeReconciled(mv, reconciler, result));
+			}
+
+			var watcher = new ChangeWatcher(mv.Index, mv.DisplayRoot, reconciler: mv.Reconciler);
 			watcher.Start();
 			mv.Watcher = watcher;
 		}

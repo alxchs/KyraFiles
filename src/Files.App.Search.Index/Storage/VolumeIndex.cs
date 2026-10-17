@@ -17,6 +17,11 @@ public sealed class VolumeIndex
 	private const int DefaultInitialCapacity = 1024;
 	private const int FileAttributeDirectory = 0x00000010;
 	private const int MaxDirectoryDepth = 256;
+	private const int NoLink = -1;
+
+	// Acima deste tamanho os arrays crescem 1/8 por vez em vez de dobrar (o primeiro Add depois do
+	// TrimExcess de um índice de milhões de itens dobrava toda a memória — T17e)
+	private const int LargeArrayThreshold = 1 << 20;
 
 	private ulong[] _fileReferences;
 	private int[] _parentIndices;
@@ -39,10 +44,24 @@ public sealed class VolumeIndex
 	// Mapa opcional construído sob demanda para atualizações em tempo real (ChangeWatcher / Reconciler)
 	private Dictionary<ulong, int>? _indexByFileRef;
 
+	// Filhos de cada pasta, construídos sob demanda na primeira operação estrutural (F015 T17a — NFR-005):
+	// primeiro filho por item e irmãos duplamente ligados (12 bytes por item). Trocam as varreduras do
+	// índice inteiro por percursos locais em FindByParentAndName, MarkDeleted e Reconciler.
+	private int[]? _firstChild;
+	private int[]? _nextSibling;
+	private int[]? _prevSibling;
+	private int _rootFirstChild = NoLink;
+	private int _structureVersion;
+
 	public object SyncRoot { get; } = new();
 	public Guid VolumeGuid { get; }
 	public string VolumeRoot { get; set; }
 	public int Count => _count;
+
+	/// <summary>
+	/// Muda sempre que um item troca de pasta, é renomeado ou apagado: caminhos montados antes deixam de valer.
+	/// </summary>
+	public int StructureVersion => Volatile.Read(ref _structureVersion);
 
 	public VolumeIndex(Guid volumeGuid, string volumeRoot, int initialCapacity = DefaultInitialCapacity)
 	{
@@ -93,6 +112,12 @@ public sealed class VolumeIndex
 		if (_indexByFileRef is not null && fileReference != 0)
 			_indexByFileRef[fileReference] = index;
 
+		if (_firstChild is not null)
+		{
+			_firstChild[index] = NoLink;
+			LinkChild(index, parentIndex);
+		}
+
 		return index;
 	}
 
@@ -105,8 +130,9 @@ public sealed class VolumeIndex
 		if (index < 0 || index >= _count)
 			return;
 
-		_parentIndices[index] = parentIndex;
+		SetParent(index, parentIndex);
 		WriteNames(index, name);
+		_structureVersion++;
 	}
 
 	/// <summary>
@@ -124,15 +150,16 @@ public sealed class VolumeIndex
 		if (index < 0 || index >= _count)
 			return;
 
-		_parentIndices[index] = parentIndex;
+		SetParent(index, parentIndex);
 		_fileSizes[index] = size;
 		_creationTimesUtcTicks[index] = creationTime.UtcTicks;
 		_lastWriteTimesUtcTicks[index] = lastWriteTime.UtcTicks;
 		_fileAttributes[index] = attributes;
 
-		if (!string.Equals(GetName(index), name, StringComparison.Ordinal))
+		if (!OriginalNameEquals(index, name, StringComparison.Ordinal))
 		{
 			WriteNames(index, name);
+			_structureVersion++;
 		}
 	}
 
@@ -153,33 +180,32 @@ public sealed class VolumeIndex
 		if (index < 0 || index >= _count || _parentIndices[index] == DeletedParentIndex)
 			return 0;
 
-		bool isDir = IsDirectory(index);
-		DeleteSingleEntry(index);
-		int deletedCount = 1;
+		_structureVersion++;
 
-		if (isDir)
+		if (!IsDirectory(index))
 		{
-			var targetDirs = new HashSet<int> { index };
-			bool addedSubDir = true;
-			while (addedSubDir)
-			{
-				addedSubDir = false;
-				for (int i = 0; i < _count; i++)
-				{
-					int p = _parentIndices[i];
-					if (p >= 0 && targetDirs.Contains(p))
-					{
-						if (IsDirectory(i) && targetDirs.Add(i))
-							addedSubDir = true;
+			DeleteSingleEntry(index);
+			return 1;
+		}
 
-						if (_parentIndices[i] != DeletedParentIndex)
-						{
-							DeleteSingleEntry(i);
-							deletedCount++;
-						}
-					}
-				}
-			}
+		// Desce só pela subárvore (listas de filhos), em vez de varrer o índice inteiro a cada nível
+		EnsureChildLinks();
+		int deletedCount = 0;
+		var pending = new Stack<int>();
+		pending.Push(index);
+
+		while (pending.Count > 0)
+		{
+			int current = pending.Pop();
+			if (_parentIndices[current] == DeletedParentIndex)
+				continue;
+
+			int guard = 0;
+			for (int child = _firstChild![current]; child != NoLink && guard++ < _count; child = _nextSibling![child])
+				pending.Push(child);
+
+			DeleteSingleEntry(current);
+			deletedCount++;
 		}
 
 		return deletedCount;
@@ -190,6 +216,12 @@ public sealed class VolumeIndex
 		ulong fileRef = _fileReferences[index];
 		if (_indexByFileRef is not null && fileRef != 0)
 			_indexByFileRef.Remove(fileRef);
+
+		if (_firstChild is not null)
+		{
+			UnlinkChild(index, _parentIndices[index]);
+			_firstChild[index] = NoLink;
+		}
 
 		_fileReferences[index] = 0;
 		_parentIndices[index] = DeletedParentIndex;
@@ -247,17 +279,176 @@ public sealed class VolumeIndex
 	/// Retorna -1 se não encontrado.
 	/// </summary>
 	public int FindByParentAndName(int parentIndex, ReadOnlySpan<char> name)
+		=> FindChild(parentIndex, name, directoriesOnly: false);
+
+	/// <summary>
+	/// Primeiro filho imediato de <paramref name="parentIndex"/> (-1 se não houver). Percorra com <see cref="GetNextSibling"/>.
+	/// </summary>
+	public int GetFirstChild(int parentIndex)
 	{
-		for (int i = 0; i < _count; i++)
+		if (!IsLinkableParent(parentIndex))
+			return NoLink;
+
+		EnsureChildLinks();
+		return GetHead(parentIndex);
+	}
+
+	/// <summary>
+	/// Próximo irmão de <paramref name="index"/> na pasta (-1 no fim).
+	/// </summary>
+	public int GetNextSibling(int index)
+		=> _nextSibling is null || index < 0 || index >= _count ? NoLink : _nextSibling[index];
+
+	private int FindChild(int parentIndex, ReadOnlySpan<char> name, bool directoriesOnly)
+	{
+		if (!IsLinkableParent(parentIndex))
+			return -1;
+
+		EnsureChildLinks();
+		int guard = 0;
+		for (int child = GetHead(parentIndex); child != NoLink && guard++ < _count; child = _nextSibling![child])
 		{
-			if (_parentIndices[i] == parentIndex && _originalNameLengths[i] > 0)
+			if (_originalNameLengths[child] > 0 &&
+				(!directoriesOnly || IsDirectory(child)) &&
+				OriginalNameEquals(child, name, StringComparison.OrdinalIgnoreCase))
 			{
-				if (GetName(i).AsSpan().Equals(name, StringComparison.OrdinalIgnoreCase))
-					return i;
+				return child;
 			}
 		}
 
 		return -1;
+	}
+
+	private bool OriginalNameEquals(int index, ReadOnlySpan<char> name, StringComparison comparison)
+	{
+		ReadOnlySpan<byte> utf8 = _namesBuffer.AsSpan(_nameOffsets[index] + _normalizedNameLengths[index], _originalNameLengths[index]);
+
+		// Cada char UTF-16 ocupa de 1 a 3 bytes em UTF-8 (par substituto: 2 chars, 4 bytes)
+		if (utf8.Length < name.Length || utf8.Length > name.Length * 3)
+			return false;
+
+		if (utf8.Length <= 512)
+		{
+			Span<char> chars = stackalloc char[utf8.Length];
+			int written = Encoding.UTF8.GetChars(utf8, chars);
+			return chars[..written].Equals(name, comparison);
+		}
+
+		return Encoding.UTF8.GetString(utf8).AsSpan().Equals(name, comparison);
+	}
+
+	private static bool IsLinkableParentValue(int parentIndex, int count)
+		=> parentIndex == RootParentIndex || (parentIndex >= 0 && parentIndex < count);
+
+	private bool IsLinkableParent(int parentIndex) => IsLinkableParentValue(parentIndex, _count);
+
+	private int GetHead(int parentIndex)
+		=> parentIndex == RootParentIndex ? _rootFirstChild : _firstChild![parentIndex];
+
+	private void SetHead(int parentIndex, int child)
+	{
+		if (parentIndex == RootParentIndex)
+			_rootFirstChild = child;
+		else
+			_firstChild![parentIndex] = child;
+	}
+
+	private void SetParent(int index, int newParent)
+	{
+		int oldParent = _parentIndices[index];
+		if (oldParent == newParent || newParent == index)
+			return;
+
+		if (_firstChild is not null)
+			UnlinkChild(index, oldParent);
+
+		_parentIndices[index] = newParent;
+
+		if (_firstChild is not null)
+			LinkChild(index, newParent);
+
+		_structureVersion++;
+	}
+
+	private void LinkChild(int index, int parentIndex)
+	{
+		_nextSibling![index] = NoLink;
+		_prevSibling![index] = NoLink;
+
+		if (parentIndex == index || !IsLinkableParent(parentIndex))
+			return;
+
+		int head = GetHead(parentIndex);
+		_nextSibling[index] = head;
+		if (head != NoLink)
+			_prevSibling[head] = index;
+		SetHead(parentIndex, index);
+	}
+
+	private void UnlinkChild(int index, int parentIndex)
+	{
+		int prev = _prevSibling![index];
+		int next = _nextSibling![index];
+
+		if (prev != NoLink)
+			_nextSibling[prev] = next;
+		else if (IsLinkableParent(parentIndex) && GetHead(parentIndex) == index)
+			SetHead(parentIndex, next);
+		else
+			return; // não estava em nenhuma lista
+
+		if (next != NoLink)
+			_prevSibling[next] = prev;
+
+		_prevSibling[index] = NoLink;
+		_nextSibling[index] = NoLink;
+	}
+
+	/// <summary>
+	/// Monta as listas de filhos a partir dos pais (O(n), uma vez por índice; depois são mantidas a cada mudança).
+	/// </summary>
+	private void EnsureChildLinks()
+	{
+		if (_firstChild is not null)
+			return;
+
+		lock (SyncRoot)
+		{
+			if (_firstChild is not null)
+				return;
+
+			int capacity = _fileReferences.Length;
+			var first = new int[capacity];
+			var next = new int[capacity];
+			var prev = new int[capacity];
+			first.AsSpan().Fill(NoLink);
+			next.AsSpan().Fill(NoLink);
+			prev.AsSpan().Fill(NoLink);
+			int rootFirst = NoLink;
+
+			// De trás para frente: cada lista fica em ordem crescente de índice
+			for (int i = _count - 1; i >= 0; i--)
+			{
+				int parent = _parentIndices[i];
+				if (parent == i || !IsLinkableParentValue(parent, _count))
+					continue;
+
+				int head = parent == RootParentIndex ? rootFirst : first[parent];
+				next[i] = head;
+				if (head != NoLink)
+					prev[head] = i;
+
+				if (parent == RootParentIndex)
+					rootFirst = i;
+				else
+					first[parent] = i;
+			}
+
+			_nextSibling = next;
+			_prevSibling = prev;
+			_rootFirstChild = rootFirst;
+			_firstChild = first;
+		}
 	}
 
 	/// <summary>
@@ -270,33 +461,25 @@ public sealed class VolumeIndex
 		if (trimmed.IsEmpty)
 			return RootParentIndex;
 
-		int currentParent = RootParentIndex;
-		while (!trimmed.IsEmpty)
+		// Chamado pelo pipe fora do lock do índice: as listas de filhos só são lidas com ele
+		lock (SyncRoot)
 		{
-			int slash = trimmed.IndexOf('\\');
-			ReadOnlySpan<char> segment = slash >= 0 ? trimmed[..slash] : trimmed;
-			trimmed = slash >= 0 ? trimmed[(slash + 1)..].TrimStart('\\') : ReadOnlySpan<char>.Empty;
-
-			int found = -1;
-			for (int i = 0; i < _count; i++)
+			int currentParent = RootParentIndex;
+			while (!trimmed.IsEmpty)
 			{
-				if (_parentIndices[i] == currentParent && IsDirectory(i) && _originalNameLengths[i] > 0)
-				{
-					if (GetName(i).AsSpan().Equals(segment, StringComparison.OrdinalIgnoreCase))
-					{
-						found = i;
-						break;
-					}
-				}
+				int slash = trimmed.IndexOf('\\');
+				ReadOnlySpan<char> segment = slash >= 0 ? trimmed[..slash] : trimmed;
+				trimmed = slash >= 0 ? trimmed[(slash + 1)..].TrimStart('\\') : ReadOnlySpan<char>.Empty;
+
+				int found = FindChild(currentParent, segment, directoriesOnly: true);
+				if (found < 0)
+					return DeletedParentIndex;
+
+				currentParent = found;
 			}
 
-			if (found < 0)
-				return DeletedParentIndex;
-
-			currentParent = found;
+			return currentParent;
 		}
-
-		return currentParent;
 	}
 
 	/// <summary>
@@ -416,10 +599,20 @@ public sealed class VolumeIndex
 
 	private void EnsureCapacity(int required)
 	{
-		if (required <= _fileReferences.Length)
+		int capacity = _fileReferences.Length;
+		if (required <= capacity)
 			return;
 
-		int newCap = Math.Max(required, _fileReferences.Length * 2);
+		int growth = capacity < LargeArrayThreshold ? Math.Max(capacity, 16) : Math.Max(capacity / 8, 65_536);
+		int newCap = (int)Math.Min(Array.MaxLength, Math.Max((long)required, (long)capacity + growth));
+
+		if (_firstChild is not null)
+		{
+			Array.Resize(ref _firstChild, newCap);
+			Array.Resize(ref _nextSibling, newCap);
+			Array.Resize(ref _prevSibling, newCap);
+			_firstChild.AsSpan(capacity).Fill(NoLink);
+		}
 
 		Array.Resize(ref _fileReferences, newCap);
 		Array.Resize(ref _parentIndices, newCap);
@@ -438,7 +631,9 @@ public sealed class VolumeIndex
 		if (required <= _namesBuffer.Length)
 			return;
 
-		long newCapLong = Math.Max((long)required, (long)_namesBuffer.Length * 2);
+		long length = _namesBuffer.Length;
+		long growth = length < 64L * LargeArrayThreshold ? Math.Max(length, 1024) : Math.Max(length / 8, 4L * LargeArrayThreshold);
+		long newCapLong = Math.Max((long)required, length + growth);
 		int newCap = (int)Math.Min(int.MaxValue - 56, newCapLong);
 
 		Array.Resize(ref _namesBuffer, newCap);
@@ -460,6 +655,13 @@ public sealed class VolumeIndex
 			Array.Resize(ref _nameOffsets, _count);
 			Array.Resize(ref _normalizedNameLengths, _count);
 			Array.Resize(ref _originalNameLengths, _count);
+
+			if (_firstChild is not null)
+			{
+				Array.Resize(ref _firstChild, _count);
+				Array.Resize(ref _nextSibling, _count);
+				Array.Resize(ref _prevSibling, _count);
+			}
 		}
 
 		if (_bytesCount < _namesBuffer.Length)

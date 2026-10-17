@@ -28,9 +28,7 @@ namespace Files.App.Services.Search
 
 		public ISearchProvider GetCurrentProvider()
 		{
-			if (_providers.TryGetValue("index", out var indexProvider) && indexProvider.IsAvailable)
-				return indexProvider;
-
+			// F021: Prioriza a configuração explícita do usuário (Everything / AgentRansack / Native)
 			if (_userSettingsService?.FoldersSettingsService is { } foldersSettings)
 			{
 				var preferredKind = foldersSettings.SearchEnginePreference;
@@ -44,6 +42,13 @@ namespace Files.App.Services.Search
 				if (_providers.TryGetValue(providerId, out var provider) && provider.IsAvailable)
 					return provider;
 			}
+
+			// Fallbacks ordenados por confiabilidade e leveza: Everything -> Index (se disponível) -> Default
+			if (_providers.TryGetValue("everything", out var everythingProvider) && everythingProvider.IsAvailable)
+				return everythingProvider;
+
+			if (_providers.TryGetValue("index", out var indexProvider) && indexProvider.IsAvailable)
+				return indexProvider;
 
 			return _defaultProvider;
 		}

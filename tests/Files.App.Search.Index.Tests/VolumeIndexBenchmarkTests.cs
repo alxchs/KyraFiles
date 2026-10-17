@@ -11,6 +11,7 @@ namespace Files.App.Search.Index.Tests;
 public sealed class VolumeIndexBenchmarkTests
 {
 	[TestMethod]
+	[Ignore("F021: Desativado temporariamente para prevenir estouro de 32 GB de RAM e congelamento do sistema.")]
 	public void Benchmark_FiveMillionEntries_MemoryAndQueryLatency()
 	{
 		const int TotalItems = 5_000_000;

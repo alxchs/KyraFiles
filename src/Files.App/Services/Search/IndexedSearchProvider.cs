@@ -21,13 +21,14 @@ namespace Files.App.Services.Search
 		private readonly IUserSettingsService? _userSettingsService;
 		private readonly ILogger<IndexedSearchProvider>? _logger;
 		private readonly IndexServiceProcessManager _processManager;
-		private bool _initialConfigSent;
 
 		public string Id => "index";
 
 		public string DisplayName => "Files Index";
 
-		public bool IsAvailable => true;
+		// F021: Bloqueio emergencial de recursos solicitado pelo Alexandre após diagnóstico do relatório "Lenovo em Repouso".
+		// Mantém o processo Files.App.IndexService.exe 100% inativo e permite uso de Everything / Native.
+		public bool IsAvailable => false;
 
 		public SearchCapabilities Capabilities { get; } = new()
 		{
@@ -56,41 +57,13 @@ namespace Files.App.Services.Search
 
 			_processManager = new IndexServiceProcessManager(cacheDirectory: cacheDir);
 
-			// Start the index service in the background without blocking UI startup
-			_ = Task.Run(async () =>
-			{
-				try
-				{
-					await EnsureReadyAndConfiguredAsync(CancellationToken.None).ConfigureAwait(false);
-				}
-				catch (Exception ex)
-				{
-					_logger?.LogWarning(ex, "Failed to warm up Files.App.IndexService.exe in background");
-				}
-			});
+			// F021: Desarmado o arranque em background do processo de índice para preservar CPU e memória.
 		}
 
-		public async Task<bool> EnsureReadyAndConfiguredAsync(CancellationToken cancellationToken = default)
+		public Task<bool> EnsureReadyAndConfiguredAsync(CancellationToken cancellationToken = default)
 		{
-			bool alive = await _processManager.EnsureRunningAsync(cancellationToken).ConfigureAwait(false);
-			if (alive && !_initialConfigSent)
-			{
-				_initialConfigSent = true;
-				var excluded = _userSettingsService?.FoldersSettingsService?.SearchIndexExcludedPaths;
-				if (excluded is { Count: > 0 })
-				{
-					try
-					{
-						await _processManager.Client.ConfigureAsync(excluded.ToArray(), cancellationToken).ConfigureAwait(false);
-					}
-					catch (Exception ex)
-					{
-						_logger?.LogWarning(ex, "Failed to apply excluded paths to IndexService");
-					}
-				}
-			}
-
-			return alive;
+			// F021: Bloqueado enquanto durar a contenção de recursos.
+			return Task.FromResult(false);
 		}
 
 		public async Task SearchAsync(SearchRequest request, IList<ListedItem> results, CancellationToken cancellationToken)

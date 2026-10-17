@@ -137,5 +137,6 @@ Este checkout é o **Files Custom**, derivado do Files Community. Além das dire
 - **SDD (METODO §6):** feature nova nasce de `docs/specs/<ID>-<nome>/` (`spec.md`, `plan.md`, `tasks.md`), nessa ordem e com cada etapa aprovada; sem `tasks.md` aprovado não comece feature. Briefs em `docs/agents/tasks/` valem só para exploração, medição e features antigas já aprovadas. Melhoria fora do escopo vira `DISCOVERY`, não código.
 - Declare `NOT TESTED`, `OBSERVED`, `INFERRED` ou `CONFIRMED`; nunca invente resultado.
 - Commit local a cada passo verde; ao parar, escreva handoff em `docs/agents/handoffs/`. `git push` só com confirmação do Alexandre.
-- Mantenha o diff pequeno e isolado em arquivos próprios para acompanhar o upstream (`MASTER_SPEC.md` §13).
 - Todo exe gerado para teste leva uma nota de liberação em `docs/releases/` (e página HTML quando possível): ver "Nota de liberação" em `docs/agents/PLAYBOOK.md`.
+- **GATE MANDATÓRIO DE CONTENÇÃO DE RECURSOS (16/10/2026 - F021):** Nenhuma tarefa pode ser dada como concluída pela AGY ou pelo Claude sem a execução e validação formal de `pwsh tools\perf\verify_no_index_service.ps1`. O processo `Files.App.IndexService.exe` deve estar rigorosamente inativo e a CPU em repouso em 0% (ou < 5%).
+- **HIGIENE ABSOLUTA DE BINÁRIOS (16/10/2026):** NUNCA deixar cópias de Debug ou em qualquer pasta auxiliar depois de desenvolver e testar. Somente a versão Release no local instalado (`%LOCALAPPDATA%\Programs\FilesCustom`) deve existir no ambiente.

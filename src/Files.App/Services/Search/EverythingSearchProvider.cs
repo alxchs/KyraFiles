@@ -59,11 +59,48 @@ namespace Files.App.Services.Search
 
 		private static string? GetEsPath()
 		{
+			// 1. Caminhos tradicionais em Program Files
 			foreach (var path in PossibleEsPaths)
 			{
 				if (File.Exists(path))
 					return path;
 			}
+
+			// 2. Pasta local da aplicação / AppContext
+			string localApp = Path.Combine(AppContext.BaseDirectory, "es.exe");
+			if (File.Exists(localApp))
+				return localApp;
+
+			// 3. Pasta oficial instalada do Files Custom
+			string filesCustomDir = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Programs", "FilesCustom", "es.exe");
+			if (File.Exists(filesCustomDir))
+				return filesCustomDir;
+
+			// 4. Pasta de utilitários do usuário (~/bin)
+			string userBin = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+				"bin", "es.exe");
+			if (File.Exists(userBin))
+				return userBin;
+
+			// 5. Pesquisa no PATH do sistema
+			var pathEnv = Environment.GetEnvironmentVariable("PATH");
+			if (!string.IsNullOrWhiteSpace(pathEnv))
+			{
+				foreach (var dir in pathEnv.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+				{
+					try
+					{
+						string candidate = Path.Combine(dir, "es.exe");
+						if (File.Exists(candidate))
+							return candidate;
+					}
+					catch { }
+				}
+			}
+
 			return null;
 		}
 

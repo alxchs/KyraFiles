@@ -71,7 +71,10 @@ pwsh tools\perf\bench.ps1 -Runs 3                  # Files × OneCommander
 
 ## Definição de pronto de uma feature (resumo do §30, METODO §8)
 
-Build 0/0, app aberto e feature usada de verdade (captura), casos do spec passando (§5–§10), cancelamento, edge cases, regressão, teclado/foco/DPI, performance, docs (`STATUS.md`, relatório do §38), testes unitários onde a arquitetura permitir, handoff, commit local. Depois **pare no gate de revisão**: o Claude (ou o Alexandre) aprova; sem isso, a feature fica "implementada, aguardando revisão", não "concluída".
+Build 0/0, app aberto e feature usada de verdade (captura), casos do spec passando (§5–§10), cancelamento, edge cases, regressão, teclado/foco/DPI, performance, docs (`STATUS.md`, relatório do §38), testes unitários onde a arquitetura permitir, handoff, commit local.
+**Pré-requisito mandatório para AGY e Claude (16/10/2026 - F021):** Rodar `pwsh tools\perf\verify_no_index_service.ps1` com resultado 0 comprovando que `Files.App.IndexService.exe` está inativo e a CPU em repouso < 5%.
+**Higiene mandatória:** NUNCA deixar cópias Debug ou em pastas auxiliares após o trabalho; somente a Release no local instalado (`%LOCALAPPDATA%\Programs\FilesCustom`) deve existir.
+Depois **pare no gate de revisão**: o Claude (ou o Alexandre) aprova; sem isso, a feature fica "implementada, aguardando revisão", não "concluída".
 
 ## Tags
 

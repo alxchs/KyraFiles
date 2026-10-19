@@ -9,7 +9,7 @@ namespace Files.App.Services.Settings
 	{
 		public SearchEngineKind SearchEnginePreference
 		{
-			get => (SearchEngineKind)Get((long)SearchEngineKind.Native);
+			get => (SearchEngineKind)Get((long)SearchEngineKind.Everything);
 			set => Set((long)value);
 		}
 

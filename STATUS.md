@@ -1,6 +1,14 @@
 # STATUS
 
-Última atualização: 2026-10-01 (Claude). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-10-18 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.0 e Instalador Atualizado (18/10/2026)
+
+- CONFIRMED: Compilação de Release do `Files.App` e projetos associados com `0 Error(s), 0 Warning(s)`.
+- CONFIRMED: Layout AppX atualizado via `Open-FilesDev.ps1 -Configuration Release -NoLaunch` e manifesto gerado via `Generate-PackageManifest.ps1` (1.334 arquivos com hash SHA256).
+- CONFIRMED: Compilação do instalador Inno Setup (`artifacts\Setup\FilesCustomSetup-4.3.0.exe`, 52,7 MB comprimido com LZMA2 Ultra64). Inclui `es.exe`, `Files.HotkeyService.exe`, `Files.Watchdog.exe` e runtime AppX completo.
+- CONFIRMED: Gate mandatório F021 executado via `tools\perf\verify_no_index_service.ps1` com ausência comprovada do `Files.App.IndexService.exe`.
+- CONFIRMED: Busca rápida autônoma híbrida (F023), drag and drop CF_HDROP universal (Win32/Delphi/IDEs), preferências de densidade compacta e formato de data do sistema.
 
 ## Publicação (02/10/2026)
 

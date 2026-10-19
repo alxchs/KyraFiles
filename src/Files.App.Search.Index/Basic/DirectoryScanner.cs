@@ -40,7 +40,8 @@ public static class DirectoryScanner
 	public static async Task<IReadOnlyDictionary<Guid, VolumeIndex>> ScanVolumesAsync(
 		IEnumerable<VolumeInfo> volumes,
 		IProgress<ScanProgress>? progress = null,
-		CancellationToken cancellationToken = default)
+		CancellationToken cancellationToken = default,
+		Action<Guid, VolumeIndex>? onVolumeScanned = null)
 	{
 		ArgumentNullException.ThrowIfNull(volumes);
 
@@ -58,6 +59,9 @@ public static class DirectoryScanner
 				cancellationToken.ThrowIfCancellationRequested();
 				var index = ScanDirectory(volume.VolumeGuid, volume.DisplayRoot, progress, cancellationToken);
 				results[volume.VolumeGuid] = index;
+
+				// T17d (NFR-002): quem chamou pode publicar este volume já, sem esperar os outros discos
+				onVolumeScanned?.Invoke(volume.VolumeGuid, index);
 			}
 		}, cancellationToken));
 

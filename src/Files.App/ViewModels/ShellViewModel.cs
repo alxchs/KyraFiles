@@ -3510,76 +3510,117 @@ namespace Files.App.ViewModels
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
 			var results = new List<ListedItem>();
-			search.SearchTick += async (s, e) =>
+			EventHandler? searchTickHandler = null;
+			searchTickHandler = async (s, e) =>
 			{
-				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
-				await OrderFilesAndFoldersAsync();
-				await ApplyFilesAndFoldersChangesAsync();
-			};
-
-			var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
-			var provider = searchProviderFactory?.GetCurrentProvider();
-			if (provider is not null && provider.Id != "native")
-			{
-				long lastBatchUiTick = 0;
-				var request = new SearchRequest
+				try
 				{
-					Query = search.Query ?? string.Empty,
-					Folder = search.Folder ?? string.Empty,
-					MaxItemCount = search.MaxItemCount,
-					OnBatchReceived = async _ =>
-					{
-						long now = Environment.TickCount64;
-						if (lastBatchUiTick != 0 && (now - lastBatchUiTick) < 120)
-							return;
-						lastBatchUiTick = now;
-						try
-						{
-							var snapshot = results.ToList();
-							filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
-							await OrderFilesAndFoldersAsync();
-							await ApplyFilesAndFoldersChangesAsync();
-						}
-						catch
-						{
-						}
-					},
-					OnFallbackNotice = notice =>
-					{
-						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							SearchHeaderTitle = string.IsNullOrEmpty(baseHeaderTitle)
-								? notice
-								: $"{baseHeaderTitle} ({notice})";
-						});
-					},
-					OnTruncated = maxCount =>
-					{
-						_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							SearchHeaderTitle = $"{baseHeaderTitle} (primeiros {maxCount:N0} resultados — refine a busca)";
-						});
-					}
-				};
-				await provider.SearchAsync(request, results, searchCTS.Token);
-			}
-			else
+					var snapshot = results.ToList();
+					filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+					await ApplyFilesAndFoldersChangesAsync();
+				}
+				catch { }
+			};
+			search.SearchTick += searchTickHandler;
+
+			try
 			{
-				await search.SearchAsync(results, searchCTS.Token);
+				var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
+				var provider = searchProviderFactory?.GetCurrentProvider();
+				if (provider is not null)
+				{
+					long lastBatchUiTick = 0;
+					int lastDispatchedCount = 0;
+					var request = new SearchRequest
+					{
+						Query = search.Query ?? string.Empty,
+						Folder = search.Folder ?? string.Empty,
+						MaxItemCount = search.MaxItemCount,
+						OnBatchReceived = items =>
+						{
+							long now = Environment.TickCount64;
+							if (lastBatchUiTick != 0 && (now - lastBatchUiTick) < 150 && items.Count - lastDispatchedCount < 40)
+								return;
+
+							lastBatchUiTick = now;
+							lastDispatchedCount = items.Count;
+
+							_ = dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+							{
+								if (searchCTS?.IsCancellationRequested != false)
+									return;
+
+								try
+								{
+									var snapshot = items.ToList();
+									filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+									// Atualiza a visualização sem acionar ordenação total em cada lote parcial (jank-free)
+									await ApplyFilesAndFoldersChangesAsync();
+								}
+								catch { }
+							});
+						},
+						OnFallbackNotice = notice =>
+						{
+							_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								SearchHeaderTitle = string.IsNullOrEmpty(baseHeaderTitle)
+									? notice
+									: $"{baseHeaderTitle} ({notice})";
+							});
+						},
+						OnTruncated = maxCount =>
+						{
+							_ = dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								SearchHeaderTitle = $"{baseHeaderTitle} (primeiros {maxCount:N0} resultados — refine a busca)";
+							});
+						}
+					};
+					await provider.SearchAsync(request, results, searchCTS.Token);
+				}
+				else
+				{
+					await search.SearchAsync(results, searchCTS.Token);
+				}
+
+				if (searchCTS?.IsCancellationRequested == false)
+				{
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						filesAndFolders = new ConcurrentCollection<ListedItem>(results.ToList());
+						await OrderFilesAndFoldersAsync();
+						await ApplyFilesAndFoldersChangesAsync();
+					});
+				}
 			}
+			catch (OperationCanceledException) { }
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Search operation failed or was interrupted");
+			}
+			finally
+			{
+				if (searchTickHandler is not null)
+					search.SearchTick -= searchTickHandler;
 
-			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
-
-			await OrderFilesAndFoldersAsync();
-			await ApplyFilesAndFoldersChangesAsync();
-
-			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
-			IsLoadingItems = false;
+				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
+				IsLoadingItems = false;
+			}
 		}
 
 		public void CancelSearch()
 		{
-			searchCTS?.Cancel();
+			try
+			{
+				if (searchCTS is not null)
+				{
+					searchCTS.Cancel();
+					searchCTS.Dispose();
+					searchCTS = null;
+				}
+			}
+			catch { }
 		}
 
 		public void UpdateDateDisplay()
@@ -3605,7 +3646,7 @@ namespace Files.App.ViewModels
 			filterDebounceCS?.Dispose();
 			networkAvailabilityCTS?.Dispose();
 			semaphoreCTS.Cancel();
-			searchCTS?.Cancel();
+			CancelSearch();
 			updateTagGroupCTS?.Cancel();
 			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.RedactPath(CurrentFolder?.ItemPath)}");
 

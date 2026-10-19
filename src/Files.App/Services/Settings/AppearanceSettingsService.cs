@@ -198,7 +198,7 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public AppDensityKind AppDensity
 		{
-			get => (AppDensityKind)Get((int)AppDensityKind.Normal);
+			get => (AppDensityKind)Get((int)AppDensityKind.Compact);
 			set => Set((int)value);
 		}
 

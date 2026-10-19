@@ -6,7 +6,9 @@ using Files.App.Data.Items;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using Windows.Storage;
+using Windows.Win32;
 
 namespace Files.App.Services.Search
 {
@@ -34,7 +36,12 @@ namespace Files.App.Services.Search
 			{
 				try
 				{
-					return Process.GetProcessesByName("Everything").Length > 0 || GetEsPath() is not null;
+					// Detecção Win32 atômica instantânea (< 0,01 ms) sem varrer processos
+					var hwnd = PInvoke.FindWindow("EVERYTHING_TASKBAR_NOTIFICATION", (string?)null);
+					if (!hwnd.IsNull)
+						return true;
+
+					return GetEsPath() is not null;
 				}
 				catch
 				{
@@ -59,11 +66,48 @@ namespace Files.App.Services.Search
 
 		private static string? GetEsPath()
 		{
+			// 1. Caminhos tradicionais em Program Files
 			foreach (var path in PossibleEsPaths)
 			{
 				if (File.Exists(path))
 					return path;
 			}
+
+			// 2. Pasta local da aplicação / AppContext
+			string localApp = Path.Combine(AppContext.BaseDirectory, "es.exe");
+			if (File.Exists(localApp))
+				return localApp;
+
+			// 3. Pasta oficial instalada do Files Custom
+			string filesCustomDir = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Programs", "FilesCustom", "es.exe");
+			if (File.Exists(filesCustomDir))
+				return filesCustomDir;
+
+			// 4. Pasta de utilitários do usuário (~/bin)
+			string userBin = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+				"bin", "es.exe");
+			if (File.Exists(userBin))
+				return userBin;
+
+			// 5. Pesquisa no PATH do sistema
+			var pathEnv = Environment.GetEnvironmentVariable("PATH");
+			if (!string.IsNullOrWhiteSpace(pathEnv))
+			{
+				foreach (var dir in pathEnv.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+				{
+					try
+					{
+						string candidate = Path.Combine(dir, "es.exe");
+						if (File.Exists(candidate))
+							return candidate;
+					}
+					catch { }
+				}
+			}
+
 			return null;
 		}
 
@@ -72,15 +116,33 @@ namespace Files.App.Services.Search
 			var esPath = GetEsPath();
 			if (esPath is not null)
 			{
-				var tempOutputFile = Path.Combine(Path.GetTempPath(), $"everything_search_{Guid.NewGuid():N}.csv");
 				try
 				{
+					int maxResults = request.MaxItemCount > 0 ? (int)request.MaxItemCount : 500;
 					var arguments = new List<string>
 					{
-						"-path", $"\"{request.Folder}\"",
-						$"\"{request.Query}\"",
-						"-export-csv", $"\"{tempOutputFile}\""
+						"-tsv",
+						"-no-header",
+						"-attrib",
+						"-size",
+						"-dm",
+						"-n", maxResults.ToString()
 					};
+
+					string rawQuery = request.Query.Trim();
+					string folder = request.Folder?.Trim().TrimEnd('\\', '/') ?? string.Empty;
+
+					// Se a query já contém especificador de caminho (ex: r:\desenv, c:\, d:\, \),
+					// NÃO adiciona -path para não criar conflito de diretório no Everything.
+					bool queryHasPath = rawQuery.Contains(@":\") || rawQuery.Contains(@":/") || rawQuery.StartsWith(@"\");
+					if (!queryHasPath && !string.IsNullOrEmpty(folder) && !folder.Equals("Home", StringComparison.OrdinalIgnoreCase) && Directory.Exists(folder))
+					{
+						arguments.Add("-path");
+						arguments.Add($"\"{folder}\"");
+					}
+
+					// Adiciona os termos da query preservando a sintaxe original do Everything (sem aspas duplas envolventes)
+					arguments.Add(rawQuery);
 
 					var startInfo = new ProcessStartInfo
 					{
@@ -88,6 +150,9 @@ namespace Files.App.Services.Search
 						Arguments = string.Join(" ", arguments),
 						UseShellExecute = false,
 						CreateNoWindow = true,
+						RedirectStandardOutput = true,
+						RedirectStandardError = true,
+						StandardOutputEncoding = Encoding.UTF8,
 						WindowStyle = ProcessWindowStyle.Hidden
 					};
 
@@ -104,33 +169,78 @@ namespace Files.App.Services.Search
 						catch { }
 					}))
 					{
-						await process.WaitForExitAsync(cancellationToken);
-					}
+						using var reader = process.StandardOutput;
+						string? line;
+						int count = 0;
 
-					if (File.Exists(tempOutputFile))
-					{
-						var lines = await File.ReadAllLinesAsync(tempOutputFile, cancellationToken);
-						foreach (var line in lines)
+						while ((line = await reader.ReadLineAsync(cancellationToken)) is not null)
 						{
 							if (string.IsNullOrWhiteSpace(line))
 								continue;
 
-							var path = line.Trim().Trim('"');
+							// Formato TSV: <Caminho>\t<Atributos>\t<TamanhoEmBytes>\t<DataModificada>
+							var parts = line.Split('\t');
+							string path = parts.Length > 0 ? parts[0].Trim().Trim('"') : string.Empty;
 							if (string.IsNullOrEmpty(path))
 								continue;
 
-							var fileName = Path.GetFileName(path);
-							var isFolder = Directory.Exists(path);
+							string attrStr = parts.Length > 1 ? parts[1].Trim() : string.Empty;
+							string sizeStr = parts.Length > 2 ? parts[2].Trim() : string.Empty;
+							string dateStr = parts.Length > 3 ? parts[3].Trim() : string.Empty;
 
+							bool isFolder = path.EndsWith('\\') || path.EndsWith('/');
+							if (!isFolder && int.TryParse(attrStr, out int attrVal))
+							{
+								isFolder = (attrVal & 16) != 0;
+							}
+
+							string cleanPath = isFolder ? path.TrimEnd('\\', '/') : path;
+							string fileName = Path.GetFileName(cleanPath);
+							if (string.IsNullOrEmpty(fileName))
+								fileName = cleanPath;
+
+							long size = 0;
+							if (!isFolder && long.TryParse(sizeStr, out long parsedSize))
+								size = parsedSize;
+
+							DateTime? dateModified = null;
+							if (DateTime.TryParse(dateStr, out var parsedDate))
+								dateModified = parsedDate;
+
+							string ext = isFolder ? string.Empty : Path.GetExtension(fileName);
 							var item = new ListedItem(null!)
 							{
-								ItemPath = path,
+								ItemPath = cleanPath,
 								ItemNameRaw = fileName,
-								PrimaryItemAttribute = isFolder ? StorageItemTypes.Folder : StorageItemTypes.File
+								PrimaryItemAttribute = isFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+								FileSizeBytes = size,
+								FileSize = isFolder ? string.Empty : size.ToSizeString(),
+								ItemDateModifiedReal = dateModified ?? DateTime.Now,
+								ItemDateCreatedReal = dateModified ?? DateTime.Now,
+								FileExtension = ext,
+								ItemType = isFolder ? "Folder" : (string.IsNullOrEmpty(ext) ? "File" : $"{ext.TrimStart('.').ToUpperInvariant()} File"),
+								ItemPropertiesInitialized = true,
+								LoadFileIcon = false
 							};
 
 							results.Add(item);
+							count++;
+
+							if (request.OnBatchReceived is not null && (count == 10 || count == 25 || count % 50 == 0))
+							{
+								request.OnBatchReceived(results.ToList());
+							}
 						}
+
+						await process.WaitForExitAsync(cancellationToken);
+
+						if (count >= maxResults && request.OnTruncated is not null)
+						{
+							request.OnTruncated(maxResults);
+						}
+
+						request.OnBatchReceived?.Invoke(results.ToList());
+
 						return;
 					}
 				}
@@ -140,16 +250,7 @@ namespace Files.App.Services.Search
 				}
 				catch (Exception ex)
 				{
-					_logger?.LogWarning(ex, "Everything CLI search failed for query {Query}", request.Query);
-				}
-				finally
-				{
-					try
-					{
-						if (File.Exists(tempOutputFile))
-							File.Delete(tempOutputFile);
-					}
-					catch { }
+					_logger?.LogWarning(ex, "Everything CLI streaming search failed for query {Query}", request.Query);
 				}
 			}
 

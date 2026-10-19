@@ -309,7 +309,7 @@ namespace Files.App.Services.Settings
 
 		public DetailsViewSizeKind DetailsViewSize
 		{
-			get => Get(DetailsViewSizeKind.Small);
+			get => Get(DetailsViewSizeKind.Compact);
 			set => Set(value);
 		}
 

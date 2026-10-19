@@ -18,33 +18,35 @@ namespace Files.App.Services.Search
 		public SearchProviderFactory(IEnumerable<ISearchProvider> providers, IUserSettingsService? userSettingsService = null)
 		{
 			_providers = providers.ToDictionary(p => p.Id, p => p, StringComparer.OrdinalIgnoreCase);
-			_defaultProvider = _providers.TryGetValue("index", out var indexProvider)
-				? indexProvider
-				: _providers.TryGetValue("native", out var native)
-					? native
-					: _providers.Values.FirstOrDefault() ?? new NativeFilesSearchProvider();
+			_defaultProvider = _providers.TryGetValue("native", out var native)
+				? native
+				: new NativeFilesSearchProvider();
 			_userSettingsService = userSettingsService;
 		}
 
 		public ISearchProvider GetCurrentProvider()
 		{
-			if (_providers.TryGetValue("index", out var indexProvider) && indexProvider.IsAvailable)
-				return indexProvider;
-
 			if (_userSettingsService?.FoldersSettingsService is { } foldersSettings)
 			{
-				var preferredKind = foldersSettings.SearchEnginePreference;
-				var providerId = preferredKind switch
+				if (foldersSettings.SearchEnginePreference == SearchEngineKind.AgentRansack &&
+				    _providers.TryGetValue("agentransack", out var arProvider) && arProvider.IsAvailable)
 				{
-					SearchEngineKind.AgentRansack => "agentransack",
-					SearchEngineKind.Everything => "everything",
-					_ => "native"
-				};
+					return arProvider;
+				}
 
-				if (_providers.TryGetValue(providerId, out var provider) && provider.IsAvailable)
-					return provider;
+				if (foldersSettings.SearchEnginePreference == SearchEngineKind.Native)
+				{
+					return _defaultProvider;
+				}
+
+				if (foldersSettings.SearchEnginePreference == SearchEngineKind.Everything &&
+				    _providers.TryGetValue("everything", out var everythingProvider) && everythingProvider.IsAvailable)
+				{
+					return everythingProvider;
+				}
 			}
 
+			// Padrão primário: motor nativo ultrarrápido autônomo
 			return _defaultProvider;
 		}
 

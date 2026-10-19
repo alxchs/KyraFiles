@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "Files Custom"
-#define MyAppVersion "4.2.37"
+#define MyAppVersion "4.3.0"
 #define MyAppPublisher "Files Custom"
 #define MyAppExeName "Files.exe"
 #define MyHotkeyExeName "Files.HotkeyService.exe"
@@ -41,14 +41,15 @@ Name: "replacewine"; Description: "Redirecionar abertura de pastas do Explorer p
 ; Layout completo do pacote AppX (necessário para o .NET 10 host e WinUI 3 funcionarem sem quebra de hostpolicy.dll)
 Source: "{#SourceAppX}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.locked.*,*.pdb"
 
-; Binários auxiliares do subsistema F017
+; Binários auxiliares do subsistema F017 e busca Everything
 Source: "{#SourceBin}\Files.HotkeyService.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceBin}\Files.Watchdog.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\alxch\bin\es.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package_manifest.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
 
 [Registry]
 ; Inicialização do Watchdog com o Windows (padrão marcado na instalação)
@@ -61,7 +62,7 @@ Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: str
 [Run]
 ; Inicia o Watchdog silenciosamente no término da instalação se solicitado
 Filename: "{app}\{#MyWatchdogExeName}"; Description: "Iniciar interceptador de atalho"; Flags: nowait runhidden; Tasks: startupwatchdog
-Filename: "{app}\{#MyAppExeName}"; Description: "Abrir o {#MyAppName}"; Flags: nowait postinstall skipifsilent
+Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; Description: "Abrir o {#MyAppName}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 ; Garante remoção de 100% da pasta isolada na desinstalação (FR-007, AC-7)
@@ -84,8 +85,8 @@ var
 begin
   if CurStep = ssPostInstall then
   begin
-    // Registra a identidade de pacote AppX com o Windows para ativar WinUI 3, alias files-dev.exe e protocolo files-dev:
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    // Remove registro prévio se existir de outro caminho e registra a nova identidade de pacote AppX com o Windows
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "$p = Get-AppxPackage FilesDev -ErrorAction SilentlyContinue; if ($p) { Remove-AppxPackage $p.PackageFullName -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   end;
 end;
 

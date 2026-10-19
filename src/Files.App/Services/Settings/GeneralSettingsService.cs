@@ -85,7 +85,7 @@ namespace Files.App.Services.Settings
 
 		public DateTimeFormats DateTimeFormat
 		{
-			get => Get(DateTimeFormats.Application);
+			get => Get(DateTimeFormats.System);
 			set => Set(value);
 		}
 

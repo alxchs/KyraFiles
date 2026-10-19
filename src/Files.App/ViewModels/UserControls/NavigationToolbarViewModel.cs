@@ -1291,7 +1291,7 @@ namespace Files.App.ViewModels.UserControls
 					var results = new List<ListedItem>();
 					var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
 					var provider = searchProviderFactory?.GetCurrentProvider();
-					if (provider is not null && provider.Id != "native")
+					if (provider is not null)
 					{
 						var request = new SearchRequest
 						{

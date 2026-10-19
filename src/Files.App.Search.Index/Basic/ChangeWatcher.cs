@@ -14,7 +14,8 @@ namespace Files.App.Search.Index.Basic;
 /// </summary>
 public sealed class ChangeWatcher : IDisposable
 {
-	private const int DefaultBufferSize = 64 * 1024;
+	// 512 KB em volume local (o limite de 64 KB do ReadDirectoryChangesW vale só para rede): menos estouros num C: movimentado (T17c)
+	private const int DefaultBufferSize = 512 * 1024;
 
 	private const uint NotifyFilter =
 		NativeMethods.FILE_NOTIFY_CHANGE_FILE_NAME |
@@ -30,6 +31,7 @@ public sealed class ChangeWatcher : IDisposable
 	private readonly int _bufferSize;
 	private readonly CancellationTokenSource _cts = new();
 	private readonly ManualResetEventSlim _readyEvent = new(false);
+	private readonly VolumeReconciler? _reconciler;
 
 	private SafeFileHandle? _directoryHandle;
 	private Thread? _workerThread;
@@ -44,10 +46,12 @@ public sealed class ChangeWatcher : IDisposable
 		VolumeIndex index,
 		string? subtreePath = null,
 		int subtreeDirectoryIndex = VolumeIndex.RootParentIndex,
-		int bufferSize = DefaultBufferSize)
+		int bufferSize = DefaultBufferSize,
+		VolumeReconciler? reconciler = null)
 	{
 		ArgumentNullException.ThrowIfNull(index);
 		_index = index;
+		_reconciler = reconciler;
 		_watchedPath = string.IsNullOrWhiteSpace(subtreePath) ? index.VolumeRoot : subtreePath;
 		_watchedDirIndex = subtreeDirectoryIndex;
 		_bufferSize = Math.Max(4096, bufferSize);
@@ -91,6 +95,22 @@ public sealed class ChangeWatcher : IDisposable
 		int targetDir = affectedSubtreeIndex ?? _watchedDirIndex;
 		Interlocked.Increment(ref _overflowReconcileCount);
 		return Reconciler.ReconcileSubtree(_index, targetDir, _cts.Token);
+	}
+
+	/// <summary>
+	/// Eventos perdidos: com reconciliador, só pede a reconferência por data (sem bloquear o watcher, que volta a ler
+	/// as mudanças na hora); sem ele (uso avulso e testes), reconfere a subárvore na própria thread.
+	/// </summary>
+	private void OnOverflow()
+	{
+		if (_reconciler is null)
+		{
+			HandleBufferOverflow(_watchedDirIndex);
+			return;
+		}
+
+		Interlocked.Increment(ref _overflowReconcileCount);
+		_reconciler.Request();
 	}
 
 	private unsafe void WatchLoop()
@@ -150,7 +170,7 @@ public sealed class ChangeWatcher : IDisposable
 
 						if (err == NativeMethods.ERROR_NOTIFY_ENUM_DIR)
 						{
-							HandleBufferOverflow(_watchedDirIndex);
+							OnOverflow();
 							continue;
 						}
 
@@ -161,8 +181,8 @@ public sealed class ChangeWatcher : IDisposable
 
 				if (bytesReturned == 0)
 				{
-					// Estouro de buffer reportado pelo Windows (bytesReturned == 0): reconfere a subárvore
-					HandleBufferOverflow(_watchedDirIndex);
+					// Estouro de buffer reportado pelo Windows (bytesReturned == 0)
+					OnOverflow();
 					continue;
 				}
 
@@ -369,7 +389,7 @@ public sealed class ChangeWatcher : IDisposable
 
 		try
 		{
-			return DateTimeOffset.FromFileTime(fileTime);
+			return new DateTimeOffset(DateTime.FromFileTimeUtc(fileTime), TimeSpan.Zero);
 		}
 		catch
 		{

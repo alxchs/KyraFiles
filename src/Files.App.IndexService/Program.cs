@@ -46,11 +46,11 @@ internal static class Program
 		}
 
 		using var server = new IndexPipeServer(effectivePipe, mode, cacheDir);
-		server.Start();
 
 		if (customRoots.Count > 0)
 		{
-			// Modo direcionado (ex.: testes de integração ou escopo específico)
+			// Modo direcionado (ex.: testes de integração ou escopo específico). As pastas são registradas antes
+			// de abrir o pipe: quem recebe o primeiro "ping" já encontra os volumes no "status".
 			foreach (string root in customRoots)
 			{
 				if (Directory.Exists(root))
@@ -64,6 +64,8 @@ internal static class Program
 		{
 			server.StartVolumeIndexingInBackground();
 		}
+
+		server.Start();
 
 		try
 		{

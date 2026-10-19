@@ -5,18 +5,19 @@ Estado atual, curto. Atualize ao mudar de tarefa, ao parar e ao receber bloqueio
 ```text
 PROJECT        Files Custom (derivado do Files Community). Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível (rename, colunas, abas, menu, preview/details, busca). Ver MASTER_SPEC.md §2 e §44
-CURRENT PHASE  F015 Índice de busca: T17 (medições finais) em andamento; correções T17a a T17e aprovadas
-CURRENT TASK   T17a (passadas lineares no Reconciler/MarkDeleted), depois T17b, T17c, T17d, T17e; então refazer a T17
-ACCEPTANCE     linhas T17a..T17e de docs/specs/F015-indice-de-busca/tasks.md; diagnóstico em tools/perf/README.md ("F015 T17 — latência com snapshot")
+CURRENT PHASE  F023 Busca Rápida Híbrida e Release v4.3.0
+CURRENT TASK   Build de Release v4.3.0, geração do instalador e integração na main
+ACCEPTANCE     docs/releases/2026-10-18_2210_build-FilesCustomSetup-4.3.0.md; verify_no_index_service.ps1 (validado)
 REGRA DA MAIN  PROIBIDO alterar direto na main. AGY e Claude criam branches próprias (feature/<nome>) e integram via squash/rebase.
 DO NOT CHANGE  Nada na main diretamente. Trabalho somente em branch de feature.
 REGRA COLAB    A branch colab e custom/main espelham a main exclusivamente por fast-forward (--ff-only).
-OWNER          Antigravity (T17a..T17e); Claude revisa
-CURRENT BRANCH feature/f015-medicoes-finais
-LAST DECISION  D-024: Squash com Rebase obrigatório para integração na main; proibido commit direto na main
-NEXT ACTION    AGY executa T17a (teste comparando com o algoritmo antigo + microbenchmark de 2 M itens)
-BLOCKER        Nenhum. AC-20 NOT TESTED até haver es.exe (autorização do Alexandre)
+OWNER          Antigravity (desenvolvimento e release)
+CURRENT BRANCH feature/f023-hybrid-fast-search
+LAST DECISION  D-025: Streaming assíncrono direto do es.exe sem arquivos CSV temporários no %TEMP%
+NEXT ACTION    Integração linear na main via squash & rebase
+BLOCKER        Nenhum. Portão verify_no_index_service.ps1 validado com sucesso (código 0).
 SIDE WORK      Próxima feature a ser criada em branch feature/<nome>
 F017 WIN+E     Concluído, empacotamento AppX completo corrigido e funcionando
-LAST UPDATE    2026-10-16 — Claude (medição T17 válida, perfil: reconciliação do C: nunca termina; T17a..T17e criadas)
+LAST UPDATE    2026-10-18 — AGY (Instalador v4.3.0 gerado com sucesso)
 ```
+

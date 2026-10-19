@@ -1043,6 +1043,18 @@ namespace Files.App.Views.Layouts
 				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(item => new ShellItem(item.GetRequiredPath())).ToArray());
 				try
 				{
+					// Sempre disponibiliza StorageItems (CF_HDROP / FileDrop Win32 padrão) para garantir
+					// compatibilidade universal com qualquer aplicação Windows (Delphi VCL, IDEs, editores, navegadores, etc.)
+					var storageItemList = orderedItems
+						.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut))
+						.Select(x => VirtualStorageItem.FromListedItem(x))
+						.ToArray();
+
+					if (storageItemList.Length > 0)
+					{
+						e.Data.SetStorageItems(storageItemList, false);
+					}
+
 					if (shellItemList?[0].FileSystemPath is not null && !instanceViewModel.IsPageTypeSearchResults)
 					{
 						var dataObject = ShellDataObject.Create(shellItemList);
@@ -1051,12 +1063,6 @@ namespace Files.App.Views.Layouts
 							var stream = new MemoryStream(data).AsRandomAccessStream();
 							e.Data.SetData(ShellDataObject.ShellIdListArrayFormat, stream);
 						}
-					}
-					else
-					{
-						// Only support IStorageItem capable paths
-						var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x)).ToArray();
-						e.Data.SetStorageItems(storageItemList, false);
 					}
 				}
 				finally

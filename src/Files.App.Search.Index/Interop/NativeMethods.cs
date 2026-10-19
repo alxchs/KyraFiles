@@ -66,6 +66,8 @@ internal static partial class NativeMethods
 		public char FileName; // First wchar_t of variable-length FileName
 	}
 
+	public const int GetFileExInfoStandard = 0;
+
 	[LibraryImport("kernel32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 	public static partial uint QueryDosDeviceW(string lpDeviceName, Span<char> lpTargetPath, uint ucchMax);
 

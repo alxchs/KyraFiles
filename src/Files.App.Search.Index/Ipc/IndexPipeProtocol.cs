@@ -61,6 +61,12 @@ public sealed class VolumeStatusDto
 	public int ItemCount { get; set; }
 	public long LastIndexedUtcTicks { get; set; }
 	public string? StatusDetail { get; set; }
+
+	/// <summary>Estouros do watcher desde que o volume ficou pronto (T17c).</summary>
+	public int OverflowCount { get; set; }
+
+	/// <summary>Reconferência pedida ou em andamento (T17c).</summary>
+	public bool ReconcilePending { get; set; }
 }
 
 public sealed class SearchResultDto

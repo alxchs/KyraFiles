@@ -2507,15 +2507,21 @@ namespace Files.App.ViewModels
 				{
 					await Task.Run(async () =>
 					{
+						var hasFlushedInitialBatch = false;
 						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, GetPreloadIconSize(), intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 
-							// The stable sort lands new items in final position without reordering visible ones; capped for huge listings
-							if (filesAndFolders.Count <= 10_000)
-								await OrderFilesAndFoldersAsync();
+							// Only flush the initial batch directly to UI so the user sees immediate feedback.
+							// Subsequent intermediate chunks accumulate in memory to prevent thrashing the WinUI 3 visual tree with repetitive Reset cycles.
+							if (!hasFlushedInitialBatch)
+							{
+								hasFlushedInitialBatch = true;
+								if (filesAndFolders.Count <= 10_000)
+									await OrderFilesAndFoldersAsync();
 
-							await ApplyFilesAndFoldersChangesAsync();
+								await ApplyFilesAndFoldersChangesAsync();
+							}
 						});
 
 						filesAndFolders.AddRange(fileList);
@@ -3193,7 +3199,7 @@ namespace Files.App.ViewModels
 						await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
 					}
 
-					if (anyEdits && sampler.CheckNow())
+					if (anyEdits)
 						await HandleChangesOccurredAsync();
 				}
 			}

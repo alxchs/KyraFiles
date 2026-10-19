@@ -645,6 +645,62 @@ namespace Files.App.Views.Layouts
 					}
 				}
 			}
+			else if (e.Key == VirtualKey.Home)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var firstItem = items[0];
+					ItemManipulationModel.SetSelectedItem(firstItem);
+					ItemManipulationModel.ScrollIntoView(firstItem);
+					ItemManipulationModel.FocusSelectedItems();
+				}
+			}
+			else if (e.Key == VirtualKey.End)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var lastItem = items[items.Count - 1];
+					ItemManipulationModel.SetSelectedItem(lastItem);
+					ItemManipulationModel.ScrollIntoView(lastItem);
+					ItemManipulationModel.FocusSelectedItems();
+				}
+			}
+			else if (e.Key == VirtualKey.PageDown)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var currentItem = SelectedItems?.LastOrDefault() ?? items[0];
+					var currentIdx = items.IndexOf(currentItem);
+					const int pageSize = 25;
+					var targetIdx = Math.Min(items.Count - 1, (currentIdx < 0 ? 0 : currentIdx) + pageSize);
+					var targetItem = items[targetIdx];
+					ItemManipulationModel.SetSelectedItem(targetItem);
+					ItemManipulationModel.ScrollIntoView(targetItem);
+					ItemManipulationModel.FocusSelectedItems();
+				}
+			}
+			else if (e.Key == VirtualKey.PageUp)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var currentItem = SelectedItems?.FirstOrDefault() ?? items[0];
+					var currentIdx = items.IndexOf(currentItem);
+					const int pageSize = 25;
+					var targetIdx = Math.Max(0, (currentIdx < 0 ? 0 : currentIdx) - pageSize);
+					var targetItem = items[targetIdx];
+					ItemManipulationModel.SetSelectedItem(targetItem);
+					ItemManipulationModel.ScrollIntoView(targetItem);
+					ItemManipulationModel.FocusSelectedItems();
+				}
+			}
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]

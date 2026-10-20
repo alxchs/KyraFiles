@@ -39,7 +39,24 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 - Número de desempenho só com o comando que mediu; sem isso, "estimado, não medido".
 - Mudança sem conteúdo (só linha em branco no fim do arquivo) não entra em commit.
 
-## Notas para a tarefa atual (T17a a T17e: correções achadas pela medição da T17)
+### Como diagnosticar desempenho (lições da F024, 20/10/2026: leia antes de qualquer tarefa de perf)
+
+A F024 terminou com um veredito grande ("WinUI 3 é inviável") sustentado por pouca prova. O Claude revisou e reabriu o caso (D-023, brief F025). O que ela errou vira regra:
+
+1. **Sintoma do usuário é fato; causa é hipótese.** "Segurar `Down` congela" foi observado pelo Alexandre. "Foi o key repeat de 30 Hz saturando o Dispatcher" é palpite até haver trace. Escreva a causa como `INFERRED` e diga qual medição a confirmaria.
+2. **Sem baseline não há conclusão.** Antes de culpar o framework, meça o **upstream puro** (`git merge-base HEAD upstream/main`) na mesma pasta, mesma máquina, mesmos scripts. Culpar o WinUI 3 só vale se o upstream também sofre.
+3. **CPU de vida do processo não é CPU de uma ação.** `TotalProcessorTime` é acumulado desde o início do processo. Meça **a diferença** entre duas leituras, ao redor da ação. "1.068 s de CPU" sozinho não diz nada.
+4. **Nomeie a métrica de memória.** `WorkingSet64` e `PrivateMemorySize64` são coisas diferentes; escreva qual usou e o comando.
+5. **Um suspeito por vez, A/B antes de mudar código.** Troque uma coisa, rode o mesmo script, compare. Mudar três coisas e medir uma vez não prova nenhuma delas.
+6. **Trace antes de causa.** Para travamento de UI: grave 5 s com WPR/ETW ou `dotnet-trace` (cpu-sampling) e liste as 10 funções mais quentes por thread. Só isso autoriza escrever "causa raiz".
+7. **Nunca apague a prova.** Script de medição, saída e trace ficam no repositório (`tools/perf/`, `docs/agents/evidence/<feature>/`). Só o laboratório de arquivos de teste é descartável, e só depois da revisão. A F024 apagou os scripts e deixou números que ninguém consegue reproduzir.
+8. **Não redefina a meta para ela passar.** A FR-004 pedia CPU parado ≤ 2%; a T6 reclassificou o problema como "culpa do compositor do DWM". Se a meta não é alcançável, escreva `NOT MET` com o número e abra uma `PENDING DECISION`. Mudar a meta é do Alexandre.
+9. **Não decida o futuro do projeto.** "Encerrar/cancelar" e "diretriz para não insistir" são decisões do Alexandre. Seu trabalho termina em: número, comando, estado de evidência e, no máximo, uma proposta de próximo passo.
+10. **Atalho de teclado: preserve os modificadores.** Ao tratar `Home`/`End`/`PgUp`/`PgDn` na mão, `Shift` estende a seleção e `Ctrl` só move o foco. O handler da F024 ignorou os dois (regressão). Todo handler de tecla vem com teste dos modificadores.
+11. **Não remova proteção sem medir o efeito.** A F024 tirou `sampler.CheckNow()` do fluxo do watcher; isso baixa a latência de 5 arquivos mas piora o caso de muitas mudanças por segundo. Toda remoção de throttle exige o caso de carga alto no A/B.
+12. **Documento e commit têm de dizer a mesma coisa.** A F024 escreveu "executável preservado" e depois o desinstalou; o commit "expurgo do registro" só tinha linhas em branco. Antes de afirmar estado do ambiente, confira (`Test-Path`, `Get-Process`) e cite o comando.
+
+## (Encerrada) Notas da tarefa T17a a T17e (correções achadas pela medição da T17)
 
 1. Leia antes: `tools/perf/README.md`, seção "F015 T17 — latência com snapshot" (números, perfil e diagnóstico). As linhas T17a a T17e do `tasks.md` da F015 dizem o "pronto" de cada uma.
 2. **T17a e T17b primeiro, com teste que falha antes da correção.** Na T17b o teste tem de mostrar o arquivo de `A\B\` perdido no código atual.
@@ -47,3 +64,13 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 4. Na T17c, o reconciliador da abertura e o do estouro são **o mesmo** por volume (não dois `Task.Run` concorrendo pelo lock).
 5. Medição de aceite: `pwsh -File tools\perf\f015_latency.ps1` e `pwsh -File tools\perf\f015_trace_reconcile.ps1`, a saída colada no commit. O serviço tem de ser recompilado em Release (`mkfile r` na solução) antes, senão o script roda o binário velho do `AppX`.
 6. A T17e **não muda código**: só mede e propõe.
+
+## Notas para a tarefa atual (F025: baseline do upstream e trace, só medição)
+
+1. Leia, nesta ordem: `docs/agents/tasks/F025-baseline-upstream-e-trace.md` (o brief com os passos P1 a P6), `DECISIONS.md` D-023, a seção "Como diagnosticar desempenho" acima e `tools/perf/README.md`.
+2. **Você não altera `src/`.** Se achar um bug, registre como `DISCOVERY` no relatório.
+3. Os scripts da F024 estão no git: `git show ecb9c6d29:tools/perf/<nome>`. Restaure com prefixo `f025_` e parâmetro `-Exe`.
+4. Dois builds do app empacotado não convivem registrados ao mesmo tempo: meça um, desregistre, meça o outro e anote a ordem.
+5. Worktree do upstream fica ao lado do repositório (`..\FilesApp-upstream-base`), não em `%TEMP%`.
+6. Relatório em `docs/agents/evidence/F025/relatorio.md`, cada afirmação com estado de evidência e comando. A palavra "inviável" não aparece sem número e trace.
+7. Ao terminar: handoff, `AGENT_CONTEXT.md` atualizado e o Claude revisa antes de qualquer limpeza.

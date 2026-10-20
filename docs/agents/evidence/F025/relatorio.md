@@ -28,3 +28,28 @@ Escopo medido até aqui: **tecla segurada** (`Down` e `End`, 5 s) na pasta de 1.
 - Gravar **trace** (WPR/dotnet-trace) do nosso build com tecla segurada, para ver onde vão 7 s de CPU.
 - Repetir na **pasta real** em que o Alexandre sente a lentidão (qual é? tamanho, tipos, miniaturas?).
 - Caçar a diferença de ~250 MB de memória privada por bisseção das features F015 a F023.
+
+---
+
+## Adendo 1 (20/10/2026 15:05) — o Alexandre reproduz o problema real; medição refeita com a fila de teclas
+
+Relato do Alexandre: o congelamento acontece na pasta de laboratório criada pelo Claude (`C:\FilesUXLab\perf\1600`) **e** em `D:\DriveD\Downloads` (1.577 itens: 611 `.pdf`, 215 `.png`, 172 `.jpg`, 10 pastas); **outras aplicações aguentam a tecla segurada**. Isso derruba a hipótese de que a pasta de laboratório "não é representativa": ela já trava para ele.
+
+A primeira medição (acima) via só latência de UI e CPU e **não via a fila de teclas**. O script ganhou duas coisas (`f025_hold_key.ps1`, saída em `hold_key2.csv`): (a) o item focado ao final (UI Automation) e (b) o tempo de escoamento depois de soltar. `f025_thr_hold.ps1` mede CPU por thread só na janela da tecla.
+
+Item final alcançado em 5 s com ~152 teclas enviadas a ~30 Hz (índice estimado: lista ordenada por nome, `backup_*` primeiro; **INFERRED** pela ordem de classificação, não lido da UI):
+
+| Build | Rodadas (linha alcançada) | CPU por 5 s |
+|---|---|---|
+| Nosso 4.3.1 (`hold_key2.csv`, C1/T/D1) | 43, 36, 52, 59, 79 | 11,7 a 14,7 s |
+| Upstream puro (C2/D2b) | 60, 80, 86, 60, 69 | 9,9 a 13,4 s |
+
+- **OBSERVED:** nos **dois** builds o app processa só ~10 a 17 linhas/s das ~30 que o teclado manda; o resto é descartado ou coalescido. O escoamento depois de soltar é ≈ 0 (nenhuma linha anda depois de soltar), então o app não acumula fila: ele **perde** teclas enquanto está saturado.
+- **OBSERVED (CPU por thread, janela de 5,1 s):** nosso build: thread de UI 3.797 ms (**74% de um núcleo**), outra thread 2.297 ms (provável compositor/render), total 8.327 ms. Upstream: UI 2.250 e 3.219 ms (44% e 63%), outra thread 2.2 a 2.7 s, total 5,5 a 7,1 s. O thread de UI é o gargalo nos dois; **no nosso build ele trabalha mais** (uma amostra só; **INFERRED**, pouca amostra).
+- **INFERRED, não confirmado:** nosso build alcança menos linhas em média (mediana 52 contra 69) com mais CPU de UI. A variação entre rodadas é grande (36 a 79 no nosso) e **não permite afirmar** que somos mais lentos que o upstream; falta mais amostra.
+- **NOT TESTED:** como o upstream se comporta para o Alexandre (a pergunta "o Files original também trava para você?" está aberta); o `Downloads` real (só li a lista de arquivos, não rodei a tecla lá).
+- **Trace gerenciado** (`trace_atual_down.nettrace`, `dotnet-sampled-thread-time`, 15 MB): é tempo de relógio com threads em espera, dominado por `Task.InternalWaitCore` (bloqueio síncrono em thread do pool), `Directory.Exists`, `NamedPipeClientStream` (conexão de pipe), `WatchForDirectoryChanges`, `TryEnqueue`. **Não identifica** o custo do thread de UI, que é majoritariamente nativo (layout/render do WinUI). Para isso falta um trace nativo (WPR precisa de administrador).
+
+### Leitura revisada
+- A tese "o upstream tem o mesmo custo de CPU" **se sustenta**, mas ela **não** diz que é inviável: o base também só processa ~15 linhas/s nesta máquina com 1.600 itens. Quem decide se isso é aceitável é o Alexandre, comparando com o Files original que ele conhece.
+- A saída tecnicamente viável não é "trocar o framework": é **reduzir o trabalho por mudança de seleção** (o thread de UI gasta ~250 a 300 ms de CPU por linha) e/ou **coalescer as repetições de tecla** (processar só a última por quadro). Isso é hipótese a testar por A/B, não correção pronta.

@@ -9,11 +9,11 @@ param(
     [string]$Folder = 'C:\FilesUXLab\perf\1600',
     [int]$HoldS = 5,
     [int]$Runs = 3,
-    [string]$Out = "$PSScriptRoot\..\..\docs\agents\evidence\F025\hold_key.csv"
+    [string]$Out = "$PSScriptRoot\..\..\docs\agents\evidence\F025\hold_key2.csv"
 )
 $ErrorActionPreference = 'Stop'
 [Threading.Thread]::CurrentThread.CurrentCulture = [Globalization.CultureInfo]::InvariantCulture
-Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Forms, UIAutomationClient, UIAutomationTypes
 Add-Type @"
 using System; using System.Runtime.InteropServices;
 public class F025Win {
@@ -36,7 +36,7 @@ function Ping-Ui { $sw = [Diagnostics.Stopwatch]::StartNew(); $r = [IntPtr]::Zer
   if ($ok -eq [IntPtr]::Zero) { return 5000 } else { return $sw.Elapsed.TotalMilliseconds } }
 
 New-Item -ItemType Directory -Force (Split-Path $Out) | Out-Null
-if (-not (Test-Path $Out)) { 'label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,date' | Set-Content $Out }
+if (-not (Test-Path $Out)) { 'label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,presses,backlog_steps_after_release,drain_ms,final_item,date' | Set-Content $Out }
 for ($run = 1; $run -le $Runs; $run++) {
     [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 300
     # volta ao inicio da lista
@@ -51,10 +51,18 @@ for ($run = 1; $run -le $Runs; $run++) {
     }
     [F025Win]::keybd_event($vk, 0, 2, [UIntPtr]::Zero)
     $rec = [Diagnostics.Stopwatch]::StartNew()
+    # fila de teclas: depois de soltar, quantos itens a selecao ainda anda e por quanto tempo (o "congelamento" sentido)
+    function Get-Focus { try { [Windows.Automation.AutomationElement]::FocusedElement.Current.Name } catch { '?' } }
+    $prev = Get-Focus; $steps = 0; $lastChange = 0; $drain = [Diagnostics.Stopwatch]::StartNew()
+    while ($drain.Elapsed.TotalSeconds -lt 40 -and (($drain.ElapsedMilliseconds - $lastChange) -lt 2000)) {
+        Start-Sleep -Milliseconds 100; $cur = Get-Focus
+        if ($cur -ne $prev) { $steps++; $prev = $cur; $lastChange = $drain.ElapsedMilliseconds }
+    }
+    $final = $prev
     while ((Ping-Ui) -gt 100 -and $rec.Elapsed.TotalSeconds -lt 60) { Start-Sleep -Milliseconds 100 }
     $p.Refresh(); $cpu = ($p.TotalProcessorTime - $cpu0).TotalMilliseconds
-    $s = $lat | Sort-Object; $med = $s[[int]($s.Count / 2)]; $max = $s[-1]
-    $row = '{0},{1},{2},{3},{4:F0},{5:F0},{6:F0},{7:F0},{8:F0},{9},{10:F0},{11}' -f $Label, $Key, $run, $HoldS, $cpu, ($p.WorkingSet64/1MB), ($p.PrivateMemorySize64/1MB), $med, $max, $lat.Count, $rec.ElapsedMilliseconds, (Get-Date -Format s)
+    $presses = [int]($HoldS * 1000 / 33); $s = $lat | Sort-Object; $med = $s[[int]($s.Count / 2)]; $max = $s[-1]
+    $row = '{0},{1},{2},{3},{4:F0},{5:F0},{6:F0},{7:F0},{8:F0},{9},{10:F0},{11},{12},{13},{14},{15}' -f $Label, $Key, $run, $HoldS, $cpu, ($p.WorkingSet64/1MB), ($p.PrivateMemorySize64/1MB), $med, $max, $lat.Count, $rec.ElapsedMilliseconds, $presses, $steps, $lastChange, ($final -replace ",",";"), (Get-Date -Format s)
     Add-Content $Out $row; Write-Host $row
     Start-Sleep -Seconds 3
 }

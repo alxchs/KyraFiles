@@ -1,0 +1,12 @@
+label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,presses,backlog_steps_after_release,drain_ms,final_item,date
+C1-atual-lab,Down,1,5,14062,380,637,27,194,28,2808,152,0,0,backup_0381.exe; Folder,2026-10-20T14:55:48
+C1-atual-lab,Down,2,5,12312,476,645,42,1317,21,2486,152,0,0,backup_0318.ini; Folder,2026-10-20T14:56:00
+C1-atual-lab,Down,3,5,11688,482,645,37,108,30,2594,152,0,0,backup_0462.ini; Folder,2026-10-20T14:56:12
+C2-upstream-lab,Down,1,5,13422,511,382,22,194,30,2406,152,0,0,backup_0534.jpg; Folder,2026-10-20T14:57:24
+C2-upstream-lab,Down,2,5,11344,520,392,10,94,35,2176,152,0,0,backup_0714.log; Folder,2026-10-20T14:57:35
+C2-upstream-lab,Down,3,5,9891,526,400,17,50,34,2087,152,0,0,backup_0768.txt; Folder,2026-10-20T14:57:47
+T-atual-trace,Down,1,5,14734,536,407,20,312,29,2337,152,0,0,backup_0525.exe; Folder,2026-10-20T14:59:11
+D1-atual,Down,1,5,12609,535,410,13,328,33,2314,152,0,0,backup_0705.cs; Folder,2026-10-20T15:00:47
+D2-upstream,Down,1,5,3188,500,366,0,9,36,2337,152,0,0,OK,2026-10-20T15:01:51
+D2b1-upstream,Down,1,5,13391,531,401,10,213,32,2271,152,0,0,backup_0534.jpg; Folder,2026-10-20T15:03:12
+D2b2-upstream,Down,1,5,11203,537,414,19,446,29,2180,152,0,0,backup_0615.pdf; Folder,2026-10-20T15:03:36

@@ -1,8 +1,8 @@
 ﻿{
-  "Version": "4.3.0",
-  "GeneratedAtUtc": "2026-10-19T23:41:54.4728351Z",
-  "TotalFiles": 1334,
-  "TotalBytes": 222558290,
+  "Version": "4.3.1",
+  "GeneratedAtUtc": "2026-10-20T16:17:31.6180845Z",
+  "TotalFiles": 1328,
+  "TotalBytes": 221378410,
   "Files": [
     {
       "Path": "7z64.dll",
@@ -13,7 +13,7 @@
     {
       "Path": "AppxManifest.xml",
       "Length": 18201,
-      "SHA256": "F0077999A010EE5178C42DE66D6D07CFED60809156B4B159591E54FFF3CCC5B7",
+      "SHA256": "1406B811C03429479F7E30CEDF23F15E17B8D2DCC7EDB761ECB01F7694EBD8DE",
       "IsDependency": false
     },
     {
@@ -275,27 +275,21 @@
       "IsDependency": true
     },
     {
-      "Path": "es.exe",
-      "Length": 262312,
-      "SHA256": "F7378761CF6E01F51C4123A485E628D70E3FEA147D341F473CE2820844E5CEE5",
-      "IsDependency": false
-    },
-    {
       "Path": "Files.App.BackgroundTasks.dll",
       "Length": 14336,
-      "SHA256": "DDDAB044AFA492FB4CF5716778E3EB3849FA358752053C21A618CD8DFABF38A0",
+      "SHA256": "075FC1A1B7DEC21D8667728754DF5EDCEEB49145637A133D5D6333CA282A0BD1",
       "IsDependency": true
     },
     {
       "Path": "Files.App.BackgroundTasks.winmd",
       "Length": 2560,
-      "SHA256": "7C202A7248D018EC731B22C5FD5005493B0D0118157AF931C3640DB0ED6B6A14",
+      "SHA256": "2CFBA502D886A53400ED3FB09AC87FACBD0D05F102C445B8601B8BD0E8247B60",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Controls.dll",
       "Length": 375808,
-      "SHA256": "FE11258F4A9C798ED6E1D8A7D214F9C7636D4DF79779055645EB19D272AC2660",
+      "SHA256": "2F0BA3B1703074B1FFB56074B3FEBC6C9B5D09E54C4D83A51D380436CDF9CF2A",
       "IsDependency": true
     },
     {
@@ -307,31 +301,31 @@
     {
       "Path": "Files.App.CsWin32.dll",
       "Length": 1543168,
-      "SHA256": "F7684C1F5983D531494776EEEB91BB0BA1F33FF63C054D3C247476F169430EF8",
+      "SHA256": "C340A4B3CA00C529F3BA5AD21360BBCF59BBF685F068BAB47D74EA4A333519B9",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Search.Index.dll",
       "Length": 186880,
-      "SHA256": "142A5D4ABBCD892B8014A35C08D1A734CFCC82662BC66B98866C30CA1439678B",
+      "SHA256": "47B998430463388B43FABCE8A6A1E7B375E0ADE2D03A33A7E300FF367FDCBE8F",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server.winmd",
       "Length": 2560,
-      "SHA256": "15273B6F27CD6A91E8541B28A79D48D06399E61097039F49D5B1738357857435",
+      "SHA256": "1B511B3C322508ED3BAD1E34BE91A56275D0F893E4DC7F89A07CAFA0368E7C12",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Storage.dll",
       "Length": 84992,
-      "SHA256": "B2A2CD30DEC91D8027CA258B3FFD07228A25AC69F65E581FB6BF0CBF93A0F223",
+      "SHA256": "D9A9ABB958759EB40DB7426BEC3F1D2622A8F92D1A31CDDAD92A4CD84E64C273",
       "IsDependency": true
     },
     {
       "Path": "Files.Core.Storage.dll",
       "Length": 17920,
-      "SHA256": "8AB851DD3453D48F359923DFBCA47D728456E9ED7FA96982C096B2AF73DBAB4D",
+      "SHA256": "95CC97EB27FEC243AADB0127AF0B8AE53F43E12E4B75EC9DFA3B6C20A2DE0181",
       "IsDependency": true
     },
     {
@@ -343,13 +337,13 @@
     {
       "Path": "Files.dll",
       "Length": 6386688,
-      "SHA256": "89378AF0FC59CFD5028D90235CCF266C6D80BC51279B81558A23111316C06A99",
+      "SHA256": "62D7D6C5F757EE23C18ACCC94607E9CFEBA9CAB582389D5D9A686F3F582505F7",
       "IsDependency": false
     },
     {
       "Path": "Files.exe",
       "Length": 587776,
-      "SHA256": "CA7BA5C115FBC595901DCCE1B5B0917939081625A8FC0D9FA6EDD4D7F360CEB6",
+      "SHA256": "5E4DE80B17B1B6EAEC4159AA6A91BF9CADAFBE17D82D06231F42166AB6F6813D",
       "IsDependency": false
     },
     {
@@ -361,7 +355,7 @@
     {
       "Path": "Files.Shared.dll",
       "Length": 68096,
-      "SHA256": "09E767F01A549094977E08EDA3ADFDE4CD490768B40D17F2298FA11608E118AA",
+      "SHA256": "883A86E295EF4CEC942725459D699291AAD3EBB91D3DFCF81BA5FB2BC59A34DC",
       "IsDependency": true
     },
     {
@@ -756,8 +750,8 @@
     },
     {
       "Path": "resources.pri",
-      "Length": 4299032,
-      "SHA256": "5E32FDC6EA42AABFC229C5A9658195AACCD6F92F1A0C953EE610DF5A6A56B6D3",
+      "Length": 4298456,
+      "SHA256": "31F9A24E0726B645B96B44240820B2DF09627DEB7265299832BC170CE2F6D4AF",
       "IsDependency": true
     },
     {
@@ -6407,36 +6401,6 @@
       "IsDependency": false
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\Files.App.Launcher.exe",
-      "Length": 328192,
-      "SHA256": "DA842902D49ED581E4B570413C17B95436CC72BF7ADA1E7D60377B16AC24FD77",
-      "IsDependency": false
-    },
-    {
-      "Path": "Assets\\FilesOpenDialog\\Files.App.OpenDialog32.dll",
-      "Length": 112640,
-      "SHA256": "5CAA5D86DCEEEB26E78655D2455FE28218DF668A8F602772F1B2E07900E3D519",
-      "IsDependency": true
-    },
-    {
-      "Path": "Assets\\FilesOpenDialog\\Files.App.OpenDialog64.dll",
-      "Length": 132608,
-      "SHA256": "DE4F1274C9922AB3989F247B969BFADEC7BE718C1CB3BAF01EC27C4274C4FF67",
-      "IsDependency": true
-    },
-    {
-      "Path": "Assets\\FilesOpenDialog\\Files.App.SaveDialog32.dll",
-      "Length": 161280,
-      "SHA256": "8D330E7F942835C77A4F852B6A04D102AC3F92CDFC14E79D9F33D8F14460026B",
-      "IsDependency": true
-    },
-    {
-      "Path": "Assets\\FilesOpenDialog\\Files.App.SaveDialog64.dll",
-      "Length": 182272,
-      "SHA256": "938461C8D2F61D3F20919025F5EB89E52C9FA118368D5ED9CCF1696DE0A3E58E",
-      "IsDependency": true
-    },
-    {
       "Path": "Assets\\FilesOpenDialog\\SetFilesAsDefault.reg",
       "Length": 3982,
       "SHA256": "05D26D4AE8C98DA95E18E68816C29DDEBC236D3A7B72076824AB5BD72470145F",
@@ -7861,13 +7825,13 @@
     {
       "Path": "Files.App.IndexService\\Files.App.IndexService.dll",
       "Length": 8192,
-      "SHA256": "1394B233639932A97340CF1053C66570F0C495A8B33AA32BAAA530E7209490A6",
+      "SHA256": "F54ECBF5D34AFA222BF2A3D5A25D0C42DE343AE48DD5229032938A52700829D2",
       "IsDependency": true
     },
     {
       "Path": "Files.App.IndexService\\Files.App.IndexService.exe",
       "Length": 162816,
-      "SHA256": "4500F4620C89A136BE6B2ED80F2BC312845335F2E99D98348FB3E7B64A9C6185",
+      "SHA256": "60126DE08F784E7E642E5CB3D3B397F8F51BEAED3F2C94A58BAA0296B150245D",
       "IsDependency": false
     },
     {
@@ -7879,7 +7843,7 @@
     {
       "Path": "Files.App.IndexService\\Files.App.Search.Index.dll",
       "Length": 186880,
-      "SHA256": "142A5D4ABBCD892B8014A35C08D1A734CFCC82662BC66B98866C30CA1439678B",
+      "SHA256": "47B998430463388B43FABCE8A6A1E7B375E0ADE2D03A33A7E300FF367FDCBE8F",
       "IsDependency": true
     },
     {
@@ -7897,7 +7861,7 @@
     {
       "Path": "Files.App.Server\\Files.App.CsWin32.dll",
       "Length": 1543168,
-      "SHA256": "F7684C1F5983D531494776EEEB91BB0BA1F33FF63C054D3C247476F169430EF8",
+      "SHA256": "C340A4B3CA00C529F3BA5AD21360BBCF59BBF685F068BAB47D74EA4A333519B9",
       "IsDependency": true
     },
     {
@@ -7909,25 +7873,25 @@
     {
       "Path": "Files.App.Server\\Files.App.Server.dll",
       "Length": 17920,
-      "SHA256": "42D21157EDC7954946A2B452331CACB025FC2698E20AD39BD7010E7998C000AE",
+      "SHA256": "C1FB98AEBCA6C282D41BF01E579C9E2DCAE6186831CFA56CB21DC394633B1740",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server\\Files.App.Server.exe",
       "Length": 162816,
-      "SHA256": "C53134DE4224BE96E6162BC47994F2B3B5212C66611AD96B83A9BAE88824EC5B",
+      "SHA256": "9FE4381660D1E61D6B8C820260ED23E8E1565D8FFC83FBD04FB15AFE837FF324",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Server\\Files.App.Server.winmd",
       "Length": 2560,
-      "SHA256": "15273B6F27CD6A91E8541B28A79D48D06399E61097039F49D5B1738357857435",
+      "SHA256": "1B511B3C322508ED3BAD1E34BE91A56275D0F893E4DC7F89A07CAFA0368E7C12",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server\\Files.Shared.dll",
       "Length": 68096,
-      "SHA256": "09E767F01A549094977E08EDA3ADFDE4CD490768B40D17F2298FA11608E118AA",
+      "SHA256": "883A86E295EF4CEC942725459D699291AAD3EBB91D3DFCF81BA5FB2BC59A34DC",
       "IsDependency": true
     },
     {

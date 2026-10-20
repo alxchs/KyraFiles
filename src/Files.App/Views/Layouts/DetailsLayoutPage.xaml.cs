@@ -564,6 +564,10 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
+			// F026: any key that is not plain navigation acts on the up-to-date selection.
+			if (e.Key is not (VirtualKey.Up or VirtualKey.Down or VirtualKey.Left or VirtualKey.Right or VirtualKey.Home or VirtualKey.End or VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift or VirtualKey.Control))
+				FlushPendingSelectionEffects();
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);

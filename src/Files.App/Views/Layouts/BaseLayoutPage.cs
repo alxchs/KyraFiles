@@ -285,18 +285,12 @@ namespace Files.App.Views.Layouts
 						SelectedItemsPropertiesViewModel.IsItemSelected = false;
 
 						ResetRenameDoubleClick();
-						UpdateSelectionSize();
 					}
 					else
 					{
 						IsItemSelected = true;
 						SelectedItem = currentItems.First();
 						SelectedItemsPropertiesViewModel.IsItemSelected = true;
-
-						UpdateSelectionSize();
-
-						SelectedItemsPropertiesViewModel.SelectedItemsCount = currentItems.Count;
-						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(currentItems.Count);
 
 						if (currentItems.Count == 1)
 						{
@@ -313,17 +307,86 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-				if (!isDraggingSelectionRectangle)
+				if (isDraggingSelectionRectangle)
 				{
-					var parentShellPage = ParentShellPageInstance
-						?? throw new InvalidOperationException("The layout does not have a parent shell page.");
-					parentShellPage.ToolbarViewModel.SelectedItems = value;
+					// Rectangle selection keeps the status bar live; the toolbar is flushed when it ends.
+					ApplySelectionEffects();
+				}
+				else
+				{
+					if (ParentShellPageInstance is null)
+						throw new InvalidOperationException("The layout does not have a parent shell page.");
+
+					ScheduleSelectionEffects();
 				}
 			}
 		}
 
+		// F026: the expensive side effects of a selection change (status bar size/count, toolbar state and
+		// its overflow re-measure) are applied at once for an isolated change, but coalesced while the
+		// selection changes in quick succession (held arrow key), so the UI thread can keep up.
+		private const int SelectionEffectsBurstMs = 150;
+		private const int SelectionEffectsSettleMs = 60;
+		private long lastSelectionChangeTick;
+		private bool selectionEffectsPending;
+		private DispatcherQueueTimer? selectionEffectsTimer;
+
+		private void ScheduleSelectionEffects()
+		{
+			var now = Environment.TickCount64;
+			var isBurst = now - lastSelectionChangeTick < SelectionEffectsBurstMs;
+			lastSelectionChangeTick = now;
+
+			if (!isBurst && !selectionEffectsPending)
+			{
+				ApplySelectionEffects();
+				return;
+			}
+
+			selectionEffectsPending = true;
+			if (selectionEffectsTimer is null)
+			{
+				selectionEffectsTimer = DispatcherQueue.CreateTimer();
+				selectionEffectsTimer.Interval = TimeSpan.FromMilliseconds(SelectionEffectsSettleMs);
+				selectionEffectsTimer.IsRepeating = false;
+				selectionEffectsTimer.Tick += (_, _) => FlushPendingSelectionEffects();
+			}
+			selectionEffectsTimer.Stop();
+			selectionEffectsTimer.Start();
+		}
+
+		/// <summary>Applies the coalesced selection side effects now, if any are pending.</summary>
+		protected void FlushPendingSelectionEffects()
+		{
+			selectionEffectsTimer?.Stop();
+			if (!selectionEffectsPending)
+				return;
+
+			ApplySelectionEffects();
+		}
+
+		private void ApplySelectionEffects()
+		{
+			selectionEffectsPending = false;
+			var currentItems = selectedItems;
+			if (currentItems is null)
+				return;
+
+			UpdateSelectionSize();
+			if (currentItems.Count > 0)
+			{
+				SelectedItemsPropertiesViewModel.SelectedItemsCount = currentItems.Count;
+				SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(currentItems.Count);
+			}
+
+			if (!isDraggingSelectionRectangle && ParentShellPageInstance is not null)
+				ParentShellPageInstance.ToolbarViewModel.SelectedItems = currentItems;
+		}
+
 		protected void FlushSelectionToToolbar()
 		{
+			selectionEffectsTimer?.Stop();
+			selectionEffectsPending = false;
 			if (ParentShellPageInstance is not null)
 				ParentShellPageInstance.ToolbarViewModel.SelectedItems = selectedItems;
 		}

@@ -91,3 +91,4 @@ Perguntado sobre a viabilidade de contornar esses problemas com novas cirurgias 
 - **Artefatos de Laboratório:** Todos removidos (`C:\FilesUXLab` completamente limpa).
 - **Processos:** Todos os processos `Files.exe` foram encerrados.
 - **Executável Oficial:** Preservado no destino único e limpo `%LOCALAPPDATA%\Programs\FilesCustom\Files.exe`.
+

@@ -29,3 +29,23 @@ Linha alcançada = estimada pela ordem alfabética (`backup_*` primeiro), **INFE
 - Regressão conhecida da F024 (Shift/Ctrl com Home/End/PgUp/PgDn) continua; não foi tratada aqui.
 - Toolbar fica até ~60 ms desatualizado durante a rajada (intencional).
 - Falta testar na pasta real (`D:\DriveD\Downloads`, com miniaturas) e em uso real com o teclado físico.
+
+---
+
+## Adendo 1 (20/10/2026 20:40) — causa provável da "tela limpa": `CacheLength="10.0"` (nosso)
+
+Relato do Alexandre: segurando a tecla no Files, a tela fica toda limpa e se perde a referência visual da linha; no Explorer do Windows também é lento, mas a referência não se perde. (Sintoma já existia; faltou a informação.)
+
+- **Não reproduzi a tela limpa** com teclas sintéticas (quadros em `docs/agents/evidence/F026/frames/`, script `tools\perf\f025_capture_hold.ps1`; a métrica "vazio %" não discrimina, ficou em 30 a 32% sempre). Nos quadros se vê o toolbar perdendo os rótulos durante a rajada (re-medição). **NOT TESTED:** tela limpa em uso real.
+- **CONFIRMED por leitura (git):** `DetailsLayoutPage.xaml` linhas 1387 e 1496 têm `CacheLength="10.0"` desde o commit-base do fork `22fd57762` (F001 a F020). No upstream `0e3c17ca4` o atributo não existe (padrão do `ItemsStackPanel`: 4). Com 10, o app mantém ~10 telas de linhas materializadas de cada lado; cada rajada de rolagem cria e descarta centenas de contêineres. Cada linha também tem um `ItemsControl` aninhado de "colunas dinâmicas" (nosso, F013).
+- **Mudança testada (1 variável):** `CacheLength` de 10.0 para 1.0 nos dois pontos. Build Release 0/0.
+
+| Build | Linhas em 5 s (mediana) | CPU por 5 s | Memória privada após rodadas |
+|---|---|---|---|
+| F026 (CacheLength 10) | 93 | 10,4 a 12,0 s | 420 a 665 MB |
+| **F026 + CacheLength 1.0 (H1)** | **84 a 94 (≈85)** | **7,8 a 10,7 s** | **287 a 342 MB** |
+| Upstream puro | 69 | 9,9 a 13,4 s | 360 a 415 MB |
+
+- **OBSERVED:** memória privada caiu ~40% e ficou **abaixo do upstream**; CPU caiu um pouco; a linha alcançada ficou igual (dentro do ruído).
+- **INFERRED:** a tela limpa vem do volume de contêineres criados por rajada. Falta confirmar com o Alexandre.
+- **Próximo suspeito, ainda não medido:** o `ItemsControl` aninhado por linha (colunas dinâmicas); `x:Phase`/adiamento de realização; animações de reposicionamento dos itens.

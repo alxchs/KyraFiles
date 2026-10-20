@@ -9,6 +9,8 @@ param(
     [string]$Folder = 'C:\FilesUXLab\perf\1600',
     [int]$HoldS = 5,
     [int]$Runs = 3,
+    [string]$ProcessName = 'Files',
+    [switch]$NoNav,
     [string]$Out = "$PSScriptRoot\..\..\docs\agents\evidence\F025\hold_key2.csv"
 )
 $ErrorActionPreference = 'Stop'
@@ -23,13 +25,14 @@ public class F025Win {
 }
 "@
 $vk = @{ Down = 0x28; Up = 0x26; End = 0x23; PageDown = 0x22 }[$Key]
-$p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+$p = Get-Process $ProcessName -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
 if (-not $p) { throw 'Files.exe com janela nao encontrado. Abra o app antes.' }
 $h = $p.MainWindowHandle
 [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 500
 # navega pela omnibar (igual nos dois builds): Ctrl+L, caminho, Enter
+if (-not $NoNav) {
 [System.Windows.Forms.SendKeys]::SendWait('^l'); Start-Sleep -Milliseconds 400
-[System.Windows.Forms.SendKeys]::SendWait($Folder.Replace('{','{{}').Replace('}','{}}') + '{ENTER}'); Start-Sleep -Seconds 6
+[System.Windows.Forms.SendKeys]::SendWait($Folder.Replace('{','{{}').Replace('}','{}}') + '{ENTER}'); Start-Sleep -Seconds 6 }
 
 function Ping-Ui { $sw = [Diagnostics.Stopwatch]::StartNew(); $r = [IntPtr]::Zero
   $ok = [F025Win]::SendMessageTimeout($h, 0, [IntPtr]::Zero, [IntPtr]::Zero, 2, 5000, [ref]$r); $sw.Stop()

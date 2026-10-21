@@ -137,11 +137,45 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems?.Any() ?? false)
+			if (SelectedItems?.LastOrDefault() is ListedItem lastSelected)
 			{
-				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * RowHeight, null, false);
-				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+				FileList.ScrollIntoView(lastSelected);
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(lastSelected) * RowHeight, null, true);
+				EnsureItemFocusVisual(lastSelected);
+			}
+		}
+
+		private ListedItem? _itemAwaitingFocusVisual;
+
+		private void EnsureItemFocusVisual(ListedItem item)
+		{
+			if (FileList.ContainerFromItem(item) is ListViewItem container)
+			{
+				_itemAwaitingFocusVisual = null;
+				FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+				container.Focus(FocusState.Keyboard);
+				return;
+			}
+
+			_itemAwaitingFocusVisual = item;
+			FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+			FileList.LayoutUpdated += FileList_FocusLayoutUpdated;
+		}
+
+		private void FileList_FocusLayoutUpdated(object? sender, object e)
+		{
+			if (_itemAwaitingFocusVisual is not null)
+			{
+				if (FileList.ContainerFromItem(_itemAwaitingFocusVisual) is ListViewItem container)
+				{
+					FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+					container.Focus(FocusState.Keyboard);
+					_itemAwaitingFocusVisual = null;
+				}
+			}
+			else
+			{
+				FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
 			}
 		}
 
@@ -678,8 +712,8 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					var firstItem = items[0];
 					ItemManipulationModel.SetSelectedItem(firstItem);
-					ItemManipulationModel.ScrollIntoView(firstItem);
-					ItemManipulationModel.FocusSelectedItems();
+					ContentScroller?.ChangeView(null, 0, null, true);
+					EnsureItemFocusVisual(firstItem);
 				}
 			}
 			else if (e.Key == VirtualKey.End)
@@ -690,8 +724,107 @@ namespace Files.App.Views.Layouts
 					e.Handled = true;
 					var lastItem = items[items.Count - 1];
 					ItemManipulationModel.SetSelectedItem(lastItem);
-					ItemManipulationModel.ScrollIntoView(lastItem);
-					ItemManipulationModel.FocusSelectedItems();
+					if (ContentScroller is not null)
+						ContentScroller.ChangeView(null, ContentScroller.ScrollableHeight, null, true);
+					else
+						FileList.ScrollIntoView(lastItem);
+					EnsureItemFocusVisual(lastItem);
+				}
+			}
+			else if (e.Key == VirtualKey.PageDown)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var viewportHeight = ContentScroller?.ViewportHeight ?? 0;
+					var rowHeight = RowHeight > 0 ? RowHeight : 36;
+					var visibleRows = viewportHeight > 0 ? Math.Max(1, (int)Math.Floor(viewportHeight / rowHeight)) : 20;
+					var pageSize = Math.Max(1, visibleRows - 1);
+
+					var currentItem = SelectedItems?.LastOrDefault() ?? items[0];
+					var currentIdx = items.IndexOf(currentItem);
+					if (currentIdx < 0)
+						currentIdx = 0;
+
+					var targetIdx = Math.Min(items.Count - 1, currentIdx + pageSize);
+					var targetItem = items[targetIdx];
+
+					if (shiftPressed)
+					{
+						var anchor = SelectedItems?.FirstOrDefault() ?? currentItem;
+						var anchorIdx = items.IndexOf(anchor);
+						if (anchorIdx < 0)
+							anchorIdx = currentIdx;
+						var minIdx = Math.Min(anchorIdx, targetIdx);
+						var maxIdx = Math.Max(anchorIdx, targetIdx);
+						var range = items.Skip(minIdx).Take(maxIdx - minIdx + 1).ToList();
+						ItemManipulationModel.SetSelectedItems(range);
+					}
+					else
+					{
+						ItemManipulationModel.SetSelectedItem(targetItem);
+					}
+
+					if (ContentScroller is not null)
+					{
+						var newOffset = Math.Min(ContentScroller.ScrollableHeight, ContentScroller.VerticalOffset + (pageSize * rowHeight));
+						ContentScroller.ChangeView(null, newOffset, null, true);
+					}
+					else
+					{
+						FileList.ScrollIntoView(targetItem);
+					}
+
+					EnsureItemFocusVisual(targetItem);
+				}
+			}
+			else if (e.Key == VirtualKey.PageUp)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var viewportHeight = ContentScroller?.ViewportHeight ?? 0;
+					var rowHeight = RowHeight > 0 ? RowHeight : 36;
+					var visibleRows = viewportHeight > 0 ? Math.Max(1, (int)Math.Floor(viewportHeight / rowHeight)) : 20;
+					var pageSize = Math.Max(1, visibleRows - 1);
+
+					var currentItem = SelectedItems?.FirstOrDefault() ?? items[0];
+					var currentIdx = items.IndexOf(currentItem);
+					if (currentIdx < 0)
+						currentIdx = 0;
+
+					var targetIdx = Math.Max(0, currentIdx - pageSize);
+					var targetItem = items[targetIdx];
+
+					if (shiftPressed)
+					{
+						var anchor = SelectedItems?.LastOrDefault() ?? currentItem;
+						var anchorIdx = items.IndexOf(anchor);
+						if (anchorIdx < 0)
+							anchorIdx = currentIdx;
+						var minIdx = Math.Min(anchorIdx, targetIdx);
+						var maxIdx = Math.Max(anchorIdx, targetIdx);
+						var range = items.Skip(minIdx).Take(maxIdx - minIdx + 1).ToList();
+						ItemManipulationModel.SetSelectedItems(range);
+					}
+					else
+					{
+						ItemManipulationModel.SetSelectedItem(targetItem);
+					}
+
+					if (ContentScroller is not null)
+					{
+						var newOffset = Math.Max(0, ContentScroller.VerticalOffset - (pageSize * rowHeight));
+						ContentScroller.ChangeView(null, newOffset, null, true);
+					}
+					else
+					{
+						FileList.ScrollIntoView(targetItem);
+					}
+
+					EnsureItemFocusVisual(targetItem);
 				}
 			}
 		}

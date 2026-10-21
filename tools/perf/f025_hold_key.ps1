@@ -11,6 +11,7 @@ param(
     [int]$Runs = 3,
     [string]$ProcessName = 'Files',
     [switch]$NoNav,
+    [string]$WindowClass,   # ex.: CabinetWClass para medir o Explorer do Windows na janela ja aberta na pasta
     [string]$Out = "$PSScriptRoot\..\..\docs\agents\evidence\F025\hold_key2.csv"
 )
 $ErrorActionPreference = 'Stop'
@@ -21,6 +22,7 @@ using System; using System.Runtime.InteropServices;
 public class F025Win {
   [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
   [DllImport("user32.dll")] public static extern void keybd_event(byte vk, byte sc, uint fl, UIntPtr ex);
+  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
   [DllImport("user32.dll", SetLastError=true)] public static extern IntPtr SendMessageTimeout(IntPtr h, uint m, IntPtr w, IntPtr l, uint f, uint t, out IntPtr r);
 }
 "@
@@ -28,7 +30,16 @@ $vk = @{ Down = 0x28; Up = 0x26; End = 0x23; PageDown = 0x22 }[$Key]
 $p = Get-Process $ProcessName -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
 if (-not $p) { throw 'Files.exe com janela nao encontrado. Abra o app antes.' }
 $h = $p.MainWindowHandle
+if ($WindowClass) {
+    $cond = New-Object Windows.Automation.PropertyCondition([Windows.Automation.AutomationElement]::ClassNameProperty, $WindowClass)
+    $win = [Windows.Automation.AutomationElement]::RootElement.FindFirst([Windows.Automation.TreeScope]::Children, $cond)
+    if (-not $win) { throw "janela $WindowClass nao encontrada" }
+    $h = [IntPtr]$win.Current.NativeWindowHandle; $p = Get-Process -Id $win.Current.ProcessId
+}
 [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 500
+# trava: as teclas so saem se a janela medida estiver em primeiro plano (nunca em outra janela aberta)
+if ([F025Win]::GetForegroundWindow() -ne $h) { try { [Windows.Automation.AutomationElement]::FromHandle($h).SetFocus() } catch {}; Start-Sleep -Milliseconds 500 }
+if ([F025Win]::GetForegroundWindow() -ne $h) { throw "a janela medida nao esta em primeiro plano; nenhuma tecla enviada" }
 # navega pela omnibar (igual nos dois builds): Ctrl+L, caminho, Enter
 if (-not $NoNav) {
 [System.Windows.Forms.SendKeys]::SendWait('^l'); Start-Sleep -Milliseconds 400
@@ -42,6 +53,7 @@ New-Item -ItemType Directory -Force (Split-Path $Out) | Out-Null
 if (-not (Test-Path $Out)) { 'label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,presses,backlog_steps_after_release,drain_ms,final_item,date' | Set-Content $Out }
 for ($run = 1; $run -le $Runs; $run++) {
     [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 300
+    if ([F025Win]::GetForegroundWindow() -ne $h) { throw "rodada $run: janela medida fora do primeiro plano; parado" }
     # volta ao inicio da lista
     [F025Win]::keybd_event(0x24, 0, 0, [UIntPtr]::Zero); [F025Win]::keybd_event(0x24, 0, 2, [UIntPtr]::Zero); Start-Sleep -Seconds 1
     $startFocus = try { [Windows.Automation.AutomationElement]::FocusedElement.Current.Name } catch { '?' }

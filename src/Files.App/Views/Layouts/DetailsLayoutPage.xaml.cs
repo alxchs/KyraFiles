@@ -444,12 +444,7 @@ namespace Files.App.Views.Layouts
 
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			foreach (var item in e.AddedItems)
-				SetCheckboxSelectionState(item);
-
-			foreach (var item in e.RemovedItems)
-				SetCheckboxSelectionState(item);
-
+			// F027: the per-row checkbox is no longer painted on every selection change; it is refreshed lazily on hover.
 			UpdateSelectAllCheckboxState();
 		}
 
@@ -1379,14 +1374,6 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
-
-			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
-			selectionCheckbox.Checked -= ItemSelected_Checked;
-			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
-
 			base.FileList_ContainerContentChanging(sender, args);
 			if (args.InRecycleQueue)
 				return;
@@ -1396,12 +1383,21 @@ namespace Files.App.Views.Layouts
 				listedItem.SyncDynamicColumns(ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible));
 			}
 
-			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
-
-			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+			// F027: no per-row checkbox painting while rows are created or recycled; the events are wired once per
+			// checkbox and the checked state is refreshed lazily when the pointer reaches it.
+			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
+			if (!hookedSelectionCheckboxes.TryGetValue(selectionCheckbox, out _))
+			{
+				hookedSelectionCheckboxes.Add(selectionCheckbox, new object());
+				selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+				selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+				selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+				selectionCheckbox.Checked += ItemSelected_Checked;
+				selectionCheckbox.Unchecked += ItemSelected_Unchecked;
+			}
 		}
+
+		private readonly ConditionalWeakTable<CheckBox, object> hookedSelectionCheckboxes = new();
 
 		private readonly ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
 
@@ -1498,7 +1494,10 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
+			var container = (sender as FrameworkElement)!.FindAscendant<ListViewItem>()!;
+			if (container.Content is { } item)
+				SetCheckboxSelectionState(item, container); // F027: lazy paint of the checked state
+			UpdateCheckboxVisibility(container, true);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]

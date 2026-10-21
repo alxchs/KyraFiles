@@ -17,6 +17,9 @@ public class PrepWin {
   [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
   [DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);
   [DllImport("user32.dll")] public static extern void mouse_event(uint f, int x, int y, uint d, UIntPtr e);
+  [StructLayout(LayoutKind.Sequential)] public struct POINT { public int X, Y; }
+  [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(POINT p);
+  [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h, uint f);
 }
 "@
 [PrepWin]::SetProcessDPIAware() | Out-Null
@@ -32,12 +35,15 @@ $h = [IntPtr]$el.Current.NativeWindowHandle
 $wa = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 [PrepWin]::ShowWindow($h, 9) | Out-Null
 [PrepWin]::MoveWindow($h, $wa.X + 40, $wa.Y + 20, [math]::Min($Width, $wa.Width - 80), $wa.Height - 40, $true) | Out-Null
-$el.SetFocus(); [PrepWin]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 600
+try { $el.SetFocus() } catch {}; [PrepWin]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 600
 if ([PrepWin]::GetForegroundWindow() -ne $h) { throw 'a janela nao veio para o primeiro plano; nada enviado' }
 if ($DetailsView) { [System.Windows.Forms.SendKeys]::SendWait('^+6'); Start-Sleep -Milliseconds 800 }
 $r = New-Object PrepWin+RECT; [PrepWin]::GetWindowRect($h, [ref]$r) | Out-Null
 if ([PrepWin]::GetForegroundWindow() -ne $h) { throw 'a janela perdeu o primeiro plano; clique nao enviado' }
-[PrepWin]::SetCursorPos($r.L + [int](($r.R - $r.L) * 0.6), $r.T + [int](($r.B - $r.T) * 0.45)) | Out-Null
+$pt = New-Object PrepWin+POINT; $pt.X = $r.L + [int](($r.R - $r.L) * 0.6); $pt.Y = $r.T + [int](($r.B - $r.T) * 0.45)
+# o ponto do clique tem de pertencer a janela medida (outra janela por cima, ou sempre-no-topo, recebe o clique)
+if ([PrepWin]::GetAncestor([PrepWin]::WindowFromPoint($pt), 2) -ne $h) { throw "o ponto do clique pertence a outra janela; clique nao enviado" }
+[PrepWin]::SetCursorPos($pt.X, $pt.Y) | Out-Null
 [PrepWin]::mouse_event(2, 0, 0, 0, [UIntPtr]::Zero); [PrepWin]::mouse_event(4, 0, 0, 0, [UIntPtr]::Zero); Start-Sleep -Milliseconds 500
 [PrepWin]::SetCursorPos($r.R - 20, $r.T + 15) | Out-Null   # ponteiro sobre a propria barra de titulo, longe das linhas
 '{0} | foco: {1}' -f $el.Current.Name, [Windows.Automation.AutomationElement]::FocusedElement.Current.Name

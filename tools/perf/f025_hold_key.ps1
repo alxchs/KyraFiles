@@ -28,7 +28,7 @@ public class F025Win {
 "@
 $vk = @{ Down = 0x28; Up = 0x26; End = 0x23; PageDown = 0x22 }[$Key]
 $p = Get-Process $ProcessName -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
-if (-not $p) { throw 'Files.exe com janela nao encontrado. Abra o app antes.' }
+if (-not $p -and -not $WindowClass) { throw 'Files.exe com janela nao encontrado. Abra o app antes.' }
 $h = $p.MainWindowHandle
 if ($WindowClass) {
     $cond = New-Object Windows.Automation.PropertyCondition([Windows.Automation.AutomationElement]::ClassNameProperty, $WindowClass)
@@ -53,15 +53,16 @@ New-Item -ItemType Directory -Force (Split-Path $Out) | Out-Null
 if (-not (Test-Path $Out)) { 'label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,presses,backlog_steps_after_release,drain_ms,final_item,date' | Set-Content $Out }
 for ($run = 1; $run -le $Runs; $run++) {
     [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 300
-    if ([F025Win]::GetForegroundWindow() -ne $h) { throw "rodada $run: janela medida fora do primeiro plano; parado" }
+    if ([F025Win]::GetForegroundWindow() -ne $h) { throw "rodada ${run}: janela medida fora do primeiro plano; parado" }
     # volta ao inicio da lista
     [F025Win]::keybd_event(0x24, 0, 0, [UIntPtr]::Zero); [F025Win]::keybd_event(0x24, 0, 2, [UIntPtr]::Zero); Start-Sleep -Seconds 1
     $startFocus = try { [Windows.Automation.AutomationElement]::FocusedElement.Current.Name } catch { '?' }
     $p.Refresh(); $cpu0 = $p.TotalProcessorTime
     $lat = New-Object System.Collections.Generic.List[double]
-    $t = [Diagnostics.Stopwatch]::StartNew(); $next = 0
+    $t = [Diagnostics.Stopwatch]::StartNew(); $next = 0; $sent = 0
     while ($t.Elapsed.TotalSeconds -lt $HoldS) {
-        [F025Win]::keybd_event($vk, 0, 0, [UIntPtr]::Zero)          # repeticao ~30 Hz, como o driver
+        if ([F025Win]::GetForegroundWindow() -ne $h) { [F025Win]::keybd_event($vk, 0, 2, [UIntPtr]::Zero); throw "rodada ${run}: janela medida saiu do primeiro plano durante a tecla; parado" }
+        [F025Win]::keybd_event($vk, 0, 0, [UIntPtr]::Zero); $sent++   # repeticao do gerador (ritmo real contado em presses)
         Start-Sleep -Milliseconds 33
         if ($t.ElapsedMilliseconds -ge $next) { $lat.Add((Ping-Ui)); $next = $t.ElapsedMilliseconds + 100 }
     }
@@ -77,7 +78,7 @@ for ($run = 1; $run -le $Runs; $run++) {
     $final = $prev
     while ((Ping-Ui) -gt 100 -and $rec.Elapsed.TotalSeconds -lt 60) { Start-Sleep -Milliseconds 100 }
     $p.Refresh(); $cpu = ($p.TotalProcessorTime - $cpu0).TotalMilliseconds
-    $presses = [int]($HoldS * 1000 / 33); $s = $lat | Sort-Object; $med = $s[[int]($s.Count / 2)]; $max = $s[-1]
+    $presses = $sent; $s = $lat | Sort-Object; $med = $s[[int]($s.Count / 2)]; $max = $s[-1]
     $row = '{0},{1},{2},{3},{4:F0},{5:F0},{6:F0},{7:F0},{8:F0},{9},{10:F0},{11},{12},{13},{14},{15},{16}' -f $Label, $Key, $run, $HoldS, $cpu, ($p.WorkingSet64/1MB), ($p.PrivateMemorySize64/1MB), $med, $max, $lat.Count, $rec.ElapsedMilliseconds, $presses, $steps, $lastChange, ($final -replace ",",";"), (Get-Date -Format s), ($startFocus -replace ",",";")
     Add-Content $Out $row; Write-Host $row
     Start-Sleep -Seconds 3

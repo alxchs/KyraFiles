@@ -27,3 +27,5 @@ Nenhum.
   - **FR-5:** com uma tecla de navegação (setas, PgUp, PgDn) segurada, a próxima repetição só é aceita depois que o passo anterior foi desenhado na tela; nenhuma repetição acumulada continua mexendo a seleção depois de soltar.
   - **FR-6:** a lista mantém a folga padrão de linhas pré-criadas (igual ao upstream), para a rolagem com o mouse não esvaziar a tela.
   - **AC-5:** em quadros capturados com `PgDn` e `Down` segurados, a linha selecionada anda só para frente e a barra de rolagem acompanha (`tools\perf\f028_contact_sheet.ps1`).
+- **20/10/2026 (2ª ampliação):** trace com `PgDn` mostrou o carregamento das propriedades de cada linha (`StorageFile`, nuvem, propriedades) em 16% a 25% do thread de UI, entre uma página e outra.
+  - **FR-7:** enquanto uma tecla de navegação está pressionada, as linhas que aparecem não carregam propriedades estendidas; as que ficarem visíveis carregam 200 ms depois de soltar.

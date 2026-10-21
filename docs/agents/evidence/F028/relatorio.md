@@ -36,3 +36,20 @@ Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\
 - Teclas sintéticas, pasta de laboratório; a sensação real só o Alexandre confirma.
 - A memória voltou para o nível do upstream (cache padrão) em troca de não esvaziar a tela ao rolar com o mouse.
 - CPU bruto continua alto: ~80% do tempo do thread de UI é código nativo do WinUI (layout e desenho das linhas). É o próximo alvo (modelo da linha: colunas dinâmicas aninhadas, ícones, tags).
+
+---
+
+## Adendo 1 (20/10/2026 22:45) — carregamento de propriedades durante a tecla segurada
+
+- **Diagnóstico descartado:** sem o ícone de nuvem e sem as colunas dinâmicas por linha, nada mudou (`Down` 84 contra 86; CPU de `PgDn` igual). Revertido.
+- **Trace `trace_pgdn.speedscope.json`:** `ShellViewModel.LoadExtendedItemPropertiesAsync` 16% do thread de UI (`GetFileFromPathAsync` 10%, nuvem 4,4%); `StatusBar.QueueRemeasure` com `UpdateLayout` síncrono 3,8% (upstream, não mexido); tooltip por linha 3,6%.
+- **Achado:** `KeyStatus.WasKeyDown` não funciona no WinUI 3. `RepeatProbe` (WinForms, bit 30 do `WM_KEYDOWN`) mostrou que o Windows marca 29/30 teclas sintéticas como repetição, ou seja, a espera de quadro da F028 **não estava ativa** nas medições anteriores; a melhora visual veio do atraso de 350 ms dos efeitos.
+- **Instrumentação temporária** (removida, `C:\FilesUXLab\f028_diag.log`): antes da correção, 169 cargas iniciadas e 0 adiadas, e o timer de 200 ms encerrava o adiamento entre páginas; depois, 292 adiadas e um único encerramento após soltar.
+
+| Build (Y1, final) | `Down` linhas (mediana) | `PgDn` CPU por 5 s (mediana) |
+|---|---|---|
+| F028 P1 | 86 | 13,4 s |
+| **F028 final** | **83** | **10,3 s** |
+
+- `contato_f028h_Down.png`: realce visível em todos os quadros, andando só para frente, lista rolando junto. `contato_f028h_PageDown.png` gerado.
+- **Ainda alto:** ~80% do thread de UI é código nativo do WinUI criando as linhas de cada página.

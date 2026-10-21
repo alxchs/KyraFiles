@@ -1394,7 +1394,23 @@ namespace Files.App.Views.Layouts
 		{
 			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
 			AppMemoryHelper.NotifyActivity();
+			RestartScrollSettleTimer();
+		}
 
+		// F028: a held navigation key keeps the extended-property loads parked exactly like a scroll gesture.
+		// Each auto-repeat restarts the settle timer, so the rows still visible load once, after the key is released,
+		// instead of every visible row loading on the UI thread between two page steps.
+		protected void ExtendNavigationDeferral()
+		{
+			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
+			RestartScrollSettleTimer();
+		}
+
+		/// <summary>True while a list navigation key that started a deferral is still physically pressed.</summary>
+		protected virtual bool IsNavigationKeyHeld => false;
+
+		private void RestartScrollSettleTimer()
+		{
 			if (scrollSettleTimer is null)
 			{
 				scrollSettleTimer = DispatcherQueue.CreateTimer();
@@ -1402,6 +1418,14 @@ namespace Files.App.Views.Layouts
 				scrollSettleTimer.IsRepeating = false;
 				scrollSettleTimer.Tick += (_, _) =>
 				{
+					// F028: a page step can block the UI thread longer than the interval; while the navigation key is
+					// still physically down the deferral holds, and it settles 200 ms after the key is released.
+					if (IsNavigationKeyHeld)
+					{
+						scrollSettleTimer.Start();
+						return;
+					}
+
 					ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
 					LoadVisibleItemsAfterScrollSettled();
 				};

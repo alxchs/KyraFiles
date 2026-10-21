@@ -98,6 +98,7 @@ namespace Files.App.Views.Layouts
 		{
 			InitializeComponent();
 			DataContext = this;
+			FileList.AddHandler(KeyUpEvent, new KeyEventHandler(FileList_NavigationKeyUp), true);
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -562,8 +563,17 @@ namespace Files.App.Views.Layouts
 			// F028: a held navigation key repeats faster than the list can realize and draw rows. Accept the next
 			// auto-repeat only after the previous step reached the screen, so the selection and the scroll bar always
 			// show where the user is (as in Explorer) and no backlog keeps moving after the key is released.
-			if (e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.PageUp or VirtualKey.PageDown && e.KeyStatus.WasKeyDown)
+			// KeyStatus.WasKeyDown is not reliable in WinUI 3 desktop, so an auto-repeat is detected here as a second
+			// KeyDown of the same key without a KeyUp in between (the KeyUp handler clears it).
+			var isNavigationKey = e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.PageUp or VirtualKey.PageDown;
+			var isNavigationRepeat = isNavigationKey && heldNavigationKey == e.Key;
+			if (isNavigationKey)
+				heldNavigationKey = e.Key;
+
+			if (isNavigationRepeat)
 			{
+				ExtendNavigationDeferral();
+
 				if (navigationStepPending)
 				{
 					e.Handled = true;
@@ -1385,6 +1395,18 @@ namespace Files.App.Views.Layouts
 
 		private bool navigationStepPending;
 		private int navigationFramesSeen;
+		private VirtualKey heldNavigationKey = VirtualKey.None;
+
+		private void FileList_NavigationKeyUp(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == heldNavigationKey)
+				heldNavigationKey = VirtualKey.None;
+		}
+
+		// Read from the real key state, so a KeyUp lost to a focus change can never keep the loads parked
+		protected override bool IsNavigationKeyHeld
+			=> heldNavigationKey is not VirtualKey.None
+				&& InputKeyboardSource.GetKeyStateForCurrentThread(heldNavigationKey).HasFlag(CoreVirtualKeyStates.Down);
 
 		// Rendering fires at the start of each frame: the second one after the key means a frame with the
 		// new selection has been laid out and presented.

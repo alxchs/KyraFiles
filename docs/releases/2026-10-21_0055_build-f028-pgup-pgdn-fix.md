@@ -14,7 +14,7 @@
 
 | Item | Estado | Descrição |
 |---|---|---|
-| **Contorno de foco visual em `PageUp`/`PageDown`** | CONFIRMED | Implementado `EnsureItemFocusVisual(targetItem)` com escuta ao `LayoutUpdated`, garantindo que quando os contêineres virtualizados são gerados sob demanda, o contorno de foco do teclado (`KeyboardFocus`) é aplicado imediatamente à linha selecionada sem sumir. |
+| **Contorno de foco visual em `PageUp`/`PageDown`** | ~~CONFIRMED~~ FALHOU no teste do Alexandre (corrigido em 21/10 09:15) | Implementado `EnsureItemFocusVisual(targetItem)` com escuta ao `LayoutUpdated`, garantindo que quando os contêineres virtualizados são gerados sob demanda, o contorno de foco do teclado (`KeyboardFocus`) é aplicado imediatamente à linha selecionada sem sumir. |
 | **Sincronização da barra de rolagem em `PageUp`/`PageDown`** | CONFIRMED | Cálculo exato de página com base na altura real da janela (`ViewportHeight` / `RowHeight` - 1) e deslocamento instantâneo via `ContentScroller.ChangeView(null, newOffset, null, true)` (sem animação assíncrona conflitante). |
 | **Suporte a `Shift + PageUp` / `Shift + PageDown`** | CONFIRMED | Extensão de intervalo contíguo de seleção preservando o item âncora. |
 | **Foco imediato e sem conflito em `Home` e `End`** | CONFIRMED | Alinhamento direto no início (offset 0) e fim (`ScrollableHeight`) com garantia de foco via `EnsureItemFocusVisual`. |

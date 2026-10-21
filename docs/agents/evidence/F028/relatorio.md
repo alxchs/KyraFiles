@@ -53,3 +53,27 @@ Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\
 
 - `contato_f028h_Down.png`: realce visível em todos os quadros, andando só para frente, lista rolando junto. `contato_f028h_PageDown.png` gerado.
 - **Ainda alto:** ~80% do thread de UI é código nativo do WinUI criando as linhas de cada página.
+
+---
+
+## Adendo 2 (21/10/2026 09:15, Claude) — contorno de foco "pintado no nada" (FR-3 revisada, FR-8, AC-6)
+
+- **Relato do Alexandre** (build de 21/10 00:55, commit `e59007015`): PgUp/PgDn "absurdamente melhor, mas ainda pinta o retângulo no nada".
+- **Causa (CONFIRMED por captura):** `foco_antes_PageDown_quadro02.png` mostra o contorno desenhado **sobre o cabeçalho das colunas**. O PgDn rolava `página × RowHeight` e escolhia `atual + página`, e com isso o destino ficava na primeira linha do viewport, coberta pelo cabeçalho fixo (`HeaderGrid`, 40 px).
+- **Instrumentação temporária** (removida, `C:\FilesUXLab\f028_diag.log`): linha 0 em y=38 do conteúdo, altura real 24 px, cabeçalho fixo em y=0 (às vezes lido em −24 no meio do reposicionamento). Primeira versão da correção: depois do 1º toque, o foco nativo rolava mais ~7 px e expunha uma linha a mais embaixo; a regra "ir para a última linha visível" passava a andar 1 linha por toque. Corrigido: toques seguidos na mesma direção sempre viram uma página (45 linhas nesta janela).
+- **Correção** (`DetailsLayoutPage.TryMovePage`): geometria lida dos contêineres realizados; área útil começa abaixo do cabeçalho; 1º toque vai à linha da borda, toques seguintes viram página; deslocamento mínimo para o destino ficar inteiro na área útil. Lista agrupada: nativo. Mais 3 avisos `CsWin32 CsWinRT1034` resolvidos (2 vinham de `e59007015`).
+- **Quadros depois** (`tools/perf/f028_focus_frames.ps1`, janela encaixada na tela, foco por clique): `foco_f028v4_PageDown.png` e `foco_f028v4_PageUp.png`. O contorno nunca aparece sobre o cabeçalho nem numa linha vazia; com PgDn fica na linha de baixo, com PgUp na de cima. Em 2 quadros do PgUp a lista parou 6 linhas abaixo do pedido (item visível, com conteúdo; causa não investigada).
+
+| Build (5 rodadas, 5 s, `f025_hold_key.ps1 -NoNav`) | `PgDn` linhas (mediana) | `PgDn` CPU (mediana) | `Down` linhas (mediana) | Memória privada |
+|---|---|---|---|---|
+| F028 Y1 (20/10) | 643 (270 a 812) | 10,3 s | 82 | 408 a 438 MB |
+| **F028 v4 (21/10)** | **765 (585 a 855)** | 11,5 s | 74 (65 a 83) | 512 a 549 MB |
+
+- `Down` não foi alterado (nativo); a diferença está dentro do ruído das rodadas. A memória privada maior foi **observada**, não investigada: esta sessão tinha duas abas abertas (1600 e Downloads); não atribuída à correção, que não guarda nada por linha.
+
+| AC | Estado |
+|---|---|
+| AC-4 (item visível) | CONFIRMED pelos quadros acima |
+| AC-6 (contorno nunca sobre o cabeçalho ou linha vazia) | OBSERVED em todos os quadros estáveis de PgDn e PgUp; teclas sintéticas |
+| Shift+PgUp/PgDn | NOT TESTED |
+| Lista agrupada (nativo) | NOT TESTED |

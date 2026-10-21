@@ -147,6 +147,7 @@ namespace Files.App.Views.Layouts
 
 		private ListedItem? _itemAwaitingFocusVisual;
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void EnsureItemFocusVisual(ListedItem item)
 		{
 			if (FileList.ContainerFromItem(item) is ListViewItem container)
@@ -162,6 +163,7 @@ namespace Files.App.Views.Layouts
 			FileList.LayoutUpdated += FileList_FocusLayoutUpdated;
 		}
 
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private void FileList_FocusLayoutUpdated(object? sender, object e)
 		{
 			if (_itemAwaitingFocusVisual is not null)
@@ -603,6 +605,8 @@ namespace Files.App.Views.Layouts
 			var isNavigationRepeat = isNavigationKey && heldNavigationKey == e.Key;
 			if (isNavigationKey)
 				heldNavigationKey = e.Key;
+			if (e.Key is not (VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift))
+				pageTarget = null;
 
 			if (isNavigationRepeat)
 			{
@@ -731,102 +735,106 @@ namespace Files.App.Views.Layouts
 					EnsureItemFocusVisual(lastItem);
 				}
 			}
-			else if (e.Key == VirtualKey.PageDown)
+			else if (e.Key is VirtualKey.PageDown or VirtualKey.PageUp)
 			{
-				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
-				if (items is not null && items.Count > 0)
-				{
-					e.Handled = true;
-					var viewportHeight = ContentScroller?.ViewportHeight ?? 0;
-					var rowHeight = RowHeight > 0 ? RowHeight : 36;
-					var visibleRows = viewportHeight > 0 ? Math.Max(1, (int)Math.Floor(viewportHeight / rowHeight)) : 20;
-					var pageSize = Math.Max(1, visibleRows - 1);
-
-					var currentItem = SelectedItems?.LastOrDefault() ?? items[0];
-					var currentIdx = items.IndexOf(currentItem);
-					if (currentIdx < 0)
-						currentIdx = 0;
-
-					var targetIdx = Math.Min(items.Count - 1, currentIdx + pageSize);
-					var targetItem = items[targetIdx];
-
-					if (shiftPressed)
-					{
-						var anchor = SelectedItems?.FirstOrDefault() ?? currentItem;
-						var anchorIdx = items.IndexOf(anchor);
-						if (anchorIdx < 0)
-							anchorIdx = currentIdx;
-						var minIdx = Math.Min(anchorIdx, targetIdx);
-						var maxIdx = Math.Max(anchorIdx, targetIdx);
-						var range = items.Skip(minIdx).Take(maxIdx - minIdx + 1).ToList();
-						ItemManipulationModel.SetSelectedItems(range);
-					}
-					else
-					{
-						ItemManipulationModel.SetSelectedItem(targetItem);
-					}
-
-					if (ContentScroller is not null)
-					{
-						var newOffset = Math.Min(ContentScroller.ScrollableHeight, ContentScroller.VerticalOffset + (pageSize * rowHeight));
-						ContentScroller.ChangeView(null, newOffset, null, true);
-					}
-					else
-					{
-						FileList.ScrollIntoView(targetItem);
-					}
-
-					EnsureItemFocusVisual(targetItem);
-				}
+				e.Handled = TryMovePage(e.Key == VirtualKey.PageDown, shiftPressed, focusedElement);
 			}
-			else if (e.Key == VirtualKey.PageUp)
+		}
+
+		private ListedItem? pageSelectionAnchor;
+		private ListedItem? pageTarget;
+		private bool pageTargetDown;
+
+		// F028: PgDn goes to the last row fully on screen, or one page further with that row at the bottom; PgUp mirrors it.
+		// Rows are located from the realized containers, because the pinned column header covers the top of the viewport
+		// and a row scrolled to offset index * RowHeight ends up hidden behind it. Grouped lists keep the native handling.
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		private bool TryMovePage(bool down, bool extendSelection, FrameworkElement? focusedElement)
+		{
+			if (CollectionViewSource.IsSourceGrouped
+				|| ContentScroller is not { } scroller
+				|| FileList.ItemsPanelRoot is not ItemsStackPanel panel
+				|| FileList.Items.Count is 0)
+				return false;
+
+			var probeIndex = panel.FirstVisibleIndex;
+			if (probeIndex < 0 || FileList.ContainerFromIndex(probeIndex) is not ListViewItem probe || probe.ActualHeight <= 0)
+				return false;
+
+			var rowHeight = probe.ActualHeight;
+			var probeTop = probe.TransformToVisual(scroller).TransformPoint(default).Y;
+			if (FileList.ContainerFromIndex(probeIndex + 1) is ListViewItem next && next.ActualHeight > 0)
 			{
-				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
-				if (items is not null && items.Count > 0)
-				{
-					e.Handled = true;
-					var viewportHeight = ContentScroller?.ViewportHeight ?? 0;
-					var rowHeight = RowHeight > 0 ? RowHeight : 36;
-					var visibleRows = viewportHeight > 0 ? Math.Max(1, (int)Math.Floor(viewportHeight / rowHeight)) : 20;
-					var pageSize = Math.Max(1, visibleRows - 1);
-
-					var currentItem = SelectedItems?.FirstOrDefault() ?? items[0];
-					var currentIdx = items.IndexOf(currentItem);
-					if (currentIdx < 0)
-						currentIdx = 0;
-
-					var targetIdx = Math.Max(0, currentIdx - pageSize);
-					var targetItem = items[targetIdx];
-
-					if (shiftPressed)
-					{
-						var anchor = SelectedItems?.LastOrDefault() ?? currentItem;
-						var anchorIdx = items.IndexOf(anchor);
-						if (anchorIdx < 0)
-							anchorIdx = currentIdx;
-						var minIdx = Math.Min(anchorIdx, targetIdx);
-						var maxIdx = Math.Max(anchorIdx, targetIdx);
-						var range = items.Skip(minIdx).Take(maxIdx - minIdx + 1).ToList();
-						ItemManipulationModel.SetSelectedItems(range);
-					}
-					else
-					{
-						ItemManipulationModel.SetSelectedItem(targetItem);
-					}
-
-					if (ContentScroller is not null)
-					{
-						var newOffset = Math.Max(0, ContentScroller.VerticalOffset - (pageSize * rowHeight));
-						ContentScroller.ChangeView(null, newOffset, null, true);
-					}
-					else
-					{
-						FileList.ScrollIntoView(targetItem);
-					}
-
-					EnsureItemFocusVisual(targetItem);
-				}
+				var step = next.TransformToVisual(scroller).TransformPoint(default).Y - probeTop;
+				if (step > 0)
+					rowHeight = step;
 			}
+
+			// Content-space top of row 0, and the viewport band not covered by the column header. The header is pinned
+			// to the top of the viewport but repositioned after each scroll, so its height is used, not its position.
+			var firstRowTop = probeTop + scroller.VerticalOffset - probeIndex * rowHeight;
+			var usableTop = Math.Min(HeaderGrid.ActualHeight, scroller.ViewportHeight);
+			var viewTop = scroller.VerticalOffset + usableTop;
+			var viewBottom = scroller.VerticalOffset + scroller.ViewportHeight;
+
+			// A few pixels of tolerance: row 0 sits slightly under the header's bottom border at offset 0
+			const double tolerance = 4;
+			var lastIndex = FileList.Items.Count - 1;
+			var firstFull = Math.Clamp((int)Math.Ceiling((viewTop - tolerance - firstRowTop) / rowHeight), 0, lastIndex);
+			var lastFull = Math.Clamp((int)Math.Floor((viewBottom + tolerance - firstRowTop) / rowHeight) - 1, firstFull, lastIndex);
+			var pageStep = Math.Max(1, lastFull - firstFull);
+
+			// The previous page target wins while it is still selected: its container may not hold the focus yet
+			var continuing = pageTarget is not null && pageTargetDown == down && (SelectedItems?.Contains(pageTarget) ?? false);
+			var current = pageTarget is not null && (SelectedItems?.Contains(pageTarget) ?? false)
+				? FileList.Items.IndexOf(pageTarget)
+				: focusedElement is ListViewItem { Content: ListedItem focusedItem }
+					? FileList.Items.IndexOf(focusedItem)
+					: (SelectedItems?.LastOrDefault() is { } lastSelected ? FileList.Items.IndexOf(lastSelected) : -1);
+
+			// First press goes to the edge row on screen; a repeated press in the same direction always turns a page,
+			// since bringing the focused row into view can scroll a few pixels and expose one more row past the edge
+			var target = down
+				? (!continuing && current < lastFull ? lastFull : Math.Min(lastIndex, Math.Max(current, 0) + pageStep))
+				: (!continuing && (current > firstFull || current < 0) ? firstFull : Math.Max(0, current - pageStep));
+			if (FileList.Items[target] is not ListedItem targetItem)
+				return false;
+
+			if (extendSelection)
+			{
+				if (pageSelectionAnchor is null || !(SelectedItems?.Contains(pageSelectionAnchor) ?? false))
+					pageSelectionAnchor = current >= 0 ? FileList.Items[current] as ListedItem : targetItem;
+
+				var anchorIndex = pageSelectionAnchor is null ? target : FileList.Items.IndexOf(pageSelectionAnchor);
+				if (anchorIndex < 0)
+					anchorIndex = target;
+
+				var range = new List<ListedItem>();
+				for (var i = Math.Min(anchorIndex, target); i <= Math.Max(anchorIndex, target); i++)
+				{
+					if (FileList.Items[i] is ListedItem item)
+						range.Add(item);
+				}
+				ItemManipulationModel.SetSelectedItems(range);
+			}
+			else
+			{
+				pageSelectionAnchor = null;
+				ItemManipulationModel.SetSelectedItem(targetItem);
+			}
+
+			// Smallest scroll that leaves the whole target row in the uncovered band
+			var targetTop = firstRowTop + target * rowHeight;
+			if (targetTop + rowHeight > viewBottom)
+				scroller.ChangeView(null, Math.Min(scroller.ScrollableHeight, targetTop + rowHeight - scroller.ViewportHeight), null, true);
+			else if (targetTop < viewTop)
+				scroller.ChangeView(null, Math.Max(0, targetTop - usableTop), null, true);
+
+			pageTarget = targetItem;
+			pageTargetDown = down;
+			EnsureItemFocusVisual(targetItem);
+			return true;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]

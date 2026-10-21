@@ -128,3 +128,13 @@ Y1-f028h,PageDown,2,5,10219,557,431,1,221,34,2234,152,1,140,documento_0595.xml; 
 Y1-f028h,PageDown,3,5,10312,557,430,5,127,35,2178,152,1,111,dados_0987.zip; Folder,2026-10-20T22:47:20,backup_0003.xml; Folder
 Y1-f028h,PageDown,4,5,10641,562,437,1,63,38,2152,152,1,114,codigo_0832.txt; Folder,2026-10-20T22:47:32,backup_0003.xml; Folder
 Y1-f028h,PageDown,5,5,10500,561,436,4,148,33,2203,152,1,115,documento_0901.png; Folder,2026-10-20T22:47:43,backup_0003.xml; Folder
+F028-v4,PageDown,1,5,10656,623,512,13,218,29,2195,152,1,105,dados_0465.cs; Folder,2026-10-21T09:08:35,backup_0003.xml; Folder
+F028-v4,PageDown,2,5,11266,639,528,17,171,29,2466,152,1,235,documento_1288.docx; Folder,2026-10-21T09:08:47,backup_0003.xml; Folder
+F028-v4,PageDown,3,5,11500,644,532,32,274,26,2086,152,0,0,documento_0478.ini; Folder,2026-10-21T09:08:58,backup_0003.xml; Folder
+F028-v4,PageDown,4,5,11719,661,549,12,192,29,2297,152,1,119,documento_0073.xlsx; Folder,2026-10-21T09:09:10,backup_0003.xml; Folder
+F028-v4,PageDown,5,5,11812,659,547,15,328,28,2238,152,1,133,documento_0478.ini; Folder,2026-10-21T09:09:21,backup_0003.xml; Folder
+F028-v4,Down,1,5,10078,643,531,0,107,37,2093,152,0,0,backup_0606.ini; Folder,2026-10-21T09:09:35,backup_0003.xml; Folder
+F028-v4,Down,2,5,7375,653,542,0,207,37,2127,152,0,0,backup_0714.log; Folder,2026-10-21T09:09:47,backup_0003.xml; Folder
+F028-v4,Down,3,5,6594,653,542,0,8,40,2087,152,0,0,backup_0588.dll; Folder,2026-10-21T09:09:58,backup_0003.xml; Folder
+F028-v4,Down,4,5,7031,656,545,0,55,39,2028,152,0,0,backup_0750.ini; Folder,2026-10-21T09:10:09,backup_0003.xml; Folder
+F028-v4,Down,5,5,6547,660,549,0,255,37,2117,152,0,0,backup_0669.exe; Folder,2026-10-21T09:10:21,backup_0003.xml; Folder

@@ -1,0 +1,88 @@
+<title>Files Dev 21/10 09:20</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: uma coluna de leitura; cabeçalho com metadados do build, depois tabela de itens por estado */
+:root {
+  --bg: #f5f7f8; --surface: #ffffff; --fg: #18232b; --muted: #5a6b76; --line: #d9e1e6;
+  --accent: #1f6f8b; --ok: #2f7d4f; --obs: #9a6a12; --nt: #6b7480;
+  --ok-bg: #e4f2ea; --obs-bg: #f7eedb; --nt-bg: #eceff2;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f161b; --surface: #16212a; --fg: #e2e9ee; --muted: #93a4b0; --line: #26343f;
+  --accent: #6cb8d4; --ok: #7cc79b; --obs: #e0b25c; --nt: #a3adb8;
+  --ok-bg: #173226; --obs-bg: #3a2e14; --nt-bg: #222c35; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f161b; --surface: #16212a; --fg: #e2e9ee; --muted: #93a4b0; --line: #26343f;
+  --accent: #6cb8d4; --ok: #7cc79b; --obs: #e0b25c; --nt: #a3adb8;
+  --ok-bg: #173226; --obs-bg: #3a2e14; --nt-bg: #222c35; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--sans); }
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 32px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 28px; }
+header { display: grid; gap: 6px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font-size: 26px; line-height: 1.25; font-weight: 600; text-wrap: balance; }
+h2 { margin: 0 0 10px; font-size: 17px; font-weight: 600; }
+.meta { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 8px 0 0; font-size: 13.5px; }
+.meta dt { color: var(--muted); }
+.meta dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+code { font: 13px var(--mono); }
+.table { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font: 500 11.5px/1.5 var(--mono); white-space: nowrap; }
+.ok { color: var(--ok); background: var(--ok-bg); } .obs { color: var(--obs); background: var(--obs-bg); } .nt { color: var(--nt); background: var(--nt-bg); }
+.num { font-variant-numeric: tabular-nums; }
+ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 68ch; }
+p { margin: 0; max-width: 68ch; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Files Dev · F028 · 3ª revisão</span>
+    <h1>PgUp/PgDn sem contorno sobre o cabeçalho</h1>
+    <dl class="meta">
+      <dt>Pacote</dt><dd><code>FilesDev_4.3.1.0_x64__ykqwq8d6ps0ag</code></dd>
+      <dt>Layout AppX</dt><dd><code>src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX</code> (o mesmo de antes)</dd>
+      <dt>Abrir</dt><dd>Menu Iniciar → Files Dev</dd>
+      <dt>Build</dt><dd>Release x64, 0 avisos, 0 erros</dd>
+      <dt>Git</dt><dd><code>main</code> local com F024 a F028 num commit (<code>906cebda1</code>); push pendente</dd>
+    </dl>
+  </header>
+
+  <section>
+    <h2>O que entrou</h2>
+    <div class="table"><table>
+      <thead><tr><th>Item</th><th>Estado</th><th>O que muda</th></tr></thead>
+      <tbody>
+        <tr><td>Contorno nunca sobre o cabeçalho</td><td><span class="pill obs">OBSERVED</span></td><td>Antes, o PgDn deixava o item escolhido atrás do cabeçalho das colunas e o contorno saía por cima dele. Agora o item fica sempre inteiro, abaixo do cabeçalho.</td></tr>
+        <tr><td>PgDn / PgUp como no Explorer</td><td><span class="pill obs">OBSERVED</span></td><td>1º toque vai à última (PgDn) ou primeira (PgUp) linha visível; os seguintes viram uma página inteira (45 linhas na janela de teste).</td></tr>
+        <tr><td>PgDn segurado, 5 s</td><td><span class="pill obs">OBSERVED</span></td><td class="num">765 linhas (mediana de 5 rodadas), contra 643 no build anterior.</td></tr>
+        <tr><td>Setas</td><td><span class="pill nt">sem mudança</span></td><td class="num">74 linhas em 5 s, contra 82: dentro do ruído; o código das setas não mudou.</td></tr>
+        <tr><td>Avisos de build</td><td><span class="pill ok">CONFIRMED</span></td><td>Três avisos de cast resolvidos; o Release volta a 0 avisos.</td></tr>
+        <tr><td>Shift+PgUp/PgDn, lista agrupada</td><td><span class="pill nt">NOT TESTED</span></td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Como testar</h2>
+    <ol>
+      <li>Abra uma pasta grande no modo Detalhes.</li>
+      <li>Um toque em PgDn: a seleção vai para a última linha visível. Segure: a lista vira páginas e o contorno fica na linha de baixo.</li>
+      <li>O mesmo com PgUp: o contorno fica na primeira linha, logo abaixo do cabeçalho.</li>
+      <li>Shift+PgDn/PgUp para estender a seleção.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>O que ainda não está</h2>
+    <p>As setas continuam mais lentas que no Explorer. O custo está no desenho de cada linha pelo WinUI, e é o próximo alvo, ainda sem spec.</p>
+  </section>
+</div>

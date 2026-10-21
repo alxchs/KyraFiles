@@ -607,20 +607,26 @@ namespace Files.App.Views.Layouts
 				heldNavigationKey = e.Key;
 			if (e.Key is not (VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift))
 				pageTarget = null;
+			if (e.Key is not (VirtualKey.Up or VirtualKey.Down or VirtualKey.Shift))
+				rowTarget = null;
 
 			if (isNavigationRepeat)
 			{
 				ExtendNavigationDeferral();
 
-				if (navigationStepPending)
+				// F029 A/B: "nothrottle" processes every auto-repeat, as in Explorer
+				if (!F029Flag("nothrottle"))
 				{
-					e.Handled = true;
-					return;
-				}
+					if (navigationStepPending)
+					{
+						e.Handled = true;
+						return;
+					}
 
-				navigationStepPending = true;
-				navigationFramesSeen = 0;
-				CompositionTarget.Rendering += NavigationStep_Rendering;
+					navigationStepPending = true;
+					navigationFramesSeen = 0;
+					CompositionTarget.Rendering += NavigationStep_Rendering;
+				}
 			}
 
 			// F026: any key that is not plain navigation acts on the up-to-date selection.
@@ -691,6 +697,11 @@ namespace Files.App.Views.Layouts
 				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
 				Focus(FocusState.Pointer);
 			}
+			else if (e.Key is VirtualKey.Up or VirtualKey.Down && !ctrlPressed && !shiftPressed && !isHeaderFocused && !isFooterFocused
+				&& F029Flag("ownarrows") && TryMoveRow(e.Key == VirtualKey.Down, focusedElement))
+			{
+				e.Handled = true;
+			}
 			else if (e.Key == VirtualKey.Down)
 			{
 				// Focus the first item in the file list if Header header has focus,
@@ -741,19 +752,35 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		// F029 TEMPORARY A/B switches, read once per process; removed before merge (tasks T4)
+		private static readonly string f029Flags = ReadF029Flags();
+
+		private static string ReadF029Flags()
+		{
+			try { return System.IO.File.ReadAllText(@"C:\FilesUXLab\f029_flags.txt"); }
+			catch { return string.Empty; }
+		}
+
+		private static bool F029Flag(string name) => f029Flags.Contains(name, StringComparison.OrdinalIgnoreCase);
+
 		private ListedItem? pageSelectionAnchor;
 		private ListedItem? pageTarget;
 		private bool pageTargetDown;
+		private ListedItem? rowTarget;
+		private double? requestedOffset;
 
-		// F028: PgDn goes to the last row fully on screen, or one page further with that row at the bottom; PgUp mirrors it.
+		// Rows on screen, in the scroller's content space: the top of row 0, the row pitch, the viewport band not covered
+		// by the column header, and the first and last rows fully inside that band
+		private readonly record struct RowGeometry(double FirstRowTop, double RowHeight, double UsableTop, double ViewTop, double ViewBottom, int FirstFull, int LastFull);
+
 		// Rows are located from the realized containers, because the pinned column header covers the top of the viewport
 		// and a row scrolled to offset index * RowHeight ends up hidden behind it. Grouped lists keep the native handling.
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
-		private bool TryMovePage(bool down, bool extendSelection, FrameworkElement? focusedElement)
+		private bool TryGetRowGeometry(ScrollViewer scroller, out RowGeometry geometry)
 		{
+			geometry = default;
 			if (CollectionViewSource.IsSourceGrouped
-				|| ContentScroller is not { } scroller
 				|| FileList.ItemsPanelRoot is not ItemsStackPanel panel
 				|| FileList.Items.Count is 0)
 				return false;
@@ -771,27 +798,85 @@ namespace Files.App.Views.Layouts
 					rowHeight = step;
 			}
 
-			// Content-space top of row 0, and the viewport band not covered by the column header. The header is pinned
-			// to the top of the viewport but repositioned after each scroll, so its height is used, not its position.
+			// The header is pinned to the top of the viewport but repositioned after each scroll, so its height is used,
+			// not its position. A scroll requested by the previous key step may not be laid out yet: the band follows it.
 			var firstRowTop = probeTop + scroller.VerticalOffset - probeIndex * rowHeight;
 			var usableTop = Math.Min(HeaderGrid.ActualHeight, scroller.ViewportHeight);
-			var viewTop = scroller.VerticalOffset + usableTop;
-			var viewBottom = scroller.VerticalOffset + scroller.ViewportHeight;
+			var offset = requestedOffset ?? scroller.VerticalOffset;
+			var viewTop = offset + usableTop;
+			var viewBottom = offset + scroller.ViewportHeight;
 
 			// A few pixels of tolerance: row 0 sits slightly under the header's bottom border at offset 0
 			const double tolerance = 4;
 			var lastIndex = FileList.Items.Count - 1;
 			var firstFull = Math.Clamp((int)Math.Ceiling((viewTop - tolerance - firstRowTop) / rowHeight), 0, lastIndex);
 			var lastFull = Math.Clamp((int)Math.Floor((viewBottom + tolerance - firstRowTop) / rowHeight) - 1, firstFull, lastIndex);
+			geometry = new(firstRowTop, rowHeight, usableTop, viewTop, viewBottom, firstFull, lastFull);
+			return true;
+		}
+
+		// Smallest scroll that leaves the whole row in the uncovered band, applied without animation
+		private void ScrollRowIntoBand(ScrollViewer scroller, RowGeometry g, int index)
+		{
+			var top = g.FirstRowTop + index * g.RowHeight;
+			double? offset = top + g.RowHeight > g.ViewBottom
+				? Math.Min(scroller.ScrollableHeight, top + g.RowHeight - scroller.ViewportHeight)
+				: top < g.ViewTop ? Math.Max(0, top - g.UsableTop) : null;
+			if (offset is not { } newOffset)
+				return;
+
+			requestedOffset = newOffset;
+			scroller.ChangeView(null, newOffset, null, true);
+		}
+
+		// The item the keyboard is on: the last key target while it is still selected (its container may not hold the
+		// focus yet), else the focused row, else the last selected item
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		private int GetKeyboardCurrentIndex(FrameworkElement? focusedElement)
+		{
+			foreach (var target in new[] { pageTarget, rowTarget })
+			{
+				if (target is not null && (SelectedItems?.Contains(target) ?? false))
+					return FileList.Items.IndexOf(target);
+			}
+
+			return focusedElement is ListViewItem { Content: ListedItem focusedItem }
+				? FileList.Items.IndexOf(focusedItem)
+				: (SelectedItems?.LastOrDefault() is { } lastSelected ? FileList.Items.IndexOf(lastSelected) : -1);
+		}
+
+		// F029: Up/Down without modifiers move one row the way PgUp/PgDn move a page: selection, an instant minimal
+		// scroll and the focus on the row, instead of the list's own step (focus change, then bring-into-view)
+		private bool TryMoveRow(bool down, FrameworkElement? focusedElement)
+		{
+			if (ContentScroller is not { } scroller || !TryGetRowGeometry(scroller, out var g))
+				return false;
+
+			var current = GetKeyboardCurrentIndex(focusedElement);
+			var target = current < 0 ? g.FirstFull : Math.Clamp(current + (down ? 1 : -1), 0, FileList.Items.Count - 1);
+			if (FileList.Items[target] is not ListedItem targetItem)
+				return false;
+
+			pageSelectionAnchor = null;
+			ItemManipulationModel.SetSelectedItem(targetItem);
+			ScrollRowIntoBand(scroller, g, target);
+			rowTarget = targetItem;
+			EnsureItemFocusVisual(targetItem);
+			return true;
+		}
+
+		// F028: PgDn goes to the last row fully on screen, or one page further with that row at the bottom; PgUp mirrors it.
+		private bool TryMovePage(bool down, bool extendSelection, FrameworkElement? focusedElement)
+		{
+			if (ContentScroller is not { } scroller || !TryGetRowGeometry(scroller, out var g))
+				return false;
+
+			var (firstFull, lastFull) = (g.FirstFull, g.LastFull);
+			var lastIndex = FileList.Items.Count - 1;
 			var pageStep = Math.Max(1, lastFull - firstFull);
 
-			// The previous page target wins while it is still selected: its container may not hold the focus yet
 			var continuing = pageTarget is not null && pageTargetDown == down && (SelectedItems?.Contains(pageTarget) ?? false);
-			var current = pageTarget is not null && (SelectedItems?.Contains(pageTarget) ?? false)
-				? FileList.Items.IndexOf(pageTarget)
-				: focusedElement is ListViewItem { Content: ListedItem focusedItem }
-					? FileList.Items.IndexOf(focusedItem)
-					: (SelectedItems?.LastOrDefault() is { } lastSelected ? FileList.Items.IndexOf(lastSelected) : -1);
+			var current = GetKeyboardCurrentIndex(focusedElement);
 
 			// First press goes to the edge row on screen; a repeated press in the same direction always turns a page,
 			// since bringing the focused row into view can scroll a few pixels and expose one more row past the edge
@@ -824,13 +909,7 @@ namespace Files.App.Views.Layouts
 				ItemManipulationModel.SetSelectedItem(targetItem);
 			}
 
-			// Smallest scroll that leaves the whole target row in the uncovered band
-			var targetTop = firstRowTop + target * rowHeight;
-			if (targetTop + rowHeight > viewBottom)
-				scroller.ChangeView(null, Math.Min(scroller.ScrollableHeight, targetTop + rowHeight - scroller.ViewportHeight), null, true);
-			else if (targetTop < viewTop)
-				scroller.ChangeView(null, Math.Max(0, targetTop - usableTop), null, true);
-
+			ScrollRowIntoBand(scroller, g, target);
 			pageTarget = targetItem;
 			pageTargetDown = down;
 			EnsureItemFocusVisual(targetItem);
@@ -1304,6 +1383,8 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			if (ContentScroller is not null)
+				ContentScroller.ViewChanged += (_, _) => requestedOffset = null;
 			const double OffsetCorrection = 88; // HeaderGrid (40) + ListViewHeaderItem (44 + 4 margin)
 
 			RootGridZoom.ViewChangeStarted += (_, args) =>
@@ -1553,7 +1634,7 @@ namespace Files.App.Views.Layouts
 		// new selection has been laid out and presented.
 		private void NavigationStep_Rendering(object? sender, object e)
 		{
-			if (++navigationFramesSeen < 2)
+			if (++navigationFramesSeen < (F029Flag("throttle1") ? 1 : 2))
 				return;
 
 			CompositionTarget.Rendering -= NavigationStep_Rendering;

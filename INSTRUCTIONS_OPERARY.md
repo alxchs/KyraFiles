@@ -56,6 +56,17 @@ A F024 terminou com um veredito grande ("WinUI 3 é inviável") sustentado por p
 11. **Não remova proteção sem medir o efeito.** A F024 tirou `sampler.CheckNow()` do fluxo do watcher; isso baixa a latência de 5 arquivos mas piora o caso de muitas mudanças por segundo. Toda remoção de throttle exige o caso de carga alto no A/B.
 12. **Documento e commit têm de dizer a mesma coisa.** A F024 escreveu "executável preservado" e depois o desinstalou; o commit "expurgo do registro" só tinha linhas em branco. Antes de afirmar estado do ambiente, confira (`Test-Path`, `Get-Process`) e cite o comando.
 
+### Lições da F028/F029 (21/10/2026, Claude)
+
+13. **O exe de teste do Alexandre sai de `dotnet build src/Files.App/Files.App.csproj -c Release -p:Platform=x64` + `.\Open-FilesDev.ps1`.** O `mkfile` compila para `%TEMP%\Compiler` e falha no `Files.App.Server`: não atualiza o `AppX`.
+14. **Erro de XAML em massa (`WMC0001 Unknown type`, `WMC1509 No LocalAssembly`) costuma ser um erro de C#.** Rode com `-v:minimal` e procure `error CS`.
+15. **Captura de tela por script precisa de `SetProcessDPIAware()`**, senão sai cortada com a escala de 150%. Encaixe a janela na área de trabalho e clique numa linha para o foco estar na lista (`tools/perf/prep_window.ps1`).
+16. **Toda tecla ou clique sintético confere antes a janela em primeiro plano** (`GetForegroundWindow`). Um clique "na lista" caiu num VS Code de outro projeto. Os scripts F025/F028/F029 param se a janela medida sair da frente.
+17. **Medição que toma teclado e mouse só roda com o computador ocioso** (`GetLastInputInfo`, `tools/perf/f029_ab.ps1` espera 60 s). O Alexandre usa a mesma máquina.
+18. **Lista com cabeçalho fixo: posição de linha não é `índice × RowHeight`.** O cabeçalho cobre o topo do viewport. Leia a posição real de um contêiner realizado (`TryGetRowGeometry` em `DetailsLayoutPage`).
+19. **Um log temporário de uma linha por evento resolve em minutos o que a captura não explica** (a F028 achou assim a rolagem extra de 7 px do foco nativo). Apague o log antes do commit.
+20. **`Start-Sleep -Milliseconds 33` não dura 33 ms**: medido 89 ms em 21/10/2026 (depende da resolução do relógio do Windows naquele momento, que outros programas mudam). A coluna `presses` antiga era calculada, não contada. Compare só rodadas do mesmo lote, intercaladas, e use a contagem real de teclas enviadas.
+
 ## (Encerrada) Notas da tarefa T17a a T17e (correções achadas pela medição da T17)
 
 1. Leia antes: `tools/perf/README.md`, seção "F015 T17 — latência com snapshot" (números, perfil e diagnóstico). As linhas T17a a T17e do `tasks.md` da F015 dizem o "pronto" de cada uma.

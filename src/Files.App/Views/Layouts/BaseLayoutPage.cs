@@ -325,8 +325,8 @@ namespace Files.App.Views.Layouts
 		// F026: the expensive side effects of a selection change (status bar size/count, toolbar state and
 		// its overflow re-measure) are applied at once for an isolated change, but coalesced while the
 		// selection changes in quick succession (held arrow key), so the UI thread can keep up.
-		private const int SelectionEffectsBurstMs = 150;
-		private const int SelectionEffectsSettleMs = 60;
+		private const int SelectionEffectsBurstMs = 350;
+		private const int SelectionEffectsSettleMs = 350;
 		private long lastSelectionChangeTick;
 		private bool selectionEffectsPending;
 		private DispatcherQueueTimer? selectionEffectsTimer;

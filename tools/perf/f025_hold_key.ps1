@@ -44,6 +44,7 @@ for ($run = 1; $run -le $Runs; $run++) {
     [F025Win]::SetForegroundWindow($h) | Out-Null; Start-Sleep -Milliseconds 300
     # volta ao inicio da lista
     [F025Win]::keybd_event(0x24, 0, 0, [UIntPtr]::Zero); [F025Win]::keybd_event(0x24, 0, 2, [UIntPtr]::Zero); Start-Sleep -Seconds 1
+    $startFocus = try { [Windows.Automation.AutomationElement]::FocusedElement.Current.Name } catch { '?' }
     $p.Refresh(); $cpu0 = $p.TotalProcessorTime
     $lat = New-Object System.Collections.Generic.List[double]
     $t = [Diagnostics.Stopwatch]::StartNew(); $next = 0
@@ -65,7 +66,7 @@ for ($run = 1; $run -le $Runs; $run++) {
     while ((Ping-Ui) -gt 100 -and $rec.Elapsed.TotalSeconds -lt 60) { Start-Sleep -Milliseconds 100 }
     $p.Refresh(); $cpu = ($p.TotalProcessorTime - $cpu0).TotalMilliseconds
     $presses = [int]($HoldS * 1000 / 33); $s = $lat | Sort-Object; $med = $s[[int]($s.Count / 2)]; $max = $s[-1]
-    $row = '{0},{1},{2},{3},{4:F0},{5:F0},{6:F0},{7:F0},{8:F0},{9},{10:F0},{11},{12},{13},{14},{15}' -f $Label, $Key, $run, $HoldS, $cpu, ($p.WorkingSet64/1MB), ($p.PrivateMemorySize64/1MB), $med, $max, $lat.Count, $rec.ElapsedMilliseconds, $presses, $steps, $lastChange, ($final -replace ",",";"), (Get-Date -Format s)
+    $row = '{0},{1},{2},{3},{4:F0},{5:F0},{6:F0},{7:F0},{8:F0},{9},{10:F0},{11},{12},{13},{14},{15},{16}' -f $Label, $Key, $run, $HoldS, $cpu, ($p.WorkingSet64/1MB), ($p.PrivateMemorySize64/1MB), $med, $max, $lat.Count, $rec.ElapsedMilliseconds, $presses, $steps, $lastChange, ($final -replace ",",";"), (Get-Date -Format s), ($startFocus -replace ",",";")
     Add-Content $Out $row; Write-Host $row
     Start-Sleep -Seconds 3
 }

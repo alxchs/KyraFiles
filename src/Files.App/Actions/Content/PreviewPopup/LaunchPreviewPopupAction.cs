@@ -45,11 +45,29 @@ namespace Files.App.Actions
 				await provider.TogglePreviewPopupAsync(itemPath);
 		}
 
+		// F028: provider detection (pipe + registry) must not run on every step of a held arrow key;
+		// only the last selection change of a burst switches the popup.
+		private int switchVersion;
+		private IPreviewPopupProvider? switchProvider;
+		private long switchProviderTick = long.MinValue / 2;
+
 		private async Task SwitchPopupPreviewAsync()
 		{
+			var version = Interlocked.Increment(ref switchVersion);
+			await Task.Delay(150);
+			if (version != Volatile.Read(ref switchVersion))
+				return;
+
 			if (IsExecutable)
 			{
-				var provider = await previewPopupService.GetProviderAsync();
+				// Detection probes a named pipe and the registry; remember the answer for a few seconds on this path only
+				// (the explicit "toggle preview" command above always detects afresh).
+				if (Environment.TickCount64 - switchProviderTick > 5000)
+				{
+					switchProvider = await previewPopupService.GetProviderAsync();
+					switchProviderTick = Environment.TickCount64;
+				}
+				var provider = switchProvider;
 				if (provider is null)
 					return;
 

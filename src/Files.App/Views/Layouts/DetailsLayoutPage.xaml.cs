@@ -559,6 +559,22 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
+			// F028: a held navigation key repeats faster than the list can realize and draw rows. Accept the next
+			// auto-repeat only after the previous step reached the screen, so the selection and the scroll bar always
+			// show where the user is (as in Explorer) and no backlog keeps moving after the key is released.
+			if (e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.PageUp or VirtualKey.PageDown && e.KeyStatus.WasKeyDown)
+			{
+				if (navigationStepPending)
+				{
+					e.Handled = true;
+					return;
+				}
+
+				navigationStepPending = true;
+				navigationFramesSeen = 0;
+				CompositionTarget.Rendering += NavigationStep_Rendering;
+			}
+
 			// F026: any key that is not plain navigation acts on the up-to-date selection.
 			if (e.Key is not (VirtualKey.Up or VirtualKey.Down or VirtualKey.Left or VirtualKey.Right or VirtualKey.Home or VirtualKey.End or VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift or VirtualKey.Control))
 				FlushPendingSelectionEffects();
@@ -665,38 +681,6 @@ namespace Files.App.Views.Layouts
 					var lastItem = items[items.Count - 1];
 					ItemManipulationModel.SetSelectedItem(lastItem);
 					ItemManipulationModel.ScrollIntoView(lastItem);
-					ItemManipulationModel.FocusSelectedItems();
-				}
-			}
-			else if (e.Key == VirtualKey.PageDown)
-			{
-				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
-				if (items is not null && items.Count > 0)
-				{
-					e.Handled = true;
-					var currentItem = SelectedItems?.LastOrDefault() ?? items[0];
-					var currentIdx = items.IndexOf(currentItem);
-					const int pageSize = 25;
-					var targetIdx = Math.Min(items.Count - 1, (currentIdx < 0 ? 0 : currentIdx) + pageSize);
-					var targetItem = items[targetIdx];
-					ItemManipulationModel.SetSelectedItem(targetItem);
-					ItemManipulationModel.ScrollIntoView(targetItem);
-					ItemManipulationModel.FocusSelectedItems();
-				}
-			}
-			else if (e.Key == VirtualKey.PageUp)
-			{
-				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
-				if (items is not null && items.Count > 0)
-				{
-					e.Handled = true;
-					var currentItem = SelectedItems?.FirstOrDefault() ?? items[0];
-					var currentIdx = items.IndexOf(currentItem);
-					const int pageSize = 25;
-					var targetIdx = Math.Max(0, (currentIdx < 0 ? 0 : currentIdx) - pageSize);
-					var targetItem = items[targetIdx];
-					ItemManipulationModel.SetSelectedItem(targetItem);
-					ItemManipulationModel.ScrollIntoView(targetItem);
 					ItemManipulationModel.FocusSelectedItems();
 				}
 			}
@@ -1398,6 +1382,20 @@ namespace Files.App.Views.Layouts
 		}
 
 		private readonly ConditionalWeakTable<CheckBox, object> hookedSelectionCheckboxes = new();
+
+		private bool navigationStepPending;
+		private int navigationFramesSeen;
+
+		// Rendering fires at the start of each frame: the second one after the key means a frame with the
+		// new selection has been laid out and presented.
+		private void NavigationStep_Rendering(object? sender, object e)
+		{
+			if (++navigationFramesSeen < 2)
+				return;
+
+			CompositionTarget.Rendering -= NavigationStep_Rendering;
+			navigationStepPending = false;
+		}
 
 		private readonly ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
 

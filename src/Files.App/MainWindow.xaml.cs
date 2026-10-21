@@ -108,19 +108,32 @@ namespace Files.App
 					}
 					else
 					{
-						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
-						if (parsedArgs[0] == "tab" && parsedArgs.Length > 3 &&
-							int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
-							int.TryParse(parsedArgs[3], out var dy))
-							AppWindow?.Move(new(dx - 100, dy - 16));
+						var uriQuery = eventArgs.Uri.Query.TrimStart('?');
+						var parsedArgs = uriQuery.Contains('=') ? uriQuery.Split('=') : [];
+						string action = parsedArgs.Length > 0 ? parsedArgs[0] : "folder";
+						string unescapedValue = string.Empty;
+
+						if (parsedArgs.Length > 1)
+						{
+							unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
+							if (action == "tab" && parsedArgs.Length > 3 &&
+								int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
+								int.TryParse(parsedArgs[3], out var dy))
+								AppWindow?.Move(new(dx - 100, dy - 16));
+						}
+						else
+						{
+							var rawPath = eventArgs.Uri.OriginalString.Substring("files-dev:".Length).TrimStart('/');
+							unescapedValue = Uri.UnescapeDataString(rawPath);
+						}
+
 						var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
 						if (folderResult.Result is { } folder && !string.IsNullOrEmpty(folder.Path))
 						{
 							// Convert short name to long name (#6190)
 							unescapedValue = folder.Path;
 						}
-						switch (parsedArgs[0])
+						switch (action)
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
@@ -145,6 +158,10 @@ namespace Files.App
 								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 								break;
 						}
+
+						MainWindow.Instance.Activate();
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+						_ = EnsureContentHasKeyboardFocusAsync();
 					}
 					break;
 

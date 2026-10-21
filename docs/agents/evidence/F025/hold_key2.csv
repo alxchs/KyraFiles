@@ -1,0 +1,140 @@
+label,key,run,hold_s,cpu_ms,ws_mb,private_mb,ui_lat_median_ms,ui_lat_max_ms,ui_pings,ui_recover_ms,presses,backlog_steps_after_release,drain_ms,final_item,date
+C1-atual-lab,Down,1,5,14062,380,637,27,194,28,2808,152,0,0,backup_0381.exe; Folder,2026-10-20T14:55:48
+C1-atual-lab,Down,2,5,12312,476,645,42,1317,21,2486,152,0,0,backup_0318.ini; Folder,2026-10-20T14:56:00
+C1-atual-lab,Down,3,5,11688,482,645,37,108,30,2594,152,0,0,backup_0462.ini; Folder,2026-10-20T14:56:12
+C2-upstream-lab,Down,1,5,13422,511,382,22,194,30,2406,152,0,0,backup_0534.jpg; Folder,2026-10-20T14:57:24
+C2-upstream-lab,Down,2,5,11344,520,392,10,94,35,2176,152,0,0,backup_0714.log; Folder,2026-10-20T14:57:35
+C2-upstream-lab,Down,3,5,9891,526,400,17,50,34,2087,152,0,0,backup_0768.txt; Folder,2026-10-20T14:57:47
+T-atual-trace,Down,1,5,14734,536,407,20,312,29,2337,152,0,0,backup_0525.exe; Folder,2026-10-20T14:59:11
+D1-atual,Down,1,5,12609,535,410,13,328,33,2314,152,0,0,backup_0705.cs; Folder,2026-10-20T15:00:47
+D2-upstream,Down,1,5,3188,500,366,0,9,36,2337,152,0,0,OK,2026-10-20T15:01:51
+D2b1-upstream,Down,1,5,13391,531,401,10,213,32,2271,152,0,0,backup_0534.jpg; Folder,2026-10-20T15:03:12
+D2b2-upstream,Down,1,5,11203,537,414,19,446,29,2180,152,0,0,backup_0615.pdf; Folder,2026-10-20T15:03:36
+E1-f026,Down,1,5,11953,547,422,3,222,33,2493,152,0,0,backup_0795.zip; Folder,2026-10-20T18:18:02
+E1-f026,Down,2,5,11125,654,542,1,52,34,2155,152,0,0,backup_0858.log; Folder,2026-10-20T18:18:13
+E1-f026,Down,3,5,10938,736,629,6,122,34,2096,152,0,0,backup_0840.docx; Folder,2026-10-20T18:18:25
+E1-f026,Down,4,5,10406,753,658,3,281,33,2073,152,0,0,backup_0831.sql; Folder,2026-10-20T18:18:36
+E1-f026,Down,5,5,11594,776,665,11,93,33,2097,152,0,0,backup_0732.dll; Folder,2026-10-20T18:18:48
+E1t1-f026,Down,1,5,11938,766,657,37,676,23,2655,152,0,0,backup_0462.ini; Folder,2026-10-20T18:19:16
+E1t2-f026,Down,1,5,6891,766,659,1,70,37,2363,152,0,0,Enter a path to navigate to...,2026-10-20T18:19:32
+F-listview-nativo,Down,1,5,2750,68,22,0,15,36,2264,152,0,0,backup_0948.md,2026-10-20T18:20:29
+F-listview-nativo,Down,2,5,1891,69,23,1,42,35,2142,152,0,0,backup_0939.zip,2026-10-20T18:20:40
+F-listview-nativo,Down,3,5,1750,69,24,1,1,36,2066,152,0,0,backup_0957.exe,2026-10-20T18:20:52
+F-listview-nativo,Down,4,5,2078,70,24,0,2,36,2057,152,0,0,backup_0948.md,2026-10-20T18:21:03
+F-listview-nativo,Down,5,5,1688,71,25,0,24,36,2146,152,0,0,backup_0957.exe,2026-10-20T18:21:15
+H1-f026-cache1,Down,1,5,2688,417,287,0,45,37,2538,152,0,0,,2026-10-20T20:37:27
+H1-f026-cache1,Down,2,5,10672,452,325,1,108,37,2432,152,1,347,backup_0840.docx; Folder,2026-10-20T20:37:38
+H1-f026-cache1,Down,3,5,8500,460,334,6,100,34,2669,152,1,597,backup_0768.txt; Folder,2026-10-20T20:37:50
+H1-f026-cache1,Down,4,5,8438,469,342,7,137,33,2454,152,1,332,backup_0750.ini; Folder,2026-10-20T20:38:02
+H1-f026-cache1,Down,5,5,7750,468,341,10,141,33,2314,152,1,260,backup_0750.ini; Folder,2026-10-20T20:38:14
+J2-f027,Down,1,5,9844,524,392,7,358,29,2428,152,1,301,backup_0723.xml; Folder,2026-10-20T21:03:58
+J2-f027,Down,2,5,7906,539,408,11,349,30,2494,152,1,420,backup_0687.sql; Folder,2026-10-20T21:04:10
+J2-f027,Down,3,5,8906,549,419,1,354,35,2500,152,1,445,backup_0813.exe; Folder,2026-10-20T21:04:22
+J2-f027,Down,4,5,9203,550,419,5,422,29,2622,152,1,539,backup_0705.cs; Folder,2026-10-20T21:04:34
+J2-f027,Down,5,5,8781,555,424,9,421,28,2353,152,1,264,backup_0642.json; Folder,2026-10-20T21:04:46
+J2-f027,PageDown,1,5,11891,572,442,45,366,24,2307,152,0,0,backup_0588.dll; Folder,2026-10-20T21:05:06
+J2-f027,PageDown,2,5,12031,580,452,41,350,25,2667,152,0,0,backup_0345.xlsx; Folder,2026-10-20T21:05:18
+J2-f027,PageDown,3,5,10516,581,450,34,251,28,2064,152,0,0,backup_0543.sql; Folder,2026-10-20T21:05:30
+J2-f027,PageDown,4,5,11859,588,457,33,442,28,2521,152,0,0,backup_0318.ini; Folder,2026-10-20T21:05:42
+J2-f027,PageDown,5,5,11469,590,460,29,456,27,2702,152,0,0,backup_0543.sql; Folder,2026-10-20T21:05:54
+K-trace,Down,1,12,24078,513,380,10,120,78,2355,364,1,111,codigo_0202.log; Folder,2026-10-20T21:11:05
+L1-f028,Down,1,5,10125,461,326,9,98,32,2566,152,1,183,backup_0723.xml; Folder,2026-10-20T21:18:19
+L1-f028,Down,2,5,8359,464,329,6,143,31,2498,152,1,350,backup_0759.pdf; Folder,2026-10-20T21:18:31
+L1-f028,Down,3,5,8719,471,336,7,139,32,2637,152,1,508,backup_0786.json; Folder,2026-10-20T21:18:43
+L1-f028,Down,4,5,8859,473,338,3,69,34,2812,152,1,783,backup_0840.docx; Folder,2026-10-20T21:18:55
+L1-f028,Down,5,5,7828,491,355,6,121,33,2417,152,1,286,backup_0786.json; Folder,2026-10-20T21:19:07
+L1-f028,PageDown,1,5,10328,507,374,89,215,24,3609,152,1,1208,projeto_1151.sql; Folder,2026-10-20T21:19:28
+L1-f028,PageDown,2,5,12203,508,373,88,297,23,3712,152,1,1417,relatorio_0252.dll; Folder,2026-10-20T21:19:41
+L1-f028,PageDown,3,5,11547,510,376,50,188,24,3652,152,1,1530,relatorio_1026.json; Folder,2026-10-20T21:19:54
+L1-f028,PageDown,4,5,9781,512,377,89,191,23,2439,152,0,0,backup_0165.png; Folder,2026-10-20T21:20:06
+L1-f028,PageDown,5,5,10000,519,385,61,182,25,2547,152,0,0,backup_0102.jpg; Folder,2026-10-20T21:20:18
+L2-f028,PageDown,1,5,7781,468,369,22,133,32,2308,152,0,0,backup_0057.xlsx; Folder,2026-10-20T21:20:53
+L2-f028,PageDown,2,5,11078,475,380,70,241,23,3258,152,1,1090,projeto_1268.md; Folder,2026-10-20T21:21:05
+L2-f028,PageDown,3,5,8000,480,382,38,246,25,2243,152,0,0,backup_0453.png; Folder,2026-10-20T21:21:17
+L2-f028,PageDown,4,5,10641,486,389,51,224,26,3802,152,1,1584,relatorio_0072.docx; Folder,2026-10-20T21:21:30
+L2-f028,PageDown,5,5,9422,505,407,48,176,26,2543,152,0,0,backup_0498.json; Folder,2026-10-20T21:21:42
+L2-f028,PageDown,6,5,11547,509,416,44,291,26,4040,152,1,1489,relatorio_1134.ini; Folder,2026-10-20T21:21:55
+L3-f028,PageDown,1,5,8328,494,412,90,248,22,2095,152,0,0,backup_0255.sql; Folder,2026-10-20T21:22:53,backup_0003.xml; Folder
+L3-f028,PageDown,2,5,9375,505,425,73,222,23,2223,152,0,0,backup_0588.dll; Folder,2026-10-20T21:23:05,backup_0003.xml; Folder
+L3-f028,PageDown,3,5,11641,501,423,67,260,23,3994,152,1,1644,relatorio_1449.xlsx; Folder,2026-10-20T21:23:18,backup_0003.xml; Folder
+L3-f028,PageDown,4,5,9625,506,427,60,266,24,2148,152,0,0,backup_0597.png; Folder,2026-10-20T21:23:30,backup_0003.xml; Folder
+L3-f028,PageDown,5,5,8891,503,425,73,263,24,2378,152,0,0,backup_0345.xlsx; Folder,2026-10-20T21:23:41,backup_0003.xml; Folder
+L3-f028,PageDown,6,5,12109,520,443,95,198,22,3675,152,1,1306,relatorio_0810.log; Folder,2026-10-20T21:23:54,backup_0003.xml; Folder
+M-trace,Down,1,12,24141,505,369,1,241,81,2560,364,1,405,codigo_0319.sql; Folder,2026-10-20T21:25:00,backup_0003.xml; Folder
+N1-f028b,Down,1,5,10484,445,314,1,64,37,2131,152,0,0,backup_0912.txt; Folder,2026-10-20T21:29:51,backup_0003.xml; Folder
+N1-f028b,Down,2,5,8812,450,318,1,171,36,2053,152,0,0,backup_0732.dll; Folder,2026-10-20T21:30:02,backup_0003.xml; Folder
+N1-f028b,Down,3,5,9312,455,322,1,32,38,2987,152,4,947,backup_0858.log; Folder,2026-10-20T21:30:14,backup_0003.xml; Folder
+N1-f028b,Down,4,5,7844,461,329,1,19,38,2020,152,0,0,backup_0921.xlsx; Folder,2026-10-20T21:30:26,backup_0003.xml; Folder
+N1-f028b,Down,5,5,7812,461,328,1,147,37,2123,152,0,0,backup_0768.txt; Folder,2026-10-20T21:30:37,backup_0003.xml; Folder
+N1-f028b,PageDown,1,5,9422,469,334,1,309,30,2093,152,0,0,Sidebar pane,2026-10-20T21:30:58,backup_0003.xml; Folder
+N1-f028b,PageDown,2,5,1609,465,330,0,1,39,2120,152,0,0,Sidebar pane,2026-10-20T21:31:09,Sidebar pane
+N1-f028b,PageDown,3,5,1984,464,329,0,1,38,2027,152,0,0,Sidebar pane,2026-10-20T21:31:20,Sidebar pane
+N1-f028b,PageDown,4,5,1609,463,329,0,1,39,2026,152,0,0,Sidebar pane,2026-10-20T21:31:32,Sidebar pane
+N1-f028b,PageDown,5,5,1250,462,327,0,1,38,2049,152,0,0,Sidebar pane,2026-10-20T21:31:43,Sidebar pane
+P1-f028e,Down,1,5,7625,550,427,0,29,38,2090,152,0,0,backup_0399.sql; Folder,2026-10-20T21:46:09,backup_0003.xml; Folder
+P1-f028e,Down,2,5,7328,552,430,0,35,37,2139,152,0,0,backup_0795.zip; Folder,2026-10-20T21:46:21,backup_0003.xml; Folder
+P1-f028e,Down,3,5,7516,556,430,0,22,38,2106,152,0,0,backup_0768.txt; Folder,2026-10-20T21:46:32,backup_0003.xml; Folder
+P1-f028e,Down,4,5,6859,556,431,0,174,35,2067,152,0,0,backup_0714.log; Folder,2026-10-20T21:46:43,backup_0003.xml; Folder
+P1-f028e,Down,5,5,6922,556,432,0,20,39,2064,152,0,0,backup_0849.cs; Folder,2026-10-20T21:46:55,backup_0003.xml; Folder
+P1-f028e,PageDown,1,5,13359,575,449,46,189,29,2516,152,1,437,config_1402.log; Folder,2026-10-20T21:47:16,backup_0003.xml; Folder
+P1-f028e,PageDown,2,5,13422,568,440,5,189,31,2269,152,1,136,dados_0366.ini; Folder,2026-10-20T21:47:27,backup_0003.xml; Folder
+P1-f028e,PageDown,3,5,14531,570,443,2,217,31,2665,152,1,524,dados_0690.json; Folder,2026-10-20T21:47:39,backup_0003.xml; Folder
+P1-f028e,PageDown,4,5,12828,569,442,24,224,31,2095,152,0,0,documento_0919.pdf; Folder,2026-10-20T21:47:51,backup_0003.xml; Folder
+P1-f028e,PageDown,5,5,12109,572,445,6,138,32,2127,152,0,0,documento_0298.log; Folder,2026-10-20T21:48:02,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,Down,1,5,8484,524,403,0,17,38,2114,152,0,0,backup_0741.png; Folder,2026-10-20T22:17:42,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,Down,2,5,6844,538,419,0,49,38,2039,152,0,0,backup_0732.dll; Folder,2026-10-20T22:17:54,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,Down,3,5,7000,537,415,0,28,39,2079,152,0,0,backup_0804.md; Folder,2026-10-20T22:18:05,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,Down,4,5,7812,549,433,0,158,37,2018,152,0,0,backup_0795.zip; Folder,2026-10-20T22:18:16,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,Down,5,5,7031,552,433,0,6,39,2089,152,0,0,backup_0750.ini; Folder,2026-10-20T22:18:28,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,PageDown,1,5,12859,578,452,32,196,28,2396,152,1,127,config_0754.json; Folder,2026-10-20T22:18:48,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,PageDown,2,5,12500,571,446,5,192,32,2339,152,1,233,dados_1590.jpg; Folder,2026-10-20T22:19:00,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,PageDown,3,5,12984,571,445,4,194,30,2066,152,0,0,dados_1284.md; Folder,2026-10-20T22:19:12,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,PageDown,4,5,12297,571,446,17,186,29,2252,152,1,111,dados_1590.jpg; Folder,2026-10-20T22:19:23,backup_0003.xml; Folder
+Q1-diag-semnuvem-semdyn,PageDown,5,5,12328,569,443,5,108,34,2042,152,0,0,dados_0978.json; Folder,2026-10-20T22:19:35,backup_0003.xml; Folder
+R-trace-pgdn,PageDown,1,12,23844,535,446,12,210,74,2090,364,0,0,relatorio_1593.xlsx; Folder,2026-10-20T22:20:20,backup_0003.xml; Folder
+S1-f028f,Down,1,5,8203,528,408,0,30,39,2065,152,0,0,backup_0750.ini; Folder,2026-10-20T22:25:00,backup_0003.xml; Folder
+S1-f028f,Down,2,5,7422,536,417,0,2,37,2120,152,0,0,backup_0732.dll; Folder,2026-10-20T22:25:12,backup_0003.xml; Folder
+S1-f028f,Down,3,5,7422,542,419,0,157,38,2124,152,0,0,backup_0831.sql; Folder,2026-10-20T22:25:23,backup_0003.xml; Folder
+S1-f028f,Down,4,5,7688,542,419,0,25,37,2069,152,0,0,backup_0786.json; Folder,2026-10-20T22:25:35,backup_0003.xml; Folder
+S1-f028f,Down,5,5,7062,542,419,0,40,38,2112,152,0,0,backup_0804.md; Folder,2026-10-20T22:25:46,backup_0003.xml; Folder
+S1-f028f,PageDown,1,5,10469,569,444,18,180,28,2447,152,1,320,config_0754.json; Folder,2026-10-20T22:26:07,backup_0003.xml; Folder
+S1-f028f,PageDown,2,5,14188,576,451,15,160,30,2136,152,0,0,documento_0595.xml; Folder,2026-10-20T22:26:18,backup_0003.xml; Folder
+S1-f028f,PageDown,3,5,10406,570,445,1,165,33,2135,152,0,0,dados_0366.ini; Folder,2026-10-20T22:26:30,backup_0003.xml; Folder
+S1-f028f,PageDown,4,5,10234,563,438,1,138,33,2187,152,1,121,dados_0978.json; Folder,2026-10-20T22:26:41,backup_0003.xml; Folder
+S1-f028f,PageDown,5,5,12031,563,438,1,217,33,2352,152,1,246,dados_0069.png; Folder,2026-10-20T22:26:53,backup_0003.xml; Folder
+T-trace-pgdn2,PageDown,1,12,23453,553,447,16,277,71,2482,364,1,355,projeto_0386.json; Folder,2026-10-20T22:27:35,backup_0003.xml; Folder
+U1-f028g,Down,1,5,8516,523,402,0,61,37,2074,152,0,0,backup_0741.png; Folder,2026-10-20T22:32:12,backup_0003.xml; Folder
+U1-f028g,Down,2,5,7625,535,413,0,43,37,2100,152,0,0,backup_0741.png; Folder,2026-10-20T22:32:23,backup_0003.xml; Folder
+U1-f028g,Down,3,5,7422,534,412,0,11,39,2049,152,0,0,backup_0804.md; Folder,2026-10-20T22:32:35,backup_0003.xml; Folder
+U1-f028g,Down,4,5,7188,547,431,0,39,39,2065,152,0,0,backup_0750.ini; Folder,2026-10-20T22:32:46,backup_0003.xml; Folder
+U1-f028g,Down,5,5,7484,553,435,0,3,38,2072,152,0,0,backup_0813.exe; Folder,2026-10-20T22:32:58,backup_0003.xml; Folder
+U1-f028g,PageDown,1,5,11031,568,443,72,231,25,2526,152,1,254,config_0754.json; Folder,2026-10-20T22:33:18,backup_0003.xml; Folder
+U1-f028g,PageDown,2,5,12297,567,443,27,169,31,2115,152,0,0,documento_0289.cs; Folder,2026-10-20T22:33:30,backup_0003.xml; Folder
+U1-f028g,PageDown,3,5,12391,573,448,1,206,33,2525,152,1,375,config_1366.jpg; Folder,2026-10-20T22:33:42,backup_0003.xml; Folder
+U1-f028g,PageDown,4,5,11297,569,444,1,246,36,2086,152,0,0,config_1357.exe; Folder,2026-10-20T22:33:53,backup_0003.xml; Folder
+U1-f028g,PageDown,5,5,10484,568,442,1,170,34,2344,152,1,119,dados_1284.md; Folder,2026-10-20T22:34:05,backup_0003.xml; Folder
+V-trace-pgdn3,PageDown,1,12,25688,574,458,13,190,72,2100,364,0,0,projeto_1304.docx; Folder,2026-10-20T22:34:45,backup_0003.xml; Folder
+W-diag,PageDown,1,5,12500,542,416,43,147,29,2860,152,1,468,config_0754.json; Folder,2026-10-20T22:38:29,backup_0003.xml; Folder
+W-diag,PageDown,2,5,13016,553,427,10,202,30,2089,152,0,0,documento_0595.xml; Folder,2026-10-20T22:38:41,backup_0003.xml; Folder
+X-diag,PageDown,1,5,10766,538,410,45,245,26,2248,152,1,113,config_0448.txt; Folder,2026-10-20T22:42:07,backup_0003.xml; Folder
+X-diag,PageDown,2,5,10016,540,414,0,20,37,2103,152,0,0,backup_1497.xlsx; Folder,2026-10-20T22:42:19,backup_0003.xml; Folder
+Y1-f028h,Down,1,5,7844,529,408,0,62,38,2116,152,0,0,backup_0714.log; Folder,2026-10-20T22:45:51,backup_0003.xml; Folder
+Y1-f028h,Down,2,5,7250,533,414,0,153,36,2081,152,0,0,backup_0804.md; Folder,2026-10-20T22:46:02,backup_0003.xml; Folder
+Y1-f028h,Down,3,5,7219,539,417,0,13,38,2038,152,0,0,backup_0777.xlsx; Folder,2026-10-20T22:46:13,backup_0003.xml; Folder
+Y1-f028h,Down,4,5,7156,554,438,0,78,39,2130,152,0,0,backup_0696.docx; Folder,2026-10-20T22:46:25,backup_0003.xml; Folder
+Y1-f028h,Down,5,5,7047,540,416,0,155,36,2082,152,0,0,backup_0741.png; Folder,2026-10-20T22:46:36,backup_0003.xml; Folder
+Y1-f028h,PageDown,1,5,8969,560,433,41,132,28,2354,152,1,286,config_0754.json; Folder,2026-10-20T22:46:57,backup_0003.xml; Folder
+Y1-f028h,PageDown,2,5,10219,557,431,1,221,34,2234,152,1,140,documento_0595.xml; Folder,2026-10-20T22:47:09,backup_0003.xml; Folder
+Y1-f028h,PageDown,3,5,10312,557,430,5,127,35,2178,152,1,111,dados_0987.zip; Folder,2026-10-20T22:47:20,backup_0003.xml; Folder
+Y1-f028h,PageDown,4,5,10641,562,437,1,63,38,2152,152,1,114,codigo_0832.txt; Folder,2026-10-20T22:47:32,backup_0003.xml; Folder
+Y1-f028h,PageDown,5,5,10500,561,436,4,148,33,2203,152,1,115,documento_0901.png; Folder,2026-10-20T22:47:43,backup_0003.xml; Folder
+F028-v4,PageDown,1,5,10656,623,512,13,218,29,2195,152,1,105,dados_0465.cs; Folder,2026-10-21T09:08:35,backup_0003.xml; Folder
+F028-v4,PageDown,2,5,11266,639,528,17,171,29,2466,152,1,235,documento_1288.docx; Folder,2026-10-21T09:08:47,backup_0003.xml; Folder
+F028-v4,PageDown,3,5,11500,644,532,32,274,26,2086,152,0,0,documento_0478.ini; Folder,2026-10-21T09:08:58,backup_0003.xml; Folder
+F028-v4,PageDown,4,5,11719,661,549,12,192,29,2297,152,1,119,documento_0073.xlsx; Folder,2026-10-21T09:09:10,backup_0003.xml; Folder
+F028-v4,PageDown,5,5,11812,659,547,15,328,28,2238,152,1,133,documento_0478.ini; Folder,2026-10-21T09:09:21,backup_0003.xml; Folder
+F028-v4,Down,1,5,10078,643,531,0,107,37,2093,152,0,0,backup_0606.ini; Folder,2026-10-21T09:09:35,backup_0003.xml; Folder
+F028-v4,Down,2,5,7375,653,542,0,207,37,2127,152,0,0,backup_0714.log; Folder,2026-10-21T09:09:47,backup_0003.xml; Folder
+F028-v4,Down,3,5,6594,653,542,0,8,40,2087,152,0,0,backup_0588.dll; Folder,2026-10-21T09:09:58,backup_0003.xml; Folder
+F028-v4,Down,4,5,7031,656,545,0,55,39,2028,152,0,0,backup_0750.ini; Folder,2026-10-21T09:10:09,backup_0003.xml; Folder
+F028-v4,Down,5,5,6547,660,549,0,255,37,2117,152,0,0,backup_0669.exe; Folder,2026-10-21T09:10:21,backup_0003.xml; Folder

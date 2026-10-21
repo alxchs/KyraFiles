@@ -12,7 +12,14 @@ namespace Files.App.Helpers
 
 		private const string VsCodeName = "Microsoft Visual Studio Code";
 
+		// F028: the registry scan is expensive and the settings getters call this on every read (toolbar rebuilds),
+		// so the answer is computed once per run.
+		private static bool? isVSCodeInstalled;
+
 		public static bool IsVSCodeInstalled()
+			=> isVSCodeInstalled ??= DetectVSCode();
+
+		private static bool DetectVSCode()
 		{
 			try
 			{

@@ -98,6 +98,7 @@ namespace Files.App.Views.Layouts
 		{
 			InitializeComponent();
 			DataContext = this;
+			FileList.AddHandler(KeyUpEvent, new KeyEventHandler(FileList_NavigationKeyUp), true);
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -136,11 +137,47 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems?.Any() ?? false)
+			if (SelectedItems?.LastOrDefault() is ListedItem lastSelected)
 			{
-				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * RowHeight, null, false);
-				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+				FileList.ScrollIntoView(lastSelected);
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(lastSelected) * RowHeight, null, true);
+				EnsureItemFocusVisual(lastSelected);
+			}
+		}
+
+		private ListedItem? _itemAwaitingFocusVisual;
+
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		private void EnsureItemFocusVisual(ListedItem item)
+		{
+			if (FileList.ContainerFromItem(item) is ListViewItem container)
+			{
+				_itemAwaitingFocusVisual = null;
+				FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+				container.Focus(FocusState.Keyboard);
+				return;
+			}
+
+			_itemAwaitingFocusVisual = item;
+			FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+			FileList.LayoutUpdated += FileList_FocusLayoutUpdated;
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		private void FileList_FocusLayoutUpdated(object? sender, object e)
+		{
+			if (_itemAwaitingFocusVisual is not null)
+			{
+				if (FileList.ContainerFromItem(_itemAwaitingFocusVisual) is ListViewItem container)
+				{
+					FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
+					container.Focus(FocusState.Keyboard);
+					_itemAwaitingFocusVisual = null;
+				}
+			}
+			else
+			{
+				FileList.LayoutUpdated -= FileList_FocusLayoutUpdated;
 			}
 		}
 
@@ -444,12 +481,7 @@ namespace Files.App.Views.Layouts
 
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			foreach (var item in e.AddedItems)
-				SetCheckboxSelectionState(item);
-
-			foreach (var item in e.RemovedItems)
-				SetCheckboxSelectionState(item);
-
+			// F027: the per-row checkbox is no longer painted on every selection change; it is refreshed lazily on hover.
 			UpdateSelectAllCheckboxState();
 		}
 
@@ -564,6 +596,37 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
 
+			// F028: a held navigation key repeats faster than the list can realize and draw rows. Accept the next
+			// auto-repeat only after the previous step reached the screen, so the selection and the scroll bar always
+			// show where the user is (as in Explorer) and no backlog keeps moving after the key is released.
+			// KeyStatus.WasKeyDown is not reliable in WinUI 3 desktop, so an auto-repeat is detected here as a second
+			// KeyDown of the same key without a KeyUp in between (the KeyUp handler clears it).
+			var isNavigationKey = e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.PageUp or VirtualKey.PageDown;
+			var isNavigationRepeat = isNavigationKey && heldNavigationKey == e.Key;
+			if (isNavigationKey)
+				heldNavigationKey = e.Key;
+			if (e.Key is not (VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift))
+				pageTarget = null;
+
+			if (isNavigationRepeat)
+			{
+				ExtendNavigationDeferral();
+
+				if (navigationStepPending)
+				{
+					e.Handled = true;
+					return;
+				}
+
+				navigationStepPending = true;
+				navigationFramesSeen = 0;
+				CompositionTarget.Rendering += NavigationStep_Rendering;
+			}
+
+			// F026: any key that is not plain navigation acts on the up-to-date selection.
+			if (e.Key is not (VirtualKey.Up or VirtualKey.Down or VirtualKey.Left or VirtualKey.Right or VirtualKey.Home or VirtualKey.End or VirtualKey.PageUp or VirtualKey.PageDown or VirtualKey.Shift or VirtualKey.Control))
+				FlushPendingSelectionEffects();
+
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
@@ -645,6 +708,133 @@ namespace Files.App.Views.Layouts
 					}
 				}
 			}
+			else if (e.Key == VirtualKey.Home)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var firstItem = items[0];
+					ItemManipulationModel.SetSelectedItem(firstItem);
+					ContentScroller?.ChangeView(null, 0, null, true);
+					EnsureItemFocusVisual(firstItem);
+				}
+			}
+			else if (e.Key == VirtualKey.End)
+			{
+				var items = ParentShellPageInstance?.ShellViewModel?.FilesAndFolders;
+				if (items is not null && items.Count > 0)
+				{
+					e.Handled = true;
+					var lastItem = items[items.Count - 1];
+					ItemManipulationModel.SetSelectedItem(lastItem);
+					if (ContentScroller is not null)
+						ContentScroller.ChangeView(null, ContentScroller.ScrollableHeight, null, true);
+					else
+						FileList.ScrollIntoView(lastItem);
+					EnsureItemFocusVisual(lastItem);
+				}
+			}
+			else if (e.Key is VirtualKey.PageDown or VirtualKey.PageUp)
+			{
+				e.Handled = TryMovePage(e.Key == VirtualKey.PageDown, shiftPressed, focusedElement);
+			}
+		}
+
+		private ListedItem? pageSelectionAnchor;
+		private ListedItem? pageTarget;
+		private bool pageTargetDown;
+
+		// F028: PgDn goes to the last row fully on screen, or one page further with that row at the bottom; PgUp mirrors it.
+		// Rows are located from the realized containers, because the pinned column header covers the top of the viewport
+		// and a row scrolled to offset index * RowHeight ends up hidden behind it. Grouped lists keep the native handling.
+		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
+		[DynamicWindowsRuntimeCast(typeof(ItemsStackPanel))]
+		private bool TryMovePage(bool down, bool extendSelection, FrameworkElement? focusedElement)
+		{
+			if (CollectionViewSource.IsSourceGrouped
+				|| ContentScroller is not { } scroller
+				|| FileList.ItemsPanelRoot is not ItemsStackPanel panel
+				|| FileList.Items.Count is 0)
+				return false;
+
+			var probeIndex = panel.FirstVisibleIndex;
+			if (probeIndex < 0 || FileList.ContainerFromIndex(probeIndex) is not ListViewItem probe || probe.ActualHeight <= 0)
+				return false;
+
+			var rowHeight = probe.ActualHeight;
+			var probeTop = probe.TransformToVisual(scroller).TransformPoint(default).Y;
+			if (FileList.ContainerFromIndex(probeIndex + 1) is ListViewItem next && next.ActualHeight > 0)
+			{
+				var step = next.TransformToVisual(scroller).TransformPoint(default).Y - probeTop;
+				if (step > 0)
+					rowHeight = step;
+			}
+
+			// Content-space top of row 0, and the viewport band not covered by the column header. The header is pinned
+			// to the top of the viewport but repositioned after each scroll, so its height is used, not its position.
+			var firstRowTop = probeTop + scroller.VerticalOffset - probeIndex * rowHeight;
+			var usableTop = Math.Min(HeaderGrid.ActualHeight, scroller.ViewportHeight);
+			var viewTop = scroller.VerticalOffset + usableTop;
+			var viewBottom = scroller.VerticalOffset + scroller.ViewportHeight;
+
+			// A few pixels of tolerance: row 0 sits slightly under the header's bottom border at offset 0
+			const double tolerance = 4;
+			var lastIndex = FileList.Items.Count - 1;
+			var firstFull = Math.Clamp((int)Math.Ceiling((viewTop - tolerance - firstRowTop) / rowHeight), 0, lastIndex);
+			var lastFull = Math.Clamp((int)Math.Floor((viewBottom + tolerance - firstRowTop) / rowHeight) - 1, firstFull, lastIndex);
+			var pageStep = Math.Max(1, lastFull - firstFull);
+
+			// The previous page target wins while it is still selected: its container may not hold the focus yet
+			var continuing = pageTarget is not null && pageTargetDown == down && (SelectedItems?.Contains(pageTarget) ?? false);
+			var current = pageTarget is not null && (SelectedItems?.Contains(pageTarget) ?? false)
+				? FileList.Items.IndexOf(pageTarget)
+				: focusedElement is ListViewItem { Content: ListedItem focusedItem }
+					? FileList.Items.IndexOf(focusedItem)
+					: (SelectedItems?.LastOrDefault() is { } lastSelected ? FileList.Items.IndexOf(lastSelected) : -1);
+
+			// First press goes to the edge row on screen; a repeated press in the same direction always turns a page,
+			// since bringing the focused row into view can scroll a few pixels and expose one more row past the edge
+			var target = down
+				? (!continuing && current < lastFull ? lastFull : Math.Min(lastIndex, Math.Max(current, 0) + pageStep))
+				: (!continuing && (current > firstFull || current < 0) ? firstFull : Math.Max(0, current - pageStep));
+			if (FileList.Items[target] is not ListedItem targetItem)
+				return false;
+
+			if (extendSelection)
+			{
+				if (pageSelectionAnchor is null || !(SelectedItems?.Contains(pageSelectionAnchor) ?? false))
+					pageSelectionAnchor = current >= 0 ? FileList.Items[current] as ListedItem : targetItem;
+
+				var anchorIndex = pageSelectionAnchor is null ? target : FileList.Items.IndexOf(pageSelectionAnchor);
+				if (anchorIndex < 0)
+					anchorIndex = target;
+
+				var range = new List<ListedItem>();
+				for (var i = Math.Min(anchorIndex, target); i <= Math.Max(anchorIndex, target); i++)
+				{
+					if (FileList.Items[i] is ListedItem item)
+						range.Add(item);
+				}
+				ItemManipulationModel.SetSelectedItems(range);
+			}
+			else
+			{
+				pageSelectionAnchor = null;
+				ItemManipulationModel.SetSelectedItem(targetItem);
+			}
+
+			// Smallest scroll that leaves the whole target row in the uncovered band
+			var targetTop = firstRowTop + target * rowHeight;
+			if (targetTop + rowHeight > viewBottom)
+				scroller.ChangeView(null, Math.Min(scroller.ScrollableHeight, targetTop + rowHeight - scroller.ViewportHeight), null, true);
+			else if (targetTop < viewTop)
+				scroller.ChangeView(null, Math.Max(0, targetTop - usableTop), null, true);
+
+			pageTarget = targetItem;
+			pageTargetDown = down;
+			EnsureItemFocusVisual(targetItem);
+			return true;
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
@@ -1319,14 +1509,6 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(ListViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
-
-			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
-			selectionCheckbox.Checked -= ItemSelected_Checked;
-			selectionCheckbox.Unchecked -= ItemSelected_Unchecked;
-
 			base.FileList_ContainerContentChanging(sender, args);
 			if (args.InRecycleQueue)
 				return;
@@ -1336,11 +1518,46 @@ namespace Files.App.Views.Layouts
 				listedItem.SyncDynamicColumns(ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible));
 			}
 
-			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+			// F027: no per-row checkbox painting while rows are created or recycled; the events are wired once per
+			// checkbox and the checked state is refreshed lazily when the pointer reaches it.
+			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
+			if (!hookedSelectionCheckboxes.TryGetValue(selectionCheckbox, out _))
+			{
+				hookedSelectionCheckboxes.Add(selectionCheckbox, new object());
+				selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+				selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+				selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+				selectionCheckbox.Checked += ItemSelected_Checked;
+				selectionCheckbox.Unchecked += ItemSelected_Unchecked;
+			}
+		}
 
-			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+		private readonly ConditionalWeakTable<CheckBox, object> hookedSelectionCheckboxes = new();
+
+		private bool navigationStepPending;
+		private int navigationFramesSeen;
+		private VirtualKey heldNavigationKey = VirtualKey.None;
+
+		private void FileList_NavigationKeyUp(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == heldNavigationKey)
+				heldNavigationKey = VirtualKey.None;
+		}
+
+		// Read from the real key state, so a KeyUp lost to a focus change can never keep the loads parked
+		protected override bool IsNavigationKeyHeld
+			=> heldNavigationKey is not VirtualKey.None
+				&& InputKeyboardSource.GetKeyStateForCurrentThread(heldNavigationKey).HasFlag(CoreVirtualKeyStates.Down);
+
+		// Rendering fires at the start of each frame: the second one after the key means a frame with the
+		// new selection has been laid out and presented.
+		private void NavigationStep_Rendering(object? sender, object e)
+		{
+			if (++navigationFramesSeen < 2)
+				return;
+
+			CompositionTarget.Rendering -= NavigationStep_Rendering;
+			navigationStepPending = false;
 		}
 
 		private readonly ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
@@ -1438,7 +1655,10 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
+			var container = (sender as FrameworkElement)!.FindAscendant<ListViewItem>()!;
+			if (container.Content is { } item)
+				SetCheckboxSelectionState(item, container); // F027: lazy paint of the checked state
+			UpdateCheckboxVisibility(container, true);
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]

@@ -36,7 +36,7 @@ foreach ($f in $files) {
 }
 
 $manifest = [PSCustomObject]@{
-    Version = "4.3.0"
+    Version = "4.3.1"
     GeneratedAtUtc = [System.DateTime]::UtcNow.ToString("o")
     TotalFiles = $manifestItems.Count
     TotalBytes = $totalBytes

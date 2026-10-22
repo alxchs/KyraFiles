@@ -224,25 +224,29 @@ namespace Files.App.Helpers
 				App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true)
+		public static async Task AddNewTabByParamAsync(Type type, object? tabViewItemArgs, int atIndex = -1, bool switchToNewTab = true, bool isPinned = false)
 		{
 			var normalizedPath = ExtractNavigationPath(tabViewItemArgs);
 			bool isSettings = string.Equals(normalizedPath, "Settings", StringComparison.OrdinalIgnoreCase);
+
+			// F032: pinned tabs keep the first positions; "first" for other tabs means right after them
+			var firstUnpinnedIndex = MultitaskingTabsHelpers.PinnedTabCount;
 
 			if (isSettings)
 			{
 				var existingSettingsIndex = FindExistingTabIndex("Settings");
 				if (existingSettingsIndex != -1)
 				{
-					if (existingSettingsIndex != 0)
+					if (existingSettingsIndex > firstUnpinnedIndex && !MainPageViewModel.AppInstances[existingSettingsIndex].IsPinned)
 					{
-						MainPageViewModel.AppInstances.Move(existingSettingsIndex, 0);
+						MainPageViewModel.AppInstances.Move(existingSettingsIndex, firstUnpinnedIndex);
+						existingSettingsIndex = firstUnpinnedIndex;
 					}
-					App.AppModel.TabStripSelectedIndex = 0;
+					App.AppModel.TabStripSelectedIndex = existingSettingsIndex;
 					return;
 				}
 
-				atIndex = 0;
+				atIndex = firstUnpinnedIndex;
 			}
 			else
 			{
@@ -273,7 +277,10 @@ namespace Files.App.Helpers
 
 			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
 
-			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
+			tabItem.IsPinned = isPinned;
+			var index = isPinned
+				? firstUnpinnedIndex
+				: atIndex == -1 ? MainPageViewModel.AppInstances.Count : Math.Clamp(atIndex, firstUnpinnedIndex, MainPageViewModel.AppInstances.Count);
 			MainPageViewModel.AppInstances.Insert(index, tabItem);
 
 			if (switchToNewTab)

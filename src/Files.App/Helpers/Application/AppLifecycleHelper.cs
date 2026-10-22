@@ -435,7 +435,7 @@ namespace Files.App.Helpers
 			{
 				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.NavigationParameter.Serialize();
+					return tab.NavigationParameter.Serialize(tab.IsPinned);
 				}
 				else
 				{

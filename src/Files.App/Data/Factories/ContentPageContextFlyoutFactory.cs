@@ -67,6 +67,40 @@ namespace Files.App.Data.Factories
 			return items;
 		}
 
+		// F033: "Copy to"/"Move to" submenu with the last destinations (most recent first) and "Choose folder...";
+		// the action confirms before doing anything. Moving into the folder the items are already in is left out.
+		private static ContextMenuFlyoutItemViewModel CreateCopyMoveToFolderItem(IRichCommand command, List<ListedItem> selectedItems, bool itemsSelected, bool excludeCurrentFolder)
+		{
+			var currentFolder = selectedItems.Count > 0 ? Path.GetDirectoryName(selectedItems[0].ItemPath)?.TrimEnd('\\') : null;
+
+			var subItems = CopyMoveDestinationHistory.GetAvailable()
+				.Where(folder => !excludeCurrentFolder || !string.Equals(folder.TrimEnd('\\'), currentFolder, StringComparison.OrdinalIgnoreCase))
+				.Select(folder => new ContextMenuFlyoutItemViewModel()
+				{
+					Text = Path.GetFileName(folder.TrimEnd('\\')) is { Length: > 0 } name ? $"{name}  ({folder})" : folder,
+					Command = command,
+					CommandParameter = folder,
+				})
+				.ToList();
+
+			if (subItems.Count > 0)
+				subItems.Add(new ContextMenuFlyoutItemViewModel() { ItemType = ContextMenuFlyoutItemType.Separator });
+
+			subItems.Add(new ContextMenuFlyoutItemViewModel()
+			{
+				Text = Strings.ChooseFolderEllipsis.GetLocalizedResource(),
+				Command = command,
+			});
+
+			return new ContextMenuFlyoutItemViewModel()
+			{
+				Text = command.Label,
+				ShowItem = itemsSelected && command.IsExecutable,
+				IsEnabled = command.IsExecutable,
+				Items = subItems,
+			};
+		}
+
 		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
 		{
 			return
@@ -497,6 +531,8 @@ namespace Files.App.Data.Factories
 				{
 					IsPrimary = true,
 				}.Build(),
+				CreateCopyMoveToFolderItem(Commands.CopyToFolder, selectedItems, itemsSelected, excludeCurrentFolder: false),
+				CreateCopyMoveToFolderItem(Commands.MoveToFolder, selectedItems, itemsSelected, excludeCurrentFolder: true),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemToSelection)
 				{
 					IsPrimary = true,

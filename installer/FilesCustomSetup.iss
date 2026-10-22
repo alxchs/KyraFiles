@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "Files Custom"
-#define MyAppVersion "4.3.1"
+#define MyAppVersion "4.3.2"
 #define MyAppPublisher "Files Custom"
 #define MyAppExeName "Files.exe"
 #define MyHotkeyExeName "Files.HotkeyService.exe"

@@ -41,6 +41,11 @@ namespace Files.App.Data.Contracts
 		List<string>? LastSessionTabList { get; set; }
 
 		/// <summary>
+		/// F033: the last folders chosen as "Copy to"/"Move to" destination, most recent first (up to 12).
+		/// </summary>
+		List<string>? RecentCopyMoveDestinations { get; set; }
+
+		/// <summary>
 		/// Gets or sets the index of the tab that was active when the last session ended.
 		/// </summary>
 		int LastSessionSelectedTabIndex { get; set; }

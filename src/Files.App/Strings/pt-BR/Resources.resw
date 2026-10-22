@@ -1166,6 +1166,33 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nome do Item</value>
   </data>
+  <data name="CopyToFolder" xml:space="preserve">
+    <value>Copiar para</value>
+  </data>
+  <data name="MoveToFolder" xml:space="preserve">
+    <value>Mover para</value>
+  </data>
+  <data name="CopyToFolderDescription" xml:space="preserve">
+    <value>Copia os itens selecionados para uma pasta</value>
+  </data>
+  <data name="MoveToFolderDescription" xml:space="preserve">
+    <value>Move os itens selecionados para uma pasta</value>
+  </data>
+  <data name="CopyToFolderConfirmation" xml:space="preserve">
+    <value>Copiar {0, plural, one {o item selecionado} other {os {0} itens selecionados}} para esta pasta?</value>
+  </data>
+  <data name="MoveToFolderConfirmation" xml:space="preserve">
+    <value>Mover {0, plural, one {o item selecionado} other {os {0} itens selecionados}} para esta pasta?</value>
+  </data>
+  <data name="ChooseFolderEllipsis" xml:space="preserve">
+    <value>Escolher pasta...</value>
+  </data>
+  <data name="PinTab" xml:space="preserve">
+    <value>Fixar aba</value>
+  </data>
+  <data name="UnpinTab" xml:space="preserve">
+    <value>Desafixar aba</value>
+  </data>
   <data name="Unpin" xml:space="preserve">
     <value>Desafixar</value>
   </data>

@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 
@@ -42,6 +43,30 @@ namespace Files.App.UserControls.TabBar
 			get => _ToolTipText;
 			set => SetProperty(ref _ToolTipText, value);
 		}
+
+		private bool _IsPinned;
+		/// <summary>
+		/// F032: a pinned tab stays left of the others, shows a pin instead of the close button and no close command closes it.
+		/// </summary>
+		public bool IsPinned
+		{
+			get => _IsPinned;
+			set
+			{
+				if (SetProperty(ref _IsPinned, value))
+				{
+					OnPropertyChanged(nameof(IsClosable));
+					OnPropertyChanged(nameof(PinnedIconVisibility));
+				}
+			}
+		}
+
+		public bool IsClosable
+			=> !_IsPinned;
+
+		// Handed to the tab template through TabViewItem.Tag, so the template needs no reflection binding
+		public Visibility PinnedIconVisibility
+			=> _IsPinned ? Visibility.Visible : Visibility.Collapsed;
 
 		private bool _AllowStorageItemDrop;
 		public bool AllowStorageItemDrop

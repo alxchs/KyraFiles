@@ -149,7 +149,9 @@ namespace Files.App.UserControls.TabBar
 		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public void CloseTab(TabBarItem? tabItem)
 		{
-			if (tabItem is null)
+			// F032: no close path (button, middle click, Ctrl+W, close others/left/right/all) closes a pinned tab;
+			// moving it to another window unpins it first
+			if (tabItem is null || tabItem.IsPinned)
 				return;
 
 			if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is Files.App.Views.MainPage mainPage)

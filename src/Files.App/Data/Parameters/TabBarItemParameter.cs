@@ -17,7 +17,12 @@ namespace Files.App.Data.Parameters
 
 		public object? NavigationParameter { get; set; }
 
-		public string Serialize()
+		/// <summary>
+		/// F032: only carried through the saved session; tabs saved before pinning existed read as not pinned.
+		/// </summary>
+		public bool IsPinned { get; set; }
+
+		public string Serialize(bool isPinned = false)
 		{
 			JsonNode? navigationParameter = NavigationParameter switch
 			{
@@ -27,11 +32,15 @@ namespace Files.App.Data.Parameters
 				_ => throw new JsonException($"Unsupported tab navigation parameter type: {NavigationParameter.GetType()}.")
 			};
 
-			return new JsonObject
+			var json = new JsonObject
 			{
 				[nameof(InitialPageType)] = InitialPageType.FullName ?? throw new JsonException("The initial page type does not have a full name."),
 				[nameof(NavigationParameter)] = navigationParameter,
-			}.ToJsonString();
+			};
+			if (isPinned)
+				json[nameof(IsPinned)] = true;
+
+			return json.ToJsonString();
 		}
 
 		public static TabBarItemParameter Deserialize(string obj)
@@ -65,6 +74,7 @@ namespace Files.App.Data.Parameters
 			{
 				InitialPageType = initialPageType,
 				NavigationParameter = navigationParameter,
+				IsPinned = data[nameof(IsPinned)]?.GetValue<bool>() ?? false,
 			};
 		}
 	}

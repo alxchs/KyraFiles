@@ -62,6 +62,16 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _IsAppElevated, value);
 		}
 
+		private bool _IsNavigationKeyHeld = false;
+		/// <summary>
+		/// F030: true while a list navigation key (arrows, PgUp, PgDn) is held down and auto-repeating.
+		/// </summary>
+		public bool IsNavigationKeyHeld
+		{
+			get => _IsNavigationKeyHeld;
+			set => SetProperty(ref _IsNavigationKeyHeld, value);
+		}
+
 		private bool _IsPasteEnabled = false;
 		public bool IsPasteEnabled
 		{

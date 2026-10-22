@@ -279,9 +279,18 @@ namespace Files.App.UserControls.TabBar
 
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
+			{
+				// Dropped into another window: the tab moved there, pinned or not
+				if (args.Item is TabBarItem movedTab)
+					movedTab.IsPinned = false;
 				CloseTab(args.Item as TabBarItem);
+			}
 			else
+			{
 				HorizontalTabView.SelectedItem = args.Tab;
+				// F032: a drag never leaves an unpinned tab among the pinned ones or the reverse
+				DispatcherQueue.TryEnqueue(MultitaskingTabsHelpers.KeepPinnedTabsFirst);
+			}
 
 			ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
 		}
@@ -344,7 +353,17 @@ namespace Files.App.UserControls.TabBar
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
-			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabBarItem);
+			var tab = ((MenuFlyout)sender).Target.DataContext as TabBarItem;
+			MenuItemTogglePinTab.Text = (tab?.IsPinned ?? false) ? Strings.UnpinTab.GetLocalizedResource() : Strings.PinTab.GetLocalizedResource();
+			MenuItemTogglePinTab.Tag = tab;
+			SelectedTabItemChanged?.Invoke(null, tab);
+		}
+
+		// F032
+		private void MenuItemTogglePinTab_Click(object sender, RoutedEventArgs e)
+		{
+			if (MenuItemTogglePinTab.Tag is TabBarItem tab)
+				MultitaskingTabsHelpers.SetTabPinned(tab, !tab.IsPinned);
 		}
 
 		private void TabItemContextMenu_Closing(object sender, object e)

@@ -1337,6 +1337,7 @@ namespace Files.App.Views.Layouts
 		private void UnhookScrollDeferTracking()
 		{
 			scrollSettleTimer?.Stop();
+			App.AppModel.IsNavigationKeyHeld = false;
 
 			if (deferScrollViewer is not null)
 			{
@@ -1402,6 +1403,8 @@ namespace Files.App.Views.Layouts
 		// instead of every visible row loading on the UI thread between two page steps.
 		protected void ExtendNavigationDeferral()
 		{
+			// F030: the info pane stays empty while the key repeats and loads the final item once it is released
+			App.AppModel.IsNavigationKeyHeld = true;
 			ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(true);
 			RestartScrollSettleTimer();
 		}
@@ -1427,6 +1430,7 @@ namespace Files.App.Views.Layouts
 					}
 
 					ParentShellPageInstance?.ShellViewModel?.NotifyScrollStateChanged(false);
+					App.AppModel.IsNavigationKeyHeld = false;
 					LoadVisibleItemsAfterScrollSettled();
 				};
 			}

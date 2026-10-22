@@ -301,6 +301,7 @@ namespace Files.App.ViewModels
 						else if (UserSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
 							UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 						{
+							await RestorePinnedTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 							foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
 								await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 						}
@@ -312,6 +313,7 @@ namespace Files.App.ViewModels
 						}
 						else
 						{
+							await RestorePinnedTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 							await NavigationHelpers.AddNewTabAsync();
 						}
 					}
@@ -329,6 +331,7 @@ namespace Files.App.ViewModels
 							if (UserSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
 									UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 							{
+								await RestorePinnedTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 								foreach (string path in UserSettingsService.GeneralSettingsService.TabsOnStartupList)
 									await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), path, true);
 							}
@@ -337,6 +340,10 @@ namespace Files.App.ViewModels
 								AppInstances.Count == 0)
 							{
 								await RestoreSessionTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
+							}
+							else if (AppInstances.Count == 0)
+							{
+								await RestorePinnedTabsAsync(UserSettingsService.GeneralSettingsService.LastSessionTabList);
 							}
 						}
 						catch { }
@@ -362,6 +369,23 @@ namespace Files.App.ViewModels
 				DrivesViewModel.UpdateDrivesAsync(),
 				NetworkService.UpdateComputersAsync(),
 				NetworkService.UpdateShortcutsAsync());
+		}
+
+		// F032: pinned tabs come back on every start, even when the rest of the last session does not
+		private static async Task RestorePinnedTabsAsync(List<string>? sessionTabs)
+		{
+			if (sessionTabs is null)
+				return;
+
+			foreach (var tab in sessionTabs)
+			{
+				if (string.IsNullOrEmpty(tab))
+					continue;
+
+				var args = TabBarItemParameter.Deserialize(tab);
+				if (args.IsPinned)
+					await NavigationHelpers.AddNewTabByParamAsync(args.InitialPageType, args.NavigationParameter, switchToNewTab: false, isPinned: true);
+			}
 		}
 
 		private async Task RestoreSessionTabsAsync(List<string> sessionTabs)
@@ -393,6 +417,14 @@ namespace Files.App.ViewModels
 				AppInstances.Move(0, savedIndex);
 				App.AppModel.TabStripSelectedIndex = savedIndex;
 			}
+
+			// F032: the order now matches the saved session, so the pinned state is applied by position
+			for (int i = 0; i < sessionTabs.Count && i < AppInstances.Count; i++)
+			{
+				if (TabBarItemParameter.Deserialize(sessionTabs[i]).IsPinned)
+					AppInstances[i].IsPinned = true;
+			}
+			MultitaskingTabsHelpers.KeepPinnedTabsFirst();
 		}
 
 		// Command methods

@@ -1,6 +1,15 @@
 # STATUS
 
-Última atualização: 2026-10-18 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-10-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.2 — Preview Seguro, Abas Fixadas e Copiar/Mover (21/10/2026)
+
+- CONFIRMED: Incremento mandatório de versão a cada integração na main (v4.3.2).
+- CONFIRMED: F030 — Painel de preview fechado e desativado durante a navegação com tecla segurada (evitando retenção de CPU e travamento de rolagem).
+- CONFIRMED: F032 — Fixação de abas (Pin Tab) com alfinete visual, prioridade à esquerda, proteção total contra fechamento acidental e persistência em sessão.
+- CONFIRMED: F033 — Ações "Copiar para" e "Mover para" no menu de contexto com histórico inteligente das últimas 12 pastas e segurança contra disparos acidentais (diálogo padrão em "Não").
+- CONFIRMED: F028 — Correção completa do contorno de foco visual em PageUp/PageDown e sincronização exata da barra de rolagem.
+- CONFIRMED: Compilação Release com 0 erros e validação do gate de contenção de recursos F021 (IndexService inativo, repouso calmo).
 
 ## Release v4.3.0 e Instalador Atualizado (18/10/2026)
 
@@ -234,3 +243,4 @@ Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. P
   6. Em dotfiles (`.gitignore`), o cálculo de extensão do OneCommander falha gravemente: seleciona 0 caracteres e posiciona o cursor na frente do ponto (`|.gitignore`).
   7. Em extensões duplas (`arquivo.tar.gz`), considera apenas `.gz` como extensão e inclui `.tar` na seleção.
 - Decisão / Direcionamento para F001: Opção A (manter campo único, blindar extensão contra edições acidentais de Backspace/Delete, permitir desbloqueio deliberado por Tab / tecla dedicada com substituição imediata, e suporte nativo correto a dotfiles e extensões compostas).
+

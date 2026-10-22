@@ -195,6 +195,17 @@
 								HighContrastAdjustment="None"
 								OpticalMarginAlignment="TrimSideBearings" />
 
+							<!--  F032: TabViewItem.Tag carries the pin's Visibility (TabBarItem.PinnedIconVisibility)  -->
+							<FontIcon
+								x:Name="PinnedIcon"
+								Grid.Column="2"
+								Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
+								AutomationProperties.AccessibilityView="Raw"
+								FontSize="12"
+								Foreground="{ThemeResource TabViewItemHeaderForeground}"
+								Glyph="&#xE718;"
+								Visibility="{TemplateBinding Tag}" />
+
 							<Button
 								x:Name="CloseButton"
 								Grid.Column="2"

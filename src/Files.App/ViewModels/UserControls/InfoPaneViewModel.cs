@@ -147,8 +147,28 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 			CloudDrivesManager.DataChanged += CloudDrivesManager_DataChanged;
+			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 
 			IsEnabled = infoPaneSettingsService.IsInfoPaneEnabled;
+		}
+
+		// F030: while a navigation key repeats, the pane closes its preview (no load runs or starts) and shows only
+		// the loading indicator; when the key is released it shows the item selected at that moment, once
+		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is not nameof(AppModel.IsNavigationKeyHeld))
+				return;
+
+			if (App.AppModel.IsNavigationKeyHeld)
+			{
+				UnloadPreview();
+				SelectedItem = null;
+				PreviewPaneState = PreviewPaneStates.LoadingPreview;
+			}
+			else
+			{
+				ApplyCurrentSelection();
+			}
 		}
 
 		private void CloudDrivesManager_DataChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -175,6 +195,10 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
+					// F030: a held navigation key skips every intermediate item; the release applies the last one
+					if (App.AppModel.IsNavigationKeyHeld)
+						return;
+
 					ListedItem? tempSelectedItem = null;
 					if (contentPageContext.SelectedItems.Count == 1)
 						tempSelectedItem = contentPageContext.SelectedItems.First();
@@ -182,29 +206,41 @@ namespace Files.App.ViewModels.UserControls
 					// Don't update preview pane when the selected item changes too frequently
 					const int delayBeforeUpdatingPreviewPane = 100;
 					await Task.Delay(delayBeforeUpdatingPreviewPane);
+					if (App.AppModel.IsNavigationKeyHeld)
+						return;
 					if (tempSelectedItem is not null && !tempSelectedItem.Equals(contentPageContext.SelectedItem))
 						return;
 
-					SelectedItem = tempSelectedItem;
-
-					try
-					{
-						if (!App.AppModel.IsMainWindowClosed)
-						{
-							var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
-							if (shouldUpdatePreview == true)
-								_ = UpdateSelectedItemPreviewAsync();
-						}
-					}
-					catch (Exception ex)
-					{
-						// Handle exception in case WinUI Windows is closed
-						// (see https://github.com/files-community/Files/issues/15599)
-
-						App.Logger.LogWarning(ex, ex.Message);
-					}
-
+					ApplySelectedItem(tempSelectedItem);
 					break;
+			}
+		}
+
+		private void ApplyCurrentSelection()
+		{
+			ApplySelectedItem(contentPageContext.SelectedItems.Count == 1 ? contentPageContext.SelectedItems.First() : null);
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(Frame))]
+		private void ApplySelectedItem(ListedItem? item)
+		{
+			SelectedItem = item;
+
+			try
+			{
+				if (!App.AppModel.IsMainWindowClosed)
+				{
+					var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+					if (shouldUpdatePreview == true)
+						_ = UpdateSelectedItemPreviewAsync();
+				}
+			}
+			catch (Exception ex)
+			{
+				// Handle exception in case WinUI Windows is closed
+				// (see https://github.com/files-community/Files/issues/15599)
+
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 		}
 

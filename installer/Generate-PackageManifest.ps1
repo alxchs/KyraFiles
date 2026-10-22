@@ -35,8 +35,17 @@ foreach ($f in $files) {
     })
 }
 
+$issFile = Join-Path $PSScriptRoot "FilesCustomSetup.iss"
+$version = "4.3.2"
+if (Test-Path $issFile) {
+    $issContent = Get-Content $issFile -Raw
+    if ($issContent -match '#define MyAppVersion "([^"]+)"') {
+        $version = $matches[1]
+    }
+}
+
 $manifest = [PSCustomObject]@{
-    Version = "4.3.1"
+    Version = $version
     GeneratedAtUtc = [System.DateTime]::UtcNow.ToString("o")
     TotalFiles = $manifestItems.Count
     TotalBytes = $totalBytes
@@ -46,5 +55,4 @@ $manifest = [PSCustomObject]@{
 $json = $manifest | ConvertTo-Json -Depth 5
 [System.IO.File]::WriteAllText((Join-Path $PSScriptRoot "package_manifest.json"), $json, [System.Text.Encoding]::UTF8)
 
-Write-Host "Manifesto gerado com sucesso: $(Join-Path $PSScriptRoot 'package_manifest.json') ($($manifestItems.Count) arquivos, $([math]::Round($totalBytes / 1MB, 2)) MB)"
-
+Write-Host "Manifesto gerado com sucesso: $(Join-Path $PSScriptRoot 'package_manifest.json') ($($manifestItems.Count) arquivos, $([math]::Round($totalBytes / 1MB, 2)) MB, versao $version)"

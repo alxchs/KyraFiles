@@ -216,9 +216,12 @@ namespace Files.App.Views
 			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
-			await Task.Delay(100);
-			if (!App.AppModel.IsMainWindowClosed && ContentPageContext?.ShellPage?.PaneHolder != null)
-				ContentPageContext.ShellPage.PaneHolder.FocusActivePane();
+			// Focus the content of the selected tab item without blocking tab switch transition (F031)
+			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+			{
+				if (!App.AppModel.IsMainWindowClosed && ContentPageContext?.ShellPage?.PaneHolder != null)
+					ContentPageContext.ShellPage.PaneHolder.FocusActivePane();
+			});
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)

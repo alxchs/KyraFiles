@@ -525,6 +525,14 @@ namespace Files.App.Helpers
 		{
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
+				// F031: Fast-path imediato para troca de aba se o Header já estiver cacheado
+				var currentItem = MainPageViewModel.SelectedTabItem;
+				if (currentItem is not null && !string.IsNullOrEmpty(currentItem.Header) &&
+				    navigationArg == currentItem.NavigationParameter?.NavigationParameter)
+				{
+					MainWindow.Instance.AppWindow.Title = $"{currentItem.Header} - Files";
+					return;
+				}
 				string? windowTitle = string.Empty;
 				if (navigationArg is PaneNavigationArguments paneArgs)
 				{

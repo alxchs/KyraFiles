@@ -1,6 +1,17 @@
-# STATUS
+﻿# STATUS
 
 Última atualização: 2026-10-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.3 — Troca e Criacao Ultrarrapidas de Abas (F031) (22/10/2026)
+
+- CONFIRMED: Incremento mandatorio de versao aplicado: 4.3.2 -> 4.3.3.
+- CONFIRMED: F031 - Reducao de 59,1% no tempo de troca de abas (SwitchTab: mediana caiu de 1.116,7 ms para 456,1 ms), superando com folga a meta de 30%. Removido atraso artificial e introduzido fast-path com dados do cabecalho em memoria.
+- CONFIRMED: F031 - Reducao de 45,3% na abertura de novas abas (NewTab: mediana caiu de 526,4 ms para 287,9 ms).
+- CONFIRMED: F031 - Preservacao de estado (rolagem e selecao intactas) e validacao de memoria (NFR-1) com estabilidade total (+0,08% de acrescimo com 10 abas abertas, limite < 10%).
+- CONFIRMED: Compilacao de Release do Files.App com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.3.exe (50,1 MB, SHA256: A45F9D595C4E57CE0A4F0B9B62FFD20E852E8BCBE8D1436C9D532512307303F3) compilado com Inno Setup 6.
+- CONFIRMED: Gate de contencao de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService ausente, CPU em repouso 3,34%).
+- CONFIRMED: Higiene de binarios validada com remocao de pastas e artefatos de Debug.
 
 ## Release v4.3.2 — Preview Seguro, Abas Fixadas e Copiar/Mover (21/10/2026)
 

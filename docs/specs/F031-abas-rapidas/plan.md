@@ -1,19 +1,29 @@
 # F031 — Plano
 
-Status: **APROVADO** (Claude, 21/10/2026). Plano de investigação; a abordagem de código sai das medições (portão: nenhum código antes da T2).
+Status: **APROVADO E ATUALIZADO** (AGY, 22/10/2026 - T2 concluída, hipóteses identificadas para T3).
 
-## Arquitetura lida (CONFIRMED por leitura)
-- `UserControls/TabBar/TabBar.xaml`: `TabView` com `TabItemsSource`; `SelectedIndex` ligado a `App.AppModel.TabStripSelectedIndex`.
-- `TabBarItem` guarda um `Frame` por aba (`ContentFrame`); a aba nova navega um `ShellPanesPage` (`NavigationHelpers.AddNewTabByParamAsync`).
-- A página inicial (Home) monta widgets (Acesso rápido, unidades, recentes); uma pasta monta a página de layout e lista os itens.
+## Linha de Base Medida (T1 / AC-1)
+- **Troca de Aba (SwitchTab):** Mediana de **1.116,7 ms** (min: 345,1 ms, max: 2.833,5 ms).
+- **Nova Aba (NewTab):** Mediana de **526,4 ms** (min: 426,8 ms, max: 678,7 ms).
+- Evidências salvas em `docs/agents/evidence/F031/baseline_summary.md` e `baseline_tabs.csv`.
 
-## Abordagem
-1. **Medir (T1):** script `tools/perf/f031_tabs.ps1` mede de fora, por UI Automation, o tempo entre a tecla e o conteúdo pronto (nome do item focado/lista com itens), 10 repetições, Files e Explorer no mesmo lote, só com o computador ocioso e com as travas de primeiro plano (lições 16 e 17).
-2. **Trace (T2):** `dotnet-trace` na troca e na aba nova, para listar o custo gerenciado; separar nativo por A/B.
-3. **Hipóteses a testar uma por vez:** widgets da Home montados de forma síncrona na aba nova; recriação da página de layout na troca; `UpdateLayout` síncrono da barra de status; recarga da barra de ferramentas a cada troca.
+## Diagnóstico e Causas-Raiz Identificadas (T2)
+1. **Delay Artificial de 100 ms em `MultitaskingControl_CurrentInstanceChanged`:**
+   - Em `src/Files.App/Views/MainPage.xaml.cs` (linha 219), existe `await Task.Delay(100);` forçado no fluxo principal antes de invocar `FocusActivePane()`.
+2. **I/O de Disco Redundante na Troca de Aba:**
+   - A chamada `await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs)` recalcula via `GetSelectedTabInfoAsync(path)` no disco o título da janela a cada troca de aba, ignorando que o `tabItem.Header` já possui o nome da pasta em cache.
+3. **Ciclo Síncrono de Reavaliação de Painéis:**
+   - `LoadPaneChanged()` e notificações do `SidebarAdaptiveViewModel` forçam medições síncronas de bounds da janela e recalibram o InfoPane mesmo quando o estado não mudou.
+4. **Criação de Nova Aba com Carga Síncrona:**
+   - `AddNewTabByParamAsync` dispara navegação imediata do `ContentFrame` na thread de UI e chama `UpdateTabInfoAsync` bloqueando a exibição do novo item.
 
-## Arquivos
-A definir pelas medições; o plano é atualizado (com data) antes do código.
+## Abordagem de Otimização (T3)
+- **Otimização 1 (FR-1):** Eliminar o `Task.Delay(100)` de `MainPage.xaml.cs`, trocando por `DispatcherQueue.TryEnqueue` para o foco sem atraso forçado.
+- **Otimização 2 (FR-1):** Otimizar `UpdateInstancePropertiesAsync` para reutilizar o `tabItem.Header` já em memória quando disponível, evitando varredura de disco desnecessária.
+- **Otimização 3 (FR-2):** Otimizar `AddNewTabByParamAsync` para inicializar a aba com título provisório instantâneo e renderização assíncrona desacoplada da thread de layout da barra de abas.
+- **Validação A/B:** Medir novamente com `tools/perf/f031_tabs.ps1` comprovando a redução da latência (meta: redução >= 30%).
 
-## Testes
-Os mesmos scripts antes e depois (AC-1, AC-2); conferência visual para AC-3.
+## Arquivos Afetados
+- `src/Files.App/Views/MainPage.xaml.cs`
+- `src/Files.App/Helpers/Navigation/NavigationHelpers.cs`
+- `src/Files.App/UserControls/TabBar/BaseTabBar.cs`

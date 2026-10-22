@@ -1,4 +1,4 @@
-﻿# SmokeTest-Helper.ps1
+# SmokeTest-Helper.ps1
 # Automates interaction and visual verification of Files Dev on the Default desktop.
 
 $code = @"
@@ -86,7 +86,7 @@ Add-Type -Path (Join-Path $PSScriptRoot "vc.cs")
 Add-Type -AssemblyName System.Drawing
 
 function Invoke-OnDefault {
-    param([Parameter(Mandatory=$true)][string]$PowerShellScript)
+    param([Parameter(Mandatory=$true)][string]$PowerShellScript, [uint32]$TimeoutMs = 180000)
     $tmpPs1 = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), [System.IO.Path]::GetRandomFileName() + ".ps1")
     $tmpLog = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), [System.IO.Path]::GetRandomFileName() + ".log")
     $wrapped = @"
@@ -95,7 +95,7 @@ $PowerShellScript
 "@
     [System.IO.File]::WriteAllText($tmpPs1, $wrapped, [System.Text.Encoding]::UTF8)
     $cmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$tmpPs1`" > `"$tmpLog`" 2>&1"
-    [DesktopLauncher]::Run("cmd.exe /c $cmd") | Out-Null
+    [DesktopLauncher]::Run("cmd.exe /c $cmd", $TimeoutMs) | Out-Null
     $res = ""
     if (Test-Path $tmpLog) {
         $res = Get-Content -Raw $tmpLog

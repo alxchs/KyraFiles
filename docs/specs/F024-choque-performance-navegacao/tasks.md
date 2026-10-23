@@ -1,6 +1,6 @@
 # F024 — Lista de Tarefas (Tasks)
 
-## Status: Bateria de Testes Executada — Pronto para Validação do Usuário
+## Status: Bateria de Testes Executada — Concluída
 
 ---
 
@@ -38,7 +38,6 @@
 - [x] Correção de travamento no tratamento de protocolo `files-dev:` em `MainWindow.xaml.cs` (Concluído).
 
 ### T8 — Higiene Absoluta e Limpeza dos Artefatos de Teste
-- [ ] Executar `tools\perf\cleanup_f024_lab.ps1` após validação do Alexandre.
-- [ ] Comprovar que `C:\FilesUXLab\perf\1600` e todos os arquivos auxiliares de teste foram 100% removidos (`Test-Path` retornando `False`).
-- [ ] Atualizar `test_artifacts_registry.md` marcando todos os itens como Removidos.
-
+- [x] Executar `tools\perf\cleanup_f024_lab.ps1` após validação do Alexandre. (Concluído: executado em 22/10/2026 com saída 0).
+- [x] Comprovar que `C:\FilesUXLab\perf\1600` e todos os arquivos auxiliares de teste foram 100% removidos (`Test-Path` retornando `False`). (Concluído: confirmado `False`).
+- [x] Atualizar `test_artifacts_registry.md` marcando todos os itens como Removidos. (Concluído).

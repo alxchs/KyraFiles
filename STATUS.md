@@ -1,6 +1,18 @@
 ﻿# STATUS
 
-Última atualização: 2026-10-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-10-22 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.4 — Limpeza de Desenvolvimento e Instalador Consolidado (22/10/2026)
+
+- CONFIRMED: Incremento mandatorio de versao aplicado: 4.3.3 -> 4.3.4 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Higienizacao completa de desenvolvimento: remocao de todas as pastas Debug em src\**\bin e src\**\obj, remocao de debug.log e exclusao de branches locais de feature ja integradas na main (f024 a f029).
+- CONFIRMED: Desmontagem e remocao total do laboratorio F024 (C:\FilesUXLab\perf\1600) via cleanup_f024_lab.ps1 (Test-Path = False).
+- CONFIRMED: Consolidacao de status e documentacao em tasks.md de F024 (T8), F027 (T1–T4) e F026 (T3).
+- CONFIRMED: Preservacao intacta dos pontos de extensao e metodos A/B da F029 em DetailsLayoutPage.xaml.cs.
+- CONFIRMED: Compilacao de Release do Files.App e projetos nativos com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.4.exe (50,25 MB, 52.690.949 bytes, SHA256: 7ED43A932EE51DFB3AA3965D0921715102A8422258712220136079F7365B803B) compilado com Inno Setup 6.
+- CONFIRMED: Atualizacao local instalada via instalador silencioso para versao 4.3.4.0 em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.4.0).
+- CONFIRMED: Gate de contencao de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente inativo).
 
 ## Release v4.3.3 — Troca e Criacao Ultrarrapidas de Abas (F031) (22/10/2026)
 

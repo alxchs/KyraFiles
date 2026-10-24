@@ -211,6 +211,7 @@
 
 					<CheckBox
 						x:Name="SelectionCheckbox"
+						x:Load="False"
 						Grid.RowSpan="2"
 						Grid.ColumnSpan="2"
 						Width="32"
@@ -338,6 +339,7 @@
 						<!--  Selection Check Box  -->
 						<CheckBox
 							x:Name="SelectionCheckbox"
+							x:Load="False"
 							Width="20"
 							MinWidth="0"
 							HorizontalAlignment="Center"
@@ -486,6 +488,7 @@
 
 							<CheckBox
 								x:Name="SelectionCheckbox"
+								x:Load="False"
 								Width="32"
 								MinWidth="0"
 								MinHeight="0"

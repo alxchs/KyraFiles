@@ -393,8 +393,29 @@ namespace Files.App.Views.Layouts
 
 			// Compact rows use a -2px ItemContainer margin, so the header checkbox needs an extra
 			// left offset to stay aligned with row checkboxes.
-			var leftOffset = isCompact ? -4 : 0;
-			SelectAllCheckbox.Margin = new Thickness(leftOffset, 14, 0, 0);
+			selectAllCheckboxLeftOffset = isCompact ? -4 : 0;
+			if (SelectAllCheckbox is not null)
+				SelectAllCheckbox.Margin = new Thickness(selectAllCheckboxLeftOffset, 14, 0, 0);
+		}
+
+		private int selectAllCheckboxLeftOffset;
+
+		// F034: the header checkbox is x:Load="False"; it is created the first time a row is realized with the setting on
+		private void ShowSelectAllCheckbox()
+		{
+			if (SelectAllCheckbox is null)
+			{
+				FindName(nameof(SelectAllCheckbox));
+				if (SelectAllCheckbox is null)
+					return;
+
+				SelectAllCheckbox.Margin = new Thickness(selectAllCheckboxLeftOffset, 14, 0, 0);
+			}
+			else if (SelectAllCheckbox.Visibility == Visibility.Visible)
+				return;
+
+			SelectAllCheckbox.Visibility = Visibility.Visible;
+			UpdateSelectAllCheckboxState();
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
@@ -482,7 +503,9 @@ namespace Files.App.Views.Layouts
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
 			// F027: the per-row checkbox is no longer painted on every selection change; it is refreshed lazily on hover.
-			UpdateSelectAllCheckboxState();
+			// F034: and with the setting off there is no header checkbox to update either.
+			if (ShowSelectionCheckboxes && SelectAllCheckbox is not null)
+				UpdateSelectAllCheckboxState();
 		}
 
 		private bool _suppressSelectAllCheckboxEvents;
@@ -505,6 +528,9 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateSelectAllCheckboxState()
 		{
+			if (SelectAllCheckbox is null)
+				return;
+
 			var selectedCount = FileList.SelectedItems.Count;
 			bool? newState = selectedCount == 0
 				? false
@@ -1599,9 +1625,28 @@ namespace Files.App.Views.Layouts
 				listedItem.SyncDynamicColumns(ColumnsViewModel.DynamicColumns.Where(c => c.IsVisible));
 			}
 
+			// F034: with the setting off the row has no checkbox; one created before the setting was turned off is hidden
+			// from the cache, without searching the row's visual tree
+			if (!ShowSelectionCheckboxes)
+			{
+				if (selectionCheckboxCache.TryGetValue(args.ItemContainer, out var loaded) && loaded.Item2.Visibility == Visibility.Visible)
+				{
+					loaded.Item2.Visibility = Visibility.Collapsed;
+					UpdateCheckboxVisibility(args.ItemContainer, false); // "ShowCheckbox" also hides the icon
+				}
+				if (SelectAllCheckbox is not null)
+					SelectAllCheckbox.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			ShowSelectAllCheckbox();
+
 			// F027: no per-row checkbox painting while rows are created or recycled; the events are wired once per
 			// checkbox and the checked state is refreshed lazily when the pointer reaches it.
-			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
+			if (GetSelectionCheckbox(args.ItemContainer) is not { } selectionCheckbox)
+				return;
+
+			selectionCheckbox.Visibility = Visibility.Visible;
 			if (!hookedSelectionCheckboxes.TryGetValue(selectionCheckbox, out _))
 			{
 				hookedSelectionCheckboxes.Add(selectionCheckbox, new object());
@@ -1643,15 +1688,19 @@ namespace Files.App.Views.Layouts
 
 		private readonly ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
 
-		// The template-root identity check invalidates the cache when a container is re-templated
+		// The template-root identity check invalidates the cache when a container is re-templated.
+		// F034: the checkbox is x:Load="False" in the template; FindName creates it the first time it is needed.
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
-		private CheckBox GetSelectionCheckbox(SelectorItem container)
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private CheckBox? GetSelectionCheckbox(SelectorItem container)
 		{
-			var root = container.ContentTemplateRoot;
+			var root = container.ContentTemplateRoot as FrameworkElement;
 			if (selectionCheckboxCache.TryGetValue(container, out var cached) && ReferenceEquals(cached.Item1, root))
 				return cached.Item2;
 
-			var checkbox = (CheckBox)container.FindDescendant("SelectionCheckbox")!;
+			if (root?.FindName("SelectionCheckbox") is not CheckBox checkbox)
+				return null;
+
 			selectionCheckboxCache.AddOrUpdate(container, new Tuple<object?, CheckBox>(root, checkbox));
 			return checkbox;
 		}
@@ -1760,10 +1809,9 @@ namespace Files.App.Views.Layouts
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Handle visual states
-				// Show checkboxes when items are selected (as long as the setting is enabled)
-				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver)
+				// Show checkboxes when items are selected or hovered, only while the setting is enabled
+				// (F034: "ShowCheckbox" targets the x:Load checkbox, so it would create one even with the setting off)
+				if (ShowSelectionCheckboxes && (control.IsSelected || isPointerOver))
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

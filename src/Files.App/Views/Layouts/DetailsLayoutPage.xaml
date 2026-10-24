@@ -574,6 +574,7 @@
 							<!--  Select All Check Box  -->
 							<CheckBox
 								x:Name="SelectAllCheckbox"
+								x:Load="False"
 								Grid.Column="0"
 								Width="20"
 								Height="20"
@@ -996,6 +997,7 @@
 										<!--  Selection Check Box  -->
 										<CheckBox
 											x:Name="SelectionCheckbox"
+											x:Load="False"
 											Width="20"
 											MinWidth="0"
 											HorizontalAlignment="Center"

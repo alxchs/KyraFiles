@@ -157,9 +157,10 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		// F034: off by default, so the file list carries no selection checkbox unless the user asks for one
 		public bool ShowCheckboxesWhenSelectingItems
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 

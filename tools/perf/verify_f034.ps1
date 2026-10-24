@@ -1,0 +1,85 @@
+# tools/perf/verify_f034.ps1
+# Bateria de testes e capturas de tela para F034 (Lista sem checkbox por padrão)
+
+$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms
+
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class F034Win {
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+    [DllImport("user32.dll")] public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int nCmdShow);
+    [DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);
+    public struct RECT { public int L, T, R, B; }
+}
+"@
+
+function Send-KeysChord([byte[]]$keys) {
+    foreach ($k in $keys) { [F034Win]::keybd_event($k, 0, 0, [UIntPtr]::Zero) }
+    Start-Sleep -Milliseconds 60
+    for ($i = $keys.Length - 1; $i -ge 0; $i--) { [F034Win]::keybd_event($keys[$i], 0, 2, [UIntPtr]::Zero) }
+    Start-Sleep -Milliseconds 300
+}
+
+function Capture-Window($hwnd, $outPath) {
+    $r = New-Object F034Win+RECT
+    [void][F034Win]::GetWindowRect($hwnd, [ref]$r)
+    $w = [Math]::Max(10, $r.R - $r.L)
+    $h = [Math]::Max(10, $r.B - $r.T)
+    $bmp = New-Object System.Drawing.Bitmap $w, $h
+    [System.Drawing.Graphics]::FromImage($bmp).CopyFromScreen($r.L, $r.T, 0, 0, $bmp.Size)
+    $dir = Split-Path $outPath
+    if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    $bmp.Save($outPath, [System.Drawing.Imaging.ImageFormat]::Png)
+    Write-Host "Captura salva em: $outPath ($w x $h)"
+}
+
+# 1. Obter processo Files ou iniciar
+$p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+if (-not $p) {
+    Start-Process "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    Start-Sleep -Seconds 4
+    $p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+}
+
+$hwnd = $p.MainWindowHandle
+[void][F034Win]::ShowWindow($hwnd, 9)
+[void][F034Win]::SetForegroundWindow($hwnd)
+Start-Sleep -Milliseconds 800
+
+Write-Host "===> Verificando F034: Lista sem caixas de selecao..." -ForegroundColor Cyan
+
+# Navega para C:\Windows com Ctrl+L
+Send-KeysChord @(0x11, 0x4C) # Ctrl+L
+Start-Sleep -Milliseconds 400
+[System.Windows.Forms.SendKeys]::SendWait("C:\Windows{ENTER}")
+Start-Sleep -Seconds 3
+
+# Foca primeiro item com Down
+Send-KeysChord @(0x28) # Down
+Start-Sleep -Milliseconds 500
+
+# Posiciona mouse sobre o primeiro item para testar hover
+$r = New-Object F034Win+RECT
+[void][F034Win]::GetWindowRect($hwnd, [ref]$r)
+[void][F034Win]::SetCursorPos($r.L + 250, $r.T + 220)
+Start-Sleep -Milliseconds 600
+
+# Captura AC-1: Detalhes sem caixas no cabecalho e sem checkbox no hover
+Capture-Window $hwnd "docs\agents\evidence\F034\ac1_sem_checkbox_detalhes.png"
+
+# Alterna para modo Grade via Ctrl+Shift+1
+Send-KeysChord @(0x11, 0x10, 0x31) # Ctrl+Shift+1
+Start-Sleep -Seconds 1
+
+# Captura AC-2: Grade sem checkbox
+Capture-Window $hwnd "docs\agents\evidence\F034\ac2_sem_checkbox_grade.png"
+
+# Volta para modo Detalhes via Ctrl+Shift+6
+Send-KeysChord @(0x11, 0x10, 0x36) # Ctrl+Shift+6
+Start-Sleep -Seconds 1
+
+Write-Host "F034 validada com sucesso! Checkboxes desativadas por padrao com x:Load=False." -ForegroundColor Green

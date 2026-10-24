@@ -702,6 +702,12 @@ namespace Files.App.Views.Layouts
 			e.Handled = true;
 		}
 
+		/// <summary>
+		/// F034: the row checkboxes are x:Load="False" and exist only while this setting is on; off, no layout code touches them.
+		/// </summary>
+		protected bool ShowSelectionCheckboxes
+			=> UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems;
+
 		// Disposer
 
 		public override void Dispose()

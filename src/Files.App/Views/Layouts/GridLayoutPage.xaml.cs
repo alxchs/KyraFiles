@@ -416,6 +416,10 @@ namespace Files.App.Views.Layouts
 
 		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
+			// F034: with the setting off the rows have no checkbox to keep in sync
+			if (!ShowSelectionCheckboxes)
+				return;
+
 			foreach (var item in e.AddedItems)
 				SetCheckboxSelectionState(item);
 
@@ -821,15 +825,19 @@ namespace Files.App.Views.Layouts
 
 		private readonly System.Runtime.CompilerServices.ConditionalWeakTable<SelectorItem, Tuple<object?, CheckBox>> selectionCheckboxCache = new();
 
-		// The template-root identity check invalidates the cache when a container is re-templated
+		// The template-root identity check invalidates the cache when a container is re-templated.
+		// F034: the checkbox is x:Load="False" in the templates; FindName creates it the first time it is needed.
 		[DynamicWindowsRuntimeCast(typeof(CheckBox))]
-		private CheckBox GetSelectionCheckbox(SelectorItem container)
+		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+		private CheckBox? GetSelectionCheckbox(SelectorItem container)
 		{
-			var root = container.ContentTemplateRoot;
+			var root = container.ContentTemplateRoot as FrameworkElement;
 			if (selectionCheckboxCache.TryGetValue(container, out var cached) && ReferenceEquals(cached.Item1, root))
 				return cached.Item2;
 
-			var checkbox = (CheckBox)container.FindDescendant("SelectionCheckbox")!;
+			if (root?.FindName("SelectionCheckbox") is not CheckBox checkbox)
+				return null;
+
 			selectionCheckboxCache.AddOrUpdate(container, new Tuple<object?, CheckBox>(root, checkbox));
 			return checkbox;
 		}
@@ -838,8 +846,26 @@ namespace Files.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(GridViewItem))]
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = GetSelectionCheckbox(args.ItemContainer);
+			// F034: with the setting off the row has no checkbox; one created before the setting was turned off is hidden
+			// from the cache, without searching the row's visual tree
+			if (!ShowSelectionCheckboxes)
+			{
+				if (selectionCheckboxCache.TryGetValue(args.ItemContainer, out var loaded) && loaded.Item2.Visibility == Visibility.Visible)
+				{
+					loaded.Item2.Visibility = Visibility.Collapsed;
+					UpdateCheckboxVisibility(args.ItemContainer, false); // "ShowCheckbox" also hides the icon
+				}
+				base.FileList_ContainerContentChanging(sender, args);
+				return;
+			}
 
+			if (GetSelectionCheckbox(args.ItemContainer) is not { } selectionCheckbox)
+			{
+				base.FileList_ContainerContentChanging(sender, args);
+				return;
+			}
+
+			selectionCheckbox.Visibility = Visibility.Visible;
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
@@ -975,10 +1001,9 @@ namespace Files.App.Views.Layouts
 			if (sender is GridViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
 			{
 				// Handle visual states
-				// Show checkboxes when items are selected (as long as the setting is enabled)
-				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver)
+				// Show checkboxes when items are selected or hovered, only while the setting is enabled
+				// (F034: "ShowCheckbox" targets the x:Load checkbox, so it would create one even with the setting off)
+				if (ShowSelectionCheckboxes && (control.IsSelected || isPointerOver))
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

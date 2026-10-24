@@ -1,6 +1,18 @@
 ﻿# STATUS
 
-Última atualização: 2026-10-22 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-10-24 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.5 — Recomposição do Pacote e Validação de Integridade (24/10/2026)
+
+- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.4 -> 4.3.5 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Verificação de código confirmando preservação integral de todas as otimizações anteriores (F024 enumeração sem resets, F026 seleção coalescida, F027 checkbox preguiçoso, F028 frame throttling, F029 setas Explorer, F031 abas ultrarrápidas).
+- CONFIRMED: Recompilação nativa C++ em Release de todos os componentes auxiliares (Files.HotkeyService.exe, Files.Watchdog.exe, Files.App.Launcher.exe, DLLs de diálogo Open/Save 32 e 64 bits).
+- CONFIRMED: Compilação de Release do Files.App (dotnet build src\Files.App\Files.App.csproj -c Release -p:Platform=x64) com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Layout AppX e manifesto SHA256 regenerados (installer\package_manifest.json: 1.333 arquivos, 212,02 MB, versão 4.3.5).
+- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.5.exe (50,27 MB, 52.711.802 bytes, SHA256: 71A8BC0E96745CA4EA698A8E225780F5334E16540C88683835B60D7F156BD879) compilado com Inno Setup 6.
+- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.5.0).
+- CONFIRMED: Gate de contenção de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente ausente e inativo).
+- CONFIRMED: Higienização completa de binários com expurgo de todas as pastas Debug no repositório.
 
 ## Release v4.3.4 — Limpeza de Desenvolvimento e Instalador Consolidado (22/10/2026)
 

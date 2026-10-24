@@ -1,6 +1,20 @@
-﻿# STATUS
+# STATUS
 
 Última atualização: 2026-10-24 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Release v4.3.6 — Busca Híbrida sem Crash, Setas Fluidas Explorer, Lista sem Checkbox e Evidências Consolidadas (24/10/2026)
+
+- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.5 -> 4.3.6 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Tópico 1 (F030, F032, F033) — Evidências visuais físicas comprovadas em tela e relatórios emitidos sob docs/agents/evidence/. Specs e tarefas atualizadas.
+- CONFIRMED: Tópico 2 (F034) — Lista e Grade sem caixa de seleção por padrão via x:Load="False" e opção desativada nas preferências de pastas. Evidências visuais salvas sob docs/agents/evidence/F034/.
+- CONFIRMED: Tópico 3 (F029) — Setas fluidas estilo Windows Explorer: fixado em definitivo o comportamento vencedor da A/B test (TryMoveRow ativa por padrão para Up/Down sem modificadores com throttle de 1 quadro) e expurgadas todas as flags temporárias (ReadF029Flags, f029_flags.txt).
+- CONFIRMED: Tópico 4 (F023) — Busca híbrida com streaming: bateria de 15 buscas consecutivas sem vazamento de handles (3940 -> 3933 handles). Eliminado crash crítico de Access Violation (0xc0000005) no Escape do Omnibar (e.Handled = true) e descarte determinístico de CTS (_suggestSearchCTS.Dispose()).
+- CONFIRMED: Tópico 4 (Lições do Everything) — Documento arquitetural docs/specs/F023-hybrid-fast-search/licoes_everything.md elaborado detalhando USN Journal/MFT direto, arrays contíguos em RAM, busca SIMD e IPC sem locks para o futuro app independente.
+- CONFIRMED: Compilação de Release do Files.App e projetos nativos com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.6.exe (50,24 MB, 52.676.689 bytes, SHA256: AE8E9F32DC99CF216FD65B2603B30F6632973D7162FAA634FB650BB0BAF29B11) gerado via Inno Setup 6.
+- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.6.0).
+- CONFIRMED: Gate de contenção de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente inativo e CPU em repouso contida).
+- CONFIRMED: Higiene absoluta de binários com zero pastas Debug sob o repositório.
 
 ## Release v4.3.5 — Recomposição do Pacote e Validação de Integridade (24/10/2026)
 

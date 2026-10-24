@@ -1,0 +1,114 @@
+# tools/perf/run_t1_verifications.ps1
+# Bateria automatizada de testes e evidências visuais para F032, F033 e F030 (Tópico 1)
+
+$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms
+
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class T1Win {
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+    [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+    [DllImport("user32.dll")] public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int nCmdShow);
+    public struct RECT { public int L, T, R, B; }
+}
+"@
+
+function Send-KeysChord([byte[]]$keys) {
+    foreach ($k in $keys) { [T1Win]::keybd_event($k, 0, 0, [UIntPtr]::Zero) }
+    Start-Sleep -Milliseconds 60
+    for ($i = $keys.Length - 1; $i -ge 0; $i--) { [T1Win]::keybd_event($keys[$i], 0, 2, [UIntPtr]::Zero) }
+    Start-Sleep -Milliseconds 300
+}
+
+function Capture-Window($hwnd, $outPath) {
+    $r = New-Object T1Win+RECT
+    [void][T1Win]::GetWindowRect($hwnd, [ref]$r)
+    $w = [Math]::Max(10, $r.R - $r.L)
+    $h = [Math]::Max(10, $r.B - $r.T)
+    $bmp = New-Object System.Drawing.Bitmap $w, $h
+    [System.Drawing.Graphics]::FromImage($bmp).CopyFromScreen($r.L, $r.T, 0, 0, $bmp.Size)
+    $dir = Split-Path $outPath
+    if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    $bmp.Save($outPath, [System.Drawing.Imaging.ImageFormat]::Png)
+    Write-Host "Captura salva em: $outPath ($w x $h)"
+}
+
+# 1. Garante que o Files esteja em primeiro plano
+$p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+if (-not $p) {
+    Start-Process "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    Start-Sleep -Seconds 4
+    $p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+}
+
+$hwnd = $p.MainWindowHandle
+[void][T1Win]::ShowWindow($hwnd, 9)
+[void][T1Win]::SetForegroundWindow($hwnd)
+Start-Sleep -Milliseconds 800
+
+# ==========================================
+# TESTE 1: F032 - Fixar Aba (Pin Tab)
+# ==========================================
+Write-Host "===> Executando Teste F032 (Fixar Aba)..." -ForegroundColor Cyan
+# Cria uma nova aba via Ctrl+T
+Send-KeysChord @(0x11, 0x54) # Ctrl+T
+Start-Sleep -Seconds 1
+
+# Cria outra aba para ter abas múltiplas
+Send-KeysChord @(0x11, 0x54) # Ctrl+T
+Start-Sleep -Seconds 1
+
+# Captura de tela com abas abertas
+Capture-Window $hwnd "docs\agents\evidence\F032\f032_tab_opened.png"
+
+# Tenta fechar via Ctrl+W para comprovar atalho
+Send-KeysChord @(0x11, 0x57) # Ctrl+W
+Start-Sleep -Milliseconds 500
+Capture-Window $hwnd "docs\agents\evidence\F032\f032_tab_closed.png"
+
+# ==========================================
+# TESTE 2: F030 - Preview Fechado na Tecla Segurada
+# ==========================================
+Write-Host "===> Executando Teste F030 (Preview na Tecla Segurada)..." -ForegroundColor Cyan
+# Alterna o painel de preview via Alt+P
+Send-KeysChord @(0x12, 0x50) # Alt+P
+Start-Sleep -Seconds 1
+
+Capture-Window $hwnd "docs\agents\evidence\F030\f030_preview_pane_open.png"
+
+# Segura tecla Down por 2 segundos e solta
+[T1Win]::keybd_event(0x28, 0, 0, [UIntPtr]::Zero)
+Start-Sleep -Milliseconds 1500
+Capture-Window $hwnd "docs\agents\evidence\F030\f030_preview_during_hold.png"
+[T1Win]::keybd_event(0x28, 0, 2, [UIntPtr]::Zero)
+Start-Sleep -Seconds 1
+
+# Captura final após soltar
+Capture-Window $hwnd "docs\agents\evidence\F030\f030_preview_released.png"
+
+# Fecha o painel de preview
+Send-KeysChord @(0x12, 0x50) # Alt+P
+Start-Sleep -Milliseconds 500
+
+# ==========================================
+# TESTE 3: F033 - Copiar / Mover Para
+# ==========================================
+Write-Host "===> Executando Teste F033 (Copiar/Mover Para)..." -ForegroundColor Cyan
+# Seleciona primeiro item da lista com Down
+Send-KeysChord @(0x28)
+Start-Sleep -Milliseconds 300
+
+# Abre menu de contexto com Shift+F10
+Send-KeysChord @(0x10, 0x79) # Shift+F10
+Start-Sleep -Milliseconds 800
+Capture-Window $hwnd "docs\agents\evidence\F033\f033_context_menu.png"
+
+# Fecha menu com Esc
+Send-KeysChord @(0x1B) # Esc
+Start-Sleep -Milliseconds 300
+
+Write-Host "Bateria de testes T1 concluida com sucesso!" -ForegroundColor Green

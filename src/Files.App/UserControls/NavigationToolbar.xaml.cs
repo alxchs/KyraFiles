@@ -519,6 +519,7 @@ namespace Files.App.UserControls
 		{
 			if (e.Key is VirtualKey.Escape)
 			{
+				e.Handled = true;
 				Omnibar.IsFocused = false;
 				var paneHolder = ContentPageContext.ShellPage?.PaneHolder;
 				paneHolder?.FocusActivePane();

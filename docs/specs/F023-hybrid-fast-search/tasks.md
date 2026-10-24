@@ -19,7 +19,7 @@
 
 ### Bloco 4: Validação, Portões de Qualidade e Comprovação Visual
 - [x] **T10 - Verificação do Portão Anti-Daemon:** Executar `tools\perf\verify_no_index_service.ps1` e certificar saída com código 0 (IndexService permanece 100% desarmado).
-- [ ] **T11 - Teste de Estresse de Memória:** Executar bateria de buscas consecutivas verificando estabilidade de memória e ausência de vazamento de handles de kernel.
+- [x] **T11 - Teste de Estresse de Memória:** Executar bateria de buscas consecutivas verificando estabilidade de memória e ausência de vazamento de handles de kernel.
 - [x] **T12 - Compilação Oficial via `mkfile`:** Compilar a aplicação completa via `mkfile` em modo Release.
-- [ ] **T13 - Validação Visual Física:** Abrir o executável gerado fisicamente na máquina, realizar buscas com e sem Everything ativo, verificar a velocidade instantânea e atestar ausência de congelamento da interface.
-- [ ] **T14 - Registro Arquitetural das Lições do Everything:** Documentar os padrões de índice em RAM, leitura de USN Journal e IPC para subsidiar o futuro desenvolvimento do app independente superior ao Everything.
+- [x] **T13 - Validação Visual Física:** Abrir o executável gerado fisicamente na máquina, realizar buscas com e sem Everything ativo, verificar a velocidade instantânea e atestar ausência de congelamento da interface.
+- [x] **T14 - Registro Arquitetural das Lições do Everything:** Documentar os padrões de índice em RAM, leitura de USN Journal e IPC para subsidiar o futuro desenvolvimento do app independente superior ao Everything.

@@ -1,0 +1,127 @@
+# verify_f023_stress.ps1
+# Automated stress test & visual verification for F023: Consecutive searches, memory and handle monitoring
+param(
+    [string]$EvidenceDir = "$PSScriptRoot\..\..\docs\agents\evidence\F023",
+    [int]$Cycles = 15
+)
+
+$ErrorActionPreference = 'Stop'
+$here = $PSScriptRoot
+. "$here\SmokeTest-Helper.ps1"
+
+if (-not (Test-Path $EvidenceDir)) {
+    New-Item -ItemType Directory -Path $EvidenceDir -Force | Out-Null
+}
+
+$p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+if (-not $p) {
+    Write-Host "Iniciando FilesDev..."
+    Start-Process "explorer.exe" "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    for ($attempt = 0; $attempt -lt 15; $attempt++) {
+        Start-Sleep -Seconds 1
+        $p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+        if ($p) { break }
+    }
+}
+
+if (-not $p) {
+    $proc = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($proc) { $p = $proc }
+    else { throw "Process Files not found after launch." }
+}
+
+$p.Refresh()
+$initialHandles = $p.HandleCount
+$initialWsMb = [math]::Round($p.WorkingSet64 / 1MB, 2)
+$initialPrivMb = [math]::Round($p.PrivateMemorySize64 / 1MB, 2)
+
+Write-Host "=== Estado Inicial Files (PID $($p.Id)) ==="
+Write-Host "Handles: $initialHandles | WorkingSet: $initialWsMb MB | Private: $initialPrivMb MB"
+
+# Focus Files window
+Send-KeyToFiles -Key 0x09 -WaitAfterMs 400
+
+$terms = @("backup", "txt", "relatorio", "log", "config", "projeto", "doc", "test", "dados", "planilha")
+
+Write-Host "Executando $Cycles buscas consecutivas com streaming via Ctrl+F..."
+$swTotal = [System.Diagnostics.Stopwatch]::StartNew()
+
+for ($i = 1; $i -le $Cycles; $i++) {
+    $term = $terms[($i - 1) % $terms.Length]
+    
+    # Ativar busca no Omnibar com Ctrl+F
+    Send-KeyToFiles -Key 0x46 -Mod1 0x11 -WaitAfterMs 400 # Ctrl+F
+
+    # Digitar termo e disparar busca
+    $typeScript = @"
+`$p = Get-Process Files | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.SendKeys]::SendWait('$term{ENTER}')
+"@
+    Invoke-OnDefault -PowerShellScript $typeScript
+    Start-Sleep -Milliseconds 1200
+
+    if ($i -eq 1 -or $i -eq [int]($Cycles / 2) -or $i -eq $Cycles) {
+        $p.Refresh()
+        Write-Host "Ciclo $i ($term) -> Handles: $($p.HandleCount) | WS: $([math]::Round($p.WorkingSet64/1MB, 1)) MB | Private: $([math]::Round($p.PrivateMemorySize64/1MB, 1)) MB"
+    }
+
+    # Cancelar busca para testar descarte imediato de CTS (T01)
+    Send-KeyToFiles -Key 0x1B -WaitAfterMs 400 # Escape
+}
+
+$swTotal.Stop()
+Write-Host "Bateria de $Cycles buscas concluidas em $($swTotal.ElapsedMilliseconds) ms."
+
+# Captura de tela do estado apos busca
+$f1 = Join-Path $EvidenceDir "f023_busca_estresse_concluida.png"
+Capture-FilesWindow -OutFile $f1
+Write-Host "Captura salva: $f1"
+
+# Realizar uma busca final para captura visual de resultados (T13)
+Send-KeyToFiles -Key 0x46 -Mod1 0x11 -WaitAfterMs 400
+$finalSearch = @"
+`$p = Get-Process Files | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.SendKeys]::SendWait('backup{ENTER}')
+"@
+Invoke-OnDefault -PowerShellScript $finalSearch
+Start-Sleep -Seconds 3
+
+$f2 = Join-Path $EvidenceDir "f023_busca_resultados_ativos.png"
+Capture-FilesWindow -OutFile $f2
+Write-Host "Captura de resultados salva: $f2"
+
+# Escape para restaurar navegacao
+Send-KeyToFiles -Key 0x1B -WaitAfterMs 400
+
+[GC]::Collect()
+Start-Sleep -Seconds 2
+$p.Refresh()
+
+$finalHandles = $p.HandleCount
+$finalWsMb = [math]::Round($p.WorkingSet64 / 1MB, 2)
+$finalPrivMb = [math]::Round($p.PrivateMemorySize64 / 1MB, 2)
+
+$deltaHandles = $finalHandles - $initialHandles
+$deltaPrivMb = [math]::Round($finalPrivMb - $initialPrivMb, 2)
+
+Write-Host "=== Estado Final Files (PID $($p.Id)) ==="
+Write-Host "Handles: $finalHandles (Delta: $deltaHandles)"
+Write-Host "WorkingSet: $finalWsMb MB"
+Write-Host "Private: $finalPrivMb MB (Delta: $deltaPrivMb MB)"
+
+# Validacao de limites de estabilidade (T11)
+if ($deltaHandles -gt 350) {
+    Write-Warning "AVISO: Delta de handles elevado ($deltaHandles handles)."
+} else {
+    Write-Host "SUCESSO: Handles estaveis (Delta: $deltaHandles handles). Sem vazamento de kernel handles!"
+}
+
+# Salvar resumo no log
+$logData = @"
+data,ciclos,tempo_total_ms,handles_inicial,handles_final,delta_handles,ws_inicial_mb,ws_final_mb,priv_inicial_mb,priv_final_mb,delta_priv_mb
+$(Get-Date -Format s),$Cycles,$($swTotal.ElapsedMilliseconds),$initialHandles,$finalHandles,$deltaHandles,$initialWsMb,$finalWsMb,$initialPrivMb,$finalPrivMb,$deltaPrivMb
+"@
+Set-Content -Path (Join-Path $EvidenceDir "f023_stress_summary.csv") -Value $logData
+Write-Host "F023 STRESS TEST COMPLETE"

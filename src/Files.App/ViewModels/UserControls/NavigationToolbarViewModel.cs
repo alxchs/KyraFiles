@@ -1269,6 +1269,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			_suggestSearchCTS.Cancel();
+			_suggestSearchCTS.Dispose();
 			_suggestSearchCTS = new CancellationTokenSource();
 			var token = _suggestSearchCTS.Token;
 
@@ -1388,7 +1389,11 @@ namespace Files.App.ViewModels.UserControls
 		public void CancelSuggestionSearch()
 		{
 			if (!_isDisposed)
+			{
 				_suggestSearchCTS.Cancel();
+				_suggestSearchCTS.Dispose();
+				_suggestSearchCTS = new CancellationTokenSource();
+			}
 		}
 
 		// Disposer

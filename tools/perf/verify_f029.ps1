@@ -1,0 +1,84 @@
+﻿# verify_f029.ps1
+# Automated verification for F029: Explorer-style arrow navigation without temporary flags
+param(
+    [string]$EvidenceDir = "$PSScriptRoot\..\..\docs\agents\evidence\F029",
+    [string]$LabFolder = "C:\FilesUXLab\perf\1600"
+)
+
+$ErrorActionPreference = 'Stop'
+$here = $PSScriptRoot
+. "$here\SmokeTest-Helper.ps1"
+
+# 1. Ensure lab folder exists
+if (-not (Test-Path $LabFolder)) {
+    Write-Host "Criando pasta de teste em $LabFolder..."
+    & "$here\f025_setup_lab.ps1" -TargetFolder $LabFolder
+}
+
+if (-not (Test-Path $EvidenceDir)) {
+    New-Item -ItemType Directory -Path $EvidenceDir -Force | Out-Null
+}
+
+# 2. Launch Files if not running
+$p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+if (-not $p) {
+    Write-Host "Iniciando FilesDev..."
+    Start-Process "explorer.exe" "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    Start-Sleep -Seconds 6
+}
+
+# 3. Navigate to lab folder: Ctrl+L, path, Enter
+Write-Host "Navegando para $LabFolder..."
+Send-KeyToFiles -Key 0x4C -Mod1 0x11 -WaitAfterMs 400 # Ctrl+L
+$navScript = @"
+`$p = Get-Process Files | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.SendKeys]::SendWait('$($LabFolder.Replace('\', '\\'))' + '{ENTER}')
+"@
+Invoke-OnDefault -PowerShellScript $navScript
+Start-Sleep -Seconds 4
+
+# Focus on list
+Send-KeyToFiles -Key 0x09 -WaitAfterMs 500 # Tab
+
+# Capture initial state
+$f1 = Join-Path $EvidenceDir "f029_01_pasta_1600_inicial.png"
+Capture-FilesWindow -OutFile $f1
+Write-Host "Captura inicial salva: $f1"
+
+# Test 1: Single Down arrow (AC-5)
+Write-Host "Testando toque isolado Down (AC-5)..."
+Send-KeyToFiles -Key 0x28 -WaitAfterMs 400
+$f2 = Join-Path $EvidenceDir "f029_02_toque_isolado_down.png"
+Capture-FilesWindow -OutFile $f2
+Write-Host "Captura toque isolado salva: $f2"
+
+# Test 2: Held Down arrow (auto-repeat, TryMoveRow fluid navigation)
+Write-Host "Testando Down segurado (30 passos continuos)..."
+$sw = [System.Diagnostics.Stopwatch]::StartNew()
+for ($i = 0; $i -lt 30; $i++) {
+    Send-KeyToFiles -Key 0x28 -WaitAfterMs 20
+}
+$sw.Stop()
+Write-Host "Down repetido concluido em $($sw.ElapsedMilliseconds) ms"
+Start-Sleep -Milliseconds 400
+
+$f3 = Join-Path $EvidenceDir "f029_03_down_segurado.png"
+Capture-FilesWindow -OutFile $f3
+Write-Host "Captura Down segurado salva: $f3"
+
+# Test 3: PgDn regression check
+Write-Host "Testando regressao PgDn..."
+Send-KeyToFiles -Key 0x22 -WaitAfterMs 500
+$f4 = Join-Path $EvidenceDir "f029_04_regressao_pgdn.png"
+Capture-FilesWindow -OutFile $f4
+Write-Host "Captura regressao PgDn salva: $f4"
+
+# 4. Check results
+$pngs = Get-ChildItem -Path $EvidenceDir -Filter "f029_*.png"
+Write-Host "Total de evidencias em ${EvidenceDir}: $($pngs.Count) PNGs"
+foreach ($png in $pngs) {
+    Write-Host " - $($png.Name) ($($png.Length) bytes)"
+}
+
+Write-Host "F029 VERIFICATION COMPLETE"

@@ -640,19 +640,14 @@ namespace Files.App.Views.Layouts
 			{
 				ExtendNavigationDeferral();
 
-				// F029 A/B: "nothrottle" processes every auto-repeat, as in Explorer
-				if (!F029Flag("nothrottle"))
+				if (navigationStepPending)
 				{
-					if (navigationStepPending)
-					{
-						e.Handled = true;
-						return;
-					}
-
-					navigationStepPending = true;
-					navigationFramesSeen = 0;
-					CompositionTarget.Rendering += NavigationStep_Rendering;
+					e.Handled = true;
+					return;
 				}
+
+				navigationStepPending = true;
+				CompositionTarget.Rendering += NavigationStep_Rendering;
 			}
 
 			// F026: any key that is not plain navigation acts on the up-to-date selection.
@@ -724,7 +719,7 @@ namespace Files.App.Views.Layouts
 				Focus(FocusState.Pointer);
 			}
 			else if (e.Key is VirtualKey.Up or VirtualKey.Down && !ctrlPressed && !shiftPressed && !isHeaderFocused && !isFooterFocused
-				&& F029Flag("ownarrows") && TryMoveRow(e.Key == VirtualKey.Down, focusedElement))
+				&& TryMoveRow(e.Key == VirtualKey.Down, focusedElement))
 			{
 				e.Handled = true;
 			}
@@ -777,17 +772,6 @@ namespace Files.App.Views.Layouts
 				e.Handled = TryMovePage(e.Key == VirtualKey.PageDown, shiftPressed, focusedElement);
 			}
 		}
-
-		// F029 TEMPORARY A/B switches, read once per process; removed before merge (tasks T4)
-		private static readonly string f029Flags = ReadF029Flags();
-
-		private static string ReadF029Flags()
-		{
-			try { return System.IO.File.ReadAllText(@"C:\FilesUXLab\f029_flags.txt"); }
-			catch { return string.Empty; }
-		}
-
-		private static bool F029Flag(string name) => f029Flags.Contains(name, StringComparison.OrdinalIgnoreCase);
 
 		private ListedItem? pageSelectionAnchor;
 		private ListedItem? pageTarget;
@@ -1661,7 +1645,6 @@ namespace Files.App.Views.Layouts
 		private readonly ConditionalWeakTable<CheckBox, object> hookedSelectionCheckboxes = new();
 
 		private bool navigationStepPending;
-		private int navigationFramesSeen;
 		private VirtualKey heldNavigationKey = VirtualKey.None;
 
 		private void FileList_NavigationKeyUp(object sender, KeyRoutedEventArgs e)
@@ -1675,13 +1658,10 @@ namespace Files.App.Views.Layouts
 			=> heldNavigationKey is not VirtualKey.None
 				&& InputKeyboardSource.GetKeyStateForCurrentThread(heldNavigationKey).HasFlag(CoreVirtualKeyStates.Down);
 
-		// Rendering fires at the start of each frame: the second one after the key means a frame with the
+		// Rendering fires at the start of each frame: the next frame means the
 		// new selection has been laid out and presented.
 		private void NavigationStep_Rendering(object? sender, object e)
 		{
-			if (++navigationFramesSeen < (F029Flag("throttle1") ? 1 : 2))
-				return;
-
 			CompositionTarget.Rendering -= NavigationStep_Rendering;
 			navigationStepPending = false;
 		}

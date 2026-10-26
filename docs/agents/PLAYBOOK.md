@@ -111,3 +111,11 @@ Definido pelo Alexandre em 15/10/2026 para manter a `main` limpa e sem poluiçã
 4. **Sincronização Fast-Forward:**
    * As branches `custom/main` e `colab` avançam estritamente por fast-forward: `git merge main --ff-only`.
    * A branch de feature local é removida após a integração: `git branch -D feature/<nome>`.
+
+
+## Segurança de Automação de Interface (Test Input Guard - 25/10/2026)
+
+- **Regra Mandatória de Entrada Global:** Todo script de teste que usa entrada global importa `Send-GuardedInput.ps1`; `Test-NoRawInput.ps1` roda antes de cada commit.
+- **Proibições Rígidas:** É estritamente proibido o uso de chamadas de entrada crua (`SendKeys`, `SendInput`, `keybd_event`, `mouse_event`, `SetCursorPos`, `SetForegroundWindow`) fora do helper `Send-GuardedInput.ps1`. Todos os scripts legados que utilizavam essas chamadas foram quarentenados em `tools/perf/_desativados/` com extensão `.desativado`.
+- **Preenchimento de Campos:** Deve ser feito exclusivamente via UI Automation (`ValuePattern`) através de `Set-ElementText`.
+- **Validação Automática:** O script `pwsh tools/perf/Test-NoRawInput.ps1` deve retornar exit code 0 antes de qualquer commit na branch.

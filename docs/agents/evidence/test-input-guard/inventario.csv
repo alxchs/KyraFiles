@@ -1,0 +1,58 @@
+arquivo,chamadas,anexa_processo_alheio,digita_texto_livre
+tools/perf/OC-ContextMenu.ps1,mouse_event; SetCursorPos; SetForegroundWindow,Nao,Nao
+tools/perf/OC-Helper.ps1,SetForegroundWindow,Nao,Nao
+tools/perf/OC-RenameSuite.ps1,SendInput; SetForegroundWindow,Nao,Nao
+tools/perf/OC-Test1.ps1,SendInput; mouse_event; SetCursorPos; SetForegroundWindow,Nao,Nao
+tools/perf/OC-TestSpecialCases.ps1,SendInput,Nao,Nao
+tools/perf/OCInput.cs,SendInput; SetForegroundWindow,Nao,Nao
+tools/perf/Run-F001-Validation.ps1,SendKeys; SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/SmokeTest-Helper.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/Test-Input.ps1,SendInput; SetForegroundWindow,Nao,Nao
+tools/perf/check_sendinput.ps1,SendInput,Nao,Nao
+tools/perf/e2e_add_explorer_column.ps1,mouse_event; SetCursorPos,Sim,Nao
+tools/perf/f001_runner.ps1,SendInput; mouse_event; SetCursorPos,Sim,Nao
+tools/perf/f012_advanced_settings.ps1,keybd_event; mouse_event; SetCursorPos; SetForegroundWindow,Sim,Nao
+tools/perf/f012_explorer_redirect.ps1,SendInput,Sim,Nao
+tools/perf/f013_f3_agent_ransack.ps1,SendInput; keybd_event; SetForegroundWindow,Sim,Nao
+tools/perf/f015_ui_verification.ps1,SendKeys; mouse_event; SetCursorPos; SetForegroundWindow,Nao,Nao
+tools/perf/f017_installer_test.ps1,keybd_event,Nao,Nao
+tools/perf/f017_win_e_test.ps1,keybd_event,Nao,Nao
+tools/perf/f018_help_menu_test.ps1,SetForegroundWindow,Sim,Nao
+tools/perf/f019_shapes_capture.ps1,SetForegroundWindow,Sim,Nao
+tools/perf/f020_tab_rules_test.ps1,keybd_event; SetForegroundWindow,Sim,Nao
+tools/perf/f025_capture_hold.ps1,SendKeys; keybd_event; SetForegroundWindow,Nao,Sim
+tools/perf/f025_hold_key.ps1,SendKeys; keybd_event; SetForegroundWindow,Nao,Sim
+tools/perf/f028_contact_sheet.ps1,keybd_event; SetForegroundWindow,Nao,Nao
+tools/perf/f028_focus_frames.ps1,SendKeys; keybd_event; mouse_event; SetCursorPos; SetForegroundWindow,Nao,Sim
+tools/perf/f029_ab.ps1,SendKeys,Sim,Sim
+tools/perf/f031_verify_nfr.ps1,SendKeys; SetForegroundWindow,Sim,Nao
+tools/perf/g1c2_columns_language.ps1,keybd_event; mouse_event; SetCursorPos; SetForegroundWindow,Sim,Nao
+tools/perf/nav_and_verify_dimensions.ps1,SendKeys; keybd_event; SetForegroundWindow,Sim,Nao
+tools/perf/prep_window.ps1,SendKeys; mouse_event; SetCursorPos; SetForegroundWindow,Nao,Nao
+tools/perf/run_all_layouts_unified.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/run_layout_validation.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/run_layout_validation_clean.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/run_t1_verifications.ps1,keybd_event; SetForegroundWindow,Sim,Nao
+tools/perf/run_undo.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/select_column_and_confirm.ps1,keybd_event; mouse_event; SetCursorPos,Sim,Nao
+tools/perf/test_add_column_step_by_step.ps1,mouse_event; SetCursorPos; SetForegroundWindow,Sim,Nao
+tools/perf/test_arquivo_keys.ps1,SendInput; mouse_event; SetCursorPos; SetForegroundWindow,Sim,Nao
+tools/perf/test_arquivo_to_exe_dialog.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_chord_f005.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_click_more_columns.ps1,mouse_event; SetCursorPos,Sim,Nao
+tools/perf/test_f001_arquivo_txt.ps1,SendInput,Sim,Nao
+tools/perf/test_focus.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_folder.ps1,SendInput,Sim,Nao
+tools/perf/test_folder_and_lnk.ps1,SendInput,Sim,Nao
+tools/perf/test_grid_rename.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_grid_rename_step.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_grid_step.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_layouts.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_mouse_click_ext.ps1,SendInput; mouse_event; SetCursorPos,Sim,Nao
+tools/perf/test_open_more_columns.ps1,mouse_event; SetCursorPos,Sim,Nao
+tools/perf/test_persistence_back.ps1,keybd_event; SetForegroundWindow,Sim,Nao
+tools/perf/test_tab.ps1,SendInput; SetForegroundWindow,Sim,Nao
+tools/perf/test_undo.ps1,SendInput,Sim,Nao
+tools/perf/verify_f023_stress.ps1,SendKeys,Sim,Sim
+tools/perf/verify_f029.ps1,SendKeys,Sim,Sim
+tools/perf/verify_f034.ps1,SendKeys; keybd_event; SetCursorPos; SetForegroundWindow,Sim,Nao

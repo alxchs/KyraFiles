@@ -55,28 +55,45 @@ namespace Files.App
 			ApplicationData.Current.LocalSettings.Values[LaunchCwdKey] = Environment.CurrentDirectory;
 
 			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-
-			// Files Custom: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
-			if (!isNew && !IsFileDialogLaunch())
+			try
 			{
-				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-
-				// A stale key resolves to this process itself; redirecting to self would drop the activation
-				if (!instance.IsCurrent)
+				// Files Custom: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
+				if (!isNew && !IsFileDialogLaunch())
 				{
-					// Resume cached instance
-					pool.Release();
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
 
-					// Redirect to the main process
-					RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+					// A stale key resolves to this process itself; redirecting to self would drop the activation
+					if (!instance.IsCurrent)
+					{
+						// Files Custom: if semaphore is already at maximum, the main instance was already awakened by a concurrent launch (F035 T2)
+						try
+						{
+							pool.Release();
+						}
+						catch (SemaphoreFullException)
+						{
+							// Main instance already signaled, proceed to redirect
+						}
 
-					// Kill the current process
-					Environment.Exit(0);
+						// Files Custom: protect redirection; if the target instance crashed or disappeared, fall through to normal startup (F035 T2)
+						try
+						{
+							RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+							pool.Dispose();
+							Environment.Exit(0);
+						}
+						catch
+						{
+							// Target instance unreachable; fall through so this instance becomes main
+						}
+					}
 				}
 			}
-
-			pool.Dispose();
+			finally
+			{
+				pool.Dispose();
+			}
 		}
 
 		/// <summary>

@@ -2,13 +2,26 @@
 
 Última atualização: 2026-10-24 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
 
+## Release v4.3.7 — Correção do fechamento ao abrir o Files várias vezes seguidas (26/10/2026)
+
+- CONFIRMED: Versão 4.3.6 -> 4.3.7 em Package.appxmanifest e FilesCustomSetup.iss. Esta versão contém **só** a correção da F035 (arquivo de código alterado: `src/Files.App/Program.cs`).
+- CONFIRMED: Build `dotnet build src\Files.App\Files.App.csproj -c Release -p:Platform=x64` = 0 Warning(s), 0 Error(s) (restore da solução `Files.slnx` antes).
+- CONFIRMED (log de eventos do Windows, independente do script): app **sem** a correção (4.3.6 instalado), 20 rodadas de 5 aberturas seguidas: **3 rodadas com crash** (`SemaphoreFullException`, 1026 às 00:42:43, 00:43:01 e 00:43:11) e só 3 das 5 abas abertas. App **com** a correção: **20 de 20 rodadas com as 5 abas abertas e 0 eventos 1026** (`docs/agents/evidence/F035/resultado-20261026-0054.csv`, revisão em `revisao-claude.md`).
+- CONFIRMED: Instalador `FilesCustomSetup-4.3.7.exe` (52.694.203 bytes, 50,25 MB; 4.3.6 tinha 50,24 MB, +17 KB), SHA256 `9A841441E1B352C338DB0151858C9CA1C6965E0B7053C1C7F496196976CF1555`; instalado em `%LOCALAPPDATA%\Programs\FilesCustom` (`Get-AppxPackage FilesDev` = 4.3.7.0).
+- CONFIRMED: Gate F021 (`verify_no_index_service.ps1`, exit 0): IndexService inativo, CPU em repouso 1,66%, RAM 301,66 MB.
+- NOT TESTED: AC-2 da F035 (o teste precisa partir de sessão limpa), AC-4 (abrir o `Files.exe` direto).
+- INFERRED: AC-5 (janela estacionada não volta ao primeiro plano) reprova **também** no app sem a correção; causa provável: ramo `else` de `PerformNavigationAsync`. Defeito anterior, **não corrigido** nesta versão.
+- DISCOVERY aberto: crash diferente, `GridLayoutPage` / `Update_FileTagsUI` / `LookupConverter` (26/10/2026 00:59:04), causa não determinada; **não corrigido** nesta versão.
+- NOT TESTED: captura de tela de fumaça da 4.3.7 (o Gate F021 abriu e mediu o app instalado, sem captura).
+- Aviso: as evidências de F030, F032, F033, F034, F029 e F023 da 4.3.6 estão **rebaixadas** abaixo (INFERRED/NOT TESTED) até serem refeitas com o helper de teste.
 ## Release v4.3.6 — Busca Híbrida sem Crash, Setas Fluidas Explorer, Lista sem Checkbox e Evidências Consolidadas (24/10/2026)
+- NOT TESTED (revisão do Claude, 24/10/2026): a v4.3.6 foi publicada sem a revisão do arquiteto. As capturas de F030, F032, F033 e F034 não mostram o estado pedido (a de F034 é do VS Code; a de F030 não tem painel aberto; a de F032 não tem aba fixada) e os scripts de teste enviam teclas para a janela em foco, sem asserção. F023 foi verificada com script sem trava de foco. Todos os AC dessas entregas valem NOT TESTED até um resultado.csv com asserção e controle negativo, revisado pelo Claude.
 
 - CONFIRMED: Incremento mandatório de versão aplicado: 4.3.5 -> 4.3.6 em Package.appxmanifest e FilesCustomSetup.iss.
-- CONFIRMED: Tópico 1 (F030, F032, F033) — Evidências visuais físicas comprovadas em tela e relatórios emitidos sob docs/agents/evidence/. Specs e tarefas atualizadas.
-- CONFIRMED: Tópico 2 (F034) — Lista e Grade sem caixa de seleção por padrão via x:Load="False" e opção desativada nas preferências de pastas. Evidências visuais salvas sob docs/agents/evidence/F034/.
-- CONFIRMED: Tópico 3 (F029) — Setas fluidas estilo Windows Explorer: fixado em definitivo o comportamento vencedor da A/B test (TryMoveRow ativa por padrão para Up/Down sem modificadores com throttle de 1 quadro) e expurgadas todas as flags temporárias (ReadF029Flags, f029_flags.txt).
-- CONFIRMED: Tópico 4 (F023) — Busca híbrida com streaming: bateria de 15 buscas consecutivas sem vazamento de handles (3940 -> 3933 handles). Eliminado crash crítico de Access Violation (0xc0000005) no Escape do Omnibar (e.Handled = true) e descarte determinístico de CTS (_suggestSearchCTS.Dispose()).
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 1 (F030, F032, F033) — Evidências visuais físicas comprovadas em tela e relatórios emitidos sob docs/agents/evidence/. Specs e tarefas atualizadas.
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 2 (F034) — Lista e Grade sem caixa de seleção por padrão via x:Load="False" e opção desativada nas preferências de pastas. Evidências visuais salvas sob docs/agents/evidence/F034/.
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 3 (F029) — Setas fluidas estilo Windows Explorer: fixado em definitivo o comportamento vencedor da A/B test (TryMoveRow ativa por padrão para Up/Down sem modificadores com throttle de 1 quadro) e expurgadas todas as flags temporárias (ReadF029Flags, f029_flags.txt).
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 4 (F023) — Busca híbrida com streaming: bateria de 15 buscas consecutivas sem vazamento de handles (3940 -> 3933 handles). Eliminado crash crítico de Access Violation (0xc0000005) no Escape do Omnibar (e.Handled = true) e descarte determinístico de CTS (_suggestSearchCTS.Dispose()).
 - CONFIRMED: Tópico 4 (Lições do Everything) — Documento arquitetural docs/specs/F023-hybrid-fast-search/licoes_everything.md elaborado detalhando USN Journal/MFT direto, arrays contíguos em RAM, busca SIMD e IPC sem locks para o futuro app independente.
 - CONFIRMED: Compilação de Release do Files.App e projetos nativos com 0 Warning(s), 0 Error(s).
 - CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.6.exe (50,24 MB, 52.676.689 bytes, SHA256: AE8E9F32DC99CF216FD65B2603B30F6632973D7162FAA634FB650BB0BAF29B11) gerado via Inno Setup 6.
@@ -54,9 +67,9 @@
 ## Release v4.3.2 — Preview Seguro, Abas Fixadas e Copiar/Mover (21/10/2026)
 
 - CONFIRMED: Incremento mandatório de versão a cada integração na main (v4.3.2).
-- CONFIRMED: F030 — Painel de preview fechado e desativado durante a navegação com tecla segurada (evitando retenção de CPU e travamento de rolagem).
-- CONFIRMED: F032 — Fixação de abas (Pin Tab) com alfinete visual, prioridade à esquerda, proteção total contra fechamento acidental e persistência em sessão.
-- CONFIRMED: F033 — Ações "Copiar para" e "Mover para" no menu de contexto com histórico inteligente das últimas 12 pastas e segurança contra disparos acidentais (diálogo padrão em "Não").
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: sem prova por AC com asserção): F030 — Painel de preview fechado e desativado durante a navegação com tecla segurada (evitando retenção de CPU e travamento de rolagem).
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: sem prova por AC com asserção): F032 — Fixação de abas (Pin Tab) com alfinete visual, prioridade à esquerda, proteção total contra fechamento acidental e persistência em sessão.
+- INFERRED (REABERTO em 24/10/2026 pelo Claude: sem prova por AC com asserção): F033 — Ações "Copiar para" e "Mover para" no menu de contexto com histórico inteligente das últimas 12 pastas e segurança contra disparos acidentais (diálogo padrão em "Não").
 - CONFIRMED: F028 — Correção completa do contorno de foco visual em PageUp/PageDown e sincronização exata da barra de rolagem.
 - CONFIRMED: Compilação Release com 0 erros e validação do gate de contenção de recursos F021 (IndexService inativo, repouso calmo).
 

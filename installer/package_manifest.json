@@ -1,8 +1,8 @@
 ﻿{
-  "Version": "4.3.6",
-  "GeneratedAtUtc": "2026-10-24T19:06:38.1050155Z",
+  "Version": "4.3.7",
+  "GeneratedAtUtc": "2026-10-26T09:47:43.6352397Z",
   "TotalFiles": 1333,
-  "TotalBytes": 222319602,
+  "TotalBytes": 222331307,
   "Files": [
     {
       "Path": "7z64.dll",
@@ -13,7 +13,7 @@
     {
       "Path": "AppxManifest.xml",
       "Length": 18201,
-      "SHA256": "E9DE7E8DF67B0D7D61C914609257520187E4BB145A5AB9C40037F2589910F0AC",
+      "SHA256": "745B66162374968CCF607D8F78DE35C1C694305DEA8619D2657C4220B69D9B72",
       "IsDependency": false
     },
     {
@@ -277,55 +277,55 @@
     {
       "Path": "Files.App.BackgroundTasks.dll",
       "Length": 14336,
-      "SHA256": "37532A239D6F0822A1C67CF59B1BDDED675C5432C0F4401FBB51D44330091B27",
+      "SHA256": "4CCA44265918AC820F6F522EC3663CF65E8F4423D7FFC03E4688B2726FEE4C50",
       "IsDependency": true
     },
     {
       "Path": "Files.App.BackgroundTasks.winmd",
       "Length": 2560,
-      "SHA256": "306AAEB85408C47ADAC442DAB472BFCEE811735932C9D40D2CCF42CFB382FB7B",
+      "SHA256": "CFAD12886E368100132BAB3D70B2D451FAAF12136D290F1A0ACB804CA583AA61",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Controls.dll",
       "Length": 375808,
-      "SHA256": "61EB4CCD5DF8FD00C441948CF995CBC1C0B94A929E8C071A29E772217B91CBB6",
+      "SHA256": "E5CCC5C3EF4E9818BD042F9A7B4745130AE66F105941288A537D0C8CD417895E",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Controls.pri",
       "Length": 1010344,
-      "SHA256": "12516646888D9BB139665FEB58C5910EB36072177C557E5DD85E3D8131ECBCAB",
+      "SHA256": "ACD00A2CF28405738121D33C3D12550C9263FF62DD750155F102E53788515F0D",
       "IsDependency": true
     },
     {
       "Path": "Files.App.CsWin32.dll",
       "Length": 1543168,
-      "SHA256": "6B02E33ADF0B2EF8E5DCD40A8963681AF66CA68278DFBFC25E120799D1E0409A",
+      "SHA256": "A2C7D04FDA989F6782F4E3BFA7EBEE991AAA1C8C98D5A6D90F47E43CEEFD58D0",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Search.Index.dll",
       "Length": 186880,
-      "SHA256": "9F298C89332E9CA0C74C1BA816EFF1A4E1EF7E70685D17D99E5BCB302FE5866E",
+      "SHA256": "FCFD1965109FE55AE7E424E39F06933F02F53E2C02D1A6D6A395AC34BB5C2EC6",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server.winmd",
       "Length": 2560,
-      "SHA256": "E883CFE6694D98955BDD627A5F0635D03C238245EDF51805552CF6D91DF2F48F",
+      "SHA256": "1D2BDC24A97B5B53488C68C5C46803E97E36BA353C9D0E8CC5BB384C2784A8CF",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Storage.dll",
       "Length": 84992,
-      "SHA256": "9AA64CC3568AF935368CEE6E2A8F2B0216128ED60C4D7D6E96471341FA045659",
+      "SHA256": "0BD13DBE121E0B59EF61D689E27CE6BF59FB98331FB286F343240E3B6B935B50",
       "IsDependency": true
     },
     {
       "Path": "Files.Core.Storage.dll",
       "Length": 17920,
-      "SHA256": "E60CD4B7A25B6F45B1EB5D8238C0F2C9E3BA3FD8FCE420E98AD31E40989DDFDA",
+      "SHA256": "621D0B9D25E76C715D8DDF51CF7722CE71321C5189C651F1E2DAD70F969A7073",
       "IsDependency": true
     },
     {
@@ -336,14 +336,14 @@
     },
     {
       "Path": "Files.dll",
-      "Length": 6408704,
-      "SHA256": "D431495471F0BB4EC2FB2D985D06A5F5132706C977103B5ADDB5336462B0EF57",
+      "Length": 6409216,
+      "SHA256": "1598B264CB37415CF14949E6A8D70AE3C15B7AB9F18DBB6D71CAE189C7974FB6",
       "IsDependency": false
     },
     {
       "Path": "Files.exe",
       "Length": 587776,
-      "SHA256": "14D45C5CC4AEF4D060DE5934871230889C6531992436779BED466AB51EB67E2F",
+      "SHA256": "105618D2C027D64C86AD40F22D141172BF26C94BF741A5EDA2F1E436D0891ADF",
       "IsDependency": false
     },
     {
@@ -355,7 +355,7 @@
     {
       "Path": "Files.Shared.dll",
       "Length": 68096,
-      "SHA256": "D198AEF41F3769400BF36C8D53820D8C350A6829C9F85AD60FF46EF4553BEF27",
+      "SHA256": "3AF2A47AB0296B993E15176886D7682FD4868B7D0C90C18D8412068627904063",
       "IsDependency": true
     },
     {
@@ -751,7 +751,7 @@
     {
       "Path": "resources.pri",
       "Length": 4300640,
-      "SHA256": "D3A95F42A74358A63CA0F3A117B960725866DEF587DD9EA148D79159C19AAD2E",
+      "SHA256": "CDE03C1B50169673ED32EDD21A32C367A41E9CAE9551215F82110DDAF69DDE7F",
       "IsDependency": true
     },
     {
@@ -6403,31 +6403,31 @@
     {
       "Path": "Assets\\FilesOpenDialog\\Files.App.Launcher.exe",
       "Length": 328192,
-      "SHA256": "6FCA29C26B86FBCFEE184E89034A9B355562A1CE85C748A5CC1BCEFFB563E41B",
+      "SHA256": "95C1F8E66C3BA9E3ED60E46A3928F5EA7E16058C0B793AE630927F28C7FCD374",
       "IsDependency": false
     },
     {
       "Path": "Assets\\FilesOpenDialog\\Files.App.OpenDialog32.dll",
       "Length": 112640,
-      "SHA256": "7B109D39FAFDE4FB2A14A80C9EC6AC05595A873D344F74627D0234615E15F104",
+      "SHA256": "0686453FA7437498BE529AD6E4F13F6B691978023D8DCDF7037D8BF9F8CF78C1",
       "IsDependency": true
     },
     {
       "Path": "Assets\\FilesOpenDialog\\Files.App.OpenDialog64.dll",
-      "Length": 132608,
-      "SHA256": "18A3008FED6522E02C4DA3B387A9B1E7A2D50D3CB66515AF5A56562ACAC83F8C",
+      "Length": 133120,
+      "SHA256": "49A3476E8F9563548A1A0F6A9E44071BE466FE7A01B3CFB68722B6CFDE56D302",
       "IsDependency": true
     },
     {
       "Path": "Assets\\FilesOpenDialog\\Files.App.SaveDialog32.dll",
       "Length": 161280,
-      "SHA256": "CA0C2E589DB372308A66F5A07CF06196082EA9785B1F7FAE0EEC45EA03433E09",
+      "SHA256": "4496F68B232ACDB590317E0A52465809A7C863580F18A122EACF96857D59D96B",
       "IsDependency": true
     },
     {
       "Path": "Assets\\FilesOpenDialog\\Files.App.SaveDialog64.dll",
       "Length": 182272,
-      "SHA256": "A7E68E8CDB795BF5D40074107A48E80ADC4D14D82C6BDEC7F6A0E6913A197D94",
+      "SHA256": "4A4A45E44AC021C558213683A805A5928CC37F1FE025FF22E9D844081DC4ED0E",
       "IsDependency": true
     },
     {
@@ -7188,14 +7188,14 @@
     },
     {
       "Path": "Assets\\Resources\\PreviewPanePropertiesInformation.json",
-      "Length": 12287,
-      "SHA256": "3C6BC18076F6DE4D1ECBA0230C2E59FD2956B53DC51262587B8BD139E7E854EA",
+      "Length": 12791,
+      "SHA256": "DFA75F87FE9400633669CC7CE103AF6110CCF126DF911FF5B6A910ACAF9276AC",
       "IsDependency": false
     },
     {
       "Path": "Assets\\Resources\\PropertiesInformation.json",
-      "Length": 15819,
-      "SHA256": "AB86EB0470605B6E88613A5CDFF1979616AC48EBED5831E493041B6CAB336655",
+      "Length": 16470,
+      "SHA256": "A62430E31AF75F616964630EDBF3E9C4A9865DE4FDE31F37014F3FC92E76B7A2",
       "IsDependency": false
     },
     {
@@ -7344,62 +7344,62 @@
     },
     {
       "Path": "Files.App.Controls\\BladeView\\BladeView.xaml",
-      "Length": 7898,
-      "SHA256": "190820EB30ADE33CD4B809B595A67E247994B2EF1E74BF990F88E2B3F33C8A51",
+      "Length": 8064,
+      "SHA256": "D188B80B7EC8F61D0964972059F275C3F57BB473D55E0CC11A29680AD734713F",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\BladeView\\BladeView.xbf",
       "Length": 3337,
-      "SHA256": "DA12C51BA9501CA7D104C3A1010E14CB86C5697ECC78E54F89A62140CF85787D",
+      "SHA256": "9C0466CFBB26AC29A13D53E6C101D98E42B69E50E88AFE4D6B39A9A63098628C",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\BreadcrumbBar\\BreadcrumbBar.xaml",
-      "Length": 16049,
-      "SHA256": "7641BB0D782733E2313E90A4C3D5C52289EF1C66455DA6C8B056F8B2BA5A233F",
+      "Length": 16399,
+      "SHA256": "BA4E36B68622C9A6F04456A663920D30E295A1A1705B6F1A9E3A4F3C774AF484",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\BreadcrumbBar\\BreadcrumbBar.xbf",
       "Length": 7414,
-      "SHA256": "6FB785149E598D758BB05472D40514159C38417A5529BA5663EC703093995D58",
+      "SHA256": "62CB1E032F04F3C269351C0F49C673631C713FA6088041FD6465AF42B83626A4",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\GridSplitter\\GridSplitter.xaml",
-      "Length": 2554,
-      "SHA256": "3723169623C1FDEA3B4AD12AEB966C808AD98651DFF29296B98E771A60D5CFFC",
+      "Length": 2609,
+      "SHA256": "2CC0AA1676085365BFFB3E0D36D344E14CB47B28E0BBB3B609B9A6AC9AAF7F50",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\GridSplitter\\GridSplitter.xbf",
       "Length": 1841,
-      "SHA256": "5C33F5768A0C9375D16C1BE9DD6D67C9FA65D9F2AAD5A556FA5A145C76470D2E",
+      "SHA256": "4F825AE27D2FE2D37CB06B000FA35580C1EAEB0E492FF3E4EBA010D4C6D6194E",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Omnibar\\Omnibar.xaml",
-      "Length": 19365,
-      "SHA256": "1FD67409BD602F012B4890AB3E0C8927195E949F6F70915723AF32916A0186DF",
+      "Length": 19816,
+      "SHA256": "58D04936B00C64EAF1D8803B4CAFD351E5D51A855940AF965FA67E387DD85A05",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Omnibar\\Omnibar.xbf",
       "Length": 10855,
-      "SHA256": "759AD2CEA5C44D7921441843217339E7EE2905605529D3F4961510318B042237",
+      "SHA256": "69DC4E92401C9F25E7B545822402923316818CEDBFDC5724B79FEA33FACA2764",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\SamplePanel\\SamplePanel.xaml",
-      "Length": 4022,
-      "SHA256": "95F9FC485DFB6A082560DE967C688AE3B20298D36611DDEB669C427E20592F4E",
+      "Length": 4130,
+      "SHA256": "AEB31D135A4C6819995778381C432BC522EC9176970C717F06468E23A064C973",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\SamplePanel\\SamplePanel.xbf",
       "Length": 2828,
-      "SHA256": "8D9B145069BB76394D03FECC61E960F5BC5F2783CBD48AE2BA59DDC4D79A40A7",
+      "SHA256": "974AE6C2E402FC86A332A500E1D4333A031EBF6CE4213802F60A1EF806748BCC",
       "IsDependency": false
     },
     {
@@ -7428,422 +7428,422 @@
     },
     {
       "Path": "Files.App.Controls\\Storage\\StorageBar\\StorageBar.xaml",
-      "Length": 8018,
-      "SHA256": "32ED64516A37BE650080BF55944154029D7B83A9FB3DA9D1D005AEDFD6F398C3",
+      "Length": 8186,
+      "SHA256": "783744E9FE538B2CEBDAAB51585986D1D57F77611D243EFD558ABFBCF554E87B",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Storage\\StorageBar\\StorageBar.xbf",
       "Length": 4185,
-      "SHA256": "C2D47F867F901952B0B3AE79818BCF2C463AB4A1D0AA4E1D7E484391B9977EBC",
+      "SHA256": "044CB629768719948A32CDCBEB0D09CD910091F376CE6B44AE8982CCFA420DF9",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Storage\\StorageRing\\StorageRing.xaml",
-      "Length": 9333,
-      "SHA256": "4D89FDA385926F5BD2559BA75B8294323B56D5D4A76EC9036521D816910801C8",
+      "Length": 9522,
+      "SHA256": "E68E0937E79D9817E8FB92D30E6385F571116088300E55DD599CD313E59718B2",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Storage\\StorageRing\\StorageRing.xbf",
       "Length": 5059,
-      "SHA256": "E4566B658F77CF75880DB3D72D1E8D25EE906ACEEB1EB8CF489D3C8D91A50471",
+      "SHA256": "EA8CA193D6AD8C6460DA00C3FADB38070300A91018D31E162F0211670F0950F7",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIcon.ThemeResources.xaml",
-      "Length": 5465,
-      "SHA256": "DC7F2AFA13D73B07390A09848EEC9665C4601BE6508DDC71E0A520EC7B5159E6",
+      "Length": 5552,
+      "SHA256": "1925476C7605921AB035F61031724FB938D8DC97E3C8D0A594879118BAF13A20",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIcon.ThemeResources.xbf",
       "Length": 3617,
-      "SHA256": "8821F7DE119FB5DCF1168D48C08D146526466A5F468AE5F302A51FE8E332DBD6",
+      "SHA256": "B6841F39AF2F74A5282DF58CEEE016F1FE1D02C9EB369B4F3899C155327FCDDA",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIcon.xaml",
-      "Length": 9033,
-      "SHA256": "9564E8ADF0C972053CC418D5EA55AD2EEBBF7FB02E1803CC1A5AE23431B0182D",
+      "Length": 9255,
+      "SHA256": "0FFAAD445A404F0A06830779BC8FEE9C2A1202699433837AC9B6BE77A10998F1",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIcon.xbf",
       "Length": 5160,
-      "SHA256": "FA6F1A228123B567C99B70309DA9FF2802A7A6F795D4FB786CE6A8C1D07DDB1A",
+      "SHA256": "4B4D5B2A92A264B4309600F6023EC0060A04166BE5164AF4887D3163035B1B3C",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Action.xaml",
-      "Length": 29991,
-      "SHA256": "7410640D0524C8994F6D11B18F36FE6A1335900A39800BEC7DA3D46B3B00C2F1",
+      "Length": 30387,
+      "SHA256": "A641944FAF42C8F1939E5401A1293E4262555F50986BF606F24944C5D08D1492",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Action.xbf",
       "Length": 45647,
-      "SHA256": "16A94B27AF1B09625779FCD13FB1E3DBB8FC4E37754002BCD909C24DD82C91E4",
+      "SHA256": "3C09AB82F8C3729217EB8029FCDCD508F0407C2218B13A49EA64EA44D31AADF9",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Common.xaml",
-      "Length": 146028,
-      "SHA256": "9F362CA569F4E41C790F95FAAEEDB3BD83E3730EE7DF77E0322AF3F920975160",
+      "Length": 147476,
+      "SHA256": "19FC24F7949478FA3FD146BD4B4CB52ED309D6C00A01AF784908319779F30C40",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Common.xbf",
       "Length": 238430,
-      "SHA256": "201C1CBBEB8715E5718C695C68F3F24F0E912F1D46E031D44F17C9907BE8B271",
+      "SHA256": "95CEF27D435EB0F746A1229974A1F11AD66A99A9FEEA4ACBE41B3C0E5A4F42B6",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Favorite.xaml",
-      "Length": 12080,
-      "SHA256": "A0515DCF157BDDA7D230BBFBA4D7EB07C36305A0AB77FE897D25E94C53EC7A7E",
+      "Length": 12219,
+      "SHA256": "E601425E34F97394A038A7F56ECD80582032BE868245C1CAA53536382487AA63",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Favorite.xbf",
       "Length": 19654,
-      "SHA256": "387D32609E034E6371845C877357A39B9E36E7D80BEDABCA2533B8134D827DFC",
+      "SHA256": "9C18A015D639487388B0AF828A3B30C7B617B510A55277536CDDA126DC0CFC1D",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Git.xaml",
-      "Length": 19529,
-      "SHA256": "F387AE424C22F65480778273A2D83057CF5C219391D77D379172A29B40535E73",
+      "Length": 19813,
+      "SHA256": "6E2847A9AE8ED062AC6F0431B1D895A16A9BFE023E7D0E8075C9ED1561712CE5",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Git.xbf",
       "Length": 29195,
-      "SHA256": "C58D7D79689E289BDE33294AD9D9571AF9D725B7C5A50B06884AC170A96102FE",
+      "SHA256": "BF8ED81B5327607418245FCD0168C874497C578A1BBB58F69B110FFA350C51AC",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Misc16.xaml",
-      "Length": 24657,
-      "SHA256": "163D76D296BEC0C91812DAE122EE9FB8DD3C94461858E03660A6AF45F5303228",
+      "Length": 25010,
+      "SHA256": "FCA3E9343ABB9C2CB8C318ED3B8ADEDB88D4508504A2693A4DC64861ED999597",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Misc16.xbf",
       "Length": 36968,
-      "SHA256": "C2D1B8A7171084347744ED14B4F73D1DB076E3DCC9931CE83309A9E7A8E5BD36",
+      "SHA256": "BA1B3D1A8D12C52A07BC256505435550A68AA30B769689706B382AE21D325E7E",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.New.xaml",
-      "Length": 21506,
-      "SHA256": "C17361A26B91BB415FA9271B7A5A09C86B1F9D40FEC023FFED06446BED080F47",
+      "Length": 21763,
+      "SHA256": "014501CD92E7C2B8D29F5F8F5283FE063092AFD5AA64BE202FA6055958716291",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.New.xbf",
       "Length": 33854,
-      "SHA256": "541E29DCD19A057C0157042CB0416B5AF2259007A38E9F6606D9899F089BD9B2",
+      "SHA256": "AA1B815B98CA1C891A62A582F9A412AD6BCD5F0249CAA69E8F88D48002F41060",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Open.xaml",
-      "Length": 30857,
-      "SHA256": "5A440F067775DE52B39D705C471E8F733A918212B121AD59E715428AD1E025E1",
+      "Length": 31201,
+      "SHA256": "7EF5F934C91293CBA29394BFD50156F0A03AFC4FA025A69634A42B71AFD9FED0",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Open.xbf",
       "Length": 49013,
-      "SHA256": "E56A4287AADF50580E4EB22C86868FB77371668F046B13F8A7F9EB6333AF8BC1",
+      "SHA256": "D54729F0DE586CD9A1716EE7EC20E0D77D1B1053DD3634D2A90DA7C89B932ABC",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Panel.xaml",
-      "Length": 12343,
-      "SHA256": "792D4B571B7ED5467CED084F2C894825F07D8DC4E70F75E782DA78753DD77925",
+      "Length": 12570,
+      "SHA256": "0BA1D3EC012122EE8760A1D7A399A7A8EFA9443746EEFAB4720ADE84A1A8B70A",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Panel.xbf",
       "Length": 16349,
-      "SHA256": "73C256A3107E97A499DD4F77BC2FCA917053D860CFDA6129FE3E8F8CB5F65539",
+      "SHA256": "2F62059E2F24218DF662E173CCE7214F15143E3D7E63847D6511C3C2B8B7A904",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Properties.Dialog.xaml",
-      "Length": 29519,
-      "SHA256": "8E1AC43F6CA3B47583876D2F4AD5318A9DB103E0EDE50C73374910D7EF4BF073",
+      "Length": 29841,
+      "SHA256": "18D4A150EC7A1145354F8E60F2A40EC3F2193D766D9FA1F4D52054AE0C77ED76",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Properties.Dialog.xbf",
       "Length": 47762,
-      "SHA256": "B55981FF9AA32DEF7561D995B67D6495D0F7FFE251A970190F2AAA64BFB75D2D",
+      "SHA256": "15B806D7B7E7851F4319E013192C385736F0CA9DFD873FB2A275DD2D852477D0",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Settings.Sidebar.xaml",
-      "Length": 44934,
-      "SHA256": "B828FEB94319DC78929C9E79080E482450451F89827DDF57F0AFCAF7A5C87EDB",
+      "Length": 45250,
+      "SHA256": "A297D5AF577654D7E15D21088F3F9A0147D1058BB77BDB5499B4DB088922B330",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Settings.Sidebar.xbf",
       "Length": 78895,
-      "SHA256": "CD732D248AD02008A8F08ADBD808CFFE6E7B4DA3F4874E1791E0847A72F0A684",
+      "SHA256": "81D753D2DD8655FE81C0E196C9DCD33B3F4800BED3A0CA8246E320B743E66E8D",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Settings.xaml",
-      "Length": 97759,
-      "SHA256": "C372C2998A3F3A09358E769865D35784E3A8C2FDD754F8B41EADEFB749F018FD",
+      "Length": 98773,
+      "SHA256": "A89D92C52FC7EB7D809F598FA952C6CA06E5FC2DA42561AFCD95AFEF838EDBDD",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Settings.xbf",
       "Length": 159333,
-      "SHA256": "652941C413CCE140951E3566F46720CE43935B4E26CE7DDA7316886471DBEA41",
+      "SHA256": "C44D91A1AE2278301E9156F6F1D3BD24F1E539A60B3C583DE49BA33D6148950D",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.SizeLayout.xaml",
-      "Length": 27375,
-      "SHA256": "B24F27754A596E150001A24805B612F8A541CAB9D9FB3B962AC5F279F87EC809",
+      "Length": 27692,
+      "SHA256": "B43B6AA99F5C937BA0625214FA10AC7BB771C71D34E8AE0F197DD9A1FAA89983",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.SizeLayout.xbf",
       "Length": 43714,
-      "SHA256": "4EED57F82A7DBA31F3127D447E86CBDF594ADAD5B687D0AF26CF9C682DD52572",
+      "SHA256": "E7000524394F68D80892246303E2AFFDE7E082DD394CCF753AB734BF8BA992B0",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.SizeLayout28.xaml",
-      "Length": 26857,
-      "SHA256": "76D316E4DBC74719B0521634849C4F7464D5D7F22401F6B23AB7E8B12B59BC11",
+      "Length": 27147,
+      "SHA256": "701EE6A09DBDD92CE5DE0F00654898D4512BCE02A8BF8F39E49C522196638C1E",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.SizeLayout28.xbf",
       "Length": 43526,
-      "SHA256": "371252840180DDBC9ED129FA09075E444C3498553CA05BF2608109B235E96C6E",
+      "SHA256": "D515A6342096FA4345FDA532F66167FBCB69D30C0BEC92D32044359AD7C076F5",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Status.xaml",
-      "Length": 32658,
-      "SHA256": "F47AAA044B272DD0499D7425561B4D24C128F82AE885E9583A94CBFAA672AC12",
+      "Length": 33212,
+      "SHA256": "7AEB08F00C4962DFFD4FA11355FFFE9C0747E388DEFE3251146807FD97AB201D",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.Status.xbf",
       "Length": 45420,
-      "SHA256": "1FCA40270AEB149F4BD76D9C11A0CFFE5FDE48224D73F32E5EF9C8438FD63782",
+      "SHA256": "D03BC95F057D7CFF82D4B1F0E313FD6B60A5777CB4EA5BD79E1F8568B133A655",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.TabPane.xaml",
-      "Length": 9860,
-      "SHA256": "B23BF5E5AC0F3ABEDC1A84713F421C8C382C19542D59BBD9774E6AE16AEAFC27",
+      "Length": 10076,
+      "SHA256": "58AB10C7D5C110D1BD2AE642FB5C59602346E578C2259D35563387446E16E38B",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\Styles\\Icons.TabPane.xbf",
       "Length": 12304,
-      "SHA256": "193D145D83FA8B88E8CEF1014C16414E91E0041336BECEBB7B608F1B767A1D04",
+      "SHA256": "98F231B981E5BDDE18A9F5F42923E36ACFB6CCCA8562751FD6911A10BAFD3A59",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIconLayer\\ThemedIconLayer.xaml",
-      "Length": 4538,
-      "SHA256": "B6DD4796C8E6C62C45CBB5EA1B654A224D546E3CC098879E8EBE222C78D67CA8",
+      "Length": 4647,
+      "SHA256": "AFC74EF2B426E65518042A614C4672A676B0E581FEAEC566A10CC501DB159AD8",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\ThemedIcon\\ThemedIconLayer\\ThemedIconLayer.xbf",
       "Length": 2875,
-      "SHA256": "ECD09EF51FB1774C93136932FCE1943329E69FF00D0FB276A617EE03E32FAE27",
+      "SHA256": "A20401C196734090906EAB575E517D44588325D6D6FB796CC6993C4B9224B874",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Themes\\Generic.xaml",
-      "Length": 4482,
-      "SHA256": "7FC34B6EF0BA5FEE4899BFFA4A0162A9EAABA1C62CC0A0F5809CFD7E811B1A35",
+      "Length": 4562,
+      "SHA256": "5B49155DB2BE8E3E568F28AB130E37BD17AE5B9B5E8DDA7CD935A040C2B6BCE8",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Themes\\Generic.xbf",
       "Length": 5803,
-      "SHA256": "D708ACB3D5D19FB81A5277B97A5123B84229D985ECD79653565E4815D95C810C",
+      "SHA256": "30FF5DC285F98F4790AE5422EA262B2C67AD88D80CAD8B1090CAF4641A7F48AB",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\Toolbar.ThemeResources.xaml",
-      "Length": 2515,
-      "SHA256": "C03C3596A600FF308A6E1E4C861A971E58B5BDA012AC53E2271353E8B11ED2CA",
+      "Length": 2567,
+      "SHA256": "A8A5D08D7A46AA25DAFCFBEF0120FB6ADC09E63553648843D88C3E3D448813D7",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\Toolbar.ThemeResources.xbf",
       "Length": 2311,
-      "SHA256": "55D5E9B4F5DA9DB25BD67BA510C3E013865C988A111975CF3A04589B79BA4EA0",
+      "SHA256": "C477CD15935214F9D8FEDE9D956C065281988F31BFE6150C55581068CD42DE1F",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\Toolbar.xaml",
-      "Length": 2791,
-      "SHA256": "CC3806A43693BBA7450A5593B40B82862223419FE8450840A7B6B1502ADB55ED",
+      "Length": 2869,
+      "SHA256": "227B4C9FEE96EABF8FD4CB650D0CCC7C132FCAD33225568AD583814E9FEE6841",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\Toolbar.xbf",
       "Length": 2352,
-      "SHA256": "B4ADDEB9163F552BAB3C786D7EF514DDBAFAEC54A13624044556398B76A4D898",
+      "SHA256": "0077B63D876BD2666056E62DB167759C3A2E573B529EB2C3100A5C3E5AF94FCA",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarButton\\ToolbarButton.ThemeResources.xaml",
-      "Length": 5237,
-      "SHA256": "76A2B93A7D80AF0083900B51D8A2FFCFA015D710197F96E49F5AADD920A606BE",
+      "Length": 5319,
+      "SHA256": "1E01FBDC730A79125783E35E71A086D627090A67D3E433DAF316B05DA24428EC",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarButton\\ToolbarButton.ThemeResources.xbf",
       "Length": 4107,
-      "SHA256": "291C2AAC16530B707C8A47C36CC9214CCE9C583F2A256ED94E587B797CF36818",
+      "SHA256": "E8FEE17F4D2D0132BE33159D1D5CF1AEA1E4647CFA6DCE3A14AF2F02AF5D9322",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarButton\\ToolbarButton.xaml",
-      "Length": 8470,
-      "SHA256": "3C8A3267F85D67E2B670C39C5C1672328DE807F7530D1E9C0D1202046C3CA1AF",
+      "Length": 8626,
+      "SHA256": "0D8BC675EBD64343B44E48DFC8D880632963AE65B03EF59775AD855AD4A85A0B",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarButton\\ToolbarButton.xbf",
       "Length": 4266,
-      "SHA256": "3C68AD1EB3BFD66D14B56014F19835E8E1EB6EA35B963DA3F8EEFECFC09B51FF",
+      "SHA256": "3E38BA3AC6879B26D14CA2DECE17733B5508D2001BAF3D2CD4BD86AC38F724E1",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarFlyoutButton\\ToolbarFlyoutButton.ThemeResources.xaml",
-      "Length": 691,
-      "SHA256": "205D854E61AF68B1BF8A9A58A91268D2CC8475A5E443186986E362FA57DFC5A0",
+      "Length": 711,
+      "SHA256": "CCB545ADE026D9B77146701B9093E70D096630FECA4308F96D8AD651CF8B43CF",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarFlyoutButton\\ToolbarFlyoutButton.ThemeResources.xbf",
       "Length": 834,
-      "SHA256": "F55EF79D9074B83A8D4B95EF9039B5760716DD776438DEB72CAEB1FABA62B35B",
+      "SHA256": "FDC1A463FC67D2DB0C4A703DEA7DDD6A5BF2D28901C008C6A15BE083E4F81497",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarFlyoutButton\\ToolbarFlyoutButton.xaml",
-      "Length": 633,
-      "SHA256": "32E5F19B9EC76FBAB9BFF78339E41CE64B455FB7F021E35F4ECF429261B7BEFB",
+      "Length": 650,
+      "SHA256": "B6630469E38E6230EC0B69F2F1B5303A41CE335F256254BD96FA6AEA409B0EC2",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarFlyoutButton\\ToolbarFlyoutButton.xbf",
       "Length": 826,
-      "SHA256": "59638126C5601E272776AA807C50193CEAB71BE96F8235D61662813565CE8337",
+      "SHA256": "7B014D5E7675C05016629D09724161D267D7ED8122C5A97430269B7618F819AD",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarRadioButton\\ToolbarRadioButton.ThemeResources.xaml",
-      "Length": 691,
-      "SHA256": "205D854E61AF68B1BF8A9A58A91268D2CC8475A5E443186986E362FA57DFC5A0",
+      "Length": 711,
+      "SHA256": "CCB545ADE026D9B77146701B9093E70D096630FECA4308F96D8AD651CF8B43CF",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarRadioButton\\ToolbarRadioButton.ThemeResources.xbf",
       "Length": 834,
-      "SHA256": "F55EF79D9074B83A8D4B95EF9039B5760716DD776438DEB72CAEB1FABA62B35B",
+      "SHA256": "FDC1A463FC67D2DB0C4A703DEA7DDD6A5BF2D28901C008C6A15BE083E4F81497",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarRadioButton\\ToolbarRadioButton.xaml",
-      "Length": 628,
-      "SHA256": "EE592ADF8A06BD40021B9D5C6612EF3E05892EF01FF55BC322F21C4C55AF095D",
+      "Length": 645,
+      "SHA256": "300453175A52281840C76305E9AD83B631E7DAD78024F84E15B410D64F8B373A",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarRadioButton\\ToolbarRadioButton.xbf",
       "Length": 820,
-      "SHA256": "0688271ABD4BE1878BAE8065EE59BA67BB72F949952F2F4BE370CD2C029201F2",
+      "SHA256": "30099E0E8179F1203D314DF1322D6AD8BFCD91068C9953D4DA1D24F75248EE45",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSeparator\\ToolbarSeparator.ThemeResources.xaml",
-      "Length": 1243,
-      "SHA256": "2E94AA73F7E608E78EBF6BA91815DBFA21115F8497C53DF11599906CFE4C8B78",
+      "Length": 1271,
+      "SHA256": "20D9D92566F0D1BC5B9DC46959B8DDAEE70EDC1DE60490569A8E6712F4F47DBB",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSeparator\\ToolbarSeparator.ThemeResources.xbf",
       "Length": 1429,
-      "SHA256": "1D456DDF2C8516FF34C6DB7A44F7B218B24DEC63AA62DC4C8079E0DFA0676B0F",
+      "SHA256": "5FEFDD9ACBBAAEAB59BFA0907EEA4026F5160ABDB55F1AD56CB88039073EBBFD",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSeparator\\ToolbarSeparator.xaml",
-      "Length": 1279,
-      "SHA256": "D552045AE9D951FD6A6E353ED68A0DC6C567E9641A9C053D91E696581E9BDF61",
+      "Length": 1311,
+      "SHA256": "EAB4EF53E6B88AA03FB1340842D28248DD9DC89568E45C30107BF3DAECCC0DE3",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSeparator\\ToolbarSeparator.xbf",
       "Length": 1149,
-      "SHA256": "F57599625482358E8CE764BBADFC2E1A2982BBE19A2CA0E43CB64946C94B1803",
+      "SHA256": "1CD0DE1B6998205D602333ECE05A1F95914C37A6FF65C43F217FAB1425E61274",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSplitButton\\ToolbarSplitButton.ThemeResources.xaml",
-      "Length": 691,
-      "SHA256": "205D854E61AF68B1BF8A9A58A91268D2CC8475A5E443186986E362FA57DFC5A0",
+      "Length": 711,
+      "SHA256": "CCB545ADE026D9B77146701B9093E70D096630FECA4308F96D8AD651CF8B43CF",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSplitButton\\ToolbarSplitButton.ThemeResources.xbf",
       "Length": 834,
-      "SHA256": "F55EF79D9074B83A8D4B95EF9039B5760716DD776438DEB72CAEB1FABA62B35B",
+      "SHA256": "FDC1A463FC67D2DB0C4A703DEA7DDD6A5BF2D28901C008C6A15BE083E4F81497",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSplitButton\\ToolbarSplitButton.xaml",
-      "Length": 628,
-      "SHA256": "EE43A0FD02C7D5B3E99A93BDD9E4C1612BC48E3016C34CAAF4DD52C2D8CDAC12",
+      "Length": 645,
+      "SHA256": "983CFA2572B1C5A986CC819EACCC1589B2624C21F178D2DF6254702CB28EDBA1",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarSplitButton\\ToolbarSplitButton.xbf",
       "Length": 820,
-      "SHA256": "ECCA109256AA5F28C30501B0E4CC997247F6E4F987AC2481F3B74E6DECFAF5AF",
+      "SHA256": "782EBDDBD2B978289E2C1C511FC7B8831BCA27CEA30475928F748FF23BE60E09",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarToggleButton\\ToolbarToggleButton.ThemeResources.xaml",
-      "Length": 14833,
-      "SHA256": "A9B23D5A4175DDC304432D1678B8E074896094149FB225C2CB80490080E8B996",
+      "Length": 15015,
+      "SHA256": "375960EE4081C75F5CF00B29691285D80913465A530AC04F4996A3D0352CC700",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarToggleButton\\ToolbarToggleButton.ThemeResources.xbf",
       "Length": 8291,
-      "SHA256": "A8B2F3317EA7BDC00537E21005DA9D5758A8BFD608F5BF0720896401BD8F851D",
+      "SHA256": "810EF39321CADDE4D8FF2A284E93E4F77E38311A9AF0FD75C0FBBB4FB4CA8E1E",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarToggleButton\\ToolbarToggleButton.xaml",
-      "Length": 22710,
-      "SHA256": "D322F094922834923F2AE0E0777CCAC40643BD9AFE92507BBBA5C6BA6A7E2333",
+      "Length": 23053,
+      "SHA256": "AE75231A3A8FC239FFB1198D6065EE351A07C4E846F2EAD9D0B6A731C1FBF396",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Controls\\Toolbar\\ToolbarToggleButton\\ToolbarToggleButton.xbf",
       "Length": 9921,
-      "SHA256": "9ED0C69D06F5A357A809A76EFA96B0A41BBFBF23E33A1FB618B863FF6B6CC19E",
+      "SHA256": "99AB0448C0740386E32ACA426B692626E3A46B61E0D70D681304108534DD7D58",
       "IsDependency": false
     },
     {
@@ -7855,13 +7855,13 @@
     {
       "Path": "Files.App.IndexService\\Files.App.IndexService.dll",
       "Length": 8192,
-      "SHA256": "80FCE93925B36C3DF82989B055AA903C4BF3A24156AC3995F3FBC100A463E1DE",
+      "SHA256": "DFD297BE9BA9269C029FAA6730BADE83CAC54E62C47E400940C72ED089E816AB",
       "IsDependency": true
     },
     {
       "Path": "Files.App.IndexService\\Files.App.IndexService.exe",
       "Length": 162816,
-      "SHA256": "8D18866E4608563151BC1BA241C2DDBF86DF99E55051D96A82A33F9CF7323961",
+      "SHA256": "6690B6D6289645FDAA6EC6E6AC99E98F9660D58834DA2499E2E00C90D910BA1B",
       "IsDependency": false
     },
     {
@@ -7873,7 +7873,7 @@
     {
       "Path": "Files.App.IndexService\\Files.App.Search.Index.dll",
       "Length": 186880,
-      "SHA256": "9F298C89332E9CA0C74C1BA816EFF1A4E1EF7E70685D17D99E5BCB302FE5866E",
+      "SHA256": "FCFD1965109FE55AE7E424E39F06933F02F53E2C02D1A6D6A395AC34BB5C2EC6",
       "IsDependency": true
     },
     {
@@ -7891,7 +7891,7 @@
     {
       "Path": "Files.App.Server\\Files.App.CsWin32.dll",
       "Length": 1543168,
-      "SHA256": "6B02E33ADF0B2EF8E5DCD40A8963681AF66CA68278DFBFC25E120799D1E0409A",
+      "SHA256": "A2C7D04FDA989F6782F4E3BFA7EBEE991AAA1C8C98D5A6D90F47E43CEEFD58D0",
       "IsDependency": true
     },
     {
@@ -7903,25 +7903,25 @@
     {
       "Path": "Files.App.Server\\Files.App.Server.dll",
       "Length": 17920,
-      "SHA256": "FAEDC1858A4DD0685F4B6A5669B8ABE9E3588384192A37A2855D42AB07117568",
+      "SHA256": "1F04D47461A6F0726C5D53F45B75789FC06A1D7A07DCF8EBACB54C500A033962",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server\\Files.App.Server.exe",
       "Length": 162816,
-      "SHA256": "B75030EEEBEFE2F227C18287B2BF42B01C436DCAD04CE4B1CC075122F935DBCE",
+      "SHA256": "919A09067826B63616C9E6A1E706D5AE806AE083C9A59619D383DBDEFCB92E4E",
       "IsDependency": false
     },
     {
       "Path": "Files.App.Server\\Files.App.Server.winmd",
       "Length": 2560,
-      "SHA256": "E883CFE6694D98955BDD627A5F0635D03C238245EDF51805552CF6D91DF2F48F",
+      "SHA256": "1D2BDC24A97B5B53488C68C5C46803E97E36BA353C9D0E8CC5BB384C2784A8CF",
       "IsDependency": true
     },
     {
       "Path": "Files.App.Server\\Files.Shared.dll",
       "Length": 68096,
-      "SHA256": "D198AEF41F3769400BF36C8D53820D8C350A6829C9F85AD60FF46EF4553BEF27",
+      "SHA256": "3AF2A47AB0296B993E15176886D7682FD4868B7D0C90C18D8412068627904063",
       "IsDependency": true
     },
     {

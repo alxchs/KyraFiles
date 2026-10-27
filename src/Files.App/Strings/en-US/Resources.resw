@@ -132,6 +132,30 @@
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
     <value>Copy selected item path with quotes</value>
   </data>
+  <data name="CopyPathAs" xml:space="preserve">
+    <value>Copy path as</value>
+  </data>
+  <data name="CopyPathFormatWindows" xml:space="preserve">
+    <value>Windows</value>
+  </data>
+  <data name="CopyPathFormatWsl" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="CopyPathFormatJson" xml:space="preserve">
+    <value>JSON</value>
+  </data>
+  <data name="CopyPathFormatCSharpLiteral" xml:space="preserve">
+    <value>C# literal</value>
+  </data>
+  <data name="CopyPathFormatFileUrl" xml:space="preserve">
+    <value>File URL</value>
+  </data>
+  <data name="CopyPathFormatRelativeToRepo" xml:space="preserve">
+    <value>Relative to repository</value>
+  </data>
+  <data name="CopyPathFormatRelativeToCurrentFolder" xml:space="preserve">
+    <value>Relative to current folder</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
@@ -2629,6 +2653,9 @@
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of the current directory with quotes</value>
+  </data>
+  <data name="CopyPathAsDescription" xml:space="preserve">
+    <value>Copy path of selected items in various formats</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut selected {0, plural, one {item} other {items}}</value>

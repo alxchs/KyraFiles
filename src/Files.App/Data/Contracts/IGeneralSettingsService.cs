@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
@@ -363,5 +363,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether smooth scrolling is enabled.
 		/// </summary>
 		bool EnableSmoothScrolling { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of path formats shown in the "Copy path as…" submenu.
+		/// When null, all formats are shown; when empty, none is (the submenu is hidden).
+		/// </summary>
+		List<string>? CopyPathAsEnabledFormats { get; set; }
 	}
 }

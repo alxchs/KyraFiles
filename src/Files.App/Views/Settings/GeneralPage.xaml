@@ -274,6 +274,33 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCopyPath}" IsOn="{x:Bind ViewModel.ShowCopyPath, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
+					<!--  Copy path as...  -->
+					<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=CopyPathAs}" Description="{helpers:ResourceString Name=CopyPathAsDescription}">
+						<wctcontrols:SettingsExpander.Items>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatWindows}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatWindows}" IsOn="{x:Bind ViewModel.CopyPathFormatWindows, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatWsl}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatWsl}" IsOn="{x:Bind ViewModel.CopyPathFormatWsl, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatJson}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatJson}" IsOn="{x:Bind ViewModel.CopyPathFormatJson, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatCSharpLiteral}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatCSharpLiteral}" IsOn="{x:Bind ViewModel.CopyPathFormatCSharpLiteral, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatFileUrl}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatFileUrl}" IsOn="{x:Bind ViewModel.CopyPathFormatFileUrl, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatRelativeToRepo}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatRelativeToRepo}" IsOn="{x:Bind ViewModel.CopyPathFormatRelativeToRepo, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+							<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CopyPathFormatRelativeToCurrentFolder}">
+								<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CopyPathFormatRelativeToCurrentFolder}" IsOn="{x:Bind ViewModel.CopyPathFormatRelativeToCurrentFolder, Mode=TwoWay}" />
+							</wctcontrols:SettingsCard>
+						</wctcontrols:SettingsExpander.Items>
+					</wctcontrols:SettingsExpander>
+
 					<!--  Create folder with selection  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowCreateFolderWithSelection}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateFolderWithSelection}" IsOn="{x:Bind ViewModel.ShowCreateFolderWithSelection, Mode=TwoWay}" />

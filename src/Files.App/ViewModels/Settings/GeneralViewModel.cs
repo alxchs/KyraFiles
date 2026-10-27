@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // MenuFlyoutHelper marked obsolete upstream; migrate when replacement API is stable
 
+using Files.Shared.Helpers;
 using System.Collections.Specialized;
 using Windows.Storage;
 using Windows.System;
@@ -274,6 +275,74 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged();
 				}
 			}
+		}
+
+		// F056: one switch per "Copy path as" format; the stored list is null while every format is on.
+		private bool IsCopyPathFormatEnabled(PathFormat format)
+		{
+			var enabled = UserSettingsService.GeneralSettingsService.CopyPathAsEnabledFormats;
+			return enabled is null || enabled.Contains(format.ToString(), StringComparer.OrdinalIgnoreCase);
+		}
+
+		private void SetCopyPathFormatEnabled(PathFormat format, bool value, string propertyName)
+		{
+			if (IsCopyPathFormatEnabled(format) == value)
+				return;
+
+			var enabled = (UserSettingsService.GeneralSettingsService.CopyPathAsEnabledFormats
+				?? Enum.GetValues<PathFormat>().Select(f => f.ToString()).ToList())
+				.Where(f => !string.Equals(f, format.ToString(), StringComparison.OrdinalIgnoreCase))
+				.ToList();
+
+			if (value)
+				enabled.Add(format.ToString());
+
+			UserSettingsService.GeneralSettingsService.CopyPathAsEnabledFormats =
+				enabled.Count == Enum.GetValues<PathFormat>().Length ? null : enabled;
+
+			OnPropertyChanged(propertyName);
+		}
+
+		public bool CopyPathFormatWindows
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.Windows);
+			set => SetCopyPathFormatEnabled(PathFormat.Windows, value, nameof(CopyPathFormatWindows));
+		}
+
+		public bool CopyPathFormatWsl
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.Wsl);
+			set => SetCopyPathFormatEnabled(PathFormat.Wsl, value, nameof(CopyPathFormatWsl));
+		}
+
+		public bool CopyPathFormatJson
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.Json);
+			set => SetCopyPathFormatEnabled(PathFormat.Json, value, nameof(CopyPathFormatJson));
+		}
+
+		public bool CopyPathFormatCSharpLiteral
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.CSharpLiteral);
+			set => SetCopyPathFormatEnabled(PathFormat.CSharpLiteral, value, nameof(CopyPathFormatCSharpLiteral));
+		}
+
+		public bool CopyPathFormatFileUrl
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.FileUrl);
+			set => SetCopyPathFormatEnabled(PathFormat.FileUrl, value, nameof(CopyPathFormatFileUrl));
+		}
+
+		public bool CopyPathFormatRelativeToRepo
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.RelativeToRepo);
+			set => SetCopyPathFormatEnabled(PathFormat.RelativeToRepo, value, nameof(CopyPathFormatRelativeToRepo));
+		}
+
+		public bool CopyPathFormatRelativeToCurrentFolder
+		{
+			get => IsCopyPathFormatEnabled(PathFormat.RelativeToCurrentFolder);
+			set => SetCopyPathFormatEnabled(PathFormat.RelativeToCurrentFolder, value, nameof(CopyPathFormatRelativeToCurrentFolder));
 		}
 
 		public bool ShowCreateAlternateDataStream

@@ -67,6 +67,45 @@ namespace Files.App.Data.Factories
 			return items;
 		}
 
+		// F056: "Copy path as..." submenu; formats come from the spec and can be turned off in settings.
+		private static ContextMenuFlyoutItemViewModel CreateCopyPathAsItem(IRichCommand command, bool itemsSelected, CurrentInstanceViewModel currentInstanceViewModel)
+		{
+			// All PathFormat values — order determines submenu order.
+			var allFormats = new[]
+			{
+				(PathFormat.Windows,                 Strings.CopyPathFormatWindows.GetLocalizedResource()),
+				(PathFormat.Wsl,                     Strings.CopyPathFormatWsl.GetLocalizedResource()),
+				(PathFormat.Json,                    Strings.CopyPathFormatJson.GetLocalizedResource()),
+				(PathFormat.CSharpLiteral,           Strings.CopyPathFormatCSharpLiteral.GetLocalizedResource()),
+				(PathFormat.FileUrl,                 Strings.CopyPathFormatFileUrl.GetLocalizedResource()),
+				(PathFormat.RelativeToRepo,          Strings.CopyPathFormatRelativeToRepo.GetLocalizedResource()),
+				(PathFormat.RelativeToCurrentFolder, Strings.CopyPathFormatRelativeToCurrentFolder.GetLocalizedResource()),
+			};
+
+			var enabledFormats = UserSettingsService.GeneralSettingsService.CopyPathAsEnabledFormats;
+
+			var subItems = allFormats
+				.Where(f => enabledFormats is null
+					|| enabledFormats.Contains(f.Item1.ToString(), StringComparer.OrdinalIgnoreCase))
+				.Select(f => new ContextMenuFlyoutItemViewModel()
+				{
+					Text = f.Item2,
+					Command = command,
+					CommandParameter = f.Item1.ToString(),
+				})
+				.ToList();
+
+			return new ContextMenuFlyoutItemViewModel()
+			{
+				Text = command.Label,
+				ShowItem = itemsSelected
+					&& !currentInstanceViewModel.IsPageTypeRecycleBin
+					&& subItems.Count > 0,
+				IsEnabled = command.IsExecutable,
+				Items = subItems,
+			};
+		}
+
 		// F033: "Copy to"/"Move to" submenu with the last destinations (most recent first) and "Choose folder...";
 		// the action confirms before doing anything. Moving into the folder the items are already in is left out.
 		private static ContextMenuFlyoutItemViewModel CreateCopyMoveToFolderItem(IRichCommand command, List<ListedItem> selectedItems, bool itemsSelected, bool excludeCurrentFolder)
@@ -545,6 +584,7 @@ namespace Files.App.Data.Factories
 						&& itemsSelected
 						&&!currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
+				CreateCopyPathAsItem(Commands.CopyPathAs, itemsSelected, currentInstanceViewModel),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateFolderWithSelection)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected

@@ -27,6 +27,7 @@ namespace Files.App.Dialogs
 		public ReorderSidebarItemsDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 		}
 
 		[DynamicWindowsRuntimeCast(typeof(FontIcon))]

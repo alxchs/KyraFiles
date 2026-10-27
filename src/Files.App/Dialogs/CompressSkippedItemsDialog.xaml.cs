@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml;
@@ -24,6 +24,7 @@ namespace Files.App.Dialogs
 		public CompressSkippedItemsDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 		}
 
 		public new async Task<DialogResult> ShowAsync()

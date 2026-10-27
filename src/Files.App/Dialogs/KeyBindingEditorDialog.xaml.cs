@@ -36,6 +36,7 @@ namespace Files.App.Dialogs
 			CommandDescription = itemToEdit?.CommandDescription ?? string.Empty;
 
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 
 			Title = IsAddMode ? Strings.AddCommand.GetLocalizedResource() : Strings.Edit.GetLocalizedResource();
 			PrimaryButtonText = IsAddMode ? Strings.Add.GetLocalizedResource() : Strings.Save.GetLocalizedResource();

@@ -25,6 +25,7 @@ namespace Files.App.Dialogs
 		public CreateShortcutDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 			this.Closing += CreateShortcutDialog_Closing;
 
 			InvalidPathWarning.SetBinding(TeachingTip.TargetProperty, new Binding()

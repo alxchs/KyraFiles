@@ -102,6 +102,7 @@ namespace Files.App.Helpers
 			try
 			{
 				CanShowDialog = false;
+				DialogShortcuts.Attach(dialog); // Files Custom: F057
 				return await SetContentDialogRoot(dialog).ShowAsync();
 			}
 			catch // A content dialog is already open

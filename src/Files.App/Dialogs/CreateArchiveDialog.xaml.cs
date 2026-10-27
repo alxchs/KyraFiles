@@ -79,6 +79,7 @@ namespace Files.App.Dialogs
 		public CreateArchiveDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}

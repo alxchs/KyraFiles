@@ -26,6 +26,7 @@ namespace Files.App.Dialogs
 		public AddItemDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 		}
 
 		public new async Task<DialogResult> ShowAsync()

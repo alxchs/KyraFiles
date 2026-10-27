@@ -31,6 +31,7 @@ namespace Files.App.Dialogs
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 
 			dynamicDialogViewModel.HideDialog = Hide;
 			DataContext = dynamicDialogViewModel;

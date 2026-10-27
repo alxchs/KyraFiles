@@ -19,6 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Include="..\..\src\Files.App\Helpers\UI\DialogAccessKeys.cs" Link="DialogAccessKeys.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\..\src\Files.App.Search.Index\Files.App.Search.Index.csproj" />
         <ProjectReference Include="..\..\src\Files.App.IndexService\Files.App.IndexService.csproj" />
         <ProjectReference Include="..\..\src\Files.Shared\Files.Shared.csproj" />

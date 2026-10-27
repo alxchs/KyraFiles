@@ -33,6 +33,7 @@ namespace Files.App.Dialogs
 		public GitHubLoginDialog()
 		{
 			InitializeComponent();
+			DialogShortcuts.Attach(this); // Files Custom: F057
 		}
 
 		public new async Task<DialogResult> ShowAsync()

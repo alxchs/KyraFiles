@@ -1,0 +1,5 @@
+teste,detalhe
+origem(somente leitura): [MAIO_26][EBOOK] Checklist do Perfil Magnético.pdf.pdf,11061412 bytes,fluxos=::$DATA(11061412)|:Zone.Identifier:$DATA(183)
+para-NAS-filecopy,existe=True,hash_igual=True,fluxos_no_destino=,saida=filecopy;-;11061412;780;14;peak_ws_mb=24
+para-NAS-cf2,existe=True,hash_igual=True,fluxos_no_destino=,saida=cf2;direto;hr=0x00000000;11061412;ms=322;mbps=33;peak_ws_mb=24
+para-NAS-chunk4,existe=True,hash_igual=True,fluxos_no_destino=,saida=chunk;4MiB;11061412;397;27;ack_ms=-1.0;ws_pause_mb=-1;peak_ws_mb=28

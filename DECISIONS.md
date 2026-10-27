@@ -204,3 +204,67 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Reason:** custa pouco (só medição), é reversível e é a única opção que separa "framework" de "nosso diff". Os dois resultados possíveis são úteis: se o upstream também trava, o encerramento passa a ter prova; se não trava, existe um culpado achável por bisseção (F015 a F023). Já há referência parcial do upstream v4.2.9 em `tools/perf/README.md` (~610 MB de working set e 34% de um núcleo parado), mas ela não cobre teclado segurado nem troca de aba.
 - **Trade-offs:** o app empacotado impede dois builds registrados ao mesmo tempo, então a medição é sequencial e mais lenta; compilar o upstream consome tempo de build; sem alterar `src/`, a regressão de Shift/Ctrl do handler continua no ramo até a decisão.
 - **Consequences:** F025 vira a fase atual. A AGY executa o brief (P1 a P6) e entrega `docs/agents/evidence/F025/relatorio.md`. O Claude revisa. A decisão de continuar ou encerrar volta a ser `PENDING DECISION` do Alexandre com os números na mão. As lições da F024 foram registradas em `INSTRUCTIONS_OPERARY.md` ("Como diagnosticar desempenho") para a AGY não repetir.
+
+## D-BACKLOG-1 — Aprovação das specs F035 a F056 e regra de prioridade (24/10/2026)
+
+- **Context:** o Alexandre pediu ideias de valor, a pesquisa de concorrentes e as specs; Claude escreveu 22 rascunhos (`docs/specs/F035` a `F056`).
+- **Problem:** havia pontos `[NEEDS CLARIFICATION]` e não havia regra de precedência entre bug, performance e feature.
+- **Options:** (a) aprovar spec por spec; (b) aprovar todas com os pontos resolvidos pela recomendação escrita em cada uma; (c) adiar tudo.
+- **Decision:** (b). Mensagem do Alexandre em 24/10/2026: "Aprovo todas, mas solução de bugs e performance sempre terá prioridade. Vc vai gerenciar a AGY nisso." Cada ponto em aberto vale a "Recomendação" da própria spec. Exceções que continuam condicionadas: F046 só começa depois da medição `R-rede-baseline`; F050 só sai do papel se a medição de custo do componente justificar; F054 começa pela tarefa 0 (medir a prévia atual).
+- **Reason:** libera o planejamento sem pedir 22 respostas; a recomendação é o caminho mais conservador de cada spec.
+- **Trade-offs:** aprovar spec não aprova código: `plan.md` e `tasks.md` ainda passam pelos portões do SDD.
+- **Consequences:** regra permanente de fila: (1) bug que derruba o app ou perde dado, (2) regressão de performance, (3) pendências de evidência de feature já feita, (4) feature nova por onda. Feature nova só começa com a anterior `CONFIRMED` por teste com asserção. Fila e ordem da AGY em `docs/specs/BACKLOG-ORDEM-AGY.md`. Claude gerencia a AGY: escreve plan e tasks, revisa cada entrega e só então libera a próxima.
+
+## D-F036-1 — Pausa na fila de cópias: o AC-1 da spec não é alcançável com o motor atual (24/10/2026) — PENDING DECISION (Alexandre)
+
+- **Context:** a spec F036 (aprovada em 24/10/2026) promete, no AC-1, que "Pausar" numa cópia de 5 GB para em até 2 s e que "Retomar" continua do ponto em que parou.
+- **Problem:** `FilesystemHelpers.CopyItemsAsync/MoveItemsAsync` entregam o trabalho ao **motor de cópia do shell do Windows** (`ShellFilesystemOperations`, com recuo para `StorageFile.CopyAsync`), que copia cada arquivo numa chamada só e aceita apenas cancelar. Sem controle do laço de cópia não há pausa no meio do arquivo (CONFIRMED pela leitura do código; a inexistência de pausa na interface do motor é INFERRED até o spike T8).
+- **Options:** (a) só fila, cancelar, ETA e "tentar de novo" (sem pausa); (b) a e mais pausa **entre arquivos** (a fila alimenta o motor um item por vez); (c) b e pausa no meio do arquivo, trocando o motor por `CopyFile2` nos arquivos grandes.
+- **Decision:** **pendente**. Recomendação do Claude: (b), com a fase (c) apenas como spike de medição (T8, fora do produto). Texto proposto para o AC-1 em dois níveis: nível 1 (garantido): a pausa vale depois do arquivo corrente e para ao terminar um item; nível 2 (só se o spike T8 provar): pausa no meio de um arquivo grande.
+- **Reason:** (b) entrega a pausa para lotes (o caso comum, muitos arquivos) com risco baixo; (c) arrisca ACL, fluxos alternativos, propriedades, nomes longos e diálogos do motor do shell, sem prova de ganho.
+- **Trade-offs:** com (b), uma cópia de **um** arquivo enorme não pausa no meio. Uma chamada ao motor por item tem sobrecarga (a ser medida na T7).
+- **Consequences:** as tarefas T2 a T6 da F036 (fila, cancelar, ETA, tentar de novo, fechar o app) **não dependem** desta decisão e podem começar. T7 só depois da decisão; T8 é só medição. Se o Alexandre aprovar (b), o Claude reescreve o AC-1 da spec com data no histórico.
+
+### Resolução de D-F036-1 (25/10/2026)
+
+- **Decision:** **opção (b)**. O Alexandre instruiu: "testar algo que copiasse conjunto de bytes, se não der certo use a (b)". O teste foi feito (docs/agents/evidence/F036/spike-copia-por-blocos.md): a cópia por blocos funciona como mecanismo, mas **não passa na fidelidade** (perde atributos, Zone.Identifier e data de gravação) e é mais lenta; logo vale (b).
+- **Fato novo:** CopyFile2 pausa e retoma com paridade de metadados com o motor do shell no teste local. A fase C passa a ser CopyFile2 e **depende do spike 2 (T8)**: outro disco, rede, nome longo, propriedades, EFS, esparso. Só então o Alexandre decide se entra.
+- **Trade-offs mantidos:** com (b) um único arquivo enorme não pausa no meio; o AC-1 da spec ficou em dois níveis.
+- **Consequences:** T1 concluída, T7 liberada pela decisão, T8 redefinida (spike 2 de CopyFile2). Spec F036 atualizada com data no histórico.
+
+### Adendo de D-F036-1 (25/10/2026): resultado do spike 2
+CopyFile2 provou paridade com o motor do shell nos testes feitos (entre discos, pausa dupla, cancelar, nome longo, esparso/compactado). Fica **recomendada** a fase C restrita a arquivos grandes, como feature separada depois de A+B; **decisão de entrar: do Alexandre**. Não testado: destino por SMB, rede real, EFS, propriedades, FAT/exFAT.
+
+## D-F036-2 — Fase C da F036 aprovada: pausa no meio de arquivo grande por CopyFile2 (25/10/2026)
+
+- **Context:** o spike 2 (docs/agents/evidence/F036/spike2-copyfile2-paridade.md) mostrou que CopyFile2 pausa e retoma, entre discos, com paridade de metadados com o motor do shell. Pergunta do Alexandre: o que acontece com um arquivo grande sem a fase C? Resposta: copia como hoje, o botão Pausar não pausa no meio. Decisão dele: "Melhor aplicar então".
+- **Options:** (a) só A e B; (b) A, B e C restrita a arquivos grandes; (c) trocar o motor inteiro por CopyFile2.
+- **Decision:** (b). A fase C entra, restrita (FR-005 a FR-007 da spec), implementada **depois** de A e B revisadas, na mesma feature, em commits separados.
+- **Reason:** resolve exatamente o caso que A e B não resolvem (um arquivo único enorme), sem trocar o motor para o resto (que trata InUse, PropertyLoss, ACL, diálogos e elevação).
+- **Trade-offs:** dois caminhos de cópia para manter; o arquivo grande passa a ser gravado em nome temporário e renomeado no fim; sem teste de destino por SMB, rede real, EFS, propriedades e FAT/exFAT (por isso o recuo ao motor atual nesses casos).
+- **Consequences:** plan.md §9 e tasks T10 a T17. Escopo da fase C: arquivo (não pasta), a partir de 256 MiB por padrão (configurável), destino NTFS ou ReFS, sem elevação; mover só pelo caminho de arquivo grande quando for entre volumes (no mesmo volume o motor renomeia, instantâneo). Qualquer erro inesperado do CopyFile2 recua para o motor atual para aquele item.
+
+## D-F036-3 — Política da fila: uma operação por destino (spec) ou simultaneidade configurável (25/10/2026) — PENDING DECISION (Alexandre)
+
+- **Context:** a spec aprovada (FR-002 e AC-2) manda **serializar** cópias para o mesmo disco: a segunda espera a primeira terminar. O Alexandre, ao liberar a pasta de rede, pediu que se testassem "tarefas concorrentes, como uma cópia de um lote enquanto apaga outros arquivos".
+- **Problem:** a premissa de que serializar é melhor **não se sustentou nas medições**: (1) NVMe local, baseline da AGY (n = 3): empate em duas rodadas e uma rodada atípica pesou a média; (2) NAS (n = 1): duas cópias de 256 MiB **juntas** foram **19% mais rápidas** que em sequência; copiar um lote e apagar 300 arquivos pequenos **ao mesmo tempo** foi **14% pior** que um depois do outro, com o apagar 4,9 vezes mais lento. Ver docs/agents/evidence/F036/spike3-nas.md.
+- **Options:** (a) manter a spec: uma operação de cópia/movimento por destino, sempre; (b) **limite de simultaneidade configurável por destino (padrão 2)** para cópia e movimento, e **apagar e renomear fora da fila** (rodam à parte); (c) tudo simultâneo, sem fila.
+- **Decision:** **pendente**. Recomendação do Claude: **(b)**, com o padrão a ser confirmado pela T2 (≥ 10 rodadas em NVMe, disco rotativo e NAS). Texto proposto para o AC-2: "com 2 cópias grandes para o mesmo disco, ambas progridem (até o limite configurado); a terceira espera na fila; apagar e renomear não esperam cópia".
+- **Reason:** o indício aponta que serializar cópias grandes não ajuda no NAS e pode piorar, e que apagar muitos arquivos pequenos disputa com cópia de um jeito que a fila não resolve. Nenhuma medição ainda justifica serializar tudo.
+- **Trade-offs:** (b) muda o comportamento prometido (AC-2); menos previsível que "um por vez"; exige configuração e medição.
+- **Consequences:** até a decisão, a T2 (fila) pode ser implementada com **limite configurável, padrão 1** (comportamento da spec atual), sem travar a Onda 3; o padrão e o tratamento de apagar/renomear mudam depois, com um parâmetro. Se (b) for aprovada, o Claude reescreve FR-002 e AC-2 com data no histórico.
+
+### Resolução de D-F036-3 (25/10/2026)
+- **Decision:** **opção (b)**, escolhida pelo Alexandre ("3 = B"): limite de simultaneidade **configurável por destino, padrão 2**, para cópia e movimento; **apagar e renomear fora da fila**.
+- **Consequences:** spec F036 (FR-002 e AC-2) reescrita com data no histórico; T2 e T3 ajustadas. O **padrão 2 é provisório**: a T2 deve medir com **no mínimo 10 rodadas** em NVMe local, disco rotativo e NAS (sozinho, juntos, copiar e apagar) e propor ajuste se a medição não sustentar. Evidência de apoio: docs/agents/evidence/F036/spike3-nas.md.
+## D-F060-1 — Como o editor hexadecimal (F060 M2) salva
+
+Data: 26/10/2026. Decidido por Claude (arquiteto); **aprovado pelo Alexandre em 26/10/2026** ("Essa parte é sua e eu aprovo").
+
+- **Context:** o editor deve abrir e corrigir arquivos de vários GB sem carregá-los inteiros (HEX-001/009/010 da SPEC original).
+- **Problem:** salvar no próprio arquivo arrisca corromper se cair no meio; salvar em cópia exige espaço livre igual ao arquivo.
+- **Options:** (A) reescrever tudo numa cópia temporária e trocar; (B) gravar só os blocos alterados no próprio arquivo, com diário de recuperação ao lado; (C) permitir inserir/remover bytes (reescreve o resto do arquivo).
+- **Decision:** B. A versão 1 só **substitui** bytes (o tamanho do arquivo nunca muda). Antes de salvar, confere tamanho e data de modificação; grava um diário (offsets e bytes antigos/novos), depois os blocos, depois apaga o diário; se o programa cair, o diário permite concluir ou desfazer na próxima abertura.
+- **Reason:** não exige espaço extra, é rápido em arquivo grande e recuperável.
+- **Trade-offs:** não insere nem remove bytes (fica para uma versão futura, com ADR própria); a gravação in-place depende do diário estar correto (por isso tem teste de queda no meio).
+- **Consequences:** M2-T2 implementa B; inserir/remover fica fora do escopo da F060.

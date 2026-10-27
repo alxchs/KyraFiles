@@ -1,0 +1,6 @@
+teste,detalhe
+comprimento_do_caminho_do_destino: 692
+caminho-longo-filecopy: existe=True,hash_igual=True,saida=filecopy;-;8388608;5;1534;peak_ws_mb=23
+caminho-longo-cf2: existe=True,hash_igual=True,saida=cf2;direto;hr=0x00000000;8388608;ms=45;mbps=179;peak_ws_mb=24
+caminho-longo-chunk4: existe=True,hash_igual=True,saida=chunk;4MiB;8388608;150;53;ack_ms=-1.0;ws_pause_mb=-1;peak_ws_mb=28
+caminho-longo-shell: existe=False,hash_igual=n/a,saida=shell

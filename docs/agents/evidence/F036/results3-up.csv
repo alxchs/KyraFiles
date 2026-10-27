@@ -1,0 +1,13 @@
+teste,detalhe
+origem(somente leitura),D:\DriveD\Downloads\PhotoVideoEdge20Pro.zip,782 MiB
+ler-origem-local-hash,9586 ms
+envio-cf2-direto-run1,cf2,direto,hr=0x00000000,820277438,ms=35385,mbps=22,peak_ws_mb=24,hash_igual=True
+envio-cf2-direto-run2,cf2,direto,hr=0x00000000,820277438,ms=32653,mbps=24,peak_ws_mb=24,hash_igual=True
+envio-filecopy-run1,filecopy,-,820277438,31835,25,peak_ws_mb=24,hash_igual=True
+envio-filecopy-run2,filecopy,-,820277438,31924,25,peak_ws_mb=24,hash_igual=True
+envio-pausa-dupla-run1,cf2b,pausa1: apos 9634ms dst=207MiB total_do_callback=200MiB | pausa2: apos 12211ms dst=507MiB total_do_callback=500MiB | fim hr=0x00000000 em 10725ms,total_ms=32581,peak_ws_mb=24,hash_igual=True
+envio-pausa-dupla-run2,cf2b,pausa1: apos 9774ms dst=207MiB total_do_callback=200MiB | pausa2: apos 11784ms dst=507MiB total_do_callback=500MiB | fim hr=0x00000000 em 11064ms,total_ms=32640,peak_ws_mb=24,hash_igual=True
+envio-cancelar-na-pausa,cf2b,pausa1: apos 10789ms dst=207MiB total_do_callback=200MiB | cancelar(apagar parcial)=ok | recopia_limpa_hr=0x00000000,total_ms=40438,peak_ws_mb=24,hash_igual=True
+envio-temp-e-renomear,existe_final=True,existe_temp=False,hash_igual=True
+envio-renomear-substituindo,ok=True,hash_igual=True
+fim

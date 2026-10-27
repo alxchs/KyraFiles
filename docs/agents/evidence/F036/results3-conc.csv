@@ -1,0 +1,7 @@
+teste,detalhe
+copiar-lote-sozinho,24x8MiB,18087 ms,10.6 MiB/s
+apagar-300-pequenos-sozinho,5350 ms
+copiar-e-apagar-AO-MESMO-TEMPO,copia=21758 ms,8.8 MiB/s,apagar=26124 ms,parede=26820 ms,soma_sozinhos=23437 ms
+conferencia,arquivos_copiados=24/24,restantes_a_apagar=0
+2-copias-256MiB-em-SEQUENCIA,40560 ms,12.6 MiB/s no total
+2-copias-256MiB-JUNTAS,32938 ms,15.5 MiB/s no total

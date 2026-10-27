@@ -1,0 +1,6 @@
+origem: meta,m.bin,attr=Hidden, Archive,criado=2020-01-02 03:04:05Z,gravado=2026-10-25 04:37:16Z,streams=::$DATA(8388608)|:Zone.Identifier:$DATA(26),aclprotegido=True,acl_len=97
+filecopy: meta,m.bin,attr=Hidden, Archive,criado=2026-10-25 04:37:16Z,gravado=2026-10-25 04:37:16Z,streams=::$DATA(8388608)|:Zone.Identifier:$DATA(26),aclprotegido=False,acl_len=88
+robocopy: meta,m.bin,attr=Hidden, Archive,criado=2020-01-02 03:04:05Z,gravado=2026-10-25 04:37:16Z,streams=::$DATA(8388608)|:Zone.Identifier:$DATA(26),aclprotegido=False,acl_len=88
+robocopy-sec:    at P.Main(String[] a) in C:\Users\alxch\AppData\Local\Temp\claude\8d6a809d-3c80-4597-bff9-cfcdb3ccdf0a\desenv\utils\FilesApp\Files\spike\Program.cs:line 25
+chunk: meta,m.bin,attr=Archive,criado=2026-10-25 04:37:17Z,gravado=2026-10-25 04:37:17Z,streams=::$DATA(8388608),aclprotegido=False,acl_len=88
+cf2: meta,m.bin,attr=Hidden, Archive,criado=2026-10-25 04:37:17Z,gravado=2026-10-25 04:37:16Z,streams=::$DATA(8388608)|:Zone.Identifier:$DATA(26),aclprotegido=False,acl_len=88

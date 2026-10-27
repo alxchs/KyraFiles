@@ -1,0 +1,7 @@
+teste,detalhe
+retomada-C-para-C-run1,cf2b,pausa1: apos 307ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1030ms,total_ms=1345,peak_ws_mb=24,hash_igual=True
+retomada-C-para-C-run2,cf2b,pausa1: apos 294ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1271ms,total_ms=1569,peak_ws_mb=24,hash_igual=True
+retomada-C-para-C-run3,cf2b,pausa1: apos 243ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1344ms,total_ms=1592,peak_ws_mb=24,hash_igual=True
+retomada-C-para-C-run4,cf2b,pausa1: apos 253ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1204ms,total_ms=1477,peak_ws_mb=25,hash_igual=True
+retomada-C-para-C-run5,cf2b,pausa1: apos 281ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1212ms,total_ms=1509,peak_ws_mb=25,hash_igual=True
+retomada-C-para-C-run6,cf2b,pausa1: apos 293ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 1141ms,total_ms=1438,peak_ws_mb=25,hash_igual=True

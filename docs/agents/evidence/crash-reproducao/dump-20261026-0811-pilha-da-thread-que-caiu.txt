@@ -1,0 +1,48 @@
+===EXCECAO
+ExceptionAddress: 00007ffa9784f853 (Microsoft_UI_Input!CloseHelper<Microsoft::UI::Content::IContentSite>+0x00000000000000bb)
+   ExceptionCode: c0000409 (Security check failure or stack buffer overrun)
+  ExceptionFlags: 00000001
+NumberParameters: 3
+   Parameter[0]: 0000000000000007
+   Parameter[1]: ffffffff8001010e
+   Parameter[2]: 0000000000000096
+Subcode: 0x7 FAST_FAIL_FATAL_APP_EXIT 
+===CONTEXTO
+rax=000000ce4c87d3a0 rbx=000000ce4c87d920 rcx=000000ce4c87d3a0
+rdx=000000ce4c87d850 rsi=000000ce4c87d920 rdi=000000ce4c87d3a0
+rip=00007ffb3ef6a608 rsp=000000ce4c87d2c0 rbp=000000ce4c87d3c0
+ r8=0000000000000000  r9=000000ce4c87d800 r10=00000fff67ded491
+r11=0000000000024000 r12=0000000000000001 r13=0000000000000000
+r14=0000000000000001 r15=0000000000000000
+iopl=0         nv up ei pl nz na pe nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000200
+KERNELBASE!RaiseFailFastException+0x188:
+00007ffb`3ef6a608 0f1f440000      nop     dword ptr [rax+rax]
+===PILHA_DA_EXCECAO
+Child-SP          RetAddr               : Args to Child                                                           : Call Site
+000000ce`4c87d2c0 00007ffa`977c5b44     : 000000ce`4c87dad0 00007ffb`3ef6a480 00000000`00000000 00000000`00000000 : KERNELBASE!RaiseFailFastException+0x188
+000000ce`4c87d8a0 00007ffa`977c5c23     : 000000ce`4c87d9f0 00000000`00000096 000000ce`4c87e1e0 00000000`00000000 : Microsoft_UI_Input!wil::details::WilDynamicLoadRaiseFailFastException+0x54
+000000ce`4c87d8d0 00007ffa`977c5c02     : 00000002`3a001700 000000ce`4c87f130 00000000`00000003 00007ffa`978f0850 : Microsoft_UI_Input!wil::details::WilRaiseFailFastException+0x17
+000000ce`4c87d900 00007ffa`977bacd2     : 000000ce`4c87ef90 000000ce`4c87dad0 00000000`00000096 00007ffa`97880ed8 : Microsoft_UI_Input!wil::details::WilFailFast+0xa6
+000000ce`4c87d9d0 00007ffa`977ba6fc     : 00000000`00000000 000002a9`c6753368 00000000`00000000 000002a9`de4a2720 : Microsoft_UI_Input!wil::details::ReportFailure_NoReturn<3>+0x296
+000000ce`4c87eee0 00007ffa`977ba96e     : 00000000`00000000 000002a9`c6753368 00000000`00000000 00000000`00000000 : Microsoft_UI_Input!wil::details::ReportFailure_Base<3,0>+0x30
+000000ce`4c87ef40 00007ffa`977ca0f5     : 000002a9`c6753368 00000000`8001010e 000002a9`c6753210 000002a9`30941060 : Microsoft_UI_Input!wil::details::ReportFailure_Hr<3>+0x5a
+000000ce`4c87efc0 00007ffa`9784f853     : 000002a9`de4a2720 000002a9`de4a2720 000002a9`de4a2720 000002a9`30941060 : Microsoft_UI_Input!wil::details::in1diag3::FailFast_Hr+0x21
+000000ce`4c87f020 00007ffa`97880ed8     : 000002a9`c6753210 00007ffa`6353e9f0 000002a9`de4a2720 00007ffa`3a356616 : Microsoft_UI_Input!CloseHelper<Microsoft::UI::Content::IContentSite>+0xbb
+000000ce`4c87f060 00007ffa`97880720     : 00000000`00000000 000002a9`de4a26c0 000002a1`3a1244d0 000002a9`de4a26c0 : Microsoft_UI_Input!ContentExternalOutputLink::Dispose+0xd8
+000000ce`4c87f0a0 00007ffa`97880834     : 000002a1`3a1244d0 000002a1`41ed1598 00007ffa`3802a8f0 00007ffa`97c049ff : Microsoft_UI_Input!ContentExternalOutputLink::~ContentExternalOutputLink+0x58
+000000ce`4c87f0e0 00007ffa`97881496     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : Microsoft_UI_Input!ContentExternalOutputLink::`vector deleting destructor'+0x14
+000000ce`4c87f110 00007ffa`3a355058     : 000000ce`4c87f248 00000000`00000000 00007ffa`3802a8f0 00000000`00000000 : Microsoft_UI_Input!Microsoft::WRL::Details::RuntimeClassImpl<Microsoft::WRL::RuntimeClassFlags<3>,1,1,0,Windows::Foundation::IClosable,Microsoft::UI::Content::IContentExternalOutputLink,IDCompositionTarget,Windows::UI::Composition::ICompositionTarget,Microsoft::WRL::FtmBase>::Release+0x76
+000000ce`4c87f140 00007ffa`3ae2cea1     : 000002a1`42510d00 000000ce`4c87f208 00000000`00000000 00000000`00000000 : 0x00007ffa`3a355058
+000000ce`4c87f1e0 00007ffa`97ac8be3     : 00007ffa`97d76660 000002a1`3a1244d0 00000000`00000000 00000000`00000000 : 0x00007ffa`3ae2cea1
+000000ce`4c87f2a0 00007ffa`9795bfa2     : 00007ffa`97d76660 00000000`00000000 000002a9`cd0838f8 00007ffa`97a4000a : coreclr!CallDescrWorkerInternal+0x83 [D:\a\_work\1\s\src\runtime\src\coreclr\vm\amd64\CallDescrWorkerAMD64.asm @ 74]
+000000ce`4c87f2e0 00007ffa`97a59265     : 00000000`00000000 00000000`0000000a 000002a1`3a128ff0 00007ffa`97a59635 : coreclr!DispatchCallSimple+0x66 [D:\a\_work\1\s\src\runtime\src\coreclr\vm\callhelpers.cpp @ 242]
+000000ce`4c87f370 00007ffa`97a5916a     : 00000000`00000026 00000000`00000026 00000000`00000000 00000000`00000001 : coreclr!FinalizerThread::FinalizeAllObjects+0x55 [D:\a\_work\1\s\src\runtime\src\coreclr\vm\finalizerthread.cpp @ 257]
+000000ce`4c87f3d0 00007ffa`97a462c2     : 000002a1`3a1856b0 00000000`00000000 00000000`00000000 000002a1`3a18000a : coreclr!FinalizerThread::FinalizerThreadWorker+0x16a [D:\a\_work\1\s\src\runtime\src\coreclr\vm\finalizerthread.cpp @ 471]
+(Inline Function) --------`--------     : --------`-------- --------`-------- --------`-------- --------`-------- : coreclr!ManagedThreadBase_DispatchInner+0xd (Inline Function @ 00007ffa`97a462c2) [D:\a\_work\1\s\src\runtime\src\coreclr\vm\threads.cpp @ 6862]
+000000ce`4c87f620 00007ffa`97a461df     : 000002a1`3a1244d0 000000ce`4c87f678 000002a1`3a185530 00000000`00000000 : coreclr!ManagedThreadBase_DispatchMiddle+0x5e [D:\a\_work\1\s\src\runtime\src\coreclr\vm\threads.cpp @ 6906]
+000000ce`4c87f6c0 00007ffa`97a5a788     : 00000000`00000001 000002a1`3a1856b0 00000000`00000000 00000000`00000000 : coreclr!ManagedThreadBase_DispatchOuter+0x7b [D:\a\_work\1\s\src\runtime\src\coreclr\vm\threads.cpp @ 7065]
+(Inline Function) --------`--------     : --------`-------- --------`-------- --------`-------- --------`-------- : coreclr!ManagedThreadBase::KickOff+0x1f (Inline Function @ 00007ffa`97a5a788) [D:\a\_work\1\s\src\runtime\src\coreclr\vm\threads.cpp @ 7104]
+000000ce`4c87f730 00007ffb`4136dda7     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : coreclr!FinalizerThread::FinalizerThreadStart+0xc8 [D:\a\_work\1\s\src\runtime\src\coreclr\vm\finalizerthread.cpp @ 522]
+000000ce`4c87f830 00007ffb`41a99c5c     : 00000000`00000000 00000000`00000000 000004f0`fffffb30 000004d0`fffffb30 : kernel32!BaseThreadInitThunk+0x17
+000000ce`4c87f860 00000000`00000000     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : ntdll!RtlUserThreadStart+0x2c

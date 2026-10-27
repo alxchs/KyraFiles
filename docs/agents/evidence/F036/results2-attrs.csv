@@ -1,0 +1,11 @@
+teste,detalhe
+origem-esparso: size,sp.bin,logico=67108864,fisico=2097152,attr=Archive, SparseFile
+origem-compactado: size,cp.bin,logico=16777216,fisico=0,attr=Archive, Compressed
+sp.bin-filecopy: size,sp.bin,logico=67108864,fisico=67108864,attr=Archive
+sp.bin-cf2: size,sp.bin,logico=67108864,fisico=67108864,attr=Archive
+sp.bin-shell: size,sp.bin,logico=67108864,fisico=67108864,attr=Archive
+sp.bin-chunk4: size,sp.bin,logico=67108864,fisico=67108864,attr=Archive
+cp.bin-filecopy: size,cp.bin,logico=16777216,fisico=16777216,attr=Archive
+cp.bin-cf2: size,cp.bin,logico=16777216,fisico=16777216,attr=Archive
+cp.bin-shell: size,cp.bin,logico=16777216,fisico=16777216,attr=Archive
+cp.bin-chunk4: size,cp.bin,logico=16777216,fisico=16777216,attr=Archive

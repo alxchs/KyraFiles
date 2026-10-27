@@ -1,0 +1,14 @@
+teste,detalhe
+C-para-D-run1-filecopy,filecopy,-,1073741824,33499,31,peak_ws_mb=24,hash_igual=True
+C-para-D-run1-cf2,cf2,direto,hr=0x00000000,1073741824,ms=8059,mbps=127,peak_ws_mb=24,hash_igual=True
+C-para-D-run1-shell,shell,-,1073741824,10183,101,hash_igual=True
+C-para-D-run1-chunk4,chunk,4MiB,1073741824,10748,95,ack_ms=-1.0,ws_pause_mb=-1,peak_ws_mb=29,hash_igual=True
+C-para-D-run2-filecopy,filecopy,-,1073741824,7796,131,peak_ws_mb=24,hash_igual=True
+C-para-D-run2-cf2,cf2,direto,hr=0x00000000,1073741824,ms=7783,mbps=132,peak_ws_mb=24,hash_igual=True
+C-para-D-run2-shell,shell,-,1073741824,9142,112,hash_igual=True
+C-para-D-run2-chunk4,chunk,4MiB,1073741824,10615,96,ack_ms=-1.0,ws_pause_mb=-1,peak_ws_mb=29,hash_igual=True
+C-para-D-pausa-dupla-run1,cf2b,pausa1: apos 1526ms dst=302MiB total_do_callback=300MiB | pausa2: apos 2753ms dst=702MiB total_do_callback=700MiB | fim hr=0x00000000 em 1827ms,total_ms=6130,peak_ws_mb=25,hash_igual=True
+C-para-D-pausa-dupla-run2,cf2b,pausa1: apos 1435ms dst=302MiB total_do_callback=300MiB | pausa2: apos 2654ms dst=702MiB total_do_callback=700MiB | fim hr=0x00000000 em 2060ms,total_ms=6165,peak_ws_mb=24,hash_igual=True
+C-para-D-pausa-dupla-run3,cf2b,pausa1: apos 1753ms dst=302MiB total_do_callback=300MiB | pausa2: apos 2888ms dst=702MiB total_do_callback=700MiB | fim hr=0x00000000 em 1824ms,total_ms=6487,peak_ws_mb=25,hash_igual=True
+D-para-C-pausa-run1,cf2b,pausa1: apos 3618ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 4539ms,total_ms=8165,peak_ws_mb=24,hash_igual=True
+D-para-C-pausa-run2,cf2b,pausa1: apos 2796ms dst=302MiB total_do_callback=300MiB | fim hr=0x00000000 em 5967ms,total_ms=8772,peak_ws_mb=24,hash_igual=True

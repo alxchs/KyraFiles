@@ -1,0 +1,9 @@
+teste,detalhe
+chunk-pausa-run1,chunk,4MiB,2147483648,4139,495,ack_ms=3.3,ws_pause_mb=28,peak_ws_mb=29,hash_igual=True
+chunk-pausa-run2,chunk,4MiB,2147483648,3895,526,ack_ms=0.5,ws_pause_mb=29,peak_ws_mb=29,hash_igual=True
+chunk-pausa-run3,chunk,4MiB,2147483648,5059,405,ack_ms=7.4,ws_pause_mb=29,peak_ws_mb=30,hash_igual=True
+cf2-pausa-run1,cf2,pause,hr=0x80070BEA,dst_na_pausa_mib=502,pausa_ack_ms=29.3,ws_pausa_mb=24,retomada_hr=0x00000000,retomada_ms=3803,total_antes_pausa_ms=1019,peak_ws_mb=24,hash_igual=True
+cf2-pausa-run2,cf2,pause,hr=0x80070BEA,dst_na_pausa_mib=502,pausa_ack_ms=27.6,ws_pausa_mb=24,retomada_hr=0x00000000,retomada_ms=13874,total_antes_pausa_ms=726,peak_ws_mb=24,hash_igual=True
+cf2-pausa-run3,cf2,pause,hr=0x80070BEA,dst_na_pausa_mib=502,pausa_ack_ms=34.5,ws_pausa_mb=24,retomada_hr=0x00000000,retomada_ms=3838,total_antes_pausa_ms=781,peak_ws_mb=24,hash_igual=True
+morte-e-retomada-run1,parcial_mib=336,resume,4MiB,retomou_em=336MiB,total=2147483648,ms=3445,hash_igual=True
+morte-e-retomada-run2,parcial_mib=272,resume,4MiB,retomou_em=272MiB,total=2147483648,ms=3947,hash_igual=True

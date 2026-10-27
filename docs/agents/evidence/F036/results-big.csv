@@ -1,0 +1,13 @@
+metodo,bloco,bytes,ms,MiBps,extra
+run1,filecopy,-,2147483648,4400,465,peak_ws_mb=23
+run1,robocopy,-,2147483648,4063,504,
+run1,chunk,4MiB,2147483648,5412,378,ack_ms=-1.0,ws_pause_mb=-1,peak_ws_mb=29
+run1,cf2,direto,hr=0x00000000,2147483648,ms=4281,mbps=478,peak_ws_mb=24
+run2,filecopy,-,2147483648,4901,418,peak_ws_mb=23
+run2,robocopy,-,2147483648,13000,158,
+run2,chunk,4MiB,2147483648,8564,239,ack_ms=-1.0,ws_pause_mb=-1,peak_ws_mb=29
+run2,cf2,direto,hr=0x00000000,2147483648,ms=3404,mbps=602,peak_ws_mb=24
+run3,filecopy,-,2147483648,2695,760,peak_ws_mb=23
+run3,robocopy,-,2147483648,3098,661,
+run3,chunk,4MiB,2147483648,5099,402,ack_ms=-1.0,ws_pause_mb=-1,peak_ws_mb=29
+run3,cf2,direto,hr=0x00000000,2147483648,ms=4125,mbps=497,peak_ws_mb=24

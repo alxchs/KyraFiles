@@ -1,0 +1,8 @@
+teste,detalhe
+origem-existe-por-smb=True
+smb-leitura-cf2-run1,cf2,direto,hr=0x00000000,52676689,ms=40,mbps=1243,peak_ws_mb=24,hash_igual=True
+smb-leitura-filecopy-run1,filecopy,-,52676689,29,1704,peak_ws_mb=23,hash_igual=True
+smb-leitura-cf2-run2,cf2,direto,hr=0x00000000,52676689,ms=34,mbps=1466,peak_ws_mb=24,hash_igual=True
+smb-leitura-filecopy-run2,filecopy,-,52676689,34,1486,peak_ws_mb=23,hash_igual=True
+smb-pausa-run1,cf2b,pausa1: apos 26ms dst=17MiB total_do_callback=10MiB | fim hr=0x00000000 em 27ms,total_ms=66,peak_ws_mb=24,hash_igual=True
+smb-pausa-run2,cf2b,pausa1: apos 26ms dst=17MiB total_do_callback=10MiB | fim hr=0x00000000 em 26ms,total_ms=57,peak_ws_mb=24,hash_igual=True

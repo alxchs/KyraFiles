@@ -94,12 +94,22 @@ public sealed class DirectoryScannerTests
 
 			var index = DirectoryScanner.ScanDirectory(Guid.NewGuid(), tempBase);
 
-			var primaryMatches = CollectMatches(index, "relatorio_primario.txt");
-			var secondaryMatches = CollectMatches(index, "relatorio_copia_hardlink.txt");
+			// O Windows NÃO garante que o "primeiro nome" (FindFirstFileNameW) seja o primeiro link criado:
+			// medido em 27/10/2026, `fsutil hardlink list` devolveu o link secundário primeiro em 5 de 300
+			// rodadas. O contrato do índice é "uma vez só, no nome que o próprio Windows chama de primeiro";
+			// por isso o esperado é lido do Windows, não presumido pela ordem de criação.
+			string expectedFirstFullPath = GetFirstHardLinkFullPath(primaryFile);
+			string expectedName = Path.GetFileName(expectedFirstFullPath);
+			string otherName = string.Equals(expectedName, "relatorio_primario.txt", StringComparison.OrdinalIgnoreCase)
+				? "relatorio_copia_hardlink.txt"
+				: "relatorio_primario.txt";
 
-			Assert.HasCount(1, primaryMatches, "O arquivo com hardlink deve aparecer exatamente uma vez no primeiro nome.");
-			Assert.AreEqual(primaryFile, primaryMatches[0].FullPath);
-			Assert.IsEmpty(secondaryMatches, "O segundo nome do hardlink não deve gerar duplicata no índice.");
+			var expectedMatches = CollectMatches(index, expectedName);
+			var otherMatches = CollectMatches(index, otherName);
+
+			Assert.HasCount(1, expectedMatches, "O arquivo com hardlink deve aparecer exatamente uma vez, no primeiro nome informado pelo Windows.");
+			Assert.AreEqual(expectedFirstFullPath, expectedMatches[0].FullPath, ignoreCase: true);
+			Assert.IsEmpty(otherMatches, "O outro nome do hardlink não deve gerar duplicata no índice.");
 		}
 		finally
 		{
@@ -128,6 +138,27 @@ public sealed class DirectoryScannerTests
 		using var proc = Process.Start(psi)!;
 		proc.WaitForExit();
 		return proc.ExitCode;
+	}
+
+	private static string GetFirstHardLinkFullPath(string filePath)
+	{
+		var psi = new ProcessStartInfo("cmd.exe", $"/c fsutil hardlink list \"{filePath}\"")
+		{
+			CreateNoWindow = true,
+			UseShellExecute = false,
+			RedirectStandardOutput = true
+		};
+		using var proc = Process.Start(psi)!;
+		string output = proc.StandardOutput.ReadToEnd();
+		proc.WaitForExit();
+		Assert.AreEqual(0, proc.ExitCode, "fsutil hardlink list deve funcionar.");
+
+		string firstRelative = output
+			.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0]
+			.Trim();
+
+		// O fsutil devolve o caminho sem a letra do volume.
+		return Path.GetPathRoot(filePath)!.TrimEnd('\\') + firstRelative;
 	}
 
 	private static void TryDeleteJunction(string path)

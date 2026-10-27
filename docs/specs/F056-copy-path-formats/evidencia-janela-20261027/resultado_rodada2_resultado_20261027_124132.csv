@@ -1,0 +1,6 @@
+"AC","Resultado","Detalhe"
+"AC-1","PASS","submenu aberto; ausentes: "
+"AC-2 WSL","PASS","esperado=[/mnt/c/Users/alxch/AppData/Local/Temp/claude/6ec761bb0c014b7c87215d57384920c2/desenv/utils/FilesApp/f056/lab/um arquivo.txt] obtido=[/mnt/c/Users/alxch/AppData/Local/Temp/claude/6ec761bb0c014b7c87215d57384920c2/desenv/utils/FilesApp/f056/lab/um arquivo.txt]"
+"AC-3 JSON","PASS","esperado=[""C:\\Users\\alxch\\AppData\\Local\\Temp\\claude\\6ec761bb0c014b7c87215d57384920c2\\desenv\\utils\\FilesApp\\f056\\lab\\um arquivo.txt""] obtido=[""C:\\Users\\alxch\\AppData\\Local\\Temp\\claude\\6ec761bb0c014b7c87215d57384920c2\\desenv\\utils\\FilesApp\\f056\\lab\\um arquivo.txt""]"
+"AC-7 multi","PASS","linhas=3 :: C:\Users\alxch\AppData\Local\Temp\claude\6ec761bb0c014b7c87215d57384920c2\desenv\utils\FilesApp\f056\lab\tres.txt | C:\Users\alxch\AppData\Local\Temp\claude\6ec761bb0c014b7c87215d57384920c2\desenv\utils\FilesApp\f056\lab\um arquivo.txt | C:\Users\alxch\AppData\Local\Temp\claude\6ec761bb0c014b7c87215d57384920c2\desenv\utils\FilesApp\f056\lab\dois.txt"
+"CONTROLE","PASS","a area de transferencia so muda por acao do menu"

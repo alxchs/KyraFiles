@@ -1,0 +1,7 @@
+"AC","Resultado","Detalhe"
+"AC-1","PASS","botoes com letra: Back=Alt, B, Forward=Alt, F, Up=Alt, U, Refresh=Alt, R, Status center=Alt, T, New=Alt, W, Cut=Alt, X, Copy=Alt, C, Paste=Alt, V, Rename=Alt, M, Share=Alt, H, Delete=Alt, D, Properties=Alt, O, Toggle filter header=Alt, F, Selection options=Alt, S, Sort=Alt, A, Layout=Alt, L, Toggle the info pane=Alt, P"
+"AC-5","FAIL","letras: ALT, B,ALT, F,ALT, U,ALT, R,ALT, T,ALT, W,ALT, X,ALT, C,ALT, V,ALT, M,ALT, H,ALT, D,ALT, O,ALT, F,ALT, S,ALT, A,ALT, L,ALT, P"
+"AC-3","NOT TESTED","botao Cancelar sem letra"
+"AC-2","FAIL","letra=Alt, B arquivo apagado=False"
+"AC-8 Esc","FAIL","Esc fecha a caixa sem apagar"
+"CONTROLE","PASS","cancelar.txt intacto"

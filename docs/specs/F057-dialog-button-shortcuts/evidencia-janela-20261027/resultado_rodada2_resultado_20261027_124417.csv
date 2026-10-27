@@ -1,0 +1,6 @@
+"AC","Resultado","Detalhe"
+"AC-3","FAIL","caixa fechada=False arquivo ainda existe=True"
+"AC-2","FAIL","arquivo excluido.txt apagado=False"
+"AC-8 Esc","FAIL","Esc fecha sem apagar"
+"AC-8 Enter","FAIL","enter.txt apagado=False (Enter = botao padrao)"
+"CONTROLE","PASS","cancelar.txt intacto"

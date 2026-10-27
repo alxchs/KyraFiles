@@ -1,0 +1,6 @@
+"AC","Resultado","Detalhe"
+"AC-1","FAIL","submenu ""Copy path as"" nao encontrado no menu de contexto"
+"AC-2 WSL","NOT TESTED","sem submenu"
+"AC-3 JSON","PASS","esperado=[""C:\\Users\\alxch\\AppData\\Local\\Temp\\claude\\b656a82ab37f417e94564e7509e16bdd\\desenv\\utils\\FilesApp\\f056\\lab\\um arquivo.txt""] obtido=[""C:\\Users\\alxch\\AppData\\Local\\Temp\\claude\\b656a82ab37f417e94564e7509e16bdd\\desenv\\utils\\FilesApp\\f056\\lab\\um arquivo.txt""]"
+"AC-7 multi","PASS","linhas=3 :: C:\Users\alxch\AppData\Local\Temp\claude\b656a82ab37f417e94564e7509e16bdd\desenv\utils\FilesApp\f056\lab\tres.txt | C:\Users\alxch\AppData\Local\Temp\claude\b656a82ab37f417e94564e7509e16bdd\desenv\utils\FilesApp\f056\lab\um arquivo.txt | C:\Users\alxch\AppData\Local\Temp\claude\b656a82ab37f417e94564e7509e16bdd\desenv\utils\FilesApp\f056\lab\dois.txt"
+"CONTROLE","PASS","a area de transferencia so muda por acao do menu"

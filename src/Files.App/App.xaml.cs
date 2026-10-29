@@ -483,25 +483,10 @@ namespace Files.App
 
 		private static void TryEmptyWorkingSetWhenIdle(CancellationToken cancellationToken)
 		{
-			static void AggressiveGC(Windows.Win32.Foundation.HANDLE processHandle, CancellationToken cancellationToken)
-			{
-				GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
-				GC.WaitForPendingFinalizers();
-				GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true, true);
-				Thread.Sleep(1000);
-
-				if (cancellationToken.IsCancellationRequested)
-					return;
-			}
-
 			new Thread(() =>
 			{
-				using var process = Process.GetCurrentProcess();
-				var processHandle = new Windows.Win32.Foundation.HANDLE(process.Handle);
-
 				// Try to empty the working set
-				AggressiveGC(processHandle, cancellationToken);
+				MemoryTrimHelper.ExecuteTrim(forceFullGc: true, cancellationToken);
 
 				if (cancellationToken.IsCancellationRequested)
 					return;
@@ -511,7 +496,7 @@ namespace Files.App
 					return;
 
 				// After all pending file operations are completed, try to empty the working set again
-				AggressiveGC(processHandle, cancellationToken);
+				MemoryTrimHelper.ExecuteTrim(forceFullGc: true, cancellationToken);
 			})
 			{ IsBackground = true }.Start();
 		}

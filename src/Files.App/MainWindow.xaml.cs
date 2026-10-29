@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
+using Files.App.Helpers;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -41,6 +42,9 @@ namespace Files.App
 			// Deferred: reads the .ico from disk
 			DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
 				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
+
+			AppWindow.Changed += AppWindow_Changed;
+			Activated += MainWindow_Activated;
 		}
 
 		public void ShowSplashScreen()
@@ -462,6 +466,45 @@ namespace Files.App
 			}
 
 			return false;
+		}
+		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
+		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+		{
+			if (args.DidPresenterChange && sender.Presenter is OverlappedPresenter overlapped)
+			{
+				if (overlapped.State == OverlappedPresenterState.Minimized)
+				{
+					// Window was minimized: schedule soft working set trim after 2 seconds
+					MemoryTrimHelper.ScheduleTrim(delayMs: 2000, forceFullGc: false);
+				}
+				else
+				{
+					// Window was restored/maximized: cancel any pending trim immediately
+					MemoryTrimHelper.CancelPendingTrim();
+				}
+			}
+			else if (args.DidVisibilityChange && !sender.IsVisible)
+			{
+				MemoryTrimHelper.ScheduleTrim(delayMs: 2000, forceFullGc: false);
+			}
+			else if (args.DidVisibilityChange && sender.IsVisible)
+			{
+				MemoryTrimHelper.CancelPendingTrim();
+			}
+		}
+
+		private void MainWindow_Activated(object sender, Microsoft.UI.Xaml.WindowActivatedEventArgs args)
+		{
+			if (args.WindowActivationState == Microsoft.UI.Xaml.WindowActivationState.Deactivated)
+			{
+				// Inactive in background: schedule idle trim after 60 seconds
+				MemoryTrimHelper.ScheduleTrim(delayMs: 60000, forceFullGc: false);
+			}
+			else
+			{
+				// User returned to window: cancel pending idle trim
+				MemoryTrimHelper.CancelPendingTrim();
+			}
 		}
 	}
 }

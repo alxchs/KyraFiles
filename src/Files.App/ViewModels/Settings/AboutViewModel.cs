@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Microsoft.Win32;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -32,6 +33,27 @@ namespace Files.App.ViewModels.Settings
 			=> Package.Current.Id.Version;
 
 		public ObservableCollection<OpenSourceLibraryItem> OpenSourceLibraries { get; }
+
+		private string _ecosystemMemorySummary = "Calculating...";
+		public string EcosystemMemorySummary
+		{
+			get => _ecosystemMemorySummary;
+			set => SetProperty(ref _ecosystemMemorySummary, value);
+		}
+
+		private bool _isLoadingMemory;
+		public bool IsLoadingMemory
+		{
+			get => _isLoadingMemory;
+			set => SetProperty(ref _isLoadingMemory, value);
+		}
+
+		public ObservableCollection<ProcessMemoryItem> EcosystemMemoryItems { get; } = [];
+
+		private EcosystemMemoryReport? _latestMemoryReport;
+
+		public ICommand RefreshMemoryUsageCommand { get; }
+		public ICommand CopyMemoryReportCommand { get; }
 
 		// Commands
 
@@ -94,9 +116,58 @@ namespace Files.App.ViewModels.Settings
 			OpenPrivacyPolicyCommand = new AsyncRelayCommand(DoOpenPrivacyPolicy);
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
+			RefreshMemoryUsageCommand = new AsyncRelayCommand(RefreshMemoryUsageAsync);
+			CopyMemoryReportCommand = new RelayCommand(CopyMemoryReport);
+			_ = RefreshMemoryUsageAsync();
 		}
 
 		// Methods
+
+		public async Task RefreshMemoryUsageAsync()
+		{
+			if (IsLoadingMemory)
+				return;
+
+			IsLoadingMemory = true;
+			try
+			{
+				var report = await Task.Run(EcosystemMemoryDiagnostics.CollectSnapshot);
+				_latestMemoryReport = report;
+
+				EcosystemMemoryItems.Clear();
+				foreach (var item in report.Items)
+				{
+					EcosystemMemoryItems.Add(item);
+				}
+
+				EcosystemMemorySummary = string.Format(
+					Strings.SettingsAboutEcosystemMemoryFormat.GetLocalizedResource(),
+					report.FormattedTotalWorkingSet,
+					report.ActiveProcessCount);
+			}
+			catch
+			{
+				EcosystemMemorySummary = "0 MB";
+			}
+			finally
+			{
+				IsLoadingMemory = false;
+			}
+		}
+
+		public void CopyMemoryReport()
+		{
+			if (_latestMemoryReport is null)
+				return;
+
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				DataPackage dataPackage = new DataPackage();
+				dataPackage.RequestedOperation = DataPackageOperation.Copy;
+				dataPackage.SetText(_latestMemoryReport.ToClipboardText());
+				Clipboard.SetContent(dataPackage);
+			});
+		}
 
 		private async Task<bool> OpenLogLocation()
 		{

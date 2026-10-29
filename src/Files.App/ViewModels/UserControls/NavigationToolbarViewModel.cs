@@ -1290,13 +1290,14 @@ namespace Files.App.ViewModels.UserControls
 						?? throw new InvalidOperationException("The current shell page does not have a view model.");
 
 					var results = new List<ListedItem>();
+					var isTag = OmnibarSearchModeText?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
 					var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
-					var provider = searchProviderFactory?.GetCurrentProvider();
+					var provider = isTag ? null : searchProviderFactory?.GetCurrentProvider();
 					if (provider is not null)
 					{
 						var request = new SearchRequest
 						{
-							Query = OmnibarSearchModeText,
+							Query = OmnibarSearchModeText ?? string.Empty,
 							Folder = shellViewModel.WorkingDirectory ?? string.Empty,
 							MaxItemCount = 10,
 						};

@@ -113,6 +113,18 @@ namespace Files.App.Services.Search
 
 		public async Task SearchAsync(SearchRequest request, IList<ListedItem> results, CancellationToken cancellationToken)
 		{
+			if (request.Query.Contains("tag:", StringComparison.OrdinalIgnoreCase))
+			{
+				var folderSearch = new Utils.Storage.FolderSearch
+				{
+					Query = request.Query,
+					Folder = request.Folder,
+					MaxItemCount = request.MaxItemCount
+				};
+				await folderSearch.SearchAsync(results, cancellationToken);
+				return;
+			}
+
 			var esPath = GetEsPath();
 			if (esPath is not null)
 			{

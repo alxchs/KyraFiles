@@ -5097,4 +5097,19 @@
   <data name="SearchIndexInstallFullModeButton" xml:space="preserve">
     <value>Install Full Mode (UAC)</value>
   </data>
+  <data name="SettingsAboutEcosystemMemoryTitle" xml:space="preserve">
+    <value>Ecosystem Memory Usage</value>
+  </data>
+  <data name="SettingsAboutEcosystemMemoryFormat" xml:space="preserve">
+    <value>Files Custom is using {0} across {1} active process(es)</value>
+  </data>
+  <data name="SettingsAboutEcosystemMemoryDetails" xml:space="preserve">
+    <value>Memory details</value>
+  </data>
+  <data name="SettingsAboutEcosystemMemoryRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="SettingsAboutEcosystemMemoryCopy" xml:space="preserve">
+    <value>Copy report</value>
+  </data>
 </root>

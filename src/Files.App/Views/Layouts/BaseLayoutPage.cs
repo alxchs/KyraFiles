@@ -667,8 +667,19 @@ namespace Files.App.Views.Layouts
 
 				if (!args.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
-					await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
+					if (args.SearchQuery?.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) == true)
+					{
+						var tagName = args.SearchQuery.Substring(4).Trim('"', ' ');
+						var tagLabel = Strings.FileTags.GetLocalizedResource();
+						var tagDisplayText = !string.IsNullOrEmpty(tagLabel) ? $"{tagLabel}: {tagName}" : $"Tag: {tagName}";
+						await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, tagDisplayText);
+					}
+					else
+					{
+						var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
+						await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
+					}
+
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = args.SearchQuery,

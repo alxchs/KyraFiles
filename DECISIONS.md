@@ -268,3 +268,15 @@ Data: 26/10/2026. Decidido por Claude (arquiteto); **aprovado pelo Alexandre em 
 - **Reason:** não exige espaço extra, é rápido em arquivo grande e recuperável.
 - **Trade-offs:** não insere nem remove bytes (fica para uma versão futura, com ADR própria); a gravação in-place depende do diário estar correto (por isso tem teste de queda no meio).
 - **Consequences:** M2-T2 implementa B; inserir/remover fica fora do escopo da F060.
+
+## D-F061-1 — Win+E é premissa permanente; o ciclo do Watchdog desacelera, nunca desiste
+
+Data: 28/10/2026. Decidido por Claude (arquiteto), a pedido do Alexandre ("Essa deve ser uma premissa... Sempre ter esse recurso rápido").
+
+- **Context:** em 28/10/2026 havia ~13 mil processos Files.HotkeyService.exe criados a ~5 por segundo pelo Watchdog; o Win+E mostrava o Explorer antes do Files.
+- **Problem:** o Watchdog recria o serviço a cada 200 ms em qualquer saída diferente de 2, inclusive quando o serviço sai com código 0 por já existir outra instância. Causa do disparo às 23:48 de 27/10 ainda não provada.
+- **Options:** (A) parar o Watchdog depois de N falhas; (B) espera crescente até 30 s, sem desistir, mais saída com código próprio para "já existe"; (C) trocar o Watchdog por tarefa agendada.
+- **Decision:** B, mais um comando de verificação de saúde obrigatório em toda liberação. A é descartada porque viola a premissa de disponibilidade; C só se a T0 mostrar que o Watchdog gera várias instâncias.
+- **Reason:** mantém o atalho sempre pronto sem afogar o computador.
+- **Trade-offs:** depois de falhas repetidas o retorno pode levar até 30 s.
+- **Consequences:** spec docs/specs/F061-win-e-sempre-pronto/; T0 prova a causa antes de qualquer código; AC-8 entra no PLAYBOOK.

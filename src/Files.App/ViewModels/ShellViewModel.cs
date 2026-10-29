@@ -3505,9 +3505,19 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
-			var baseHeaderTitle = !string.IsNullOrEmpty(search.Query)
-				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
-				: string.Empty;
+			string baseHeaderTitle;
+			if (search.Query?.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) == true)
+			{
+				var tagName = search.Query.Substring(4).Trim('"', ' ');
+				var tagLabel = Strings.FileTags.GetLocalizedResource();
+				baseHeaderTitle = !string.IsNullOrEmpty(tagLabel) ? $"{tagLabel}: {tagName}" : $"Tag: {tagName}";
+			}
+			else
+			{
+				baseHeaderTitle = !string.IsNullOrEmpty(search.Query)
+					? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+					: string.Empty;
+			}
 			SearchHeaderTitle = baseHeaderTitle;
 
 			if (SearchIconBitmapImage is null)
@@ -3531,8 +3541,9 @@ namespace Files.App.ViewModels
 
 			try
 			{
+				var isTagQuery = search.Query?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
 				var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
-				var provider = searchProviderFactory?.GetCurrentProvider();
+				var provider = isTagQuery ? null : searchProviderFactory?.GetCurrentProvider();
 				if (provider is not null)
 				{
 					long lastBatchUiTick = 0;

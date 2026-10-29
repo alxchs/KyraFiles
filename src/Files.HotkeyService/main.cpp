@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <string>
+#include <cstdlib>
 
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "shell32.lib")
@@ -17,12 +18,39 @@ constexpr UINT WM_OPEN_FILES = WM_APP + 1;
 constexpr ULONG_PTR INJECTED_TAG = 0x46494C45; // "FILE": marca as teclas injetadas por este servico
 constexpr WORD NEUTRAL_VK = 0xE8;              // VK sem atribuicao: cancela o menu Iniciar ao soltar o Win
 constexpr DWORD EXIT_HOOK_FAILED = 2;          // o Watchdog espera mais antes de reiniciar neste caso
+constexpr DWORD EXIT_ALREADY_RUNNING = 3;      // já existe outra instância em execução (FR-001)
 constexpr const wchar_t* SHUTDOWN_EVENT_NAME = L"Global\\FilesCustom_ShutdownHotkeyService";
+constexpr const wchar_t* INSTANCE_MUTEX_NAME = L"Global\\FilesCustom_HotkeyService_InstanceMutex";
 
 static HWND g_hWnd = NULL;
 static HANDLE g_hShutdownEvent = NULL;
 static HHOOK g_hHook = NULL;
 static bool g_swallowingE = false;
+
+static std::wstring GetTestSuffixedName(const wchar_t* baseName)
+{
+    wchar_t suffix[64] = {};
+    DWORD len = GetEnvironmentVariableW(L"FILES_WINE_TEST_SUFFIX", suffix, ARRAYSIZE(suffix));
+    if (len > 0 && len < ARRAYSIZE(suffix))
+    {
+        return std::wstring(baseName) + suffix;
+    }
+    return std::wstring(baseName);
+}
+
+static bool IsTestNoHookEnabled()
+{
+    wchar_t suffix[64] = {};
+    DWORD suffixLen = GetEnvironmentVariableW(L"FILES_WINE_TEST_SUFFIX", suffix, ARRAYSIZE(suffix));
+    if (suffixLen == 0 || suffixLen >= ARRAYSIZE(suffix))
+    {
+        return false;
+    }
+
+    wchar_t val[16] = {};
+    DWORD len = GetEnvironmentVariableW(L"FILES_WINE_TEST_NOHOOK", val, ARRAYSIZE(val));
+    return (len > 0 && wcscmp(val, L"1") == 0);
+}
 
 static bool IsDown(int vk)
 {
@@ -41,6 +69,13 @@ static void LogLine(const wchar_t* text, DWORD error)
 
     HANDLE h = CreateFileW(path, FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (h == INVALID_HANDLE_VALUE) return;
+
+    if (GetLastError() != ERROR_ALREADY_EXISTS)
+    {
+        wchar_t bom = 0xFEFF;
+        DWORD writtenBom = 0;
+        WriteFile(h, &bom, sizeof(wchar_t), &writtenBom, NULL);
+    }
 
     SYSTEMTIME st;
     GetLocalTime(&st);
@@ -114,7 +149,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         // Se o Files ja estiver aberto, o protocolo atinge a instancia existente; se nao, o Windows o inicia.
         // A URI tem de ser exatamente "files-dev:": e o ramo do MainWindow feito para o Win+E (abre a MainPage e traz
         // para o primeiro plano). Com query ("?tab=Home") o app tenta ler JSON de aba e quebra (debug.log, 12/10/2026).
-        ShellExecuteW(NULL, L"open", L"files-dev:", NULL, NULL, SW_SHOWNORMAL);
+        if (!IsTestNoHookEnabled())
+        {
+            ShellExecuteW(NULL, L"open", L"files-dev:", NULL, NULL, SW_SHOWNORMAL);
+        }
         return 0;
 
     case WM_DESTROY:
@@ -146,16 +184,30 @@ DWORD WINAPI ShutdownMonitorThread(LPVOID lpParam)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    // Suporte a teste automatizado: saida simulada quando sob ambiente de teste isolado
+    wchar_t testSuffix[64] = {};
+    if (GetEnvironmentVariableW(L"FILES_WINE_TEST_SUFFIX", testSuffix, ARRAYSIZE(testSuffix)) > 0)
+    {
+        wchar_t exitCodeStr[16] = {};
+        if (GetEnvironmentVariableW(L"FILES_WINE_TEST_EXITCODE", exitCodeStr, ARRAYSIZE(exitCodeStr)) > 0)
+        {
+            return (int)_wtoi(exitCodeStr);
+        }
+    }
+
     // Mutex para instancia unica do servico
-    HANDLE hSingleInstanceMutex = CreateMutexW(NULL, TRUE, L"Global\\FilesCustom_HotkeyService_InstanceMutex");
+    std::wstring instanceMutexName = GetTestSuffixedName(INSTANCE_MUTEX_NAME);
+    HANDLE hSingleInstanceMutex = CreateMutexW(NULL, TRUE, instanceMutexName.c_str());
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
+        LogLine(L"Outra instancia ja esta em execucao", ERROR_ALREADY_EXISTS);
         if (hSingleInstanceMutex) CloseHandle(hSingleInstanceMutex);
-        return 0;
+        return EXIT_ALREADY_RUNNING;
     }
 
     // Cria/Abre evento global de shutdown cooperativo
-    g_hShutdownEvent = CreateEventW(NULL, TRUE, FALSE, SHUTDOWN_EVENT_NAME);
+    std::wstring shutdownEventName = GetTestSuffixedName(SHUTDOWN_EVENT_NAME);
+    g_hShutdownEvent = CreateEventW(NULL, TRUE, FALSE, shutdownEventName.c_str());
 
     // Registra classe de janela invisivel para receber mensagens
     WNDCLASSEXW wcex = {};
@@ -185,13 +237,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // O hook de baixo nivel exige uma thread com loop de mensagens: e a principal.
-    g_hHook = SetWindowsHookExW(WH_KEYBOARD_LL, LowLevelKeyboardProc, hInstance, 0);
-    if (!g_hHook)
+    if (!IsTestNoHookEnabled())
     {
-        LogLine(L"SetWindowsHookExW(WH_KEYBOARD_LL) falhou; Win+E nao sera interceptado", GetLastError());
-        DestroyWindow(g_hWnd);
-        if (hSingleInstanceMutex) CloseHandle(hSingleInstanceMutex);
-        return EXIT_HOOK_FAILED;
+        g_hHook = SetWindowsHookExW(WH_KEYBOARD_LL, LowLevelKeyboardProc, hInstance, 0);
+        if (!g_hHook)
+        {
+            LogLine(L"SetWindowsHookExW(WH_KEYBOARD_LL) falhou; Win+E nao sera interceptado", GetLastError());
+            DestroyWindow(g_hWnd);
+            if (hSingleInstanceMutex) CloseHandle(hSingleInstanceMutex);
+            return EXIT_HOOK_FAILED;
+        }
     }
 
     // Inicia monitor do evento de desligamento cooperativo

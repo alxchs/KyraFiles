@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:sharedhelpers="using:Files.Shared.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
@@ -47,6 +48,54 @@
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
+				</StackPanel>
+			</wctcontrols:SettingsCard>
+
+			<!--  Ecosystem Memory Usage (F062)  -->
+			<wctcontrols:SettingsCard
+				HorizontalAlignment="Stretch"
+				Description="{x:Bind ViewModel.EcosystemMemorySummary, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=SettingsAboutEcosystemMemoryTitle}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE9D9;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<Button Command="{x:Bind ViewModel.RefreshMemoryUsageCommand}" Content="{helpers:ResourceString Name=SettingsAboutEcosystemMemoryRefresh}" />
+					<Button Content="{helpers:ResourceString Name=SettingsAboutEcosystemMemoryDetails}">
+						<Button.Flyout>
+							<Flyout>
+								<StackPanel Width="360" Spacing="12">
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{helpers:ResourceString Name=SettingsAboutEcosystemMemoryTitle}" />
+									<ItemsControl ItemsSource="{x:Bind ViewModel.EcosystemMemoryItems, Mode=OneWay}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate x:DataType="sharedhelpers:ProcessMemoryItem">
+												<Grid Margin="0,4">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="*" />
+														<ColumnDefinition Width="Auto" />
+													</Grid.ColumnDefinitions>
+													<StackPanel Grid.Column="0">
+														<TextBlock FontWeight="SemiBold" Text="{x:Bind ProcessName}" />
+														<TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+															<Run Text="PID: " /><Run Text="{x:Bind Id}" />
+														</TextBlock>
+													</StackPanel>
+													<StackPanel Grid.Column="1" HorizontalAlignment="Right">
+														<TextBlock FontWeight="Medium" HorizontalAlignment="Right" Text="{x:Bind FormattedWorkingSet}" />
+														<TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Right">
+															<Run Text="Priv: " /><Run Text="{x:Bind FormattedPrivateMemory}" />
+														</TextBlock>
+													</StackPanel>
+												</Grid>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+									<MenuFlyoutSeparator />
+									<Button HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.CopyMemoryReportCommand}" Content="{helpers:ResourceString Name=SettingsAboutEcosystemMemoryCopy}" />
+								</StackPanel>
+							</Flyout>
+						</Button.Flyout>
+					</Button>
 				</StackPanel>
 			</wctcontrols:SettingsCard>
 

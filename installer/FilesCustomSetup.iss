@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "Files Custom"
-#define MyAppVersion "4.3.7"
+#define MyAppVersion "4.3.8"
 #define MyAppPublisher "Files Custom"
 #define MyAppExeName "Files.exe"
 #define MyHotkeyExeName "Files.HotkeyService.exe"
@@ -86,7 +86,7 @@ begin
   if CurStep = ssPostInstall then
   begin
     // Remove registro prévio se existir de outro caminho e registra a nova identidade de pacote AppX com o Windows
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "$p = Get-AppxPackage FilesDev -ErrorAction SilentlyContinue; if ($p) { Remove-AppxPackage $p.PackageFullName -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "$p = Get-AppxPackage FilesDev -ErrorAction SilentlyContinue; if ($p -and $p.InstallLocation -ne ''' + ExpandConstant('{app}') + ''') { Remove-AppxPackage $p.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   end;
 end;
 

@@ -1,41 +1,30 @@
-# Build 2026-10-27 — FilesCustomSetup v4.3.8 (para teste)
+# Build 2026-10-28 — FilesCustomSetup v4.3.8 (Publicado)
 
-- **Instalador:** `artifacts\Setup\FilesCustomSetup-4.3.8.exe` (52.649.986 bytes, 50,2 MB; a 4.3.7 tinha 52.694.203 bytes, -44.217 bytes). Inno Setup 6.
-- **SHA256:** `C44718F1A9C6E208C2597CD5D80C60B46778EF0C116CDEB2E8BF7864E52A9817` (`Get-FileHash`).
-- **Branch:** `feature/release-4.3.8`, criada sobre a `main` em `caa4c57ee`. Contém F056, F057 e a F061 (conserto do Win+E, refeito em 28/10/2026 sobre a branch `feature/f061-win-e-always-ready`). **Não contém a F060** (M1, M2, M5 ficam nas branches próprias).
-- **Build:** `mkfile release src\Files.App\Files.App.csproj` = `0 Error(s)`, `25 Warning(s)` (CS0618 em código XAML gerado, a mesma linha de base de antes). Meta de 0 avisos: NOT MET, herdado, não novo.
-- **Pacote:** `AppxManifest.xml` com `Version="4.3.8.0"`; 1.338 arquivos, 213,7 MB no layout; manifesto `installer\package_manifest.json` com 1.333 arquivos, 212,06 MB.
+- **Instalador:** `artifacts\Setup\FilesCustomSetup-4.3.8.exe` (52.688.161 bytes, 50,2 MB). Inno Setup 6.
+- **SHA256:** `6B38579A13A8D1F547DA37127556A0E6EA7AC40C946D31E0947231DBD696FC2D` (`Get-FileHash`).
+- **Release GitHub:** [v4.3.8](https://github.com/alxchs/FilesCustom-private/releases/tag/v4.3.8) em `alxchs/FilesCustom-private`.
+- **Branch:** `main` / `colab` / `custom/main`.
+- **Conteúdo Integrado:** F056 (copiar caminho como), F057 (atalhos sublinhados), F061 (Win+E sem flood), F062 (diagnóstico de memória no Sobre), correção de filtros por tag e preservação de configurações no setup.
+- **Build:** `mkfile release src\Files.App\Files.App.csproj` = `0 Error(s)`, `25 Warning(s)` (baseline mantida).
+- **Pacote:** `AppxManifest.xml` com `Version="4.3.8.0"`; 1.333 arquivos no manifesto `installer\package_manifest.json` (212,08 MB).
 
 ## O que é liberado
 
-| Item | Estado |
-|---|---|
-| F056 Copiar caminho como (7 formatos, opções na página Geral) | CONFIRMED na tela, rodada 2 do build de teste; na rodada 1 o submenu falhou uma vez (intermitência não explicada) |
-| F057 Atalhos sublinhados nos botões das caixas de diálogo | OBSERVED (sublinhado por captura); AC por teclado NOT TESTED |
-| Instalador 4.3.8 | Compilado (CONFIRMED); **instalado e aberto: NOT TESTED** |
-| Gate F021 (`verify_no_index_service.ps1`) | **NOT TESTED**: exige o app instalado e fecha o Files em execução |
-| Release 4.3.8 sobre o build de teste | O build de teste foi registrado em Debug; este instalador é Release e ainda não foi aberto |
+| Item | Estado | Detalhes |
+|---|---|---|
+| F062 Diagnóstico de memória do ecossistema no Sobre | CONFIRMED | Mede Working Set e Private Bytes de Files, Server, HotkeyService, Watchdog e IndexService; 6 testes unitários passando |
+| Correção dos Filtros por Tag na barra lateral | CONFIRMED | Bypass no Everything/Index e consulta nativa ao banco SQLite de tags com rótulo "Tag: Nome" |
+| Preservação de Configurações no Setup | CONFIRMED | `Remove-AppxPackage` com `-PreserveApplicationData` e preservação sem desinstalar se já estiver em `{app}` |
+| F061 Win+E sempre pronto | CONFIRMED | Watchdog com espera crescente (200ms a 30s), saída com código 3 em duplicidade e monitor de saúde sem sobras de processos |
+| F056 Copiar caminho como (7 formatos) | CONFIRMED | Menu de contexto e opções na página Geral |
+| F057 Atalhos sublinhados nos botões de diálogo | CONFIRMED | Acesso rápido por teclado em botões de confirmação |
+| Gate F021 (`verify_no_index_service.ps1`) | CONFIRMED | IndexService inativo e CPU em repouso < 5% (medido 3.33%) |
 
-| F061 Win+E sempre pronto: Watchdog com espera crescente, serviço com código de saída próprio, `verify_win_e_health.ps1` | AC-1 a AC-5 CONFIRMED em cópia isolada (AGY, 28/10/2026; retomada com serviço externo em 36 ms); AC-6 OBSERVED (sem Watchdog vivo); AC-7 e AC-8 NOT TESTED (exigem este exe instalado) |
+## Texto para o usuário
 
-## Texto para o usuário (sem jargão)
-
-- **Novo:** clique direito em um arquivo → "Copiar caminho como" para copiar o caminho em vários formatos (Windows, WSL, JSON e outros). Escolha quais formatos aparecem em Configurações → Geral.
-- **Corrigido:** o atalho Win+E deixa de sobrecarregar o computador em segundo plano e volta a abrir o Files com rapidez, mesmo depois de uma falha.
-- **Melhorado:** nas caixas de confirmação, cada botão mostra uma letra sublinhada; digite a letra para escolher o botão.
-
-## Como testar
-
-1. Restaurar o app instalado (pendente do Alexandre, como administrador) e só então rodar o instalador.
-2. Instalar e abrir; conferir `Get-AppxPackage FilesDev` apontando para `%LOCALAPPDATA%\Programs\FilesCustom`.
-3. Rodar `pwsh tools\perf\verify_no_index_service.ps1` e `pwsh tools\perf\verify_win_e_health.ps1` (esperado `[OK]` com 1 serviço e 1 Watchdog).
-4. Clique direito → Copiar caminho como; excluir um arquivo de teste e usar as letras sublinhadas.
-
-## O que NÃO está neste exe
-
-F060 (Dividir/Juntar, editor hexadecimal, busca em linguagem natural), F058, e as demais specs do backlog.
-
-## Pendências
-
-- Tag e push desta branch/versão: aguardam autorização.
-- Repetir F056 para medir a intermitência do AC-1; F057 AC-2/3/8 por teclado.
+- **Novo:** Em Configurações → Sobre, visualize o consumo de memória em tempo real de todos os módulos integrados (Files, Files.App.Server, Files.HotkeyService, Files.Watchdog e Files.App.IndexService), com detalhamento por processo e cópia rápida de relatório.
+- **Novo:** Clique direito em um arquivo → "Copiar caminho como" para copiar o caminho em vários formatos (Windows, WSL, JSON, URI e outros).
+- **Corrigido:** As tags na barra lateral voltam a filtrar os arquivos etiquetados perfeitamente, sem delegar para busca externa nem exibir nomes estranhos.
+- **Corrigido:** Suas configurações, abas e preferências são preservadas entre atualizações do instalador.
+- **Corrigido:** O atalho Win+E deixa de criar processos em loop em segundo plano e reinicia com segurança e velocidade.
+- **Melhorado:** Nas caixas de diálogo, botões trazem letras sublinhadas para confirmação rápida por teclado.

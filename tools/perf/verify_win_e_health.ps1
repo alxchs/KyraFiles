@@ -202,7 +202,7 @@ if ($Simulate) {
             $st = $aliveHotkeys[0].StartTime
             $serviceStartTimeStr = $st.ToString("dd/MM/yyyy HH:mm:ss")
             $diff = (Get-Date) - $st
-            $serviceAgeStr = "{0:D2}d {1:D2}h {2:D2}m {3:D2}s" -f [int]$diff.TotalDays, $diff.Hours, $diff.Minutes, $diff.Seconds
+            $serviceAgeStr = "{0:D2}d {1:D2}h {2:D2}m {3:D2}s" -f $diff.Days, $diff.Hours, $diff.Minutes, $diff.Seconds
         } catch {
             $serviceAgeStr = "desconhecido"
         }

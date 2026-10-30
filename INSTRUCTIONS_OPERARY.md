@@ -114,3 +114,5 @@ A F024 terminou com um veredito grande ("WinUI 3 é inviável") sustentado por p
 7. Ao terminar: handoff, `AGENT_CONTEXT.md` atualizado e o Claude revisa antes de qualquer limpeza.
 
 20. **Relatório de situação (regra R13, 26/10/2026):** começo de tarefa lê `docs/agents/SITUACAO.md`; fim de tarefa (ou parada por cota ou orçamento) atualiza o arquivo e escreve no handoff: o que deu certo, o que deu errado e o ponto do projeto, nessa ordem.
+
+21. **Nada é pulado sem prova ou autorização (regra dura, 29/10/2026):** leia `docs/agents/REGRA-NAO-PULAR.md` antes de começar e antes de cada handoff. Todo item pedido é executado e provado, ou avaliado com prova de que não se aplica, ou perguntado ao Alexandre (so a resposta dele libera). Pulo autorizado exige a frase "PULADO COM AUTORIZACAO DO ALEXANDRE em ..." com citacao literal, no handoff, no commit, na nota de liberacao e na spec.

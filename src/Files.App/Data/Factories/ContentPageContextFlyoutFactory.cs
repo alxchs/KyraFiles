@@ -672,6 +672,36 @@ namespace Files.App.Data.Factories
 					],
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.SplitFile)
+				{
+					IsVisible = itemsSelected
+						&& selectedItems.Count == 1
+						&& selectedItems[0] is { } splitTarget
+						&& splitTarget.PrimaryItemAttribute == StorageItemTypes.File
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CombineFiles)
+				{
+					IsVisible = itemsSelected
+						&& selectedItems.Count == 1
+						&& selectedItems[0] is { } combineTarget
+						&& combineTarget.PrimaryItemAttribute == StorageItemTypes.File
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder
+						&& ((!string.IsNullOrEmpty(combineTarget.Name) && combineTarget.Name.EndsWith(".manifest.json", StringComparison.OrdinalIgnoreCase))
+							|| string.Equals(combineTarget.FileExtension, ".001", StringComparison.OrdinalIgnoreCase)
+							|| (!string.IsNullOrEmpty(combineTarget.Name) && combineTarget.Name.EndsWith(".001", StringComparison.OrdinalIgnoreCase)))
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInHexEditor)
+				{
+					IsVisible = itemsSelected
+						&& selectedItems.Count == 1
+						&& selectedItems[0] is { } hexTarget
+						&& hexTarget.PrimaryItemAttribute == StorageItemTypes.File
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{

@@ -546,12 +546,27 @@ namespace Files.App.Views.Shells
 			shellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 
+			Files.Shared.Helpers.SearchIntent? naturalIntent = null;
+			string effectiveQuery = query;
+
+			var generalSettings = Ioc.Default.GetService<IGeneralSettingsService>();
+			if (generalSettings?.EnableNaturalLanguageSearch == true && !string.IsNullOrWhiteSpace(query))
+			{
+				var parsedIntent = Files.Shared.Helpers.NaturalSearchParser.Parse(query, DateTimeOffset.Now);
+				if (parsedIntent.HasStructuredFilters)
+				{
+					naturalIntent = parsedIntent;
+					effectiveQuery = parsedIntent.SearchText ?? string.Empty;
+				}
+			}
+
 			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
 				SearchPathParam = shellViewModel.WorkingDirectory,
-				SearchQuery = query,
+				SearchQuery = effectiveQuery,
+				NaturalSearchIntent = naturalIntent,
 			};
 
 			var layout = InstanceViewModel.FolderSettings.GetLayoutType(shellViewModel.WorkingDirectory);

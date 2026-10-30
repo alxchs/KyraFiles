@@ -380,6 +380,14 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}" IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
+			<!--  Natural language search (experimental)  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableNaturalLanguageSearch}" Description="{helpers:ResourceString Name=EnableNaturalLanguageSearchDescription}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE721;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableNaturalLanguageSearch}" IsOn="{x:Bind ViewModel.EnableNaturalLanguageSearch, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Reverse tab scroll direction  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ReverseTabScrollDirection}">
 				<wctcontrols:SettingsCard.HeaderIcon>

@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Contracts;
 using Files.App.Dialogs;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -524,5 +525,407 @@ namespace Files.App.Helpers
 
 			await dialog.TryShowAsync();
 		}
+
+		public static DynamicDialog GetFor_SplitFileDialog(string sourceFilePath, long totalSize)
+		{
+			DynamicDialog? dialog = null;
+
+			var partSizeHeader = new TextBlock
+			{
+				Text = Strings.PartSize.GetLocalizedResource(),
+				Margin = new Thickness(0, 0, 0, 4)
+			};
+
+			var presetCombo = new ComboBox
+			{
+				HorizontalAlignment = HorizontalAlignment.Stretch
+			};
+
+			var item100Mb = new ComboBoxItem { Content = Strings.PartSizePreset100MB.GetLocalizedResource(), Tag = 100L * 1024 * 1024 };
+			var item650Mb = new ComboBoxItem { Content = Strings.PartSizePreset650MB.GetLocalizedResource(), Tag = 650L * 1024 * 1024 };
+			var item4Gb = new ComboBoxItem { Content = Strings.PartSizePreset4GB.GetLocalizedResource(), Tag = 4L * 1024 * 1024 * 1024 };
+			var itemCustom = new ComboBoxItem { Content = Strings.PartSizeCustom.GetLocalizedResource(), Tag = 0L };
+
+			presetCombo.Items.Add(item100Mb);
+			presetCombo.Items.Add(item650Mb);
+			presetCombo.Items.Add(item4Gb);
+			presetCombo.Items.Add(itemCustom);
+			presetCombo.SelectedIndex = 0;
+
+			var customSizeBox = new TextBox
+			{
+				Text = "100 MB",
+				PlaceholderText = Strings.PartSizeCustomPlaceholder.GetLocalizedResource(),
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				Margin = new Thickness(0, 4, 0, 0)
+			};
+
+			var destHeader = new TextBlock
+			{
+				Text = Strings.DestinationFolder.GetLocalizedResource(),
+				Margin = new Thickness(0, 8, 0, 4)
+			};
+
+			var destPathBox = new TextBox
+			{
+				Text = System.IO.Path.GetDirectoryName(sourceFilePath) ?? string.Empty,
+				HorizontalAlignment = HorizontalAlignment.Stretch
+			};
+
+			var browseButton = new Button
+			{
+				Content = Strings.Browse.GetLocalizedResource(),
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			browseButton.Click += (s, e) =>
+			{
+				var commonDialogService = Ioc.Default.GetRequiredService<ICommonDialogService>();
+				if (commonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var folder) && !string.IsNullOrWhiteSpace(folder))
+				{
+					destPathBox.Text = folder;
+				}
+			};
+
+			var destGrid = new Grid
+			{
+				ColumnSpacing = 8
+			};
+			destGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+			destGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+			Grid.SetColumn(destPathBox, 0);
+			Grid.SetColumn(browseButton, 1);
+			destGrid.Children.Add(destPathBox);
+			destGrid.Children.Add(browseButton);
+
+			var sha256CheckBox = new CheckBox
+			{
+				Content = Strings.CalculateSha256Checksum.GetLocalizedResource(),
+				IsChecked = false,
+				Margin = new Thickness(0, 4, 0, 0)
+			};
+
+			bool isUpdatingInternally = false;
+
+			void UpdateValidation()
+			{
+				bool isValidSize = TryParsePartSize(customSizeBox.Text, out var parsedSize) && parsedSize > 0;
+				bool isValidDest = !string.IsNullOrWhiteSpace(destPathBox.Text);
+				bool isValid = isValidSize && isValidDest;
+
+				if (dialog != null)
+				{
+					dialog.ViewModel.DynamicButtonsEnabled = isValid
+						? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+						: DynamicDialogButtons.Cancel;
+
+					if (isValid)
+					{
+						dialog.ViewModel.AdditionalData = new SplitDialogResult
+						{
+							PartSize = parsedSize,
+							DestinationDirectory = destPathBox.Text.Trim(),
+							CalculateSha256 = sha256CheckBox.IsChecked == true
+						};
+					}
+				}
+			}
+
+			presetCombo.SelectionChanged += (s, e) =>
+			{
+				if (isUpdatingInternally)
+					return;
+
+				isUpdatingInternally = true;
+				switch (presetCombo.SelectedIndex)
+				{
+					case 0:
+						customSizeBox.Text = "100 MB";
+						break;
+					case 1:
+						customSizeBox.Text = "650 MB";
+						break;
+					case 2:
+						customSizeBox.Text = "4 GB";
+						break;
+				}
+				isUpdatingInternally = false;
+
+				UpdateValidation();
+			};
+
+			customSizeBox.TextChanged += (s, e) =>
+			{
+				if (isUpdatingInternally)
+					return;
+
+				isUpdatingInternally = true;
+				if (TryParsePartSize(customSizeBox.Text, out var parsedBytes))
+				{
+					if (parsedBytes == 100L * 1024 * 1024)
+						presetCombo.SelectedIndex = 0;
+					else if (parsedBytes == 650L * 1024 * 1024)
+						presetCombo.SelectedIndex = 1;
+					else if (parsedBytes == 4L * 1024 * 1024 * 1024)
+						presetCombo.SelectedIndex = 2;
+					else
+						presetCombo.SelectedIndex = 3;
+				}
+				else
+				{
+					presetCombo.SelectedIndex = 3;
+				}
+				isUpdatingInternally = false;
+
+				UpdateValidation();
+			};
+
+			destPathBox.TextChanged += (s, e) => UpdateValidation();
+			sha256CheckBox.Checked += (s, e) => UpdateValidation();
+			sha256CheckBox.Unchecked += (s, e) => UpdateValidation();
+
+			var contentStack = new StackPanel
+			{
+				Spacing = 8,
+				MinWidth = 400
+			};
+			contentStack.Children.Add(partSizeHeader);
+			contentStack.Children.Add(presetCombo);
+			contentStack.Children.Add(customSizeBox);
+			contentStack.Children.Add(destHeader);
+			contentStack.Children.Add(destGrid);
+			contentStack.Children.Add(sha256CheckBox);
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel
+			{
+				TitleText = Strings.SplitFileDialogTitle.GetLocalizedResource(),
+				SubtitleText = string.Format(
+					Strings.SplitFileDialogSubtitle.GetLocalizedResource(),
+					System.IO.Path.GetFileName(sourceFilePath),
+					totalSize.ToSizeString()),
+				DisplayControl = contentStack,
+				PrimaryButtonText = Strings.SplitFile.GetLocalizedResource().Replace("...", string.Empty).Trim(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel,
+				DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel,
+				PrimaryButtonAction = (vm, e) => vm.Hide()
+			});
+
+			UpdateValidation();
+			return dialog;
+		}
+
+		public static DynamicDialog GetFor_CombineFilesDialog(string manifestFilePath, Files.Shared.Helpers.SplitManifest manifest)
+		{
+			DynamicDialog? dialog = null;
+
+			var policyHeader = new TextBlock
+			{
+				Text = Strings.ExistingFileCollisionPolicy.GetLocalizedResource(),
+				Margin = new Thickness(0, 0, 0, 4)
+			};
+
+			var policyCombo = new ComboBox
+			{
+				HorizontalAlignment = HorizontalAlignment.Stretch
+			};
+
+			var itemReject = new ComboBoxItem
+			{
+				Content = Strings.CollisionPolicyReject.GetLocalizedResource(),
+				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Recusar
+			};
+			var itemOverwrite = new ComboBoxItem
+			{
+				Content = Strings.CollisionPolicyOverwrite.GetLocalizedResource(),
+				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Sobrescrever
+			};
+			var itemRename = new ComboBoxItem
+			{
+				Content = Strings.CollisionPolicyRename.GetLocalizedResource(),
+				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Renomear
+			};
+
+			policyCombo.Items.Add(itemReject);
+			policyCombo.Items.Add(itemOverwrite);
+			policyCombo.Items.Add(itemRename);
+			policyCombo.SelectedIndex = 0;
+
+			var destHeader = new TextBlock
+			{
+				Text = Strings.DestinationFolder.GetLocalizedResource(),
+				Margin = new Thickness(0, 8, 0, 4)
+			};
+
+			var destPathBox = new TextBox
+			{
+				Text = System.IO.Path.GetDirectoryName(manifestFilePath) ?? string.Empty,
+				HorizontalAlignment = HorizontalAlignment.Stretch
+			};
+
+			var browseButton = new Button
+			{
+				Content = Strings.Browse.GetLocalizedResource(),
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			browseButton.Click += (s, e) =>
+			{
+				var commonDialogService = Ioc.Default.GetRequiredService<ICommonDialogService>();
+				if (commonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var folder) && !string.IsNullOrWhiteSpace(folder))
+				{
+					destPathBox.Text = folder;
+				}
+			};
+
+			var destGrid = new Grid
+			{
+				ColumnSpacing = 8
+			};
+			destGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+			destGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+			Grid.SetColumn(destPathBox, 0);
+			Grid.SetColumn(browseButton, 1);
+			destGrid.Children.Add(destPathBox);
+			destGrid.Children.Add(browseButton);
+
+			void UpdateValidation()
+			{
+				bool isValid = !string.IsNullOrWhiteSpace(destPathBox.Text);
+				var selectedPolicy = policyCombo.SelectedIndex switch
+				{
+					1 => Files.Shared.Helpers.CombineCollisionPolicy.Sobrescrever,
+					2 => Files.Shared.Helpers.CombineCollisionPolicy.Renomear,
+					_ => Files.Shared.Helpers.CombineCollisionPolicy.Recusar
+				};
+
+				if (dialog != null)
+				{
+					dialog.ViewModel.DynamicButtonsEnabled = isValid
+						? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+						: DynamicDialogButtons.Cancel;
+
+					if (isValid)
+					{
+						dialog.ViewModel.AdditionalData = new CombineDialogResult
+						{
+							CollisionPolicy = selectedPolicy,
+							DestinationDirectory = destPathBox.Text.Trim()
+						};
+					}
+				}
+			}
+
+			policyCombo.SelectionChanged += (s, e) => UpdateValidation();
+			destPathBox.TextChanged += (s, e) => UpdateValidation();
+
+			var contentStack = new StackPanel
+			{
+				Spacing = 8,
+				MinWidth = 400
+			};
+			contentStack.Children.Add(policyHeader);
+			contentStack.Children.Add(policyCombo);
+			contentStack.Children.Add(destHeader);
+			contentStack.Children.Add(destGrid);
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel
+			{
+				TitleText = Strings.CombineFilesDialogTitle.GetLocalizedResource(),
+				SubtitleText = string.Format(
+					Strings.CombineFilesDialogSubtitle.GetLocalizedResource(),
+					manifest.OriginalFileName,
+					manifest.Parts.Count,
+					manifest.TotalSize.ToSizeString()),
+				DisplayControl = contentStack,
+				PrimaryButtonText = Strings.CombineFiles.GetLocalizedResource().Replace("...", string.Empty).Trim(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel,
+				DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel,
+				PrimaryButtonAction = (vm, e) => vm.Hide()
+			});
+
+			UpdateValidation();
+			return dialog;
+		}
+
+		private static bool TryParsePartSize(string? text, out long bytes)
+		{
+			bytes = 0;
+			if (string.IsNullOrWhiteSpace(text))
+				return false;
+
+			text = text.Trim();
+			long multiplier = 1024L * 1024L;
+			string numPart = text;
+
+			if (text.EndsWith("GB", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L * 1024L * 1024L;
+				numPart = text[..^2].Trim();
+			}
+			else if (text.EndsWith("G", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L * 1024L * 1024L;
+				numPart = text[..^1].Trim();
+			}
+			else if (text.EndsWith("MB", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L * 1024L;
+				numPart = text[..^2].Trim();
+			}
+			else if (text.EndsWith("M", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L * 1024L;
+				numPart = text[..^1].Trim();
+			}
+			else if (text.EndsWith("KB", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L;
+				numPart = text[..^2].Trim();
+			}
+			else if (text.EndsWith("K", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1024L;
+				numPart = text[..^1].Trim();
+			}
+			else if (text.EndsWith("B", StringComparison.OrdinalIgnoreCase))
+			{
+				multiplier = 1L;
+				numPart = text[..^1].Trim();
+			}
+
+			if (double.TryParse(numPart, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var parsedVal) ||
+				double.TryParse(numPart, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out parsedVal))
+			{
+				if (parsedVal > 0)
+				{
+					try
+					{
+						bytes = checked((long)(parsedVal * multiplier));
+						return bytes > 0;
+					}
+					catch (OverflowException)
+					{
+						return false;
+					}
+				}
+			}
+
+			return false;
+		}
+	}
+
+	public sealed class SplitDialogResult
+	{
+		public long PartSize { get; set; } = 100L * 1024 * 1024;
+		public string DestinationDirectory { get; set; } = string.Empty;
+		public bool CalculateSha256 { get; set; }
+	}
+
+	public sealed class CombineDialogResult
+	{
+		public Files.Shared.Helpers.CombineCollisionPolicy CollisionPolicy { get; set; } = Files.Shared.Helpers.CombineCollisionPolicy.Recusar;
+		public string DestinationDirectory { get; set; } = string.Empty;
 	}
 }

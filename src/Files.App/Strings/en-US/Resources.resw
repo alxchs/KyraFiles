@@ -4671,6 +4671,30 @@
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
   </data>
+  <data name="EnableNaturalLanguageSearch" xml:space="preserve">
+    <value>Natural language search (experimental)</value>
+  </data>
+  <data name="EnableNaturalLanguageSearchDescription" xml:space="preserve">
+    <value>Type search queries in plain language with automatic date, size, and extension filters</value>
+  </data>
+  <data name="NaturalSearchUnrecognizedNotice" xml:space="preserve">
+    <value>Unrecognized: {0}</value>
+  </data>
+  <data name="NaturalSearchFilterExtension" xml:space="preserve">
+    <value>Extension: {0}</value>
+  </data>
+  <data name="NaturalSearchFilterModified" xml:space="preserve">
+    <value>Modified: {0}</value>
+  </data>
+  <data name="NaturalSearchFilterCreated" xml:space="preserve">
+    <value>Created: {0}</value>
+  </data>
+  <data name="NaturalSearchFilterSize" xml:space="preserve">
+    <value>Size: {0}</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
     <value>Enable smooth scrolling</value>
   </data>
@@ -5111,5 +5135,218 @@
   </data>
   <data name="SettingsAboutEcosystemMemoryCopy" xml:space="preserve">
     <value>Copy report</value>
+  </data>
+  <data name="SplitFile" xml:space="preserve">
+    <value>Split into parts...</value>
+  </data>
+  <data name="SplitFileDescription" xml:space="preserve">
+    <value>Split selected file into multiple parts</value>
+  </data>
+  <data name="SplitFileDialogTitle" xml:space="preserve">
+    <value>Split File into Parts</value>
+  </data>
+  <data name="SplitFileDialogSubtitle" xml:space="preserve">
+    <value>Split "{0}" ({1}) into multiple numbered parts.</value>
+  </data>
+  <data name="CombineFiles" xml:space="preserve">
+    <value>Combine parts...</value>
+  </data>
+  <data name="CombineFilesDescription" xml:space="preserve">
+    <value>Combine split parts back into the original file</value>
+  </data>
+  <data name="CombineFilesDialogTitle" xml:space="preserve">
+    <value>Combine Parts</value>
+  </data>
+  <data name="CombineFilesDialogSubtitle" xml:space="preserve">
+    <value>Combine parts into "{0}" ({1} parts, {2}).</value>
+  </data>
+  <data name="PartSize" xml:space="preserve">
+    <value>Part size</value>
+  </data>
+  <data name="PartSizePreset100MB" xml:space="preserve">
+    <value>100 MB</value>
+  </data>
+  <data name="PartSizePreset650MB" xml:space="preserve">
+    <value>650 MB (CD)</value>
+  </data>
+  <data name="PartSizePreset4GB" xml:space="preserve">
+    <value>4 GB (FAT32)</value>
+  </data>
+  <data name="PartSizeCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="PartSizeCustomPlaceholder" xml:space="preserve">
+    <value>e.g., 100 MB, 650 MB, 4 GB</value>
+  </data>
+  <data name="CalculateSha256Checksum" xml:space="preserve">
+    <value>Calculate SHA-256 checksum (slower)</value>
+  </data>
+  <data name="DestinationFolder" xml:space="preserve">
+    <value>Destination folder</value>
+  </data>
+  <data name="ExistingFileCollisionPolicy" xml:space="preserve">
+    <value>If destination file already exists:</value>
+  </data>
+  <data name="CollisionPolicyReject" xml:space="preserve">
+    <value>Reject (do not overwrite)</value>
+  </data>
+  <data name="CollisionPolicyOverwrite" xml:space="preserve">
+    <value>Overwrite existing file</value>
+  </data>
+  <data name="CollisionPolicyRename" xml:space="preserve">
+    <value>Rename automatically</value>
+  </data>
+  <data name="CombineManifestNotFoundError" xml:space="preserve">
+    <value>The manifest file "{0}" was not found in the directory.</value>
+  </data>
+  <data name="CombineValidationErrorTitle" xml:space="preserve">
+    <value>Validation Failed</value>
+  </data>
+  <data name="StatusCenter_SplitInProgress_Header" xml:space="preserve">
+    <value>Splitting file</value>
+  </data>
+  <data name="StatusCenter_SplitInProgress_SubHeader" xml:space="preserve">
+    <value>Splitting {0} into parts</value>
+  </data>
+  <data name="StatusCenter_SplitComplete_Header" xml:space="preserve">
+    <value>Split complete</value>
+  </data>
+  <data name="StatusCenter_SplitComplete_SubHeader" xml:space="preserve">
+    <value>Successfully split {0} into parts</value>
+  </data>
+  <data name="StatusCenter_SplitCanceled_Header" xml:space="preserve">
+    <value>Splitting canceled</value>
+  </data>
+  <data name="StatusCenter_SplitCanceled_SubHeader" xml:space="preserve">
+    <value>Splitting {0} was canceled</value>
+  </data>
+  <data name="StatusCenter_SplitFailed_Header" xml:space="preserve">
+    <value>Splitting failed</value>
+  </data>
+  <data name="StatusCenter_SplitFailed_SubHeader" xml:space="preserve">
+    <value>Failed to split {0}</value>
+  </data>
+  <data name="StatusCenter_CombineInProgress_Header" xml:space="preserve">
+    <value>Combining parts</value>
+  </data>
+  <data name="StatusCenter_CombineInProgress_SubHeader" xml:space="preserve">
+    <value>Combining parts into {0}</value>
+  </data>
+  <data name="StatusCenter_CombineComplete_Header" xml:space="preserve">
+    <value>Combine complete</value>
+  </data>
+  <data name="StatusCenter_CombineComplete_SubHeader" xml:space="preserve">
+    <value>Successfully combined parts into {0}</value>
+  </data>
+  <data name="StatusCenter_CombineCanceled_Header" xml:space="preserve">
+    <value>Combining canceled</value>
+  </data>
+  <data name="StatusCenter_CombineCanceled_SubHeader" xml:space="preserve">
+    <value>Combining {0} was canceled</value>
+  </data>
+  <data name="StatusCenter_CombineFailed_Header" xml:space="preserve">
+    <value>Combining failed</value>
+  </data>
+  <data name="StatusCenter_CombineFailed_SubHeader" xml:space="preserve">
+    <value>Failed to combine {0}</value>
+  </data>
+  <data name="CombineReasonMissingPart" xml:space="preserve">
+    <value>This part is missing.</value>
+  </data>
+  <data name="CombineReasonDuplicatePart" xml:space="preserve">
+    <value>This part appears more than once.</value>
+  </data>
+  <data name="CombineReasonTruncatedPart" xml:space="preserve">
+    <value>This part is incomplete (smaller than expected).</value>
+  </data>
+  <data name="CombineReasonCorruptedPart" xml:space="preserve">
+    <value>This part was changed or damaged.</value>
+  </data>
+  <data name="CombineReasonOutOfOrder" xml:space="preserve">
+    <value>The parts are out of order.</value>
+  </data>
+  <data name="CombineReasonInvalidManifest" xml:space="preserve">
+    <value>The description file is not valid.</value>
+  </data>
+  <data name="CombineReasonGeneral" xml:space="preserve">
+    <value>The parts could not be checked. Nothing was created.</value>
+  </data>
+  <data name="CombineErrorPartFormat" xml:space="preserve">
+    <value>Part {0} (&apos;{1}&apos;): {2} Nothing was created.</value>
+  </data>
+  <data name="SplitDestinationExistsError" xml:space="preserve">
+    <value>The destination folder already has files with the names these parts would use. Choose another folder or remove those files first. Nothing was changed.</value>
+  </data>
+  <data name="OpenInHexEditor" xml:space="preserve">
+    <value>Open in Hex Editor</value>
+  </data>
+  <data name="OpenInHexEditorDescription" xml:space="preserve">
+    <value>Open the selected file in the hex editor</value>
+  </data>
+  <data name="HexEditor" xml:space="preserve">
+    <value>Hex Editor</value>
+  </data>
+  <data name="HexEditorPendingJournalTitle" xml:space="preserve">
+    <value>Unsaved Changes Found</value>
+  </data>
+  <data name="HexEditorPendingJournalMessage" xml:space="preserve">
+    <value>A recovery journal from a previous session was found for this file. Would you like to restore unsaved changes or discard the journal?</value>
+  </data>
+  <data name="HexEditorRestore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="HexEditorDiscard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="HexEditorSaveChangesTitle" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="HexEditorSaveChangesMessage" xml:space="preserve">
+    <value>Do you want to save changes to "{0}" before closing?</value>
+  </data>
+  <data name="HexEditorGoToOffset" xml:space="preserve">
+    <value>Go to offset</value>
+  </data>
+  <data name="HexEditorGoToOffsetTitle" xml:space="preserve">
+    <value>Go to Offset</value>
+  </data>
+  <data name="HexEditorGoToOffsetPrompt" xml:space="preserve">
+    <value>Enter offset in decimal or hexadecimal (e.g. 0x1000):</value>
+  </data>
+  <data name="HexEditorGo" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="HexEditorOffset" xml:space="preserve">
+    <value>Offset</value>
+  </data>
+  <data name="HexEditorSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="HexEditorModifiedCount" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="HexEditorSaveSuccess" xml:space="preserve">
+    <value>All changes saved successfully.</value>
+  </data>
+  <data name="HexEditorSaveIdentityChanged" xml:space="preserve">
+    <value>The file has been modified by another program on disk. The file was not altered.</value>
+  </data>
+  <data name="HexEditorSaveReadOnly" xml:space="preserve">
+    <value>The file is read-only. The file was not altered.</value>
+  </data>
+  <data name="HexEditorSaveFileInUse" xml:space="preserve">
+    <value>The file is currently in use by another process. The file was not altered.</value>
+  </data>
+  <data name="HexEditorSaveDiskFull" xml:space="preserve">
+    <value>There is not enough disk space or an I/O error occurred. The file was not altered.</value>
+  </data>
+  <data name="HexEditorSaveNotFound" xml:space="preserve">
+    <value>The file was not found. The file was not altered.</value>
+  </data>
+  <data name="HexEditorSaveFailed" xml:space="preserve">
+    <value>An error occurred while saving. The file was not altered.</value>
+  </data>
+  <data name="HexEditorPasteError" xml:space="preserve">
+    <value>Cannot paste data</value>
   </data>
 </root>

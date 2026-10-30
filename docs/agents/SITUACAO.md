@@ -53,3 +53,22 @@ Atualizado pelo Claude em 26/10/2026, ~01h30. **Quem escreve o último trabalho 
 Crash **nativo e deliberado** do WindowsAppSDK (`Microsoft.UI.Input.dll`, `FAST_FAIL_FATAL_APP_EXIT`, HRESULT `0x8001010E` `RPC_E_WRONG_THREAD`): a **thread do finalizador do .NET** liberou um objeto WinRT (`ContentExternalOutputLink`) que só pode ser liberado na thread da interface. **Sem quadros do Files na pilha.** Ligação com a prévia de vídeo: compatível, **não confirmada**. Pista (INFERRED): `MediaPreview` só zera `Source` ao descarregar e não libera o `MediaPlayer`. Detalhes e plano: `docs/agents/evidence/crash-reproducao/analise-dump-20261026.md`. **Nenhuma alteração de código antes de reproduzir.**
 ## 9. Cenário real do crash A (26/10/2026, relato do Alexandre)
 Vídeo **não tocou**; navegação com a **seta segurada continuamente**, subindo e depois descendo (inversão de direção). Hipótese (INFERRED, não testada): o ciclo soltar/segurar da F030 cria e destrói o `MediaPlayerElement` várias vezes sem tocar. O teste de reprodução precisa de **tecla segurada com repetição automática** (1 a 3 s, soltar, inverter), não de toques isolados. Detalhes: seção 9 de `analise-dump-20261026.md`.
+
+## 10. F060 M1-T4: Ações, Diálogos e Status Center (27/10/2026, AGY)
+- **O que deu CERTO:**
+  - `SplitFileAction` e `CombineFilesAction` implementadas com `[GeneratedRichCommand]` e `IAction` em `src/Files.App/Actions/FileSystem/`.
+  - Diálogos implementados via `DynamicDialogFactory` (`GetFor_SplitFileDialog` e `GetFor_CombineFilesDialog`) com presets (100 MB, 650 MB, 4 GB), campo livre com parser de unidades (`KB`, `MB`, `GB`, `GiB`, etc.), seletor de pasta (`ICommonDialogService`) e política de colisão no combine (`Refuse` [padrão], `Overwrite`, `Rename`).
+  - Progresso e botão Cancelar integrados ao Status Center (`StatusCenterHelper.AddCard_Split`, `AddCard_Combine`, `UpdateCardStrings` dedicados, vinculados a `CancellationTokenSource`).
+  - Menus de contexto em `ContentPageContextFlyoutFactory.cs` configurados estritamente para 1 arquivo selecionado ("Dividir em partes...") e para arquivos `.manifest.json` ou `.001` com manifesto adjacente ("Juntar partes...").
+  - 38 strings de UI adicionadas em `src/Files.App/Strings/en-US/Resources.resw`.
+  - Testes unitários `tests/Files.App.Search.Index.Tests` verdes: 85 passed, 0 failed, 1 skipped.
+  - Compilação `mkfile d src\Files.App\Files.App.csproj` executada com sucesso: **0 erros e 0 avisos novos** (apenas os 25 avisos CS0618 de código gerado já conhecidos).
+- **O que deu ERRADO:**
+  - Build do `Files.App.Server` com `--artifacts-path` não encontrou o `.winmd` no diretório de saída esperado pelo target pós-build do próprio Server; resolvido executando `dotnet build src/Files.App.Server/Files.App.Server.csproj -c Debug -p:Platform=x64` sem `--artifacts-path` localmente (0 erros).
+  - Avisos `CsWinRT1034` ao fazer cast para `ComboBoxItem` no DynamicDialog; resolvido lendo diretamente `SelectedIndex` via switch numérico, mantendo conformidade 100% trim/AOT-safe.
+- **Ponto atual do projeto:**
+  - M1-T1, M1-T2, M1-T3 e M1-T4 concluídas e verdes na branch `feature/f060-m1-split-combine`.
+  - M1-T5 (prova de tela por UIA após as 23:59) pendente para execução pelo Claude.
+  - App NÃO foi aberto (preservado para a M1-T5).
+
+Vídeo **não tocou**; navegação com a **seta segurada continuamente**, subindo e depois descendo (inversão de direção). Hipótese (INFERRED, não testada): o ciclo soltar/segurar da F030 cria e destrói o `MediaPlayerElement` várias vezes sem tocar. O teste de reprodução precisa de **tecla segurada com repetição automática** (1 a 3 s, soltar, inverter), não de toques isolados. Detalhes: seção 9 de `analise-dump-20261026.md`.

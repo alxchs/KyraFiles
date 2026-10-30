@@ -1,0 +1,4 @@
+﻿"Rodada","TamanhoTotalMB","TempoSequencialSeg","VelocidadeSequencialMBs","TempoParaleloSeg","VelocidadeParaleloMBs","GanhoFilaPct","Observacao"
+"1","4096","9,19","445,7","9,7","422,3","5,3","Sequencial mais rapido (ganho da fila)"
+"2","4096","9,84","416,3","8,27","495,3","-19","Paralelo equivalente ou marginal"
+"3","4096","7,86","521,1","26,14","156,7","69,9","Sequencial mais rapido (ganho da fila)"

@@ -395,3 +395,31 @@ function Assert-NoModifiersStuck {
     }
     return $true
 }
+
+function Send-GuardedKeyHold {
+    # Segura a tecla com repeticao automatica (keydown repetido, como o teclado) por HoldMs; Assert-ForegroundOwned antes de CADA evento.
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [byte]$VirtualKey,
+        [int]$HoldMs = 1500,
+        [int]$RepeatMs = 33,
+        [int]$TargetPid = $script:GuardedPid
+    )
+    $scan = [byte][GuardedWin32]::MapVirtualKey($VirtualKey, 0)
+    $down = $false
+    try {
+        $sw = [System.Diagnostics.Stopwatch]::StartNew()
+        while ($sw.ElapsedMilliseconds -lt $HoldMs) {
+            Assert-ForegroundOwned -TargetPid $TargetPid
+            [GuardedWin32]::keybd_event($VirtualKey, $scan, 0, [UIntPtr]::Zero)
+            $down = $true
+            Start-Sleep -Milliseconds $RepeatMs
+        }
+    } finally {
+        if ($down) {
+            [GuardedWin32]::keybd_event($VirtualKey, $scan, [GuardedWin32]::KEYEVENTF_KEYUP, [UIntPtr]::Zero)
+        }
+    }
+    Assert-ForegroundOwned -TargetPid $TargetPid
+}

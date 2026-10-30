@@ -435,6 +435,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool EnableNaturalLanguageSearch
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool EnableSmoothScrolling
 		{
 			get => Get(true);

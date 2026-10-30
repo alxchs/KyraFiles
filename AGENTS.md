@@ -133,6 +133,14 @@ Este checkout é o **Files Custom**, derivado do Files Community. Além das dire
 
 - Leia `C:\Users\alxch\.dev-method\METODO.md` (metodologia geral do Alexandre, comum a todos os projetos), `MASTER_SPEC.md` (seções da tarefa), `AGENT_CONTEXT.md` (estado atual), `docs/agents/PLAYBOOK.md` (fila e pré-aprovações para seguir sem o Claude) e `docs/agents/CONTINUITY.md` (específico deste projeto) antes de agir.
 - **REGRA DE OURO DA MAIN (15/10/2026):** É terminantemente PROIBIDO alterar ou comitar direto na `main`. Toda e qualquer alteração (conduzida pela AGY ou pelo Claude) DEVE ser feita em branch própria (`feature/<nome>`). A integração na `main` é feita OBRIGATORIAMENTE via squash/rebase, gerando um commit único atômico por feature para manter a `main` compacta, linear e organizada.
+- **CICLO MANDATÓRIO DE SPEC, TESTE E COLAB (29/10/2026 - REGRA DURA):**
+  1. Cada spec DEVE ter sua própria branch dedicada (`feature/<nome-ou-spec>`), saindo exclusivamente da `main`/`colab`.
+  2. Em hipótese alguma pode iniciar uma nova spec sem a `colab` devidamente atualizada e sincronizada com a última entrega.
+  3. Cada spec exige um roteiro de testes formal executado e validado.
+  4. Em hipótese alguma pode devolver na `colab` com performance pior que a `colab` (sem lentidão, sem aumento injustificado de memória ou CPU).
+  5. Apenas após a devolução completa na `colab` (squash/rebase + ff-only) é permitido iniciar outra spec.
+  6. Ao final de cada spec, é obrigatório produzir um relatório de conclusão detalhado com os pontos importantes, evidências de testes e pontos de atenção/advertências técnicas.
+  7. Esta regra é absoluta e soberana para AGY e Claude sempre.
 - Nenhuma feature (F001+) antes do gate G0: baseline oficial compilado, aberto e com smoke test registrado em `STATUS.md`.
 - **SDD (METODO §6):** feature nova nasce de `docs/specs/<ID>-<nome>/` (`spec.md`, `plan.md`, `tasks.md`), nessa ordem e com cada etapa aprovada; sem `tasks.md` aprovado não comece feature. Briefs em `docs/agents/tasks/` valem só para exploração, medição e features antigas já aprovadas. Melhoria fora do escopo vira `DISCOVERY`, não código.
 - Declare `NOT TESTED`, `OBSERVED`, `INFERRED` ou `CONFIRMED`; nunca invente resultado.

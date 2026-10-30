@@ -2,6 +2,15 @@
 
 Escrito pelo Claude em 03/10/2026. Metodologia geral: `C:\Users\alxch\.dev-method\METODO.md` (leia primeiro). Este arquivo só traz o específico do Files Custom. Estado vivo: `AGENT_CONTEXT.md`. Regras do produto: `MASTER_SPEC.md`.
 
+## Disciplina Soberana de Execução (Regra Dura do Alexandre, 29/10/2026 - Claude e AGY)
+
+1. **Cada spec, uma branch única:** Cada spec roda isolada em sua branch própria (`feature/<nome-ou-spec>`), saindo exclusivamente da `main`/`colab`.
+2. **Pré-requisito para iniciar nova spec:** Em hipótese alguma pode iniciar uma nova spec sem a `colab` devidamente atualizada e sincronizada com a última entrega.
+3. **Roteiro de teste mandatório:** Toda spec exige execução e aprovação de roteiro de teste formal antes de devolução.
+4. **Performance inegociável (zero regressão):** Em hipótese alguma pode devolver na `colab` com performance pior que a `colab`.
+5. **Sequência estrita:** Devolução na `colab` (via squash/rebase + ff-only) concluída antes de iniciar qualquer nova spec.
+6. **Relatório de conclusão obrigatório:** Todo final de spec exige relatório formal com detalhes importantes, evidências de testes e pontos de atenção/advertências técnicas.
+
 ## Situação (03/10/2026)
 
 - Base: `upstream/main` `0e3c17ca4` (pacote 4.2.37.0) + ajustes de build e limpeza de warnings. Build Release x64: 0 erros, 0 warnings (`mkfile release src\Files.App\Files.App.csproj`, PowerShell). App abre com `Open-FilesDev.ps1`.

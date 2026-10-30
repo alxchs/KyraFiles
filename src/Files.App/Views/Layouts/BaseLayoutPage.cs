@@ -686,7 +686,7 @@ namespace Files.App.Views.Layouts
 						Folder = searchPath,
 					};
 
-					_ = shellViewModel.SearchAsync(searchInstance);
+					_ = shellViewModel.SearchAsync(searchInstance, args.NaturalSearchIntent);
 				}
 			}
 

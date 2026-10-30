@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Shells"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="using:Files.App.Data.Models"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
@@ -106,22 +107,105 @@
 		<Grid
 			x:Name="SearchHeader"
 			Grid.Row="0"
-			Padding="26,16,16,16"
+			Padding="26,12,16,12"
 			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="0,0,0,1"
 			Visibility="{x:Bind ShellViewModel.IsSearchResults, Mode=OneWay}">
-			<StackPanel
-				VerticalAlignment="Center"
-				Orientation="Horizontal"
-				Spacing="12">
-				<Image
-					Height="24"
+			<StackPanel Spacing="8">
+				<StackPanel
 					VerticalAlignment="Center"
-					Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource SubtitleTextBlockStyle}"
-					Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+					Orientation="Horizontal"
+					Spacing="12">
+					<Image
+						Height="24"
+						VerticalAlignment="Center"
+						Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
+					<TextBlock
+						VerticalAlignment="Center"
+						Style="{StaticResource SubtitleTextBlockStyle}"
+						Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+				</StackPanel>
+
+				<!--  Natural Search Filter Chips & Notice  -->
+				<StackPanel
+					Orientation="Horizontal"
+					Spacing="8"
+					Visibility="{x:Bind ShellViewModel.HasNaturalSearchChipsOrNotice, Mode=OneWay}">
+					<ItemsControl ItemsSource="{x:Bind ShellViewModel.NaturalSearchChips, Mode=OneWay}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" Spacing="6" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate x:DataType="models:SearchFilterChip">
+								<Border
+									Padding="8,4,4,4"
+									Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									CornerRadius="14">
+									<StackPanel
+										Orientation="Horizontal"
+										Spacing="6"
+										VerticalAlignment="Center">
+										<Button
+											Padding="2,0,2,0"
+											Background="Transparent"
+											BorderThickness="0"
+											VerticalAlignment="Center">
+											<TextBlock
+												Style="{StaticResource CaptionTextBlockStyle}"
+												Text="{x:Bind DisplayText, Mode=OneWay}" />
+											<Button.Flyout>
+												<Flyout>
+													<StackPanel Width="220" Spacing="8">
+														<TextBox
+															Header="{helpers:ResourceString Name=Edit}"
+															Text="{x:Bind EditValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+														<Button
+															HorizontalAlignment="Right"
+															Content="{helpers:ResourceString Name=Apply}"
+															Command="{x:Bind ApplyEditCommand, Mode=OneTime}" />
+													</StackPanel>
+												</Flyout>
+											</Button.Flyout>
+										</Button>
+										<Button
+											Width="20"
+											Height="20"
+											Padding="0"
+											Background="Transparent"
+											BorderThickness="0"
+											CornerRadius="10"
+											Command="{x:Bind RemoveCommand, Mode=OneTime}"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
+											<FontIcon FontSize="10" Glyph="&#xE711;" />
+										</Button>
+									</StackPanel>
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+
+					<!--  Discreet notice for unrecognized terms  -->
+					<Border
+						Padding="8,4,8,4"
+						VerticalAlignment="Center"
+						Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						CornerRadius="14"
+						Visibility="{x:Bind ShellViewModel.HasNaturalSearchUnrecognizedNotice, Mode=OneWay}">
+						<StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+							<FontIcon FontSize="12" Glyph="&#xE7BA;" Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+							<TextBlock
+								VerticalAlignment="Center"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{x:Bind ShellViewModel.NaturalSearchUnrecognizedNotice, Mode=OneWay}" />
+						</StackPanel>
+					</Border>
+				</StackPanel>
 			</StackPanel>
 		</Grid>
 

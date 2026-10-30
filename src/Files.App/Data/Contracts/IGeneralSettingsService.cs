@@ -365,6 +365,11 @@ namespace Files.App.Data.Contracts
 		bool EnableSmoothScrolling { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether natural language search (FR-M5) is enabled.
+		/// </summary>
+		bool EnableNaturalLanguageSearch { get; set; }
+
+		/// <summary>
 		/// Gets or sets the list of path formats shown in the "Copy path as…" submenu.
 		/// When null, all formats are shown; when empty, none is (the submenu is hidden).
 		/// </summary>

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Data.Contracts;
+using Files.App.Data.Models;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Git;
 using Files.Shared.Helpers;
@@ -1013,6 +1014,30 @@ namespace Files.App.ViewModels
 			get => _searchHeaderTitle;
 			set => SetProperty(ref _searchHeaderTitle, value);
 		}
+
+		public ObservableCollection<SearchFilterChip> NaturalSearchChips { get; } = new();
+
+		private string? _naturalSearchUnrecognizedNotice;
+		public string? NaturalSearchUnrecognizedNotice
+		{
+			get => _naturalSearchUnrecognizedNotice;
+			set
+			{
+				if (SetProperty(ref _naturalSearchUnrecognizedNotice, value))
+				{
+					OnPropertyChanged(nameof(HasNaturalSearchUnrecognizedNotice));
+					OnPropertyChanged(nameof(HasNaturalSearchChipsOrNotice));
+				}
+			}
+		}
+
+		public bool HasNaturalSearchUnrecognizedNotice => !string.IsNullOrEmpty(_naturalSearchUnrecognizedNotice);
+
+		public bool HasNaturalSearchChipsOrNotice => NaturalSearchChips.Count > 0 || HasNaturalSearchUnrecognizedNotice;
+
+		private readonly object _unfilteredSearchLock = new();
+		private List<ListedItem> _unfilteredSearchResults = new();
+		private NaturalSearchFilterCriteria? _activeNaturalSearchCriteria;
 
 		public void UpdateEmptyTextType()
 		{
@@ -3492,7 +3517,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async Task SearchAsync(FolderSearch search)
+		public async Task SearchAsync(FolderSearch search, SearchIntent? naturalIntent = null)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
@@ -3504,6 +3529,19 @@ namespace Files.App.ViewModels
 			HasNoWatcher = true;
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
+
+			if (naturalIntent is not null && naturalIntent.HasStructuredFilters)
+			{
+				_activeNaturalSearchCriteria = NaturalSearchFilterCriteria.FromIntent(naturalIntent);
+				PopulateNaturalSearchChips(naturalIntent);
+			}
+			else
+			{
+				_activeNaturalSearchCriteria = null;
+				NaturalSearchChips.Clear();
+				NaturalSearchUnrecognizedNotice = null;
+				OnPropertyChanged(nameof(HasNaturalSearchChipsOrNotice));
+			}
 
 			string baseHeaderTitle;
 			if (search.Query?.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) == true)
@@ -3531,8 +3569,30 @@ namespace Files.App.ViewModels
 			{
 				try
 				{
-					var snapshot = results.ToList();
-					filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+					List<ListedItem> snapshot;
+					lock (results)
+					{
+						snapshot = results.ToList();
+					}
+
+					lock (_unfilteredSearchLock)
+					{
+						_unfilteredSearchResults = snapshot;
+					}
+
+					var toDisplay = snapshot;
+					if (_activeNaturalSearchCriteria is not null && _activeNaturalSearchCriteria.HasActiveFilters)
+					{
+						toDisplay = NaturalSearchPostFilter.FilterItems(
+							snapshot,
+							_activeNaturalSearchCriteria,
+							x => x.ItemNameRaw ?? x.Name,
+							x => x.FileSizeBytes,
+							x => x.ItemDateModifiedReal,
+							x => x.ItemDateCreatedReal);
+					}
+
+					filesAndFolders = new ConcurrentCollection<ListedItem>(toDisplay);
 					await ApplyFilesAndFoldersChangesAsync();
 				}
 				catch { }
@@ -3562,6 +3622,24 @@ namespace Files.App.ViewModels
 							lastBatchUiTick = now;
 							lastDispatchedCount = items.Count;
 
+							var snapshot = items.ToList();
+							lock (_unfilteredSearchLock)
+							{
+								_unfilteredSearchResults = snapshot;
+							}
+
+							var toDisplay = snapshot;
+							if (_activeNaturalSearchCriteria is not null && _activeNaturalSearchCriteria.HasActiveFilters)
+							{
+								toDisplay = NaturalSearchPostFilter.FilterItems(
+									snapshot,
+									_activeNaturalSearchCriteria,
+									x => x.ItemNameRaw ?? x.Name,
+									x => x.FileSizeBytes,
+									x => x.ItemDateModifiedReal,
+									x => x.ItemDateCreatedReal);
+							}
+
 							_ = dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
 								if (searchCTS?.IsCancellationRequested != false)
@@ -3569,8 +3647,7 @@ namespace Files.App.ViewModels
 
 								try
 								{
-									var snapshot = items.ToList();
-									filesAndFolders = new ConcurrentCollection<ListedItem>(snapshot);
+									filesAndFolders = new ConcurrentCollection<ListedItem>(toDisplay);
 									// Atualiza a visualização sem acionar ordenação total em cada lote parcial (jank-free)
 									await ApplyFilesAndFoldersChangesAsync();
 								}
@@ -3603,9 +3680,27 @@ namespace Files.App.ViewModels
 
 				if (searchCTS?.IsCancellationRequested == false)
 				{
+					var finalSnapshot = results.ToList();
+					lock (_unfilteredSearchLock)
+					{
+						_unfilteredSearchResults = finalSnapshot;
+					}
+
+					var toDisplay = finalSnapshot;
+					if (_activeNaturalSearchCriteria is not null && _activeNaturalSearchCriteria.HasActiveFilters)
+					{
+						toDisplay = NaturalSearchPostFilter.FilterItems(
+							finalSnapshot,
+							_activeNaturalSearchCriteria,
+							x => x.ItemNameRaw ?? x.Name,
+							x => x.FileSizeBytes,
+							x => x.ItemDateModifiedReal,
+							x => x.ItemDateCreatedReal);
+					}
+
 					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						filesAndFolders = new ConcurrentCollection<ListedItem>(results.ToList());
+						filesAndFolders = new ConcurrentCollection<ListedItem>(toDisplay);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
@@ -3638,6 +3733,237 @@ namespace Files.App.ViewModels
 				}
 			}
 			catch { }
+
+			NaturalSearchChips.Clear();
+			NaturalSearchUnrecognizedNotice = null;
+			_activeNaturalSearchCriteria = null;
+			lock (_unfilteredSearchLock)
+			{
+				_unfilteredSearchResults = new();
+			}
+			OnPropertyChanged(nameof(HasNaturalSearchChipsOrNotice));
+		}
+
+		private void PopulateNaturalSearchChips(SearchIntent naturalIntent)
+		{
+			NaturalSearchChips.Clear();
+
+			// 1. Extension chip
+			if (naturalIntent.FileExtensions.Count > 0)
+			{
+				string extJoined = string.Join(", ", naturalIntent.FileExtensions);
+				string display = string.Format(Strings.NaturalSearchFilterExtension.GetLocalizedResource(), extJoined);
+				NaturalSearchChips.Add(new SearchFilterChip(
+					SearchFilterKind.Extension,
+					display,
+					extJoined,
+					onRemove: chip => RemoveFilterChip(chip),
+					onEdit: (chip, val) => EditFilterChip(chip, val)));
+			}
+
+			// 2. Date Modified chip
+			if (naturalIntent.DateModifiedRange is not null && naturalIntent.DateModifiedRange.HasValue)
+			{
+				string friendly = FormatFriendlyDateRange(naturalIntent.DateModifiedRange);
+				string display = string.Format(Strings.NaturalSearchFilterModified.GetLocalizedResource(), friendly);
+				NaturalSearchChips.Add(new SearchFilterChip(
+					SearchFilterKind.DateModified,
+					display,
+					friendly,
+					onRemove: chip => RemoveFilterChip(chip),
+					onEdit: (chip, val) => EditFilterChip(chip, val)));
+			}
+
+			// 3. Date Created chip
+			if (naturalIntent.DateCreatedRange is not null && naturalIntent.DateCreatedRange.HasValue)
+			{
+				string friendly = FormatFriendlyDateRange(naturalIntent.DateCreatedRange);
+				string display = string.Format(Strings.NaturalSearchFilterCreated.GetLocalizedResource(), friendly);
+				NaturalSearchChips.Add(new SearchFilterChip(
+					SearchFilterKind.DateCreated,
+					display,
+					friendly,
+					onRemove: chip => RemoveFilterChip(chip),
+					onEdit: (chip, val) => EditFilterChip(chip, val)));
+			}
+
+			// 4. Size chip
+			if (naturalIntent.SizeRange is not null && naturalIntent.SizeRange.HasValue)
+			{
+				string friendly = FormatFriendlySizeRange(naturalIntent.SizeRange);
+				string display = string.Format(Strings.NaturalSearchFilterSize.GetLocalizedResource(), friendly);
+				NaturalSearchChips.Add(new SearchFilterChip(
+					SearchFilterKind.Size,
+					display,
+					friendly,
+					onRemove: chip => RemoveFilterChip(chip),
+					onEdit: (chip, val) => EditFilterChip(chip, val)));
+			}
+
+			// Unrecognized notice
+			if (naturalIntent.UnrecognizedTokens.Count > 0)
+			{
+				string tokensJoined = string.Join(" ", naturalIntent.UnrecognizedTokens);
+				NaturalSearchUnrecognizedNotice = string.Format(Strings.NaturalSearchUnrecognizedNotice.GetLocalizedResource(), tokensJoined);
+			}
+			else
+			{
+				NaturalSearchUnrecognizedNotice = null;
+			}
+
+			OnPropertyChanged(nameof(HasNaturalSearchChipsOrNotice));
+		}
+
+		private void RemoveFilterChip(SearchFilterChip chip)
+		{
+			NaturalSearchChips.Remove(chip);
+			OnPropertyChanged(nameof(HasNaturalSearchChipsOrNotice));
+
+			if (_activeNaturalSearchCriteria is null)
+				return;
+
+			switch (chip.Kind)
+			{
+				case SearchFilterKind.Extension:
+					_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { FileExtensions = null };
+					break;
+				case SearchFilterKind.DateModified:
+					_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { DateModifiedRange = null };
+					break;
+				case SearchFilterKind.DateCreated:
+					_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { DateCreatedRange = null };
+					break;
+				case SearchFilterKind.Size:
+					_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { SizeRange = null };
+					break;
+			}
+
+			RefilterSearchResultsAsync();
+		}
+
+		private void EditFilterChip(SearchFilterChip chip, string newValue)
+		{
+			if (_activeNaturalSearchCriteria is null)
+				return;
+
+			switch (chip.Kind)
+			{
+				case SearchFilterKind.Extension:
+					var exts = newValue.Split(new[] { ',', ' ', ';' }, StringSplitOptions.RemoveEmptyEntries)
+						.Select(e => e.StartsWith('.') ? e.ToLowerInvariant() : "." + e.ToLowerInvariant())
+						.ToArray();
+					_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { FileExtensions = exts };
+					chip.DisplayText = string.Format(Strings.NaturalSearchFilterExtension.GetLocalizedResource(), string.Join(", ", exts));
+					break;
+
+				case SearchFilterKind.DateModified:
+					var parsedMod = NaturalSearchParser.Parse(newValue, DateTimeOffset.Now);
+					if (parsedMod.DateModifiedRange is not null)
+					{
+						_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { DateModifiedRange = parsedMod.DateModifiedRange };
+						chip.DisplayText = string.Format(Strings.NaturalSearchFilterModified.GetLocalizedResource(), FormatFriendlyDateRange(parsedMod.DateModifiedRange));
+					}
+					break;
+
+				case SearchFilterKind.DateCreated:
+					var parsedCre = NaturalSearchParser.Parse(newValue, DateTimeOffset.Now);
+					var creRange = parsedCre.DateCreatedRange ?? parsedCre.DateModifiedRange;
+					if (creRange is not null)
+					{
+						_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { DateCreatedRange = creRange };
+						chip.DisplayText = string.Format(Strings.NaturalSearchFilterCreated.GetLocalizedResource(), FormatFriendlyDateRange(creRange));
+					}
+					break;
+
+				case SearchFilterKind.Size:
+					var parsedSize = NaturalSearchParser.Parse(newValue, DateTimeOffset.Now);
+					if (parsedSize.SizeRange is not null)
+					{
+						_activeNaturalSearchCriteria = _activeNaturalSearchCriteria with { SizeRange = parsedSize.SizeRange };
+						chip.DisplayText = string.Format(Strings.NaturalSearchFilterSize.GetLocalizedResource(), FormatFriendlySizeRange(parsedSize.SizeRange));
+					}
+					break;
+			}
+
+			RefilterSearchResultsAsync();
+		}
+
+		private void RefilterSearchResultsAsync()
+		{
+			_ = Task.Run(async () =>
+			{
+				List<ListedItem> snapshot;
+				lock (_unfilteredSearchLock)
+				{
+					snapshot = _unfilteredSearchResults.ToList();
+				}
+
+				var filtered = NaturalSearchPostFilter.FilterItems(
+					snapshot,
+					_activeNaturalSearchCriteria,
+					x => x.ItemNameRaw ?? x.Name,
+					x => x.FileSizeBytes,
+					x => x.ItemDateModifiedReal,
+					x => x.ItemDateCreatedReal);
+
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					filesAndFolders = new ConcurrentCollection<ListedItem>(filtered);
+					await OrderFilesAndFoldersAsync();
+					await ApplyFilesAndFoldersChangesAsync();
+				});
+			});
+		}
+
+		private static string FormatFriendlyDateRange(DateRange range)
+		{
+			if (range.From.HasValue && range.To.HasValue)
+			{
+				var days = (int)Math.Round((range.To.Value - range.From.Value).TotalDays);
+				if (days > 0 && Math.Abs((range.To.Value - DateTimeOffset.Now).TotalDays) <= 1.5)
+					return $"last {days} days";
+
+				if (range.From.Value.Date == range.To.Value.Date)
+					return range.From.Value.ToString("yyyy-MM-dd");
+
+				return $"{range.From.Value:yyyy-MM-dd} - {range.To.Value:yyyy-MM-dd}";
+			}
+
+			if (range.From.HasValue)
+				return $">= {range.From.Value:yyyy-MM-dd}";
+
+			if (range.To.HasValue)
+				return $"<= {range.To.Value:yyyy-MM-dd}";
+
+			return string.Empty;
+		}
+
+		private static string FormatFriendlySizeRange(SizeRange range)
+		{
+			if (range.MinBytes.HasValue && range.MaxBytes.HasValue)
+				return $"{FormatBytes(range.MinBytes.Value)} - {FormatBytes(range.MaxBytes.Value)}";
+
+			if (range.MinBytes.HasValue)
+				return $"> {FormatBytes(range.MinBytes.Value)}";
+
+			if (range.MaxBytes.HasValue)
+				return $"< {FormatBytes(range.MaxBytes.Value)}";
+
+			return string.Empty;
+		}
+
+		private static string FormatBytes(long bytes)
+		{
+			if (bytes >= 1024L * 1024L * 1024L)
+				return $"{(bytes / (1024.0 * 1024 * 1024)):0.#} GB";
+
+			if (bytes >= 1024L * 1024L)
+				return $"{(bytes / (1024.0 * 1024)):0.#} MB";
+
+			if (bytes >= 1024L)
+				return $"{(bytes / 1024.0):0.#} KB";
+
+			return $"{bytes} B";
 		}
 
 		public void UpdateDateDisplay()

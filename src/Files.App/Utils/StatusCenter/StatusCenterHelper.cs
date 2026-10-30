@@ -345,6 +345,137 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
+		public static StatusCenterItem AddCard_Split(
+			string sourceFilePath,
+			ReturnResult returnStatus,
+			string? destinationDir = null,
+			long totalSize = 0,
+			CancellationTokenSource? cancellationTokenSource = null)
+		{
+			var source = sourceFilePath.CreateEnumerable();
+			var destination = (destinationDir ?? PathNormalization.GetParentDir(sourceFilePath)).CreateEnumerable();
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_SplitCanceled_Header",
+					"StatusCenter_SplitCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					1,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_SplitInProgress_Header",
+					"StatusCenter_SplitInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					true,
+					1,
+					totalSize,
+					cancellationTokenSource ?? new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_SplitComplete_Header",
+					"StatusCenter_SplitComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					1,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_SplitFailed_Header",
+					"StatusCenter_SplitFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					1,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Combine(
+			string targetFileName,
+			ReturnResult returnStatus,
+			string? destinationDir = null,
+			long totalSize = 0,
+			int partsCount = 0,
+			CancellationTokenSource? cancellationTokenSource = null)
+		{
+			var source = targetFileName.CreateEnumerable();
+			var destination = (destinationDir ?? string.Empty).CreateEnumerable();
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CombineCanceled_Header",
+					"StatusCenter_CombineCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					partsCount > 0 ? partsCount : 1,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CombineInProgress_Header",
+					"StatusCenter_CombineInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Extract,
+					source,
+					destination,
+					true,
+					partsCount > 0 ? partsCount : 1,
+					totalSize,
+					cancellationTokenSource ?? new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CombineComplete_Header",
+					"StatusCenter_CombineComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					partsCount > 0 ? partsCount : 1,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CombineFailed_Header",
+					"StatusCenter_CombineFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					partsCount > 0 ? partsCount : 1,
+					totalSize);
+			}
+		}
+
 		public static StatusCenterItem AddCard_Decompress(
 			IEnumerable<string> source,
 			IEnumerable<string> destination,
@@ -692,6 +823,14 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Extract:
 					{
+						if (card.HeaderStringResource?.StartsWith("StatusCenter_Combine", StringComparison.Ordinal) is true)
+						{
+							card.Header = card.HeaderStringResource.GetLocalizedResource();
+							card.SubHeader = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
+								: card.SubHeaderStringResource.GetLocalizedFormatResource(sourceFileName);
+							break;
+						}
+
 						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
 							: card.HeaderStringResource.GetLocalizedFormatResource(sourceFileName, destinationDirName);
 						card.Header = headerString;
@@ -703,6 +842,14 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Compressed:
 					{
+						if (card.HeaderStringResource?.StartsWith("StatusCenter_Split", StringComparison.Ordinal) is true)
+						{
+							card.Header = card.HeaderStringResource.GetLocalizedResource();
+							card.SubHeader = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
+								: card.SubHeaderStringResource.GetLocalizedFormatResource(sourceFileName);
+							break;
+						}
+
 						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
 							: card.HeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
 						card.Header = headerString;

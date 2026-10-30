@@ -659,6 +659,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool EnableNaturalLanguageSearch
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch)
+				{
+					UserSettingsService.GeneralSettingsService.EnableNaturalLanguageSearch = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool EnableSmoothScrolling
 		{
 			get => UserSettingsService.GeneralSettingsService.EnableSmoothScrolling;

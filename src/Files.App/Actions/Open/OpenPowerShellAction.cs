@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using System.Diagnostics;
 
 namespace Files.App.Actions
@@ -24,7 +25,7 @@ namespace Files.App.Actions
 
 			return new ProcessStartInfo
 			{
-				FileName = "powershell.exe",
+				FileName = PowerShellHelpers.PreferredExecutable,
 				WorkingDirectory = paths[0],
 				UseShellExecute = true
 			};

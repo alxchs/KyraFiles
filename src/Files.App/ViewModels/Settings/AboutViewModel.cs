@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Settings
 		// Properties
 
 		public string Version
-			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {Files.App.Helpers.BuildInfo.BuildDateTime}");
 
 		public string AppName
 			=> Package.Current.DisplayName;
@@ -187,7 +187,7 @@ namespace Files.App.ViewModels.Settings
 
 		public Task DoOpenDocumentation()
 		{
-			return Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.DocumentationUrl)).AsTask();
+			return DocumentationHelper.OpenDocumentationAsync("getting-started/overview.html");
 		}
 
 		public Task DoOpenDiscord()
@@ -260,7 +260,7 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetAppVersion()
 		{
-			return $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}";
+			return $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {Files.App.Helpers.BuildInfo.BuildDateTime}";
 		}
 
 		public string GetWindowsVersion()

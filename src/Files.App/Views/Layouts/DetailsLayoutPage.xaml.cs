@@ -487,7 +487,8 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitStatusColumn.Hide();
 			}
 
-			if (e.IsTypeSearchResults)
+			var isSearchResults = e.IsTypeSearchResults || (InstanceViewModel?.IsPageTypeSearchResults ?? false);
+			if (isSearchResults)
 				ColumnsViewModel.PathColumn.Show();
 			else
 				ColumnsViewModel.PathColumn.Hide();

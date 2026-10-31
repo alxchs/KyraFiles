@@ -1,0 +1,25 @@
+# Tarefas de Implementação - F068
+
+- [x] Task 1: Criar a documentação HTML offline completa
+  - [x] 1.1 Criar `src/Files.App/Docs/index.html` (portal unificado com menu lateral e estilo Fluent offline)
+  - [x] 1.2 Criar `src/Files.App/Docs/getting-started/overview.html` (equivalente fiel ao site)
+  - [x] 1.3 Criar guias em `src/Files.App/Docs/features/` (tabs, dual-pane, layout, command-palette, git, tags, files-custom)
+  - [x] 1.4 Configurar `src/Files.App/Files.App.csproj` para incluir e copiar `Docs\**\*`
+- [x] Task 2: Implementar o resolvedor com fallback
+  - [x] 2.1 Criar `src/Files.App/Helpers/DocumentationHelper.cs` com resolução local prioritária e fallback web
+- [x] Task 3: Integrar `DocumentationHelper` no aplicativo
+  - [x] 3.1 Atualizar `AboutViewModel.DoOpenDocumentation()`
+  - [x] 3.2 Atualizar `SystemTrayIcon.cs`
+  - [x] 3.3 Criar `src/Files.App/Actions/Open/OpenDocumentationAction.cs`
+  - [x] 3.4 Adicionar item "Documentação" no Menu Clássico `ClassicMenuBar.xaml`
+- [x] Task 4: Adicionar testes de unidade e validar
+  - [x] 4.1 Criar `tests/Files.App.Search.Index.Tests/DocumentationHelperTests.cs`
+  - [x] 4.2 Executar suite de testes (`dotnet test` com 166 testes passando, 0 falhas)
+- [x] Task 5: Compilar Release, validar F021 e instalar binários
+  - [x] 5.1 Compilar via `mkfile r src/Files.App/Files.App.csproj` (0 erros)
+  - [x] 5.2 Copiar novos binários e pasta `Docs` para `%LOCALAPPDATA%\Programs\FilesCustom`
+  - [x] 5.3 Validar contenção F021 (`tools/perf/verify_no_index_service.ps1`)
+- [x] Task 6: Integração e finalização
+  - [x] 6.1 Commit atômico na branch `feature/f068-documentacao-local-offline`
+  - [x] 6.2 Fast-forward merge na `colab` e remoção da branch de feature
+  - [x] 6.3 Atualizar `AGENT_CONTEXT.md` e gerar handoff

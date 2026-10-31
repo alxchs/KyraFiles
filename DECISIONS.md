@@ -280,3 +280,15 @@ Data: 28/10/2026. Decidido por Claude (arquiteto), a pedido do Alexandre ("Essa 
 - **Reason:** mantém o atalho sempre pronto sem afogar o computador.
 - **Trade-offs:** depois de falhas repetidas o retorno pode levar até 30 s.
 - **Consequences:** spec docs/specs/F061-win-e-sempre-pronto/; T0 prova a causa antes de qualquer código; AC-8 entra no PLAYBOOK.
+
+## D-F065-1 — O item de lista nasce visível (opacidade 1)
+
+Data: 30/10/2026. Decidido por Claude (arquiteto), na execução autorizada pelo Alexandre ("Assuma o que ela não começou ainda que consiga acabar até as 14:00").
+
+- **Context:** na busca, Nome e ícone saíam invisíveis porque o motor Everything criava os resultados sem opacidade, e a opacidade do item nasce 0. A revisão de 30/10 achou o mesmo esquecimento no motor Agent Ransack (segunda ocorrência do mesmo sintoma).
+- **Problem:** todo código que cria item de lista precisa lembrar de definir a opacidade; quem esquece produz linha invisível, sem erro nem aviso.
+- **Options:** (A) definir a opacidade em cada motor que esquece; (B) o item nasce com opacidade 1 e cada criador só define quando quer esmaecer (oculto); (C) teste que lê o código-fonte e cobra a atribuição.
+- **Decision:** B, mantendo a atribuição explícita no Everything (que esmaece ocultos).
+- **Reason:** elimina a armadilha na origem, para os motores atuais e futuros; os 30 pontos que já definem a opacidade continuam iguais; os 6 que não definem são objetos auxiliares (menu de contexto, barra lateral, propriedades) que não viram linha da lista.
+- **Trade-offs:** muda um arquivo do upstream (uma linha); um motor que esquecer o esmaecido de ocultos mostrará o oculto com opacidade normal, nunca invisível.
+- **Consequences:** F065-T6. A prova de tela por motor (incluindo o Agent Ransack) fica para as 23:59 (F065-T12).

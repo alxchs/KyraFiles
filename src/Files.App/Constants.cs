@@ -178,7 +178,7 @@ namespace Files.App
 			public const string FeatureRequestUrl = @"https://discord.gg/files";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
-			public const string SupportUsUrl = @"https://files.community/sponsor";
+			public const string SupportUsUrl = @"https://github.com/alxchs";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
 			// Files Custom releases (F018, D-022). Change here to point the update check elsewhere.
 			public const string CustomReleasesApiUrl = @"https://api.github.com/repos/alxchs/FilesCustom/releases/latest";

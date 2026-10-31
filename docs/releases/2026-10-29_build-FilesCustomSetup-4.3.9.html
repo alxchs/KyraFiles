@@ -9,9 +9,11 @@
     h1 { margin-top: 0; color: #0969da; border-bottom: 1px solid #d0d7de; padding-bottom: 12px; }
     h2 { margin-top: 24px; font-size: 1.25rem; color: #1f2328; }
     table { width: 100%; border-collapse: collapse; margin-top: 16px; margin-bottom: 24px; }
-    th, td { border: 1px solid #d0d7de; padding: 10px 14px; text-align: left; }
+    th, td { border: 1px solid #d0d7de; padding: 10px 14px; text-align: left; vertical-align: top; }
     th { background: #f6f8fa; font-weight: 600; }
-    .chip { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; background: #dafbe1; color: #1a7f37; }
+    .chip { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
+    .observed { background: #ddf4ff; color: #0550ae; }
+    .nottested { background: #eaeef2; color: #424a53; }
     code { background: #f6f8fa; padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.9em; }
     ul { padding-left: 20px; }
     li { margin-bottom: 8px; }
@@ -20,28 +22,36 @@
 <body>
   <div class="card">
     <h1>Files Custom 4.3.9 (Parcial P0)</h1>
-    <p>Build oficial gerado em 29/10/2026. Instalador <code>FilesCustomSetup-4.3.9.exe</code>, 50,24 MB (52.686.633 bytes).</p>
-    
+    <p>Build gerado em 29/10/2026 e publicado no GitHub em 30/10/2026 (tag <code>v4.3.9</code>). Instalador <code>FilesCustomSetup-4.3.9.exe</code>, 50,24 MB (52.686.633 bytes).</p>
+
     <h2>Metadados do Pacote</h2>
     <ul>
       <li><strong>Arquivo:</strong> <code>artifacts\Setup\FilesCustomSetup-4.3.9.exe</code></li>
       <li><strong>SHA256:</strong> <code>E31293B803FBDCFCC8120995635443D59E526A06BD42F5735BCA3DA59514AFBF</code></li>
-      <li><strong>Origem:</strong> Spec F063 integrada em <code>main</code> / <code>colab</code> (commit <code>ad7c7e0d2</code>)</li>
+      <li><strong>Origem:</strong> código em <code>ad7c7e0d2</code>; manifesto e notas em <code>bda243fd9</code></li>
+      <li><strong>Build:</strong> sem a saída anexada (NOT TESTED)</li>
     </ul>
 
-    <h2>Destaques da Versão</h2>
+    <h2>Estado revisado (Claude, 30/10/2026)</h2>
     <table>
       <thead>
-        <tr><th>Recurso / Correção</th><th>Status</th><th>Detalhes</th></tr>
+        <tr><th>Item</th><th>Estado</th><th>Base</th></tr>
       </thead>
       <tbody>
-        <tr><td>F063 Otimização P0 de Memória</td><td><span class="chip">CONFIRMED</span></td><td>Queda de até 98.5% no Working Set ao minimizar (de ~311 MB / 540 MB para 3.6 MB – 4.5 MB).</td></tr>
-        <tr><td>Restauração Instantânea (&lt; 46ms)</td><td><span class="chip">CONFIRMED</span></td><td>Retorno físico entre 38 ms e 46 ms sem swapped out to disk.</td></tr>
-        <tr><td>Trim de Inatividade (60s)</td><td><span class="chip">CONFIRMED</span></td><td>Desocupação automática de memória após 60 segundos sem foco.</td></tr>
-        <tr><td>Trava de Operações Críticas</td><td><span class="chip">CONFIRMED</span></td><td>Trim suspenso durante cópias e transferências de arquivos.</td></tr>
-        <tr><td>Gate F021 (IndexService Inativo)</td><td><span class="chip">CONFIRMED</span></td><td>0 instâncias de IndexService e repouso em 3.33% de CPU.</td></tr>
+        <tr><td>RAM liberada ao minimizar</td><td><span class="chip observed">OBSERVED</span></td><td>Pela AGY, 3 rodadas: de ~246 MB para 3,6–4,5 MB de RAM ocupada. A memória privada não cai.</td></tr>
+        <tr><td>Restauração da janela</td><td><span class="chip observed">OBSERVED</span></td><td>Pela AGY: 38–46 ms até a janela aparecer, contra 31 ms de base (+7 a +15 ms).</td></tr>
+        <tr><td>Liberação após 60 s sem foco</td><td><span class="chip nottested">NOT TESTED</span></td><td>Vetada e removida na correção da F063; ainda presente na 4.3.9.</td></tr>
+        <tr><td>Espera de operações de arquivo</td><td><span class="chip nottested">NOT TESTED</span></td><td>Sem prazo nesta versão; prazo e cancelamento na correção da F063.</td></tr>
+        <tr><td>Gate F021</td><td><span class="chip observed">OBSERVED</span></td><td>Pela AGY: 3,33% de CPU, sem a saída do script.</td></tr>
+        <tr><td>Preservação de configurações</td><td><span class="chip observed">OBSERVED</span></td><td>Reinstalação na mesma pasta sem mudar os arquivos de configuração; outra pasta não testada.</td></tr>
       </tbody>
     </table>
+
+    <h2>Texto para o usuário (publicado)</h2>
+    <ul>
+      <li><strong>Novo:</strong> menos memória RAM ocupada com o Files minimizado ou em segundo plano; ela volta ao reabrir a janela.</li>
+      <li><strong>Melhorado:</strong> cópias e movimentações de arquivos ficam protegidas enquanto a memória é liberada.</li>
+    </ul>
   </div>
 </body>
 </html>

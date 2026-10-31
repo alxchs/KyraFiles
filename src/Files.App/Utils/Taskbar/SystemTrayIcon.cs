@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -304,7 +304,7 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnDocumentationClicked()
 		{
-			Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.DocumentationUrl)).AsTask();
+			_ = DocumentationHelper.OpenDocumentationAsync("getting-started/overview.html");
 		}
 
 		private void OnRestartClicked()

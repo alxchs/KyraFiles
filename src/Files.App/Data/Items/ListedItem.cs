@@ -136,7 +136,8 @@ namespace Files.App.Utils
 			set => SetProperty(ref customIconSource, value);
 		}
 
-		private double opacity;
+		// Files Custom (F065): visible by default, so an item whose creator forgets Opacity is never drawn transparent.
+		private double opacity = 1;
 		public double Opacity
 		{
 			get => opacity;

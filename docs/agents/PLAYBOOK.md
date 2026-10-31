@@ -1,4 +1,4 @@
-# PLAYBOOK — como a AGY segue sozinha se o Claude estiver ausente
+﻿# PLAYBOOK — como a AGY segue sozinha se o Claude estiver ausente
 
 Escrito pelo Claude em 03/10/2026. Metodologia geral: `C:\Users\alxch\.dev-method\METODO.md` (leia primeiro). Este arquivo só traz o específico do Files Custom. Estado vivo: `AGENT_CONTEXT.md`. Regras do produto: `MASTER_SPEC.md`.
 
@@ -129,3 +129,9 @@ Definido pelo Alexandre em 15/10/2026 para manter a `main` limpa e sem poluiçã
 - **Proibições Rígidas:** É estritamente proibido o uso de chamadas de entrada crua (`SendKeys`, `SendInput`, `keybd_event`, `mouse_event`, `SetCursorPos`, `SetForegroundWindow`) fora do helper `Send-GuardedInput.ps1`. Todos os scripts legados que utilizavam essas chamadas foram quarentenados em `tools/perf/_desativados/` com extensão `.desativado`.
 - **Preenchimento de Campos:** Deve ser feito exclusivamente via UI Automation (`ValuePattern`) através de `Set-ElementText`.
 - **Validação Automática:** O script `pwsh tools/perf/Test-NoRawInput.ps1` deve retornar exit code 0 antes de qualquer commit na branch.
+
+## Data e Hora de Compilação na Tela Sobre (Regra Dura - 31/10/2026)
+
+- A tela Sobre (Settings > About) DEVE OBRIGATORIAMENTE exibir a data e hora exata da compilação (Build Date/Time) junto com a versão (ex: "Versão 4.3.9.0 • 2026-10-31 08:15:00").
+- A data/hora deve ser incorporada no momento da compilação pelo MSBuild no binário.
+- Toda release e todo teste do executável devem permitir que AGY, Claude e o Alexandre confirmem visualmente e por texto se o executável em execução é de fato o build recente.

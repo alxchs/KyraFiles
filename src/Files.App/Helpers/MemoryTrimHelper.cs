@@ -11,13 +11,14 @@ namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Provides safe, non-blocking working set and garbage collection trimming
-	/// when the application is minimized, idle in background, or closed to tray.
+	/// when the application is minimized, hidden, or closed to tray.
 	/// Guarantees zero UI lag by running strictly on background threads and aborting
 	/// immediately if user activity or window restoration occurs.
 	/// </summary>
 	internal static class MemoryTrimHelper
 	{
 		private static readonly object lockObj = new();
+		private static readonly TimeSpan fileOperationsWaitLimit = TimeSpan.FromSeconds(30);
 		private static CancellationTokenSource? currentTrimCts;
 
 		/// <summary>
@@ -46,10 +47,9 @@ namespace Files.App.Helpers
 						if (token.IsCancellationRequested)
 							return;
 
-						// Wait for any ongoing file operations before trimming
-						FileOperationsHelpers.WaitForCompletion();
-
-						if (token.IsCancellationRequested)
+						// Wait for ongoing file operations, but never past the limit nor after a restore (F063, Q2);
+						// if an operation is still running, this trim is skipped
+						if (!FileOperationsHelpers.WaitForCompletion(fileOperationsWaitLimit, token) || token.IsCancellationRequested)
 							return;
 
 						ExecuteTrim(forceFullGc, token);

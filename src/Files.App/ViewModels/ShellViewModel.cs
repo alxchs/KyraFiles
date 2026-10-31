@@ -2256,7 +2256,8 @@ namespace Files.App.ViewModels
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
-						IsTypeGitRepository = IsValidGitDirectory
+						IsTypeGitRepository = IsValidGitDirectory,
+						IsTypeSearchResults = IsSearchResults
 					});
 
 					if (!HasNoWatcher)
@@ -2267,7 +2268,7 @@ namespace Files.App.ViewModels
 
 				// Enumerated with StorageFolder
 				case 1:
-					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin, IsTypeSearchResults = IsSearchResults });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					if (!HasNoWatcher)
 						_ = WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
@@ -2275,7 +2276,7 @@ namespace Files.App.ViewModels
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
 				case 2:
-					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeSearchResults = IsSearchResults });
 					if (!HasNoWatcher)
 						WatchForWin32FolderChanges(path);
 					break;
@@ -3527,6 +3528,10 @@ namespace Files.App.ViewModels
 			IsLoadingItems = true;
 			IsSearchResults = true;
 			HasNoWatcher = true;
+			PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+			{
+				IsTypeSearchResults = true
+			});
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 

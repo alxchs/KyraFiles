@@ -187,52 +187,23 @@ namespace Files.App.Services.Search
 
 						while ((line = await reader.ReadLineAsync(cancellationToken)) is not null)
 						{
-							if (string.IsNullOrWhiteSpace(line))
+							if (!EverythingResultLine.TryParse(line, out var row))
 								continue;
 
-							// Formato TSV: <Caminho>\t<Atributos>\t<TamanhoEmBytes>\t<DataModificada>
-							var parts = line.Split('\t');
-							string path = parts.Length > 0 ? parts[0].Trim().Trim('"') : string.Empty;
-							if (string.IsNullOrEmpty(path))
-								continue;
-
-							string attrStr = parts.Length > 1 ? parts[1].Trim() : string.Empty;
-							string sizeStr = parts.Length > 2 ? parts[2].Trim() : string.Empty;
-							string dateStr = parts.Length > 3 ? parts[3].Trim() : string.Empty;
-
-							bool isFolder = path.EndsWith('\\') || path.EndsWith('/');
-							if (!isFolder && int.TryParse(attrStr, out int attrVal))
-							{
-								isFolder = (attrVal & 16) != 0;
-							}
-
-							string cleanPath = isFolder ? path.TrimEnd('\\', '/') : path;
-							string fileName = Path.GetFileName(cleanPath);
-							if (string.IsNullOrEmpty(fileName))
-								fileName = cleanPath;
-
-							long size = 0;
-							if (!isFolder && long.TryParse(sizeStr, out long parsedSize))
-								size = parsedSize;
-
-							DateTime? dateModified = null;
-							if (DateTime.TryParse(dateStr, out var parsedDate))
-								dateModified = parsedDate;
-
-							string ext = isFolder ? string.Empty : Path.GetExtension(fileName);
 							var item = new ListedItem(null!)
 							{
-								ItemPath = cleanPath,
-								ItemNameRaw = fileName,
-								PrimaryItemAttribute = isFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
-								FileSizeBytes = size,
-								FileSize = isFolder ? string.Empty : size.ToSizeString(),
-								ItemDateModifiedReal = dateModified ?? DateTime.Now,
-								ItemDateCreatedReal = dateModified ?? DateTime.Now,
-								FileExtension = ext,
-								ItemType = isFolder ? "Folder" : (string.IsNullOrEmpty(ext) ? "File" : $"{ext.TrimStart('.').ToUpperInvariant()} File"),
+								ItemPath = row.FullPath,
+								ItemNameRaw = row.Name,
+								PrimaryItemAttribute = row.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+								FileSizeBytes = row.SizeBytes,
+								FileSize = row.IsFolder ? string.Empty : row.SizeBytes.ToSizeString(),
+								ItemDateModifiedReal = row.DateModified ?? DateTime.Now,
+								ItemDateCreatedReal = row.DateModified ?? DateTime.Now,
+								FileExtension = row.Extension,
+								ItemType = row.IsFolder ? "Folder" : (string.IsNullOrEmpty(row.Extension) ? "File" : $"{row.Extension.TrimStart('.').ToUpperInvariant()} File"),
 								ItemPropertiesInitialized = true,
-								LoadFileIcon = false
+								LoadFileIcon = false,
+								Opacity = row.IsHidden ? Constants.UI.DimItemOpacity : 1
 							};
 
 							results.Add(item);

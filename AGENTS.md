@@ -1,4 +1,4 @@
-# Files Development Guidelines
+﻿# Files Development Guidelines
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
@@ -148,3 +148,4 @@ Este checkout é o **Files Custom**, derivado do Files Community. Além das dire
 - Todo exe gerado para teste leva uma nota de liberação em `docs/releases/` (e página HTML quando possível): ver "Nota de liberação" em `docs/agents/PLAYBOOK.md`.
 - **GATE MANDATÓRIO DE CONTENÇÃO DE RECURSOS (16/10/2026 - F021):** Nenhuma tarefa pode ser dada como concluída pela AGY ou pelo Claude sem a execução e validação formal de `pwsh tools\perf\verify_no_index_service.ps1`. O processo `Files.App.IndexService.exe` deve estar rigorosamente inativo e a CPU em repouso em 0% (ou < 5%).
 - **HIGIENE ABSOLUTA DE BINÁRIOS (16/10/2026):** NUNCA deixar cópias de Debug ou em qualquer pasta auxiliar depois de desenvolver e testar. Somente a versão Release no local instalado (`%LOCALAPPDATA%\Programs\FilesCustom`) deve existir no ambiente.
+- **REGRA DE DATA E HORA DE COMPILAÇÃO NA TELA SOBRE (31/10/2026 - REGRA DURA):** A tela Sobre (Settings > About) DEVE OBRIGATORIAMENTE exibir a data e hora exata da compilação (Build Date/Time) junto com o número da versão do aplicativo (ex: "Versão 4.3.9.0 • 2026-10-31 08:15:00"). Isso permite auditoria e comprovação imediata do binário em execução por AGY, Claude e pelo Alexandre. A data e hora devem ser geradas automaticamente pelo compilador/MSBuild no momento do build e embutidas no executável.

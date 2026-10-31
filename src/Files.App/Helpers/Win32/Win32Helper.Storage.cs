@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
@@ -827,7 +828,7 @@ namespace Files.App.Helpers
 		{
 			Process process = new();
 
-			process.StartInfo.FileName = "powershell.exe";
+			process.StartInfo.FileName = PowerShellHelpers.PreferredExecutable;
 			if (options.HasFlag(PowerShellExecutionOptions.Elevated))
 			{
 				process.StartInfo.UseShellExecute = true;
@@ -843,7 +844,11 @@ namespace Files.App.Helpers
 			if (workingDirectory is not null)
 				process.StartInfo.WorkingDirectory = workingDirectory;
 
-			process.StartInfo.Arguments = command;
+			var trimmedCommand = command.TrimStart();
+			if (!trimmedCommand.StartsWith('-'))
+				process.StartInfo.Arguments = $"-NoProfile -Command {command}";
+			else
+				process.StartInfo.Arguments = command;
 
 			return process;
 		}

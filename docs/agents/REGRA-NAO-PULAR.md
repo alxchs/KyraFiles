@@ -46,7 +46,7 @@ Sem a citação literal da mensagem dele, a autorização não existe. Não resu
 - Marcar `CONFIRMED` sem comando e saída.
 - Escrever "autorizado" sem a citação.
 
-Descumprimento é registrado pelo Claude na revisão, entra no relatório ao Alexandre, e a entrega volta para refazer.
+Descumprimento é registrado pelo Claude em `docs/agents/DESCUMPRIMENTOS.md`, entra no relatório ao Alexandre, e a entrega volta para refazer. O próximo handoff da AGY explica cada item pendente daquele registro.
 
 ## 5. Lembretes que já custaram caro (não são pulos autorizáveis pela rotina)
 

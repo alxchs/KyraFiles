@@ -1,0 +1,23 @@
+# Tarefas de Implementação - F067
+
+- [x] Task 1: Atualizar referências de sponsors para o GitHub do Alexandre
+  - [x] 1.1 Alterar `.github/FUNDING.yml` para `github: [alxchs]`
+  - [x] 1.2 Alterar `Constants.ExternalUrl.SupportUsUrl` em `src/Files.App/Constants.cs` para `@"https://github.com/alxchs"`
+- [x] Task 2: Implementar `PowerShellHelpers` no `Files.Shared`
+  - [x] 2.1 Criar `src/Files.Shared/Helpers/PowerShellHelpers.cs` com detecção de `pwsh.exe` e fallback para `powershell.exe`
+- [x] Task 3: Integrar `PowerShellHelpers` no aplicativo
+  - [x] 3.1 Atualizar `src/Files.App/Helpers/Win32/Win32Helper.Storage.cs` (`CreatePowershellProcess` com `-Command` guard)
+  - [x] 3.2 Atualizar `src/Files.App/Actions/Open/OpenPowerShellAction.cs` (`GetProcessStartInfo`)
+  - [x] 3.3 Atualizar `src/Files.App/Utils/Storage/Operations/FileOperationsHelpers.cs`
+  - [x] 3.4 Atualizar `src/Files.App.Storage/Windows/Helpers/WindowsStorableHelpers.PowerShell.cs`
+- [x] Task 4: Adicionar testes de unidade e validar execução
+  - [x] 4.1 Criar `tests/Files.App.Search.Index.Tests/PowerShellHelpersTests.cs`
+  - [x] 4.2 Executar suite de testes unitários (`dotnet test` - 162 aprovados, 0 falhas)
+- [x] Task 5: Compilar Release, validar contenção e atualizar binário instalado
+  - [x] 5.1 Executar compilação release via `mkfile r` (0 erros)
+  - [x] 5.2 Validar conformidade F021 (`verify_no_index_service.ps1` - PASS)
+  - [x] 5.3 Copiar novo `Files.exe` e `Files.dll` para `%LOCALAPPDATA%\Programs\FilesCustom`
+- [x] Task 6: Finalização e integração
+  - [x] 6.1 Commit atômico na branch `feature/f067-sponsors-modern-powershell`
+  - [x] 6.2 Integração via fast-forward merge na `colab`
+  - [x] 6.3 Atualizar `AGENT_CONTEXT.md` e gerar relatório de evidências

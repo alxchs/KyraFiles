@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -102,6 +102,10 @@
         <Content Include="7zArm64.dll" Condition="'$(Platform)' == 'arm64'">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Docs\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+
     </ItemGroup>
 
     <ItemGroup>
@@ -211,4 +215,11 @@
                  Targets="Build"
                  Properties="Configuration=$(Configuration);Platform=$(Platform)" />
     </Target>
+    <!-- Regra 31/10/2026: Embutir data e hora exata da compilação nos metadados do assembly para exibição na tela Sobre -->
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+            <_Parameter1>BuildDateTime</_Parameter1>
+            <_Parameter2>$([System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss"))</_Parameter2>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>

@@ -495,16 +495,10 @@ namespace Files.App
 
 		private void MainWindow_Activated(object sender, Microsoft.UI.Xaml.WindowActivatedEventArgs args)
 		{
-			if (args.WindowActivationState == Microsoft.UI.Xaml.WindowActivationState.Deactivated)
-			{
-				// Inactive in background: schedule idle trim after 60 seconds
-				MemoryTrimHelper.ScheduleTrim(delayMs: 60000, forceFullGc: false);
-			}
-			else
-			{
-				// User returned to window: cancel pending idle trim
+			// A visible window is never trimmed (F063, Q1): losing focus schedules nothing,
+			// and returning to the window only cancels a trim scheduled by minimize/hide
+			if (args.WindowActivationState != Microsoft.UI.Xaml.WindowActivationState.Deactivated)
 				MemoryTrimHelper.CancelPendingTrim();
-			}
 		}
 	}
 }

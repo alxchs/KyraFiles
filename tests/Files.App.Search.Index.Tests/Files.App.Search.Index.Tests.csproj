@@ -20,6 +20,8 @@
 
     <ItemGroup>
         <Compile Include="..\..\src\Files.App\Helpers\UI\DialogAccessKeys.cs" Link="DialogAccessKeys.cs" />
+        <Compile Include="..\..\src\Files.App\Services\Search\EverythingResultLine.cs" Link="EverythingResultLine.cs" />
+        <Compile Include="..\..\src\Files.App\Helpers\DocumentationHelper.cs" Link="DocumentationHelper.cs" />
     </ItemGroup>
 
     <ItemGroup>

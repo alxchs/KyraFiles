@@ -2,12 +2,18 @@
 .SYNOPSIS
     Mede o consumo de memória (Working Set / Private Bytes) e a latência de restauração do Files.exe.
     Rastreia conformidade com a Spec F063 (P0 - Zero Regressão).
+    Atende à decisão Q12 (29/10/2026): utiliza instância própria e controlada de teste,
+    nunca sequestrando nem roubando o foco da janela em uso do usuário.
 #>
 
 param(
     [int]$WaitAfterMinimizeSec = 4,
-    [switch]$SkipRestore = $false
+    [switch]$SkipRestore = $false,
+    [int]$TargetPid = 0,
+    [switch]$UseInstalledRelease = $true
 )
+
+$ErrorActionPreference = "Stop"
 
 $code = @"
 using System;
@@ -90,90 +96,145 @@ if (-not ([System.Management.Automation.PSTypeName]'Win32WindowHelper').Type) {
     Add-Type -TypeDefinition $code
 }
 
-$proc = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Where-Object { [Win32WindowHelper]::FindWinUIWindow($_.Id) -ne [IntPtr]::Zero } | Select-Object -First 1
+$proc = $null
+$isDedicatedTestInstance = $false
 
-if (-not $proc) {
-    $proc = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
-}
-
-if (-not $proc) {
-    Write-Error "Files.exe não está em execução."
-    exit 1
-}
-
-$pidNum = $proc.Id
-$hwnd = [Win32WindowHelper]::FindWinUIWindow($pidNum)
-if ($hwnd -eq [IntPtr]::Zero) {
-    $hwnd = $proc.MainWindowHandle
-}
-
-$proc.Refresh()
-$wsInitial = [math]::Round($proc.WorkingSet64 / 1MB, 2)
-$privInitial = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
-
-Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "Medição de Memória e Latência (Spec F063) - PID: $pidNum" -ForegroundColor Cyan
-Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "1. Estado Inicial (Ativo):"
-Write-Host "   Working Set: $wsInitial MB"
-Write-Host "   Private Bytes: $privInitial MB"
-
-$wsMin = $null
-$privMin = $null
-$latencyMs = $null
-$wsRestored = $null
-$privRestored = $null
-
-if ($hwnd -ne [IntPtr]::Zero) {
-    Write-Host "`n2. Minimizando janela (HWND: $hwnd)..."
-    [Win32WindowHelper]::ShowWindow($hwnd, [Win32WindowHelper]::SW_MINIMIZE) | Out-Null
-    
-    Start-Sleep -Seconds $WaitAfterMinimizeSec
-    
-    $proc.Refresh()
-    $wsMin = [math]::Round($proc.WorkingSet64 / 1MB, 2)
-    $privMin = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
-    Write-Host "   Working Set minimizado (com trim suave): $wsMin MB"
-    Write-Host "   Private Bytes minimizado: $privMin MB"
-
-    if (-not $SkipRestore) {
-        Write-Host "`n3. Medindo latência de restauração..."
-        $sw = [System.Diagnostics.Stopwatch]::StartNew()
-        [Win32WindowHelper]::ShowWindow($hwnd, [Win32WindowHelper]::SW_RESTORE) | Out-Null
-        
-        while ([Win32WindowHelper]::IsIconic($hwnd) -and $sw.ElapsedMilliseconds -lt 2000) {
-            [System.Threading.Thread]::Sleep(1)
-        }
-        $sw.Stop()
-        $latencyMs = $sw.ElapsedMilliseconds
-        Write-Host "   Latência de Restauração: $latencyMs ms"
-
-        Start-Sleep -Seconds 1
-        $proc.Refresh()
-        $wsRestored = [math]::Round($proc.WorkingSet64 / 1MB, 2)
-        $privRestored = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
-        Write-Host "   Working Set restaurado: $wsRestored MB"
-        Write-Host "   Private Bytes restaurado: $privRestored MB"
+if ($TargetPid -gt 0) {
+    $proc = Get-Process -Id $TargetPid -ErrorAction SilentlyContinue
+    if (-not $proc) {
+        Write-Error "Processo com PID $TargetPid não encontrado."
+        exit 1
     }
 } else {
-    Write-Warning "Nenhuma janela WinUI encontrada para o processo $pidNum."
+    # Q12: NUNCA sequestrar a janela ativa do usuário silenciosamente.
+    # Dispara uma instância própria de teste em Release instalada.
+    $installedExe = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\Files.exe"
+    if (-not (Test-Path $installedExe)) {
+        $installedExe = Join-Path $env:LOCALAPPDATA "Programs\Files\Files.exe"
+    }
+
+    if (-not (Test-Path $installedExe)) {
+        Write-Error "Files.exe instalado não foi encontrado para execução de instância de teste."
+        exit 1
+    }
+
+    Write-Host "Iniciando instância própria e isolada de teste: $installedExe" -ForegroundColor Cyan
+    $psi = [System.Diagnostics.ProcessStartInfo]::new()
+    $psi.FileName = $installedExe
+    $psi.UseShellExecute = $true
+
+    $proc = [System.Diagnostics.Process]::Start($psi)
+    $isDedicatedTestInstance = $true
+
+    # Aguarda inicialização da janela
+    Write-Host "Aguardando inicialização da janela da instância de teste..."
+    $timeout = [System.Diagnostics.Stopwatch]::StartNew()
+    $hwnd = [IntPtr]::Zero
+    while ($timeout.ElapsedMilliseconds -lt 15000 -and $hwnd -eq [IntPtr]::Zero) {
+        Start-Sleep -Milliseconds 500
+        $proc.Refresh()
+        $hwnd = [Win32WindowHelper]::FindWinUIWindow($proc.Id)
+        if ($hwnd -eq [IntPtr]::Zero) {
+            $hwnd = $proc.MainWindowHandle
+        }
+    }
+
+    if ($hwnd -eq [IntPtr]::Zero) {
+        Write-Warning "Instância de teste iniciada, mas HWND principal não foi obtido a tempo."
+    }
 }
 
-$result = [PSCustomObject]@{
-    Timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
-    PID = $pidNum
-    ActiveWorkingSetMB = $wsInitial
-    ActivePrivateBytesMB = $privInitial
-    MinimizedWorkingSetMB = $wsMin
-    MinimizedPrivateBytesMB = $privMin
-    RestoreLatencyMs = $latencyMs
-    RestoredWorkingSetMB = $wsRestored
-    RestoredPrivateBytesMB = $privRestored
+try {
+    $pidNum = $proc.Id
+    if (-not $hwnd) {
+        $hwnd = [Win32WindowHelper]::FindWinUIWindow($pidNum)
+        if ($hwnd -eq [IntPtr]::Zero) {
+            $hwnd = $proc.MainWindowHandle
+        }
+    }
+
+    $proc.Refresh()
+    $wsInitial = [math]::Round($proc.WorkingSet64 / 1MB, 2)
+    $privInitial = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
+
+    Write-Host "=====================================================" -ForegroundColor Cyan
+    Write-Host "Medição de Memória e Latência (Spec F063) - PID: $pidNum" -ForegroundColor Cyan
+    Write-Host "=====================================================" -ForegroundColor Cyan
+    Write-Host "1. Estado Inicial (Ativo):"
+    Write-Host "   Working Set: $wsInitial MB"
+    Write-Host "   Private Bytes: $privInitial MB"
+
+    $wsMin = $null
+    $privMin = $null
+    $latencyMs = $null
+    $wsRestored = $null
+    $privRestored = $null
+
+    if ($hwnd -ne [IntPtr]::Zero) {
+        Write-Host "`n2. Minimizando janela (HWND: $hwnd)..."
+        [Win32WindowHelper]::ShowWindow($hwnd, [Win32WindowHelper]::SW_MINIMIZE) | Out-Null
+
+        Start-Sleep -Seconds $WaitAfterMinimizeSec
+
+        $proc.Refresh()
+        $wsMin = [math]::Round($proc.WorkingSet64 / 1MB, 2)
+        $privMin = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
+        Write-Host "   Working Set minimizado (com trim suave): $wsMin MB"
+        Write-Host "   Private Bytes minimizado: $privMin MB"
+
+        if (-not $SkipRestore) {
+            Write-Host "`n3. Medindo latência de restauração..."
+            $sw = [System.Diagnostics.Stopwatch]::StartNew()
+            [Win32WindowHelper]::ShowWindow($hwnd, [Win32WindowHelper]::SW_RESTORE) | Out-Null
+
+            while ([Win32WindowHelper]::IsIconic($hwnd) -and $sw.ElapsedMilliseconds -lt 2000) {
+                [System.Threading.Thread]::Sleep(1)
+            }
+            $sw.Stop()
+            $latencyMs = $sw.ElapsedMilliseconds
+            Write-Host "   Latência de Restauração: $latencyMs ms"
+
+            Start-Sleep -Seconds 1
+            $proc.Refresh()
+            $wsRestored = [math]::Round($proc.WorkingSet64 / 1MB, 2)
+            $privRestored = [math]::Round($proc.PrivateMemorySize64 / 1MB, 2)
+            Write-Host "   Working Set restaurado: $wsRestored MB"
+            Write-Host "   Private Bytes restaurado: $privRestored MB"
+        }
+    } else {
+        Write-Warning "Nenhuma janela WinUI encontrada para o processo $pidNum."
+    }
+
+    $result = [PSCustomObject]@{
+        Timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+        PID = $pidNum
+        IsDedicatedInstance = $isDedicatedTestInstance
+        ActiveWorkingSetMB = $wsInitial
+        ActivePrivateBytesMB = $privInitial
+        MinimizedWorkingSetMB = $wsMin
+        MinimizedPrivateBytesMB = $privMin
+        RestoreLatencyMs = $latencyMs
+        RestoredWorkingSetMB = $wsRestored
+        RestoredPrivateBytesMB = $privRestored
+    }
+
+    Write-Host "`n=====================================================" -ForegroundColor Cyan
+    Write-Host "Resultado Consolidado:" -ForegroundColor Green
+    $result | Format-List
+    Write-Host "=====================================================" -ForegroundColor Cyan
+
+    return $result
 }
-
-Write-Host "`n=====================================================" -ForegroundColor Cyan
-Write-Host "Resultado Consolidado:" -ForegroundColor Green
-$result | Format-List
-Write-Host "=====================================================" -ForegroundColor Cyan
-
-return $result
+finally {
+    # Se foi uma instância de teste dedicada criada pelo script, fecha com segurança
+    if ($isDedicatedTestInstance -and $proc -and -not $proc.HasExited) {
+        Write-Host "Fechando instância dedicada de teste (PID: $($proc.Id))..." -ForegroundColor Yellow
+        try {
+            $proc.CloseMainWindow() | Out-Null
+            Start-Sleep -Seconds 1
+            if (-not $proc.HasExited) {
+                $proc.Kill()
+            }
+        } catch { }
+    }
+}

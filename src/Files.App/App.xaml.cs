@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
@@ -456,8 +456,8 @@ namespace Files.App
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
 
-			// Wait for ongoing file operations
-			FileOperationsHelpers.WaitForCompletion();
+			// Wait for ongoing file operations (with 30s timeout)
+			FileOperationsHelpers.WaitForCompletion(TimeSpan.FromSeconds(30), CancellationToken.None);
 
 			// Close the still-alive window for real now that teardown is done
 			if (isClosedToBackground && !_isWindowTeardownCompleted)
@@ -491,7 +491,7 @@ namespace Files.App
 				if (cancellationToken.IsCancellationRequested)
 					return;
 
-				FileOperationsHelpers.WaitForCompletion();
+				FileOperationsHelpers.WaitForCompletion(TimeSpan.FromSeconds(30), cancellationToken);
 				if (cancellationToken.IsCancellationRequested)
 					return;
 

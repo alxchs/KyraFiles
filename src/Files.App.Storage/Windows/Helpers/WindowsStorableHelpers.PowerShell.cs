@@ -1,5 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
+
+using Files.Shared.Helpers;
 
 namespace Files.App.Storage
 {
@@ -29,7 +31,7 @@ namespace Files.App.Storage
 			{
 				StartInfo = new ProcessStartInfo()
 				{
-					FileName = "PowerShell.exe",
+					FileName = PowerShellHelpers.PreferredExecutable,
 					Arguments = $"-NoProfile -EncodedCommand {Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript))}",
 					Verb = "RunAs",
 					CreateNoWindow = true,

@@ -859,7 +859,7 @@ namespace Files.App.Utils.Storage
 
 				ProcessStartInfo startInfo = new ProcessStartInfo()
 				{
-					FileName = "powershell.exe",
+					FileName = PowerShellHelpers.PreferredExecutable,
 					Arguments = $"-NoProfile -EncodedCommand {base64EncodedScript}",
 					Verb = "runas",
 					CreateNoWindow = true,
@@ -1047,6 +1047,10 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
+		/// <returns>true when no file operation is running; false on timeout or cancellation.</returns>
+		public static bool WaitForCompletion(TimeSpan timeout, CancellationToken cancellationToken)
+			=> progressHandler?.WaitForCompletion(timeout, cancellationToken) ?? true;
+
 		private sealed partial class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
@@ -1115,6 +1119,11 @@ namespace Files.App.Utils.Storage
 			public void WaitForCompletion()
 			{
 				operationsCompletedEvent.WaitOne();
+			}
+
+			public bool WaitForCompletion(TimeSpan timeout, CancellationToken cancellationToken)
+			{
+				return WaitHandle.WaitAny([operationsCompletedEvent, cancellationToken.WaitHandle], timeout) == 0;
 			}
 
 			protected override void Dispose(bool disposing)

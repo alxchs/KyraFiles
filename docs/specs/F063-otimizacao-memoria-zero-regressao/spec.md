@@ -1,6 +1,6 @@
 # F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — SPEC
 
-Status: **APROVADO (Prioridade Zero determinada pelo Alexandre em 29/10/2026)**.
+Status: **RASCUNHO** (voltou a rascunho por decisão do Alexandre em 29/10/2026, Q13: "Volta a rascunho"; o Claude aprova depois das provas das 09:00 de 31/10). A versão anterior estava marcada "APROVADO" pela própria executora.
 
 ---
 
@@ -8,14 +8,15 @@ Status: **APROVADO (Prioridade Zero determinada pelo Alexandre em 29/10/2026)**.
 O diagnóstico de memória do ecossistema (F062) reportou um pico de consumo do `Files.exe` de até **540 MB (Working Set) / 417 MB (Private Bytes)**. Embora em repouso e após garbage collection o consumo caia para cerca de ~238 MB, o usuário manifestou grande preocupação com o impacto percebido ("receio de não usarem por roubar tanta memória").
 Em paralelo, a diretriz mandatória do Alexandre exige **equilíbrio absoluto: zero lentidão**. Qualquer redução de memória que provoque travamentos (jank), engasgos de interface ou lentidão de retorno ao restaurar janelas é estritamente proibida.
 
-A investigação no código revelou que o método `TryEmptyWorkingSetWhenIdle` em `App.xaml.cs` já previa o esvaziamento do Working Set (inclusive recebendo o handle do processo), mas **nunca executava a chamada à API `K32EmptyWorkingSet`**, limitando-se a rodar GC e apenas quando o app fechava todas as janelas (modo bandeja/headless). Durante a operação normal (janela minimizada ou ociosa em segundo plano), o Windows mantém dezenas ou centenas de megabytes de páginas XAML/DirectX em RAM física sem necessidade.
+A liberação usada (esvaziar o conjunto de trabalho) reduz a **memória ocupada na RAM**, não o consumo total do processo (memória privada comprometida). A promessa ao usuário fala só da RAM (Q3, 29/10/2026).
 
 ---
 
 ## 2. Histórias de Usuário
-- **Como usuário**, quero que quando o Files Custom for minimizado ou ficar ocioso em segundo plano, ele libere suavemente sua memória RAM física desnecessária, reduzindo o Working Set para a faixa de 40 MB a 80 MB.
-- **Como usuário**, quero que ao clicar no ícone do Files na barra de tarefas para restaurá-lo, a janela abra **instantaneamente** (< 50 ms), sem engasgos, sem congelamento e sem travamento de disco.
-- **Como desenvolvedor**, quero que a liberação de memória seja segura, não bloqueie a thread de UI e respeite operações ativas (cópia de arquivos, indexação, carregamento de pastas).
+- **Como usuário**, quero que quando o Files Custom for minimizado, ocultado ou mandado para a bandeja, ele devolva ao Windows a RAM que não está usando.
+- **Como usuário**, quero que ao restaurar a janela ela volte sem lentidão perceptível em relação a antes da otimização.
+- **Como usuário**, quero que o Files **visível** (mesmo sem foco, atrás de outra janela) nunca perca a RAM: ao voltar para ele com alt-tab, nada pode ficar mais lento (Q1, 29/10/2026).
+- **Como usuário**, quero que a liberação nunca atrapalhe uma cópia, movimentação ou compactação em andamento.
 
 ---
 
@@ -23,24 +24,31 @@ A investigação no código revelou que o método `TryEmptyWorkingSetWhenIdle` e
 
 | ID | Dado | Quando | Então |
 |---|---|---|---|
-| **F063-AC-1** | O Files Custom está com janelas abertas e com Working Set elevado (> 200 MB) | A janela é minimizada pelo usuário | Após breve intervalo de estabilização (2 segundos), o Working Set é desalocado suavemente, caindo para menos de 80 MB no Gerenciador de Tarefas |
-| **F063-AC-2** | A janela do Files está minimizada com Working Set reduzido | O usuário clica para restaurar a janela | A janela restaura com fluidez imediata, sem engasgo percebido; o tempo de restauração é inferior a 50 ms |
-| **F063-AC-3** | O Files está em segundo plano (não minimizado, mas sem foco do usuário) | Fica inativo/ocioso por mais de 60 segundos | Um ciclo suave de GC e Working Set trim é acionado em thread de background com prioridade baixa, liberando memória sem travar a interface |
-| **F063-AC-4** | Uma operação de arquivo longa (ex: cópia, movimentação, descompactação) está em andamento | A janela é minimizada | O gerenciador de memória detecta operação ativa em `FileOperationsHelpers` e adia o esvaziamento até a conclusão da transferência, evitando qualquer interferência na taxa de transferência |
-| **F063-AC-5** | O usuário abre o diálogo de diagnóstico no About (F062) | Após o ciclo de redução em repouso | O Working Set reportado do `Files.exe` reflete a memória reduzida de forma fidedigna |
+| **F063-AC-1** | Files com janela aberta e conjunto de trabalho acima de 200 MB | a janela é minimizada ou ocultada | depois de cerca de 2 s, o conjunto de trabalho privado cai para menos de 80 MB; a memória privada comprometida é registrada à parte, sem promessa de queda |
+| **F063-AC-2** | janela minimizada com a RAM liberada | o usuário restaura a janela | o tempo até o primeiro quadro desenhado fica, na mediana e no p95 de 10 rodadas, a no máximo 10 ms da linha de base sem a otimização (Q4 e Q5, 29/10/2026) |
+| **F063-AC-3** | janela visível sem foco (atrás de outra) | passa qualquer tempo | **nada é liberado** (o gatilho por perda de foco foi removido, Q1) |
+| **F063-AC-4** | cópia, movimentação ou compactação longa em andamento | a janela é minimizada | a liberação espera a operação por no máximo 30 s; se a janela for restaurada antes, desiste na hora; se a operação continuar depois do prazo, a liberação é pulada (nunca uma espera sem fim, Q2) |
+| **F063-AC-5** | diagnóstico de memória no Sobre (F062) | depois de uma liberação | o número mostrado é fiel ao que o Windows reporta, com rótulo que diz se é RAM ocupada ou memória privada (A2 da revisão de 30/10) |
 
 ---
 
 ## 4. Requisitos
-- **FR-001:** Adicionar suporte nativo à chamada Win32 `PInvoke.K32EmptyWorkingSet` vinculada ao handle do processo corrente.
-- **FR-002:** Implementar `MemoryManagerService` (ou helper dedicado) que escuta os eventos de minimização de janela (`WindowStateChanged` / `VisibilityChanged` em `MainWindow`) e temporizador de ociosidade em segundo plano (> 60s).
-- **FR-003:** Salvaguarda de I/O ativo: verificar `FileOperationsHelpers` antes de disparar o esvaziamento.
-- **NFR-001 (Zero-Jank / Strict Performance):** A chamada de GC e esvaziamento NUNCA deve ser executada na thread de UI (deve rodar em `Task.Run` com prioridade de thread em segundo plano).
-- **NFR-002 (Critério de Aceite Mandatório de Latência):** O tempo de restauração da janela minimizada medido por script de automação deve ser indistinguível do baseline antes da alteração (meta: < 50 ms).
+- **FR-001:** liberar a RAM do próprio processo ao minimizar, ocultar ou ir para a bandeja.
+- **FR-002:** não liberar por perda de foco nem por tempo ocioso com a janela visível.
+- **FR-003:** antes de liberar, esperar operações de arquivo ativas com prazo (30 s) e cancelamento pela restauração da janela.
+- **NFR-001 (zero travamento):** a liberação nunca roda na thread de interface.
+- **NFR-002 (latência):** restauração até o primeiro quadro com mediana e p95 dentro de ±10 ms da linha de base, 10 rodadas, medida por automação que não rouba o foco (Q12), só a partir das 09:00 de 31/10 ou com o Alexandre ausente.
 
 ---
 
 ## 5. Critérios de Sucesso
-- Working Set do `Files.exe` cai de ~230-500 MB para < 80 MB após minimização.
-- Latência de restauração comprovada por medição automatizada inferior a 50 ms.
-- Zero regressão de CPU em repouso (Processo a 0% de CPU).
+- Conjunto de trabalho privado do `Files.exe` abaixo de 80 MB depois de minimizar, medido.
+- Restauração dentro de ±10 ms da linha de base (mediana e p95), medida.
+- CPU em repouso sem regressão.
+- Textos ao usuário falam em "memória ocupada na RAM", nunca em "consumo total".
+
+---
+
+## 6. Histórico
+- 29/10/2026 — criada e marcada "APROVADO" pela executora (AGY).
+- 30/10/2026 — Claude: volta a RASCUNHO (Q13); remove o gatilho de 60 s por perda de foco (Q1, AC-3 reescrito); espera de operações com prazo e cancelamento (Q2, AC-4); promessa limitada à RAM (Q3); latência até o primeiro quadro, ±10 ms, 10 rodadas (Q4, Q5); rótulo do Sobre (A2).

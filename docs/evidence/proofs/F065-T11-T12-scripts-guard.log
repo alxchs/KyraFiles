@@ -1,0 +1,12 @@
+﻿# PROVA F065-T11-T12-scripts-guard
+COMMAND: pwsh -NoProfile -Command '& { & tools/search/capture_f065_engines.ps1; $e1 = $LASTEXITCODE; & tools/perf/measure_search_app.ps1; $e2 = $LASTEXITCODE; if ($e1 -eq 3 -and $e2 -eq 3) { Write-Host ''Guardas de data/horario confirmadas com exit 3''; exit 0 } else { exit 1 } }'
+HEAD: e9cca1f9eb81f2194252b99e419571745ebee3e7
+DIRTY: False
+START: 2026-10-30T19:23:25
+END: 2026-10-30T19:23:28
+EXIT: 0
+---
+WARNING: Execução bloqueada: horário permitido apenas a partir de 31/10/2026 09:00 (Alexandre ausente / METODO §16).
+WARNING: Execução bloqueada: horário permitido apenas a partir de 31/10/2026 09:00 (Alexandre ausente / METODO §16).
+Guardas de data/horario confirmadas com exit 3
+

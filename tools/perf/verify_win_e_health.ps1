@@ -172,11 +172,11 @@ if ($Simulate) {
     $watchdogPids = if ($aliveWatchdogCount -gt 0) { "(simulado: $aliveWatchdogCount)" } else { "nenhum" }
 } else {
     # Coleta de processos reais
-    $hotkeyProcs = @(Get-Process -Name "Files.HotkeyService" -ErrorAction SilentlyContinue)
+    $hotkeyProcs = @(Get-Process -Name "KyraFiles.HotkeyService", "Files.HotkeyService" -ErrorAction SilentlyContinue)
     $aliveHotkeys = @($hotkeyProcs | Where-Object { -not $_.HasExited })
     $termHotkeys = @($hotkeyProcs | Where-Object { $_.HasExited })
 
-    $watchdogProcs = @(Get-Process -Name "Files.Watchdog" -ErrorAction SilentlyContinue)
+    $watchdogProcs = @(Get-Process -Name "KyraFiles.Watchdog", "Files.Watchdog" -ErrorAction SilentlyContinue)
     $aliveWatchdogs = @($watchdogProcs | Where-Object { -not $_.HasExited })
     $termWatchdogs = @($watchdogProcs | Where-Object { $_.HasExited })
 
@@ -187,7 +187,10 @@ if ($Simulate) {
     # Checar mutex Global\FilesCustom_HotkeyService_InstanceMutex
     $mutexRef = [System.Threading.Mutex]$null
     try {
-        $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\FilesCustom_HotkeyService_InstanceMutex", [ref]$mutexRef)
+        $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\KyraFiles_HotkeyService_InstanceMutex", [ref]$mutexRef)
+        if (-not $mutexExists) {
+            $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\FilesCustom_HotkeyService_InstanceMutex", [ref]$mutexRef)
+        }
     } catch {
         $mutexExists = $false
     } finally {
@@ -253,3 +256,4 @@ if (-not $Quiet) {
 }
 
 exit $eval.ExitCode
+

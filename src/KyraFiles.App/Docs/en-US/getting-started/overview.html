@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overview - Files Custom</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1c1c1c;
+      --text-secondary: #5c5c5c;
+      --card-bg: #f9f9fb;
+      --card-border: #e5e5ea;
+      --accent: #0067c0;
+      --accent-hover: #005a9e;
+      --sidebar-bg: #f3f3f5;
+      --sidebar-border: #e1e1e5;
+      --code-bg: #f0f0f4;
+      --badge-bg: #e1f0ff;
+      --badge-text: #005fb8;
+      --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #202020;
+        --text: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: #2b2b2b;
+        --card-border: #383838;
+        --accent: #4cc2ff;
+        --accent-hover: #70d0ff;
+        --sidebar-bg: #181818;
+        --sidebar-border: #2e2e2e;
+        --code-bg: #2c2c2c;
+        --badge-bg: #003a6a;
+        --badge-text: #60cdff;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+    aside {
+      width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    aside h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-selector {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+    .lang-btn {
+      flex: 1;
+      text-align: center;
+      padding: 4px 0;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text-secondary);
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      transition: all 0.15s ease;
+    }
+    .lang-btn:hover {
+      background: var(--card-bg);
+      color: var(--text);
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    aside ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    aside a.nav-item {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.15s ease;
+    }
+    aside a.nav-item:hover {
+      background: var(--card-bg);
+    }
+    aside a.nav-item.active {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      padding: 40px 48px;
+      overflow-y: auto;
+    }
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 32px 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    h3 {
+      font-size: 1.15rem;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    p {
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    ul.features-list {
+      margin-left: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    kbd {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: Consolas, monospace;
+      font-size: 0.9em;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--sidebar-bg);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>📁 Files Custom</h2>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px;">Offline Local Documentation</div>
+    <div class="lang-selector">
+      <a href="../../pt-BR/getting-started/overview.html" class="lang-btn">PT</a>
+      <a href="../../en-US/getting-started/overview.html" class="lang-btn active">EN</a>
+      <a href="../../es-ES/getting-started/overview.html" class="lang-btn">ES</a>
+      <a href="../../de-DE/getting-started/overview.html" class="lang-btn">DE</a>
+    </div>
+    <ul>
+      <li><a href="overview.html" class="nav-item active">Overview</a></li>
+      <li><a href="../features/tabs.html" class="nav-item">Tabs & Multitasking</a></li>
+      <li><a href="../features/dual-pane.html" class="nav-item">Dual Pane</a></li>
+      <li><a href="../features/layout.html" class="nav-item">Layouts & Columns</a></li>
+      <li><a href="../features/command-palette.html" class="nav-item">Command Palette & Shortcuts</a></li>
+      <li><a href="../features/git.html" class="nav-item">Git Integration</a></li>
+      <li><a href="../features/tags.html" class="nav-item">File Tags</a></li>
+      <li><a href="../features/files-custom.html" class="nav-item">Files Custom Exclusives</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="breadcrumb">Documentation &gt; Getting Started &gt; Overview</div>
+    <h1>Overview</h1>
+    <p class="lead"><strong>Files</strong> is a modern file manager designed to help users organize their files and folders with agility, elegance, and complete control. Built with WinUI 3 and native Windows 11 Fluent Design.</p>
+    
+<div class="card">
+  <h3>Key Platform Highlights</h3>
+  <ul class="features-list">
+    <li><strong>Robust Multitasking:</strong> Full tab navigation, Dual Pane view, and intuitive drag &amp; drop file operations.</li>
+    <li><strong>File Tags:</strong> Color-code and organize files with metadata preserved in NTFS Alternate Data Streams (ADS).</li>
+    <li><strong>Fluent Design &amp; Themes:</strong> Native Mica backdrop support, automatic Dark/Light mode, and compact density.</li>
+    <li><strong>Git Integration:</strong> Switch branches, check status of tracked files, and commit directly from the file manager.</li>
+    <li><strong>Files Custom Exclusives:</strong> Miller Columns with independent resize, external F3 search, and strict memory containment.</li>
+  </ul>
+</div>
+<h2>Essential Shortcuts</h2>
+<table>
+  <tr><th>Action</th><th>Shortcut</th><th>Description</th></tr>
+  <tr><td>New Tab</td><td><kbd>Ctrl</kbd> + <kbd>T</kbd></td><td>Opens a new tab on Home</td></tr>
+  <tr><td>Dual Pane</td><td><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>+</kbd></td><td>Toggles side-by-side Dual Pane view</td></tr>
+  <tr><td>Command Palette</td><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td><td>Opens command palette with over 150 fast actions</td></tr>
+  <tr><td>External Search</td><td><kbd>F3</kbd></td><td>Launches instant search via Everything or Agent Ransack</td></tr>
+</table>
+
+  </main>
+</body>
+</html>

@@ -21,5 +21,15 @@
     <!--  Enable all C#/WinRT trimming and NativeAOT diagnostics  -->
     <CsWinRTAotWarningLevel>3</CsWinRTAotWarningLevel>
 
+    <!-- Restrict Git configuration scope to local repository to avoid sandbox permission errors with global includeIf -->
+    <GitRepositoryConfigurationScope>local</GitRepositoryConfigurationScope>
+
+    <!-- Avoid multi-node parallel MSBuild issues in sandbox -->
+    <BuildInParallel>false</BuildInParallel>
+    <RestoreBuildInParallel>false</RestoreBuildInParallel>
+
+    <!-- Avoid offline vulnerability audit network errors in sandbox -->
+    <NuGetAudit>false</NuGetAudit>
+
   </PropertyGroup>
 </Project>

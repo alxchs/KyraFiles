@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Files Custom Besonderheiten - Files Custom</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1c1c1c;
+      --text-secondary: #5c5c5c;
+      --card-bg: #f9f9fb;
+      --card-border: #e5e5ea;
+      --accent: #0067c0;
+      --accent-hover: #005a9e;
+      --sidebar-bg: #f3f3f5;
+      --sidebar-border: #e1e1e5;
+      --code-bg: #f0f0f4;
+      --badge-bg: #e1f0ff;
+      --badge-text: #005fb8;
+      --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #202020;
+        --text: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: #2b2b2b;
+        --card-border: #383838;
+        --accent: #4cc2ff;
+        --accent-hover: #70d0ff;
+        --sidebar-bg: #181818;
+        --sidebar-border: #2e2e2e;
+        --code-bg: #2c2c2c;
+        --badge-bg: #003a6a;
+        --badge-text: #60cdff;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+    aside {
+      width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    aside h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-selector {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+    .lang-btn {
+      flex: 1;
+      text-align: center;
+      padding: 4px 0;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text-secondary);
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      transition: all 0.15s ease;
+    }
+    .lang-btn:hover {
+      background: var(--card-bg);
+      color: var(--text);
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    aside ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    aside a.nav-item {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.15s ease;
+    }
+    aside a.nav-item:hover {
+      background: var(--card-bg);
+    }
+    aside a.nav-item.active {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      padding: 40px 48px;
+      overflow-y: auto;
+    }
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 32px 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    h3 {
+      font-size: 1.15rem;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    p {
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    ul.features-list {
+      margin-left: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    kbd {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: Consolas, monospace;
+      font-size: 0.9em;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--sidebar-bg);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>📁 Files Custom</h2>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px;">Lokale Offline-Dokumentation</div>
+    <div class="lang-selector">
+      <a href="../../pt-BR/features/files-custom.html" class="lang-btn">PT</a>
+      <a href="../../en-US/features/files-custom.html" class="lang-btn">EN</a>
+      <a href="../../es-ES/features/files-custom.html" class="lang-btn">ES</a>
+      <a href="../../de-DE/features/files-custom.html" class="lang-btn active">DE</a>
+    </div>
+    <ul>
+      <li><a href="../getting-started/overview.html" class="nav-item">Übersicht</a></li>
+      <li><a href="tabs.html" class="nav-item">Registerkarten & Multitasking</a></li>
+      <li><a href="dual-pane.html" class="nav-item">Doppelbereich (Dual Pane)</a></li>
+      <li><a href="layout.html" class="nav-item">Layout-Modi & Spalten</a></li>
+      <li><a href="command-palette.html" class="nav-item">Befehlspalette & Tastenkürzel</a></li>
+      <li><a href="git.html" class="nav-item">Git-Integration</a></li>
+      <li><a href="tags.html" class="nav-item">Datei-Tags</a></li>
+      <li><a href="files-custom.html" class="nav-item active">Files Custom Besonderheiten</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="breadcrumb">Dokumentation &gt; Funktionen &gt; Besonderheiten</div>
+    <h1>Files Custom Besonderheiten</h1>
+    <p class="lead">Exklusive Stabilitäts- und Produktivitätsverbesserungen für höchste Zuverlässigkeit.</p>
+    
+<div class="card">
+  <h3>Exklusive Funktionen im Überblick</h3>
+  <ul class="features-list">
+    <li><strong>Crash Guard (F069):</strong> Automatische Resilienz mit Fallback auf den Windows-Explorer bei 2 Abstürzen innerhalb von 60s.</li>
+    <li><strong>Lokale Offline-Dokumentation (F068/F072):</strong> 100% offline in 4 Sprachen mit Online-Fallback.</li>
+    <li><strong>Externe F3-Suche (F013):</strong> Ultraschnelle Suche über Everything oder Agent Ransack.</li>
+    <li><strong>Ressourcen-Eindämmung (F021):</strong> Deaktivierter IndexService und 0% CPU im Leerlauf.</li>
+    <li><strong>Modernes PowerShell (F067):</strong> Standard-Aktionen priorisieren modernes pwsh.</li>
+  </ul>
+</div>
+
+  </main>
+</body>
+</html>

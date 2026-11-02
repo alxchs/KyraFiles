@@ -1,0 +1,44 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
+        <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>x86;x64;arm64</Platforms>
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MSTest.TestAdapter" />
+        <PackageReference Include="MSTest.TestFramework" />
+        <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\src\KyraFiles.App\Helpers\UI\DialogAccessKeys.cs" Link="DialogAccessKeys.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\Search\EverythingResultLine.cs" Link="EverythingResultLine.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Helpers\DocumentationHelper.cs" Link="DocumentationHelper.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Constants.cs" Link="Constants.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Helpers\CredentialsHelpers.cs" Link="CredentialsHelpers.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Helpers\ICredentialsVault.cs" Link="ICredentialsVault.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\Git\IGitHubAuthService.cs" Link="IGitHubAuthService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\Git\GitHubAuthService.cs" Link="GitHubAuthService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\IFileIntegrityService.cs" Link="IFileIntegrityService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\FileIntegrityService.cs" Link="FileIntegrityService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\IZoneIdentifierService.cs" Link="IZoneIdentifierService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\ZoneIdentifierService.cs" Link="ZoneIdentifierService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\Settings\IUserSettingsMigrationService.cs" Link="IUserSettingsMigrationService.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Services\Settings\UserSettingsMigrationService.cs" Link="UserSettingsMigrationService.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\KyraFiles.App.Search.Index\KyraFiles.App.Search.Index.csproj" />
+        <ProjectReference Include="..\..\src\KyraFiles.App.IndexService\KyraFiles.App.IndexService.csproj" />
+        <ProjectReference Include="..\..\src\KyraFiles.Shared\KyraFiles.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

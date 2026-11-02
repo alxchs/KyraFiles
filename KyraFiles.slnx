@@ -1,0 +1,51 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/global/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/core/">
+    <Project Path="src/KyraFiles.Core.SourceGenerator/KyraFiles.Core.SourceGenerator.csproj" />
+    <Project Path="src/KyraFiles.Core.Storage/KyraFiles.Core.Storage.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.Shared/KyraFiles.Shared.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.Search.Index/KyraFiles.App.Search.Index.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.IndexService/KyraFiles.App.IndexService.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/src/platforms/">
+    <Project Path="src/KyraFiles.App.BackgroundTasks/KyraFiles.App.BackgroundTasks.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.Controls/KyraFiles.App.Controls.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.CsWin32/KyraFiles.App.CsWin32.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.Server/KyraFiles.App.Server.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App.Storage/KyraFiles.App.Storage.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="src/KyraFiles.App/KyraFiles.App.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KyraFiles.App.Search.Index.Tests/KyraFiles.App.Search.Index.Tests.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+</Solution>

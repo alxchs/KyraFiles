@@ -1,0 +1,11 @@
+﻿# PROVA F063-C6-script-guard
+COMMAND: pwsh -NoProfile -Command '& { & tools/perf/measure_f063_memory_restore.ps1; if ($LASTEXITCODE -eq 3) { Write-Host ''Guarda F063 confirmada com exit 3''; exit 0 } else { exit 1 } }'
+HEAD: 79fa0528be4c6826812cfba7481085bc041ca14c
+DIRTY: False
+START: 2026-10-30T19:31:43
+END: 2026-10-30T19:31:46
+EXIT: 0
+---
+WARNING: Execução bloqueada: horário permitido apenas a partir de 31/10/2026 09:00 (Alexandre ausente / METODO §16).
+Guarda F063 confirmada com exit 3
+

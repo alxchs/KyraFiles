@@ -1,0 +1,37 @@
+﻿# PROVA F063-C8-test-red
+COMMAND: pwsh -NoProfile -Command '& { dotnet test tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj -p:Platform=x64 --filter FullyQualifiedName~EcosystemMemoryReport_FormatSummary; if ($LASTEXITCODE -ne 0) { Write-Host ''MUTACAO CONFIRMADA: Teste falhou como esperado quando o codigo foi quebrado''; exit 0 } else { Write-Error ''Erro: teste deveria ter falhado!''; exit 1 } }'
+HEAD: 6c7e0de0446c72bd3bd4e13f2eca23f5923123fe
+DIRTY: False
+START: 2026-10-30T19:33:15
+END: 2026-10-30T19:33:52
+EXIT: 0
+---
+C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(528,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
+C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(539,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
+C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(546,23): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
+Running tests from C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.dll (net10.0|x64)
+failed EcosystemMemoryReport_FormatSummary_IncludesBothWorkingSetAndPrivateMemory (132ms)
+  from C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.dll (net10.0|x64)
+  Assertion failed. Expected strings to be equal.
+  Strings have different lengths (expected: 56, actual: 52) and differ at 1 location(s). First difference at index 25.
+  
+  expected:   "RAM: 150.0 MB | Private: 200.0 MB (3 active process(es))"
+  actual:     "RAM: 150.0 MB | Private: 0 MB (3 active process(es))"
+  difference: --------------------------^
+  
+  Assert.AreEqual("RAM: 150.0 MB | Private: 200.0 MB (3 active process(es))", summary)
+    at Files.App.Search.Index.Tests.EcosystemMemoryDiagnosticsTests.EcosystemMemoryReport_FormatSummary_IncludesBothWorkingSetAndPrivateMemory() in C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\EcosystemMemoryDiagnosticsTests.cs:101
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.dll (net10.0|x64) failed with 1 error(s) (2s 524ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 1
+  failed: 1
+  succeeded: 0
+  skipped: 0
+  duration: 5s 631ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)
+MUTACAO CONFIRMADA: Teste falhou como esperado quando o codigo foi quebrado
+

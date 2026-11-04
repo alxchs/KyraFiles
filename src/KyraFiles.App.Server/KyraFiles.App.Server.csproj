@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <AssemblyName>Files.App.Server</AssemblyName>
-        <RootNamespace>Files.App.Server</RootNamespace>
+        <AssemblyName>KyraFiles.App.Server</AssemblyName>
+        <RootNamespace>KyraFiles.App.Server</RootNamespace>
         <OutputType>WinExe</OutputType>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
@@ -34,14 +34,14 @@
 
     <ItemGroup>
         <Manifest Include="app.manifest" />
-        <TrimmerRootAssembly Include="Files.App.Server" />
+        <TrimmerRootAssembly Include="KyraFiles.App.Server" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\KyraFiles.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
+        <None Include="..\KyraFiles.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\KyraFiles.App.Server.winmd">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.Server.winmd</Link>
+            <Link>KyraFiles.App.Server.winmd</Link>
             <Visible>false</Visible>
         </None>
     </ItemGroup>

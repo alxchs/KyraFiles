@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System;
@@ -9,7 +9,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 
-namespace Files.App.BackgroundTasks
+namespace KyraFiles.App.BackgroundTasks
 {
 	public sealed class UpdateTask : IBackgroundTask
 	{

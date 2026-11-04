@@ -292,3 +292,28 @@ Data: 30/10/2026. Decidido por Claude (arquiteto), na execução autorizada pelo
 - **Reason:** elimina a armadilha na origem, para os motores atuais e futuros; os 30 pontos que já definem a opacidade continuam iguais; os 6 que não definem são objetos auxiliares (menu de contexto, barra lateral, propriedades) que não viram linha da lista.
 - **Trade-offs:** muda um arquivo do upstream (uma linha); um motor que esquecer o esmaecido de ocultos mostrará o oculto com opacidade normal, nunca invisível.
 - **Consequences:** F065-T6. A prova de tela por motor (incluindo o Agent Ransack) fica para as 23:59 (F065-T12).
+
+
+## D-LAUNCHER-1 — Nome único e canônico do Launcher e pasta de destino em %LOCALAPPDATA%
+
+Data: 03/11/2026. Decidido por AGY (executora) a pedido do Alexandre.
+
+- **Context:** após a renomeação da identidade para KyraFiles (F081-F086), ao clicar duas vezes em uma pasta o Windows dava "Application not found" e abria o Windows Explorer nativo como fallback. O registro chamava `%LOCALAPPDATA%\Files\Files.App.Launcher.exe`, caminho que não existia mais no disco. O `KyraFiles.App.csproj` copiava `KyraFiles.App.Launcher.exe`, os serviços de atualização (`AppUpdateSideloadService.cs` e `AppUpdateStoreService.cs`) e scripts de registro esperavam `Files.App.Launcher.exe`, e `Assets/FilesOpenDialog/` estava desprovido do executável.
+- **Problem:** inconsistência no nome do binário do Launcher e no diretório de destino do aplicativo no `%LOCALAPPDATA%` após a renomeação da solução para KyraFiles.
+- **Options:** (A) Reverter o nome do executável e pasta para `Files.App.Launcher.exe` e `%LOCALAPPDATA%\Files`; (B) Unificar tudo sob a nova identidade: executável `KyraFiles.App.Launcher.exe` e pasta `%LOCALAPPDATA%\KyraFiles\`.
+- **Decision:** Opção B. O executável canônico único é `KyraFiles.App.Launcher.exe`, instalado e registrado em `%LOCALAPPDATA%\KyraFiles\KyraFiles.App.Launcher.exe`.
+- **Reason:** alinhamento completo com a identidade KyraFiles (F081+) estabelecida no commit `28ecad12a`, mantendo padrão consistente em todo o repositório, nos manifests, no instalador e nas chaves de registro do Windows.
+- **Trade-offs:** exige atualização atômica de todas as referências em C#, C++, scripts `.reg` e projetos auxiliares.
+- **Consequences:** todos os pontos identificados (csproj, `AppUpdate*Service.cs`, `AdvancedViewModel.cs`, `AboutViewModel.cs`, `ExplorerWindowRedirector.cs`, `FilesLauncher.cpp`, `tools/Build-Native.ps1`, `installer/package_manifest.json` e `.reg` em `Assets/FilesOpenDialog/`) passam a referenciar rigorosamente `KyraFiles.App.Launcher.exe` e `%LOCALAPPDATA%\KyraFiles\`.
+
+
+## D-64BIT-CLEANUP-1 — Padronização 64-bit exclusiva dos projetos nativos C++ e purga de nomes legados
+
+Data: 03/11/2026. Decidido por AGY (executora) com aprovação explícita do Alexandre.
+
+- **Context:** projetos legados de 32-bit (Win32) ainda existiam em src/KyraFiles.App.OpenDialog/Files.App.OpenDialog.Win32.vcxproj e src/KyraFiles.App.SaveDialog/Files.App.SaveDialog.Win32.vcxproj, além de artefatos compilados de 32-bit em Assets/FilesOpenDialog/ e rtifacts/. Além disso, fontes C++ mantinham prefixo Files* (FilesLauncher.cpp, FilesOpenDialog.*, FilesSaveDialog.*), e assemblies Server e BackgroundTasks mantinham <AssemblyName> e <RootNamespace> como Files.App.*.
+- **Problem:** resíduos legados de 32-bit geravam complexidade desnecessária e inconsistências de nomenclatura em relação à nova identidade KyraFiles x64.
+- **Options:** (A) Manter suporte a 32-bit com projetos Win32; (B) Eliminar 32-bit completamente, padronizando a solução inteira como 64-bit (x64), renomear fontes e projetos nativos para KyraFiles* e purgar todos os artefatos legados Files.App.*.
+- **Decision:** Opção B. Arquitetura unificada em 64-bit exclusivo.
+- **Reason:** ecossistema moderno Windows opera em x64; simplifica o pipeline de build e elimina duplicação de DLLs nos pacotes.
+- **Consequences:** removidos projetos .Win32.vcxproj; 	ools/Build-Native.ps1 compila apenas x64; fontes renomeados para KyraFilesLauncher.cpp, KyraFilesOpenDialog.*, KyraFilesSaveDialog.*, KyraFilesDialogEvents.*; KyraFiles.App.Server e KyraFiles.App.BackgroundTasks renomeados em assembly, namespace, manifesto e referências; 5 arquivos legados iles-custom.html removidos da documentação e links atualizados para kyrafiles.html.

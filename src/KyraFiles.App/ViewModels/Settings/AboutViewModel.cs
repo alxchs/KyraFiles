@@ -177,7 +177,7 @@ namespace Files.App.ViewModels.Settings
 			var command = (string?)subkey?.GetValue(string.Empty);
 
 			// Close the settings dialog if Files is the default file manager
-			if (!string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe"))
+			if (!string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("Files.App.Launcher.exe")))
 				UIHelpers.CloseAllDialogs();
 
 			return true;

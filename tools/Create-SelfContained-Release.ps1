@@ -15,7 +15,7 @@ if (Test-Path $stageDir) {
 New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
 
 # Launcher (gerenciador padrão) e DLLs de diálogo vêm de tools\Build-Native.ps1, rodado antes do mkfile
-$nativeFiles = 'Files.App.Launcher.exe', 'Files.App.OpenDialog64.dll', 'Files.App.OpenDialog32.dll', 'Files.App.SaveDialog64.dll', 'Files.App.SaveDialog32.dll'
+$nativeFiles = 'KyraFiles.App.Launcher.exe', 'Files.App.OpenDialog64.dll', 'Files.App.OpenDialog32.dll', 'Files.App.SaveDialog64.dll', 'Files.App.SaveDialog32.dll'
 $missing = $nativeFiles | Where-Object { -not (Test-Path (Join-Path $appxDir "Assets\FilesOpenDialog\$_")) }
 if ($missing) {
     throw "Faltam no layout AppX: $($missing -join ', '). Rode tools\Build-Native.ps1 e depois o mkfile release."

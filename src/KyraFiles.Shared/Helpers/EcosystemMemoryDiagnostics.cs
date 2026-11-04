@@ -87,9 +87,9 @@ namespace Files.Shared.Helpers
 		public static readonly string[] MonitoredProcessNames =
 		[
 			"KyraFiles",
-			"Files.App.Server",
-			"Files.HotkeyService",
-			"Files.Watchdog",
+			"KyraFiles.App.Server",
+			"KyraFiles.HotkeyService",
+			"KyraFiles.Watchdog",
 			"KyraFiles.App.IndexService"
 		];
 

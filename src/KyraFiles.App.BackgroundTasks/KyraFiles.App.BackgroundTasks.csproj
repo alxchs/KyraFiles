@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <AssemblyName>Files.App.BackgroundTasks</AssemblyName>
-        <RootNamespace>Files.App.BackgroundTasks</RootNamespace>
+        <AssemblyName>KyraFiles.App.BackgroundTasks</AssemblyName>
+        <RootNamespace>KyraFiles.App.BackgroundTasks</RootNamespace>
         <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <DefaultLanguage>en-US</DefaultLanguage>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>

@@ -8,7 +8,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WinRT;
 
-namespace Files.App.Server;
+namespace KyraFiles.App.Server;
 
 class Program
 {

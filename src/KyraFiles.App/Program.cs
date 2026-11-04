@@ -140,7 +140,7 @@ namespace Files.App
 
 				if (!processes.Any())
 				{
-					foreach (var process in Process.GetProcessesByName("Files.App.Server").Where(ProcessPathPredicate))
+					foreach (var process in Process.GetProcessesByName("KyraFiles.App.Server").Concat(Process.GetProcessesByName("Files.App.Server")).Where(ProcessPathPredicate))
 					{
 						try
 						{

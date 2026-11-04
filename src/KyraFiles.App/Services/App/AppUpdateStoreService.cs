@@ -224,10 +224,10 @@ namespace Files.App.Services
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "KyraFiles");
-			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
+			var destExeFilePath = Path.Combine(destFolderPath, "KyraFiles.App.Launcher.exe");
 			var branchFilePath = Path.Combine(destFolderPath, "Branch.txt");
 
-			// If Files.App.Launcher.exe doesn't exist, no need to update it.
+			// If KyraFiles.App.Launcher.exe doesn't exist, no need to update it.
 			if (!File.Exists(destExeFilePath))
 				return;
 
@@ -254,12 +254,12 @@ namespace Files.App.Services
 
 			try
 			{
-				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
+				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/KyraFiles.App.Launcher.exe"));
 				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-				await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
+				await srcExeFile.CopyAsync(destFolder, "KyraFiles.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 
-				App.Logger.LogInformation("Files.App.Launcher updated.");
+				App.Logger.LogInformation("KyraFiles.App.Launcher updated.");
 			}
 			catch (Exception ex)
 			{

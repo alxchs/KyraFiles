@@ -1,6 +1,6 @@
 # Gera manifesto SHA256 do pacote para permitir atualizações diferenciais (delta) e detecção de integridade
 param(
-    [string]$PackageDir = "src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX",
+    [string]$PackageDir = "src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64",
     [string]$OutputFile = "installer\package_manifest.json"
 )
 
@@ -22,9 +22,7 @@ foreach ($f in $files) {
     $relPath = $f.FullName.Substring((Resolve-Path $PackageDir).Path.Length).TrimStart('\')
     
     # Classifica se é binário principal ou dependência pesada
-    $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'Files.dll' -and $f.Name -ne 'Files.exe'
-    
-    $hash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
+    $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'KyraFiles.dll' -and $f.Name -ne 'KyraFiles.exe' -and $f.Name -ne 'Files.dll' -and $f.Name -ne 'Files.exe'
     $totalBytes += $f.Length
     
     $manifestItems.Add([PSCustomObject]@{
@@ -35,8 +33,8 @@ foreach ($f in $files) {
     })
 }
 
-$issFile = Join-Path $PSScriptRoot "FilesCustomSetup.iss"
-$version = "4.3.2"
+$issFile = Join-Path $PSScriptRoot "KyraFilesSetup.iss"
+$version = "4.3.11"
 if (Test-Path $issFile) {
     $issContent = Get-Content $issFile -Raw
     if ($issContent -match '#define MyAppVersion "([^"]+)"') {
@@ -55,4 +53,4 @@ $manifest = [PSCustomObject]@{
 $json = $manifest | ConvertTo-Json -Depth 5
 [System.IO.File]::WriteAllText((Join-Path $PSScriptRoot "package_manifest.json"), $json, [System.Text.Encoding]::UTF8)
 
-Write-Host "Manifesto gerado com sucesso: $(Join-Path $PSScriptRoot 'package_manifest.json') ($($manifestItems.Count) arquivos, $([math]::Round($totalBytes / 1MB, 2)) MB, versao $version)"
+Write-Host "Manifesto gerado com sucesso: $(Join-Path $PSScriptRoot 'package_manifest.json') ($($manifestItems.Count) arquivos, $([math]::Round($totalBytes / 1MB, 2)) MB)"

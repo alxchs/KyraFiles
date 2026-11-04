@@ -16,13 +16,13 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $tfm = 'net10.0-windows10.0.26100.0'
-$appBin = Join-Path $PSScriptRoot "src\Files.App\bin\x64\$Configuration\$tfm\win-x64"
-$serverBin = Join-Path $PSScriptRoot "src\Files.App.Server\bin\x64\$Configuration\$tfm\win-x64"
-$indexServiceBin = Join-Path $PSScriptRoot "src\Files.App.IndexService\bin\x64\$Configuration\$tfm"
-$recipePath = Join-Path $appBin 'Files.App.build.appxrecipe'
+$appBin = Join-Path $PSScriptRoot "src\KyraFiles.App\bin\x64\$Configuration\$tfm\win-x64"
+$serverBin = Join-Path $PSScriptRoot "src\KyraFiles.App.Server\bin\x64\$Configuration\$tfm\win-x64"
+$indexServiceBin = Join-Path $PSScriptRoot "src\KyraFiles.App.IndexService\bin\x64\$Configuration\$tfm"
+$recipePath = Join-Path $appBin 'KyraFiles.build.appxrecipe'
 
 if (-not (Test-Path $recipePath)) {
-    throw "Receita não encontrada: $recipePath. Compile antes: mkfile $($Configuration.Substring(0,1).ToLower()) src\Files.App\Files.App.csproj"
+    throw "Receita não encontrada: $recipePath. Compile antes: mkfile $($Configuration.Substring(0,1).ToLower()) src\KyraFiles.App\KyraFiles.App.csproj"
 }
 
 [xml]$recipe = Get-Content $recipePath -Raw
@@ -66,15 +66,15 @@ if ($missing) { throw "Arquivos da receita ausentes ($($missing.Count)), recompi
 
 # Servidor COM fora de processo declarado no manifesto (Files.App.Server\Files.App.Server.exe);
 # não é ProjectReference, então não entra na receita.
-if (-not (Test-Path (Join-Path $serverBin 'Files.App.Server.exe'))) { throw "Files.App.Server não compilado: $serverBin" }
+if (-not (Test-Path (Join-Path $serverBin 'KyraFiles.App.Server.exe'))) { throw "KyraFiles.App.Server não compilado: $serverBin" }
 Get-ChildItem $serverBin -File -Recurse | ForEach-Object {
-    $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('Files.App.Server' + $_.FullName.Substring($serverBin.Length)))
+    $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('KyraFiles.App.Server' + $_.FullName.Substring($serverBin.Length)))
 }
 
 # Serviço de índice de busca fora de processo (F015 T10/T11: Files.App.IndexService\Files.App.IndexService.exe)
-if (Test-Path (Join-Path $indexServiceBin 'Files.App.IndexService.exe')) {
+if (Test-Path (Join-Path $indexServiceBin 'KyraFiles.App.IndexService.exe')) {
     Get-ChildItem $indexServiceBin -File -Recurse | ForEach-Object {
-        $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('Files.App.IndexService' + $_.FullName.Substring($indexServiceBin.Length)))
+        $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('KyraFiles.App.IndexService' + $_.FullName.Substring($indexServiceBin.Length)))
     }
 }
 Write-Host "Layout: $layoutDir ($($items.Count) itens da receita, $copied copiados)"

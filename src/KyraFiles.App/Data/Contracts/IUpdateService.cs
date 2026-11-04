@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
@@ -39,7 +39,7 @@ namespace Files.App.Data.Contracts
 		Task CheckForReleaseNotesAsync();
 
 		/// <summary>
-		/// Replace Files.App.Launcher.exe if it is used and has been updated
+		/// Replace KyraFiles.App.Launcher.exe if it is used and has been updated
 		/// </summary>
 		Task CheckAndUpdateFilesLauncherAsync();
 	}

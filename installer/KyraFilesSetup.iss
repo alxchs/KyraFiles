@@ -2,12 +2,12 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.10"
+#define MyAppVersion "4.3.11"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
-#define MyHotkeyExeName "Files.HotkeyService.exe"
-#define MyWatchdogExeName "Files.Watchdog.exe"
-#define SourceAppX "..\src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX"
+#define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
+#define MyWatchdogExeName "KyraFiles.Watchdog.exe"
+#define SourceAppX "..\src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64"
 #define SourceBin "..\bin\Release"
 
 [Setup]
@@ -25,7 +25,7 @@ OutputBaseFilename=KyraFilesSetup-{#MyAppVersion}
 Compression=lzma2/ultra64
 SolidCompression=yes
 CloseApplications=yes
-CloseApplicationsFilter=Files.exe,Files.Watchdog.exe,Files.HotkeyService.exe,Files.App.Server.exe,KyraFiles.App.IndexService.exe
+CloseApplicationsFilter=KyraFiles.exe,KyraFiles.Watchdog.exe,KyraFiles.HotkeyService.exe,KyraFiles.App.Server.exe,KyraFiles.App.IndexService.exe,Files.exe,Files.Watchdog.exe,Files.HotkeyService.exe,Files.App.Server.exe
 RestartApplications=no
 ArchitecturesInstallIn64BitMode=x64compatible
 
@@ -42,27 +42,27 @@ Name: "replacewine"; Description: "Redirecionar abertura de pastas do Explorer p
 Source: "{#SourceAppX}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.locked.*,*.pdb"
 
 ; Binários auxiliares do subsistema F017 e busca Everything
-Source: "{#SourceBin}\Files.HotkeyService.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceBin}\Files.Watchdog.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceBin}\KyraFiles.HotkeyService.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceBin}\KyraFiles.Watchdog.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\alxch\bin\es.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package_manifest.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0
 
 [Registry]
 ; Inicialização do Watchdog com o Windows (padrão marcado na instalação)
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "FilesCustomWatchdog"; ValueData: """{app}\{#MyWatchdogExeName}"""; Tasks: startupwatchdog; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "KyraFilesWatchdog"; ValueData: """{app}\{#MyWatchdogExeName}"""; Tasks: startupwatchdog; Flags: uninsdeletevalue
 
-; Associação opcional de abertura de pastas via alias MSIX registrado (files-dev.exe)
-Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{localappdata}\Microsoft\WindowsApps\files-dev.exe"" ""%1"""; Tasks: replacewine; Flags: uninsdeletekey
+; Associação opcional de abertura de pastas via alias MSIX registrado (kyrafiles.exe)
+Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"" ""%1"""; Tasks: replacewine; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: string; ValueName: "DelegateExecute"; ValueData: ""; Tasks: replacewine; Flags: uninsdeletevalue
 
 [Run]
 ; Inicia o Watchdog silenciosamente no término da instalação se solicitado
 Filename: "{app}\{#MyWatchdogExeName}"; Description: "Iniciar interceptador de atalho"; Flags: nowait runhidden; Tasks: startupwatchdog
-Filename: "{localappdata}\Microsoft\WindowsApps\files-dev.exe"; Description: "Abrir o {#MyAppName}"; Flags: nowait postinstall skipifsilent
+Filename: "{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"; Description: "Abrir o {#MyAppName}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 ; Garante remoção de 100% da pasta isolada na desinstalação (FR-007, AC-7)
@@ -78,22 +78,30 @@ var
   ErrorCode: Integer;
 begin
   // Fecha instâncias anteriores de forma cooperativa
-  // Ordem importa: o Watchdog religa o HotkeyService e segura o Files.exe; encerra-lo primeiro e esperar a saida evita o exit 5 do RestartManager
-  ShellExec('open', 'powershell.exe', '-NoProfile -Command "Get-Process Files.Watchdog -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process Files.Watchdog -ErrorAction SilentlyContinue | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue; try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.HotkeyService -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process Files, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+  // Ordem importa: o Watchdog religa o HotkeyService e segura o KyraFiles.exe; encerra-lo primeiro e esperar a saida evita o exit 5 do RestartManager
+  ShellExec('open', 'powershell.exe', '-NoProfile -Command "Get-Process KyraFiles.Watchdog, Files.Watchdog -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process KyraFiles.Watchdog, Files.Watchdog -ErrorAction SilentlyContinue | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue; try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process KyraFiles.HotkeyService, Files.HotkeyService -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process KyraFiles, Files, KyraFiles.App.Server, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   Result := True;
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ErrorCode: Integer;
+  ErrLogPath: String;
+  ErrMsg: AnsiString;
 begin
   if CurStep = ssPostInstall then
   begin
-    // Remove registro prévio se existir de outro caminho e registra a nova identidade de pacote AppX com o Windows
-    // Falha do registro nao pode ser escondida: sai com 1 e o instalador avisa
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "try { $p = Get-AppxPackage FilesDev -ErrorAction SilentlyContinue; if ($p -and $p.InstallLocation -ne ''' + ExpandConstant('{app}') + ''') { Remove-AppxPackage $p.PackageFullName -PreserveApplicationData -ErrorAction Stop }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop } catch { Write-Error $_; exit 1 }"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    // Remove qualquer registro prévio (FilesDev ou KyraFiles) preservando os dados da aplicação, pois o Windows bloqueia registro em Development Mode se o pacote já existir com a mesma versão
+    // Falha do registro nao pode ser escondida: sai com 1 e grava detalhe em log para auditoria
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "try { Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue }; Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop } catch { [System.IO.File]::WriteAllText(''' + ExpandConstant('{tmp}') + '\appx_register_error.log'', $_.Exception.ToString()); exit 1 }"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
     if ErrorCode <> 0 then
-      MsgBox('O registro do pacote do Files falhou (codigo ' + IntToStr(ErrorCode) + '). Feche o Files e rode o instalador de novo.', mbError, MB_OK)
+    begin
+      ErrLogPath := ExpandConstant('{tmp}\appx_register_error.log');
+      if FileExists(ErrLogPath) and LoadStringFromFile(ErrLogPath, ErrMsg) then
+        MsgBox('O registro do pacote do KyraFiles falhou (codigo ' + IntToStr(ErrorCode) + '):' + #13#10#13#10 + String(ErrMsg) + #13#10 + 'Feche o KyraFiles e rode o instalador de novo.', mbError, MB_OK)
+      else
+        MsgBox('O registro do pacote do KyraFiles falhou (codigo ' + IntToStr(ErrorCode) + '). Feche o KyraFiles e rode o instalador de novo.', mbError, MB_OK);
+    end
     else
       RegisterOk := True;
   end;
@@ -106,14 +114,15 @@ begin
   if CurUninstallStep = usUninstall then
   begin
     // Encerra cooperativamente o Watchdog e HotkeyService e remove chaves de pasta/Run/CLSID para devolver o Win+E ao Explorer
-    ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    ShellExec('open', 'powershell.exe', '-NoProfile -Command "try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\FilesCustom_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process KyraFiles.Watchdog, Files.Watchdog, KyraFiles.HotkeyService, Files.HotkeyService, KyraFiles, Files, KyraFiles.App.Server, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    RegDeleteValue(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', 'KyraFilesWatchdog');
     RegDeleteValue(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', 'FilesCustomWatchdog');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\Folder\shell\open');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\Folder\shell\explore');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}');
 
     // Remove o registro do pacote AppX
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue; Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   end;
 end;
 
@@ -125,7 +134,9 @@ var
 begin
   if not RegisterOk then
   begin
-    WatchdogPath := ExpandConstant('{autopf}\Files Custom\{#MyWatchdogExeName}');
+    WatchdogPath := ExpandConstant('{autopf}\KyraFiles\{#MyWatchdogExeName}');
+    if not FileExists(WatchdogPath) then
+      WatchdogPath := ExpandConstant('{autopf}\Files Custom\{#MyWatchdogExeName}');
     if FileExists(WatchdogPath) then
       Exec(WatchdogPath, '', '', SW_HIDE, ewNoWait, ErrorCode);
   end;

@@ -11,7 +11,7 @@
 #include <cstdio>
 #include <locale>
 #include <codecvt>
-#include "FilesOpenDialog.h"
+#include "KyraFilesOpenDialog.h"
 
 //#define SYSTEMDIALOG
 

@@ -320,7 +320,7 @@ namespace Files.App.Utils.Shell
 		{
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = subkey?.GetValue(string.Empty) as string;
-			return command?.Contains("Files.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false;
+			return (command?.Contains("KyraFiles.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false) || (command?.Contains("Files.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false);
 		}
 
 		private static void Restore(nint window, int extendedStyle)

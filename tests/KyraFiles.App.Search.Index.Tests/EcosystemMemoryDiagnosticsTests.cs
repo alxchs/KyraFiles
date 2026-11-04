@@ -46,9 +46,9 @@ namespace Files.App.Search.Index.Tests
 			var items = new List<ProcessMemoryItem>
 			{
 				new ("KyraFiles", 1000, 150 * 1024 * 1024, 120 * 1024 * 1024, true),
-				new ("Files.App.Server", 1001, 20 * 1024 * 1024, 15 * 1024 * 1024, true),
-				new ("Files.HotkeyService", 1002, 5 * 1024 * 1024, 3 * 1024 * 1024, true),
-				new ("Files.Watchdog", 1003, 4 * 1024 * 1024, 2 * 1024 * 1024, true),
+				new ("KyraFiles.App.Server", 1001, 20 * 1024 * 1024, 15 * 1024 * 1024, true),
+				new ("KyraFiles.HotkeyService", 1002, 5 * 1024 * 1024, 3 * 1024 * 1024, true),
+				new ("KyraFiles.Watchdog", 1003, 4 * 1024 * 1024, 2 * 1024 * 1024, true),
 				new ("KyraFiles.App.IndexService", 0, 0, 0, false)
 			};
 

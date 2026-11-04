@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
@@ -37,7 +37,7 @@
     <ClInclude Include="pch.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="FilesOpenDialog.h">
+    <ClInclude Include="KyraFilesOpenDialog.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="UndefInterfaces.h">
@@ -58,7 +58,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="FilesOpenDialog.cpp">
+    <ClCompile Include="KyraFilesOpenDialog.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <Midl Include="CustomOpenDialog.idl">
@@ -76,7 +76,7 @@
     <None Include="CustomOpenDialog.def">
       <Filter>Sources</Filter>
     </None>
-    <None Include="FilesOpenDialog.rgs">
+    <None Include="KyraFilesOpenDialog.rgs">
       <Filter>Resources</Filter>
     </None>
   </ItemGroup>

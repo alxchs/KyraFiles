@@ -6,7 +6,10 @@
 # Custom files
 Files.App.OpenDialog*.dll
 Files.App.SaveDialog*.dll
+KyraFiles.App.OpenDialog*.dll
+KyraFiles.App.SaveDialog*.dll
 Files.App.Launcher.exe
+KyraFiles.App.Launcher.exe
 
 # User-specific files
 *.rsuser
@@ -408,7 +411,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
-src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256
+src/KyraFiles.App/Assets/FilesOpenDialog/KyraFiles.App.Launcher.exe.sha256
 
 # Files Custom: release notes per exe are tracked (see docs/agents/PLAYBOOK.md)
 !/docs/releases/

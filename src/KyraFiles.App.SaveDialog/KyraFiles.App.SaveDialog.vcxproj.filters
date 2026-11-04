@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="File di origine">
@@ -34,7 +34,7 @@
     <ClInclude Include="pch.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="FilesSaveDialog.h">
+    <ClInclude Include="KyraFilesSaveDialog.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="UndefInterfaces.h">
@@ -43,7 +43,7 @@
     <ClInclude Include="CustomSaveDialog_i.h">
       <Filter>File generati</Filter>
     </ClInclude>
-    <ClInclude Include="FilesDialogEvents.h">
+    <ClInclude Include="KyraFilesDialogEvents.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
@@ -57,13 +57,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="FilesSaveDialog.cpp">
+    <ClCompile Include="KyraFilesSaveDialog.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="CustomSaveDialog_i.c">
       <Filter>File generati</Filter>
     </ClCompile>
-    <ClCompile Include="FilesDialogEvents.cpp">
+    <ClCompile Include="KyraFilesDialogEvents.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,7 +79,7 @@
     <None Include="CustomSaveDialog.def">
       <Filter>File di origine</Filter>
     </None>
-    <None Include="FilesSaveDialog.rgs">
+    <None Include="KyraFilesSaveDialog.rgs">
       <Filter>File di risorse</Filter>
     </None>
   </ItemGroup>

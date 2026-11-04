@@ -36,17 +36,15 @@ $common = @(
     '-v:minimal', '-nologo'
 )
 
-& $msbuild "$root\src\Files.App.Launcher\Files.App.Launcher.vcxproj" -t:restore -p:RestorePackagesConfig=true @common
+& $msbuild "$root\src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj" -t:restore -p:RestorePackagesConfig=true @common
 if ($LASTEXITCODE) { throw 'Falha no restore do launcher.' }
 
 $builds = @(
-    @('src\Files.App.Launcher\Files.App.Launcher.vcxproj', 'x64'),
-    @('src\Files.HotkeyService\Files.HotkeyService.vcxproj', 'x64'),
-    @('src\Files.Watchdog\Files.Watchdog.vcxproj', 'x64'),
-    @('src\Files.App.OpenDialog\Files.App.OpenDialog.vcxproj', 'x64'),
-    @('src\Files.App.OpenDialog\Files.App.OpenDialog.Win32.vcxproj', 'Win32'),
-    @('src\Files.App.SaveDialog\Files.App.SaveDialog.vcxproj', 'x64'),
-    @('src\Files.App.SaveDialog\Files.App.SaveDialog.Win32.vcxproj', 'Win32')
+    @('src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj', 'x64'),
+    @('src\KyraFiles.HotkeyService\KyraFiles.HotkeyService.vcxproj', 'x64'),
+    @('src\KyraFiles.Watchdog\KyraFiles.Watchdog.vcxproj', 'x64'),
+    @('src\KyraFiles.App.OpenDialog\KyraFiles.App.OpenDialog.vcxproj', 'x64'),
+    @('src\KyraFiles.App.SaveDialog\KyraFiles.App.SaveDialog.vcxproj', 'x64')
 )
 
 foreach ($b in $builds) {
@@ -55,5 +53,5 @@ foreach ($b in $builds) {
     if ($LASTEXITCODE) { throw "Falha ao compilar $($b[0]) [$($b[1])]." }
 }
 
-Get-ChildItem (Join-Path $root 'src\Files.App\Assets\FilesOpenDialog') |
+Get-ChildItem (Join-Path $root 'src\KyraFiles.App\Assets\FilesOpenDialog') |
     Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize

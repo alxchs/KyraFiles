@@ -63,7 +63,7 @@ namespace Files.App.ViewModels.Settings
 				return;
 			}
 
-			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
+			var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\KyraFiles");
 			if (IsSetAsDefaultFileManager)
 			{
 				var sourcePath = Path.Combine(destFolder, "*");
@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.Settings
 			try
 			{
 				// Files Custom: only the DLLs built for this machine exist (see tools/Build-Native.ps1)
-				string[] dialogDlls = ["Files.App.OpenDialog32.dll", "Files.App.OpenDialog64.dll", "Files.App.OpenDialogARM64.dll", "Files.App.SaveDialog32.dll", "Files.App.SaveDialog64.dll", "Files.App.SaveDialogARM64.dll"];
+				string[] dialogDlls = ["KyraFiles.App.OpenDialog64.dll", "KyraFiles.App.SaveDialog64.dll", "Files.App.OpenDialog64.dll", "Files.App.SaveDialog64.dll"];
 				foreach (var dll in dialogDlls)
 				{
 					var dllPath = Path.Combine(destFolder, dll);
@@ -275,7 +275,7 @@ namespace Files.App.ViewModels.Settings
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
 
-			return !string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe");
+			return !string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("Files.App.Launcher.exe"));
 		}
 
 		private bool DetectIsSetAsOpenFileDialog()

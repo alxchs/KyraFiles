@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ClCompile Include="FilesLauncher.cpp">
+    <ClCompile Include="KyraFilesLauncher.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="OpenInFolder.cpp">

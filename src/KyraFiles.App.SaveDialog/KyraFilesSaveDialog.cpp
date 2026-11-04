@@ -1,7 +1,7 @@
 // FilesSaveDialog.cpp: implementazione di CFilesSaveDialog
 
 #include "pch.h"
-#include "FilesSaveDialog.h"
+#include "KyraFilesSaveDialog.h"
 #include <shlobj.h>
 #include <iostream>
 #include <fstream>

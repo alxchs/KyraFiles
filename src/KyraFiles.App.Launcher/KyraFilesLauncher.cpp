@@ -5,7 +5,7 @@
 bool ShouldFallbackFromCrashGuard()
 {
 	WCHAR statePath[MAX_PATH];
-	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Files\\crash_guard.json", statePath, MAX_PATH - 1);
+	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\KyraFiles\\crash_guard.json", statePath, MAX_PATH - 1);
 	FILE* f = NULL;
 	if (_wfopen_s(&f, statePath, L"r") == 0 && f != NULL)
 	{
@@ -119,7 +119,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// Files Custom: silent fallback (no message box, no UAC); the unset file only touches HKCU.
 		// Wait for it so explorer.exe does not resolve the folder verb back to this launcher.
 		TCHAR szCmd[MAX_PATH];
-		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\Files\\UnsetFilesAsDefault.reg");
+		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\KyraFiles\\UnsetFilesAsDefault.reg");
 		SHELLEXECUTEINFO unsetInfo = { 0 };
 		unsetInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		unsetInfo.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_DOENVSUBST;
@@ -135,8 +135,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			std::cout << "Launcher unset as default" << std::endl;
-			swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
-			if ((int)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
+			swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\KyraFiles'); Remove-Item -Path $lfp -Recurse -Force\"");
+			if ((INT_PTR)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
 			{
 				std::cout << "Launcher uninstalled" << std::endl;
 			}

@@ -7,7 +7,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.WinRT;
 using WinRT;
 
-namespace Files.App.Server;
+namespace KyraFiles.App.Server;
 
 unsafe partial class Helpers
 {

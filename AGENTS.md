@@ -1,4 +1,4 @@
-﻿# Files Development Guidelines
+# Files Development Guidelines
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
@@ -26,7 +26,7 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - Reject new uses of `DllImport`. Prefer existing interop wrappers or CsWin32, and use `LibraryImport` only when CsWin32 cannot generate or safely express the required API.
 - Reject new uses of `ComImport`. Prefer CsWin32-generated COM interfaces or `GeneratedComInterface`, and use a focused AOT-safe vtable wrapper only when source-generated COM cannot represent the interface.
 - Add app runtime CsWin32 APIs to `src/Files.App.CsWin32/NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
-- When introducing a required native module, add the matching `DirectPInvoke` entry to `src/Files.App/Files.App.csproj`. Do not direct-bind optional modules or entry points that are not guaranteed to exist on every supported Windows version.
+- When introducing a required native module, add the matching `DirectPInvoke` entry to `src/KyraFiles.App/KyraFiles.App.csproj`. Do not direct-bind optional modules or entry points that are not guaranteed to exist on every supported Windows version.
 
 ### Reflection and Native AOT
 
@@ -39,22 +39,22 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
 ```text
 /src
-├── Files.App                    Main WinUI app
-├── Files.App.Controls           Shared app controls
-├── Files.App.Storage            App storage abstractions and implementations
-├── Files.App.CsWin32            Generated/native Win32 interop project
-├── Files.App.BackgroundTasks    Background task project
-├── Files.App.Server             App service/server project
-├── Files.Core.SourceGenerator   Roslyn source generators and analyzers
-├── Files.Core.Storage           Core storage abstractions
-└── Files.Shared                 Shared attributes, extensions, and common code
+├── KyraFiles.App                    Main WinUI app
+├── KyraFiles.App.Controls           Shared app controls
+├── KyraFiles.App.Storage            App storage abstractions and implementations
+├── KyraFiles.App.CsWin32            Generated/native Win32 interop project
+├── KyraFiles.App.BackgroundTasks    Background task project
+├── KyraFiles.App.Server             App service/server project
+├── KyraFiles.Core.SourceGenerator   Roslyn source generators and analyzers
+├── KyraFiles.Core.Storage           Core storage abstractions
+└── KyraFiles.Shared                 Shared attributes, extensions, and common code
 ```
 
 ```text
 /tests
-├── Files.App.UITests
-├── Files.App.UnitTests
-└── Files.InteractionTests
+├── KyraFiles.App.UITests
+├── KyraFiles.App.Search.Index.Tests
+└── KyraFiles.InteractionTests
 ```
 
 ## Build
@@ -63,7 +63,7 @@ Prefer explicit platform/configuration builds.
 Unless the task is specifically about resolving or inspecting warnings, add `-v:quiet -clp:ErrorsOnly` to `msbuild` commands so the log proves success or shows only actionable errors.
 
 ```powershell
-msbuild -restore Files.slnx -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore KyraFiles.slnx -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 ```
 
 If `msbuild` isn't available in the current shell, run it from Visual Studio Developer PowerShell. Match `-arch`, `-host_arch`, and `-p:Platform` to the platform you're verifying; use `x64` for x64 work and `arm64` for ARM64 work.
@@ -72,7 +72,7 @@ If `msbuild` isn't available in the current shell, run it from Visual Studio Dev
 pwsh.exe -NoProfile -Command "& {
   Import-Module 'C:\Program Files\Microsoft Visual Studio\18\Professional\Common7\Tools\Microsoft.VisualStudio.DevShell.dll'
   Enter-VsDevShell 1ba2cc4e -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
-  msbuild -restore src/Files.App/Files.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+  msbuild -restore src/KyraFiles.App/KyraFiles.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 }"
 ```
 
@@ -80,9 +80,9 @@ For focused C# work, build the affected project first.
 Do not run build commands in parallel.
 
 ```powershell
-msbuild -restore src/Files.Shared/Files.Shared.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
-msbuild -restore src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
-msbuild -restore src/Files.App/Files.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore src/KyraFiles.Shared/KyraFiles.Shared.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore src/KyraFiles.Core.SourceGenerator/KyraFiles.Core.SourceGenerator.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+msbuild -restore src/KyraFiles.App/KyraFiles.App.csproj -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
 ```
 
 ## Test

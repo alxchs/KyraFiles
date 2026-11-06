@@ -89,7 +89,7 @@ if ($proc) {
 
 # 6. Verifica higiene de pastas auxiliares no repositorio
 $repoRoot = (Resolve-Path "$PSScriptRoot\..\..").Path
-$debugArtifacts = Get-ChildItem -Path "$repoRoot\src\Files.App\bin\x64\Debug" -ErrorAction SilentlyContinue
+$debugArtifacts = Get-ChildItem -Path "$repoRoot\src\KyraFiles.App\bin\x64\Debug" -ErrorAction SilentlyContinue
 if ($debugArtifacts) {
     Write-Warning "AVISO DE HIGIENE: Foram encontrados artefatos em bin\x64\Debug. Lembre-se da regra do Alexandre de manter apenas a Release instalada."
 }

@@ -4,7 +4,7 @@
 # realiza fechamento cooperativo seguro de processos e substitui apenas os binários alterados sem travar arquivos.
 param(
     [string]$InstallDir = (Join-Path $env:LOCALAPPDATA "Programs\KyraFiles"),
-    [string]$SourceAppX = (Join-Path $PSScriptRoot "..\src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX"),
+    [string]$SourceAppX = (Join-Path $PSScriptRoot "..\src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX"),
     [string]$SourceBin = (Join-Path $PSScriptRoot "..\bin\Release"),
     [string]$ManifestPath = (Join-Path $PSScriptRoot "package_manifest.json"),
     [string]$OutputDeltaZip = "",

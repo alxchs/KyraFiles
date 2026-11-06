@@ -1,4 +1,4 @@
-# Copyright (c) Files Community
+﻿# Copyright (c) Files Community
 # Licensed under the MIT License.
 
 # Abstract:
@@ -29,12 +29,12 @@ run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'F
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
-  SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
-  APP_PROJECT_PATH: '${{ github.workspace }}\src\Files.App\Files.App.csproj'
+  SOLUTION_PATH: '${{ github.workspace }}\KyraFiles.slnx'
+  APP_PROJECT_PATH: '${{ github.workspace }}\src\KyraFiles.App\KyraFiles.App.csproj'
   AUTOMATED_TESTS_ARCHITECTURE: 'x64'
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
-  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
-  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\KyraFiles.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\KyraFiles.InteractionTests\KyraFiles.InteractionTests.csproj'
   AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
   ARTIFACTS_STAGING_DIR: '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages\'
@@ -343,7 +343,7 @@ jobs:
         shell: pwsh
         command: |
           dotnet test `
-            --test-modules **\Files.InteractionTests.dll `
+            --test-modules **\KyraFiles.InteractionTests.dll `
             --root-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
             --results-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
             --report-trx `

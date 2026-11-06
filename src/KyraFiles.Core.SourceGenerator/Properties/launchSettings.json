@@ -6,15 +6,15 @@
     },
     "Files.App.Controls": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\Files.App.Controls\\Files.App.Controls.csproj"
+      "targetProject": "..\\KyraFiles.App.Controls\\KyraFiles.App.Controls.csproj"
     },
     "Files.App.Server": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\Files.App.Server\\Files.App.Server.csproj"
+      "targetProject": "..\\KyraFiles.App.Server\\KyraFiles.App.Server.csproj"
     },
     "Files.App": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\Files.App\\Files.App.csproj"
+      "targetProject": "..\\KyraFiles.App\\KyraFiles.App.csproj"
     }
   }
 }

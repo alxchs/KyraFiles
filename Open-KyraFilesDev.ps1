@@ -1,8 +1,8 @@
 # Monta o layout do pacote (AppX), registra e abre o KyraFiles Dev.
 #
-# O Files é um app empacotado (MSIX): o Files.exe de bin\ aberto direto não tem
+# O KyraFiles é um app empacotado (MSIX): o KyraFiles.exe de bin\ aberto direto não tem
 # identidade de pacote e morre com REGDB_E_CLASSNOTREG. O `dotnet build` só gera a
-# receita do layout (Files.App.build.appxrecipe); quem copia os arquivos para AppX\
+# receita do layout (KyraFiles.build.appxrecipe); quem copia os arquivos para AppX\
 # é o deploy do Visual Studio. Este script faz essa etapa.
 #
 # Uso: .\Open-KyraFilesDev.ps1 [-Configuration Release|Debug] [-NoLaunch]
@@ -35,9 +35,11 @@ $identity = $manifest.Package.Identity
 $appId = $manifest.Package.Applications.Application.Id
 
 # Arquivos em uso impedem a cópia
-Get-Process Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue |
+Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue |
     Where-Object { $_.Path -and $_.Path.StartsWith($layoutDir, [StringComparison]::OrdinalIgnoreCase) } |
     Stop-Process -Force
+Start-Sleep -Milliseconds 500
+Get-ChildItem -LiteralPath $layoutDir -Filter "*.locked.*" -File -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
 
 function Copy-IfChanged([string]$source, [string]$target) {
     $dst = Get-Item -LiteralPath $target -ErrorAction SilentlyContinue
@@ -64,14 +66,14 @@ foreach ($item in $items) {
 }
 if ($missing) { throw "Arquivos da receita ausentes ($($missing.Count)), recompile. Primeiro: $($missing[0])" }
 
-# Servidor COM fora de processo declarado no manifesto (Files.App.Server\Files.App.Server.exe);
+# Servidor COM fora de processo declarado no manifesto (KyraFiles.App.Server\KyraFiles.App.Server.exe);
 # não é ProjectReference, então não entra na receita.
 if (-not (Test-Path (Join-Path $serverBin 'KyraFiles.App.Server.exe'))) { throw "KyraFiles.App.Server não compilado: $serverBin" }
 Get-ChildItem $serverBin -File -Recurse | ForEach-Object {
     $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('KyraFiles.App.Server' + $_.FullName.Substring($serverBin.Length)))
 }
 
-# Serviço de índice de busca fora de processo (F015 T10/T11: Files.App.IndexService\Files.App.IndexService.exe)
+# Serviço de índice de busca fora de processo (F015 T10/T11: KyraFiles.App.IndexService\KyraFiles.App.IndexService.exe)
 if (Test-Path (Join-Path $indexServiceBin 'KyraFiles.App.IndexService.exe')) {
     Get-ChildItem $indexServiceBin -File -Recurse | ForEach-Object {
         $copied += Copy-IfChanged $_.FullName (Join-Path $layoutDir ('KyraFiles.App.IndexService' + $_.FullName.Substring($indexServiceBin.Length)))

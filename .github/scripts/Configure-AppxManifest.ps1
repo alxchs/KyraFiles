@@ -1,4 +1,4 @@
-# Copyright (c) Files Community
+﻿# Copyright (c) Files Community
 # SPDX-License-Identifier: MPL-2.0
 
 param(
@@ -154,7 +154,7 @@ elseif ($Branch -eq "StoreStable")
 $keepTiles = if ($Branch -match 'Preview') { 'Preview' } elseif ($Branch -match 'Stable') { 'Release' } else { $null }
 foreach ($folder in @('Dev', 'Preview', 'Release')) {
     if ($folder -eq $keepTiles) { continue }
-    $tilePath = Join-Path $WorkingDir "src\Files.App\Assets\AppTiles\$folder"
+    $tilePath = Join-Path $WorkingDir "src\KyraFiles.App\Assets\AppTiles\$folder"
     if (Test-Path $tilePath) { Remove-Item $tilePath -Recurse -Force }
 }
 

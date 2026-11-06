@@ -100,9 +100,9 @@ function Build-Png {
 
 # 1. Copiar imagem fonte
 $sourceFull = (Resolve-Path $SourcePng).Path
-$devDir = "src\Files.App\Assets\AppTiles\Dev"
-$relDir = "src\Files.App\Assets\AppTiles\Release"
-$prevDir = "src\Files.App\Assets\AppTiles\Preview"
+$devDir = "src\KyraFiles.App\Assets\AppTiles\Dev"
+$relDir = "src\KyraFiles.App\Assets\AppTiles\Release"
+$prevDir = "src\KyraFiles.App\Assets\AppTiles\Preview"
 
 Copy-Item $sourceFull (Join-Path $devDir "KyraLogo.png") -Force
 Copy-Item $sourceFull (Join-Path $relDir "KyraLogo.png") -Force

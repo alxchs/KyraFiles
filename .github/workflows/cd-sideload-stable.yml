@@ -1,4 +1,4 @@
-# Copyright (c) Files Community
+﻿# Copyright (c) Files Community
 # Licensed under the MIT License.
 
 # Abstract:
@@ -26,17 +26,17 @@ jobs:
         configuration: [Release]
         platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.slnx'
+      SOLUTION_NAME:              'KyraFiles.slnx'
       CONFIGURATION:              '${{ matrix.configuration }}'
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages\'
-      APP_PROJECT_PATH:           'src\Files.App\Files.App.csproj'
-      PACKAGE_MANIFEST_PATH:      'src\Files.App\Package.appxmanifest'
-      LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
-      TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      APP_PROJECT_PATH:           'src\KyraFiles.App\KyraFiles.App.csproj'
+      PACKAGE_MANIFEST_PATH:      'src\KyraFiles.App\Package.appxmanifest'
+      LAUNCHER_PROJECT_PATH:      'src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj'
+      TEST_PROJECT_PATH:          'tests\KyraFiles.InteractionTests\KyraFiles.InteractionTests.csproj'
       APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/stable/'
 
     steps:
@@ -107,7 +107,7 @@ jobs:
         endpoint: https://eus.codesigning.azure.net/
         signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ github.workspace }}\src\Files.App\Assets\FilesOpenDialog
+        files-folder: ${{ github.workspace }}\src\KyraFiles.App\Assets\FilesOpenDialog
         files-folder-filter: "*.exe"
         files-folder-recurse: false
         file-digest: SHA256
@@ -143,7 +143,7 @@ jobs:
       run: |
         if (-not $env:SENTRY_AUTH_TOKEN) { Write-Host 'SENTRY_AUTH_TOKEN not set; skipping symbol upload'; exit 0 }
         npm install --global @sentry/cli
-        sentry-cli debug-files upload --org files-org --project files-app src\Files.App\bin src\Files.App\obj
+        sentry-cli debug-files upload --org files-org --project files-app src\KyraFiles.App\bin src\KyraFiles.App\obj
       env:
         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 

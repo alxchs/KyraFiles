@@ -9,6 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Files.Shared\Files.Shared.csproj" />
+    <ProjectReference Include="..\..\..\src\KyraFiles.Shared\KyraFiles.Shared.csproj" />
   </ItemGroup>
 </Project>

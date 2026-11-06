@@ -8,8 +8,8 @@ Reaproveita, sem duplicar: F083 (marca e ícone), F084 (renomeação de módulos
 ## Decisões do Alexandre (03/11/2026)
 
 - Uso pessoal, mas seguir com o plano inteiro: **zero referência visual** ao ancestral. Ficam só os arquivos de licença e os avisos de copyright (MIT) dentro dos arquivos.
-- Depois deste plano vem uma **refatoração total** (estrutura de pastas, classes, variáveis, constantes, objetos, lógica). É outra spec (F089), não entra aqui.
-- Por isso o namespace NÃO é renomeado em F088: vai junto com a refatoração (F089), em uma passada só, para não renomear duas vezes.
+- Depois deste plano vem uma **refatoração total** (estrutura de pastas, classes, variáveis, constantes, objetos, lógica). É outra spec (F091), não entra aqui.
+- Por isso o namespace NÃO é renomeado em F088: vai junto com a refatoração (F091), em uma passada só, para não renomear duas vezes.
 - Ponto de atenção: os 249 arquivos com `SPDX-License-Identifier: MPL-2.0` continuam MPL. O `LICENSE-MPL` e o cabeçalho deles não podem ser tratados como MIT. Para uso pessoal não há obrigação de publicar; só não apagar o aviso. Decisão pendente: manter `LICENSE-MPL` na raiz (recomendado).
 - Cabeçalho "Copyright (c) Files Community": permanece (MIT exige se algum dia distribuir).
 
@@ -17,13 +17,13 @@ Reaproveita, sem duplicar: F083 (marca e ícone), F084 (renomeação de módulos
 
 | Fase | O que | Risco | Prova |
 |---|---|---|---|
-| 0 | Concluir a branch `feature/launcher-rename-consistency` (AGY, commits `f91f73278` e `e810d41e0`: Launcher único, C++ só x64, Server/BackgroundTasks como `KyraFiles.App.*`, D-LAUNCHER-1 e D-64BIT-CLEANUP-1) e integrar na colab. **Resíduos achados na revisão (ver seção abaixo) entram como correção antes da integração** | baixo | build; `ls` do Launcher no bin; `git grep` sem resíduos |
+| 0 | Concluída: eliminação de configurações Win32 nos .vcxproj nativos C++, correção de caminhos em todos os workflows (.github/), padrões em .gitignore, documentação em AGENTS.md e encerramento de processos em Open-KyraFilesDev.ps1 destravando a execução. | baixo | CONFIRMED: build C++ x64 ok, build C# 0 erros/warnings, 194 testes (193 ok, 0 falhas) |
 | 1 | **F087**: Identity `FilesDev`, Publisher `CN=Files`, PublisherDisplayName `Yair A`, alias e protocolo `files-dev`, pasta `%LOCALAPPDATA%\Files`, chaves HKCU `files-dev`. Migrar dados antes de trocar a identidade | **alto** (Windows trata como app novo; Win+E, associações) | `Get-AppxPackage`; dados migrados; Win+E |
 | 2 | Texto visível: URLs `files.community` (docs, privacidade, blog de versão), `GitHubRepoUrl`, placeholder do CloneRepoDialog, links de issues em comentários | baixo | `git grep` sem ocorrências fora de LICENSE e NOTICE |
 | 3 | Assets: pasta `FilesOpenDialog` e `KyraFilesOpenDialog` duplicadas, DLLs `Files.App.*Dialog*.dll`, `Files.App.BackgroundTasks.dll/.winmd`, `SetFilesAsDefault.reg` | médio (COM/registro) | pasta instalada sem `Files.*` |
 | 4 | Saída de build dentro de `src/` (`x64/Release`, `Debug/*.tlog`): redirecionar para `bin/obj` e ignorar no `.gitignore` | baixo | `git status` limpo após build |
 | 5 | Nomes internos: semáforo `Files-{Env}-Instance`, mutex do redirector, processos `Files.App.Server` | médio (instância única, F086) | teste de instância única |
-| 6 | ~~Namespace~~ movido para a refatoração F089 | - | - |
+| 6 | ~~Namespace~~ movido para a refatoração F091 | - | - |
 | 7 | Interface: revisão visual do que remete ao Files (ver abaixo) | médio | captura de tela, tela por tela, só depois das 23:59 (§16) |
 | 8 | Licenças: manter `LICENSE-MIT` e `LICENSE-MPL` e os cabeçalhos; sem tela Sobre citando o ancestral (decisão do Alexandre; uso pessoal) | baixo | `git grep` visual sem "Files Community" fora de licenças |
 
@@ -39,6 +39,13 @@ A AGY relatou "0 arquivos com nomes legados". Conferido por `git grep -P '(?<![A
   - `AGENTS.md` linhas 46 e 47: árvore de projetos com nomes antigos.
   - `STATUS.md`: menções históricas; manter como registro, não é resíduo.
 - CONFIRMED, **x64 incompleto**: `KyraFiles.App.Launcher.vcxproj` ainda declara `Debug|Win32` e `Release|Win32` (linhas 9 a 19, 72 em diante). Conferir também OpenDialog e SaveDialog. O relatório diz que 32-bit foi eliminado; só foi parcialmente.
+- RESOLVIDO (04/11/2026, AGY): Todos os resíduos da Fase 0 eliminados.
+  - Workflows `.github/workflows/`: caminhos de projetos e solução corrigidos.
+  - `.gitignore`: padrões adicionados (`KyraFiles.HotkeyService.exe`, `KyraFiles.Watchdog.exe`, `*.locked.*`).
+  - `Open-KyraFilesDev.ps1`: encerramento de `KyraFiles`, `KyraFiles.App.Server`, `KyraFiles.App.IndexService` implementado com limpeza de arquivos locked, destravando a execução.
+  - `.vcxproj` nativos: configurações Win32 removidas de Launcher, OpenDialog e SaveDialog.
+  - `AGENTS.md`: estrutura de código atualizada.
+  - Evidências: Build nativo C++ x64 OK (0 erros), build C# WinUI x64 OK (0 erros, 0 warnings), 194 testes unitários executados (193 aprovados, 1 ignorado justificado, 0 falhas).
 - NOT TESTED por mim: build C++ x64, build C# e os 193 testes (valem `INFERRED`, vêm do relatório da AGY). Exe novo com data posterior ao commit também não conferido.
 - Integração na colab (squash/rebase + ff-only) **não feita**: depende do `/merge` do Alexandre e dos resíduos acima corrigidos.
 
@@ -53,6 +60,6 @@ A AGY relatou "0 arquivos com nomes legados". Conferido por `git grep -P '(?<![A
 Reescrever a arquitetura, trocar o toolkit visual, apagar o histórico git, remover os arquivos de licença.
 
 ## Pendências para a spec (não aprovadas)
-- [RESOLVIDO 03/11] namespace: vai para F089 (refatoração).
+- [RESOLVIDO 03/11] namespace: vai para F091 (refatoração).
 - [NEEDS CLARIFICATION] manter `files-dev:` como alias de compatibilidade ou remover (já em F087).
 - [NEEDS CLARIFICATION] "referências visuais": só marca, textos, links, ícones e editora, ou também o layout (abas, barra lateral, barra de endereço)? Sem resposta, a Fase 7 cobre só marca, textos, links, ícones e editora.

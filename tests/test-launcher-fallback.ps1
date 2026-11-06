@@ -7,7 +7,7 @@
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
-$launcher = Join-Path $root 'src\Files.App\Assets\FilesOpenDialog\Files.App.Launcher.exe'
+$launcher = Join-Path $root 'src\KyraFiles.App\Assets\FilesOpenDialog\KyraFiles.App.Launcher.exe'
 $failed = 0
 function Check([string]$name, [bool]$ok, [string]$detail) {
     if ($ok) { Write-Host "PASS $name $detail" -ForegroundColor Green }

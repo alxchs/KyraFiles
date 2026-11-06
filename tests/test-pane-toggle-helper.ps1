@@ -1,7 +1,7 @@
 # Test runner for InfoPaneToggleHelper (F005: AC-1 to AC-6)
 # Run from repository root: pwsh -File tests/test-pane-toggle-helper.ps1
 
-$helperPath = Join-Path $PSScriptRoot "..\src\Files.App\Helpers\InfoPaneToggleHelper.cs"
+$helperPath = Join-Path $PSScriptRoot "..\src\KyraFiles.App\Helpers\InfoPaneToggleHelper.cs"
 if (-not (Test-Path $helperPath)) {
     Write-Error "Helper file not found at $helperPath"
     exit 1

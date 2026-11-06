@@ -1,7 +1,7 @@
 # Test runner for FileNameExtensionHelper (MASTER_SPEC §5)
 # Run from repository root: powershell -File tests/test-rename-helper.ps1
 
-$helperPath = Join-Path $PSScriptRoot "..\src\Files.App\Helpers\FileNameExtensionHelper.cs"
+$helperPath = Join-Path $PSScriptRoot "..\src\KyraFiles.App\Helpers\FileNameExtensionHelper.cs"
 if (-not (Test-Path $helperPath)) {
     Write-Error "Helper file not found at $helperPath"
     exit 1

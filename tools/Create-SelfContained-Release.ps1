@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$appxDir = "src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX"
+$appxDir = "src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX"
 $distDir = "dist"
 $stageDir = Join-Path $distDir "FilesApp-v4.2.37.0-x64-standalone"
 
@@ -105,7 +105,7 @@ $csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 if ((Test-Path $installerSrc) -and (Test-Path $csc)) {
     Write-Host "Compilando Instalador Executavel standalone..." -ForegroundColor Cyan
     & $csc /target:winexe /platform:x64 /optimize+ /out:$installerExe `
-        /win32icon:src\Files.App\Assets\AppTiles\Dev\Logo.ico `
+        /win32icon:src\KyraFiles.App\Assets\AppTiles\Dev\Logo.ico `
         /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll `
         /r:System.IO.Compression.dll /r:System.IO.Compression.FileSystem.dll `
         "/resource:$zipFile,FilesAppPayload.zip" `

@@ -1,0 +1,29 @@
+diff --git a/src/KyraFiles.App/Services/App/AppThemeModeService.cs b/src/KyraFiles.App/Services/App/AppThemeModeService.cs
+index d79825e47..2afc018cc 100644
+--- a/src/KyraFiles.App/Services/App/AppThemeModeService.cs
++++ b/src/KyraFiles.App/Services/App/AppThemeModeService.cs
+@@ -66,23 +66,7 @@ namespace Files.App.Services
+ 		}
+ 
+ 		/// <inheritdoc/>
+-		public void ApplyResources()
+-		{
+-			// Toggle between the themes to force reload the resource styles
+-			SetAppThemeMode(null, null, ElementTheme.Dark);
+-			SetAppThemeMode(null, null, ElementTheme.Light);
+-
+-			// Restore the theme to the correct one
+-			SetAppThemeMode();
+-		}
+-
+-		/// <inheritdoc/>
+-		[DynamicWindowsRuntimeCast(typeof(FrameworkElement))]
+-		public void SetAppThemeMode(Window? window = null, AppWindowTitleBar? titleBar = null, ElementTheme? rootTheme = null, bool callThemeModeChangedEvent = true)
+-		{
+-			try
+-			{
+-				window ??= MainWindow.Instance;
++n
+ 				titleBar ??= MainWindow.Instance.AppWindow?.TitleBar;
+ 				rootTheme ??= AppThemeMode;
+ 

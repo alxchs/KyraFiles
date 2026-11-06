@@ -10,6 +10,9 @@ KyraFiles.App.OpenDialog*.dll
 KyraFiles.App.SaveDialog*.dll
 Files.App.Launcher.exe
 KyraFiles.App.Launcher.exe
+KyraFiles.HotkeyService.exe
+KyraFiles.Watchdog.exe
+*.locked.*
 
 # User-specific files
 *.rsuser

@@ -1,5 +1,5 @@
 # Portao do Claude: confere uma branch da AGY numa worktree limpa, sem confiar no que ela relatou.
-# Uso: .\tools\verify\Verify-Branch.ps1 -Branch feature/f065-x -Allowed 'src/Files.App/**','tests/**'
+# Uso: .\tools\verify\Verify-Branch.ps1 -Branch feature/f065-x -Allowed 'src/KyraFiles.App/**','tests/**'
 param([Parameter(Mandatory)][string]$Branch, [string[]]$Allowed = @(), [string]$Base = 'colab')
 $root = Split-Path (Split-Path $PSScriptRoot)
 $Allowed = @($Allowed | ForEach-Object { $_ -split "," } | Where-Object { $_ })

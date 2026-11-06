@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # 1. en-US
-$enPath = "src/Files.App/Strings/en-US/Resources.resw"
+$enPath = "src/KyraFiles.App/Strings/en-US/Resources.resw"
 $en = [System.IO.File]::ReadAllText($enPath)
 $en = $en.Replace("<value>Files ran into a problem that the developers didn't prepare for yet.</value>", "<value>KyraFiles ran into a problem that the developers didn't prepare for yet.</value>")
 $en = $en.Replace("<value>Files</value>", "<value>KyraFiles</value>")
@@ -24,7 +24,7 @@ $en = $en.Replace("<value>Show Files icon in the system tray</value>", "<value>S
 [System.IO.File]::WriteAllText($enPath, $en, [System.Text.Encoding]::UTF8)
 
 # 2. pt-BR
-$ptPath = "src/Files.App/Strings/pt-BR/Resources.resw"
+$ptPath = "src/KyraFiles.App/Strings/pt-BR/Resources.resw"
 $pt = [System.IO.File]::ReadAllText($ptPath)
 $pt = $pt.Replace("<value>O Files encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</value>", "<value>O KyraFiles encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</value>")
 $pt = $pt.Replace("<value>Definir o Files como o gerenciador de arquivos padrão</value>", "<value>Definir o KyraFiles como o gerenciador de arquivos padrão</value>")
@@ -45,7 +45,7 @@ $pt = $pt.Replace("<value>O Files Custom está usando {0} em {1} processo(s) ati
 [System.IO.File]::WriteAllText($ptPath, $pt, [System.Text.Encoding]::UTF8)
 
 # 3. de-DE
-$dePath = "src/Files.App/Strings/de-DE/Resources.resw"
+$dePath = "src/KyraFiles.App/Strings/de-DE/Resources.resw"
 $de = [System.IO.File]::ReadAllText($dePath)
 $de = $de.Replace("<value>Files hatte ein Problem, auf das die Entwickler noch nicht vorbereitet sind.</value>", "<value>KyraFiles hatte ein Problem, auf das die Entwickler noch nicht vorbereitet sind.</value>")
 $de = $de.Replace("<value>Files als Standard-Dateimanager festlegen</value>", "<value>KyraFiles als Standard-Dateimanager festlegen</value>")
@@ -64,7 +64,7 @@ $de = $de.Replace("<value>Wohin ist Files verschwunden?</value>", "<value>Wohin 
 [System.IO.File]::WriteAllText($dePath, $de, [System.Text.Encoding]::UTF8)
 
 # 4. es-ES
-$esPath = "src/Files.App/Strings/es-ES/Resources.resw"
+$esPath = "src/KyraFiles.App/Strings/es-ES/Resources.resw"
 $es = [System.IO.File]::ReadAllText($esPath)
 $es = $es.Replace("<value>Files se encontró con un problema para el que los desarrolladores aún no están preparados.</value>", "<value>KyraFiles se encontró con un problema para el que los desarrolladores aún no están preparados.</value>")
 $es = $es.Replace("<value>Establecer Files como administrador de archivos predeterminado</value>", "<value>Establecer KyraFiles como administrador de archivos predeterminado</value>")

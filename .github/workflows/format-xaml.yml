@@ -33,7 +33,7 @@ jobs:
       - name: Check if PR can be committed to
         run: |
           if (!(gh pr -R ${{ github.repository }} view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
-          { 
+          {
             gh pr comment ${{ github.event.issue.number }} -b "🔒 This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
@@ -81,9 +81,9 @@ jobs:
       - name: Format XAML files
         if: env.CAN_RUN == 1
         run: |
-          xstyler -l None -r -d src/Files.App
-          xstyler -l None -r -d src/Files.App.Controls
-          xstyler -l None -r -d tests/Files.App.UITests
+          xstyler -l None -r -d src/KyraFiles.App
+          xstyler -l None -r -d src/KyraFiles.App.Controls
+          xstyler -l None -r -d tests/KyraFiles.App.UITests
 
       - name: Commit formatted files
         if: env.CAN_RUN == 1
@@ -103,7 +103,7 @@ jobs:
       - name: Push to PR
         if: env.CAN_RUN == 1
         run: |
-          # this is all to get the right repo and branch to push to 
+          # this is all to get the right repo and branch to push to
 
           $repo = '${{ github.repository }}' -split '/'
           $owner = $repo[0]

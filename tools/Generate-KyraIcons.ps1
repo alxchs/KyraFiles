@@ -1,7 +1,7 @@
 # tools/Generate-KyraIcons.ps1
 # Generates all AppTiles PNG assets and Logo.ico from KyraPet.png
 param(
-    [string]$SourcePath = "src/Files.App/Assets/KyraPet.png"
+    [string]$SourcePath = "src/KyraFiles.App/Assets/KyraPet.png"
 )
 
 Add-Type -AssemblyName System.Drawing
@@ -25,8 +25,8 @@ function Resize-Image($src, $w, $h) {
 }
 
 $dirs = @(
-    "src/Files.App/Assets/AppTiles/Dev",
-    "src/Files.App/Assets/AppTiles/Release"
+    "src/KyraFiles.App/Assets/AppTiles/Dev",
+    "src/KyraFiles.App/Assets/AppTiles/Release"
 )
 
 foreach ($dir in $dirs) {

@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.11"
+#define MyAppVersion "4.3.12"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
@@ -63,6 +63,17 @@ Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: str
 ; Inicia o Watchdog silenciosamente no término da instalação se solicitado
 Filename: "{app}\{#MyWatchdogExeName}"; Description: "Iniciar interceptador de atalho"; Flags: nowait runhidden; Tasks: startupwatchdog
 Filename: "{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"; Description: "Abrir o {#MyAppName}"; Flags: nowait postinstall skipifsilent
+
+[InstallDelete]
+; Purga vestígios de executáveis e bibliotecas legadas de versões anteriores
+Type: files; Name: "{app}\Files.App.BackgroundTasks.*"
+Type: files; Name: "{app}\Assets\FilesOpenDialog\Files.App.*"
+Type: files; Name: "{app}\Assets\KyraFilesOpenDialog\*"
+Type: filesandordirs; Name: "{app}\Assets\KyraFilesOpenDialog"
+Type: filesandordirs; Name: "{app}\Files.App.Server"
+Type: files; Name: "{app}\Docs\*\features\files-custom.html"
+Type: files; Name: "{app}\Docs\features\files-custom.html"
+Type: files; Name: "{app}\*.locked.*"
 
 [UninstallDelete]
 ; Garante remoção de 100% da pasta isolada na desinstalação (FR-007, AC-7)

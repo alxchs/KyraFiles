@@ -24,6 +24,7 @@ foreach ($f in $files) {
     # Classifica se é binário principal ou dependência pesada
     $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'KyraFiles.dll' -and $f.Name -ne 'KyraFiles.exe' -and $f.Name -ne 'Files.dll' -and $f.Name -ne 'Files.exe'
     $totalBytes += $f.Length
+    $hash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
     
     $manifestItems.Add([PSCustomObject]@{
         Path = $relPath
@@ -34,7 +35,7 @@ foreach ($f in $files) {
 }
 
 $issFile = Join-Path $PSScriptRoot "KyraFilesSetup.iss"
-$version = "4.3.11"
+$version = "4.3.12"
 if (Test-Path $issFile) {
     $issContent = Get-Content $issFile -Raw
     if ($issContent -match '#define MyAppVersion "([^"]+)"') {

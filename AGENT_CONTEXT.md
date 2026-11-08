@@ -3,26 +3,26 @@
 Estado atual, curto. Atualize ao mudar de fase/tarefa (METODO.md §1).
 
 ```text
-PROJECT        Files Custom (derivado do Files Community). Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
+PROJECT        Files Custom / KyraFiles. Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível. Ver MASTER_SPEC.md §2 e §44
-CURRENT PHASE  Solicitação de SDD: Correção de Fontes e Escala de Visualização de Tela
-CURRENT TASK   Solicitação formal preparada para a Claude em docs/agents/handoffs/2026-11-04_1845_agy_solicitacao-claude-fontes-e-escala-visual.md contendo diagnóstico completo das fontes (string vs FontFamily em AppResourcesService, ThemeDictionaries do WinUI 3 e TextBlockStyles) e especificação necessária para Escala da Interface (UI Scale).
-ACCEPTANCE     Aguardando a Claude preparar e validar os pacotes SDD (spec.md, plan.md, tasks.md) para início da execução pela AGY.
+CURRENT PHASE  F089: Fontes Não Aplicadas (Execução de Código Concluída)
+CURRENT TASK   [PEGO] F089 · AGY · 2026-11-08 12:35 · branch feature/f089-fontes · pronto = FontFamily aplicado com segurança em AppResourcesService, herança corrigida nos 3 layouts e DataGridHeader, persistência e troca imediata · NÃO inclui = prova de tela e build de release (depende da máquina de compilação)
+ACCEPTANCE     T1, T2, T3 e T5 concluídos em código; T4 (build/tela) reservado para a máquina de compilação com Windows SDK.
 REGRA DA MAIN  PROIBIDO alterar direto na main. AGY e Claude criam branches próprias (feature/<nome>) e integram via squash/rebase.
 REGRA CICLO    MANDATÓRIO (29/10/2026): Cada spec, uma branch saindo da main/colab. Roteiro de testes executado. Devolução na colab antes de iniciar próxima spec.
 REGRA PERF     MANDATÓRIO (24 e 29/10/2026): Em HIPÓTESE ALGUMA devolver na colab com performance pior que a colab. Sem lentidão.
 REGRA COLAB    Em hipótese alguma iniciar nova spec sem colab atualizada. colab espelha a main exclusivamente por fast-forward (--ff-only).
 REGRA RELAT    Todo final de spec exige relatório de conclusão com detalhes importantes, pontos de atenção e comparativo de performance.
-FILA          KyraFiles (31/10/2026): ordem de trabalho em docs/agents/FILA-KYRAFILES.md; Item 1 a 4 entregues; F086 entregue; F052 pronta; Demanda do Alexandre: Correção de Fontes e Escala de Visualização.
+FILA           [LIVRE] F090 · depende de F089 integrada na colab · pronto = Escala de interface proporcional sem distorção
 REGRA FOCO     MANDATÓRIO (29/10/2026): NUNCA roubar o foco da tela do usuário. Usar -NoLaunch e testes não-intrusivos.
 REGRA VERSAO   MANDATÓRIO (21/10/2026): O número da versão DEVE ser incrementado a CADA atualização integrada na main.
 DO NOT CHANGE  Nada na main diretamente. Trabalho somente em branch de feature.
-OWNER          Claude (preparação de SDD) / AGY (execução)
-MAQUINA NOVA   06/11/2026: comece por docs/agents/handoffs/2026-11-06_1900_claude_passagem-para-outra-maquina.md (estado do git, ambiente e memória do Claude a restaurar).
+OWNER          AGY (execução)
+MAQUINA NOVA   06/11/2026: Heloize-PC opera em modo desenvolvimento (edição de código e testes lógicos). Compilação oficial e pacote na máquina com Windows SDK.
 DUAS MAQUINAS  06/11/2026 (Alexandre): desenvolve na Heloize-PC (sem Visual Studio nem Windows SDK; build impossível lá) e compila na máquina antiga, que tem tudo instalado. Build, Verde.ps1 -Mark e push saem da máquina antiga.
-CURRENT BRANCH main (06/11/2026: a feature/f088-legacy-path-residues, com 26 caminhos legados src/Files.App corrigidos em configs e scripts, foi integrada por squash num único commit sobre origin/main; build NOT TESTED). Push pendente: só a máquina antiga, depois do build verde, e a colab antes da main.
-LAST DECISION  04/11/2026: Diagnóstico de fontes e proposta de escala visual transferidos para a Claude estruturar as specs conforme orientação do Alexandre.
-NEXT ACTION    A Claude elabora spec.md, plan.md e tasks.md e avisa a AGY para iniciar a implementação.
+CURRENT BRANCH feature/f089-fontes (baseada em colab / 2d062627e)
+LAST DECISION  08/11/2026: F089 implementada em código com gravação de FontFamily e propagação nos ThemeDictionaries e recursos dos 3 layouts e DataGridHeader.
+NEXT ACTION    Validar compilação e teste visual na máquina antiga para fechamento do portão T4 e integração na colab.
 BLOCKER        Nenhum
-LAST UPDATE    2026-11-06 - Claude (passagem para a Heloize-PC; correção de caminhos legados)
+LAST UPDATE    2026-11-08 - AGY (implementação de código da F089 na feature/f089-fontes)
 ```

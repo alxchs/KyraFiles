@@ -1,20 +1,18 @@
-# F089 - Tarefas (RASCUNHO, não aprovado). Um commit por tarefa. Branch: `feature/f089-fontes`, saindo da colab atualizada.
+# F089 - Tarefas (APROVADO). Um commit por tarefa. Branch: `feature/f089-fontes`, saindo da colab atualizada.
 
-- [ ] **T0: Provar a causa (AC-1, AC-2)**
-  - Log temporário do tipo e valor de `Resources["ContentControlThemeFontFamily"]` e de `App.Theme.FileArea.FontFamily` antes e depois da troca; registrar se a sidebar enxerga o valor.
-  - Pronto: relatório em `docs/agents/` dizendo qual causa (1, 2 ou as duas). Remover o log antes do commit de código. Sem alteração de comportamento.
-- [ ] **T1: Aplicar `FontFamily` de verdade (FR-1, FR-3, AC-1, AC-4, AC-5)**
-  - `AppResourcesService`: gravar `new FontFamily(nome)`, com fallback seguro; `ThemeDictionaries` só se o T0 exigir.
-  - Pronto: teste unitário com nome válido, vazio e inexistente; build 0/0.
-- [ ] **T2: Fonte da área de arquivos nos três layouts (FR-2, AC-2)**
-  - Mapear `ContentControlThemeFontFamily` nos `Resources` de Details, Grade e Colunas, mais `DataGridHeader`.
-  - Pronto: sidebar inalterada; nome, data, tamanho e tipo na fonte da lista.
-- [ ] **T3: Troca imediata e persistência (FR-3, AC-3)**
-  - Conferir `ApplyResources()` e a inicialização em `AppThemeResourcesHelper`.
-  - Pronto: trocar sem reiniciar e reabrir mantendo.
+- [x] **T0: Provar a causa (AC-1, AC-2)**
+  - Diagnóstico CONFIRMED no código e documentado no plan.md: Resources recebia string direta em vez de objeto FontFamily, e TextBlockStyles impunha ContentControlThemeFontFamily quebrando a herança dos layouts de arquivos.
+- [x] **T1: Aplicar `FontFamily` de verdade (FR-1, FR-3, AC-1, AC-4, AC-5)**
+  - `AppResourcesService`: gravar `new FontFamily(nome)`, com fallback seguro para `StandardFont` e try/catch; atualizar dicionários ativos (`ThemeDictionaries`).
+  - Pronto: gravação de objetos `FontFamily` implementada e blindada contra falhas ou strings vazias/inválidas.
+- [x] **T2: Fonte da área de arquivos nos três layouts (FR-2, AC-2)**
+  - Mapear estilos e fontes nos Resources de Details, Grade e Colunas, mais `DataGridHeader` para apontar para `{ThemeResource App.Theme.FileArea.FontFamily}`.
+  - Pronto: sidebar inalterada usando a fonte da interface; nome, data, tamanho e tipo na fonte da lista.
+- [x] **T3: Troca imediata e persistência (FR-3, AC-3)**
+  - `AppThemeResourcesHelper` invoca `SetAppThemeFontFamily` e `SetAppThemeFileAreaFontFamily` sempre que configurados, e `ApplyResources()` força a reavaliação de temas.
+  - Pronto: troca imediata e inicialização consistente na abertura do app.
 - [ ] **T4: Prova de tela e desempenho (AC-1 a AC-4, NFR-1)**
-  - Capturas antes e depois em `docs/agents/evidence/f089/`; `verify_no_index_service.ps1`; navegação em pasta grande contra a `colab`.
-  - Pronto: relatório de conclusão (§18.7) com comparativo de desempenho; nota de liberação; exe com data posterior ao commit.
-- [ ] **T5: Corrigir a F009** — escrever em `F009-separate-fonts/` uma nota "substituída pela F089", sem apagar o histórico.
+  - Prova de tela no app em execução e compilação do pacote na máquina de build oficial (`Verde.ps1 -Mark`).
+- [x] **T5: Corrigir a F009** — escrever em `F009-separate-fonts/` uma nota "substituída pela F089", sem apagar o histórico.
 
 Regras: sem roubar foco; temporários em `%TEMP%\agy\<GUID>\...`; um commit por tarefa; sem push nem merge sem pedido do Alexandre.

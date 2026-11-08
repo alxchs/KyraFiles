@@ -103,11 +103,11 @@ namespace Files.App.Helpers
 				}
 			}
 
-			if (appThemeFontFamily != Constants.Appearance.StandardFont)
+			if (!string.IsNullOrWhiteSpace(appThemeFontFamily))
 				service.SetAppThemeFontFamily(appThemeFontFamily);
 
 			var appThemeFileAreaFontFamily = appearance.AppThemeFileAreaFontFamily;
-			if (!string.IsNullOrWhiteSpace(appThemeFileAreaFontFamily) && appThemeFileAreaFontFamily != Constants.Appearance.StandardFont)
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaFontFamily))
 				service.SetAppThemeFileAreaFontFamily(appThemeFileAreaFontFamily);
 
 			service.SetAppControlShapeStyle(appearance.ControlShapeStyle);

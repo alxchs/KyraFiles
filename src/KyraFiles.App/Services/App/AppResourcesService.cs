@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using Files.App.Data.Enums;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
 namespace Files.App.Services
@@ -94,13 +96,63 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
 		{
-			Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;
+			try
+			{
+				var fontName = string.IsNullOrWhiteSpace(contentControlThemeFontFamily)
+					? Constants.Appearance.StandardFont
+					: contentControlThemeFontFamily;
+
+				var fontFamily = new FontFamily(fontName);
+				Application.Current.Resources["ContentControlThemeFontFamily"] = fontFamily;
+
+				if (Application.Current.Resources.ThemeDictionaries is not null)
+				{
+					foreach (var dictKey in new[] { "Default", "Light", "Dark", "HighContrast" })
+					{
+						if (Application.Current.Resources.ThemeDictionaries.TryGetValue(dictKey, out var dictObj) &&
+							dictObj is ResourceDictionary themeDict)
+						{
+							themeDict["ContentControlThemeFontFamily"] = fontFamily;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to set AppThemeFontFamily: {FontName}", contentControlThemeFontFamily);
+				Application.Current.Resources["ContentControlThemeFontFamily"] = new FontFamily(Constants.Appearance.StandardFont);
+			}
 		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeFileAreaFontFamily(string appThemeFileAreaFontFamily)
 		{
-			Application.Current.Resources["App.Theme.FileArea.FontFamily"] = appThemeFileAreaFontFamily;
+			try
+			{
+				var fontName = string.IsNullOrWhiteSpace(appThemeFileAreaFontFamily)
+					? Constants.Appearance.StandardFont
+					: appThemeFileAreaFontFamily;
+
+				var fontFamily = new FontFamily(fontName);
+				Application.Current.Resources["App.Theme.FileArea.FontFamily"] = fontFamily;
+
+				if (Application.Current.Resources.ThemeDictionaries is not null)
+				{
+					foreach (var dictKey in new[] { "Default", "Light", "Dark", "HighContrast" })
+					{
+						if (Application.Current.Resources.ThemeDictionaries.TryGetValue(dictKey, out var dictObj) &&
+							dictObj is ResourceDictionary themeDict)
+						{
+							themeDict["App.Theme.FileArea.FontFamily"] = fontFamily;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to set AppThemeFileAreaFontFamily: {FontName}", appThemeFileAreaFontFamily);
+				Application.Current.Resources["App.Theme.FileArea.FontFamily"] = new FontFamily(Constants.Appearance.StandardFont);
+			}
 		}
 
 		/// <inheritdoc/>

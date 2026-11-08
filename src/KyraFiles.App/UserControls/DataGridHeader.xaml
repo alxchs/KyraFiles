@@ -132,6 +132,7 @@
 					x:Name="HeaderTextBlock"
 					Grid.ColumnSpan="2"
 					HorizontalAlignment="{x:Bind HorizontalContentAlignment}"
+					FontFamily="{ThemeResource App.Theme.FileArea.FontFamily}"
 					FontSize="12"
 					FontWeight="SemiBold"
 					Foreground="{ThemeResource TextFillColorTertiaryBrush}"

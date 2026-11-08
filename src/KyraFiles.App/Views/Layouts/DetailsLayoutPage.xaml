@@ -149,10 +149,24 @@
 				<Setter Property="Margin" Value="-4,0" />
 			</Style>
 
+			<Style BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}" TargetType="TextBlock">
+				<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+				<Setter Property="FontWeight" Value="Normal" />
+			</Style>
+
+			<Style
+				x:Key="App.Theme.BodyTextBlockStyle"
+				BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}"
+				TargetType="TextBlock">
+				<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+				<Setter Property="FontWeight" Value="Normal" />
+			</Style>
+
 			<Style
 				x:Key="ColumnContentTextBlock"
 				BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
 				TargetType="TextBlock">
+				<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
 				<Setter Property="TextWrapping" Value="NoWrap" />
 				<Setter Property="TextTrimming" Value="CharacterEllipsis" />
 				<Setter Property="VerticalAlignment" Value="Center" />

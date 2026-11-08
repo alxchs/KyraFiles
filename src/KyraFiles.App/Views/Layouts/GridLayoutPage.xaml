@@ -25,6 +25,44 @@
 	mc:Ignorable="d">
 
 	<local:BaseGroupableLayoutPage.Resources>
+		<Style BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}" TargetType="TextBlock">
+			<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+			<Setter Property="FontWeight" Value="Normal" />
+		</Style>
+
+		<Style
+			x:Key="App.Theme.BodyStrongTextBlockStyle"
+			BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}"
+			TargetType="TextBlock">
+			<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+		</Style>
+
+		<Style
+			x:Key="App.Theme.CaptionTextBlockStyle"
+			BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}"
+			TargetType="TextBlock">
+			<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+			<Setter Property="FontSize" Value="{StaticResource CaptionTextBlockFontSize}" />
+			<Setter Property="FontWeight" Value="Normal" />
+		</Style>
+
+		<Style
+			x:Key="CaptionTextBlockStyle"
+			BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}"
+			TargetType="TextBlock">
+			<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+			<Setter Property="FontSize" Value="{StaticResource CaptionTextBlockFontSize}" />
+			<Setter Property="FontWeight" Value="Normal" />
+		</Style>
+
+		<Style
+			x:Key="App.Theme.BodyTextBlockStyle"
+			BasedOn="{StaticResource App.Theme.BaseTextBlockStyle}"
+			TargetType="TextBlock">
+			<Setter Property="FontFamily" Value="{ThemeResource App.Theme.FileArea.FontFamily}" />
+			<Setter Property="FontWeight" Value="Normal" />
+		</Style>
+
 		<Style x:Key="VerticalLayoutGridView" TargetType="GridView">
 			<Style.Setters>
 				<Setter Property="ItemsPanel">

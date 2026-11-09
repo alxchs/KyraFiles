@@ -13,14 +13,14 @@ Tag de segurança antes da fila: `tag_v4.3.10.0_f063-f065-correcoes-f067-pwsh-f0
 
 ## 1. Regras da fila (valem para todos os itens; descumprir = Claude reverte e o Alexandre é avisado)
 
-1. **Um item por vez, na ordem abaixo.** Só começa o próximo depois de o anterior estar devolvido na `colab` (§18 do método).
-2. **Uma branch por spec**, `feature/<id>-<slug>`, saindo da `colab` atualizada. Nunca na `main`.
+1. **Um item por vez, na ordem abaixo.** Só começa o próximo depois de o anterior estar devolvido na `main` (§18 do método). (Nota: a branch `colab` foi descontinuada e apagada em 09/11/2026 a pedido do Alexandre).
+2. **Uma branch por spec**, `feature/<id>-<slug>`, saindo da `main` atualizada. Nunca comitar direto na `main`.
 3. **SDD:** para cada item a AGY escreve `docs/specs/<ID>-<nome>/spec.md`, `plan.md` e `tasks.md` (modelos em `~/.dev-method/templates/`), status RASCUNHO, faz um handoff e **para**. Só o Claude (ou o Alexandre) aprova. Sem `tasks.md` aprovado não há código.
 4. **Sem tecnologia na spec.** Dúvida vira `[NEEDS CLARIFICATION]`. Cada tarefa cita `FR`/`AC`; cada teste cita o `AC`.
-5. **Zero regressão de desempenho** (§18.5): antes de codar, meça o baseline da colab (tempo até a primeira janela e a operação afetada); depois, mesmos scripts. Pior que a colab = rejeitado.
+5. **Zero regressão de desempenho** (§18.5): antes de codar, meça o baseline da main (tempo até a primeira janela e a operação afetada); depois, mesmos scripts. Pior que a main = rejeitado.
 6. **Relatório de conclusão** por spec, em `docs/specs/<ID>/RELATORIO.md`: entregas e evidências, arquitetura e arquivos tocados, riscos, comparativo de desempenho (§18.7).
 7. **Prova de tela** só com o Alexandre ausente ou às 09:00, **sem roubar foco**, só com UI Automation ou o helper com trava (`tools/perf/Send-GuardedInput.ps1`). AC de interface sem prova fica `NOT TESTED`.
-8. **Nunca** `git push`, tag, merge na colab ou na main, release. A integração (squash, rebase, ff) é do Claude depois da revisão.
+8. **Nunca** `git push`, tag ou release sem autorização expressa do Alexandre. A integração na `main` é feita via squash/rebase + ff-only mantendo histórico linear.
 9. Texto que o usuário final vê (notas de versão, avisos) segue o §14 do método: benefício em português simples, sem jargão.
 10. Temporários em `%TEMP%\agy\<GUID>\desenv\utils\FilesApp\Files\`. Apague ao fim.
 11. Dúvida de arquitetura ou de escopo: `PENDING DECISION` em `DECISIONS.md` e siga com outra tarefa independente.

@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
   <xs:schema id="root">
@@ -4759,6 +4759,9 @@
   </data>
   <data name="ConfirmRemoveTagsDialogContent" xml:space="preserve">
     <value>Are you sure you want to remove tags from the selected items?</value>
+  </data>
+  <data name="AppUiScale" xml:space="preserve">
+    <value>Interface scale</value>
   </data>
   <data name="AppDensity" xml:space="preserve">
     <value>Interface density</value>

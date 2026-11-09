@@ -155,5 +155,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets the geometric shape style model for controls, tabs and cards.
 		/// </summary>
 		ControlShapeStyleKind ControlShapeStyle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the application UI scale percentage (e.g. 80, 90, 100, 110, 125, 150).
+		/// </summary>
+		int AppUiScalePercent { get; set; }
 	}
 }

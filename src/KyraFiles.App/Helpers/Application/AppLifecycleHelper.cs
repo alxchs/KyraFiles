@@ -364,6 +364,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
+					.AddSingleton<IUiScaleService, UiScaleService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()

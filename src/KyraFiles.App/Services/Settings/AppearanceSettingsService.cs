@@ -209,6 +209,13 @@ namespace Files.App.Services.Settings
 			set => Set((int)value);
 		}
 
+		/// <inheritdoc/>
+		public int AppUiScalePercent
+		{
+			get => Get(100);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

@@ -316,6 +316,7 @@ namespace Files.App
 
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
+					Ioc.Default.GetRequiredService<IUiScaleService>().ApplyScale(Instance, rootFrame);
 				}
 
 				return rootFrame;

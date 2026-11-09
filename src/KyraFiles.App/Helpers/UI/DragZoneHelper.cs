@@ -1,6 +1,8 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Data.Contracts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Windows.Graphics;
@@ -44,11 +46,17 @@ namespace Files.App.Helpers
 
 		private static RectInt32 GetScaledRect(this UIElement uiElement, RectInt32? r = null)
 		{
+			var uiScale = Ioc.Default.GetService<IAppearanceSettingsService>()?.AppUiScalePercent ?? 100;
+			var uiScaleMultiplier = uiScale > 0 ? uiScale / 100.0 : 1.0;
+
 			if (r is { } rect)
 			{
 				var scaleFactor = uiElement.XamlRoot.RasterizationScale;
-				return new((int)(rect.X * scaleFactor), (int)(rect.Y * scaleFactor), (int)(rect.Width * scaleFactor),
-					(int)(rect.Height * scaleFactor));
+				return new(
+					(int)(rect.X * scaleFactor),
+					(int)(rect.Y * scaleFactor),
+					(int)(rect.Width * scaleFactor * uiScaleMultiplier),
+					(int)(rect.Height * scaleFactor * uiScaleMultiplier));
 			}
 			else
 			{

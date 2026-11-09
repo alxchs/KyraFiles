@@ -22,6 +22,8 @@ namespace Files.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
+		public static readonly int[] AvailableUiScalePercentages = [80, 90, 100, 110, 125, 150];
+		public List<string> AppUiScaleOptions { get; private set; }
 		public List<string> AppDensityOptions { get; private set; }
 		public List<string> ControlShapeStyleOptions { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
@@ -54,6 +56,19 @@ namespace Files.App.ViewModels.Settings
 				Strings.LightTheme.GetLocalizedResource(),
 				Strings.DarkTheme.GetLocalizedResource()
 			];
+
+			AppUiScaleOptions =
+			[
+				"80%",
+				"90%",
+				$"100% ({Strings.Default.GetLocalizedResource()})",
+				"110%",
+				"125%",
+				"150%",
+			];
+			var currentScale = UserSettingsService.AppearanceSettingsService.AppUiScalePercent;
+			var scaleIndex = Array.IndexOf(AvailableUiScalePercentages, currentScale);
+			selectedAppUiScaleIndex = scaleIndex >= 0 ? scaleIndex : Array.IndexOf(AvailableUiScalePercentages, 100);
 
 			AppDensityOptions =
 			[
@@ -244,6 +259,23 @@ namespace Files.App.ViewModels.Settings
 		public ElementTheme SelectedElementTheme
 		{
 			get => (ElementTheme)selectedThemeIndex;
+		}
+
+		private int selectedAppUiScaleIndex;
+		public int SelectedAppUiScaleIndex
+		{
+			get => selectedAppUiScaleIndex;
+			set
+			{
+				if (SetProperty(ref selectedAppUiScaleIndex, value))
+				{
+					if (value >= 0 && value < AvailableUiScalePercentages.Length)
+					{
+						var scale = AvailableUiScalePercentages[value];
+						UserSettingsService.AppearanceSettingsService.AppUiScalePercent = scale;
+					}
+				}
+			}
 		}
 
 		private int selectedAppDensityIndex;

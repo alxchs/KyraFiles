@@ -114,6 +114,9 @@ namespace Files.App.Views
 				case nameof(IAppearanceSettingsService.SidebarWidth):
 					ApplySidebarWidthState();
 					break;
+				case nameof(IAppearanceSettingsService.AppUiScalePercent):
+					MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+					break;
 			}
 		}
 

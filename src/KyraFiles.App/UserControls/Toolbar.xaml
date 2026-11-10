@@ -775,6 +775,7 @@
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
 								<!--  Show Hidden Files  -->
@@ -812,10 +813,26 @@
 									Rotation="1"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 
+								<!--  Hide Git Ignored Items  -->
+								<TextBlock
+									Grid.Row="2"
+									Grid.Column="0"
+									VerticalAlignment="Center"
+									Text="{x:Bind Commands.ToggleHideGitIgnoredItems.Label}" />
+
+								<ToggleSwitch
+									Grid.Row="2"
+									Grid.Column="1"
+									MinWidth="68"
+									HorizontalAlignment="Right"
+									AutomationProperties.Name="{x:Bind Commands.ToggleHideGitIgnoredItems.AutomationName}"
+									IsOn="{x:Bind Commands.ToggleHideGitIgnoredItems.IsOn, Mode=TwoWay}"
+									ToolTipService.ToolTip="{x:Bind Commands.ToggleHideGitIgnoredItems.HotKeyText, Mode=OneWay}" />
+
 								<!--  Adaptive Layout  -->
 								<TextBlock
 									x:Name="AdaptiveLayoutTextBlock"
-									Grid.Row="2"
+									Grid.Row="3"
 									Grid.Column="0"
 									VerticalAlignment="Center"
 									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
@@ -823,7 +840,7 @@
 
 								<ToggleSwitch
 									x:Name="AdaptiveLayoutToggleSwitch"
-									Grid.Row="2"
+									Grid.Row="3"
 									Grid.Column="1"
 									MinWidth="68"
 									HorizontalAlignment="Right"

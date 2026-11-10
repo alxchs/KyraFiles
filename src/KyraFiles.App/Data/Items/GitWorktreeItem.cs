@@ -1,0 +1,13 @@
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+namespace Files.App.Data.Items
+{
+	public record GitWorktreeItem(
+		string Name,
+		string Path,
+		string? BranchName,
+		bool IsCurrent,
+		bool IsLocked = false
+	);
+}

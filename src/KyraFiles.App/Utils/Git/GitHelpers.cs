@@ -34,6 +34,12 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControlService.GetRepositoryHeadName(string?)"/>
 		public static Task<string?> GetRepositoryHeadName(string? path) => _implementation.GetRepositoryHeadName(path);
 
+		/// <inheritdoc cref="IVersionControlService.GetRepositoryWorktreesAsync(string?)"/>
+		public static Task<GitWorktreeItem[]> GetRepositoryWorktreesAsync(string? path) => _implementation.GetRepositoryWorktreesAsync(path);
+
+		/// <inheritdoc cref="IVersionControlService.IsPathIgnored(string?)"/>
+		public static bool IsPathIgnored(string? path) => _implementation.IsPathIgnored(path);
+
 		/// <inheritdoc cref="IVersionControlService.Checkout(string?, string?)"/>
 		public static Task<bool> Checkout(string? repositoryPath, string? branch) => _implementation.Checkout(repositoryPath, branch);
 

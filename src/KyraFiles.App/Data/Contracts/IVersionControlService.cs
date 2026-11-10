@@ -69,6 +69,13 @@ namespace Files.App.Data.Contracts
 		Task<string?> GetRepositoryHeadName(string? path);
 
 		/// <summary>
+		/// Gets the collection of worktrees associated with the repository.
+		/// </summary>
+		/// <param name="path">A path inside the repository.</param>
+		/// <returns>An array of <see cref="GitWorktreeItem"/>.</returns>
+		Task<GitWorktreeItem[]> GetRepositoryWorktreesAsync(string? path);
+
+		/// <summary>
 		/// Checks out the specified branch.
 		/// </summary>
 		/// <param name="repositoryPath">A path to the repository working directory.</param>
@@ -208,6 +215,13 @@ namespace Files.App.Data.Contracts
 		/// <param name="targetDirectory">The directory where the repository should be cloned.</param>
 		/// <returns>A task representing the asynchronous operation.</returns>
 		Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory);
+
+		/// <summary>
+		/// Determines whether the specified path is ignored by version control (.gitignore rules).
+		/// </summary>
+		/// <param name="path">The full path of the file or directory to check.</param>
+		/// <returns><see langword="true"/> if the path is ignored; otherwise <see langword="false"/>.</returns>
+		bool IsPathIgnored(string? path);
 
 		/// <summary>
 		/// Gets a value indicating whether a version control operation is currently running.

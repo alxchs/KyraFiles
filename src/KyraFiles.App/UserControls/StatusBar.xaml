@@ -286,14 +286,15 @@
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="0,0,0,1">
 
-								<!--  Locals and Remotes  -->
+								<!--  Locals, Remotes and Worktrees  -->
 								<toolkit:Segmented
 									Grid.Row="1"
 									HorizontalAlignment="Left"
-									SelectedIndex="0"
+									SelectedIndex="{x:Bind StatusBarViewModel.GitFlyoutTabIndex, Mode=TwoWay}"
 									Style="{StaticResource PivotSegmentedStyle}">
-									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Locals}" IsSelected="{x:Bind StatusBarViewModel.ShowLocals, Mode=TwoWay}" />
+									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Locals}" />
 									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Remotes}" />
+									<toolkit:SegmentedItem Content="{helpers:ResourceString Name=Worktrees}" />
 								</toolkit:Segmented>
 
 								<!--  New Branch Button  -->
@@ -305,7 +306,8 @@
 									Command="{x:Bind StatusBarViewModel.NewBranchCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=CreateBranch}"
 									FontSize="12"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}" />
+									ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}"
+									Visibility="{x:Bind StatusBarViewModel.NewBranchButtonVisibility, Mode=OneWay}" />
 							</Grid>
 
 							<!--  Branches List  -->
@@ -318,7 +320,8 @@
 								ItemClick="BranchesList_ItemClick"
 								ItemsSource="{x:Bind StatusBarViewModel.Branches, Mode=OneWay}"
 								SelectedIndex="{x:Bind StatusBarViewModel.SelectedBranchIndex, Mode=TwoWay}"
-								SelectionMode="Single">
+								SelectionMode="Single"
+								Visibility="{x:Bind StatusBarViewModel.ShowBranchesVisibility, Mode=OneWay}">
 
 								<ListView.ItemTemplate>
 									<DataTemplate x:DataType="data:BranchItem">
@@ -345,7 +348,67 @@
 										</Grid>
 									</DataTemplate>
 								</ListView.ItemTemplate>
+							</ListView>
 
+							<!--  Worktrees List  -->
+							<ListView
+								x:Name="WorktreesList"
+								Grid.Row="1"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="WorktreesList_ItemClick"
+								ItemsSource="{x:Bind StatusBarViewModel.Worktrees, Mode=OneWay}"
+								SelectionMode="None"
+								Visibility="{x:Bind StatusBarViewModel.ShowWorktreesVisibility, Mode=OneWay}">
+
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="data:GitWorktreeItem">
+										<Grid Margin="4" ColumnSpacing="8" HorizontalAlignment="Stretch">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" />
+												<ColumnDefinition Width="*" />
+												<ColumnDefinition Width="Auto" />
+											</Grid.ColumnDefinitions>
+
+											<FontIcon
+												Grid.Column="0"
+												VerticalAlignment="Center"
+												FontSize="14"
+												Glyph="&#xE8B7;" />
+
+											<StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+												<StackPanel Orientation="Horizontal" Spacing="6">
+													<TextBlock
+														FontWeight="SemiBold"
+														Text="{x:Bind Name}"
+														TextTrimming="CharacterEllipsis" />
+													<TextBlock
+														Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+														Text="{x:Bind BranchName}" />
+												</StackPanel>
+												<TextBlock
+													FontSize="11"
+													Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+													Text="{x:Bind Path}"
+													TextTrimming="CharacterEllipsis" />
+											</StackPanel>
+
+											<Border
+												Grid.Column="2"
+												Padding="6,1"
+												VerticalAlignment="Center"
+												Background="{ThemeResource ControlFillColorDefaultBrush}"
+												CornerRadius="4"
+												Visibility="{x:Bind IsCurrent}">
+												<TextBlock
+													FontSize="10"
+													Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+													Text="Atual" />
+											</Border>
+										</Grid>
+									</DataTemplate>
+								</ListView.ItemTemplate>
 							</ListView>
 						</Grid>
 					</Flyout>

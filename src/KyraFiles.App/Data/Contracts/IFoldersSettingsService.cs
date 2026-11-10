@@ -18,6 +18,11 @@ namespace Files.App.Data.Contracts
 		bool ShowHiddenItems { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not items ignored by git should be hidden.
+		/// </summary>
+		bool HideGitIgnoredItems { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not protected system files should be visible.
 		/// </summary>
 		bool ShowProtectedSystemFiles { get; set; }

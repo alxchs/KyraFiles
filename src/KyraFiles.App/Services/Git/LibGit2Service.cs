@@ -159,8 +159,12 @@ internal sealed partial class LibGit2Service // : IVersionControl
 					{
 					}
 
+					var branchName = (repository.Info.IsHeadDetached || string.Equals(branch.FriendlyName, "(no branch)", StringComparison.OrdinalIgnoreCase))
+						? (branch.Tip.Sha.Length >= 7 ? branch.Tip.Sha[..7] : branch.Tip.Sha)
+						: branch.FriendlyName;
+
 					head = new BranchItem(
-						branch.FriendlyName,
+						branchName,
 						true,
 						branch.IsRemote,
 						trackingDetails?.AheadBy ?? 0,
@@ -191,12 +195,94 @@ internal sealed partial class LibGit2Service // : IVersionControl
 			{
 				using var repository = new Repository(path);
 				var branch = repository.Head;
-				return branch?.Tip is null ? null : branch.FriendlyName;
+				if (branch?.Tip is null)
+					return null;
+
+				if (repository.Info.IsHeadDetached || string.Equals(branch.FriendlyName, "(no branch)", StringComparison.OrdinalIgnoreCase))
+				{
+					return branch.Tip.Sha.Length >= 7 ? branch.Tip.Sha[..7] : branch.Tip.Sha;
+				}
+
+				return branch.FriendlyName;
 			}
 			// The repository may have been removed or corrupted after discovery returned its path
 			catch (LibGit2SharpException)
 			{
 				return null;
+			}
+		});
+	}
+
+	public async Task<GitWorktreeItem[]> GetRepositoryWorktreesAsync(string? path)
+	{
+		if (string.IsNullOrWhiteSpace(path))
+			return [];
+
+		return await Task.Run(() =>
+		{
+			try
+			{
+				if (!GitHelpers.IsRepositoryEx(path, out var repoPath) || string.IsNullOrEmpty(repoPath))
+					return [];
+
+				using var repository = new Repository(repoPath);
+				var list = new List<GitWorktreeItem>();
+
+				var mainWorktreePath = repository.Info.WorkingDirectory;
+				if (!string.IsNullOrEmpty(mainWorktreePath))
+				{
+					var mainDir = mainWorktreePath.TrimEnd('\\', '/');
+					var mainName = System.IO.Path.GetFileName(mainDir) ?? "main";
+					var head = repository.Head;
+					var branchName = head?.Tip is null ? null :
+						(repository.Info.IsHeadDetached || string.Equals(head.FriendlyName, "(no branch)", StringComparison.OrdinalIgnoreCase))
+							? (head.Tip.Sha.Length >= 7 ? head.Tip.Sha[..7] : head.Tip.Sha)
+							: head.FriendlyName;
+
+					var isCurrent = PathNormalization.NormalizePath(path).StartsWith(
+						PathNormalization.NormalizePath(mainDir), StringComparison.OrdinalIgnoreCase);
+
+					list.Add(new GitWorktreeItem(mainName, mainDir, branchName, isCurrent, false));
+				}
+
+				foreach (var wt in repository.Worktrees)
+				{
+					try
+					{
+						var wtRepo = wt.WorktreeRepository;
+						if (wtRepo is null)
+							continue;
+
+						var wtPath = wtRepo.Info.WorkingDirectory?.TrimEnd('\\', '/');
+						if (string.IsNullOrEmpty(wtPath) || !Directory.Exists(wtPath))
+							continue;
+
+						var head = wtRepo.Head;
+						var branchName = head?.Tip is null ? null :
+							(wtRepo.Info.IsHeadDetached || string.Equals(head.FriendlyName, "(no branch)", StringComparison.OrdinalIgnoreCase))
+								? (head.Tip.Sha.Length >= 7 ? head.Tip.Sha[..7] : head.Tip.Sha)
+								: head.FriendlyName;
+
+						var isCurrent = PathNormalization.NormalizePath(path).StartsWith(
+							PathNormalization.NormalizePath(wtPath), StringComparison.OrdinalIgnoreCase);
+
+						list.Add(new GitWorktreeItem(wt.Name, wtPath, branchName, isCurrent, wt.IsLocked));
+					}
+					catch
+					{
+						// Ignore individual failed or locked worktrees
+					}
+				}
+
+				return list.ToArray();
+			}
+			catch (LibGit2SharpException)
+			{
+				return [];
+			}
+			catch (Exception)
+			{
+				return [];
 			}
 		});
 	}
@@ -593,6 +679,35 @@ internal sealed partial class LibGit2Service // : IVersionControl
 		{
 			OnCheckoutProgress = options.OnCheckoutProgress,
 		});
+	}
+
+	public bool IsPathIgnored(string? path)
+	{
+		if (string.IsNullOrWhiteSpace(path))
+			return false;
+
+		try
+		{
+			if (GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(repoPath))
+			{
+				using var repository = new Repository(repoPath);
+				var relativePath = Path.GetRelativePath(repoPath, path);
+				if (string.IsNullOrEmpty(relativePath) || relativePath == ".")
+					return false;
+
+				return repository.Ignore.IsPathIgnored(relativePath.Replace('\\', '/'));
+			}
+
+			return false;
+		}
+		catch (LibGit2SharpException)
+		{
+			return false;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
 	}
 
 	private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload)

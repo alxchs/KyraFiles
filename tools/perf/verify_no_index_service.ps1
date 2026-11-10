@@ -4,7 +4,11 @@
 
 [CmdletBinding()]
 param(
-    [string]$InstallPath = (Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\KyraFiles.exe"),
+    [string]$InstallPath = $(
+        $kyra = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles\KyraFiles.exe"
+        $custom = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\KyraFiles.exe"
+        if (Test-Path -LiteralPath $kyra) { $kyra } else { $custom }
+    ),
     [string]$AliasPath = (Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps\kyrafiles.exe"),
     [int]$WaitSeconds = 10,
     [switch]$KeepOpen = $false
@@ -29,9 +33,9 @@ Stop-Process -Name "KyraFiles" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
 # 3. Inicia o Files Custom oficial instalado
-$targetToRun = if (Test-Path -LiteralPath $AliasPath) { $AliasPath } else { $InstallPath }
+$targetToRun = if (Test-Path -LiteralPath $InstallPath) { $InstallPath } else { $AliasPath }
 Write-Host "[1/4] Iniciando Files Custom instalado..." -ForegroundColor Yellow
-$proc = Start-Process -FilePath $targetToRun -PassThru
+$proc = Start-Process -FilePath $targetToRun -WindowStyle Minimized -PassThru
 if (-not $proc -or $proc.HasExited) {
     Start-Sleep -Seconds 2
     $proc = Get-Process -Name "KyraFiles", "Files" -ErrorAction SilentlyContinue | Select-Object -First 1

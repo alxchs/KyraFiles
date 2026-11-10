@@ -64,6 +64,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool HideGitIgnoredItems
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowProtectedSystemFiles
 		{
 			get => Get(false);

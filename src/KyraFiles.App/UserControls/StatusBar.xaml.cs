@@ -217,6 +217,7 @@ namespace Files.App.UserControls
 			StatusBarViewModel.IsBranchesFlyoutExpanded = true;
 			StatusBarViewModel.ShowLocals = true;
 			await StatusBarViewModel.LoadBranches();
+			await StatusBarViewModel.LoadWorktrees();
 			StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
@@ -233,6 +234,23 @@ namespace Files.App.UserControls
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			BranchesFlyout.Hide();
+		}
+
+		private void WorktreesList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			BranchesFlyout.Hide();
+			if (e.ClickedItem is GitWorktreeItem worktree && !string.IsNullOrEmpty(worktree.Path))
+			{
+				var contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+				if (contentPageContext.ShellPage is { } shellPage)
+				{
+					_ = NavigationHelpers.OpenPath(worktree.Path, shellPage);
+				}
+				else
+				{
+					_ = NavigationHelpers.OpenPathInNewTab(worktree.Path);
+				}
+			}
 		}
 
 		private void ZipEncodingList_ItemClick(object sender, ItemClickEventArgs e)

@@ -359,6 +359,8 @@ namespace Files.App.Views.Shells
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
 				head);
+
+			_ = NavigationHelpers.RefreshSelectedTabGitBranchAsync();
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
@@ -382,6 +384,8 @@ namespace Files.App.Views.Shells
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
+
+				_ = NavigationHelpers.RefreshSelectedTabGitBranchAsync();
 			}
 		}
 

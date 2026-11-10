@@ -5,8 +5,9 @@ using Files.App.Data.Contracts;
 using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using System.Numerics;
+using Windows.Foundation;
 
-namespace Files.App.Services.App
+namespace Files.App.Services
 {
 	/// <summary>
 	/// Coordinates global UI scaling and compensated layout across application windows (Files Custom F090).
@@ -14,7 +15,7 @@ namespace Files.App.Services.App
 	public sealed class UiScaleService : IUiScaleService
 	{
 		private readonly IAppearanceSettingsService _appearanceSettingsService;
-		private readonly Dictionary<Window, (FrameworkElement Root, WindowSizeChangedEventHandler Handler)> _trackedWindows = [];
+		private readonly Dictionary<Window, (FrameworkElement Root, TypedEventHandler<object, WindowSizeChangedEventArgs> Handler)> _trackedWindows = [];
 
 		public int ScalePercent
 		{
@@ -48,7 +49,7 @@ namespace Files.App.Services.App
 
 			if (!_trackedWindows.ContainsKey(window))
 			{
-				WindowSizeChangedEventHandler handler = (s, e) =>
+				TypedEventHandler<object, WindowSizeChangedEventArgs> handler = (s, e) =>
 				{
 					ApplyLayoutCompensation(window, rootElement, ScaleFactor);
 				};

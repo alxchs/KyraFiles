@@ -881,6 +881,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.ShowFileExtensions):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowThumbnails):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
+				case nameof(UserSettingsService.FoldersSettingsService.HideGitIgnoredItems):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
@@ -3298,9 +3299,10 @@ namespace Files.App.ViewModels
 			if ((isHidden &&
 			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
 			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
-			   (startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles))
+			   (startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles) ||
+			   (UserSettingsService.FoldersSettingsService.HideGitIgnoredItems && IsValidGitDirectory && GitHelpers.IsPathIgnored(fileOrFolderPath)))
 			{
-				// Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
+				// Do not add to file list if hidden/system attribute is set or ignored by git
 				return null;
 			}
 

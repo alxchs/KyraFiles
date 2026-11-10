@@ -285,6 +285,11 @@
 				KeyboardAcceleratorTextOverride="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}"
 				Text="{x:Bind Commands.ToggleShowHiddenItems.Label, Mode=OneWay}" />
 			<ToggleMenuFlyoutItem
+				Command="{x:Bind Commands.ToggleHideGitIgnoredItems, Mode=OneWay}"
+				IsChecked="{x:Bind Commands.ToggleHideGitIgnoredItems.IsOn, Mode=OneWay}"
+				KeyboardAcceleratorTextOverride="{x:Bind Commands.ToggleHideGitIgnoredItems.HotKeyText, Mode=OneWay}"
+				Text="{x:Bind Commands.ToggleHideGitIgnoredItems.Label, Mode=OneWay}" />
+			<ToggleMenuFlyoutItem
 				Command="{x:Bind Commands.ToggleShowFileExtensions, Mode=OneWay}"
 				IsChecked="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=OneWay}"
 				KeyboardAcceleratorTextOverride="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}"

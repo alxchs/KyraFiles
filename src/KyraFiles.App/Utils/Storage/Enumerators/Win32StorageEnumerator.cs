@@ -41,23 +41,70 @@ namespace Files.App.Utils.Storage
 			bool showProtectedSystemFiles = userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
 			bool showDotFiles = userSettingsService.FoldersSettingsService.ShowDotFiles;
 			bool areAlternateStreamsVisible = userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible;
+			bool hideGitIgnoredItems = userSettingsService.FoldersSettingsService.HideGitIgnoredItems;
 
 			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(repoPath));
 			var rawHandle = hFile.DangerousGetHandle();
+
+			LibGit2Sharp.Repository? gitRepo = null;
+			var ignoredFolderPrefixes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+			if (hideGitIgnoredItems && isGitRepo && !string.IsNullOrEmpty(repoPath))
+			{
+				try
+				{
+					gitRepo = new LibGit2Sharp.Repository(repoPath);
+				}
+				catch
+				{
+					gitRepo = null;
+				}
+			}
 
 			try
 			{
 				do
 				{
+					var isDirectory = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 					var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 					var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 					var startWithDot = findData.cFileName.StartsWith('.');
+
+					if (hideGitIgnoredItems && gitRepo is not null && repoPath is not null)
+					{
+						var itemFullPath = Path.Combine(path, findData.cFileName);
+						var relativePath = Path.GetRelativePath(repoPath, itemFullPath);
+
+						if (isDirectory)
+						{
+							if (ignoredFolderPrefixes.Contains(relativePath) ||
+								gitRepo.Ignore.IsPathIgnored(relativePath.Replace('\\', '/') + "/"))
+							{
+								ignoredFolderPrefixes.Add(relativePath);
+								continue;
+							}
+						}
+						else
+						{
+							var parentRelative = Path.GetDirectoryName(relativePath);
+							if (!string.IsNullOrEmpty(parentRelative) && ignoredFolderPrefixes.Contains(parentRelative))
+							{
+								continue;
+							}
+
+							if (gitRepo.Ignore.IsPathIgnored(relativePath.Replace('\\', '/')))
+							{
+								continue;
+							}
+						}
+					}
+
 					if ((!isHidden ||
 						(showHiddenItems &&
 							(!isSystem || showProtectedSystemFiles))) &&
 						(!startWithDot || showDotFiles))
 					{
-						if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+						if (!isDirectory)
 						{
 							var file = await GetFile(findData, path, isGitRepo, cancellationToken);
 							if (file is not null)
@@ -119,6 +166,7 @@ namespace Files.App.Utils.Storage
 			}
 			finally
 			{
+				gitRepo?.Dispose();
 				hFile.Dispose();
 			}
 

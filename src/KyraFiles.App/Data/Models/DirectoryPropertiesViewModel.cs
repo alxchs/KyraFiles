@@ -5,6 +5,7 @@ using Files.App.Data.Items;
 using Files.App.Utils.Storage;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
@@ -61,6 +62,36 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private readonly ObservableCollection<GitWorktreeItem> _worktrees = [];
+		public ObservableCollection<GitWorktreeItem> Worktrees => _worktrees;
+
+		private int _GitFlyoutTabIndex = 0;
+		public int GitFlyoutTabIndex
+		{
+			get => _GitFlyoutTabIndex;
+			set
+			{
+				if (SetProperty(ref _GitFlyoutTabIndex, value))
+				{
+					_ShowLocals = value == 0;
+					OnPropertyChanged(nameof(ShowLocals));
+					OnPropertyChanged(nameof(Branches));
+					OnPropertyChanged(nameof(ShowWorktreesVisibility));
+					OnPropertyChanged(nameof(ShowBranchesVisibility));
+					OnPropertyChanged(nameof(NewBranchButtonVisibility));
+
+					if (value == 0)
+						SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
+					else if (value == 2)
+						_ = LoadWorktrees();
+				}
+			}
+		}
+
+		public Visibility ShowWorktreesVisibility => _GitFlyoutTabIndex == 2 ? Visibility.Visible : Visibility.Collapsed;
+		public Visibility ShowBranchesVisibility => _GitFlyoutTabIndex != 2 ? Visibility.Visible : Visibility.Collapsed;
+		public Visibility NewBranchButtonVisibility => _GitFlyoutTabIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+
 		private bool _ShowLocals = true;
 		public bool ShowLocals
 		{
@@ -69,7 +100,12 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (SetProperty(ref _ShowLocals, value))
 				{
+					_GitFlyoutTabIndex = value ? 0 : 1;
+					OnPropertyChanged(nameof(GitFlyoutTabIndex));
 					OnPropertyChanged(nameof(Branches));
+					OnPropertyChanged(nameof(ShowWorktreesVisibility));
+					OnPropertyChanged(nameof(ShowBranchesVisibility));
+					OnPropertyChanged(nameof(NewBranchButtonVisibility));
 
 					if (value)
 						SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
@@ -251,6 +287,17 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			SelectedBranchIndex = ShowLocals ? ACTIVE_BRANCH_INDEX : -1;
+		}
+
+		public async Task LoadWorktrees()
+		{
+			if (string.IsNullOrEmpty(_gitRepositoryPath))
+				return;
+
+			var items = await GitHelpers.GetRepositoryWorktreesAsync(_gitRepositoryPath);
+			_worktrees.Clear();
+			foreach (var item in items)
+				_worktrees.Add(item);
 		}
 
 		public void Dispose()

@@ -317,7 +317,99 @@ namespace Files.App.Helpers
 					tabItem.IconSource = result.Item2;
 					tabItem.ToolTipText = result.Item3;
 					RefreshTabPathHints();
+
+					_ = UpdateTabGitBranchAsync(tabItem, navigationArg, result.Item1);
 				}
+			}
+		}
+
+		private static async Task UpdateTabGitBranchAsync(TabBarItem tabItem, object? navigationArg, string baseDescription)
+		{
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				string? formattedDescription = null;
+
+				if (navigationArg is PaneNavigationArguments paneArgs)
+				{
+					if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+					{
+						var leftBranch = await GetGitBranchForPathAsync(paneArgs.LeftPaneNavPathParam);
+						var rightBranch = await GetGitBranchForPathAsync(paneArgs.RightPaneNavPathParam);
+
+						if (!string.IsNullOrEmpty(leftBranch) || !string.IsNullOrEmpty(rightBranch))
+						{
+							var parts = baseDescription.Split(" | ");
+							var leftPart = parts.Length > 0 ? parts[0] : baseDescription;
+							var rightPart = parts.Length > 1 ? parts[1] : string.Empty;
+
+							var leftHeader = !string.IsNullOrEmpty(leftBranch) ? $"{leftPart} ({leftBranch})" : leftPart;
+							var rightHeader = !string.IsNullOrEmpty(rightBranch) ? $"{rightPart} ({rightBranch})" : rightPart;
+
+							formattedDescription = $"{leftHeader} | {rightHeader}";
+						}
+					}
+					else
+					{
+						var path = string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam)
+							? paneArgs.RightPaneNavPathParam
+							: paneArgs.LeftPaneNavPathParam;
+
+						var branch = await GetGitBranchForPathAsync(path);
+						if (!string.IsNullOrEmpty(branch))
+						{
+							formattedDescription = $"{baseDescription} ({branch})";
+						}
+					}
+				}
+				else if (navigationArg is string pathArgs)
+				{
+					var branch = await GetGitBranchForPathAsync(pathArgs);
+					if (!string.IsNullOrEmpty(branch))
+					{
+						formattedDescription = $"{baseDescription} ({branch})";
+					}
+				}
+
+				if (formattedDescription is not null)
+				{
+					var navParam = tabItem.NavigationParameter?.NavigationParameter;
+					var same = (navParam is PaneNavigationArguments p1 && navigationArg is PaneNavigationArguments p2)
+						? (p1.LeftPaneNavPathParam == p2.LeftPaneNavPathParam && p1.RightPaneNavPathParam == p2.RightPaneNavPathParam)
+						: Equals(navParam, navigationArg);
+
+					if (same)
+					{
+						tabItem.Description = formattedDescription;
+						RefreshTabPathHints();
+
+						if (tabItem == MainPageViewModel.SelectedTabItem && MainWindow.Instance?.AppWindow is not null)
+						{
+							MainWindow.Instance.AppWindow.Title = $"{tabItem.Header} - KyraFiles";
+						}
+					}
+				}
+			});
+		}
+
+		private static async Task<string?> GetGitBranchForPathAsync(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || path == "Home" || ShellStorageFolder.IsShellPath(path))
+				return null;
+
+			if (Files.App.Utils.Git.GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(repoPath))
+			{
+				return await Files.App.Utils.Git.GitHelpers.GetRepositoryHeadName(repoPath);
+			}
+
+			return null;
+		}
+
+		internal static async Task RefreshSelectedTabGitBranchAsync()
+		{
+			var tab = MainPageViewModel.SelectedTabItem;
+			if (tab?.NavigationParameter?.NavigationParameter is { } navArg)
+			{
+				await UpdateTabInfoAsync(tab, navArg);
 			}
 		}
 

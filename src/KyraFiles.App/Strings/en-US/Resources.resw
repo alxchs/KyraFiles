@@ -2071,6 +2071,15 @@
   <data name="HiddenItems" xml:space="preserve">
     <value>Hidden items</value>
   </data>
+  <data name="HideGitIgnoredItems" xml:space="preserve">
+    <value>Hide Git ignored items</value>
+  </data>
+  <data name="Worktrees" xml:space="preserve">
+    <value>Worktrees</value>
+  </data>
+  <data name="OpenWorktreeFlyoutDescription" xml:space="preserve">
+    <value>View and switch Git worktrees for this repository</value>
+  </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
@@ -2568,6 +2577,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle visibility of hidden items</value>
+  </data>
+  <data name="ToggleHideGitIgnoredItemsDescription" xml:space="preserve">
+    <value>Toggle visibility of items ignored by Git (.gitignore)</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
     <value>Toggle visibility of dot files</value>

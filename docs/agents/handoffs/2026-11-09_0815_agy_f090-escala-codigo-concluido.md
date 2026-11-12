@@ -13,21 +13,21 @@
 ## 1. O que foi implementado
 
 ### 1.1 Modelo e Persistência (T1)
-- [IAppearanceSettingsService.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Data/Contracts/IAppearanceSettingsService.cs): Contrato `int AppUiScalePercent { get; set; }` adicionado.
-- [AppearanceSettingsService.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Services/Settings/AppearanceSettingsService.cs): Implementação com persistência padrão `100` (valores válidos: 80, 90, 100, 110, 125, 150).
+- [IAppearanceSettingsService.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Data/Contracts/IAppearanceSettingsService.cs): Contrato `int AppUiScalePercent { get; set; }` adicionado.
+- [AppearanceSettingsService.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Services/Settings/AppearanceSettingsService.cs): Implementação com persistência padrão `100` (valores válidos: 80, 90, 100, 110, 125, 150).
 
 ### 1.2 Interface em Configurações > Aparência (T3)
-- [Resources.resw (en-US)](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Strings/en-US/Resources.resw): Chave `AppUiScale` adicionada ("Interface scale").
-- [Resources.resw (pt-BR)](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Strings/pt-BR/Resources.resw): Chave `AppUiScale` adicionada ("Escala da interface").
-- [AppearanceViewModel.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/ViewModels/Settings/AppearanceViewModel.cs):
+- [Resources.resw (en-US)](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Strings/en-US/Resources.resw): Chave `AppUiScale` adicionada ("Interface scale").
+- [Resources.resw (pt-BR)](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Strings/pt-BR/Resources.resw): Chave `AppUiScale` adicionada ("Escala da interface").
+- [AppearanceViewModel.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/ViewModels/Settings/AppearanceViewModel.cs):
   - `AvailableUiScalePercentages`: Array estático `[80, 90, 100, 110, 125, 150]`.
   - `AppUiScaleOptions`: Opções formatadas `["80%", "90%", "100% (padrão)", "110%", "125%", "150%"]`.
   - `SelectedAppUiScaleIndex`: Binding bidirecional sincronizado com `UserSettingsService.AppearanceSettingsService.AppUiScalePercent`.
-- [AppearancePage.xaml](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Views/Settings/AppearancePage.xaml): Novo `SettingsCard` com ícone Fluent `&#xE71E;` posicionado estrategicamente ao lado de Densidade da Interface.
+- [AppearancePage.xaml](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Views/Settings/AppearancePage.xaml): Novo `SettingsCard` com ícone Fluent `&#xE71E;` posicionado estrategicamente ao lado de Densidade da Interface.
 
 ### 1.3 Serviço de Aplicação com Layout Compensado (T2)
-- [IUiScaleService.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Data/Contracts/IUiScaleService.cs): Contrato de aplicação e coordenação de escala.
-- [UiScaleService.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Services/App/UiScaleService.cs):
+- [IUiScaleService.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Data/Contracts/IUiScaleService.cs): Contrato de aplicação e coordenação de escala.
+- [UiScaleService.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Services/App/UiScaleService.cs):
   - Implementação da Opção A do `plan.md` com transformação matemática compensada:
     - `rootElement.Width = windowWidth / scaleFactor;`
     - `rootElement.Height = windowHeight / scaleFactor;`
@@ -36,10 +36,10 @@
     - Se `scaleFactor == 1.0`: restaura `Width = NaN`, `Height = NaN`, `Alignment = Stretch`, `Identity`.
   - Rastreamento dinâmico de redimensionamento da janela (`window.SizeChanged`).
   - Monitoramento reativo a `AppUiScalePercent`: aplica a alteração a todas as janelas abertas em tempo real, sem necessidade de reiniciar o aplicativo.
-- [AppLifecycleHelper.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Helpers/Application/AppLifecycleHelper.cs): Registro do singleton `IUiScaleService`.
-- [MainWindow.xaml.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/MainWindow.xaml.cs): Chamada `ApplyScale(Instance, rootFrame)` na inicialização da janela.
-- [MainPage.xaml.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Views/MainPage.xaml.cs): Recálculo e reemissão da região não-cliente da barra de título ao alterar a escala.
-- [DragZoneHelper.cs](file://tsclient/C/desenv/utils/KyraFiles/src/KyraFiles.App/Helpers/UI/DragZoneHelper.cs): `GetScaledRect` ajustado para multiplicar as dimensões da região de arraste pelo multiplicador de escala da interface.
+- [AppLifecycleHelper.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Helpers/Application/AppLifecycleHelper.cs): Registro do singleton `IUiScaleService`.
+- [MainWindow.xaml.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/MainWindow.xaml.cs): Chamada `ApplyScale(Instance, rootFrame)` na inicialização da janela.
+- [MainPage.xaml.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Views/MainPage.xaml.cs): Recálculo e reemissão da região não-cliente da barra de título ao alterar a escala.
+- [DragZoneHelper.cs](file://C/desenv/utils/KyraFiles/src/KyraFiles.App/Helpers/UI/DragZoneHelper.cs): `GetScaledRect` ajustado para multiplicar as dimensões da região de arraste pelo multiplicador de escala da interface.
 
 ---
 

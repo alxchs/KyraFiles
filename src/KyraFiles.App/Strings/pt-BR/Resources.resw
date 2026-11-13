@@ -3147,6 +3147,15 @@
   <data name="ThisPC" xml:space="preserve">
     <value>Este PC</value>
   </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>Painel de Controle</value>
+  </data>
+  <data name="ShowThisPCSection" xml:space="preserve">
+    <value>Mostrar seção Este PC</value>
+  </data>
+  <data name="ShowControlPanelSection" xml:space="preserve">
+    <value>Mostrar seção Painel de Controle</value>
+  </data>
   <data name="RecycleBin" xml:space="preserve">
     <value>Lixeira</value>
   </data>

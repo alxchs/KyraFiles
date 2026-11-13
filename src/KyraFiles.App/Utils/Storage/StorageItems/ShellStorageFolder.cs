@@ -70,7 +70,7 @@ namespace Files.App.Utils.Storage
 		{
 			Name = item.FileName
 				?? throw new System.IO.InvalidDataException("The shell item does not have a file name.");
-			Path = item.RecyclePath // True path on disk
+			Path = item.RecyclePath ?? item.FilePath // True path on disk or virtual shell namespace path
 				?? throw new System.IO.InvalidDataException("The shell item does not have a path.");
 			DateCreated = item.CreatedDate;
 			DisplayType = item.FileType ?? string.Empty;

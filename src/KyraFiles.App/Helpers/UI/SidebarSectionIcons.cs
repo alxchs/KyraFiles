@@ -18,6 +18,8 @@ namespace Files.App.Helpers
 			SectionType.Home => Resolve("Home"),
 			SectionType.Pinned => Resolve("Pinned"),
 			SectionType.Library => Resolve("Libraries"),
+			SectionType.ThisPC => Resolve("Drives"),
+			SectionType.ControlPanel => Resolve("Drives"),
 			SectionType.Drives => Resolve("Drives"),
 			SectionType.CloudDrives => Resolve("CloudDrives"),
 			SectionType.Network => Resolve("Network"),

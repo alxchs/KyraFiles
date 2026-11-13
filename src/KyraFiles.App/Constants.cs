@@ -217,6 +217,8 @@ namespace Files.App
 
 			public const string MyComputerPath = @"Shell:MyComputerFolder";
 
+			public const string ControlPanelPath = @"::{26EE0668-A00A-44D7-9371-BEB064C98683}";
+
 			public static readonly string TempPath = Environment.GetEnvironmentVariable("TEMP") ?? "";
 
 			public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -239,10 +241,12 @@ namespace Files.App
 					{ "::{645FF040-5081-101B-9F08-00AA002F954E}", RecycleBinPath },
 					{ "::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}", "Home" /*MyComputerPath*/ },
 					{ "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}", MyComputerPath },
+					{ "::{26EE0668-A00A-44D7-9371-BEB064C98683}", ControlPanelPath },
 					{ "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}", NetworkFolderPath },
 					{ "::{208D2C60-3AEA-1069-A2D7-08002B30309D}", NetworkFolderPath },
 					{ RecycleBinPath.ToUpperInvariant(), RecycleBinPath },
 					{ MyComputerPath.ToUpperInvariant(), MyComputerPath },
+					{ ControlPanelPath.ToUpperInvariant(), ControlPanelPath },
 					{ NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
 				};
 		}

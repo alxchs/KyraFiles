@@ -71,7 +71,7 @@ namespace Files.App.Data.Items
 			{
 				if (IsExpandableFolder)
 					return ChildItems ??= [];
-				if (Section == SectionType.Home)
+				if (Section == SectionType.Home || ((Section == SectionType.ThisPC || Section == SectionType.ControlPanel) && (ChildItems is null || ChildItems.Count == 0)))
 					return null;
 				return ChildItems;
 			}

@@ -151,6 +151,16 @@ namespace Files.App.Data.Contracts
 		bool ShowLibrarySection { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating if the This PC section should be visible.
+		/// </summary>
+		bool ShowThisPCSection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the Control Panel section should be visible.
+		/// </summary>
+		bool ShowControlPanelSection { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating if the drive section should be visible.
 		/// </summary>
 		bool ShowDrivesSection { get; set; }

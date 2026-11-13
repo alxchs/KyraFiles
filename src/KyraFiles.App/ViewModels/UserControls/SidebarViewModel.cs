@@ -52,6 +52,8 @@ namespace Files.App.ViewModels.UserControls
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
+		private readonly List<INavigationControlItem> thisPcDelegateItems = [];
+
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
 		{
@@ -80,6 +82,8 @@ namespace Files.App.ViewModels.UserControls
 				SectionType.Home,
 				SectionType.Pinned,
 				SectionType.Library,
+				SectionType.ThisPC,
+				SectionType.ControlPanel,
 				SectionType.Drives,
 				SectionType.CloudDrives,
 				SectionType.Network,
@@ -192,12 +196,38 @@ namespace Files.App.ViewModels.UserControls
 		public bool AreSectionsHidden =>
 			!ShowPinnedFoldersSection &&
 			!ShowLibrarySection &&
+			!ShowThisPCSection &&
+			!ShowControlPanelSection &&
 			!ShowDrivesSection &&
 			!ShowCloudDrivesSection &&
 			!ShowNetworkSection &&
 			(!ShowWslSection || WSLDistroManager.Distros.Any() == false) &&
 			!ShowFileTagsSection &&
 			SidebarDisplayMode is not SidebarDisplayMode.Compact;
+
+		public bool ShowThisPCSection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowThisPCSection;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowThisPCSection)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowThisPCSection = value;
+			}
+		}
+
+		public bool ShowControlPanelSection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowControlPanelSection;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowControlPanelSection)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowControlPanelSection = value;
+			}
+		}
 
 		public bool ShowPinnedFoldersSection
 		{
@@ -308,6 +338,8 @@ namespace Files.App.ViewModels.UserControls
 			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
+			CreateItemThisPCAsync();
+			CreateItemControlPanelAsync();
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -322,6 +354,9 @@ namespace Files.App.ViewModels.UserControls
 			drivesViewModel.Drives.CollectionChanged += Manager_DataChangedForDrives;
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
 			NetworkService.Computers.CollectionChanged += Manager_DataChangedForNetworkComputers;
+			NetworkService.Shortcuts.CollectionChanged += Manager_DataChangedForNetworkComputers;
+			_ = NetworkService.UpdateShortcutsAsync();
+			_ = LoadThisPCDelegateItemsAsync();
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
@@ -338,6 +373,34 @@ namespace Files.App.ViewModels.UserControls
 		private Task<LocationItem?> CreateItemHomeAsync()
 		{
 			return CreateSectionAsync(SectionType.Home);
+		}
+
+		private Task<LocationItem?> CreateItemThisPCAsync()
+		{
+			return CreateSectionAsync(SectionType.ThisPC);
+		}
+
+		private Task<LocationItem?> CreateItemControlPanelAsync()
+		{
+			return CreateSectionAsync(SectionType.ControlPanel);
+		}
+
+		private async Task LoadThisPCDelegateItemsAsync()
+		{
+			var items = await ShellDelegateFolderHelper.GetThisPCDelegateItemsAsync();
+			if (items.Count == 0 && thisPcDelegateItems.Count == 0)
+				return;
+
+			thisPcDelegateItems.Clear();
+			thisPcDelegateItems.AddRange(items);
+
+			if (dispatcherQueue is not null)
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					Manager_DataChanged(SectionType.ThisPC, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+				});
+			}
 		}
 
 		private async void UiSettings_ColorValuesChanged(UISettings sender, object args)
@@ -380,10 +443,12 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkService.Computers.Concat(NetworkService.Shortcuts).Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
+					SectionType.ThisPC => thisPcDelegateItems.AsReadOnly(),
+					SectionType.ControlPanel => Array.Empty<INavigationControlItem>(),
 					_ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, "The sidebar section type is not supported.")
 				};
 				await SyncSidebarItemsAsync(section, getElements, e);
@@ -573,6 +638,22 @@ namespace Files.App.ViewModels.UserControls
 					section.IsHeader = true;
 					break;
 
+				case SectionType.ThisPC:
+					if (ShowThisPCSection == false)
+						break;
+					section = BuildSection(Strings.ThisPC.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true, ShowHideSection = true }, true);
+					section.Path = Constants.UserEnvironmentPaths.MyComputerPath;
+					section.IsHeader = true;
+					break;
+
+				case SectionType.ControlPanel:
+					if (ShowControlPanelSection == false)
+						break;
+					section = BuildSection(Strings.ControlPanel.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true, ShowHideSection = true }, true);
+					section.Path = Constants.UserEnvironmentPaths.ControlPanelPath;
+					section.IsHeader = true;
+					break;
+
 				case SectionType.Drives:
 					if (ShowDrivesSection == false)
 						break;
@@ -685,6 +766,16 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(UserSettingsService.GeneralSettingsService.ShowLibrarySection):
 					await UpdateSectionVisibilityAsync(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
+					break;
+				case nameof(UserSettingsService.GeneralSettingsService.ShowThisPCSection):
+					await UpdateSectionVisibilityAsync(SectionType.ThisPC, ShowThisPCSection);
+					OnPropertyChanged(nameof(ShowThisPCSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
+					break;
+				case nameof(UserSettingsService.GeneralSettingsService.ShowControlPanelSection):
+					await UpdateSectionVisibilityAsync(SectionType.ControlPanel, ShowControlPanelSection);
+					OnPropertyChanged(nameof(ShowControlPanelSection));
 					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection):
@@ -906,7 +997,33 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			if (PaneHolder?.ActivePane is IShellPage shellPage)
-				shellPage.NavigateToPath(navigationPath, sourcePageType);
+			{
+				try
+				{
+					shellPage.NavigateToPath(navigationPath, sourcePageType);
+				}
+				catch
+				{
+					if (string.Equals(navigationPath, Constants.UserEnvironmentPaths.ControlPanelPath, StringComparison.OrdinalIgnoreCase))
+					{
+						_ = Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:"));
+					}
+					else if (ShellStorageFolder.IsShellPath(navigationPath))
+					{
+						// Fallback gracioso para Explorador do Windows nativo para itens virtuais de mídia/shell (F092 / T4b / spec §5)
+						SafetyExtensions.IgnoreExceptions(() =>
+							System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", $"\"{navigationPath}\"") { UseShellExecute = true }));
+					}
+					else
+					{
+						throw;
+					}
+				}
+			}
+			else if (string.Equals(navigationPath, Constants.UserEnvironmentPaths.ControlPanelPath, StringComparison.OrdinalIgnoreCase))
+			{
+				_ = Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:"));
+			}
 		}
 
 		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialogAsync);
@@ -957,6 +1074,12 @@ namespace Files.App.ViewModels.UserControls
 					break;
 				case SectionType.Library:
 					UserSettingsService.GeneralSettingsService.ShowLibrarySection = false;
+					break;
+				case SectionType.ThisPC:
+					UserSettingsService.GeneralSettingsService.ShowThisPCSection = false;
+					break;
+				case SectionType.ControlPanel:
+					UserSettingsService.GeneralSettingsService.ShowControlPanelSection = false;
 					break;
 				case SectionType.CloudDrives:
 					UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection = false;

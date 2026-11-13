@@ -181,7 +181,19 @@ namespace Files.App.Services.Settings
 
 		public bool ShowLibrarySection
 		{
-			get => Get(false);
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowThisPCSection
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowControlPanelSection
+		{
+			get => Get(true);
 			set => Set(value);
 		}
 

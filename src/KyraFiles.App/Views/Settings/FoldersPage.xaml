@@ -27,6 +27,29 @@
 				Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=FilesAndFolders}" />
 
+			<!--  Sidebar (F092 / AC-5)  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Sidebar}" />
+
+			<!--  This PC Section Toggle  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowThisPCSection}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE7F8;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowThisPCSection}" IsOn="{x:Bind ViewModel.ShowThisPCSection, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Control Panel Section Toggle  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowControlPanelSection}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE713;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowControlPanelSection}" IsOn="{x:Bind ViewModel.ShowControlPanelSection, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Display  -->
 			<TextBlock
 				Padding="0,16,0,4"

@@ -4,6 +4,12 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 
 ## Base de Conhecimento e Padrões Sólidos
 
+### Disciplina de Git e Evidências Técnicas (10/11/2026)
+
+- **Todo script citado como evidência num relatório fica versionado em `tools/` no mesmo commit do relatório.** Sem o script disponível e reproduzível no repositório, a afirmação é `INFERRED`, nunca `CONFIRMED`.
+- **A mensagem de commit descreve só o que está no diff.** Confira sempre com `git diff --stat` ou `git show --stat` antes de fechar a mensagem do commit.
+- **Itens de "Este Computador" sem letra de unidade (servidor de mídia DLNA, celular MTP) são pastas virtuais do Shell:** enumerar por `Shell.Application.NameSpace(17)` ou `IShellFolder` numa thread STA em segundo plano com timeout (`STATask`); `DriveInfo.GetDrives()` do .NET não os enxerga.
+
 ### Testes (`tests/Files.App.Search.Index.Tests`)
 
 - **`dotnet test` não executa os testes deste projeto** (11/10/2026: "Zero tests ran", código de saída 5, embora a descoberta ache 15). Rode o executável gerado, que usa o Microsoft.Testing.Platform:

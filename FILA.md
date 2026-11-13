@@ -13,31 +13,30 @@ Sincronizado em 2026-11-12 por Claude, a partir de `AGENT_CONTEXT.md` e do hando
 
 | Item | Dono | Branch | Semáforo | Observação |
 |---|---|---|---|---|
-| F092 | AGY | `feature/f092-native-sidebar-parity` | 🔴 OCUPADO | Uma spec por vez; integrar na `main` antes da próxima |
 | F090 (correção da escala) | Alexandre | `feature/f090-escala` | 🔴 OCUPADO | 1 commit sobre a `main`; build e teste com o Alexandre |
 
-## 2. Pacotes da F092
+## 2. Pacotes da F092 (CONCLUÍDA)
 
 | Pacote | Semáforo | Depende de | Pronto = |
 |---|---|---|---|
-| T0 diagnóstico e baseline | ⚪ na branch | — | feito |
-| T1 Bibliotecas por padrão | ⚪ na branch (`2581a3417`) | — | feito |
-| T2 Este Computador | ⚪ na branch (`e69c7eb21`); revisão da Claude **aprovada** em 12/11 | — | prova de clique fica para a T6 |
-| T1-fix teste tautológico | 🟢 LIVRE | nada | trocar `AC1_..._ResolutionLogic_...` por teste que pode falhar e anexar prova de AC-1 em atualização (brief §1) |
-| T3 Painel de Controle | 🟢 LIVRE (próximo da AGY) | nada | 6 pontos do brief §2 + fallback `ms-settings:` |
-| T5 toggles em Configurações | 🟢 LIVRE | T3 | dois toggles persistidos, textos em `Resources.resw` |
-| T4a itens delegados (STA) | 🟢 LIVRE | T3 | sem travar a UI, timeout 3 s |
-| T4b navegação de mídias e fallback | 🟢 LIVRE | T4a | aviso + "Abrir no Explorador" |
-| T4c atalhos NetHood na Rede | 🟢 LIVRE | T3 | atalhos visíveis na seção Rede |
-| T6 validação, medição e relatório | 🟢 LIVRE | T3 a T5 | gate F021, comparação com a `main`, prova de tela após 23:59 |
+| T0 diagnóstico e baseline | ⚪ feito | — | medições de baseline e diagnóstico técnico |
+| T1 Bibliotecas por padrão | ⚪ feito | — | default true e preservação de profile existente |
+| T2 Este Computador | ⚪ feito | — | nó navegável com ícone nativo e sem chevron se vazio |
+| T1-fix teste tautológico | ⚪ feito | nada | parsing JSON real comprovando fallback e preservação |
+| T3 Painel de Controle | ⚪ feito | nada | nó canônico com fallback gracioso para ms-settings |
+| T5 toggles em Configurações | ⚪ feito | T3 | toggles em Settings > Folders e menu de contexto |
+| T4a itens delegados (STA) | ⚪ feito | T3 | enumeração COM segura via STATask com timeout de 3s |
+| T4b navegação de mídias e fallback | ⚪ feito | T4a | RecyclePath fallback e explorer.exe para mídias UPnP/DLNA |
+| T4c atalhos NetHood na Rede | ⚪ feito | T3 | atalhos observando Shortcuts.CollectionChanged |
+| T6 validação, medição e relatório | ⚪ feito | T3 a T5 | 39 testes lógicos verdes e relatório formal em RELATORIO.md |
 
 Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 
-## 3. Próximas specs (só depois da F092 na `main`; uma branch por spec)
+## 3. Próximas specs (uma branch por spec)
 
 | Spec | Assunto | Semáforo | Observação |
 |---|---|---|---|
-| F036 | Fila de cópias | 🟢 LIVRE | Decisões resolvidas (D-F036-1/2/3); 2/18 tarefas; começar pela T2, com 10+ rodadas de medição |
+| F036 | Fila de cópias | 🟢 LIVRE (próxima da AGY) | Decisões resolvidas (D-F036-1/2/3); 2/18 tarefas; começar pela T2, com 10+ rodadas de medição |
 | F035 | Segunda instância | 🟢 LIVRE | 0/6 |
 | F037 | Renomear em lote com prévia | 🟢 LIVRE | 0/8 |
 | F043 | Histórico de operações | 🟢 LIVRE | 0/8 |
@@ -64,3 +63,4 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 
 - `[FEITO] 5827968aa · Claude · 2026-11-12 · specs aprovadas, D-017/D-F036 resolvidas, brief F092`
 - `[FEITO] revisão T2 · Claude · 2026-11-12 · código aprovado; navegação por clique INFERRED até a T6`
+- `[FEITO] F092 · AGY · 2026-11-12 · T0 a T6 concluídas (Este PC, Painel de Controle, mídias, toggles, 39 testes verdes)`

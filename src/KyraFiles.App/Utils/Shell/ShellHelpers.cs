@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.IO;
@@ -21,6 +21,9 @@ namespace Files.App.Utils.Shell
 
 			if (shPath.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 				return Constants.UserEnvironmentPaths.MyComputerPath;
+
+			if (shPath.StartsWith(Constants.UserEnvironmentPaths.ControlPanelPath, StringComparison.OrdinalIgnoreCase))
+				return Constants.UserEnvironmentPaths.ControlPanelPath;
 
 			if (shPath.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 				return Constants.UserEnvironmentPaths.NetworkFolderPath;
@@ -53,6 +56,7 @@ namespace Files.App.Utils.Shell
 				Constants.UserEnvironmentPaths.RecycleBinPath => Strings.RecycleBin.GetLocalizedResource(),
 				Constants.UserEnvironmentPaths.NetworkFolderPath => Strings.Network.GetLocalizedResource(),
 				Constants.UserEnvironmentPaths.MyComputerPath => Strings.ThisPC.GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.ControlPanelPath => Strings.ControlPanel.GetLocalizedResource(),
 				_ => shPath
 			};
 		}

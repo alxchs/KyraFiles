@@ -88,6 +88,32 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowThisPCSection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowThisPCSection;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowThisPCSection)
+				{
+					UserSettingsService.GeneralSettingsService.ShowThisPCSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowControlPanelSection
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowControlPanelSection;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowControlPanelSection)
+				{
+					UserSettingsService.GeneralSettingsService.ShowControlPanelSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowHiddenItems
 		{
 			get => UserSettingsService.FoldersSettingsService.ShowHiddenItems;

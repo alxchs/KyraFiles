@@ -3122,6 +3122,15 @@
   <data name="ThisPC" xml:space="preserve">
     <value>This PC</value>
   </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>Control Panel</value>
+  </data>
+  <data name="ShowThisPCSection" xml:space="preserve">
+    <value>Show This PC section</value>
+  </data>
+  <data name="ShowControlPanelSection" xml:space="preserve">
+    <value>Show Control Panel section</value>
+  </data>
   <data name="RecycleBin" xml:space="preserve">
     <value>Recycle Bin</value>
   </data>

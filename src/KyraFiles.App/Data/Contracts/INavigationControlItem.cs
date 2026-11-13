@@ -37,6 +37,8 @@ namespace Files.App.Data.Contracts
 		Home,
 		Pinned,
 		Library,
+		ThisPC,
+		ControlPanel,
 		Drives,
 		CloudDrives,
 		Network,

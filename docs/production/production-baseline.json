@@ -1,0 +1,24 @@
+{
+    "schema_version":  "2.0",
+    "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
+    "head_commit":  "2e401a04f0cf22c3dd0007c13db972ff3d7e0d6a",
+    "branch_origin":  "main",
+    "product_version":  "4.3.12",
+    "spec_count":  74,
+    "status_counts":  {
+                          "not_started":  19,
+                          "completed":  24,
+                          "in_validation":  25,
+                          "in_progress":  6
+                      },
+    "total_points":  345,
+    "method":  "inventario de docs/specs/F*, STATUS.md, AGENT_CONTEXT.md, git log --grep por ID, contagem de caixas de tasks.md, RELATORIOs e referencias em src/tests/tools via git grep",
+    "limitations":  [
+                        "horas reais desconhecidas (null)",
+                        "datas de criacao/autor desconhecidos (unknown)",
+                        "estados concluidos apoiados em tasks.md/RELATORIO/commit; AC de interface raramente reprovados em tela",
+                        "F067 e F068 sem commit identificado por --grep (evidencia: tasks.md e referencias de codigo)",
+                        "IDs sem pasta em docs/specs (ex.: F001, F007, F025, que so tem brief em docs/agents/tasks) nao foram migrados: migration_pending",
+                        "pontos por estimativa retroativa, confianca baixa"
+                    ]
+}

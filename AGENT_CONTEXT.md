@@ -25,4 +25,5 @@ LAST DECISION  12/11/2026: F092 integrada na main via squash/rebase + ff-only co
 NEXT ACTION    Iniciar spec F036 na branch feature/f036-copy-queue pela tarefa T2 (fila com limite por destino e medições).
 BLOCKER        Nenhum bloqueador técnico.
 LAST UPDATE    2026-11-12 22:25 - AGY (F092 integrada na main v4.3.13)
+PRODUCAO       2026-11-13: protocolo de controle de producao v2 adotado; fonte de verdade em docs/production/production-control.json (SPECS.md gerado dele).
 ```

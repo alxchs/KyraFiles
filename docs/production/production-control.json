@@ -1,0 +1,3110 @@
+{
+    "schema_version":  "2.0",
+    "protocol_version":  "2.0",
+    "project":  {
+                    "project_id":  "PRJ-kyrafiles",
+                    "name":  "KyraFiles (Files Custom)",
+                    "root_path":  ".",
+                    "status":  "active",
+                    "migration_status":  "migrated",
+                    "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
+                    "last_updated_at":  "2026-11-13T19:25:28.2663438-03:00",
+                    "last_updated_by":  "claude-migration"
+                },
+    "summary":  {
+                    "spec_count":  74,
+                    "task_count":  null,
+                    "status_counts":  {
+                                          "not_started":  19,
+                                          "completed":  24,
+                                          "in_validation":  25,
+                                          "in_progress":  6
+                                      },
+                    "total_points":  345,
+                    "completed_points_equivalent":  null,
+                    "remaining_points":  null,
+                    "original_estimate_hours":  null,
+                    "current_estimate_hours":  null,
+                    "actual_hours":  null,
+                    "remaining_estimate_hours":  null,
+                    "development_percent":  null,
+                    "test_validation_percent":  null,
+                    "integration_percent":  null,
+                    "documentation_percent":  null,
+                    "overall_percent":  null,
+                    "data_confidence":  "low"
+                },
+    "specs":  [
+                  {
+                      "id":  "SPEC-0001",
+                      "legacy_ids":  [
+                                         "F002"
+                                     ],
+                      "title":  "independent column resize",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F002-independent-column-resize/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 21/21 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F002-independent-column-resize/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0002",
+                      "legacy_ids":  [
+                                         "F003"
+                                     ],
+                      "title":  "new vs duplicate tab",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F003-new-vs-duplicate-tab/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 18/18 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F003-new-vs-duplicate-tab/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0003",
+                      "legacy_ids":  [
+                                         "F004"
+                                     ],
+                      "title":  "classic menu bar",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F004-classic-menu-bar/",
+                                           "type":  "doc",
+                                           "note":  "codigo existe; tasks.md sem marcacao; AC nao reverificados"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F004-classic-menu-bar/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0004",
+                      "legacy_ids":  [
+                                         "F005"
+                                     ],
+                      "title":  "preview details toggle",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F005-preview-details-toggle/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 8 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F005-preview-details-toggle/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0005",
+                      "legacy_ids":  [
+                                         "F006"
+                                     ],
+                      "title":  "search provider",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F006-search-provider/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 21/21 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F006-search-provider/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0006",
+                      "legacy_ids":  [
+                                         "F008"
+                                     ],
+                      "title":  "compact density",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F008-compact-density/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 6/6 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F008-compact-density/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0007",
+                      "legacy_ids":  [
+                                         "F009"
+                                     ],
+                      "title":  "separate fonts",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F009-separate-fonts/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 5/5 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F009-separate-fonts/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0008",
+                      "legacy_ids":  [
+                                         "F010"
+                                     ],
+                      "title":  "all explorer columns",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F010-all-explorer-columns/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 11/11 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F010-all-explorer-columns/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0009",
+                      "legacy_ids":  [
+                                         "F011"
+                                     ],
+                      "title":  "search engine choice",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F011-search-engine-choice/",
+                                           "type":  "doc",
+                                           "note":  "codigo existe; tasks.md sem marcacao; AC nao reverificados"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F011-search-engine-choice/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0010",
+                      "legacy_ids":  [
+                                         "F012"
+                                     ],
+                      "title":  "explorer replacement",
+                      "type":  "integration",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F012-explorer-replacement/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 9/9 marcadas; spec aprovada"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F012-explorer-replacement/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0011",
+                      "legacy_ids":  [
+                                         "F013"
+                                     ],
+                      "title":  "f3 agent ransack",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F013-f3-agent-ransack/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 2/2 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F013-f3-agent-ransack/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0012",
+                      "legacy_ids":  [
+                                         "F014"
+                                     ],
+                      "title":  "sistema help contextual",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "dependendo_alexandre",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F014-sistema-help-contextual/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 6 marcadas; spec ainda PROPOSTA PARA APROVACAO"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "alexandre",
+                                           "note":  "tasks.md 6 marcadas; spec ainda PROPOSTA PARA APROVACAO"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F014-sistema-help-contextual/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0013",
+                      "legacy_ids":  [
+                                         "F015"
+                                     ],
+                      "title":  "indice de busca",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  13,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "f8e72cc9c",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F015-indice-de-busca/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 14 marcadas e 9 abertas; medicoes T17 no f8e72cc9c"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F015-indice-de-busca/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0014",
+                      "legacy_ids":  [
+                                         "F017"
+                                     ],
+                      "title":  "win e persistent launcher",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "f8e72cc9c",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F017-win-e-persistent-launcher/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 4 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F017-win-e-persistent-launcher/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0015",
+                      "legacy_ids":  [
+                                         "F018"
+                                     ],
+                      "title":  "sobre e atualizacoes",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F018-sobre-e-atualizacoes/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 3 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F018-sobre-e-atualizacoes/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0016",
+                      "legacy_ids":  [
+                                         "F019"
+                                     ],
+                      "title":  "efeito visivel das formas",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "28c3afed6",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F019-efeito-visivel-das-formas/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 6/6 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F019-efeito-visivel-das-formas/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0017",
+                      "legacy_ids":  [
+                                         "F020"
+                                     ],
+                      "title":  "aba unica por endereco e posicao settings",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "dependendo_alexandre",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F020-aba-unica-por-endereco-e-posicao-settings/",
+                                           "type":  "doc",
+                                           "note":  "spec EM APROVACAO; tasks.md 6 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "alexandre",
+                                           "note":  "spec EM APROVACAO; tasks.md 6 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F020-aba-unica-por-endereco-e-posicao-settings/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0018",
+                      "legacy_ids":  [
+                                         "F021"
+                                     ],
+                      "title":  "bloqueio indexservice",
+                      "type":  "performance",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F021-bloqueio-indexservice/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 10/10; Gate verify_no_index_service.ps1 CONFIRMED no STATUS.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F021-bloqueio-indexservice/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0019",
+                      "legacy_ids":  [
+                                         "F022"
+                                     ],
+                      "title":  "correcao startup e instalador",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "e6dcf50ae",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F022-correcao-startup-e-instalador/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 4 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F022-correcao-startup-e-instalador/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0020",
+                      "legacy_ids":  [
+                                         "F023"
+                                     ],
+                      "title":  "hybrid fast search",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "5364a15b4",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F023-hybrid-fast-search/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md rebaixou para INFERRED em 24/10/2026 (evidencia de interface invalida)"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F023-hybrid-fast-search/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0021",
+                      "legacy_ids":  [
+                                         "F024"
+                                     ],
+                      "title":  "choque performance navegacao",
+                      "type":  "performance",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "c0d3ae468",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F024-choque-performance-navegacao/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 16/16 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F024-choque-performance-navegacao/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0022",
+                      "legacy_ids":  [
+                                         "F026"
+                                     ],
+                      "title":  "selecao coalescida",
+                      "type":  "performance",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "c0d3ae468",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F026-selecao-coalescida/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 3 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F026-selecao-coalescida/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0023",
+                      "legacy_ids":  [
+                                         "F027"
+                                     ],
+                      "title":  "checkbox preguicoso",
+                      "type":  "performance",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "c0d3ae468",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F027-checkbox-preguicoso/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 4/4 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F027-checkbox-preguicoso/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0024",
+                      "legacy_ids":  [
+                                         "F028"
+                                     ],
+                      "title":  "custo por passo da selecao",
+                      "type":  "performance",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "c0d3ae468",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "ec3c053ef",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F028-custo-por-passo-da-selecao/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 6/6 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F028-custo-por-passo-da-selecao/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0025",
+                      "legacy_ids":  [
+                                         "F029"
+                                     ],
+                      "title":  "setas como explorer",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "06bc7628e",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F029-setas-como-explorer/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md: REABERTO/INFERRED em 24/10/2026"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F029-setas-como-explorer/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0026",
+                      "legacy_ids":  [
+                                         "F030"
+                                     ],
+                      "title":  "preview fechado tecla segurada",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "ba2af8149",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F030-preview-fechado-tecla-segurada/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md: REABERTO/INFERRED em 24/10/2026"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F030-preview-fechado-tecla-segurada/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0027",
+                      "legacy_ids":  [
+                                         "F031"
+                                     ],
+                      "title":  "abas rapidas",
+                      "type":  "performance",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "faef02f5f",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F031-abas-rapidas/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 4/4 marcadas; release v4.3.3"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F031-abas-rapidas/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0028",
+                      "legacy_ids":  [
+                                         "F032"
+                                     ],
+                      "title":  "fixar aba",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "ba2af8149",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F032-fixar-aba/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md: REABERTO/INFERRED em 24/10/2026"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F032-fixar-aba/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0029",
+                      "legacy_ids":  [
+                                         "F033"
+                                     ],
+                      "title":  "copiar mover para",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "ba2af8149",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F033-copiar-mover-para/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md: REABERTO/INFERRED em 24/10/2026"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F033-copiar-mover-para/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0030",
+                      "legacy_ids":  [
+                                         "F034"
+                                     ],
+                      "title":  "lista sem checkbox",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "eb15c68b6",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F034-lista-sem-checkbox/",
+                                           "type":  "doc",
+                                           "note":  "STATUS.md: REABERTO/INFERRED em 24/10/2026"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F034-lista-sem-checkbox/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0031",
+                      "legacy_ids":  [
+                                         "F035"
+                                     ],
+                      "title":  "second instance",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "8913475a2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F035-second-instance/",
+                                           "type":  "doc",
+                                           "note":  "correcao CONFIRMED na v4.3.7 (20/20 rodadas); AC-2 e AC-4 NOT TESTED; AC-5 reprova"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F035-second-instance/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0032",
+                      "legacy_ids":  [
+                                         "F036"
+                                     ],
+                      "title":  "copy queue",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "cad966df1",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F036-copy-queue/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 2 marcadas e 16 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F036-copy-queue/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0033",
+                      "legacy_ids":  [
+                                         "F037"
+                                     ],
+                      "title":  "bulk rename preview",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F037-bulk-rename-preview/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/8; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F037-bulk-rename-preview/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0034",
+                      "legacy_ids":  [
+                                         "F038"
+                                     ],
+                      "title":  "named workspaces",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F038-named-workspaces/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F038-named-workspaces/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0035",
+                      "legacy_ids":  [
+                                         "F039"
+                                     ],
+                      "title":  "disk usage map",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F039-disk-usage-map/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F039-disk-usage-map/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0036",
+                      "legacy_ids":  [
+                                         "F040"
+                                     ],
+                      "title":  "duplicate finder",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F040-duplicate-finder/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F040-duplicate-finder/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0037",
+                      "legacy_ids":  [
+                                         "F041"
+                                     ],
+                      "title":  "folder compare sync",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F041-folder-compare-sync/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F041-folder-compare-sync/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0038",
+                      "legacy_ids":  [
+                                         "F042"
+                                     ],
+                      "title":  "saved searches",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F042-saved-searches/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F042-saved-searches/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0039",
+                      "legacy_ids":  [
+                                         "F043"
+                                     ],
+                      "title":  "operation history",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F043-operation-history/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/8; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F043-operation-history/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0040",
+                      "legacy_ids":  [
+                                         "F044"
+                                     ],
+                      "title":  "spacebar quick look",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F044-spacebar-quick-look/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/8; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F044-spacebar-quick-look/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0041",
+                      "legacy_ids":  [
+                                         "F045"
+                                     ],
+                      "title":  "project actions",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F045-project-actions/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/8; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F045-project-actions/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0042",
+                      "legacy_ids":  [
+                                         "F046"
+                                     ],
+                      "title":  "deep network search",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F046-deep-network-search/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F046-deep-network-search/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0043",
+                      "legacy_ids":  [
+                                         "F047"
+                                     ],
+                      "title":  "build folder cleaner",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F047-build-folder-cleaner/",
+                                           "type":  "doc",
+                                           "note":  "testes BuildFolderTests.cs existem; tasks.md 0/7 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F047-build-folder-cleaner/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0044",
+                      "legacy_ids":  [
+                                         "F048"
+                                     ],
+                      "title":  "file diff",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F048-file-diff/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/7; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F048-file-diff/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0045",
+                      "legacy_ids":  [
+                                         "F049"
+                                     ],
+                      "title":  "links symlinks junctions",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F049-links-symlinks-junctions/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 0/8; sem codigo"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F049-links-symlinks-junctions/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0046",
+                      "legacy_ids":  [
+                                         "F050"
+                                     ],
+                      "title":  "embedded terminal",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F050-embedded-terminal/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F050-embedded-terminal/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0047",
+                      "legacy_ids":  [
+                                         "F051"
+                                     ],
+                      "title":  "code search",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F051-code-search/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F051-code-search/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0048",
+                      "legacy_ids":  [
+                                         "F052"
+                                     ],
+                      "title":  "git repo view",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "2e401a04f",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F052-git-repo-view/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md com AC-1 a AC-7 CONFIRMED; commit na main"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F052-git-repo-view/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0049",
+                      "legacy_ids":  [
+                                         "F053"
+                                     ],
+                      "title":  "encoding eol column",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F053-encoding-eol-column/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F053-encoding-eol-column/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0050",
+                      "legacy_ids":  [
+                                         "F054"
+                                     ],
+                      "title":  "technical preview",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F054-technical-preview/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F054-technical-preview/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0051",
+                      "legacy_ids":  [
+                                         "F055"
+                                     ],
+                      "title":  "repo map",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "fila",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F055-repo-map/",
+                                           "type":  "doc",
+                                           "note":  "somente spec.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F055-repo-map/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0052",
+                      "legacy_ids":  [
+                                         "F056"
+                                     ],
+                      "title":  "copy path formats",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "caa4c57ee",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "d2b3742c2",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F056-copy-path-formats/",
+                                           "type":  "doc",
+                                           "note":  "evidencia-janela-20261027/; tasks.md 0 marcadas e 6 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F056-copy-path-formats/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0053",
+                      "legacy_ids":  [
+                                         "F057"
+                                     ],
+                      "title":  "dialog button shortcuts",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "caa4c57ee",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "004bcd0d9",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F057-dialog-button-shortcuts/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 4 marcadas e 3 abertas; evidencia-janela-20261027/"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F057-dialog-button-shortcuts/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0054",
+                      "legacy_ids":  [
+                                         "F058"
+                                     ],
+                      "title":  "installer window to front",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "dependendo_alexandre",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F058-installer-window-to-front/",
+                                           "type":  "doc",
+                                           "note":  "spec PROPOSTA aguardando aprovacao; tasks.md 1 marcada e 7 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "alexandre",
+                                           "note":  "spec PROPOSTA aguardando aprovacao; tasks.md 1 marcada e 7 abertas"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F058-installer-window-to-front/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0055",
+                      "legacy_ids":  [
+                                         "F060"
+                                     ],
+                      "title":  "diferenciais sftp script hex split",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  13,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "caa4c57ee",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F060-diferenciais-sftp-script-hex-split/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 13 marcadas e 17 abertas; matriz-situacao.md"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F060-diferenciais-sftp-script-hex-split/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0056",
+                      "legacy_ids":  [
+                                         "F061"
+                                     ],
+                      "title":  "win e sempre pronto",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "0856cd321",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "cd00407d3",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F061-win-e-sempre-pronto/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 5 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F061-win-e-sempre-pronto/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0057",
+                      "legacy_ids":  [
+                                         "F062"
+                                     ],
+                      "title":  "diagnostico memoria ecossistema",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F062-diagnostico-memoria-ecossistema/",
+                                           "type":  "doc",
+                                           "note":  "spec RASCUNHO; tasks.md 0/4; AboutPage.xaml referencia"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F062-diagnostico-memoria-ecossistema/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0058",
+                      "legacy_ids":  [
+                                         "F063"
+                                     ],
+                      "title":  "otimizacao memoria zero regressao",
+                      "type":  "performance",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "2ab7a65bc",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F063-otimizacao-memoria-zero-regressao/",
+                                           "type":  "doc",
+                                           "note":  "spec voltou a RASCUNHO (29/10/2026); tasks.md 6 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F063-otimizacao-memoria-zero-regressao/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0059",
+                      "legacy_ids":  [
+                                         "F065"
+                                     ],
+                      "title":  "busca nome e caminho",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F065-busca-nome-e-caminho/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 6 marcadas e 2 abertas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F065-busca-nome-e-caminho/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0060",
+                      "legacy_ids":  [
+                                         "F067"
+                                     ],
+                      "title":  "sponsors e modern powershell",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F067-sponsors-e-modern-powershell/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 21/21 marcadas; 4 arquivos de codigo/teste referenciam"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F067-sponsors-e-modern-powershell/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0061",
+                      "legacy_ids":  [
+                                         "F068"
+                                     ],
+                      "title":  "documentacao local offline",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F068-documentacao-local-offline/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 23/23 marcadas; 4 arquivos de codigo/teste referenciam"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F068-documentacao-local-offline/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0062",
+                      "legacy_ids":  [
+                                         "F069"
+                                     ],
+                      "title":  "sair para explorer apos quedas",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F069-sair-para-explorer-apos-quedas/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 20/20 marcadas; 7 arquivos de codigo/teste referenciam"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F069-sair-para-explorer-apos-quedas/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0063",
+                      "legacy_ids":  [
+                                         "F070"
+                                     ],
+                      "title":  "github login oauth",
+                      "type":  "integration",
+                      "state":  "in_validation",
+                      "category":  "dependendo_alexandre",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F070-github-login-oauth/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md: AC-2/3/4 CONFIRMED, AC-1 NOT TESTED (falta Client ID do Alexandre)"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "alexandre",
+                                           "note":  "RELATORIO.md: AC-2/3/4 CONFIRMED, AC-1 NOT TESTED (falta Client ID do Alexandre)"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F070-github-login-oauth/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0064",
+                      "legacy_ids":  [
+                                         "F071"
+                                     ],
+                      "title":  "integrity downloaded files",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F071-integrity-downloaded-files/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md: 7 testes de integridade e suite 188 aprovados"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F071-integrity-downloaded-files/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0065",
+                      "legacy_ids":  [
+                                         "F072"
+                                     ],
+                      "title":  "documentacao multilingue",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F072-documentacao-multilingue/",
+                                           "type":  "doc",
+                                           "note":  "tasks.md 22/22 marcadas"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F072-documentacao-multilingue/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0066",
+                      "legacy_ids":  [
+                                         "F081"
+                                     ],
+                      "title":  "identity kyrafiles",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  8,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F081-identity-kyrafiles/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md: build 0 erros, 186+4 testes aprovados"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F081-identity-kyrafiles/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0067",
+                      "legacy_ids":  [
+                                         "F082"
+                                     ],
+                      "title":  "settings modal window",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F082-settings-modal-window/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md APROVADO \u0026 VALIDADO; tasks.md 17 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F082-settings-modal-window/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0068",
+                      "legacy_ids":  [
+                                         "F083"
+                                     ],
+                      "title":  "kyrafiles brand and icon",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F083-kyrafiles-brand-and-icon/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md APROVADO \u0026 VALIDADO"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F083-kyrafiles-brand-and-icon/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0069",
+                      "legacy_ids":  [
+                                         "F084"
+                                     ],
+                      "title":  "kyrafiles module renaming",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F084-kyrafiles-module-renaming/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md CONCLUIDO E HOMOLOGADO"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F084-kyrafiles-module-renaming/spec.md"
+                                       ],
+                      "migration_status":  "preexisting_at_baseline",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0070",
+                      "legacy_ids":  [
+                                         "F086"
+                                     ],
+                      "title":  "instancia unica",
+                      "type":  "feature",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "28ecad12a",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F086-instancia-unica/",
+                                           "type":  "doc",
+                                           "note":  "RELATORIO.md: AC-2 a AC-6 NOT TESTED"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F086-instancia-unica/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0071",
+                      "legacy_ids":  [
+                                         "F087"
+                                     ],
+                      "title":  "identidade pacote e dados",
+                      "type":  "feature",
+                      "state":  "not_started",
+                      "category":  "dependendo_alexandre",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "docs/specs/F087-identidade-pacote-e-dados/",
+                                           "type":  "doc",
+                                           "note":  "spec RASCUNHO aguardando aprovacao; sem codigo proprio"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "alexandre",
+                                           "note":  "spec RASCUNHO aguardando aprovacao; sem codigo proprio"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F087-identidade-pacote-e-dados/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0072",
+                      "legacy_ids":  [
+                                         "F088"
+                                     ],
+                      "title":  "remocao vinculo ancestral",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  2,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "b4897aa82",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "1fcf37136",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F088-remocao-vinculo-ancestral/",
+                                           "type":  "doc",
+                                           "note":  "so plan.md (sem spec.md); commits de purga de vinculo legado"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F088-remocao-vinculo-ancestral/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0073",
+                      "legacy_ids":  [
+                                         "F089"
+                                     ],
+                      "title":  "fontes nao aplicadas",
+                      "type":  "bugfix",
+                      "state":  "in_validation",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "fc2101f59",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "b4897aa82",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F089-fontes-nao-aplicadas/",
+                                           "type":  "doc",
+                                           "note":  "spec RASCUNHO; tasks.md 5 marcadas e 1 aberta"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F089-fontes-nao-aplicadas/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0074",
+                      "legacy_ids":  [
+                                         "F090"
+                                     ],
+                      "title":  "escala da interface",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "low",
+                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "not_calculable",
+                      "evidence":  [
+                                       {
+                                           "ref":  "1c1a02df5",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "b4897aa82",
+                                           "type":  "commit",
+                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F090-escala-da-interface/",
+                                           "type":  "doc",
+                                           "note":  "spec RASCUNHO; T1-T3 em codigo, T4/T5 (build oficial e prova visual) pendentes"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F090-escala-da-interface/spec.md"
+                                       ],
+                      "migration_status":  "migration_pending",
+                      "owner":  "unknown",
+                      "created_at":  null
+                  }
+              ],
+    "dependencies":  [
+
+                     ],
+    "alerts":  [
+                   {
+                       "text":  "Migracao retroativa: pontos estimados com confianca baixa; horas reais desconhecidas (null); progresso por dimensao nao calculado.",
+                       "severity":  "info"
+                   }
+               ],
+    "decisions_required":  [
+                               {
+                                   "text":  "Aprovar F014, F020, F058, F087 (specs ainda propostas/rascunho) e fornecer Client ID do GitHub OAuth (F070)."
+                               }
+                           ],
+    "audit":  {
+                  "last_incremental_audit_at":  null,
+                  "last_full_audit_at":  "2026-11-13T19:25:28.2663438-03:00",
+                  "unreconciled_changes":  null,
+                  "evidence_coverage_percent":  null
+              },
+    "control_file":  "docs/production/production-control.json",
+    "events_file":  "docs/production/production-events.jsonl"
+}

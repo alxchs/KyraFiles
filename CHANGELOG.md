@@ -8,4 +8,6 @@ Só mudanças em relação ao Files oficial. Versão = versão upstream + revis�
 
 ## Não publicado
 
+- 2026-11-13: adotado o Protocolo de Controle de Produção v2 (`docs/production/`, `docs/specs/SPECS.md` regerado). Só documentação.
+
 - 2026-09-28: adicionados `MASTER_SPEC.md`, `AGENT_CONTEXT.md`, `STATUS.md`, `DECISIONS.md`, `CHANGELOG.md`, `docs/agents/`, `.claude/CLAUDE.md`, `GEMINI.md`; seção de regras no fim de `AGENTS.md`. Sem mudança de código.

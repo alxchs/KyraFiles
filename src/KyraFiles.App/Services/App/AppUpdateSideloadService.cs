@@ -85,39 +85,20 @@ namespace Files.App.Services
 			IsUpdateAvailable = false;
 			try
 			{
-				Logger?.LogInformation($"SIDELOAD: Checking for updates...");
+				Logger?.LogInformation("SIDELOAD: Checking for updates via Custom Releases...");
 
-				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
-
-				var appInstaller = await XDocument.LoadAsync(stream, LoadOptions.None, default);
-				var root = appInstaller.Root;
-				var mainBundle = root?.Element(root.Name.Namespace + "MainBundle");
-				var remotePackageName = mainBundle?.Attribute("Name")?.Value;
-				var remoteVersionText = root?.Attribute("Version")?.Value;
-				if (string.IsNullOrWhiteSpace(remotePackageName) || string.IsNullOrWhiteSpace(remoteVersionText))
+				var result = await ReleaseCheckService.CheckAsync();
+				if (result.Status == ReleaseCheckStatus.Available)
 				{
-					throw new InvalidDataException("The app installer manifest does not identify a package and version.");
-				}
-
-				var remoteVersion = new Version(remoteVersionText);
-
-				Logger?.LogInformation($"SIDELOAD: Current Package Name: {PackageName}");
-				Logger?.LogInformation($"SIDELOAD: Remote Package Name: {remotePackageName}");
-				Logger?.LogInformation($"SIDELOAD: Current Version: {PackageVersion}");
-				Logger?.LogInformation($"SIDELOAD: Remote Version: {remoteVersion}");
-
-				// Check details and version number
-				if (remotePackageName.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
-				{
-					Logger?.LogInformation("SIDELOAD: Update found.");
-					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					Logger?.LogInformation($"SIDELOAD: Update found: {result.Latest} (current: {result.Current})");
+					MainWindow.Instance?.DispatcherQueue.TryEnqueue(() =>
 					{
 						IsUpdateAvailable = true;
 					});
 				}
 				else
 				{
-					Logger?.LogWarning("SIDELOAD: Update not found.");
+					Logger?.LogInformation($"SIDELOAD: Update check status: {result.Status} (current: {result.Current})");
 				}
 			}
 			catch (HttpRequestException ex)

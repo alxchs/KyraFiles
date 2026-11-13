@@ -1,6 +1,6 @@
 # F090 - Escala da interface (zoom visual da tela inteira)
 
-Status: RASCUNHO para aprovação do Alexandre (Claude, 04/11/2026). Origem: "senti falta de configuração para mudar a escala de visualização da tela" (Alexandre) e pedido da AGY. O ID F089 ficou com a correção das fontes.
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: RASCUNHO para aprovação do Alexandre (Claude, 04/11/2026). Origem: "senti falta de configuração para mudar a escala de visualização da tela" (Alexandre) e pedido da AGY. O ID F089 ficou com a correção das fontes.
 
 ## Problema
 Hoje só existe "Densidade da interface" (Normal, Compacto, Ultra compacto), que muda alturas de linha e itens. Não aumenta nem diminui ícones, botões, abas, barra de endereço nem textos de uma vez.

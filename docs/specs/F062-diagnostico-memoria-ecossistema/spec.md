@@ -1,6 +1,6 @@
 # F062 — Diagnóstico de Consumo de Memória do Ecossistema na Página Sobre — SPEC
 
-Status: **RASCUNHO PARA APROVAÇÃO** (Solicitado pelo Alexandre em 28/10/2026: *"Dentro do about quero uma opcao pa ver memoria que o files está consumindo, considerando todos os módulos"*).
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **RASCUNHO PARA APROVAÇÃO** (Solicitado pelo Alexandre em 28/10/2026: *"Dentro do about quero uma opcao pa ver memoria que o files está consumindo, considerando todos os módulos"*).
 
 ---
 

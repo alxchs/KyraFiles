@@ -1,6 +1,6 @@
 # F070 — Login do GitHub Próprio — SPEC
 
-Status: RASCUNHO (AGY, 31/10/2026). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: RASCUNHO (AGY, 31/10/2026). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
 
 ## 1. Por quê
 O recurso de integração com repositórios e branches Git possui a funcionalidade de "Conectar com GitHub". No entanto, a tentativa de login falha silenciosamente ou exibe erro genérico de conexão sem explicar a causa para o usuário. Isso ocorre porque o aplicativo não possui um identificador de aplicativo OAuth público configurado para autenticação por fluxo de dispositivo (Device Flow). O sistema precisa:

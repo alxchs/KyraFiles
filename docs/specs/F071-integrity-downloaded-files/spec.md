@@ -1,6 +1,6 @@
 # F071 — Integridade e Arquivos Baixados — SPEC
 
-Status: RASCUNHO (AGY, 31/10/2026). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: RASCUNHO (AGY, 31/10/2026). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
 
 ## 1. Por quê
 Usuários frequentemente baixam arquivos grandes da internet (ISOs, instaladores, arquivos compactados) e precisam verificar se o download não foi corrompido antes de abri-los. Hoje, a conferência de hashes pode falhar ou consumir memória excessiva em arquivos gigantes, e arquivos baixados da web permanecem marcados com o bloqueio de segurança do Windows (Zone.Identifier / "Mark of the Web"), exigindo desbloqueio manual um por um através das propriedades. O sistema precisa permitir:

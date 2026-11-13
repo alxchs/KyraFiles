@@ -1,6 +1,6 @@
 # F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — SPEC
 
-Status: **RASCUNHO** (voltou a rascunho por decisão do Alexandre em 29/10/2026, Q13: "Volta a rascunho"; o Claude aprova depois das provas das 09:00 de 31/10). A versão anterior estava marcada "APROVADO" pela própria executora.
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **RASCUNHO** (voltou a rascunho por decisão do Alexandre em 29/10/2026, Q13: "Volta a rascunho"; o Claude aprova depois das provas das 09:00 de 31/10). A versão anterior estava marcada "APROVADO" pela própria executora.
 
 ---
 

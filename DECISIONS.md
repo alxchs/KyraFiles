@@ -122,7 +122,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Trade-offs:** diff pequeno em quatro arquivos do upstream.
 - **Consequences:** 5 em 5 pelo teste direto e 3 em 3 pelo diálogo "Abrir", 1 em 1 pelo "Salvar", sessão inalterada (`tools/perf/f012_file_dialog_return.ps1`). O diálogo abre em ~2,6 s em vez de 4 a 6 s e devolve em ~0,4 s após fechar, em vez de 1,7 s.
 
-## D-017 — PENDING DECISION: `explorer.exe <pasta>` direto (AC-4 da F012) (09/10/2026)
+## D-017 — RESOLVIDA (opção 3, implementada em `ExplorerWindowRedirector`): `explorer.exe <pasta>` direto (AC-4 da F012) (09/10/2026)
 
 - **Context:** com o Files como gerenciador padrão, abrir pasta pelo shell (`start <pasta>`, `Win + R`, duplo clique) abre no Files (CONFIRMED: `Start-Process <pasta>` levou a janela do Files para a pasta). Mas `explorer.exe "<pasta>"` chamado direto abre o Explorer do Windows (CONFIRMED: janela `CabinetWClass` do processo `explorer`, nenhuma do Files). O `SetFilesAsDefault.reg` do upstream só troca `Folder\shell\open`, `Folder\shell\explore` e o `CLSID` do `Win + E`; uma chamada ao `explorer.exe` não passa por eles.
 - **Options:** (1) aceitar: a AC-4 vale para `start` e `Win + R`, não para `explorer.exe` direto (o upstream é assim); (2) interceptar `explorer.exe` por `Image File Execution Options` (`Debugger`), que é invasivo, exige administrador e pode travar o shell se o launcher falhar; (3) outra forma ainda não estudada.
@@ -215,7 +215,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Trade-offs:** aprovar spec não aprova código: `plan.md` e `tasks.md` ainda passam pelos portões do SDD.
 - **Consequences:** regra permanente de fila: (1) bug que derruba o app ou perde dado, (2) regressão de performance, (3) pendências de evidência de feature já feita, (4) feature nova por onda. Feature nova só começa com a anterior `CONFIRMED` por teste com asserção. Fila e ordem da AGY em `docs/specs/BACKLOG-ORDEM-AGY.md`. Claude gerencia a AGY: escreve plan e tasks, revisa cada entrega e só então libera a próxima.
 
-## D-F036-1 — Pausa na fila de cópias: o AC-1 da spec não é alcançável com o motor atual (24/10/2026) — PENDING DECISION (Alexandre)
+## D-F036-1 — Pausa na fila de cópias: o AC-1 da spec não é alcançável com o motor atual (24/10/2026) — RESOLVIDA (opção b, 25/10/2026)
 
 - **Context:** a spec F036 (aprovada em 24/10/2026) promete, no AC-1, que "Pausar" numa cópia de 5 GB para em até 2 s e que "Retomar" continua do ponto em que parou.
 - **Problem:** `FilesystemHelpers.CopyItemsAsync/MoveItemsAsync` entregam o trabalho ao **motor de cópia do shell do Windows** (`ShellFilesystemOperations`, com recuo para `StorageFile.CopyAsync`), que copia cada arquivo numa chamada só e aceita apenas cancelar. Sem controle do laço de cópia não há pausa no meio do arquivo (CONFIRMED pela leitura do código; a inexistência de pausa na interface do motor é INFERRED até o spike T8).
@@ -244,7 +244,7 @@ CopyFile2 provou paridade com o motor do shell nos testes feitos (entre discos, 
 - **Trade-offs:** dois caminhos de cópia para manter; o arquivo grande passa a ser gravado em nome temporário e renomeado no fim; sem teste de destino por SMB, rede real, EFS, propriedades e FAT/exFAT (por isso o recuo ao motor atual nesses casos).
 - **Consequences:** plan.md §9 e tasks T10 a T17. Escopo da fase C: arquivo (não pasta), a partir de 256 MiB por padrão (configurável), destino NTFS ou ReFS, sem elevação; mover só pelo caminho de arquivo grande quando for entre volumes (no mesmo volume o motor renomeia, instantâneo). Qualquer erro inesperado do CopyFile2 recua para o motor atual para aquele item.
 
-## D-F036-3 — Política da fila: uma operação por destino (spec) ou simultaneidade configurável (25/10/2026) — PENDING DECISION (Alexandre)
+## D-F036-3 — Política da fila: uma operação por destino (spec) ou simultaneidade configurável (25/10/2026) — RESOLVIDA (opção b, 25/10/2026)
 
 - **Context:** a spec aprovada (FR-002 e AC-2) manda **serializar** cópias para o mesmo disco: a segunda espera a primeira terminar. O Alexandre, ao liberar a pasta de rede, pediu que se testassem "tarefas concorrentes, como uma cópia de um lote enquanto apaga outros arquivos".
 - **Problem:** a premissa de que serializar é melhor **não se sustentou nas medições**: (1) NVMe local, baseline da AGY (n = 3): empate em duas rodadas e uma rodada atípica pesou a média; (2) NAS (n = 1): duas cópias de 256 MiB **juntas** foram **19% mais rápidas** que em sequência; copiar um lote e apagar 300 arquivos pequenos **ao mesmo tempo** foi **14% pior** que um depois do outro, com o apagar 4,9 vezes mais lento. Ver docs/agents/evidence/F036/spike3-nas.md.

@@ -1,6 +1,6 @@
 # F089 - A fonte escolhida em Configurações é aplicada em toda a interface
 
-Status: RASCUNHO para aprovação do Alexandre (Claude, 04/11/2026). Origem: relato do Alexandre com captura de tela e pedido da AGY (`docs/agents/handoffs/2026-11-04_1845_agy_solicitacao-claude-fontes-e-escala-visual.md`).
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: RASCUNHO para aprovação do Alexandre (Claude, 04/11/2026). Origem: relato do Alexandre com captura de tela e pedido da AGY (`docs/agents/handoffs/2026-11-04_1845_agy_solicitacao-claude-fontes-e-escala-visual.md`).
 Substitui a F009 (`docs/specs/F009-separate-fonts/`), cuja `spec.md` e `plan.md` estão vazias (0 linhas) e cuja `tasks.md` está toda marcada como feita mesmo com o defeito presente.
 
 ## Problema

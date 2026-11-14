@@ -67,7 +67,10 @@ namespace Files.App.Services
 				}
 
 				// Show the dialog
-				hr = pDialog.Show(new HWND(hWnd));
+				nint effectiveHwnd = hWnd != 0 && hWnd != (MainWindow.Instance?.WindowHandle ?? 0)
+					? hWnd
+					: Helpers.UIHelpers.CurrentActiveWindowHandle;
+				hr = pDialog.Show(new HWND(effectiveHwnd));
 				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
 					return false;
 
@@ -151,7 +154,10 @@ namespace Files.App.Services
 				}
 
 				// Show the dialog
-				hr = pDialog.Show(new HWND(hWnd));
+				nint effectiveHwnd = hWnd != 0 && hWnd != (MainWindow.Instance?.WindowHandle ?? 0)
+					? hWnd
+					: Helpers.UIHelpers.CurrentActiveWindowHandle;
+				hr = pDialog.Show(new HWND(effectiveHwnd));
 				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
 					return false;
 
@@ -245,7 +251,10 @@ namespace Files.App.Services
 				netResource.lpRemoteName = pszRemoteName;
 
 				connectDlgOptions.cbStructure = (uint)sizeof(CONNECTDLGSTRUCTW);
-				connectDlgOptions.hwndOwner = new(hWnd);
+				nint effectiveHwnd = hWnd != 0 && hWnd != (MainWindow.Instance?.WindowHandle ?? 0)
+					? hWnd
+					: Helpers.UIHelpers.CurrentActiveWindowHandle;
+				connectDlgOptions.hwndOwner = new(effectiveHwnd);
 				connectDlgOptions.lpConnRes = &netResource;
 
 				res = PInvoke.WNetConnectionDialog1W(ref connectDlgOptions);

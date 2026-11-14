@@ -77,7 +77,7 @@ namespace Files.App.Search.Index.Tests
 
 			var progressCount = 0;
 			double lastPct = 0;
-			var progress = new Progress<FileHashProgress>(p =>
+			var progress = new SyncProgress<FileHashProgress>(p =>
 			{
 				progressCount++;
 				lastPct = p.Percentage;
@@ -187,6 +187,13 @@ namespace Files.App.Search.Index.Tests
 			Assert.IsFalse(zoneService.HasZoneIdentifier(file1));
 			Assert.IsFalse(zoneService.HasZoneIdentifier(file2));
 			Assert.IsFalse(zoneService.HasZoneIdentifier(file3));
+		}
+
+		private sealed class SyncProgress<T> : IProgress<T>
+		{
+			private readonly Action<T> _action;
+			public SyncProgress(Action<T> action) => _action = action;
+			public void Report(T value) => _action(value);
 		}
 	}
 }

@@ -1,0 +1,4 @@
+Rodada,Arquivos,TamanhoTotalKB,TempoLoteMs,TempoItemPorItemMs,SobrecargaPct,Observacao
+1,1000,1000,1382,1563,13,1%,Sobrecarga negligivel (< 15%)
+2,1000,1000,1077,1348,25,2%,Sobrecarga aceitavel
+3,1000,1000,1586,1475,-7,0%,Sobrecarga negligivel (< 15%)

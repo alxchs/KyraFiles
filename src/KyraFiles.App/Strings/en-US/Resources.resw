@@ -5333,4 +5333,34 @@
   <data name="DocumentationDescription" xml:space="preserve">
     <value>Opens the local or online documentation.</value>
   </data>
+  <data name="ClosingWithActiveOperationsTitle" xml:space="preserve">
+    <value>File operations in progress</value>
+  </data>
+  <data name="ClosingWithActiveOperationsMessage" xml:space="preserve">
+    <value>There are active or queued file operations. What would you like to do?</value>
+  </data>
+  <data name="ClosingWithActiveOperationsWait" xml:space="preserve">
+    <value>Wait</value>
+  </data>
+  <data name="ClosingWithActiveOperationsCancel" xml:space="preserve">
+    <value>Cancel operations and close</value>
+  </data>
+  <data name="ClosingWithActiveOperationsCloseAnyway" xml:space="preserve">
+    <value>Close anyway</value>
+  </data>
+  <data name="StatusCenter_Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="StatusCenter_Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="StatusCenter_PausePending" xml:space="preserve">
+    <value>Pause pending: finishing current file...</value>
+  </data>
+  <data name="StatusCenter_Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="StatusCenter_SingleFileCannotPauseTip" xml:space="preserve">
+    <value>A single file copy cannot be paused in the middle; use Cancel</value>
+  </data>
 </root>

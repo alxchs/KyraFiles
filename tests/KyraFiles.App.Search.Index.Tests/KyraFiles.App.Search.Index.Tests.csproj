@@ -35,6 +35,13 @@
         <Compile Include="..\..\src\KyraFiles.App\Services\Settings\IUserSettingsMigrationService.cs" Link="IUserSettingsMigrationService.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Services\Settings\UserSettingsMigrationService.cs" Link="UserSettingsMigrationService.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Data\Items\GitWorktreeItem.cs" Link="GitWorktreeItem.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\IOperationQueue.cs" Link="IOperationQueue.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\OperationQueue.cs" Link="OperationQueue.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Helpers\IntervalSampler.cs" Link="IntervalSampler.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Data\Enums\FileSystemStatusCode.cs" Link="FileSystemStatusCode.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Utils\StatusCenter\StatusCenterItemProgressModel.cs" Link="StatusCenterItemProgressModel.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Data\Items\ShellOperationResult.cs" Link="ShellOperationResult.cs" />
+        <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\PauseGate.cs" Link="PauseGate.cs" />
     </ItemGroup>
 
     <ItemGroup>

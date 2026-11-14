@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Items;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
@@ -13,6 +14,10 @@ namespace Files.App.Utils.Storage
 	/// </remarks>
 	public interface IFilesystemOperations : IDisposable
 	{
+		/// <summary>
+		/// Gets the list of items that failed in the last operation.
+		/// </summary>
+		IList<ShellOperationItemResult> LastFailedItems { get; }
 		/// <summary>
 		/// Creates an item from <paramref name="source"/>
 		/// </summary>
@@ -98,7 +103,8 @@ namespace Files.App.Utils.Storage
 			IList<FileNameConflictResolveOptionType> collisions,
 			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
-			bool asAdmin = false);
+			bool asAdmin = false,
+			PauseGate? pauseGate = null);
 
 		/// <summary>
 		/// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -161,7 +167,8 @@ namespace Files.App.Utils.Storage
 			IList<FileNameConflictResolveOptionType> collisions,
 			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
-			bool asAdmin = false);
+			bool asAdmin = false,
+			PauseGate? pauseGate = null);
 
 		/// <summary>
 		/// Deletes <paramref name="source"/>

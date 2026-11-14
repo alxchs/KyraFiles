@@ -8,6 +8,7 @@ using Files.App.Services.FileIntegrity;
 using Files.App.Services.Search;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
+using Files.App.Utils.Storage;
 using Files.App.ViewModels.Settings;
 using Files.App.Services.Help;
 using Files.App.ViewModels.Help;
@@ -365,6 +366,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IUiScaleService, UiScaleService>()
+					.AddSingleton<IOperationQueue, OperationQueue>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()

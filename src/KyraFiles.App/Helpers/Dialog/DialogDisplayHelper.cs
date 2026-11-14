@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Dialogs;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
@@ -47,14 +48,20 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				if (MainWindow.Instance.Content is Frame rootFrame)
+				if (dialog.XamlRoot is null)
+				{
+					dialog.XamlRoot = UIHelpers.CurrentActiveXamlRoot;
+				}
+
+				if (dialog.XamlRoot is not null)
 				{
 					await dialog.ShowAsync();
 					return dialog.DynamicResult;
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				App.Logger.LogWarning(ex, "Failed to show DynamicDialog");
 			}
 
 			return DynamicDialogResult.Cancel;

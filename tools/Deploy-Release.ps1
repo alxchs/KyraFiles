@@ -14,6 +14,7 @@ if ([string]::IsNullOrEmpty($Source)) {
     $repoRel = $repoRoot.Substring([System.IO.Path]::GetPathRoot($repoRoot).Length).TrimStart('\', '/')
 
     $cands = @(
+        (Join-Path $repoRoot "src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64"),
         (Join-Path $env:TEMP "Compiler\$rootDrive\$repoRel\$tagRepo\bin\KyraFiles.App\release_win-x64"),
         (Join-Path $env:TEMP "Compiler\$rootDrive\$repoRel\colab\bin\KyraFiles.App\release_win-x64")
     )
@@ -60,10 +61,20 @@ if (Test-Path $priDst) {
 
 # O servidor COM e o indexador sao compilados a parte (nao sao ProjectReference) e ficam ao lado do app, na pasta bin da compilacao
 $binRoot = Split-Path (Split-Path $Source -Parent) -Parent
-$serverSrc = Join-Path $binRoot "KyraFiles.App.Server\release_win-x64"
-$indexSrc = Join-Path $binRoot "KyraFiles.App.IndexService\release"
-if (-not (Test-Path (Join-Path $serverSrc "KyraFiles.App.Server.exe"))) { throw "Servidor COM nao encontrado em $serverSrc (compile a solucao em Release)" }
-if (-not (Test-Path (Join-Path $indexSrc "KyraFiles.App.IndexService.exe"))) { throw "Indexador nao encontrado em $indexSrc (compile a solucao em Release)" }
+$serverSrcCands = @(
+    (Join-Path $repoRoot "src\KyraFiles.App.Server\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64"),
+    (Join-Path $binRoot "KyraFiles.App.Server\release_win-x64")
+)
+$serverSrc = $serverSrcCands | Where-Object { Test-Path (Join-Path $_ "KyraFiles.App.Server.exe") } | Select-Object -First 1
+
+$indexSrcCands = @(
+    (Join-Path $repoRoot "src\KyraFiles.App.IndexService\bin\x64\Release\net10.0-windows10.0.26100.0"),
+    (Join-Path $binRoot "KyraFiles.App.IndexService\release")
+)
+$indexSrc = $indexSrcCands | Where-Object { Test-Path (Join-Path $_ "KyraFiles.App.IndexService.exe") } | Select-Object -First 1
+
+if (-not $serverSrc) { throw "Servidor COM nao encontrado (compile a solucao em Release)" }
+if (-not $indexSrc) { throw "Indexador nao encontrado (compile a solucao em Release)" }
 & robocopy $serverSrc (Join-Path $dst "KyraFiles.App.Server") /E /NFL /NDL /NJH /NJS /NC /NS /NP /XF *.pdb | Out-Null
 & robocopy $indexSrc (Join-Path $dst "KyraFiles.App.IndexService") /E /NFL /NDL /NJH /NJS /NC /NS /NP /XF *.pdb | Out-Null
 
@@ -78,6 +89,17 @@ if (Test-Path (Join-Path $binRelease "KyraFiles.HotkeyService.exe")) {
 }
 if (Test-Path (Join-Path $binRelease "KyraFiles.Watchdog.exe")) {
     Copy-Item (Join-Path $binRelease "KyraFiles.Watchdog.exe") $dst -Force
+}
+
+# Registra identidade do pacote AppX no Windows (INSTRUCTIONS_OPERARY §30)
+Write-Host "Registrando identidade AppX no Windows..." -ForegroundColor Cyan
+$manifestPath = Join-Path $dst "AppxManifest.xml"
+if (Test-Path $manifestPath) {
+    $existing = Get-AppxPackage -Name FilesDev -ErrorAction SilentlyContinue
+    if ($existing) {
+        Remove-AppxPackage $existing.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue
+    }
+    Add-AppxPackage -Register $manifestPath -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction SilentlyContinue
 }
 
 Write-Host "Iniciando KyraFiles.Watchdog para Win+E..." -ForegroundColor Cyan

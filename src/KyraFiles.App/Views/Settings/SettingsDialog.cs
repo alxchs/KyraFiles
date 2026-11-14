@@ -26,6 +26,27 @@ namespace Files.App.Views.Settings
 		private static WindowEx? settingsWindow;
 		private static Frame? settingsFrame;
 
+		public static bool IsShowing => settingsWindow is not null && settingsWindow.AppWindow.IsVisible;
+		public static WindowEx? SettingsWindow => settingsWindow;
+		public static nint WindowHandle => settingsWindow?.WindowHandle ?? 0;
+		public static XamlRoot? XamlRoot => settingsWindow?.Content?.XamlRoot;
+
+		public static void BringToFront()
+		{
+			if (settingsWindow is not null)
+			{
+				settingsWindow.AppWindow.Show();
+				settingsWindow.Activate();
+				PInvoke.SetForegroundWindow(new HWND(settingsWindow.WindowHandle));
+				PInvoke.SetActiveWindow(new HWND(settingsWindow.WindowHandle));
+			}
+		}
+
+		public static void Close()
+		{
+			settingsWindow?.Close();
+		}
+
 		[DynamicWindowsRuntimeCast(typeof(Frame))]
 		public static void Show(SettingsPageKind pageKind = SettingsPageKind.GeneralPage)
 		{
@@ -133,14 +154,24 @@ namespace Files.App.Views.Settings
 				var parentPos = mainAppWindow.Position;
 				var parentSize = mainAppWindow.Size;
 
-				int centerX = parentPos.X + (parentSize.Width - appWindow.Size.Width) / 2;
-				int centerY = parentPos.Y + (parentSize.Height - appWindow.Size.Height) / 2;
-
 				var displayArea = DisplayArea.GetFromWindowId(mainAppWindow.Id, DisplayAreaFallback.Nearest);
-				if (displayArea is not null)
+				int centerX, centerY;
+
+				if (parentPos.X < -10000 || parentPos.Y < -10000 || parentSize.Width <= 0 || parentSize.Height <= 0)
 				{
-					centerX = Math.Max(displayArea.WorkArea.X, Math.Min(displayArea.WorkArea.X + displayArea.WorkArea.Width - appWindow.Size.Width, centerX));
-					centerY = Math.Max(displayArea.WorkArea.Y, Math.Min(displayArea.WorkArea.Y + displayArea.WorkArea.Height - appWindow.Size.Height, centerY));
+					centerX = displayArea is not null ? displayArea.WorkArea.X + (displayArea.WorkArea.Width - appWindow.Size.Width) / 2 : 100;
+					centerY = displayArea is not null ? displayArea.WorkArea.Y + (displayArea.WorkArea.Height - appWindow.Size.Height) / 2 : 100;
+				}
+				else
+				{
+					centerX = parentPos.X + (parentSize.Width - appWindow.Size.Width) / 2;
+					centerY = parentPos.Y + (parentSize.Height - appWindow.Size.Height) / 2;
+
+					if (displayArea is not null)
+					{
+						centerX = Math.Max(displayArea.WorkArea.X, Math.Min(displayArea.WorkArea.X + displayArea.WorkArea.Width - appWindow.Size.Width, centerX));
+						centerY = Math.Max(displayArea.WorkArea.Y, Math.Min(displayArea.WorkArea.Y + displayArea.WorkArea.Height - appWindow.Size.Height, centerY));
+					}
 				}
 
 				appWindow.Move(new PointInt32(centerX, centerY));
@@ -158,6 +189,11 @@ namespace Files.App.Views.Settings
 
 			window.Closed += (_, _) =>
 			{
+				if (ToolbarCustomizationDialog.IsShowing)
+				{
+					ToolbarCustomizationDialog.Close();
+				}
+
 				if (parentHwnd != 0)
 				{
 					PInvoke.EnableWindow(new HWND(parentHwnd), true);

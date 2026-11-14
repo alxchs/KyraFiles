@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Items;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
@@ -23,6 +24,8 @@ namespace Files.App.Utils.Storage
 			=> _associatedInstance ?? throw new ObjectDisposedException(nameof(FilesystemOperations));
 		private ShellViewModel ShellViewModel
 			=> AssociatedInstance.GetRequiredShellViewModel();
+
+		public IList<ShellOperationItemResult> LastFailedItems { get; set; } = [];
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
@@ -927,7 +930,7 @@ namespace Files.App.Utils.Storage
 				?? throw new InvalidOperationException("A storage item could not be converted for copying.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false)
+		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false, PauseGate? pauseGate = null)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
@@ -939,6 +942,11 @@ namespace Files.App.Utils.Storage
 				if (token.IsCancellationRequested)
 				{
 					break;
+				}
+
+				if (pauseGate != null)
+				{
+					await pauseGate.WaitIfPausedAsync(token);
 				}
 
 				if (collisions[i] != FileNameConflictResolveOptionType.Skip)
@@ -973,7 +981,7 @@ namespace Files.App.Utils.Storage
 				?? throw new InvalidOperationException("A storage item could not be converted for moving.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false)
+		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken token, bool asAdmin = false, PauseGate? pauseGate = null)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
@@ -985,6 +993,11 @@ namespace Files.App.Utils.Storage
 				if (token.IsCancellationRequested)
 				{
 					break;
+				}
+
+				if (pauseGate != null)
+				{
+					await pauseGate.WaitIfPausedAsync(token);
 				}
 
 				if (collisions[i] != FileNameConflictResolveOptionType.Skip)

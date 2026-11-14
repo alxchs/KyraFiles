@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.StatusCenter.StatusCenter"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -310,10 +310,47 @@
 							</Grid>
 
 							<!--  Action Buttons  -->
-							<Grid
+							<StackPanel
 								Grid.RowSpan="2"
 								Grid.Column="1"
+								Orientation="Horizontal"
+								Spacing="4"
 								VerticalAlignment="Top">
+
+								<!--  Retry Button for failed items (AC-4)  -->
+								<Button
+									x:Name="RetryItemButton"
+									Width="32"
+									Height="32"
+									Padding="0"
+									x:Load="{x:Bind HasFailedItems, Mode=OneWay}"
+									AutomationProperties.Name="{helpers:ResourceString Name=Retry}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Retry}"
+									Command="{x:Bind RetryCommand}"
+									Background="Transparent"
+									BorderBrush="Transparent">
+									<Button.Content>
+										<FontIcon FontSize="16" Glyph="&#xE72C;" />
+									</Button.Content>
+								</Button>
+
+								<!--  Pause / Resume Button (AC-1)  -->
+								<Button
+									x:Name="PauseResumeButton"
+									Width="32"
+									Height="32"
+									Padding="0"
+									x:Load="{x:Bind CanShowPauseButton, Mode=OneWay}"
+									IsEnabled="{x:Bind CanPause, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind PauseResumeButtonText, Mode=OneWay}"
+									ToolTipService.ToolTip="{x:Bind PauseResumeTooltip, Mode=OneWay}"
+									Command="{x:Bind PauseResumeCommand}"
+									Background="Transparent"
+									BorderBrush="Transparent">
+									<Button.Content>
+										<FontIcon FontSize="16" Glyph="{x:Bind PauseResumeGlyph, Mode=OneWay}" />
+									</Button.Content>
+								</Button>
 
 								<!--  More Options  -->
 								<Button
@@ -346,7 +383,7 @@
 									</Button.Content>
 								</Button>
 
-							</Grid>
+							</StackPanel>
 
 						</Grid>
 

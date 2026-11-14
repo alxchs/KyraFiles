@@ -122,12 +122,35 @@ namespace Files.App.Helpers
 			return (DialogResult)await ((ContentDialog)dialog).TryShowAsync();
 		}
 
+		/// <summary>
+		/// Returns the XamlRoot of the top-most active window (ToolbarCustomizationDialog > SettingsDialog > MainWindow).
+		/// Ensures dialogs always open on top of the screen that invoked them.
+		/// </summary>
+		public static XamlRoot? CurrentActiveXamlRoot
+			=> Views.Settings.ToolbarCustomizationDialog.XamlRoot
+				?? Views.Settings.SettingsDialog.XamlRoot
+				?? MainWindow.Instance?.Content?.XamlRoot;
+
+		/// <summary>
+		/// Returns the HWND of the top-most active window (ToolbarCustomizationDialog > SettingsDialog > MainWindow).
+		/// Ensures Win32 modal dialogs (such as FileOpenDialog) are owned by the active screen.
+		/// </summary>
+		public static nint CurrentActiveWindowHandle
+			=> Views.Settings.ToolbarCustomizationDialog.IsShowing
+				? Views.Settings.ToolbarCustomizationDialog.WindowHandle
+				: (Views.Settings.SettingsDialog.IsShowing
+					? Views.Settings.SettingsDialog.WindowHandle
+					: (MainWindow.Instance?.WindowHandle ?? 0));
+
 		// WINUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+				if (contentDialog.XamlRoot is null)
+				{
+					contentDialog.XamlRoot = CurrentActiveXamlRoot;
+				}
 			}
 			return contentDialog;
 		}
@@ -135,14 +158,26 @@ namespace Files.App.Helpers
 		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
 		public static void CloseAllDialogs()
 		{
-			if (MainWindow.Instance?.Content?.XamlRoot == null)
+			CloseDialogsForXamlRoot(Views.Settings.ToolbarCustomizationDialog.XamlRoot);
+			CloseDialogsForXamlRoot(Views.Settings.SettingsDialog.XamlRoot);
+			CloseDialogsForXamlRoot(MainWindow.Instance?.Content?.XamlRoot);
+		}
+
+		private static void CloseDialogsForXamlRoot(XamlRoot? xamlRoot)
+		{
+			if (xamlRoot is null)
 				return;
 
-			var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
-
-			foreach (var item in openedDialogs)
-				if (item.Child is ContentDialog dialog)
-					dialog.Hide();
+			try
+			{
+				var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(xamlRoot);
+				foreach (var item in openedDialogs)
+				{
+					if (item.Child is ContentDialog dialog)
+						dialog.Hide();
+				}
+			}
+			catch { }
 		}
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();

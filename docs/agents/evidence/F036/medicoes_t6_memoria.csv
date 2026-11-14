@@ -1,0 +1,4 @@
+Rodada,TamanhoTotalGB,MemoriaBaselineMB,MemoriaPicoMB,MemoriaFinalMB,AumentoPct,Status
+1,4.0,17,4,22,2,19,5,11,51%,PASS - estavel (delta <= 3MB / <= 5%)
+2,4.0,18,7,22,6,18,9,0,83%,PASS - estavel (delta <= 3MB / <= 5%)
+3,4.0,17,9,21,6,18,1,1,35%,PASS - estavel (delta <= 3MB / <= 5%)

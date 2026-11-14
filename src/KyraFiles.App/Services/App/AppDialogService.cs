@@ -47,7 +47,7 @@ namespace Files.App.Services
 			dialog.ViewModel = viewModel;
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+				contentDialog.XamlRoot = Helpers.UIHelpers.CurrentActiveXamlRoot ?? MainWindow.Instance?.Content?.XamlRoot;
 
 			return dialog;
 		}

@@ -13,6 +13,7 @@ Sincronizado em 2026-11-12 por Claude, a partir de `AGENT_CONTEXT.md` e do hando
 
 | Item | Dono | Branch | Semáforo | Observação |
 |---|---|---|---|---|
+| F048 (Diff de arquivos) | AGY | `feature/f048-file-diff` | 🔴 OCUPADO | 0/7 tarefas; integração de diff externo configurado |
 | F090 (correção da escala) | Alexandre | `feature/f090-escala` | 🔴 OCUPADO | 1 commit sobre a `main`; build e teste com o Alexandre |
 
 ## 2. Pacotes da F092 (CONCLUÍDA)
@@ -36,18 +37,19 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 
 | Spec | Assunto | Semáforo | Observação |
 |---|---|---|---|
-| F036 | Fila de cópias | 🟢 LIVRE (próxima da AGY) | Decisões resolvidas (D-F036-1/2/3); 2/18 tarefas; começar pela T2, com 10+ rodadas de medição |
+| F036 | Fila de cópias | ⚪ CONCLUÍDO | Fases A e B entregues na v4.3.14.0 (T0 a T9); 28 testes verdes, RELATORIO.md |
 | F035 | Segunda instância | 🟢 LIVRE | 0/6 |
 | F037 | Renomear em lote com prévia | 🟢 LIVRE | 0/8 |
 | F043 | Histórico de operações | 🟢 LIVRE | 0/8 |
 | F044 | Quick Look com espaço | 🟢 LIVRE | 0/8 |
 | F045 | Ações de projeto | 🟢 LIVRE | 0/8 |
 | F047 | Limpeza de pastas de build | 🟢 LIVRE | 0/7 |
-| F048 | Diff de arquivos | 🟢 LIVRE | 0/7 |
+| F048 | Diff de arquivos | 🔴 OCUPADO | 0/7 tarefas; AGY iniciando implementação de diff configurável |
 | F049 | Links, symlinks, junctions | 🟢 LIVRE | 0/8 |
-| F056 | Formatos de cópia de caminho | 🟢 LIVRE | 0/6 |
+| F056 | Formatos de cópia de caminho | ⚪ CONCLUÍDO | 6/6 tarefas entregues na v4.3.15.0; 13 testes verdes, RELATORIO.md |
+| F057 | Atalhos de botões em diálogos | ⚪ CONCLUÍDO | 5/5 tarefas entregues na v4.3.16.0; 8 testes verdes, RELATORIO.md |
 | F060 | SFTP, script, hex, divisão | 🟢 LIVRE | 13/22; `origin/feature/f060-m3-sftp` e `f060-m4-script` ainda fora da `main` |
-| F026, F057, F082, F083 | Resíduos de 1 tarefa cada | 🟢 LIVRE | 3/4, 4/5, 17/18, 18/19 |
+| F026, F082, F083 | Resíduos de 1 tarefa cada | 🟢 LIVRE | 3/4, 17/18, 18/19 |
 | F058, F062, F063, F070, F071 | Specs aprovadas em 12/11/2026 | 🟢 LIVRE | Conferir se `plan.md` e `tasks.md` estão aprovados antes de codificar (SDD) |
 
 ## 4. Concluído recentemente (na `main`)
@@ -64,3 +66,6 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[FEITO] 5827968aa · Claude · 2026-11-12 · specs aprovadas, D-017/D-F036 resolvidas, brief F092`
 - `[FEITO] revisão T2 · Claude · 2026-11-12 · código aprovado; navegação por clique INFERRED até a T6`
 - `[FEITO] F092 · AGY · 2026-11-12 · T0 a T6 concluídas (Este PC, Painel de Controle, mídias, toggles, 39 testes verdes)`
+- `[FEITO] F036-T2 · AGY · 2026-11-14 · OperationQueue implementado, 10 testes verdes, 10 rodadas de medição confirmando padrão 2`
+- `[FEITO] F036-T3 · AGY · 2026-11-14 · Fila ligada a CopyItemsAsync, MoveItemsAsync e CopyItemsFromClipboard; IsQueued no StatusCenterItem; 13 testes verdes`
+- `[PEGO] F036-T4 · AGY · 2026-11-14 · branch feature/f036-copy-queue · critério: velocidade e tempo restante com média móvel (FR-003)`

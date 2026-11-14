@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Xaml.Controls;
@@ -37,18 +37,16 @@ namespace Files.App.Actions
 			}
 			catch (Exception ex)
 			{
-				// Only show the error dialog if no other popups are open
-				if (!VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				var targetXamlRoot = UIHelpers.CurrentActiveXamlRoot ?? MainWindow.Instance?.Content?.XamlRoot;
+				if (targetXamlRoot is not null && !VisualTreeHelper.GetOpenPopupsForXamlRoot(targetXamlRoot).Any())
 				{
 					var errorDialog = new ContentDialog()
 					{
 						Title = Strings.FailedToOpenSettingsFile.GetLocalizedResource(),
 						Content = ex.Message,
 						PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+						XamlRoot = targetXamlRoot
 					};
-
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					await errorDialog.TryShowAsync();
 				}

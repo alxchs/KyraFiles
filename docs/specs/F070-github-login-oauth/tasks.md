@@ -11,7 +11,7 @@ Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitá
 | T3 | **Suíte de Testes Unitários de Autenticação com Mock HTTP:** Criar testes em `GitHubAuthServiceTests.cs` simulando respostas de sucesso, `authorization_pending`, `slow_down`, `expired_token` e identificador ausente. | AC-3, AC-4 | 100% dos novos testes passam com prova de mutação | **concluído** |
 | T4 | **Integração no Fluxo de UI do App (`GitHelpers.cs`):** Conectar `GitHubAuthService` ao diálogo de login; quando o Client ID não estiver configurado, exibir mensagem de aviso explicativa sem falhar silenciosamente. | FR-002, AC-4 | Build 0/0 e diálogo orientador validado | **concluído** |
 | T5 | **Ação de Desconexão (Logout) e Limpeza do Cofre:** Implementar botão/comando de desconectar que limpa o token do `PasswordVault` e reseta o estado do usuário. | FR-005, AC-2 | Build 0/0 e exclusão da credencial validada em teste | **concluído** |
-| T6 | **Prova Real com Identificador Público do Alexandre:** Validar a conexão real com o servidor do GitHub e exibição do perfil (Cenários AC-1 e AC-2 em NOT TESTED até o Alexandre criar o app OAuth). | AC-1, AC-2 | Login real confirmado em teste | **NOT TESTED** (aguardando Client ID) |
+| T6 | **Prova Real com Identificador Público do Alexandre:** Validar a conexão real com o servidor do GitHub e exibição do perfil (Cenários AC-1 e AC-2 em NOT TESTED até o Alexandre criar o app OAuth). | AC-1, AC-2 | Login real confirmado em teste | **concluído** (Client ID `Ov23liTPMwjatYdDHekc` configurado e validado contra API real do GitHub) |
 
 ## Teste obrigatório
 - Testes unitários com mock HTTP cobrindo o fluxo RFC 8628 completo: **183 testes passando (0 falhas)**.

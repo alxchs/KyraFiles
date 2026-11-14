@@ -1,0 +1,9 @@
+ID,Cenario,Condicao,ControleNegativo,Resultado,Status,Evidencia
+AC-1,DeleteDialog atribui DCP,Botoes Delete / Cancel / Permanently delete recebem D / C / P,Atribuicao aleatoria geraria letras inconsistentes,DCP,PASS,DialogAccessKeysTests.DeleteDialog_UsesDCP e caixa_excluir.png
+AC-2,Prefixos identicos recebem letras distintas,Create / Cancel / Copy iniciam com C mas recebem letras unicas,Algoritmo simples duplicaria 'C' para os tres botoes,C / A / O (sem duplicatas),PASS,DialogAccessKeysTests.SamePrefix_GetsDifferentLetters
+AC-3,Letras acentuadas mapeiam para base latina,Exito / Cancelar mapeia E para Exito e C para Cancelar,Tratamento sem normalizacao falharia mapeamento de acento,EC,PASS,DialogAccessKeysTests.AccentedLetters_UseTheBaseLetter
+AC-4,Textos nao-latinos tratados graciosamente,Textos em ideogramas japoneses nao possuem letra latina atribuida,Tentativa forcada geraria caractere invalido ou excecao,-- (sem atalho),PASS,DialogAccessKeysTests.NonLatinTexts_HaveNoShortcut
+AC-5,Sem duplicatas em caixas realistas (FR-003),9 caixas de dialogo em en-US / pt-BR / fr / de / es sem repeticao de letra,Conflito de tecla quebraria navegacao por teclado,Zero duplicatas em todos os idiomas,PASS,DialogAccessKeysTests.RealisticDialogs_NeverRepeatALetter_FR003
+AC-6,Preferencia por inicio de palavra,Open e Open folder priorizam inicio de palavra (O e F) antes de letras internas,Escolha ingenua pegaria 'p' em Open folder,OF,PASS,DialogAccessKeysTests.WordStart_IsPreferredToInnerLetter
+AC-7,Textos nulos ou vazios ignorados,Entradas null ou "" nao recebem atalho nem geram erro,Entrada nula derrubaria algoritmo por NullReferenceException,-D- (seguro),PASS,DialogAccessKeysTests.EmptyAndNullTexts_AreSkipped
+CONTROLE,Controle negativo de duplicata,Detecta duplicata proposital em conjunto de letras com repeticao,Algoritmo de teste falharia em acusar duplicata real,Duplicata detectada corretamente,PASS,DialogAccessKeysTests.NegativeControl_DetectsDuplicate

@@ -1,6 +1,37 @@
 # STATUS
 
-Última atualização: 2026-10-24 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-11-14 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## F057 — Atalhos de Botões em Caixas de Diálogo (14/11/2026)
+
+- CONFIRMED: `DialogAccessKeys.cs` implementando alocação de letras aceleradoras sem repetição (`FR-003`), com normalização de acentos e priorização de termos.
+- CONFIRMED: 8/8 testes unitários MSTest aprovados em `DialogAccessKeysTests.cs` (0 falhas).
+- CONFIRMED: Ligação automática via `DialogShortcuts.cs` em `DefaultContentDialogStyle`, `DynamicDialog` e `TryShowAsync`.
+- CONFIRMED: Evidência física em `caixa_excluir.png` (D, C, P sublinhados) e `resultado.csv` em `docs/agents/evidence/F057/resultado.csv`.
+
+## F056 — Copiar Caminho em Vários Formatos (14/11/2026)
+
+- CONFIRMED: `PathFormatter.cs` em `KyraFiles.Shared` implementando formatos Windows, WSL, JSON, C# literal, URL de arquivo, relativo ao repositório Git e relativo à pasta atual.
+- CONFIRMED: Suíte de testes unitários MSTest em `tests/KyraFiles.App.Search.Index.Tests/PathFormatterTests.cs` (13/13 testes aprovados, 0 falhas).
+- CONFIRMED: Submenu "Copiar caminho como..." no menu de contexto (`ContentPageContextFlyoutFactory.cs`) e preferências em `GeneralSettingsService`.
+- CONFIRMED: Prova física em runtime validada em `evidencia-janela-20261027/`, `resultado.csv` e relatório em `docs/specs/F056-copy-path-formats/RELATORIO.md`.
+
+## F036 — Fila de Cópias com Pausar e Retomar (Fases A e B) (14/11/2026)
+
+- CONFIRMED: `OperationQueue` com concorrência por destino físico (limite configurável padrão 2, sem bloqueio de Delete e Rename) validado por `OperationQueueTests.cs`.
+- CONFIRMED: Velocidade móvel com EMA ($\alpha=0.3$) e ETA estável validados por `StatusCenterSpeedAndEtaTests.cs` (3 testes aprovados).
+- CONFIRMED: Reenfileiramento exclusivo de itens com falha (retry) validado por `OperationRetryTests.cs` (8 arquivos, 3 bloqueados -> retry só os 3 com falha alcançando 8/8 no destino).
+- CONFIRMED: Interceptação de fechamento de janela com operações ativas ou em fila via `AppWindow.Closing` com diálogo modal de 3 opções e strings localizadas em `en-US` e `pt-BR`.
+- CONFIRMED: Pausa e retomada entre arquivos com `PauseGate.cs` validado por `PauseGateTests.cs` (5 testes aprovados). Sobrecarga em 1.000 arquivos de 1 KB medida em `docs/agents/evidence/F036/medicoes_t7_sobrecarga.csv` (média 5,8%, abaixo do limite de 15%).
+- CONFIRMED (NFR-001): 3 rodadas consecutivas de medição de memória (2x 2 GiB por rodada com buffers de 1 MiB) registradas em `docs/agents/evidence/F036/medicoes_t6_memoria.csv` comprovando memória estável sem vazamento (18 MB baseline estendida, $\Delta \le 1,9\%$).
+- CONFIRMED: 28 testes automatizados executados e 100% aprovados (`KyraFiles.App.Search.Index.Tests.dll`, 0 falhas).
+- CONFIRMED: Matriz de critérios de aceite e controle negativo gerada em `docs/agents/evidence/F036/resultado.csv` e relatório formal de fechamento em `docs/specs/F036-copy-queue/RELATORIO.md`.
+
+## F070 — GitHub OAuth Device Code Flow (T6) (14/11/2026)
+
+- CONFIRMED: Client ID real `Ov23liTPMwjatYdDHekc` fornecido pelo Alexandre configurado em `src/KyraFiles.App/Constants.cs`.
+- CONFIRMED: Chamada direta à API do GitHub Device Code Flow (`https://github.com/login/device/code`) validada com HTTP 200 OK e recebimento de `device_code` e `user_code` reais.
+
 
 ## Release v4.3.7 — Correção do fechamento ao abrir o Files várias vezes seguidas (26/10/2026)
 

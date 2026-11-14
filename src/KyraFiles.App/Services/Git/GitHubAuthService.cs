@@ -42,11 +42,15 @@ namespace Files.App.Services.Git
 		/// <inheritdoc />
 		public string? GetConfiguredClientId()
 		{
-			if (!string.IsNullOrWhiteSpace(_overrideClientId))
+			if (_overrideClientId is not null)
 			{
+				if (string.IsNullOrWhiteSpace(_overrideClientId))
+					return null;
+
 				var cleanOverride = _overrideClientId.Trim();
-				if (!string.Equals(cleanOverride, SecretPlaceholder, StringComparison.OrdinalIgnoreCase))
-					return cleanOverride;
+				return string.Equals(cleanOverride, SecretPlaceholder, StringComparison.OrdinalIgnoreCase)
+					? null
+					: cleanOverride;
 			}
 
 			// 1. Environment variable override

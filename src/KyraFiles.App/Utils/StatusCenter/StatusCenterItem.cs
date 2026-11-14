@@ -1,6 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Items;
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
 using System.Windows.Input;
@@ -62,6 +63,13 @@ namespace Files.App.Utils.StatusCenter
 		{
 			get => _ProgressPercentageText;
 			set => SetProperty(ref _ProgressPercentageText, value);
+		}
+
+		private string? _RemainingTimeText;
+		public string? RemainingTimeText
+		{
+			get => _RemainingTimeText;
+			set => SetProperty(ref _RemainingTimeText, value);
 		}
 
 		// Gets or sets the value that represents the current processing item name.
@@ -126,6 +134,28 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelable, value);
 		}
 
+		private bool _IsQueued;
+		public bool IsQueued
+		{
+			get => _IsQueued;
+			set
+			{
+				if (SetProperty(ref _IsQueued, value))
+				{
+					if (value)
+					{
+						var queuedText = "StatusCenter_Queued".GetLocalizedResource();
+						ProgressPercentageText = string.IsNullOrEmpty(queuedText) ? "Na fila" : queuedText;
+						IsIndeterminateProgress = true;
+					}
+					else
+					{
+						IsIndeterminateProgress = false;
+					}
+				}
+			}
+		}
+
 		// This property is not updated for now. Should be removed.
 		private StatusCenterItemProgressModel _Progress = null!;
 		public StatusCenterItemProgressModel Progress
@@ -174,6 +204,95 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
+		private IList<ShellOperationItemResult>? _FailedItemResults;
+		public IList<ShellOperationItemResult>? FailedItemResults
+		{
+			get => _FailedItemResults;
+			set
+			{
+				if (SetProperty(ref _FailedItemResults, value))
+				{
+					OnPropertyChanged(nameof(HasFailedItems));
+				}
+			}
+		}
+
+		public bool HasFailedItems => FailedItemResults is { Count: > 0 } && RetryCommand != null;
+
+		private ICommand? _RetryCommand;
+		public ICommand? RetryCommand
+		{
+			get => _RetryCommand;
+			set
+			{
+				if (SetProperty(ref _RetryCommand, value))
+				{
+					OnPropertyChanged(nameof(HasFailedItems));
+				}
+			}
+		}
+
+		private PauseGate? _pauseGate;
+		public PauseGate? PauseGate
+		{
+			get => _pauseGate;
+			set
+			{
+				if (SetProperty(ref _pauseGate, value))
+				{
+					OnPropertyChanged(nameof(CanShowPauseButton));
+					OnPropertyChanged(nameof(CanPause));
+					OnPropertyChanged(nameof(PauseResumeTooltip));
+				}
+			}
+		}
+
+		public bool CanShowPauseButton => IsInProgress && !IsQueued && PauseGate != null;
+
+		public bool CanPause => TotalItemsCount > 1;
+
+		private bool _isPaused;
+		public bool IsPaused
+		{
+			get => _isPaused;
+			set
+			{
+				if (SetProperty(ref _isPaused, value))
+				{
+					OnPropertyChanged(nameof(PauseResumeGlyph));
+					OnPropertyChanged(nameof(PauseResumeButtonText));
+					OnPropertyChanged(nameof(PauseResumeTooltip));
+				}
+			}
+		}
+
+		private bool _isPausePending;
+		public bool IsPausePending
+		{
+			get => _isPausePending;
+			set
+			{
+				if (SetProperty(ref _isPausePending, value))
+				{
+					OnPropertyChanged(nameof(PauseResumeGlyph));
+					OnPropertyChanged(nameof(PauseResumeButtonText));
+					OnPropertyChanged(nameof(PauseResumeTooltip));
+				}
+			}
+		}
+
+		public string PauseResumeGlyph => (IsPaused || IsPausePending) ? "\uE768" : "\uE769";
+
+		public string PauseResumeButtonText => (IsPaused || IsPausePending)
+			? "StatusCenter_Resume".GetLocalizedResource()
+			: "StatusCenter_Pause".GetLocalizedResource();
+
+		public string PauseResumeTooltip => CanPause
+			? PauseResumeButtonText
+			: "StatusCenter_SingleFileCannotPauseTip".GetLocalizedResource();
+
+		public ICommand PauseResumeCommand { get; }
+
 		[DynamicWindowsRuntimeCast(typeof(SolidColorBrush))]
 		public StatusCenterItem(
 			string headerResource,
@@ -203,6 +322,7 @@ namespace Files.App.Utils.StatusCenter
 			AnimatedIconState = "NormalOff";
 			SpeedGraphValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+			PauseResumeCommand = new RelayCommand(ExecutePauseResumeCommand);
 			Message = Strings.DiscoveringItems.GetLocalizedResource();
 			Source = source;
 			Destination = destination;
@@ -319,10 +439,20 @@ namespace Files.App.Utils.StatusCenter
 					}
 					else
 					{
-						Message = string.Format(
+						var baseSizeMessage = string.Format(
 							Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
 							value.ProcessedSize.ToSizeString(),
 							value.TotalSize.ToSizeString());
+
+						RemainingTimeText = value.EstimatedRemainingTimeText;
+						if (!string.IsNullOrEmpty(RemainingTimeText))
+						{
+							Message = $"{baseSizeMessage} • {RemainingTimeText}";
+						}
+						else
+						{
+							Message = baseSizeMessage;
+						}
 					}
 				}
 
@@ -425,6 +555,26 @@ namespace Files.App.Utils.StatusCenter
 				IsExpanded = false;
 				IsSpeedAndProgressAvailable = false;
 				Header = $"{Strings.Canceling.GetLocalizedResource()} - {Header}";
+			}
+		}
+
+		public void ExecutePauseResumeCommand()
+		{
+			if (!CanPause || PauseGate is null)
+				return;
+
+			if (IsPaused || IsPausePending)
+			{
+				PauseGate.Resume();
+				IsPaused = false;
+				IsPausePending = false;
+				Message = Strings.ProcessingItems.GetLocalizedResource();
+			}
+			else
+			{
+				PauseGate.RequestPause();
+				IsPausePending = true;
+				Message = "StatusCenter_PausePending".GetLocalizedResource();
 			}
 		}
 	}

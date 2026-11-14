@@ -11,7 +11,7 @@ namespace Files.App
 		public static class AutomatedWorkflowInjectionKeys
 		{
 
-			public const string GitHubClientId = "githubclientid.secret";
+			public const string GitHubClientId = "Ov23liTPMwjatYdDHekc";
 
 			public const string BingMapsSecret = "bingmapskey.secret";
 
@@ -246,7 +246,6 @@ namespace Files.App
 					{ "::{208D2C60-3AEA-1069-A2D7-08002B30309D}", NetworkFolderPath },
 					{ RecycleBinPath.ToUpperInvariant(), RecycleBinPath },
 					{ MyComputerPath.ToUpperInvariant(), MyComputerPath },
-					{ ControlPanelPath.ToUpperInvariant(), ControlPanelPath },
 					{ NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
 				};
 		}

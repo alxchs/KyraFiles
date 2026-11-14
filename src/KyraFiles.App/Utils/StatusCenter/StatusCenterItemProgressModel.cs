@@ -1,8 +1,11 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Files.App.Data.Enums;
+using Files.App.Helpers;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -93,6 +96,13 @@ namespace Files.App.Utils.StatusCenter
 
 		public double ProcessingItemsCountSpeed { get; private set; }
 
+		private double _smoothedSizeSpeed;
+		private double _smoothedItemSpeed;
+
+		public TimeSpan? EstimatedRemainingTime { get; private set; }
+
+		public string? EstimatedRemainingTimeText { get; private set; }
+
 		private DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
 		{
@@ -172,21 +182,57 @@ namespace Files.App.Utils.StatusCenter
 			if (percentage is not null && Percentage != percentage)
 			{
 				SetProcessedSize((long)(TotalSize * percentage / 100));
+				Percentage = percentage;
+			}
 
-				if (_sampler2.CheckNow())
+			if (_sampler2.CheckNow())
+			{
+				var elapsedSeconds = (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+				if (elapsedSeconds >= 0.1)
 				{
-					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					var deltaBytes = ProcessedSize - _previousProcessedSize;
+					var deltaItems = ProcessedItemsCount - _previousProcessedItemsCount;
 
-					_dirtyTracker[nameof(ProcessingSizeSpeed)] = true;
-					_dirtyTracker[nameof(ProcessingItemsCountSpeed)] = true;
+					if (deltaBytes >= 0)
+					{
+						var instantSizeSpeed = deltaBytes / elapsedSeconds;
+						_smoothedSizeSpeed = _smoothedSizeSpeed <= 0 ? instantSizeSpeed : (0.3 * instantSizeSpeed) + (0.7 * _smoothedSizeSpeed);
+						ProcessingSizeSpeed = _smoothedSizeSpeed;
+						_dirtyTracker[nameof(ProcessingSizeSpeed)] = true;
+					}
+
+					if (deltaItems >= 0)
+					{
+						var instantItemSpeed = deltaItems / elapsedSeconds;
+						_smoothedItemSpeed = _smoothedItemSpeed <= 0 ? instantItemSpeed : (0.3 * instantItemSpeed) + (0.7 * _smoothedItemSpeed);
+						ProcessingItemsCountSpeed = _smoothedItemSpeed;
+						_dirtyTracker[nameof(ProcessingItemsCountSpeed)] = true;
+					}
+
+					long remainingBytes = Math.Max(0, TotalSize - ProcessedSize);
+					if (_smoothedSizeSpeed > 1024 && remainingBytes > 0)
+					{
+						var remainingSeconds = remainingBytes / _smoothedSizeSpeed;
+						if (remainingSeconds < 86400)
+						{
+							EstimatedRemainingTime = TimeSpan.FromSeconds(remainingSeconds);
+							EstimatedRemainingTimeText = FormatRemainingTime(EstimatedRemainingTime.Value);
+							_dirtyTracker[nameof(EstimatedRemainingTime)] = true;
+							_dirtyTracker[nameof(EstimatedRemainingTimeText)] = true;
+						}
+					}
+					else if (remainingBytes == 0 && TotalSize > 0)
+					{
+						EstimatedRemainingTime = TimeSpan.Zero;
+						EstimatedRemainingTimeText = null;
+						_dirtyTracker[nameof(EstimatedRemainingTime)] = true;
+						_dirtyTracker[nameof(EstimatedRemainingTimeText)] = true;
+					}
 
 					_previousReportTime = DateTimeOffset.Now;
 					_previousProcessedSize = ProcessedSize;
 					_previousProcessedItemsCount = ProcessedItemsCount;
 				}
-
-				Percentage = percentage;
 			}
 
 			if (_criticalReport || _sampler.CheckNow())
@@ -210,6 +256,19 @@ namespace Files.App.Utils.StatusCenter
 			Status = status;
 
 			Report(percentage);
+		}
+
+		private static string FormatRemainingTime(TimeSpan timeSpan)
+		{
+			if (timeSpan.TotalHours >= 1)
+			{
+				return $"{(int)timeSpan.TotalHours}h {timeSpan.Minutes}m restantes";
+			}
+			if (timeSpan.TotalMinutes >= 1)
+			{
+				return $"{(int)timeSpan.TotalMinutes}m {timeSpan.Seconds}s restantes";
+			}
+			return $"{Math.Max(1, (int)timeSpan.TotalSeconds)}s restantes";
 		}
 	}
 }

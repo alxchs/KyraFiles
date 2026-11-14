@@ -1,0 +1,11 @@
+ID,Cenario,Condicao,ControleNegativo,Resultado,Status,Evidencia
+AC-1,Formato Windows,Copia caminho nativo Windows C:\desenv\x y\a.txt,Formato vazio ou invalido falharia assercao,C:\desenv\x y\a.txt,PASS,PathFormatterTests.Test_AC1_Windows
+AC-2,Formato WSL,Converte C:\desenv\x y\a.txt para /mnt/c/desenv/x y/a.txt,Caminho sem mapeamento /mnt/ falharia no WSL,/mnt/c/desenv/x y/a.txt,PASS,PathFormatterTests.Test_AC2_Wsl e evidencia-janela rodada 2
+AC-3,Formato JSON,Escapa barras e envolve em aspas "C:\\desenv\\x y\\a.txt",Sem escape de barras JSON fica invalido,"\"C:\\desenv\\x y\\a.txt\"",PASS,PathFormatterTests.Test_AC3_Json e evidencia-janela rodada 2
+AC-4,Formato C# Literal,Prefixa com @ e aspas @"C:\desenv\x y\a.txt",Sem @ barras precisariam de escape C#,@"C:\desenv\x y\a.txt",PASS,PathFormatterTests.Test_AC4_CSharpLiteral
+AC-5,Formato URL de Arquivo,Codifica espacos e gera URI file:///C:/desenv/x%20y/a.txt,Sem percent-encoding espacos quebram navegadores,file:///C:/desenv/x%20y/a.txt,PASS,PathFormatterTests.Test_AC5_FileUrl
+AC-6,Formato Relativo ao Repositorio,Calcula caminho relativo a raiz git com barras normais x y/a.txt,Arquivo fora do repositorio lanca InvalidOperationException,x y/a.txt,PASS,PathFormatterTests.Test_AC6_RelativeToRepo
+AC-7,Multi-selecao de arquivos,Itera selecao na ordem exibida separando por newline (\n),Selecao multipla colada em linha unica corromperia caminhos,3 caminhos formatados separados por \n,PASS,PathFormatterTests.Test_AC7_MultiSelection e evidencia-janela rodada 2
+AC-8,Caminho UNC para WSL,Converte \\srv\pasta\a.txt para formato compativel //srv/pasta/a.txt,Caminho com backslashes falharia em chamadas linux,//srv/pasta/a.txt,PASS,PathFormatterTests.Test_AC8_Wsl_UncPath
+NFR-001,Performance de montagem do menu,Submenu e acoes montados sem I/O sincrono na thread UI,Operacoes sincronas de disco no menu gerariam atraso,Menu abre sem atraso perceptivel,PASS,ContentPageContextFlyoutFactory.cs
+CONTROLE,Controle negativo de Clipboard,Area de transferencia permanece inalterada se nenhuma opcao for acionada,Clipboard se alterando espontaneamente indicaria efeito colateral,Clipboard inalterado,PASS,evidencia-janela rodada 2

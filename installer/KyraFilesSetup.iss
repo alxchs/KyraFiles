@@ -9,6 +9,8 @@
 #define MyWatchdogExeName "KyraFiles.Watchdog.exe"
 #define SourceAppX "..\src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64"
 #define SourceBin "..\bin\Release"
+#define SourceServer "..\src\KyraFiles.App.Server\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64"
+#define SourceIndex "..\src\KyraFiles.App.IndexService\bin\x64\Release\net10.0-windows10.0.26100.0"
 
 [Setup]
 AppId={{D37F21F6-45BB-4CA7-B221-507EA334F912}
@@ -40,11 +42,13 @@ Name: "replacewine"; Description: "Redirecionar abertura de pastas do Explorer p
 [Files]
 ; Layout completo do pacote AppX (necessário para o .NET 10 host e WinUI 3 funcionarem sem quebra de hostpolicy.dll)
 Source: "{#SourceAppX}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.locked.*,*.pdb"
+Source: "{#SourceServer}\*"; DestDir: "{app}\KyraFiles.App.Server"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb"
+Source: "{#SourceIndex}\*"; DestDir: "{app}\KyraFiles.App.IndexService"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb"
 
 ; Binários auxiliares do subsistema F017 e busca Everything
 Source: "{#SourceBin}\KyraFiles.HotkeyService.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceBin}\KyraFiles.Watchdog.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\alxch\bin\es.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceBin}\es.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package_manifest.json"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]

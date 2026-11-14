@@ -5121,4 +5121,34 @@
   <data name="SettingsAboutEcosystemMemoryCopy" xml:space="preserve">
     <value>Copiar relatório</value>
   </data>
+  <data name="ClosingWithActiveOperationsTitle" xml:space="preserve">
+    <value>Operações de arquivo em andamento</value>
+  </data>
+  <data name="ClosingWithActiveOperationsMessage" xml:space="preserve">
+    <value>Existem operações de arquivo ativas ou na fila. O que deseja fazer?</value>
+  </data>
+  <data name="ClosingWithActiveOperationsWait" xml:space="preserve">
+    <value>Aguardar</value>
+  </data>
+  <data name="ClosingWithActiveOperationsCancel" xml:space="preserve">
+    <value>Cancelar operações e fechar</value>
+  </data>
+  <data name="ClosingWithActiveOperationsCloseAnyway" xml:space="preserve">
+    <value>Fechar mesmo assim</value>
+  </data>
+  <data name="StatusCenter_Pause" xml:space="preserve">
+    <value>Pausar</value>
+  </data>
+  <data name="StatusCenter_Resume" xml:space="preserve">
+    <value>Retomar</value>
+  </data>
+  <data name="StatusCenter_PausePending" xml:space="preserve">
+    <value>Pausa pendente: termina este arquivo...</value>
+  </data>
+  <data name="StatusCenter_Paused" xml:space="preserve">
+    <value>Pausado</value>
+  </data>
+  <data name="StatusCenter_SingleFileCannotPauseTip" xml:space="preserve">
+    <value>Uma cópia de um arquivo só não pausa no meio; use Cancelar</value>
+  </data>
 </root>

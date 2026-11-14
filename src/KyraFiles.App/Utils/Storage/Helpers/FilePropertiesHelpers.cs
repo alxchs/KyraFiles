@@ -133,6 +133,12 @@ namespace Files.App.Utils.Storage
 			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
 				PropertiesWindowsClosingTCS = new();
 
+			var parentHwnd = Files.App.Helpers.UIHelpers.CurrentActiveWindowHandle;
+			if (parentHwnd != 0)
+			{
+				PInvoke.SetWindowLongPtr(new Windows.Win32.Foundation.HWND(propertiesWindow.WindowHandle), Windows.Win32.UI.WindowsAndMessaging.WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, parentHwnd);
+			}
+
 			// WINUI3: Move window to cursor position
 			PInvoke.GetCursorPos(out var pointerPosition);
 

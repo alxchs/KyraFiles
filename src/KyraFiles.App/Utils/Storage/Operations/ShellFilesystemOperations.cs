@@ -20,6 +20,8 @@ namespace Files.App.Utils.Storage
 		private ShellViewModel ShellViewModel =>
 			_associatedInstance.GetRequiredShellViewModel();
 
+		public IList<ShellOperationItemResult> LastFailedItems { get; private set; } = [];
+
 		public ShellFilesystemOperations(IShellPage associatedInstance)
 		{
 			_associatedInstance = associatedInstance;
@@ -43,13 +45,13 @@ namespace Files.App.Utils.Storage
 				?? throw new InvalidOperationException("A storage item could not be converted for copying.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
+		public async Task<IStorageHistory?> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false, PauseGate? pauseGate = null)
 		{
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path) || ZipStorageFolder.IsZipPath(x.Path, false))
 				|| destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to built-in file operations
-				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
+				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken, asAdmin, pauseGate);
 			}
 
 			StatusCenterItemProgressModel fsProgress = new(
@@ -76,25 +78,59 @@ namespace Files.App.Utils.Storage
 			var result = (FilesystemResult)true;
 			var copyResult = new ShellOperationResult();
 
-			if (sourceRename.Any())
+			if (pauseGate != null && source.Count > 1)
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				var sourceRenameList = sourceRename.ToList();
+				var destinationRenameList = destinationRename.ToList();
+				for (int i = 0; i < sourceRenameList.Count; i++)
+				{
+					if (cancellationToken.IsCancellationRequested)
+						break;
 
-				result &= (FilesystemResult)resultItem.Item1;
+					await pauseGate.WaitIfPausedAsync(cancellationToken);
 
-				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(new[] { sourceRenameList[i].Path }, new[] { destinationRenameList[i] }, false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					result &= (FilesystemResult)resultItem.Item1;
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				var sourceReplaceList = sourceReplace.ToList();
+				var destinationReplaceList = destinationReplace.ToList();
+				for (int i = 0; i < sourceReplaceList.Count; i++)
+				{
+					if (cancellationToken.IsCancellationRequested)
+						break;
+
+					await pauseGate.WaitIfPausedAsync(cancellationToken);
+
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(new[] { sourceReplaceList[i].Path }, new[] { destinationReplaceList[i] }, true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					result &= (FilesystemResult)resultItem.Item1;
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
-
-			if (sourceReplace.Any())
+			else
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)resultItem.Item1;
+					result &= (FilesystemResult)resultItem.Item1;
 
-				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)resultItem.Item1;
+
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
 
 			result &= (FilesystemResult)copyResult.Items.All(x => x.Succeeded);
+			LastFailedItems = copyResult.Items.Where(x => !x.Succeeded).ToList();
 
 			if (result)
 			{
@@ -497,12 +533,12 @@ namespace Files.App.Utils.Storage
 				?? throw new InvalidOperationException("A storage item could not be converted for moving.")).ToListAsync(), destination, collisions, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
+		public async Task<IStorageHistory?> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false, PauseGate? pauseGate = null)
 		{
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to built-in file operations
-				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
+				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken, asAdmin, pauseGate);
 			}
 
 			StatusCenterItemProgressModel fsProgress = new(
@@ -527,23 +563,57 @@ namespace Files.App.Utils.Storage
 			var result = (FilesystemResult)true;
 			var moveResult = new ShellOperationResult();
 
-			if (sourceRename.Any())
+			if (pauseGate != null && source.Count > 1)
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				var sourceRenameList = sourceRename.ToList();
+				var destinationRenameList = destinationRename.ToList();
+				for (int i = 0; i < sourceRenameList.Count; i++)
+				{
+					if (cancellationToken.IsCancellationRequested)
+						break;
 
-				result &= (FilesystemResult)status;
-				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					await pauseGate.WaitIfPausedAsync(cancellationToken);
+
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(new[] { sourceRenameList[i].Path }, new[] { destinationRenameList[i] }, false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				var sourceReplaceList = sourceReplace.ToList();
+				var destinationReplaceList = destinationReplace.ToList();
+				for (int i = 0; i < sourceReplaceList.Count; i++)
+				{
+					if (cancellationToken.IsCancellationRequested)
+						break;
+
+					await pauseGate.WaitIfPausedAsync(cancellationToken);
+
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(new[] { sourceReplaceList[i].Path }, new[] { destinationReplaceList[i] }, true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
-
-			if (sourceReplace.Any())
+			else
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)status;
-				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
 
 			result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
+			LastFailedItems = moveResult.Items.Where(x => !x.Succeeded).ToList();
 
 			if (result)
 			{
@@ -786,6 +856,7 @@ namespace Files.App.Utils.Storage
 			moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
 			result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
+			LastFailedItems = moveResult.Items.Where(x => !x.Succeeded).ToList();
 
 			if (result)
 			{

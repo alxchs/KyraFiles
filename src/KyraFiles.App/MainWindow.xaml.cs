@@ -44,6 +44,7 @@ namespace Files.App
 				AppWindow.SetIcon(AppLifecycleHelper.AppIconPath));
 
 			AppWindow.Changed += AppWindow_Changed;
+			AppWindow.Closing += AppWindow_Closing;
 			Activated += MainWindow_Activated;
 		}
 
@@ -464,6 +465,25 @@ namespace Files.App
 
 		protected override bool OnWindowMessageReceived(uint message, WPARAM wParam, LPARAM lParam, ref LRESULT result)
 		{
+			if (Views.Settings.ToolbarCustomizationDialog.IsShowing)
+			{
+				if (message == Windows.Win32.PInvoke.WM_MOUSEACTIVATE || message == Windows.Win32.PInvoke.WM_NCACTIVATE)
+				{
+					Views.Settings.ToolbarCustomizationDialog.BringToFront();
+					result = new(3 /* MA_NOACTIVATEANDEAT */);
+					return true;
+				}
+			}
+			else if (Views.Settings.SettingsDialog.IsShowing)
+			{
+				if (message == Windows.Win32.PInvoke.WM_MOUSEACTIVATE || message == Windows.Win32.PInvoke.WM_NCACTIVATE)
+				{
+					Views.Settings.SettingsDialog.BringToFront();
+					result = new(3 /* MA_NOACTIVATEANDEAT */);
+					return true;
+				}
+			}
+
 			if ((!CanWindowToFront) && message == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
 			{
 				Win32Helper.ForceWindowPosition(lParam.Value);
@@ -509,6 +529,66 @@ namespace Files.App
 			// and returning to the window only cancels a trim scheduled by minimize/hide
 			if (args.WindowActivationState != Microsoft.UI.Xaml.WindowActivationState.Deactivated)
 				MemoryTrimHelper.CancelPendingTrim();
+		}
+
+		private bool _forceClose;
+
+		private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+		{
+			if (_forceClose)
+				return;
+
+			var statusCenterViewModel = Ioc.Default.GetService<StatusCenterViewModel>();
+			if (statusCenterViewModel is null)
+				return;
+
+			var activeOrQueuedItems = statusCenterViewModel.StatusCenterItems.Where(i => i.IsInProgress || i.IsQueued).ToList();
+			if (activeOrQueuedItems.Count == 0)
+				return;
+
+			args.Cancel = true;
+
+			if (Content?.XamlRoot is null)
+			{
+				_forceClose = true;
+				AppWindow.Destroy();
+				return;
+			}
+
+			var dialog = new ContentDialog
+			{
+				Title = Strings.ClosingWithActiveOperationsTitle.GetLocalizedResource(),
+				Content = Strings.ClosingWithActiveOperationsMessage.GetLocalizedResource(),
+				PrimaryButtonText = Strings.ClosingWithActiveOperationsWait.GetLocalizedResource(),
+				SecondaryButtonText = Strings.ClosingWithActiveOperationsCancel.GetLocalizedResource(),
+				CloseButtonText = Strings.ClosingWithActiveOperationsCloseAnyway.GetLocalizedResource(),
+				DefaultButton = ContentDialogButton.Primary,
+				XamlRoot = Content.XamlRoot
+			};
+
+			var result = await dialog.ShowAsync();
+			if (result == ContentDialogResult.Primary)
+			{
+				// Wait: user chose to keep window open and let operations finish
+				return;
+			}
+			else if (result == ContentDialogResult.Secondary)
+			{
+				// Cancel operations and close
+				foreach (var item in activeOrQueuedItems)
+				{
+					item.ExecuteCancelCommand();
+				}
+
+				_forceClose = true;
+				AppWindow.Destroy();
+			}
+			else
+			{
+				// Close anyway
+				_forceClose = true;
+				AppWindow.Destroy();
+			}
 		}
 	}
 }

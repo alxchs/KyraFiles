@@ -51,11 +51,14 @@ namespace Files.App.Utils.Storage
 		];
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IOperationQueue _operationQueue;
+
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
 			jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			_operationQueue = Ioc.Default.GetService<IOperationQueue>() ?? new OperationQueue();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
@@ -318,53 +321,96 @@ namespace Files.App.Utils.Storage
 
 			var token = banner.CancellationToken;
 
-			var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Copy, source, destination, showDialog);
+			var firstDestination = destination.FirstOrDefault();
+			if (_operationQueue.GetWaitingCount(firstDestination) > 0 || _operationQueue.GetRunningCount(firstDestination) >= _operationQueue.MaxConcurrentOperationsPerDestination)
+			{
+				banner.IsQueued = true;
+			}
 
-			if (cancelOperation)
+			IOperationQueueTicket? queueTicket = null;
+			try
+			{
+				queueTicket = await _operationQueue.EnqueueAsync(firstDestination, token);
+			}
+			catch (OperationCanceledException)
 			{
 				_statusCenterViewModel.RemoveItem(banner);
 				return ReturnResult.Cancelled;
 			}
-
-			itemManipulationModel?.ClearSelection();
-
-			IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
-
-			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
-				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
-
-			if (registerHistory &&
-				history?.Destination is { } historyDestinations &&
-				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			finally
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
-				{
-					foreach (var conflictItem in itemsResult)
-					{
-						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path && Path.GetFileName(conflictItem.SourcePath) != conflictItem.CustomName)
-						{
-							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
-								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
-						}
-					}
-				}
-				App.HistoryWrapper.AddHistory(history);
+				banner.IsQueued = false;
 			}
 
-			await Task.Yield();
+			using (queueTicket)
+			{
+				var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Copy, source, destination, showDialog);
 
-			var itemsCount = banner.TotalItemsCount;
+				if (cancelOperation)
+				{
+					_statusCenterViewModel.RemoveItem(banner);
+					return ReturnResult.Cancelled;
+				}
 
-			_statusCenterViewModel.RemoveItem(banner);
+				itemManipulationModel?.ClearSelection();
 
-			StatusCenterHelper.AddCard_Copy(
-				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
-				source,
-				destination,
-				itemsCount);
+				var pauseGate = new PauseGate();
+				banner.PauseGate = pauseGate;
 
-			return returnStatus;
+				IStorageHistory? history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token, false, pauseGate);
+
+				if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
+					banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+
+				if (registerHistory &&
+					history?.Destination is { } historyDestinations &&
+					source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+				{
+					foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
+					{
+						foreach (var conflictItem in itemsResult)
+						{
+							if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path && Path.GetFileName(conflictItem.SourcePath) != conflictItem.CustomName)
+							{
+								var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
+								if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+									historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
+							}
+						}
+					}
+					App.HistoryWrapper.AddHistory(history);
+				}
+
+				await Task.Yield();
+
+				var itemsCount = banner.TotalItemsCount;
+				var failedItems = filesystemOperations.LastFailedItems?.ToList();
+
+				_statusCenterViewModel.RemoveItem(banner);
+
+				var finalCard = StatusCenterHelper.AddCard_Copy(
+					token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
+					source,
+					destination,
+					itemsCount);
+
+				if (failedItems is { Count: > 0 } && !token.IsCancellationRequested)
+				{
+					finalCard.FailedItemResults = failedItems;
+					var failedSources = source.Where(s => failedItems.Any(f => string.Equals(f.Source, s.Path, StringComparison.OrdinalIgnoreCase))).ToList();
+					var failedDestinations = destination.Where(d => failedItems.Any(f => string.Equals(f.Destination, d, StringComparison.OrdinalIgnoreCase) || string.Equals(Path.GetFileName(f.Source), Path.GetFileName(d), StringComparison.OrdinalIgnoreCase))).ToList();
+
+					finalCard.Message = $"{failedItems.Count} itens falharam: {string.Join(", ", failedItems.Select(f => Path.GetFileName(f.Source)).Take(3))}";
+
+					finalCard.RetryCommand = new AsyncRelayCommand(async () =>
+					{
+						_statusCenterViewModel.RemoveItem(finalCard);
+						await CopyItemsAsync(failedSources, failedDestinations, false, true);
+					});
+				}
+
+				return returnStatus;
+			}
 		}
 
 		public Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
@@ -464,59 +510,102 @@ namespace Files.App.Utils.Storage
 
 			var token = banner.CancellationToken;
 
-			var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Move, source, destination, showDialog);
+			var firstDestination = destination.FirstOrDefault();
+			if (_operationQueue.GetWaitingCount(firstDestination) > 0 || _operationQueue.GetRunningCount(firstDestination) >= _operationQueue.MaxConcurrentOperationsPerDestination)
+			{
+				banner.IsQueued = true;
+			}
 
-			if (cancelOperation)
+			IOperationQueueTicket? queueTicket = null;
+			try
+			{
+				queueTicket = await _operationQueue.EnqueueAsync(firstDestination, token);
+			}
+			catch (OperationCanceledException)
 			{
 				_statusCenterViewModel.RemoveItem(banner);
-
 				return ReturnResult.Cancelled;
 			}
-
-			itemManipulationModel?.ClearSelection();
-
-			IStorageHistory? history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
-
-			if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
-				banner.Progress.ReportStatus(FileSystemStatusCode.Success);
-
-			await Task.Yield();
-
-			if (registerHistory &&
-				history?.Destination is { } historyDestinations &&
-				source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+			finally
 			{
-				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
-				{
-					foreach (var conflictItem in itemsResult)
-					{
-						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path)
-						{
-							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
-								historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
-						}
-					}
-				}
-
-				App.HistoryWrapper.AddHistory(history);
+				banner.IsQueued = false;
 			}
 
-			// Execute removal tasks concurrently in background
-			var sourcePaths = source.Select(x => x.Path);
-			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
+			using (queueTicket)
+			{
+				var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Move, source, destination, showDialog);
 
-			var itemsCount = banner.TotalItemsCount;
+				if (cancelOperation)
+				{
+					_statusCenterViewModel.RemoveItem(banner);
 
-			_statusCenterViewModel.RemoveItem(banner);
+					return ReturnResult.Cancelled;
+				}
 
-			StatusCenterHelper.AddCard_Move(
-				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
-				source,
-				destination,
-				itemsCount);
+				itemManipulationModel?.ClearSelection();
 
-			return returnStatus;
+				var pauseGate = new PauseGate();
+				banner.PauseGate = pauseGate;
+
+				IStorageHistory? history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token, false, pauseGate);
+
+				if (returnStatus == ReturnResult.InProgress || returnStatus == ReturnResult.Success)
+					banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+
+				await Task.Yield();
+
+				if (registerHistory &&
+					history?.Destination is { } historyDestinations &&
+					source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+				{
+					foreach (var (histSrcItem, histDestItem) in history.Source.Zip(historyDestinations))
+					{
+						foreach (var conflictItem in itemsResult)
+						{
+							if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path)
+							{
+								var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
+								if (renameHistory?.Destination is { Count: > 0 } renameDestinations)
+									historyDestinations[history.Source.IndexOf(histSrcItem)] = renameDestinations[0];
+							}
+						}
+					}
+
+					App.HistoryWrapper.AddHistory(history);
+				}
+
+				// Execute removal tasks concurrently in background
+				var sourcePaths = source.Select(x => x.Path);
+				_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
+
+				var itemsCount = banner.TotalItemsCount;
+				var failedItems = filesystemOperations.LastFailedItems?.ToList();
+
+				_statusCenterViewModel.RemoveItem(banner);
+
+				var finalCard = StatusCenterHelper.AddCard_Move(
+					token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
+					source,
+					destination,
+					itemsCount);
+
+				if (failedItems is { Count: > 0 } && !token.IsCancellationRequested)
+				{
+					finalCard.FailedItemResults = failedItems;
+					var failedSources = source.Where(s => failedItems.Any(f => string.Equals(f.Source, s.Path, StringComparison.OrdinalIgnoreCase))).ToList();
+					var failedDestinations = destination.Where(d => failedItems.Any(f => string.Equals(f.Destination, d, StringComparison.OrdinalIgnoreCase) || string.Equals(Path.GetFileName(f.Source), Path.GetFileName(d), StringComparison.OrdinalIgnoreCase))).ToList();
+
+					finalCard.Message = $"{failedItems.Count} itens falharam: {string.Join(", ", failedItems.Select(f => Path.GetFileName(f.Source)).Take(3))}";
+
+					finalCard.RetryCommand = new AsyncRelayCommand(async () =>
+					{
+						_statusCenterViewModel.RemoveItem(finalCard);
+						await MoveItemsAsync(failedSources, failedDestinations, false, true);
+					});
+				}
+
+				return returnStatus;
+			}
 		}
 
 		public Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)

@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.UserControls;
-using Files.App.ViewModels.Settings;
+using KyraFiles.App.UserControls;
+using KyraFiles.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -11,7 +11,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	/// <summary>
 	/// Toolbar customization page. Handles drag-and-drop, preview rebuilding,

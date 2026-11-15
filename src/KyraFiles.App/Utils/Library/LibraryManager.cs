@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -12,7 +12,7 @@ using Windows.Win32;
 using Windows.Win32.UI.Shell;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
-namespace Files.App.Utils.Library
+namespace KyraFiles.App.Utils.Library
 {
 	public sealed partial class LibraryManager : IDisposable
 	{

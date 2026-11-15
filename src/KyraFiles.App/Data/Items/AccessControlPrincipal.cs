@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Security;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.

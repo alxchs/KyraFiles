@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.Enums
+namespace KyraFiles.App.Data.Enums
 {
 	/// <summary>
 	/// Represents inheritance flags of an ACE

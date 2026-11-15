@@ -5,7 +5,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Windows.UI;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	public interface IAppThemeModeService
 	{

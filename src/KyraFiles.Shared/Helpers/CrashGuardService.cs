@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// State data for crash guard persistence.

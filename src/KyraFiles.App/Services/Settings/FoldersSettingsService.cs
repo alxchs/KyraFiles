@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	internal sealed partial class FoldersSettingsService : BaseObservableJsonSettings, IFoldersSettingsService
 	{

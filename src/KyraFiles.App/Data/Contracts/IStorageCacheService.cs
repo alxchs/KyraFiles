@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Provides a service to get or set a friendly name of a storage object.

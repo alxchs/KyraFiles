@@ -3,11 +3,11 @@
 using System.Buffers;
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Full;
+namespace KyraFiles.App.Search.Index.Full;
 
 /// <summary>
 /// Estado da validação de retomada do diário USN ao iniciar o serviço/motor (F015 T14 — FR-031, AC-11).

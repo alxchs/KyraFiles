@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public class TagsListItem
 	{

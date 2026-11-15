@@ -2,7 +2,7 @@
 
 using LibGit2Sharp;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class LibGit2RepoViewTests
@@ -140,10 +140,10 @@ public sealed class LibGit2RepoViewTests
 		Assert.IsFalse(repo.Ignore.IsPathIgnored("README.md"));
 	}
 
-	private static List<Files.App.Data.Items.GitWorktreeItem> ResolveWorktrees(string repoPath, string currentPath)
+	private static List<KyraFiles.App.Data.Items.GitWorktreeItem> ResolveWorktrees(string repoPath, string currentPath)
 	{
 		using var repository = new Repository(repoPath);
-		var list = new List<Files.App.Data.Items.GitWorktreeItem>();
+		var list = new List<KyraFiles.App.Data.Items.GitWorktreeItem>();
 
 		var mainWorktreePath = repository.Info.WorkingDirectory;
 		if (!string.IsNullOrEmpty(mainWorktreePath))
@@ -154,7 +154,7 @@ public sealed class LibGit2RepoViewTests
 			var branchName = head?.Tip is null ? null : head.FriendlyName;
 			var isCurrent = string.Equals(Path.GetFullPath(currentPath).TrimEnd('\\'), Path.GetFullPath(mainDir).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase);
 
-			list.Add(new Files.App.Data.Items.GitWorktreeItem(mainName, mainDir, branchName, isCurrent, false));
+			list.Add(new KyraFiles.App.Data.Items.GitWorktreeItem(mainName, mainDir, branchName, isCurrent, false));
 		}
 
 		foreach (var wt in repository.Worktrees)
@@ -173,7 +173,7 @@ public sealed class LibGit2RepoViewTests
 				var branchName = head?.Tip is null ? null : head.FriendlyName;
 				var isCurrent = string.Equals(Path.GetFullPath(currentPath).TrimEnd('\\'), Path.GetFullPath(wtPath).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase);
 
-				list.Add(new Files.App.Data.Items.GitWorktreeItem(wt.Name, wtPath, branchName, isCurrent, wt.IsLocked));
+				list.Add(new KyraFiles.App.Data.Items.GitWorktreeItem(wt.Name, wtPath, branchName, isCurrent, wt.IsLocked));
 			}
 			catch
 			{

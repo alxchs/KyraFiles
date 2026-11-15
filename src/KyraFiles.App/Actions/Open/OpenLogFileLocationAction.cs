@@ -4,7 +4,7 @@
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenLogFileLocationAction : IAction

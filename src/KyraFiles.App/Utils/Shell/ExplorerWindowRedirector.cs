@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Files Custom: takes over Explorer folder windows while Files is the default file manager (F012 T9, D-017).

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.Parameters
+namespace KyraFiles.App.Data.Parameters
 {
 	public sealed class PropertiesPageNavigationParameter
 	{

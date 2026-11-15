@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.EventArguments
+namespace KyraFiles.App.Data.EventArguments
 {
 	public class NavigationArguments
 	{
@@ -25,7 +25,7 @@ namespace Files.App.Data.EventArguments
 
 		public string? SearchQuery { get; set; } = null;
 
-		public Files.Shared.Helpers.SearchIntent? NaturalSearchIntent { get; set; }
+		public KyraFiles.Shared.Helpers.SearchIntent? NaturalSearchIntent { get; set; }
 
 		public bool IsLayoutSwitch { get; set; } = false;
 

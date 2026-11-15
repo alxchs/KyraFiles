@@ -5,7 +5,7 @@ using LibGit2Sharp;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Defines a version control abstraction.

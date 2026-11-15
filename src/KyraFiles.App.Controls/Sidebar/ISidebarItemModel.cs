@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public interface ISidebarItemPresentationModel
 	{

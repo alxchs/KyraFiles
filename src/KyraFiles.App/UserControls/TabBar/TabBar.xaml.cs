@@ -11,7 +11,7 @@ using Windows.Storage;
 using Windows.Win32;
 using WinRT;
 
-namespace Files.App.UserControls.TabBar
+namespace KyraFiles.App.UserControls.TabBar
 {
 	public sealed partial class TabBar : BaseTabBar, INotifyPropertyChanged
 	{

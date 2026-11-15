@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public sealed partial class ImagePreviewViewModel : BasePreviewModel
 	{

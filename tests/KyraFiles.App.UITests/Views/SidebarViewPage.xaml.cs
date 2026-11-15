@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 
-namespace Files.App.UITests.Views
+namespace KyraFiles.App.UITests.Views
 {
 	public sealed partial class SidebarViewPage : Page
 	{

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class CreateShortcutDialog : ContentDialog, IDialog<CreateShortcutDialogViewModel>
 	{

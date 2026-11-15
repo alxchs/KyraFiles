@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Basic;
-using Files.App.Search.Index.Ipc;
+using KyraFiles.App.Search.Index.Basic;
+using KyraFiles.App.Search.Index.Ipc;
 
-namespace Files.App.IndexService;
+namespace KyraFiles.App.IndexService;
 
 internal static class Program
 {

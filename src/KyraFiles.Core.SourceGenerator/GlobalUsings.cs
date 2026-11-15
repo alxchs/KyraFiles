@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 // Files
-global using global::Files.Core.SourceGenerator.Data;
-global using global::Files.Core.SourceGenerator.Extensions;
-global using global::Files.Core.SourceGenerator.Parser;
-global using global::Files.Core.SourceGenerator.Utilities;
+global using global::KyraFiles.Core.SourceGenerator.Data;
+global using global::KyraFiles.Core.SourceGenerator.Extensions;
+global using global::KyraFiles.Core.SourceGenerator.Parser;
+global using global::KyraFiles.Core.SourceGenerator.Utilities;
 
 // Microsoft
 global using global::Microsoft.CodeAnalysis;

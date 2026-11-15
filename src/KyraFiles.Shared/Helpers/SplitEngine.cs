@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Helpers;
+namespace KyraFiles.Shared.Helpers;
 
 /// <summary>
 /// Opções de configuração para o particionamento de arquivo (F060 M1).

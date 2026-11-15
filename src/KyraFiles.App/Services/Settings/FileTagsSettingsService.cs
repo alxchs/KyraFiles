@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Serialization.Implementation;
+using KyraFiles.App.Utils.Serialization.Implementation;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	[JsonSourceGenerationOptions(WriteIndented = true)]
 	[JsonSerializable(typeof(object))]

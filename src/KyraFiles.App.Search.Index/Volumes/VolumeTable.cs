@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Text.RegularExpressions;
-using Files.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Interop;
 
-namespace Files.App.Search.Index.Volumes;
+namespace KyraFiles.App.Search.Index.Volumes;
 
 /// <summary>
 /// Mantém a tabela de mapeamento de volumes físicos locais e apelidos de unidades subst.

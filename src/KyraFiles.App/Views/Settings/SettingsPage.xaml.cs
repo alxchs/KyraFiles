@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI.Controls;
-using Files.App.Controls;
-using Files.App.ViewModels.Settings;
-using Files.App.Views.Settings;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Settings;
+using KyraFiles.App.Views.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using WinRT;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	public sealed partial class SettingsPage : Page
 	{

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	internal static class ImageSourceExtensions
 	{

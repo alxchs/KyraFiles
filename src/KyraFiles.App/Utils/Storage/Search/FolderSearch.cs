@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -13,7 +13,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed class FolderSearch
 	{

@@ -8,11 +8,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Helpers;
-using Files.App.Services.Git;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.Services.Git;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	[TestClass]
 	public class GitHubAuthServiceTests

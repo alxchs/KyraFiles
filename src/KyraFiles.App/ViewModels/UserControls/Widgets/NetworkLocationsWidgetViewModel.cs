@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace KyraFiles.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="NetworkLocationsWidget"/>.

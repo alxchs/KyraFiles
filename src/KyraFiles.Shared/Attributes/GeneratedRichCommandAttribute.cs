@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Shared.Attributes;
+namespace KyraFiles.Shared.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 public sealed class GeneratedRichCommandAttribute : Attribute

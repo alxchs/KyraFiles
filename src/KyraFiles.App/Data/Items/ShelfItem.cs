@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	[Bindable(true)]
 	public sealed partial class ShelfItem : ObservableObject, IWrapper<IStorableChild>, IAsyncInitialize

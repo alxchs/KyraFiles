@@ -3,7 +3,7 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Files.App.Search.Index.Ipc;
+namespace KyraFiles.App.Search.Index.Ipc;
 
 /// <summary>
 /// Protocolo versionado de comunicação por Named Pipe entre o Files e o processo do motor de índice
@@ -12,12 +12,12 @@ namespace Files.App.Search.Index.Ipc;
 public static class IndexPipeProtocol
 {
 	public const int CurrentVersion = 1;
-	public const string FullServicePipeName = "FilesCustom.IndexService.Full";
+	public const string FullServicePipeName = "KyraFiles.IndexService.Full";
 
 	public static string GetBasicPipeName(int? sessionId = null)
 	{
 		int sid = sessionId ?? Process.GetCurrentProcess().SessionId;
-		return $"FilesCustom.IndexService.Basic.S{sid}";
+		return $"KyraFiles.IndexService.Basic.S{sid}";
 	}
 }
 

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public class TagTerm
 	{

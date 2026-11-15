@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	/// <inheritdoc cref="IShelfContext"/>
 	internal sealed partial class ShelfContext : ObservableObject, IShelfContext

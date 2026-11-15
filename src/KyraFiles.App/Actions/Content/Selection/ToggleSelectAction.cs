@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Runtime.InteropServices;
 using WinRT;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed class ToggleSelectAction : IAction

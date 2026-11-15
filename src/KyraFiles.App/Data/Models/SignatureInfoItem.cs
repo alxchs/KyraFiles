@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Signatures;
+using KyraFiles.App.Utils.Signatures;
 using System.Windows.Input;
 using Windows.Win32.Foundation;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed partial class SignatureInfoItem : ObservableObject
 	{

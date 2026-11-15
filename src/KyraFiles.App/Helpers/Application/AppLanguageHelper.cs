@@ -4,7 +4,7 @@
 using System.Globalization;
 using Windows.Globalization;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Provides static helper to manage supported languages in the application.

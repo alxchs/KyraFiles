@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	internal sealed partial class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
 	{
@@ -236,6 +236,12 @@ namespace Files.App.Services.Settings
 		public bool IsLibrarySectionExpanded
 		{
 			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool IsThisPCSectionExpanded
+		{
+			get => Get(true);
 			set => Set(value);
 		}
 

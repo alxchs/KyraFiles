@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents an item for recent item of File Explorer on Windows.

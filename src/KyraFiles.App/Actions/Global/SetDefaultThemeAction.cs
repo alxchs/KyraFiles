@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class SetDefaultThemeAction : BaseAppThemeAction, IAction

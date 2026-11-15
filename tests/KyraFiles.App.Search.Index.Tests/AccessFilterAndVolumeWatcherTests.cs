@@ -1,11 +1,11 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Security;
-using Files.App.Search.Index.Storage;
-using Files.App.Search.Index.Volumes;
+using KyraFiles.App.Search.Index.Security;
+using KyraFiles.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Volumes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public class AccessFilterAndVolumeWatcherTests

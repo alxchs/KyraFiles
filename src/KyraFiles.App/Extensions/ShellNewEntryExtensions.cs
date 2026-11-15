@@ -4,7 +4,7 @@
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	public static class ShellNewEntryExtensions
 	{

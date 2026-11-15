@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// Defines ThicknessCheck values for <see cref="StorageRing"/> and <see cref="StorageBar"/>.

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Windowing;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	/// <inheritdoc cref="IWindowContext"/>
 	internal sealed partial class WindowContext : ObservableObject, IWindowContext

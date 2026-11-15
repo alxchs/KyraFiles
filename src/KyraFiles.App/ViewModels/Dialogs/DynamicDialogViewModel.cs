@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class DynamicDialogViewModel : ObservableObject, IDisposable
 	{

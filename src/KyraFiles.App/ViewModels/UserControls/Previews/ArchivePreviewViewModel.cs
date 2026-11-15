@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 using SevenZip;
 using System.IO;
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public sealed partial class ArchivePreviewViewModel : BasePreviewModel
 	{

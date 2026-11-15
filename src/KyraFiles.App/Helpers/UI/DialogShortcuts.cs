@@ -16,7 +16,7 @@ using WinRT;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Files Custom (F057): underlined accelerator letter on the buttons and options of a <see cref="ContentDialog"/>.

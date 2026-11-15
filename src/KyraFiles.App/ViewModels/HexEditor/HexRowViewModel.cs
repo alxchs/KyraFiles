@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Files.App.ViewModels.HexEditor
+namespace KyraFiles.App.ViewModels.HexEditor
 {
 	/// <summary>
 	/// Represents a row of 16 bytes in the virtualized hex editor grid (F060 M2 / M2-AC-1..3).

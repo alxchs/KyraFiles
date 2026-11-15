@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
 	{

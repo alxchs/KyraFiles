@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-namespace Files.App.Services.DateTimeFormatter
+namespace KyraFiles.App.Services.DateTimeFormatter
 {
 	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
 	{

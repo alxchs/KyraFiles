@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public readonly struct PaneToggleResult<T>
 	{

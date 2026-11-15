@@ -3,7 +3,7 @@
 
 using Windows.Win32;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Returns memory to the OS after large amounts of items are dropped, once the app has been quiet for a moment.

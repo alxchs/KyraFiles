@@ -1,14 +1,14 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
-	x:Class="Files.App.Views.Properties.MainPropertiesPage"
+	x:Class="KyraFiles.App.Views.Properties.MainPropertiesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-	xmlns:controls="using:Files.App.Controls"
+	xmlns:controls="using:KyraFiles.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Properties"
+	xmlns:vm="using:KyraFiles.App.ViewModels.Properties"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
 	HighContrastAdjustment="None"

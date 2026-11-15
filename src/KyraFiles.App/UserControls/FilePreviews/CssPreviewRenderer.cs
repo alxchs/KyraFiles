@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.UserControls.FilePreviews
+namespace KyraFiles.App.UserControls.FilePreviews
 {
 	internal static class CssPreviewRenderer
 	{

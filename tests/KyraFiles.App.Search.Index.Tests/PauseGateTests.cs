@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Files.App.Utils.Storage;
+using KyraFiles.App.Utils.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KyraFiles.App.Search.Index.Tests

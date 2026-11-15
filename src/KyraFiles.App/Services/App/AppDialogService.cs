@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Frozen;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IDialogService"/>
 	internal sealed class DialogService : IDialogService

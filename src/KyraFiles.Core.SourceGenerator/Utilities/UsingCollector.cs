@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Utilities
+namespace KyraFiles.Core.SourceGenerator.Utilities
 {
 	/// <summary>
 	/// Syntax walker that collects namespaces from using directives within C# syntax trees.

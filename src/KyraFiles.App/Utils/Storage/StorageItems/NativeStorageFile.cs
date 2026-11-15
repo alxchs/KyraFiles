@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -12,7 +12,7 @@ using Windows.Storage.Streams;
 using Windows.Win32;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Shortcuts and alternate data stream.

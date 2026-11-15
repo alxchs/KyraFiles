@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.UserControls.KeyboardShortcut
+namespace KyraFiles.App.UserControls.KeyboardShortcut
 {
 	public enum KeyboardShortcutItemSize
 	{

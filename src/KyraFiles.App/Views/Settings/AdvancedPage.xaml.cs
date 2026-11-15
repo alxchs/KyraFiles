@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	public sealed partial class AdvancedPage : Page
 	{

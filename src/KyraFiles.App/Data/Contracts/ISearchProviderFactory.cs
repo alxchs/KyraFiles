@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Factory responsible for discovering and providing active search providers.

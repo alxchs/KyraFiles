@@ -10,7 +10,7 @@ using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using WinRT;
 
-namespace Files.App.UITests.Views
+namespace KyraFiles.App.UITests.Views
 {
 	public sealed class IconGalleryEntry
 	{

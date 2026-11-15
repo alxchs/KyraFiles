@@ -4,7 +4,7 @@
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public interface IFilesystemHelpers : IDisposable
 	{

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	[Flags]
 	public enum KeyModifiers : ushort

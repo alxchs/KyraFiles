@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Commands;
+using KyraFiles.App.Data.Commands;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.Menus
+namespace KyraFiles.App.UserControls.Menus
 {
 	public sealed partial class ClassicMenuBar : UserControl
 	{

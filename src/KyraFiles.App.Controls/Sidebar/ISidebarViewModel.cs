@@ -5,7 +5,7 @@ using Microsoft.UI.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public record ItemInvokedEventArgs(PointerUpdateKind PointerUpdateKind) { }
 	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }

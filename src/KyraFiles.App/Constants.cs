@@ -3,7 +3,7 @@
 
 using Windows.ApplicationModel;
 
-namespace Files.App
+namespace KyraFiles.App
 {
 	public static class Constants
 	{

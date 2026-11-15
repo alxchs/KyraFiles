@@ -7,10 +7,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Utils.Storage;
+using KyraFiles.App.Utils.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	/// <summary>
 	/// Tests for <see cref="OperationQueue"/> validating F036 T2 (FR-002, AC-2, AC-3 and decision D-F036-3 option b).

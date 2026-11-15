@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.Graphics;
 using Windows.System;
 
-namespace Files.App.Views.Properties
+namespace KyraFiles.App.Views.Properties
 {
 	public sealed partial class MainPropertiesPage : BasePropertiesPage
 	{

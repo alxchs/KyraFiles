@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.UserControls.Selection;
+using KyraFiles.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -16,7 +16,7 @@ using Windows.UI.Core;
 using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base page of Column View

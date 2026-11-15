@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	static class LayoutHelpers
 	{

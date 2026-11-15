@@ -1,13 +1,13 @@
 ﻿<!--  Copyright (c) Files Community. SPDX-License-Identifier: MPL-2.0  -->
 <ContentDialog
-	x:Class="Files.App.Dialogs.CompressSkippedItemsDialog"
+	x:Class="KyraFiles.App.Dialogs.CompressSkippedItemsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="using:Files.App.Converters"
+	xmlns:converters="using:KyraFiles.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Dialogs"
+	xmlns:vm="using:KyraFiles.App.ViewModels.Dialogs"
 	Title="{helpers:ResourceString Name=CompressSkippedItemsDialogTitle}"
 	CloseButtonText="{helpers:ResourceString Name=Cancel}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"

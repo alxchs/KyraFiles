@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Enums;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Default implementation of ISearchProviderFactory.

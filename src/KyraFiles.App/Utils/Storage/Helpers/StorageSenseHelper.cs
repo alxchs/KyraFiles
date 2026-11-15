@@ -4,7 +4,7 @@
 using Windows.Foundation.Metadata;
 using Windows.System;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	internal sealed class StorageSenseHelper
 	{

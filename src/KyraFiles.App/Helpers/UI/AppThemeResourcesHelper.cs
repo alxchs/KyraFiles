@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.Helpers;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class AppThemeResourcesHelper
 	{

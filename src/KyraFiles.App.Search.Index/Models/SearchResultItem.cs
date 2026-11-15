@@ -1,6 +1,6 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-namespace Files.App.Search.Index.Models;
+namespace KyraFiles.App.Search.Index.Models;
 
 /// <summary>
 /// Representa um resultado de busca obtido diretamente do índice com todos os metadados pré-carregados.

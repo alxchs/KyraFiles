@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Files.App.UserControls.Selection
+namespace KyraFiles.App.UserControls.Selection
 {
 	internal sealed class InvertPreviousItemSelectionStrategy : ItemSelectionStrategy
 	{

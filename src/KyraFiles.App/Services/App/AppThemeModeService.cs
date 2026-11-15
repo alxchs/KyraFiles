@@ -11,7 +11,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using WinRT;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public class AppThemeModeService : IAppThemeModeService
 	{

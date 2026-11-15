@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 using WinRT;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class SystemStorageFile : BaseStorageFile
 	{

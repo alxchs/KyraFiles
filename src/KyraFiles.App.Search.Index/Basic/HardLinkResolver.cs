@@ -1,8 +1,8 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Interop;
 
-namespace Files.App.Search.Index.Basic;
+namespace KyraFiles.App.Search.Index.Basic;
 
 /// <summary>
 /// Resolve o nome primário (primeiro link físico criado no volume) para arquivos com múltiplos

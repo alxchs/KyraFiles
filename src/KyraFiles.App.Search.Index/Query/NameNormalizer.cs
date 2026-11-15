@@ -3,7 +3,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Files.App.Search.Index.Query;
+namespace KyraFiles.App.Search.Index.Query;
 
 /// <summary>
 /// Provedor de normalização de strings para busca rápida insensível a maiúsculas/minúsculas e acentuação (diacríticos).

@@ -4,7 +4,7 @@
 using System;
 using System.Text;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Represents a formatted 16-byte row in the hex editor grid (F060 M2 / M2-AC-1..3).

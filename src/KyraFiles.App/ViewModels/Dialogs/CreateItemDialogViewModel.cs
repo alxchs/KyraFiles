@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	[WinRT.GeneratedBindableCustomProperty([nameof(IsNameInvalid)], [])]
 	partial class CreateItemDialogViewModel : ObservableObject

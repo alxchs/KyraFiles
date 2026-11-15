@@ -5,7 +5,7 @@ using System.IO;
 using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class StorageHistoryOperations : IStorageHistoryOperations
 	{

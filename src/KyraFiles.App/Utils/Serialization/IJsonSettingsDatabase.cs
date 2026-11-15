@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.Serialization
+namespace KyraFiles.App.Utils.Serialization
 {
 	internal interface IJsonSettingsDatabase
 	{

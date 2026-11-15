@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using Windows.System;
 
-namespace Files.App.Views.Shells
+namespace KyraFiles.App.Views.Shells
 {
 	public sealed partial class ModernShellPage : BaseShellPage
 	{

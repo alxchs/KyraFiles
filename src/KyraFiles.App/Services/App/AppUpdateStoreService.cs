@@ -11,7 +11,7 @@ using Windows.Services.Store;
 using Windows.Storage;
 using WinRT.Interop;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	internal sealed partial class StoreUpdateService : ObservableObject, IUpdateService
 	{

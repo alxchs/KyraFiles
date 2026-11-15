@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UITests.Views
+namespace KyraFiles.App.UITests.Views
 {
 	public sealed partial class MainPage : Page
 	{

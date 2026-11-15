@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -18,10 +18,10 @@ using Windows.UI.Input;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT;
-using GridSplitter = Files.App.Controls.GridSplitter;
+using GridSplitter = KyraFiles.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	public sealed partial class MainPage : Page
 	{

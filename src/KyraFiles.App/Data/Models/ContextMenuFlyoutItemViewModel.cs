@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed class ContextMenuFlyoutItemViewModel
 	{

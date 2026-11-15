@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Enums
+namespace KyraFiles.App.Data.Enums
 {
 	/// <summary>
 	/// Represents the geometric shape styling model applied to tabs, controls, cards, and frame corners.

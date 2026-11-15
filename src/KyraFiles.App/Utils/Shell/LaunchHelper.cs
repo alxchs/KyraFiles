@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Win32;
@@ -9,7 +9,7 @@ using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Provides static helper for launching external executable files.

@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Data.Enums;
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.App.ViewModels.Settings;
+using KyraFiles.App.Data.Enums;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.ViewModels.Settings;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -16,7 +16,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	/// <summary>
 	/// Creates and manages the modal Settings window lifecycle.

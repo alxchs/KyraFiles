@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Imaging service API obsolete; migrate when ImagingService is refactored
 
-namespace Files.App.ViewModels.Dialogs.FileSystemDialog
+namespace KyraFiles.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed partial class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
 	{

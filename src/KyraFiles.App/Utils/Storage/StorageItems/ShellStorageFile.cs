@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 using Windows.Win32.UI.WindowsAndMessaging;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
 	{

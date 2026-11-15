@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents a language in the application.

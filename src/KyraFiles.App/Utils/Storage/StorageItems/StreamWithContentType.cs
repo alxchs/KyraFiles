@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 using Windows.Win32;
 using Windows.Win32.System.Com;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class InputStreamWithDisposeCallback : IInputStream
 	{

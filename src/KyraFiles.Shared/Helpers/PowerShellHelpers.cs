@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Helper for resolving and launching the modern PowerShell (PowerShell 7+ / pwsh.exe) with fallback to Windows PowerShell.

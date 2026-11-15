@@ -10,7 +10,7 @@ using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Credits: https://github.com/GeeLaw/PreviewHost/

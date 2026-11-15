@@ -1,15 +1,15 @@
 // Copyright(c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Converters;
-using Files.Shared.Helpers;
+using KyraFiles.App.Converters;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Concurrent;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	/// <summary>
 	/// This class is represents a system file property from the Windows.Storage API

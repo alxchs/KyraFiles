@@ -6,7 +6,7 @@ using System.IO;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Utils.Storage.Operations
+namespace KyraFiles.App.Utils.Storage.Operations
 {
 	internal sealed class FileSizeCalculator
 	{

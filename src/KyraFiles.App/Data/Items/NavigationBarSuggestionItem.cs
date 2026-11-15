@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
 	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider

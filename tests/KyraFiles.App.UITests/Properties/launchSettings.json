@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "Files.App.UITests (Package)": {
+    "KyraFiles.App.UITests (Package)": {
       "commandName": "MsixPackage"
     },
-    "Files.App.UITests (Unpackaged)": {
+    "KyraFiles.App.UITests (Unpackaged)": {
       "commandName": "Project"
     }
   }

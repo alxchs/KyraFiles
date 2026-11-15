@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	/// <summary>
 	/// Display the app splash screen.

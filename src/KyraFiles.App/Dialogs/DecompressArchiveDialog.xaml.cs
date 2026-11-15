@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Text;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class DecompressArchiveDialog : ContentDialog
 	{

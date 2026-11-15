@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UserControls.Menus;
+using KyraFiles.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
-namespace Files.App.Helpers.ContextFlyouts
+namespace KyraFiles.App.Helpers.ContextFlyouts
 {
 	/// <summary>
 	/// Provides static helper for conversion from ContextMenuFlyoutItemViewModels into a control.

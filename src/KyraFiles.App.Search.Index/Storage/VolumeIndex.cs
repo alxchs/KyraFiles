@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Models;
-using Files.App.Search.Index.Query;
+using KyraFiles.App.Search.Index.Models;
+using KyraFiles.App.Search.Index.Query;
 
-namespace Files.App.Search.Index.Storage;
+namespace KyraFiles.App.Search.Index.Storage;
 
 /// <summary>
 /// Estrutura de dados de alto desempenho em arrays paralelos (Structure-of-Arrays) para armazenamento

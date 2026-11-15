@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Implementation of <see cref="IOperationQueue"/> controlling concurrent copy and move operations per destination.

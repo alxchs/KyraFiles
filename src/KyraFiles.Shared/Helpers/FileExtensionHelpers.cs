@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Provides static extension for path extension.

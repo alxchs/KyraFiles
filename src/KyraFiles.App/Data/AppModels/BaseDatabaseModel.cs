@@ -1,8 +1,8 @@
-﻿using Files.Shared.Utils;
+﻿using KyraFiles.Shared.Utils;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Files.App.Data.AppModels
+namespace KyraFiles.App.Data.AppModels
 {
 	/// <summary>
 	/// Represents a dictionary-based database model.

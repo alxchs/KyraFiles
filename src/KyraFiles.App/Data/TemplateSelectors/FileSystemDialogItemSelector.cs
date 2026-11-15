@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.TemplateSelectors
+namespace KyraFiles.App.Data.TemplateSelectors
 {
 	internal sealed partial class FileSystemDialogItemSelector : BaseTemplateSelector<BaseFileSystemDialogItemViewModel>
 	{

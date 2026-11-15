@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class GroupedHeaderViewModel : ObservableObject
 	{

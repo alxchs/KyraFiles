@@ -1,7 +1,7 @@
 ﻿using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 
-namespace Files.App.Helpers.Application
+namespace KyraFiles.App.Helpers.Application
 {
 	internal static class AppToastNotificationHelper
 	{

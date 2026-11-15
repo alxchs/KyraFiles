@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Windows.Storage;
 using WinRT;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed partial class StorageDeleteOptionToBooleanConverter : IValueConverter
 	{

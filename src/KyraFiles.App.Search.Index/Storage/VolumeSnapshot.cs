@@ -2,10 +2,10 @@
 
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
-using Files.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Interop;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Storage;
+namespace KyraFiles.App.Search.Index.Storage;
 
 /// <summary>
 /// Dados carregados de um snapshot de volume em disco (F015 T8 — NFR-004, NFR-006, FR-033).
@@ -41,10 +41,10 @@ public static class VolumeSnapshot
 		{
 			string packageLocalCache = Path.Combine(parent, "LocalCache");
 			if (Directory.Exists(packageLocalCache))
-				return Path.Combine(packageLocalCache, "FilesCustom", "Index");
+				return Path.Combine(packageLocalCache, "KyraFiles", "Index");
 		}
 
-		return Path.Combine(localAppData, "FilesCustom", "Index");
+		return Path.Combine(localAppData, "KyraFiles", "Index");
 	}
 
 	/// <summary>

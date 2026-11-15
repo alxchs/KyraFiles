@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 using WinRT;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal sealed partial class AppSystemBackdrop : SystemBackdrop
 	{

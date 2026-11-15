@@ -4,7 +4,7 @@
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	public static class Win32FindDataExtensions
 	{

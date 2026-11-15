@@ -1,12 +1,15 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
 using System.Text.Json.Nodes;
 
-namespace Files.App.Data.Parameters
+namespace KyraFiles.App.Data.Parameters
 {
 	public sealed class TabBarItemParameter
 	{
+		// F091: tabs saved before the namespace rename store page types with this prefix.
+		private const string LegacyNamespacePrefix = "Files.App.";
+
 		private Type? _initialPageType;
 
 		public Type InitialPageType
@@ -50,6 +53,9 @@ namespace Files.App.Data.Parameters
 			var typeName = data[nameof(InitialPageType)]?.GetValue<string>();
 			if (string.IsNullOrEmpty(typeName))
 				throw new JsonException("The initial page type is missing or invalid.");
+
+			if (typeName.StartsWith(LegacyNamespacePrefix, StringComparison.Ordinal))
+				typeName = "Kyra" + typeName;
 
 			// Restore navigation data from tabs whose original page type no longer exists.
 			var initialPageType = typeName switch

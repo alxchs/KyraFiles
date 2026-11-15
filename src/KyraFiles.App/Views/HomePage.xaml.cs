@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using WinRT;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	public sealed partial class HomePage : Page, IDisposable
 	{

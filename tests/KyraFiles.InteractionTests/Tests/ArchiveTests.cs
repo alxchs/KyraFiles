@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace Files.InteractionTests.Tests
+namespace KyraFiles.InteractionTests.Tests
 {
 	[TestClass]
 	public sealed class ArchiveTests

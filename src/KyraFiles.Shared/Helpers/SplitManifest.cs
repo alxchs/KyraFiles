@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Helpers;
+namespace KyraFiles.Shared.Helpers;
 
 /// <summary>
 /// Manifesto versionado de arquivo dividido (F060 M1).

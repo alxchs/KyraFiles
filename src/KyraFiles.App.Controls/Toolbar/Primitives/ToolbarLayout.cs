@@ -3,7 +3,7 @@
 
 using Windows.Foundation;
 
-namespace Files.App.Controls.Primitives
+namespace KyraFiles.App.Controls.Primitives
 {
 	public partial class ToolbarLayout : NonVirtualizingLayout
 	{

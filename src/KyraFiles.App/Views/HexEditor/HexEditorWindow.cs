@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.Shared.Helpers;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics;
 
-namespace Files.App.Views.HexEditor
+namespace KyraFiles.App.Views.HexEditor
 {
 	/// <summary>
 	/// Standalone window hosting the hex editor (F060 M2 / M2-AC-1..3).

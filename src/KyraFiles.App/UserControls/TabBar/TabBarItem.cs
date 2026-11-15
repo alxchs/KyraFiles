@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace Files.App.UserControls.TabBar
+namespace KyraFiles.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents item for <see cref="TabBar"/>.

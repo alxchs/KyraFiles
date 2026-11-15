@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public partial class ComboBoxEx : ComboBox
 	{

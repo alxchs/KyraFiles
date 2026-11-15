@@ -9,9 +9,9 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Helpers;
+using KyraFiles.App.Helpers;
 
-namespace Files.App.Services.Git
+namespace KyraFiles.App.Services.Git
 {
 	/// <summary>
 	/// Implementation of GitHub OAuth Device Authorization Flow (RFC 8628).

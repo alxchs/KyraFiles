@@ -3,7 +3,7 @@
 
 using Windows.System;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	public enum Keys : ushort
 	{

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Sentry;
 using Sentry.Protocol;
 
-namespace Files.App.Utils.Logger
+namespace KyraFiles.App.Utils.Logger
 {
 	public sealed class SentryLogger : ILogger
 	{

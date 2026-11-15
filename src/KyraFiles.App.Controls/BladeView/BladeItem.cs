@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// The Blade is used as a child in the BladeView

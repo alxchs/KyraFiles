@@ -9,7 +9,7 @@ using Windows.Storage.FileProperties;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class DriveHelpers
 	{

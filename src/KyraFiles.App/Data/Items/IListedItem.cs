@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public interface IListedItem
 	{

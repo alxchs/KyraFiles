@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Utils
+namespace KyraFiles.Shared.Utils
 {
 	/// <summary>
 	/// Provides data serialization abstractions for <typeparamref name="TSerialized"/> data.

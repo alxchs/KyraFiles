@@ -4,7 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	internal class GripperHoverWrapper
 	{

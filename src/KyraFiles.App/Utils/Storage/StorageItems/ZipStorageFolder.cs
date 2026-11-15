@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using System.Collections.Concurrent;
@@ -17,7 +17,7 @@ using Windows.Storage.Search;
 using Windows.Win32;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
 	{

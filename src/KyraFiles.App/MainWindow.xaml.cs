@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
-using Files.App.Helpers;
+using KyraFiles.App.Helpers;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -16,7 +16,7 @@ using Windows.Win32.Foundation;
 using WinRT;
 using IO = System.IO;
 
-namespace Files.App
+namespace KyraFiles.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{

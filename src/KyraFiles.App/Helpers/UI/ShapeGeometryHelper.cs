@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Numerics;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Generates the outline of the control shape models and applies it as a composition clip.

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using WinRT;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	[Obsolete("Must not use this helper to generate menu flyout any longer.")]
 	public sealed class MenuFlyoutHelper : DependencyObject

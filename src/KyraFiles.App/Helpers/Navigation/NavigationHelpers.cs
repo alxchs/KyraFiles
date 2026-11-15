@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -13,7 +13,7 @@ using Windows.System;
 using WinRT;
 using Windows.Win32;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class NavigationHelpers
 	{
@@ -244,7 +244,7 @@ namespace Files.App.Helpers
 				return;
 			}
 
-			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
+			var tabItem = new KyraFiles.App.UserControls.TabBar.TabBarItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -396,9 +396,9 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(path) || path == "Home" || ShellStorageFolder.IsShellPath(path))
 				return null;
 
-			if (Files.App.Utils.Git.GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(repoPath))
+			if (KyraFiles.App.Utils.Git.GitHelpers.IsRepositoryEx(path, out var repoPath) && !string.IsNullOrEmpty(repoPath))
 			{
-				return await Files.App.Utils.Git.GitHelpers.GetRepositoryHeadName(repoPath);
+				return await KyraFiles.App.Utils.Git.GitHelpers.GetRepositoryHeadName(repoPath);
 			}
 
 			return null;

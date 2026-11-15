@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Shared.Utils
+namespace KyraFiles.Shared.Utils
 {
 	/// <summary>
 	/// Wraps and exposes <typeparamref name="T"/> implementation for access.

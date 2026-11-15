@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
-using Files.App.ViewModels.Settings;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WinRT;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed partial class SuggestionModel : ObservableObject, IOmnibarTextMemberPathProvider
 	{

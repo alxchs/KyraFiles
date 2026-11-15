@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 using System.IO;
 
-namespace Files.App.ViewModels.Dialogs.FileSystemDialog
+namespace KyraFiles.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public abstract class BaseFileSystemDialogItemViewModel : ObservableObject
 	{

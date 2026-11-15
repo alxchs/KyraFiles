@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.ViewModels.Layouts;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
-using static Files.App.Helpers.PathNormalization;
+using static KyraFiles.App.Helpers.PathNormalization;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Column View

@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class WslDistroItem : ObservableObject, INavigationControlItem
 	{
@@ -60,16 +60,22 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				// CreateIconElement throws a catastrophic 0x8000FFFF on a null source, so wait for the icon to load before building one
-				if (icon is null)
-					return null;
-
-				var source = new BitmapIconSource()
+				if (icon is not null)
 				{
-					UriSource = icon,
-					ShowAsMonochrome = false,
+					var source = new BitmapIconSource()
+					{
+						UriSource = icon,
+						ShowAsMonochrome = false,
+					};
+					return source.CreateIconElement();
+				}
+
+				return new FontIcon()
+				{
+					Glyph = "\uE756",
+					FontSize = 16,
+					FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Application.Current.Resources["SymbolThemeFontFamily"]
 				};
-				return source.CreateIconElement();
 			}
 		}
 

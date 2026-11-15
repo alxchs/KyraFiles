@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 
-namespace Files.App.Search.Index.Ipc;
+namespace KyraFiles.App.Search.Index.Ipc;
 
 /// <summary>
 /// Inicia o processo <c>KyraFiles.App.IndexService.exe</c> fora do processo do Files (visível no Gerenciador de Tarefas)

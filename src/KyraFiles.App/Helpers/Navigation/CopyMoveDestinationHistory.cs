@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// F033: the last folders chosen as "Copy to"/"Move to" destination, most recent first, shared by both actions

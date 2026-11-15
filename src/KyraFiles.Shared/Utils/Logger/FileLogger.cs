@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Files.Shared
+namespace KyraFiles.Shared
 {
 	public sealed class FileLogger : ILogger, IDisposable
 	{

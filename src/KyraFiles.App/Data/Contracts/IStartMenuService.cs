@@ -1,4 +1,4 @@
-﻿namespace Files.App.Data.Contracts
+﻿namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// A service that manages actions associated with system Start Menu.

@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Views.Settings;
+using KyraFiles.App.Views.Settings;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class CustomizeToolbarAction : IAction

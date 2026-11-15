@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Input;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public static class GlobalHelper
 	{

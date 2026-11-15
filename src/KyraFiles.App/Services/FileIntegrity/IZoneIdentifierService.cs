@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Services.FileIntegrity
+namespace KyraFiles.App.Services.FileIntegrity
 {
 	public readonly record struct BatchUnblockResult(int UnblockedCount, int UnchangedCount, int FailedCount);
 

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class InstallInfDriverAction : ObservableObject, IAction

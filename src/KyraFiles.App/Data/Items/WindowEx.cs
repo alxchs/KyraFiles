@@ -15,7 +15,7 @@ using WinRT;
 using MONITORENUMPROC = Windows.Win32.Extras.ManagedMONITORENUMPROC;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents base <see cref="Window"/> class to extend its features.

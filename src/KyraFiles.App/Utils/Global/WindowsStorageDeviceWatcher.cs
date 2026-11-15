@@ -8,7 +8,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{

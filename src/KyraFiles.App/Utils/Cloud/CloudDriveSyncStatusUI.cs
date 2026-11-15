@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using WinRT;
 
-namespace Files.App.Utils.Cloud
+namespace KyraFiles.App.Utils.Cloud
 {
 	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{

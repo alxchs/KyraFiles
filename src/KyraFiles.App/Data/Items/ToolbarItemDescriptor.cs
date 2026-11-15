@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Converters;
-using static Files.App.Data.Items.ToolbarDefaultsTemplate;
+using KyraFiles.App.Converters;
+using static KyraFiles.App.Data.Items.ToolbarDefaultsTemplate;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Resolved toolbar item model used for display and serialization.

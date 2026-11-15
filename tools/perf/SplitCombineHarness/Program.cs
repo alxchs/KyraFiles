@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 
 namespace SplitCombineHarness;
 

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WinRT;
 
-namespace Files.App.UserControls.Menus
+namespace KyraFiles.App.UserControls.Menus
 {
 	[Microsoft.UI.Xaml.Data.Bindable]
 	public sealed class MenuFlyoutSubItemCustomProperties : DependencyObject

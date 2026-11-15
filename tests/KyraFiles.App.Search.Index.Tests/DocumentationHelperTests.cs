@@ -3,10 +3,10 @@
 
 using System;
 using System.IO;
-using Files.App.Helpers;
+using KyraFiles.App.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	[TestClass]
 	public class DocumentationHelperTests

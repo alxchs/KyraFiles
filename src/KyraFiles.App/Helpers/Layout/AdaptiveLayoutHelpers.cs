@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Previews;
-using Files.Shared.Helpers;
+using KyraFiles.App.ViewModels.Previews;
+using KyraFiles.Shared.Helpers;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class AdaptiveLayoutHelpers
 	{

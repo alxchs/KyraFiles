@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Storage.Operations;
+using KyraFiles.App.Utils.Storage.Operations;
 using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	/// <summary>
 	/// Provides an archive creation support.

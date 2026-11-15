@@ -5,7 +5,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Files.Core.SourceGenerator.Utilities;
+namespace KyraFiles.Core.SourceGenerator.Utilities;
 
 /// <summary>
 /// An immutable array wrapper that supports value-based equality comparison.

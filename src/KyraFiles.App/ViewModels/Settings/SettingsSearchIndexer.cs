@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI.Controls;
-using Files.App.Views.Settings;
+using KyraFiles.App.Views.Settings;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	internal static class SettingsSearchIndexer
 	{

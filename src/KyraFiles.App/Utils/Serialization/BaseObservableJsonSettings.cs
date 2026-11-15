@@ -3,7 +3,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Utils.Serialization
+namespace KyraFiles.App.Utils.Serialization
 {
 	internal abstract class BaseObservableJsonSettings : BaseJsonSettings, INotifyPropertyChanged
 	{

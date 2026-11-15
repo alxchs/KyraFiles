@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.FileTags
+namespace KyraFiles.App.Utils.FileTags
 {
 	[RegistrySerializable]
 	public sealed class TaggedFile

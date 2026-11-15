@@ -1,4 +1,4 @@
-{
+﻿{
     "schema_version":  "2.0",
     "protocol_version":  "2.0",
     "project":  {
@@ -8,19 +8,19 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_by":  "claude-migration"
+                    "last_updated_at":  "2026-11-15T12:32:09.9827130-03:00",
+                    "last_updated_by":  "agy"
                 },
     "summary":  {
-                    "spec_count":  74,
+                    "spec_count":  77,
                     "task_count":  null,
                     "status_counts":  {
                                           "not_started":  19,
-                                          "completed":  24,
-                                          "in_validation":  25,
-                                          "in_progress":  6
+                                          "completed":  28,
+                                          "in_validation":  22,
+                                          "in_progress":  8
                                       },
-                    "total_points":  345,
+                    "total_points":  361,
                     "completed_points_equivalent":  null,
                     "remaining_points":  null,
                     "original_estimate_hours":  null,
@@ -629,7 +629,7 @@
                                      ],
                       "title":  "sobre e atualizacoes",
                       "type":  "feature",
-                      "state":  "in_validation",
+                      "state":  "in_progress",
                       "category":  "em_andamento",
                       "points":  3,
                       "points_confidence":  "low",
@@ -640,21 +640,24 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "in_progress",
                       "evidence":  [
                                        {
-                                           "ref":  "e6dcf50ae",
+                                           "ref":  "f0e077597",
                                            "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "note":  "ativacao do SideloadUpdateService em DI e link direto de download de versao"
                                        },
                                        {
-                                           "ref":  "docs/specs/F018-sobre-e-atualizacoes/",
+                                           "ref":  "docs/specs/F018-sobre-e-atualizacoes/spec.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 3 marcadas e 1 aberta"
+                                           "note":  "verificacao e ativacao de atualizacao sideload"
                                        }
                                    ],
                       "blockers":  [
-
+                                       {
+                                           "type":  "review",
+                                           "note":  "Claude: AppLifecycleHelper.AppEnvironment forcado para SideloadStable quebra builds normais; link do asset vs PageUrl"
+                                       }
                                    ],
                       "source_files":  [
                                            "docs/specs/F018-sobre-e-atualizacoes/spec.md"
@@ -1374,8 +1377,8 @@
                                      ],
                       "title":  "copy queue",
                       "type":  "feature",
-                      "state":  "in_progress",
-                      "category":  "em_andamento",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  8,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1388,19 +1391,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "cad966df1",
+                                           "ref":  "d036a49de",
                                            "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "note":  "Fases A e B (T0 a T9) entregues na v4.3.16.0; 28 testes unitarios verdes"
                                        },
                                        {
-                                           "ref":  "2ab7a65bc",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F036-copy-queue/",
+                                           "ref":  "docs/specs/F036-copy-queue/RELATORIO.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 2 marcadas e 16 abertas"
+                                           "note":  "relatorio formal de conclusao das fases A e B"
                                        }
                                    ],
                       "blockers":  [
@@ -2114,8 +2112,8 @@
                                      ],
                       "title":  "copy path formats",
                       "type":  "feature",
-                      "state":  "in_validation",
-                      "category":  "em_andamento",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  2,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2128,19 +2126,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "caa4c57ee",
+                                           "ref":  "d036a49de",
                                            "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "note":  "entrega 6/6 tarefas na v4.3.16.0; 13 testes verdes"
                                        },
                                        {
-                                           "ref":  "d2b3742c2",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F056-copy-path-formats/",
+                                           "ref":  "docs/specs/F056-copy-path-formats/RELATORIO.md",
                                            "type":  "doc",
-                                           "note":  "evidencia-janela-20261027/; tasks.md 0 marcadas e 6 abertas"
+                                           "note":  "relatorio formal de conclusao"
                                        }
                                    ],
                       "blockers":  [
@@ -2160,8 +2153,8 @@
                                      ],
                       "title":  "dialog button shortcuts",
                       "type":  "feature",
-                      "state":  "in_validation",
-                      "category":  "em_andamento",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  3,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2174,19 +2167,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "caa4c57ee",
+                                           "ref":  "d036a49de",
                                            "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "note":  "entrega 5/5 tarefas na v4.3.16.0; 8 testes verdes"
                                        },
                                        {
-                                           "ref":  "004bcd0d9",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F057-dialog-button-shortcuts/",
+                                           "ref":  "docs/specs/F057-dialog-button-shortcuts/RELATORIO.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 4 marcadas e 3 abertas; evidencia-janela-20261027/"
+                                           "note":  "relatorio formal de conclusao"
                                        }
                                    ],
                       "blockers":  [
@@ -2608,10 +2596,7 @@
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "alexandre",
-                                           "note":  "RELATORIO.md: AC-2/3/4 CONFIRMED, AC-1 NOT TESTED (falta Client ID do Alexandre)"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F070-github-login-oauth/spec.md"
@@ -3083,6 +3068,135 @@
                       "migration_status":  "migration_pending",
                       "owner":  "unknown",
                       "created_at":  null
+                  },
+                  {
+                      "id":  "SPEC-0075",
+                      "legacy_ids":  [
+                                         "F091"
+                                     ],
+                      "title":  "identidade kyrafiles no codigo e migracao transparente",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  8,
+                      "points_confidence":  "high",
+                      "points_note":  "renomeacao de namespaces Files.* -\u003e KyraFiles.* e migracao transparente de registro e dados",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "completed",
+                      "evidence":  [
+                                       {
+                                           "ref":  "1648a2c7d",
+                                           "type":  "commit",
+                                           "note":  "renome completo de 1450 arquivos e migracao transparente sem perda de registro"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F091-identidade-kyrafiles-no-codigo/spec.md",
+                                           "type":  "doc",
+                                           "note":  "spec aprovada e validada com check-legacy-names.ps1 verde"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F091-identidade-kyrafiles-no-codigo/spec.md"
+                                       ],
+                      "migration_status":  "migrated",
+                      "owner":  "alexandre/agy",
+                      "created_at":  "2026-11-15T07:29:04.6465994-03:00"
+                  },
+                  {
+                      "id":  "SPEC-0076",
+                      "legacy_ids":  [
+                                         "F093"
+                                     ],
+                      "title":  "compilacao rapida e deploy local via quick ship",
+                      "type":  "infrastructure",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  3,
+                      "points_confidence":  "high",
+                      "points_note":  "script tools/Quick-Ship.ps1 com modos -Fast e -Full e Inno Setup condicional",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "in_progress",
+                      "evidence":  [
+                                       {
+                                           "ref":  "62a0a63c6",
+                                           "type":  "commit",
+                                           "note":  "script Quick-Ship.ps1 gerando instalador de 85MB em 15s e deploy direto"
+                                       },
+                                       {
+                                           "ref":  "tools/Quick-Ship.ps1",
+                                           "type":  "file",
+                                           "note":  "implementacao com gate F021 e modos -Fast e -Full"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "review",
+                                           "note":  "Claude: Stop-Process mata Files do usuario; falta checar LASTEXITCODE no gate F021; geracao atomica do instalador"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F093-fast-compile-and-deploy/spec.md"
+                                       ],
+                      "migration_status":  "migrated",
+                      "owner":  "alexandre/agy",
+                      "created_at":  "2026-11-15T07:29:04.6465994-03:00"
+                  },
+                  {
+                      "id":  "SPEC-0077",
+                      "legacy_ids":  [
+                                         "F092"
+                                     ],
+                      "title":  "paridade e reestilizacao da barra lateral nativa",
+                      "type":  "feature",
+                      "state":  "in_progress",
+                      "category":  "em_andamento",
+                      "points":  5,
+                      "points_confidence":  "high",
+                      "points_note":  "reestilizacao 1A + 1B + ultracompacto (altura 30px/24px, icones Segoe Fluent/WSL, unidades sob Este PC)",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "in_progress",
+                      "evidence":  [
+                                       {
+                                           "ref":  "f2e8b0d6e",
+                                           "type":  "commit",
+                                           "note":  "entrega inicial v4.3.13 na main com T0 a T6 concluidas"
+                                       },
+                                       {
+                                           "ref":  "tests/test-sidebar-settings.ps1",
+                                           "type":  "test",
+                                           "note":  "50 testes verdes cobrindo 1A, 1B e densidade ultracompacta na branch feature/f092-sidebar-restyle"
+                                       }
+                                   ],
+                      "blockers":  [
+                                       {
+                                           "type":  "review",
+                                           "note":  "Claude: duplicacao de unidades em Este PC e Drives; falta prova visual real; separar alteracoes de Quick-Ship da branch"
+                                       }
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F092-native-sidebar-parity/spec.md"
+                                       ],
+                      "migration_status":  "migrated",
+                      "owner":  "alexandre/agy",
+                      "created_at":  "2026-11-12T18:00:00-03:00"
                   }
               ],
     "dependencies":  [
@@ -3090,17 +3204,15 @@
                      ],
     "alerts":  [
                    {
-                       "text":  "Migracao retroativa: pontos estimados com confianca baixa; horas reais desconhecidas (null); progresso por dimensao nao calculado.",
-                       "severity":  "info"
+                       "text":  "Revisao Claude (2026-11-15): F091 APROVADA para main; F093 requer 3 correcoes; F018 requer reversao de AppEnvironment; F092 requer ajuste de duplicacao e prova visual.",
+                       "severity":  "warning"
                    }
                ],
-    "decisions_required":  [
-                               {
-                                   "text":  "Aprovar F014, F020, F058, F087 (specs ainda propostas/rascunho) e fornecer Client ID do GitHub OAuth (F070)."
-                               }
-                           ],
+    "decisions_required":  {
+                               "text":  "Aprovar F014, F020, F058, F087 (specs propostas/rascunho). Client ID do GitHub OAuth (F070) fornecido pelo Alexandre."
+                           },
     "audit":  {
-                  "last_incremental_audit_at":  null,
+                  "last_incremental_audit_at":  "2026-11-15T12:32:09.9827130-03:00",
                   "last_full_audit_at":  "2026-11-13T19:25:28.2663438-03:00",
                   "unreconciled_changes":  null,
                   "evidence_coverage_percent":  null

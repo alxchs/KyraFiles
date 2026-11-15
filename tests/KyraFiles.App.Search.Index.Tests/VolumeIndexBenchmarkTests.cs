@@ -1,11 +1,11 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Diagnostics;
-using Files.App.Search.Index.Engine;
-using Files.App.Search.Index.Query;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Engine;
+using KyraFiles.App.Search.Index.Query;
+using KyraFiles.App.Search.Index.Storage;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class VolumeIndexBenchmarkTests

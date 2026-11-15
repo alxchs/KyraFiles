@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Dialogs;
-using Files.App.ViewModels.Settings;
+using KyraFiles.App.Dialogs;
+using KyraFiles.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using WinRT;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	/// <summary>
 	/// Represents settings page called Actions, which provides a way to customize key bindings.

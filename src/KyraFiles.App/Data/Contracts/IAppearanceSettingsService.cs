@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{

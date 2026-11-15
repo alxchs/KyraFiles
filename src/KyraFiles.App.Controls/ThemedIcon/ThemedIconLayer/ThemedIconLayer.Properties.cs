@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class ThemedIconLayer
 	{

@@ -5,10 +5,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class CombineEngineTests

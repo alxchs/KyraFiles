@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 /// <summary>
 /// Represents a candidate build folder discovered during scanning (US1, AC-1).

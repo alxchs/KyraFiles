@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public sealed partial class SidebarView
 	{

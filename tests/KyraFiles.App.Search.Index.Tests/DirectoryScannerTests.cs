@@ -1,11 +1,11 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Diagnostics;
-using Files.App.Search.Index.Basic;
-using Files.App.Search.Index.Engine;
-using Files.App.Search.Index.Models;
+using KyraFiles.App.Search.Index.Basic;
+using KyraFiles.App.Search.Index.Engine;
+using KyraFiles.App.Search.Index.Models;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class DirectoryScannerTests

@@ -4,7 +4,7 @@
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class StorageItemIconHelpers
 	{

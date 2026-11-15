@@ -4,7 +4,7 @@
 using FluentFTP;
 using System.IO;
 
-namespace Files.App.Storage
+namespace KyraFiles.App.Storage
 {
 	/// <inheritdoc cref="IFtpStorageService"/>
 	public sealed class FtpStorageService : IFtpStorageService

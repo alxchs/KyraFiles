@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	partial class StatusCenterStateToStateIconConverter : IValueConverter
 	{

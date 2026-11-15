@@ -13,7 +13,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class AdvancedViewModel : ObservableObject
 	{

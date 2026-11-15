@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Helpers;
+using KyraFiles.App.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	// F057 T1: chooses the accelerator letter of each dialog button/option (AC-5, FR-003)
 	[TestClass]

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class LayoutViewModel : ObservableObject
 	{

@@ -3,7 +3,7 @@
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +15,7 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class NavigationToolbar : UserControl
 	{
@@ -232,7 +232,7 @@ namespace Files.App.UserControls
 				// Settings search: jump to the matching card, or apply the query in-page.
 				if (viewModel.InstanceViewModel.IsPageTypeSettings)
 				{
-					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<Files.App.Views.SettingsPage>();
+					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<KyraFiles.App.Views.SettingsPage>();
 
 					if (args.Item is SuggestionModel { SettingsResult: { } settingsResult } && settingsPage is not null)
 					{

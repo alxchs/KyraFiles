@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
-using Files.App.ViewModels.UserControls;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.UserControls;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class ToggleSidebarAction : ObservableObject, IToggleAction

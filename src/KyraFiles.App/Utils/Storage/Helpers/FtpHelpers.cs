@@ -4,7 +4,7 @@
 using FluentFTP;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class FtpHelpers
 	{

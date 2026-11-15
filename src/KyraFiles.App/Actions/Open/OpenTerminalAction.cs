@@ -6,7 +6,7 @@ using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.System.Com;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal partial class OpenTerminalAction : ObservableObject, IAction

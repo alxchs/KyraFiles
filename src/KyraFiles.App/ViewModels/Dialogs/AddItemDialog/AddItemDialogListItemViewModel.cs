@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 
-namespace Files.App.ViewModels.Dialogs.AddItemDialog
+namespace KyraFiles.App.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed partial class AddItemDialogListItemViewModel : ObservableObject
 	{

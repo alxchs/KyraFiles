@@ -8,7 +8,7 @@ using System.IO.Enumeration;
 using System.Linq;
 using System.Threading;
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 /// <summary>
 /// Scans directory trees for rebuildable build folders based on rules, pruning discovered trees (NFR-001, FR-001, FR-002).

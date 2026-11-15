@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal partial class OpenCmdAction : OpenTerminalAction

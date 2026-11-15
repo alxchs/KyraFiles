@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class GroupingHelper
 	{

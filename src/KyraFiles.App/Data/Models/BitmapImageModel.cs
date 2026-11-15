@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	/// <inheritdoc cref="IImage"/>
 	internal sealed class BitmapImageModel : IImage

@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using System.IO;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{

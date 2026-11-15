@@ -4,7 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Helpers;
+namespace KyraFiles.Shared.Helpers;
 
 public sealed class AsyncManualResetEvent
 {

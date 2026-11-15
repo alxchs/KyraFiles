@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
-using Files.App.ViewModels.Previews;
+using KyraFiles.App.ViewModels.Previews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.UserControls.FilePreviews
+namespace KyraFiles.App.UserControls.FilePreviews
 {
 	public sealed partial class MarkdownPreview : UserControl
 	{

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Signatures;
+using KyraFiles.App.Utils.Signatures;
 using Microsoft.UI.Windowing;
 using Windows.Win32.Foundation;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public sealed partial class SignaturesViewModel : ObservableObject, IDisposable
 	{

@@ -1,7 +1,7 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator
+namespace KyraFiles.Core.SourceGenerator
 {
 	/// <summary>
 	/// Contains various constants used within the source generator.
@@ -60,7 +60,7 @@ namespace Files.Core.SourceGenerator
 			/// <summary>
 			/// The fully qualified name of the generated metadata class that contains string constants.
 			/// </summary>
-			internal const string StringsMetadataName = $"{SourceGeneratorHelper.HelperNamespace}{StringsClassName}";
+			internal const string StringsMetadataName = "KyraFiles.App.Helpers.Strings";
 
 			/// <summary>
 			/// Represents a character used as a separator in constant names.

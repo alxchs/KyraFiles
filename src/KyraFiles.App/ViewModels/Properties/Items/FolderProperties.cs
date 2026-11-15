@@ -6,7 +6,7 @@ using Microsoft.UI.Dispatching;
 using System.IO;
 using ByteSize = ByteSizeLib.ByteSize;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	internal sealed class FolderProperties : BaseProperties
 	{

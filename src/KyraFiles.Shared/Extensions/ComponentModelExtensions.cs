@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class ComponentModelExtensions
 	{

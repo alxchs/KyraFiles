@@ -1,18 +1,18 @@
 {
   "profiles": {
-    "Files.App.CsWin32": {
+    "KyraFiles.App.CsWin32": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\Files.App.CsWin32\\Files.App.CsWin32.csproj"
+      "targetProject": "..\\KyraFiles.App.CsWin32\\KyraFiles.App.CsWin32.csproj"
     },
-    "Files.App.Controls": {
+    "KyraFiles.App.Controls": {
       "commandName": "DebugRoslynComponent",
       "targetProject": "..\\KyraFiles.App.Controls\\KyraFiles.App.Controls.csproj"
     },
-    "Files.App.Server": {
+    "KyraFiles.App.Server": {
       "commandName": "DebugRoslynComponent",
       "targetProject": "..\\KyraFiles.App.Server\\KyraFiles.App.Server.csproj"
     },
-    "Files.App": {
+    "KyraFiles.App": {
       "commandName": "DebugRoslynComponent",
       "targetProject": "..\\KyraFiles.App\\KyraFiles.App.csproj"
     }

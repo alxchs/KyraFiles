@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Models;
-using Files.App.Utils.Shell;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Models;
+using KyraFiles.App.Utils.Shell;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <summary>
 	/// Provides metadata and formatted values for Windows Explorer Property System columns.

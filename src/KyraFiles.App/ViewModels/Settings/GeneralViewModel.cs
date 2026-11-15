@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // MenuFlyoutHelper marked obsolete upstream; migrate when replacement API is stable
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using System.Collections.Specialized;
 using Windows.Storage;
 using Windows.System;
-using static Files.App.Helpers.MenuFlyoutHelper;
+using static KyraFiles.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class GeneralViewModel : ObservableObject, IDisposable
 	{

@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Windows.Foundation.Metadata;
 using WinRT;
 
-namespace Files.App.Data.Behaviors
+namespace KyraFiles.App.Data.Behaviors
 {
 	/// <summary>
 	/// Performs an animation on a ListView or GridView Header to make it sticky using composition.

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Provides a block-based, LRU-cached file buffer for hex editing with in-memory edit tracking,

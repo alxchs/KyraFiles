@@ -12,7 +12,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Helper for opening application documentation with local-first priority and web fallback.
@@ -164,7 +164,10 @@ namespace Files.App.Helpers
 
 				var localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 				if (!string.IsNullOrWhiteSpace(localApp))
+				{
+					candidates.Add(Path.Combine(localApp, "Programs", "KyraFiles", "Docs"));
 					candidates.Add(Path.Combine(localApp, "Programs", "FilesCustom", "Docs"));
+				}
 			}
 
 			var lang = NormalizeCultureCode(cultureCode ?? GetActiveLanguageCode());

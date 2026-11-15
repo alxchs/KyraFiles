@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Manages 2-nibble keystroke entry for hex editing (F060 M2 / M2-AC-1..3).

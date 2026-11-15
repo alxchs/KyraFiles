@@ -4,7 +4,7 @@
 using Sentry;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Accumulates the time the main window is in the foreground so active usage can be

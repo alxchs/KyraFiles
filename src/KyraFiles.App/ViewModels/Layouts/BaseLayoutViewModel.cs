@@ -14,7 +14,7 @@ using Windows.Storage;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.ViewModels.Layouts
+namespace KyraFiles.App.ViewModels.Layouts
 {
 	/// <summary>
 	/// Represents ViewModel for <see cref="BaseLayoutPage"/>.

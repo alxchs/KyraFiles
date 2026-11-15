@@ -4,14 +4,14 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text.Json;
-using Files.App.Search.Index.Basic;
-using Files.App.Search.Index.Engine;
-using Files.App.Search.Index.Models;
-using Files.App.Search.Index.Query;
-using Files.App.Search.Index.Storage;
-using Files.App.Search.Index.Volumes;
+using KyraFiles.App.Search.Index.Basic;
+using KyraFiles.App.Search.Index.Engine;
+using KyraFiles.App.Search.Index.Models;
+using KyraFiles.App.Search.Index.Query;
+using KyraFiles.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Volumes;
 
-namespace Files.App.Search.Index.Ipc;
+namespace KyraFiles.App.Search.Index.Ipc;
 
 /// <summary>
 /// Representa um volume gerenciado pelo servidor de índice em memória, com seu <see cref="ChangeWatcher"/> ativo.

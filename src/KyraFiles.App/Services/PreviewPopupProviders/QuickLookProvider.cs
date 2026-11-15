@@ -7,7 +7,7 @@ using System.IO.Pipes;
 using System.Security.Principal;
 using System.Text;
 
-namespace Files.App.Services.PreviewPopupProviders
+namespace KyraFiles.App.Services.PreviewPopupProviders
 {
 	public sealed class QuickLookProvider : IPreviewPopupProvider
 	{

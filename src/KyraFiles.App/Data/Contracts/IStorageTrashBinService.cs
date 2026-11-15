@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 #pragma warning disable CS0612 // RecycleBinWatcher obsolete; migrate when replacement is available
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Provides service for Recycle Bin on Windows.

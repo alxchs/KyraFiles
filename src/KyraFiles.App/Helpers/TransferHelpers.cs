@@ -4,7 +4,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using WinRT;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class TransferHelpers
 	{

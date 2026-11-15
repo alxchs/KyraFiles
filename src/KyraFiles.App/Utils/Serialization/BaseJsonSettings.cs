@@ -4,7 +4,7 @@
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Files.App.Utils.Serialization
+namespace KyraFiles.App.Utils.Serialization
 {
 	/// <summary>
 	/// A base class to easily manage all application's settings.

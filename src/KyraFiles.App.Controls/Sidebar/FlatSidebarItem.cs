@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// Per-row wrapper used by the sidebar's virtualized ItemsRepeater. Carries the row's tree depth and section-gap flags so the underlying data items don't have to.

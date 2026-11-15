@@ -5,7 +5,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Versioning;
 
-namespace Files.App.Utils.Cloud
+namespace KyraFiles.App.Utils.Cloud
 {
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public sealed class CloudDrivesDetector

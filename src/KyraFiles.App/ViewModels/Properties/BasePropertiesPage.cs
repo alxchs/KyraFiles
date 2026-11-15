@@ -1,14 +1,14 @@
 // Copyright(c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using TagLib;
 using Windows.Storage;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public abstract class BasePropertiesPage : Page, IDisposable
 	{

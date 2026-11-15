@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class MenuFlyoutHeaderItem : MenuFlyoutItem
 	{

@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Helpers;
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
@@ -24,7 +24,7 @@ using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public sealed partial class ShellPreviewViewModel : BasePreviewModel
 	{

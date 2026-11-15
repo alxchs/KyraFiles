@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Services.DateTimeFormatter
+namespace KyraFiles.App.Services.DateTimeFormatter
 {
 	internal sealed class UserDateTimeFormatter : IDateTimeFormatter
 	{

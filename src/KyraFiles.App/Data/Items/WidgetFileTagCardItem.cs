@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 using System.Windows.Input;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class WidgetFileTagCardItem : WidgetCardItem
 	{

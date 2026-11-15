@@ -13,7 +13,7 @@ using Windows.Win32.System.Com;
 using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace KyraFiles.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="QuickAccessWidget"/>.

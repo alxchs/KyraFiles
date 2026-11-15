@@ -1,15 +1,15 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.Layouts;
-using Files.Shared.Helpers;
+using KyraFiles.App.Helpers.ContextFlyouts;
+using KyraFiles.App.ViewModels.Layouts;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Data.Factories
+namespace KyraFiles.App.Data.Factories
 {
 	/// <summary>
 	/// Represents a factory to generate a list for layout pages.

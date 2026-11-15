@@ -9,7 +9,7 @@ using System.Numerics;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Files.App.UserControls.StatusCenter
+namespace KyraFiles.App.UserControls.StatusCenter
 {
 	public sealed partial class SpeedGraph : Control
 	{

@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Search.Index.Ipc;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Search.Index.Ipc;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Search provider backed by the out-of-process <c>KyraFiles.App.IndexService.exe</c> engine (F015 T11 — FR-001..FR-042).
@@ -52,7 +52,7 @@ namespace Files.App.Services.Search
 
 			string cacheDir = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"FilesCustom",
+				"KyraFiles",
 				"SearchIndex");
 
 			_processManager = new IndexServiceProcessManager(cacheDirectory: cacheDir);

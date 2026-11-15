@@ -8,7 +8,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed partial class AppModel : ObservableObject
 	{

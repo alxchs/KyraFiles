@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Data.Contracts;
-using Files.App.Data.Items;
-using Files.App.Storage;
-using Files.App.Utils.Shell;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Storage;
+using KyraFiles.App.Utils.Shell;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Helper para enumerar itens delegados de "Este Computador" (servidores de mídia DLNA/UPnP, dispositivos portáteis)
@@ -43,7 +43,7 @@ namespace Files.App.Helpers
 
 							try
 							{
-								var fileItem = folderItem is Files.App.Utils.Shell.ShellLink link
+								var fileItem = folderItem is KyraFiles.App.Utils.Shell.ShellLink link
 									? ShellFolderExtensions.GetShellLinkItem(link)
 									: ShellFolderExtensions.GetShellFileItem(folderItem);
 

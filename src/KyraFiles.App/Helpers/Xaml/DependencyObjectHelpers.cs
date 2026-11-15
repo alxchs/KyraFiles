@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.Reflection;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class DependencyObjectHelpers
 	{

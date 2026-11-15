@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<IWindowsStorable>, IDisposable
 	{

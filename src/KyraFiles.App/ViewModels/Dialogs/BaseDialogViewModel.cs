@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	/// <summary>
 	/// Serves as the base dialog view model containing reusable,

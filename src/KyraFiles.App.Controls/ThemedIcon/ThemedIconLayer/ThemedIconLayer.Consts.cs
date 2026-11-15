@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Shapes;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	// Template Parts
 	[TemplatePart(Name = LayerCanvasPart, Type = typeof(Canvas))]

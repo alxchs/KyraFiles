@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.16"
+#define MyAppVersion "4.3.17"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
@@ -24,8 +24,13 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=..\artifacts\Setup
 OutputBaseFilename=KyraFilesSetup-{#MyAppVersion}
+#ifdef FAST_COMPRESSION
+Compression=lzma/fast
+SolidCompression=no
+#else
 Compression=lzma2/ultra64
 SolidCompression=yes
+#endif
 CloseApplications=yes
 CloseApplicationsFilter=KyraFiles.exe,KyraFiles.Watchdog.exe,KyraFiles.HotkeyService.exe,KyraFiles.App.Server.exe,KyraFiles.App.IndexService.exe,Files.exe,Files.Watchdog.exe,Files.HotkeyService.exe,Files.App.Server.exe
 RestartApplications=no
@@ -78,6 +83,7 @@ Type: filesandordirs; Name: "{app}\Files.App.Server"
 Type: files; Name: "{app}\Docs\*\features\files-custom.html"
 Type: files; Name: "{app}\Docs\features\files-custom.html"
 Type: files; Name: "{app}\*.locked.*"
+Type: filesandordirs; Name: "{localappdata}\Programs\FilesCustom"
 
 [UninstallDelete]
 ; Garante remoção de 100% da pasta isolada na desinstalação (FR-007, AC-7)

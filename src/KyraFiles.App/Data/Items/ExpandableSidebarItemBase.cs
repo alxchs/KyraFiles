@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Shared expansion plumbing for tree-view-style sidebar items (LocationItem, DriveItem).

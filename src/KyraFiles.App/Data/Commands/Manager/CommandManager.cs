@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	internal sealed partial class CommandManager : ICommandManager
 	{

@@ -3,7 +3,7 @@
 
 using Windows.Foundation;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// Handles layout of <see cref="BreadcrumbBar"/>, collapsing items into an ellipsis button when necessary.

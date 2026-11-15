@@ -4,7 +4,7 @@
 using Windows.Win32;
 using Windows.Win32.System.SystemInformation;
 
-namespace Files.App.Storage
+namespace KyraFiles.App.Storage
 {
 	public unsafe static partial class WindowsStorableHelpers
 	{

@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Immutable;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	public sealed partial class HomePageContext : ObservableObject, IHomePageContext
 	{

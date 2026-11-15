@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.Streams;
 using WinRT;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class FileIcon : UserControl
 	{

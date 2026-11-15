@@ -12,7 +12,7 @@ using WinRT;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.UserControls.Selection
+namespace KyraFiles.App.UserControls.Selection
 {
 	public sealed class RectangleSelection_ListViewBase : RectangleSelection
 	{

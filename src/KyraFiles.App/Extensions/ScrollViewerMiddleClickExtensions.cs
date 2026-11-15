@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.Utils;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Utils;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +16,7 @@ using Windows.System;
 using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	/// <summary>
 	/// Provides middle-click auto-scroll for list controls backed by a <see cref="ScrollViewer"/>.

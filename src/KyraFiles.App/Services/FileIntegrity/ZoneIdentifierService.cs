@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Services.FileIntegrity
+namespace KyraFiles.App.Services.FileIntegrity
 {
 	/// <summary>
 	/// Service for detecting and unblocking downloaded files by removing the Mark of the Web (Zone.Identifier) NTFS Alternate Data Stream.

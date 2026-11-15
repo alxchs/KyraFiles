@@ -1,5 +1,5 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
-// Files.Watchdog: Supervisor mútuo ultraleve para garantia de retorno instantâneo (< 1s)
+// KyraFiles.Watchdog: Supervisor mútuo ultraleve para garantia de retorno instantâneo (< 1s)
 
 #include <windows.h>
 #include <string>

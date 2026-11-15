@@ -3,7 +3,7 @@
 
 using System.Text;
 
-namespace Files.App.Services.DateTimeFormatter
+namespace KyraFiles.App.Services.DateTimeFormatter
 {
 	/// <summary>
 	/// Represents service for application-specific <see cref=“DateTimeOffset”/> formatter.

@@ -11,7 +11,7 @@ using Windows.Win32.System.Memory;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Creates and reads Shell data objects used by clipboard and drag-and-drop operations.

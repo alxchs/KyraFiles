@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IWindowsSecurityService"/>
 	public sealed class WindowsSecurityService : IWindowsSecurityService

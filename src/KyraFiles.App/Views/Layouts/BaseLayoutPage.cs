@@ -3,10 +3,10 @@
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.Menus;
-using Files.App.ViewModels.Layouts;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Helpers.ContextFlyouts;
+using KyraFiles.App.UserControls.Menus;
+using KyraFiles.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,11 +24,11 @@ using Windows.Storage;
 using Windows.System;
 using Windows.Win32;
 using WinRT;
-using static Files.App.Helpers.PathNormalization;
+using static KyraFiles.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.App.Data.Enums.SortDirection;
+using SortDirection = KyraFiles.App.Data.Enums.SortDirection;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base class which every layout page must derive from

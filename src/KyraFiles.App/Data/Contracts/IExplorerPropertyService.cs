@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Models;
+using KyraFiles.App.Data.Models;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Provides metadata and property values from the Windows Property System.

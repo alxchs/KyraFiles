@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Imaging service API obsolete; migrate when ImagingService is refactored
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 
-namespace Files.App.ViewModels.Dialogs.AddItemDialog
+namespace KyraFiles.App.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed partial class AddItemDialogViewModel : ObservableObject
 	{

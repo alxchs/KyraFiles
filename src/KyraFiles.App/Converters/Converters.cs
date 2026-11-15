@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	/// <summary>
 	/// The generic base implementation of a value converter.

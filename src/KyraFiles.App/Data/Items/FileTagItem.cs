@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class FileTagItem : ObservableObject, INavigationControlItem
 	{

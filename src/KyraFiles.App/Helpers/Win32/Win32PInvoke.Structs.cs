@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security.Cryptography;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{

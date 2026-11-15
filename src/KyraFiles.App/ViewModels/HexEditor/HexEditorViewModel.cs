@@ -4,9 +4,9 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 
-namespace Files.App.ViewModels.HexEditor
+namespace KyraFiles.App.ViewModels.HexEditor
 {
 	/// <summary>
 	/// ViewModel for the Hex Editor window and virtualized grid (F060 M2 / M2-AC-1..3).

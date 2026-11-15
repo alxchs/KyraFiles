@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Items;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Items;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Text;
 using Windows.Storage;
 using Windows.Win32;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Search provider utilizing voidtools Everything index or CLI.
@@ -78,7 +78,13 @@ namespace Files.App.Services.Search
 			if (File.Exists(localApp))
 				return localApp;
 
-			// 3. Pasta oficial instalada do Files Custom
+			// 3. Pasta oficial instalada do KyraFiles (com fallback legado para FilesCustom)
+			string kyraFilesDir = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Programs", "KyraFiles", "es.exe");
+			if (File.Exists(kyraFilesDir))
+				return kyraFilesDir;
+
 			string filesCustomDir = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Programs", "FilesCustom", "es.exe");

@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Items;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Items;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Search provider utilizing the local Agent Ransack CLI export in silent mode.

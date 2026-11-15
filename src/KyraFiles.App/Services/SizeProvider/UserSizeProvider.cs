@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services.SizeProvider;
+using KyraFiles.App.Services.SizeProvider;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public sealed partial class UserSizeProvider : ISizeProvider
 	{

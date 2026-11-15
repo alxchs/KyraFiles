@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
-using Files.Shared.Helpers;
+using KyraFiles.App.Dialogs;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class DecompressArchiveAction : BaseDecompressArchiveAction

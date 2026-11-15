@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Represents memory statistics of a single ecosystem process.

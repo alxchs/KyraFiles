@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the

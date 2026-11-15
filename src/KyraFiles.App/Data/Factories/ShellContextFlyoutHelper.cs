@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Helpers.ContextFlyouts;
-using Files.Shared.Helpers;
+using KyraFiles.App.Helpers.ContextFlyouts;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +15,7 @@ using Windows.UI.Core;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class ShellContextFlyoutFactory
 	{

@@ -10,7 +10,7 @@ using Windows.Win32.Security.Authorization;
 using Windows.Win32.System.Memory;
 using SystemSecurity = System.Security.AccessControl;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IStorageSecurityService"/>
 	public class StorageSecurityService : IStorageSecurityService

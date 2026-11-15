@@ -1,6 +1,6 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-namespace Files.App.Search.Index.Query;
+namespace KyraFiles.App.Search.Index.Query;
 
 /// <summary>
 /// Avaliador de expressões de busca por nome com suporte a múltiplas palavras (AND implícito),

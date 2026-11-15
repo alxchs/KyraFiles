@@ -7,7 +7,7 @@ using WinRT;
 
 // The User Control element template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class MenuFlyoutItemWithThemedIcon : MenuFlyoutItem
 	{

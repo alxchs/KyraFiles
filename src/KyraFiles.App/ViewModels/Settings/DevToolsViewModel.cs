@@ -4,7 +4,7 @@
 using System.IO;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class DevToolsViewModel : ObservableObject
 	{

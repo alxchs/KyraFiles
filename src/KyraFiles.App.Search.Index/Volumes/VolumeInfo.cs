@@ -1,6 +1,6 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-namespace Files.App.Search.Index.Volumes;
+namespace KyraFiles.App.Search.Index.Volumes;
 
 /// <summary>
 /// Descreve a identidade e pontos de montagem de um volume físico local.

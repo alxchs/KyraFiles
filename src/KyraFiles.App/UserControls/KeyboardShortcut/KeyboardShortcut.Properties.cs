@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UserControls.KeyboardShortcut
+namespace KyraFiles.App.UserControls.KeyboardShortcut
 {
 	public sealed partial class KeyboardShortcut
 	{

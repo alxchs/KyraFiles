@@ -10,7 +10,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 
-namespace Files.InteractionTests
+namespace KyraFiles.InteractionTests
 {
 	[TestClass]
 	public sealed class SessionManager

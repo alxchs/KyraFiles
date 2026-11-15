@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public sealed partial class HtmlPreviewViewModel : BasePreviewModel
 	{

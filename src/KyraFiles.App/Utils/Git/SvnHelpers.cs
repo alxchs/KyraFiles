@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.App.Utils.Storage;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.Utils.Storage;
 using Microsoft.Data.Sqlite;
 using System.IO;
 
-namespace Files.App.Utils.Git
+namespace KyraFiles.App.Utils.Git
 {
 	internal static class SvnHelpers
 	{

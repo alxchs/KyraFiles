@@ -9,14 +9,14 @@ using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Files.App.Utils.Git;
+using KyraFiles.App.Utils.Git;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Views.Shells
+namespace KyraFiles.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
@@ -550,13 +550,13 @@ namespace Files.App.Views.Shells
 			shellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 
-			Files.Shared.Helpers.SearchIntent? naturalIntent = null;
+			KyraFiles.Shared.Helpers.SearchIntent? naturalIntent = null;
 			string effectiveQuery = query;
 
 			var generalSettings = Ioc.Default.GetService<IGeneralSettingsService>();
 			if (generalSettings?.EnableNaturalLanguageSearch == true && !string.IsNullOrWhiteSpace(query))
 			{
-				var parsedIntent = Files.Shared.Helpers.NaturalSearchParser.Parse(query, DateTimeOffset.Now);
+				var parsedIntent = KyraFiles.Shared.Helpers.NaturalSearchParser.Parse(query, DateTimeOffset.Now);
 				if (parsedIntent.HasStructuredFilters)
 				{
 					naturalIntent = parsedIntent;

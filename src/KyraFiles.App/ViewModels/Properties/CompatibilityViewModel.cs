@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	/// <summary>
 	/// Represents view model of <see cref="Views.Properties.CompatibilityPage"/>.

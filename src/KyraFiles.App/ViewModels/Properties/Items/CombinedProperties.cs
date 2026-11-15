@@ -3,7 +3,7 @@ using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	internal class CombinedProperties : BaseProperties
 	{

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Helpers.ContextFlyouts;
+using KyraFiles.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 using WinRT;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace KyraFiles.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents base ViewModel for widget ViewModels.

@@ -6,7 +6,7 @@ using System.IO;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	/// <summary>
 	/// F033: copies or moves the selected items to a folder given as parameter (one of the recent destinations) or,

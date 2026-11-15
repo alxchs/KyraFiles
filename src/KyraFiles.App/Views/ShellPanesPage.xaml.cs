@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Input;
@@ -19,9 +19,9 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using WinRT;
-using GridSplitter = Files.App.Controls.GridSplitter;
+using GridSplitter = KyraFiles.App.Controls.GridSplitter;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	/// <summary>
 	/// Represents <see cref="Page"/> that holds multiple panes.

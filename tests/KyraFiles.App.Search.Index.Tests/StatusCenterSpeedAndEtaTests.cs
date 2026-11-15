@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.ComponentModel;
-using Files.App.Data.Enums;
-using Files.App.Utils.StatusCenter;
+using KyraFiles.App.Data.Enums;
+using KyraFiles.App.Utils.StatusCenter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KyraFiles.App.Search.Index.Tests

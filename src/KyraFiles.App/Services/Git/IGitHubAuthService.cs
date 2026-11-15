@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Services.Git
+namespace KyraFiles.App.Services.Git
 {
 	public enum DeviceCodeStatus
 	{

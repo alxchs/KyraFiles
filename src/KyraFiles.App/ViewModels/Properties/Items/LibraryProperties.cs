@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	internal sealed class LibraryProperties : BaseProperties
 	{

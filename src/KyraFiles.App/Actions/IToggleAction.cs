@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	/// <summary>
 	/// Represents an interface for the toggle Actions.

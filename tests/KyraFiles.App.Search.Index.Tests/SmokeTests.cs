@@ -1,6 +1,6 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class SmokeTests

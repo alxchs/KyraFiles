@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	public static class ShellHelpers
 	{

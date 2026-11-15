@@ -1,6 +1,6 @@
-# SPEC-INDEX
+﻿# SPEC-INDEX
 
-Gerado de production-control.json em 2026-11-13T19:25:28.2663438-03:00. Mapa SPEC -> ID legado.
+Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -18,7 +18,7 @@ Gerado de production-control.json em 2026-11-13T19:25:28.2663438-03:00. Mapa SPE
 | SPEC-0012 | F014 | sistema help contextual | in_validation | dependendo_alexandre | 5 |
 | SPEC-0013 | F015 | indice de busca | in_validation | em_andamento | 13 |
 | SPEC-0014 | F017 | win e persistent launcher | in_validation | em_andamento | 5 |
-| SPEC-0015 | F018 | sobre e atualizacoes | in_validation | em_andamento | 3 |
+| SPEC-0015 | F018 | sobre e atualizacoes | in_progress | em_andamento | 3 |
 | SPEC-0016 | F019 | efeito visivel das formas | completed | finalizadas | 3 |
 | SPEC-0017 | F020 | aba unica por endereco e posicao settings | in_validation | dependendo_alexandre | 2 |
 | SPEC-0018 | F021 | bloqueio indexservice | completed | finalizadas | 5 |
@@ -35,7 +35,7 @@ Gerado de production-control.json em 2026-11-13T19:25:28.2663438-03:00. Mapa SPE
 | SPEC-0029 | F033 | copiar mover para | in_validation | em_andamento | 3 |
 | SPEC-0030 | F034 | lista sem checkbox | in_validation | em_andamento | 2 |
 | SPEC-0031 | F035 | second instance | in_validation | em_andamento | 5 |
-| SPEC-0032 | F036 | copy queue | in_progress | em_andamento | 8 |
+| SPEC-0032 | F036 | copy queue | completed | finalizadas | 8 |
 | SPEC-0033 | F037 | bulk rename preview | not_started | fila | 5 |
 | SPEC-0034 | F038 | named workspaces | not_started | fila | 5 |
 | SPEC-0035 | F039 | disk usage map | not_started | fila | 8 |
@@ -55,8 +55,8 @@ Gerado de production-control.json em 2026-11-13T19:25:28.2663438-03:00. Mapa SPE
 | SPEC-0049 | F053 | encoding eol column | not_started | fila | 2 |
 | SPEC-0050 | F054 | technical preview | not_started | fila | 5 |
 | SPEC-0051 | F055 | repo map | not_started | fila | 5 |
-| SPEC-0052 | F056 | copy path formats | in_validation | em_andamento | 2 |
-| SPEC-0053 | F057 | dialog button shortcuts | in_validation | em_andamento | 3 |
+| SPEC-0052 | F056 | copy path formats | completed | finalizadas | 2 |
+| SPEC-0053 | F057 | dialog button shortcuts | completed | finalizadas | 3 |
 | SPEC-0054 | F058 | installer window to front | not_started | dependendo_alexandre | 3 |
 | SPEC-0055 | F060 | diferenciais sftp script hex split | in_progress | em_andamento | 13 |
 | SPEC-0056 | F061 | win e sempre pronto | in_validation | em_andamento | 5 |
@@ -78,3 +78,6 @@ Gerado de production-control.json em 2026-11-13T19:25:28.2663438-03:00. Mapa SPE
 | SPEC-0072 | F088 | remocao vinculo ancestral | in_validation | em_andamento | 2 |
 | SPEC-0073 | F089 | fontes nao aplicadas | in_validation | em_andamento | 3 |
 | SPEC-0074 | F090 | escala da interface | in_progress | em_andamento | 5 |
+| SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | completed | finalizadas | 8 |
+| SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | in_progress | em_andamento | 3 |
+| SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | in_progress | em_andamento | 5 |

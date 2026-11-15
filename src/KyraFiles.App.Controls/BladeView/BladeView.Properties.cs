@@ -3,7 +3,7 @@
 
 using Windows.Foundation;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list

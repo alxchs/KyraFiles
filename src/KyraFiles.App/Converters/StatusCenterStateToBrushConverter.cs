@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	public sealed partial class StatusCenterStateToBrushConverter : DependencyObject, IValueConverter
 	{

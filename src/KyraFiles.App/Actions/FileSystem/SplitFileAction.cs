@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Files.App.Dialogs;
-using Files.App.Utils.StatusCenter;
-using Files.Shared.Helpers;
+using KyraFiles.App.Dialogs;
+using KyraFiles.App.Utils.StatusCenter;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class SplitFileAction : BaseUIAction, IAction

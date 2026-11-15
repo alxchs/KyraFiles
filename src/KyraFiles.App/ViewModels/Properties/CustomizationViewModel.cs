@@ -1,10 +1,10 @@
-﻿using Files.Shared.Helpers;
+﻿using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public sealed partial class CustomizationViewModel : ObservableObject
 	{

@@ -1,13 +1,13 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Window
-	x:Class="Files.App.UITests.MainWindow"
+	x:Class="KyraFiles.App.UITests.MainWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:Files.App.Controls"
+	xmlns:controls="using:KyraFiles.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="using:Files.App.UITests"
+	xmlns:local="using:KyraFiles.App.UITests"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Files.App.Controls.UITests"
+	Title="KyraFiles.App.Controls.UITests"
 	mc:Ignorable="d">
 
 	<Window.SystemBackdrop>

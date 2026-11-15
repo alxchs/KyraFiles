@@ -3,9 +3,9 @@
 
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
-using static Files.App.Constants;
+using static KyraFiles.App.Constants;
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public static class WSLDistroManager
 	{

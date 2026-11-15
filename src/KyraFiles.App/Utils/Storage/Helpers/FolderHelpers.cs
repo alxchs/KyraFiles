@@ -5,7 +5,7 @@ using System.IO;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public readonly record struct SubfolderEntry(string Path, string Name, bool HasSubfolders, bool IsHidden);
 

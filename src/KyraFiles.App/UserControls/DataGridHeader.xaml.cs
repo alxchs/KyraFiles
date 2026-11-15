@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class DataGridHeader : UserControl
 	{

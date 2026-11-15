@@ -10,7 +10,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Implements IStorageItem, allowing us to get an instance of IStorageItem for a ListedItem

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.UITests.Data;
+using KyraFiles.App.Controls;
+using KyraFiles.App.UITests.Data;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 
-namespace Files.App.UITests.Views
+namespace KyraFiles.App.UITests.Views
 {
 	public sealed partial class OmnibarPage : Page
 	{

@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Items;
-using Files.Shared.Helpers;
+using KyraFiles.App.Data.Items;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;
@@ -10,7 +10,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Win32;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Provides group of file system operation for given page instance.

@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
+using KyraFiles.App.Data.Contracts;
 using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using System.Numerics;
 using Windows.Foundation;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <summary>
 	/// Coordinates global UI scaling and compensated layout across application windows (Files Custom F090).

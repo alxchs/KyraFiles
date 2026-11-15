@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	internal abstract class BaseDeleteAction : BaseUIAction
 	{

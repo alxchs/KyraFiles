@@ -3,7 +3,7 @@
 
 using System.Collections.Frozen;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	internal sealed partial class ModifiableCommandManager : IModifiableCommandManager
 	{

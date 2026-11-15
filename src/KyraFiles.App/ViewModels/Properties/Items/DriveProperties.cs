@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	internal sealed class DriveProperties : BaseProperties
 	{

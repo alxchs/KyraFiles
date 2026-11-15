@@ -4,7 +4,7 @@
 using FluentFTP.Exceptions;
 using SevenZip;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public interface IPasswordProtectedItem
 	{

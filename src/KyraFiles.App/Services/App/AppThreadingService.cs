@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Dispatching;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	internal sealed class ThreadingService : IThreadingService
 	{

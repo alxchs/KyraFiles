@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Help
+namespace KyraFiles.App.Data.Help
 {
 	/// <summary>
 	/// Identifies the UI and workflow context for context-sensitive help resolution.

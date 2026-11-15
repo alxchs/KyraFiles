@@ -4,7 +4,7 @@
 using SevenZip;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class ArchiveEntryHelpers
 	{

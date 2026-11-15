@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net;
@@ -10,7 +10,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	// TODO: Remove this class
 	public static class UIFilesystemHelpers

@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using ByteSize = ByteSizeLib.ByteSize;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	public static class StringExtensions
 	{

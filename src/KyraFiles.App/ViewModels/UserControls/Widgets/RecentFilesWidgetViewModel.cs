@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace KyraFiles.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.

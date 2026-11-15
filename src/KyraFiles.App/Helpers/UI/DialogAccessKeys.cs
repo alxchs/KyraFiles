@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Files Custom (F057): chooses the accelerator letter of each button/option of a dialog from its own (already translated) text.

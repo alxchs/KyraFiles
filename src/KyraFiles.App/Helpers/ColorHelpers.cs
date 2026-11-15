@@ -4,7 +4,7 @@
 using System.Globalization;
 using Windows.UI;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal static class ColorHelpers
 	{

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	internal sealed partial class ContentPageContext : ObservableObject, IContentPageContext
 	{

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class GitHubLoginDialog : ContentDialog, IDialog<GitHubLoginDialogViewModel>
 	{

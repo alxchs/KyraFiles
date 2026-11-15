@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class CompressIntoArchiveAction : BaseCompressArchiveAction

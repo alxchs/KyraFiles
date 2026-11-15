@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents item of ini file's section.

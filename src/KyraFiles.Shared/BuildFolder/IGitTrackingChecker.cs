@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 /// <summary>
 /// Status of git tracking check for a directory.

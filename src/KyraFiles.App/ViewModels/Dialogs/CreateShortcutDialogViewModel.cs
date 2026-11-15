@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class CreateShortcutDialogViewModel : ObservableObject
 	{

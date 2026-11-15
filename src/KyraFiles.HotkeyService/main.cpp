@@ -1,5 +1,5 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
-// Files.HotkeyService: Interceptador global de Win+E nativo, ultraleve e sem UI.
+// KyraFiles.HotkeyService: Interceptador global de Win+E nativo, ultraleve e sem UI.
 //
 // RegisterHotKey(MOD_WIN, 'E') nao serve: o explorer.exe e dono desse atalho e a chamada falha com
 // ERROR_HOTKEY_ALREADY_REGISTERED (1409), medido em 12/10/2026 (DECISIONS.md D-021). Por isso o servico usa

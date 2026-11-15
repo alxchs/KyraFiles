@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.ViewModels.Dialogs.FileSystemDialog
+namespace KyraFiles.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed partial class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
 	{

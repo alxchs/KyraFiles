@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Contracts;
+using KyraFiles.App.Data.Contracts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Windows.Graphics;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class DragZoneHelper
 	{

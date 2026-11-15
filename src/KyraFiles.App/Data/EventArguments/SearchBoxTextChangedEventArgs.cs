@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Data.EventArguments
+namespace KyraFiles.App.Data.EventArguments
 {
 	public sealed class SearchBoxTextChangedEventArgs
 	{

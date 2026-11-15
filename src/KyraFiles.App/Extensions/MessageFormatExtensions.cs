@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Globalization;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	/// <summary>
 	/// Extension methods for working with localized resources and message formatting.

@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Text;
-using Files.App.Search.Index.Query;
+using KyraFiles.App.Search.Index.Query;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class NameNormalizerTests

@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Files.App.Views.Shells
+namespace KyraFiles.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{

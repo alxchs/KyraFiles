@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using WinRT;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	internal sealed partial class MultitaskingContext : ObservableObject, IMultitaskingContext
 	{

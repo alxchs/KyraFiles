@@ -3,7 +3,7 @@
 
 using Windows.Win32.Foundation;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public class FilesystemResult
 	{

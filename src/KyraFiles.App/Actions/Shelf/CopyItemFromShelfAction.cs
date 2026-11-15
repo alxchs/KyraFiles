@@ -3,7 +3,7 @@
 
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class CopyItemFromShelfAction : ObservableObject, IAction

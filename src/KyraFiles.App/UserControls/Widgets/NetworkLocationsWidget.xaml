@@ -1,11 +1,11 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
-	x:Class="Files.App.UserControls.Widgets.NetworkLocationsWidget"
+	x:Class="KyraFiles.App.UserControls.Widgets.NetworkLocationsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitems="using:Files.App.Data.Items"
-	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:dataitems="using:KyraFiles.App.Data.Items"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">

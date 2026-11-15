@@ -7,7 +7,7 @@ using System.Threading;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace Files.InteractionTests.Tests
+namespace KyraFiles.InteractionTests.Tests
 {
 	// The toolbar Share command drives ShareItemHelpers.ShareItemsAsync, which crashed under Native AOT.
 	[TestClass]

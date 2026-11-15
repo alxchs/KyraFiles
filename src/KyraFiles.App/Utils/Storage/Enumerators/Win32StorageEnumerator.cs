@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services.SizeProvider;
-using Files.Shared.Helpers;
+using KyraFiles.App.Services.SizeProvider;
+using KyraFiles.Shared.Helpers;
 using System.IO;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class Win32StorageEnumerator
 	{

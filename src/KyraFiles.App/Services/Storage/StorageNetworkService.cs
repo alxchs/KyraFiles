@@ -7,7 +7,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
 using Windows.Win32.Security.Credentials;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public sealed partial class NetworkService : ObservableObject, INetworkService
 	{

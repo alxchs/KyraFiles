@@ -1,7 +1,7 @@
-﻿using Files.Shared.Utils;
+﻿using KyraFiles.Shared.Utils;
 using System.IO;
 
-namespace Files.App.Data.AppModels
+namespace KyraFiles.App.Data.AppModels
 {
 	/// <inheritdoc cref="BaseDatabaseModel{TDictionaryValue}"/>
 	public sealed partial class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>

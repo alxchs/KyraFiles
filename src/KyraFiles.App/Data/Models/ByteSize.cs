@@ -3,7 +3,7 @@
 
 using System.Collections.Frozen;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{

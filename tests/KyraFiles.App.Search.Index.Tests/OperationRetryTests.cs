@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Files.App.Data.Items;
-using Files.App.Utils.Storage;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Utils.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KyraFiles.App.Search.Index.Tests

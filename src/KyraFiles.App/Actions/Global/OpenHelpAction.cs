@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contexts;
-using Files.App.Data.Help;
-using Files.App.Services.Help;
-using Files.App.Views.Layouts;
+using KyraFiles.App.Data.Contexts;
+using KyraFiles.App.Data.Help;
+using KyraFiles.App.Services.Help;
+using KyraFiles.App.Views.Layouts;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed class OpenHelpAction : IAction

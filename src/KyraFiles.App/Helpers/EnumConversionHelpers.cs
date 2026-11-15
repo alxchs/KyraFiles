@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class EnumConversionHelpers
 	{

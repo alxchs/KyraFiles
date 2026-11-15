@@ -1,8 +1,8 @@
-﻿using Files.Shared.Utils;
+﻿using KyraFiles.Shared.Utils;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class SerializationExtensions
 	{

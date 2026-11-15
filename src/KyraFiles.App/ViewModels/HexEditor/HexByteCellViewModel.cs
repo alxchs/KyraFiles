@@ -6,7 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Files.App.ViewModels.HexEditor
+namespace KyraFiles.App.ViewModels.HexEditor
 {
 	/// <summary>
 	/// Represents a single byte cell in the hex editor grid (F060 M2 / M2-AC-1..3).

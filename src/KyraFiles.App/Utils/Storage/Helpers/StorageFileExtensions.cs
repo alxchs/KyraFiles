@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using WinRT;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class StorageFileExtensions
 	{

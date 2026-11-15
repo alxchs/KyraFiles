@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Models;
-using Files.App.Services.SizeProvider;
-using Files.App.Utils.Git;
-using Files.Shared.Helpers;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Models;
+using KyraFiles.App.Services.SizeProvider;
+using KyraFiles.App.Utils.Git;
+using KyraFiles.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -23,12 +23,12 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.Win32;
 using Windows.Win32.System.SystemServices;
-using static Files.App.Helpers.Win32PInvoke;
+using static KyraFiles.App.Helpers.Win32PInvoke;
 using ByteSize = ByteSizeLib.ByteSize;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.ViewModels
+namespace KyraFiles.App.ViewModels
 {
 	/// <summary>
 	/// Represents view model of <see cref="IShellPage"/>.

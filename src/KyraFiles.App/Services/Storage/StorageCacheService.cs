@@ -3,7 +3,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <inheritdoc cref="IStorageCacheService"/>
 	internal sealed class StorageCacheService : IStorageCacheService

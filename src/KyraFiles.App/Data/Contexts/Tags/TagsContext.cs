@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	sealed partial class TagsContext : ITagsContext
 	{

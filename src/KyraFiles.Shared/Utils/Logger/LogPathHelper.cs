@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Files.Shared
+namespace KyraFiles.Shared
 {
 	public static partial class LogPathHelper
 	{

@@ -1,6 +1,6 @@
 ﻿using TagLib;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal sealed class MediaFileHelper
 	{

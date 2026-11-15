@@ -2,11 +2,11 @@
 
 using System.Buffers;
 using System.Runtime.InteropServices;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Basic;
+namespace KyraFiles.App.Search.Index.Basic;
 
 /// <summary>
 /// Monitora alterações em tempo real em um volume (modo básico) usando <c>ReadDirectoryChangesExW</c>

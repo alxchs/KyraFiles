@@ -3,7 +3,7 @@
 
 using Windows.Win32;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Represents manager for layout preferences settings.

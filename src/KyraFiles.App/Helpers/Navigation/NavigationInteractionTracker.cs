@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal sealed partial class NavigationInteractionTracker : IDisposable
 	{

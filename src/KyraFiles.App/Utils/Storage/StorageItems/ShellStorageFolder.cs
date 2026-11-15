@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{

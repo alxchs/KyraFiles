@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
-namespace Files.App.UserControls.StatusCenter
+namespace KyraFiles.App.UserControls.StatusCenter
 {
 	public sealed partial class StatusCenter : UserControl
 	{

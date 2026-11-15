@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	[WinRT.GeneratedBindableCustomProperty([nameof(Text), nameof(Definition)], [])]
 	public sealed partial class DynamicColumnValue : ObservableObject

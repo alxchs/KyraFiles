@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Previews;
+using KyraFiles.App.ViewModels.Previews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.Win32.Foundation;
 using WinRT;
 
-namespace Files.App.UserControls.FilePreviews
+namespace KyraFiles.App.UserControls.FilePreviews
 {
 	public sealed partial class ShellPreview : UserControl
 	{

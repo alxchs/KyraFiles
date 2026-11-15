@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenLogFileAction : IAction

@@ -3,17 +3,17 @@
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Files.Core.SourceGenerator.Utilities
+namespace KyraFiles.Core.SourceGenerator.Utilities
 {
 	/// <summary>
 	/// Helper methods and constants for source code generation tasks.
 	/// </summary>
 	internal static class SourceGeneratorHelper
 	{
-		internal const string AttributeNamespace = $"{nameof(Files)}.Shared.Attributes.";
-		internal const string HelperNamespace = $"{nameof(Files)}.App.Helpers.";
+		internal const string AttributeNamespace = "KyraFiles.Shared.Attributes.";
+		internal const string HelperNamespace = "KyraFiles.App.Helpers.";
 		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
-		internal const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
+		internal const string AssemblyName = "KyraFiles.Core.SourceGenerator.";
 		internal const string AssemblyVersion = "1.1.1";
 
 		/// <summary>

@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Data.Contracts;
+using KyraFiles.App.Data.Contracts;
 using Windows.UI.ViewManagement;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class SidebarSectionIcons
 	{

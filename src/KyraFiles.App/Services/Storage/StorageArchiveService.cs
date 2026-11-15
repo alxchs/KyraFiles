@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using UtfUnknown;
 using Windows.Storage;
 using Windows.Win32;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IStorageArchiveService"/>
 	public class StorageArchiveService : IStorageArchiveService

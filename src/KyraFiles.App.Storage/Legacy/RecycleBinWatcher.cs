@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.Shared.Extensions;
+using KyraFiles.Shared.Extensions;
 using System.Security.Principal;
 
-namespace Files.App.Storage.Watchers
+namespace KyraFiles.App.Storage.Watchers
 {
 	[Obsolete]
 	public class RecycleBinWatcher : ITrashWatcher

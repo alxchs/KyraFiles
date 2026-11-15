@@ -12,7 +12,7 @@ using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.System.Recovery;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public sealed partial class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
@@ -70,8 +70,24 @@ namespace Files.App.Services
 			private set => SetProperty(ref _areReleaseNotesAvailable, value);
 		}
 
+		private ReleaseCheckResult? _latestResult;
+
 		public async Task DownloadUpdatesAsync()
 		{
+			if (_latestResult?.PageUrl is not null)
+			{
+				try
+				{
+					await Windows.System.Launcher.LaunchUriAsync(new Uri(_latestResult.PageUrl));
+					IsUpdateAvailable = false;
+					return;
+				}
+				catch (Exception ex)
+				{
+					Logger?.LogWarning(ex, "Failed to launch update URL: {Url}", _latestResult.PageUrl);
+				}
+			}
+
 			await ApplyPackageUpdateAsync();
 		}
 
@@ -88,6 +104,7 @@ namespace Files.App.Services
 				Logger?.LogInformation("SIDELOAD: Checking for updates via Custom Releases...");
 
 				var result = await ReleaseCheckService.CheckAsync();
+				_latestResult = result;
 				if (result.Status == ReleaseCheckStatus.Available)
 				{
 					Logger?.LogInformation($"SIDELOAD: Update found: {result.Latest} (current: {result.Current})");
@@ -193,7 +210,16 @@ namespace Files.App.Services
 
 				await Task.Run(async () =>
 				{
-					var appInstallerUri = new Uri(_sideloadVersion[PackageName]);
+					if (!_sideloadVersion.TryGetValue(PackageName, out var appInstallerUrl))
+					{
+						if (_latestResult?.PageUrl is not null)
+						{
+							await Windows.System.Launcher.LaunchUriAsync(new Uri(_latestResult.PageUrl));
+						}
+						return;
+					}
+
+					var appInstallerUri = new Uri(appInstallerUrl);
 
 					var deployment = packageManager.AddPackageByAppInstallerFileAsync(
 						appInstallerUri,

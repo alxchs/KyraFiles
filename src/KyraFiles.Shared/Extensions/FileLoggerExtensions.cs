@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class FileLoggerExtensions
 	{

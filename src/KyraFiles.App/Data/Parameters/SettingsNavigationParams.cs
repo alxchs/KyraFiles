@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Parameters
+namespace KyraFiles.App.Data.Parameters
 {
 	public sealed class SettingsNavigationParams
 	{

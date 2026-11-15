@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Input;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public record class BreadcrumbBarItemClickedEventArgs(BreadcrumbBarItem Item, int Index, bool IsRootItem = false, PointerRoutedEventArgs? PointerRoutedEventArgs = null);
 

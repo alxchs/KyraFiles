@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	public sealed partial class TagsPage : Page
 	{

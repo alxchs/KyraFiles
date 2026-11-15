@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Files Custom (F065): one result line of es.exe run with -tsv -no-header -attrib -size -dm,

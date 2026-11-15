@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UITests.Views;
+using KyraFiles.App.UITests.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using WinRT;
 
-namespace Files.App.UITests
+namespace KyraFiles.App.UITests
 {
 	public sealed partial class MainWindow : Window
 	{

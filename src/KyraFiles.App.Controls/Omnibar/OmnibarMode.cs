@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Input;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "(),nq}")]
 	public partial class OmnibarMode : ItemsControl

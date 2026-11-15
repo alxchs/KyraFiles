@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 
-namespace Files.InteractionTests.Tests
+namespace KyraFiles.InteractionTests.Tests
 {
 	// Tests are declared in the order the app naturally flows: the Home page (where the app opens)
 	// first, then the sidebar, then the file area. File-area tests share a single folder under the

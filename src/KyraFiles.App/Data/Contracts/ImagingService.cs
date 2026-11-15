@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0612 // FileThumbnailHelper.LoadIconFromPathAsync obsolete; migrate to GetIconAsync when ImagingService is refactored
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 using Microsoft.Extensions.Logging;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	internal sealed class ImagingService : IImageService
 	{

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public record class OmnibarQuerySubmittedEventArgs(OmnibarMode Mode, object? Item, string Text);
 

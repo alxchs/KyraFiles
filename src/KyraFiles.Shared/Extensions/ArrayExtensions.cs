@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class ArrayExtensions
 	{

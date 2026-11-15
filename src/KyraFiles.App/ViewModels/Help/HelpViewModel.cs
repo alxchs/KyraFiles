@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Collections.ObjectModel;
-using Files.App.Data.Help;
-using Files.App.Services.Help;
+using KyraFiles.App.Data.Help;
+using KyraFiles.App.Services.Help;
 
-namespace Files.App.ViewModels.Help
+namespace KyraFiles.App.ViewModels.Help
 {
 	/// <summary>
 	/// ViewModel powering the HelpPane and help presentation UI.

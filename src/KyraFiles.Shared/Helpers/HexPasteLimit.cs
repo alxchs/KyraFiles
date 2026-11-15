@@ -4,7 +4,7 @@
 using System;
 using System.Text;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Enforces paste size limits in the hex editor (F060 M2 / NFR-002 / M2-T1 risk note).

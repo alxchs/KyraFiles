@@ -9,7 +9,7 @@ using Microsoft.UI.Windowing;
 using Windows.Win32;
 using WinRT;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	/// <summary>
 	/// Creates and manages the toolbar customization window lifecycle.

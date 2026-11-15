@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Services.Search;
+using KyraFiles.App.Services.Search;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	/// <summary>
 	/// F065: lines copied from a real es.exe run (-tsv -no-header -attrib -size -dm), read by the same code the app uses.

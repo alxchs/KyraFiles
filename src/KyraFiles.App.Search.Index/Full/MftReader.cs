@@ -3,12 +3,12 @@
 using System.Buffers;
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
-using Files.App.Search.Index.Basic;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Basic;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Full;
+namespace KyraFiles.App.Search.Index.Full;
 
 /// <summary>
 /// Resultado da comparação entre o índice gerado pelo <see cref="MftReader"/> (modo completo)

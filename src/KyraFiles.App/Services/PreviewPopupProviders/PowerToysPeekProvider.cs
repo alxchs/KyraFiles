@@ -4,7 +4,7 @@
 using System.IO;
 using Microsoft.Win32;
 
-namespace Files.App.Services.PreviewPopupProviders
+namespace KyraFiles.App.Services.PreviewPopupProviders
 {
 	public sealed class PowerToysPeekProvider : IPreviewPopupProvider
 	{

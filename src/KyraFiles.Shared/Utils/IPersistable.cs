@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Utils
+namespace KyraFiles.Shared.Utils
 {
 	/// <summary>
 	/// Allows for data to be saved and loaded from a persistence store.

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls.Primitives;
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	public interface IHomePageContext
 	{

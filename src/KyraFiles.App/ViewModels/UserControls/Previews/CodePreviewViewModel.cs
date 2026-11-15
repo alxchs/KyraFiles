@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using ColorCode;
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 using System.Collections.Frozen;
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public sealed partial class CodePreviewViewModel : BasePreviewModel
 	{

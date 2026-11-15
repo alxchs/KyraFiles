@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.Helpers.Application;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Helpers.Application;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -13,7 +13,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using WinRT;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class UIHelpers
 	{

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Markup;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	[MarkupExtensionReturnType(ReturnType = typeof(ThemedIcon))]
 	public sealed partial class ThemedIconMarkup : MarkupExtension

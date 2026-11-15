@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
-using Files.App.Services.Git;
+using KyraFiles.App.Dialogs;
+using KyraFiles.App.Services.Git;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -12,7 +12,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Files.App.Utils.Git
+namespace KyraFiles.App.Utils.Git
 {
 	internal static partial class GitHelpers
 	{

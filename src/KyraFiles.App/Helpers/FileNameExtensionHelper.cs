@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public sealed class FileNameParts
 	{

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.Data.Contracts;
-using Files.App.Data.Models;
-using Files.App.Dialogs;
-using Files.App.UserControls;
-using Files.App.UserControls.Selection;
-using Files.App.ViewModels.Dialogs;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Models;
+using KyraFiles.App.Dialogs;
+using KyraFiles.App.UserControls;
+using KyraFiles.App.UserControls.Selection;
+using KyraFiles.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,9 +25,9 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.App.Data.Enums.SortDirection;
+using SortDirection = KyraFiles.App.Data.Enums.SortDirection;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Details View
@@ -1184,7 +1184,7 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = Grid.GetColumn(sender as Files.App.Controls.GridSplitter) / 2 + 1;
+			var columnToResize = Grid.GetColumn(sender as KyraFiles.App.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
 
 			e.Handled = true;
@@ -1492,7 +1492,7 @@ namespace Files.App.Views.Layouts
 				HeaderGrid.Children.Add(header);
 				dynamicHeaderElements.Add(header);
 
-				var splitter = new Files.App.Controls.GridSplitter
+				var splitter = new KyraFiles.App.Controls.GridSplitter
 				{
 					Style = (Style)Resources["HeaderGridSplitterStyle"],
 					Tag = dynCol,

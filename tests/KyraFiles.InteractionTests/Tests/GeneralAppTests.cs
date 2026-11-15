@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.InteractionTests.Tests
+namespace KyraFiles.InteractionTests.Tests
 {
 	[TestClass]
 	public sealed class GeneralAppTests

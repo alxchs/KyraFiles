@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// Defines a framework element automation peer for the <see cref="BladeView"/> control.

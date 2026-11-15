@@ -4,7 +4,7 @@
 using Windows.Storage;
 using IO = System.IO;
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public sealed class StorageFileWithPath : IStorageItemWithPath
 	{

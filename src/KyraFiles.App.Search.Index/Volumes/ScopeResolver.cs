@@ -1,8 +1,8 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Interop;
 
-namespace Files.App.Search.Index.Volumes;
+namespace KyraFiles.App.Search.Index.Volumes;
 
 /// <summary>
 /// Resolve escopos de busca a partir do caminho navegado pelo usuário, tratando letras subst,

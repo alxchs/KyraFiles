@@ -6,7 +6,7 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public partial class BaseStorageItemExtraProperties : IStorageItemExtraProperties
 	{

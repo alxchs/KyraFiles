@@ -6,9 +6,9 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Security.Cryptography;
 using Windows.Win32.Security.WinTrust;
-using static Files.App.Helpers.Win32PInvoke;
+using static KyraFiles.App.Helpers.Win32PInvoke;
 
-namespace Files.App.Utils.Signatures
+namespace KyraFiles.App.Utils.Signatures
 {
 	public static class DigitalSignaturesUtil
 	{

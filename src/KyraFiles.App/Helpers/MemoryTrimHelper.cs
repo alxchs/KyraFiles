@@ -3,11 +3,11 @@
 
 using System.Diagnostics;
 using System.Runtime;
-using Files.App.Utils.Storage.Operations;
+using KyraFiles.App.Utils.Storage.Operations;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Provides safe, non-blocking working set and garbage collection trimming

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	// Content
 	[ContentProperty(Name = nameof(Modes))]

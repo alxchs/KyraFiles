@@ -7,9 +7,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
-using static Files.App.Helpers.MenuFlyoutHelper;
+using static KyraFiles.App.Helpers.MenuFlyoutHelper;
 
-namespace Files.App.UserControls.Menus
+namespace KyraFiles.App.UserControls.Menus
 {
 	public sealed partial class FileTagsContextMenu : MenuFlyout
 	{

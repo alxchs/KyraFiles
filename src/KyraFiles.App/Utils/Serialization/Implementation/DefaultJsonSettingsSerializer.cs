@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization.Metadata;
 
-namespace Files.App.Utils.Serialization.Implementation
+namespace KyraFiles.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
 	{

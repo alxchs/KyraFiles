@@ -6,7 +6,7 @@ using System.IO;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Services.SizeProvider
+namespace KyraFiles.App.Services.SizeProvider
 {
 	public sealed partial class CachedSizeProvider : ISizeProvider
 	{

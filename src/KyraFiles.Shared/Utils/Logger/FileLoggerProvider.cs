@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Files.Shared
+namespace KyraFiles.Shared
 {
 	public sealed class FileLoggerProvider : ILoggerProvider
 	{

@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Settings;
+using KyraFiles.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Text;
 using Windows.System;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	/// <summary>
 	/// A dialog for adding a new key binding or editing an existing one on the Actions settings page.

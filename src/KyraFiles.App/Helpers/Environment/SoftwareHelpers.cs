@@ -4,7 +4,7 @@
 using Microsoft.Win32;
 using System.Security;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal static class SoftwareHelpers
 	{

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	public static class ActionCategoryConverter
 	{

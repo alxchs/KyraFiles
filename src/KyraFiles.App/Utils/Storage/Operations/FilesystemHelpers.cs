@@ -14,7 +14,7 @@ using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.UI.Shell;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class FilesystemHelpers : IFilesystemHelpers
 	{

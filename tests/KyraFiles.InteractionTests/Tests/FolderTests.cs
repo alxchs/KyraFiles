@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 using System;
 using System.Threading;
 
-namespace Files.InteractionTests.Tests
+namespace KyraFiles.InteractionTests.Tests
 {
 	[TestClass]
 	public sealed class FolderTests

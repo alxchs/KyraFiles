@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Threading;
-using static Files.Core.SourceGenerator.Constants.DiagnosticDescriptors;
-using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
-using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
+using static KyraFiles.Core.SourceGenerator.Constants.DiagnosticDescriptors;
+using static KyraFiles.Core.SourceGenerator.Constants.StringsPropertyGenerator;
+using static KyraFiles.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 
-namespace Files.Core.SourceGenerator.Generators
+namespace KyraFiles.Core.SourceGenerator.Generators
 {
 	/// <summary>
 	/// Generates properties for strings based on resource files.

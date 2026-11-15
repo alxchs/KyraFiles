@@ -4,7 +4,7 @@
 using SevenZip;
 using System.Text;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Represents a service to manage storage archives, powered by 7zip and its C# wrapper SevenZipSharp.

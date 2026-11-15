@@ -3,7 +3,7 @@
 
 using Windows.System;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed class ContextMenuFlyoutItemViewModelBuilder
 	{

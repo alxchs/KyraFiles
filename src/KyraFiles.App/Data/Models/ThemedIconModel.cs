@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using WinRT;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public struct ThemedIconModel
 	{

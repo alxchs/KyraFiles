@@ -9,7 +9,7 @@ using Microsoft.Web.WebView2.Core;
 using Windows.System;
 using WinRT;
 
-namespace Files.App.Views
+namespace KyraFiles.App.Views
 {
 	public sealed partial class ReleaseNotesPage : Page, IDisposable
 	{

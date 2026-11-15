@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
@@ -194,6 +194,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating if the library section should be expanded.
 		/// </summary>
 		bool IsLibrarySectionExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating if the this pc section should be expanded.
+		/// </summary>
+		bool IsThisPCSectionExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the drive section should be expanded.

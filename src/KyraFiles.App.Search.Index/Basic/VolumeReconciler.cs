@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 
-namespace Files.App.Search.Index.Basic;
+namespace KyraFiles.App.Search.Index.Basic;
 
 /// <summary>
 /// Um reconciliador por volume, dono da reconferência da abertura e da que segue um estouro do

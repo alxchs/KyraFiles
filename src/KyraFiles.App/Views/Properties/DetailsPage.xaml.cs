@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.Dialogs;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Views.Properties
+namespace KyraFiles.App.Views.Properties
 {
 	public sealed partial class DetailsPage : BasePropertiesPage
 	{

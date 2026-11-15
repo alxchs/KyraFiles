@@ -1,12 +1,12 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
-	x:Class="Files.App.Views.HexEditor.HexEditorPage"
+	x:Class="KyraFiles.App.Views.HexEditor.HexEditorPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.HexEditor"
+	xmlns:vm="using:KyraFiles.App.ViewModels.HexEditor"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	HighContrastAdjustment="None"
 	KeyDown="Page_KeyDown"

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	internal sealed class LocalizationService : ILocalizationService
 	{

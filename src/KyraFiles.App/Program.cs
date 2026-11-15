@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Settings;
@@ -13,7 +13,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 
-namespace Files.App
+namespace KyraFiles.App
 {
 	/// <summary>
 	/// Represents the base entry point of the Files app.

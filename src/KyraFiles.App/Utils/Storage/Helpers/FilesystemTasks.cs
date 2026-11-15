@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class FilesystemTasks
 	{

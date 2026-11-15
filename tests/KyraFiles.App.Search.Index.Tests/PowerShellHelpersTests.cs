@@ -3,10 +3,10 @@
 
 using System.Diagnostics;
 using System.IO;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	[TestClass]
 	public class PowerShellHelpersTests

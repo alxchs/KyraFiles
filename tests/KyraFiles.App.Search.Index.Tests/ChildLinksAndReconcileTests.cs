@@ -1,10 +1,10 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Diagnostics;
-using Files.App.Search.Index.Basic;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Basic;
+using KyraFiles.App.Search.Index.Storage;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 /// <summary>
 /// F015 T17a (listas de filhos, apagamento e busca de filho sem varrer o índice) e T17b (data das subpastas).

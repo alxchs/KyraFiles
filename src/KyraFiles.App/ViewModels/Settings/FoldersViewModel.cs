@@ -1,7 +1,7 @@
-using Files.App.Data.Enums;
-using Files.App.Services.Search;
+using KyraFiles.App.Data.Enums;
+using KyraFiles.App.Services.Search;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class SearchIndexVolumeItemViewModel : ObservableObject
 	{

@@ -7,7 +7,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public readonly struct WindowMessage
 	{

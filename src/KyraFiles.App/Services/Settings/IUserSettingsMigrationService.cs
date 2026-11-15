@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	/// <summary>
 	/// Represents a service responsible for non-destructive settings migration between application identities.

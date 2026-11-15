@@ -1,10 +1,10 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 
-namespace Files.App.Search.Index.Volumes;
+namespace KyraFiles.App.Search.Index.Volumes;
 
 /// <summary>
 /// Monitora a chegada, remoção e estados de volumes (F015 T16 — FR-033, AC-13).

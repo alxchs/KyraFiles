@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-namespace Files.App.UserControls.Widgets
+namespace KyraFiles.App.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents a control that displays a list of recent files with <see cref="WidgetFolderCardItem"/>.

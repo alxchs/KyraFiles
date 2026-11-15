@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Files.App.Services.Git;
+namespace KyraFiles.App.Services.Git;
 
 internal sealed partial class LibGit2Service // : IVersionControl
 {

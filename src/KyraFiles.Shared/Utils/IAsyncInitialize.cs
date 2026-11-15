@@ -4,7 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Utils
+namespace KyraFiles.Shared.Utils
 {
 	/// <summary>
 	/// Allows an object to be initialized asynchronously.

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	internal sealed class IconCacheService : IIconCacheService
 	{

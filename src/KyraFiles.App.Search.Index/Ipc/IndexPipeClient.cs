@@ -3,7 +3,7 @@
 using System.IO.Pipes;
 using System.Text.Json;
 
-namespace Files.App.Search.Index.Ipc;
+namespace KyraFiles.App.Search.Index.Ipc;
 
 /// <summary>
 /// Cliente assíncrono de Named Pipe para comunicação entre o Files e o <c>KyraFiles.App.IndexService.exe</c>

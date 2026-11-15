@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Help;
+using KyraFiles.App.Data.Help;
 
-namespace Files.App.Services.Help
+namespace KyraFiles.App.Services.Help
 {
 	/// <summary>
 	/// Event arguments dispatched when a help request is triggered with a requested context.

@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class BreadcrumbBarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider
 	{

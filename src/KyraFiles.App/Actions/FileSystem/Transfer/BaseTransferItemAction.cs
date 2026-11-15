@@ -3,7 +3,7 @@
 
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	internal abstract class BaseTransferItemAction : ObservableObject
 	{

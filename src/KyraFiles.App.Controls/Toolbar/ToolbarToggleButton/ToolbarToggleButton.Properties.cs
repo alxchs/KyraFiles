@@ -3,7 +3,7 @@
 
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class ToolbarToggleButton : ToggleButton, IToolbarItemSet
 	{

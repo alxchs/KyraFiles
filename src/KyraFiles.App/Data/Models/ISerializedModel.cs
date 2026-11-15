@@ -1,4 +1,4 @@
-﻿namespace Files.App.Data.Models
+﻿namespace KyraFiles.App.Data.Models
 {
 	/// <summary>
 	/// Represents a model that holds serialized data.

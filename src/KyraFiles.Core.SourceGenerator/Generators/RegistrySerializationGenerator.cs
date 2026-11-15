@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Generators
+namespace KyraFiles.Core.SourceGenerator.Generators
 {
 	/// <summary>
 	/// A generator for serializing/deserializing objects to/from the Windows Registry using attributes.
@@ -16,7 +16,7 @@ namespace Files.Core.SourceGenerator.Generators
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 			var valueProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
-				"Files.Shared.Attributes.RegistrySerializableAttribute",
+				"KyraFiles.Shared.Attributes.RegistrySerializableAttribute",
 				(node, _) => node.IsKind(SyntaxKind.ClassDeclaration),
 				(ctx, _) => (ITypeSymbol)ctx.TargetSymbol);
 

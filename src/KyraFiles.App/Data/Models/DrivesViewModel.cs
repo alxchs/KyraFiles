@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services.SizeProvider;
+using KyraFiles.App.Services.SizeProvider;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed partial class DrivesViewModel : ObservableObject, IDisposable
 	{

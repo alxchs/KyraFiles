@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using WinRT;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed partial class VisibilityInvertConverter : IValueConverter
 	{

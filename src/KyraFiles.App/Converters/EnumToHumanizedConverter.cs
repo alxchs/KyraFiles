@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Data;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed partial class EnumToHumanizedConverter : IValueConverter
 	{

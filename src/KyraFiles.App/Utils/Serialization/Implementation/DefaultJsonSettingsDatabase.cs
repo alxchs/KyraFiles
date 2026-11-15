@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Files.App.Utils.Serialization.Implementation
+namespace KyraFiles.App.Utils.Serialization.Implementation
 {
 	internal class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
 	{

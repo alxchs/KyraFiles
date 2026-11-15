@@ -8,7 +8,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.DataExchange;
 
-namespace Files.App.Services.PreviewPopupProviders
+namespace KyraFiles.App.Services.PreviewPopupProviders
 {
 	public sealed class SeerProProvider : IPreviewPopupProvider
 	{

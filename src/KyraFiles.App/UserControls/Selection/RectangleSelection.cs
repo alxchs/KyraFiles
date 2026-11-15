@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.UserControls.Selection
+namespace KyraFiles.App.UserControls.Selection
 {
 	/// <summary>
 	/// Adds drag selection to a ListView, GridView or DataGrid

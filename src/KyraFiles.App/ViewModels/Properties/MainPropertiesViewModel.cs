@@ -1,15 +1,15 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
-using Files.App.Views.Properties;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Views.Properties;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using WinRT;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public sealed partial class MainPropertiesViewModel : ObservableObject
 	{

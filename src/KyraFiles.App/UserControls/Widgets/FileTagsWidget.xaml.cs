@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
-namespace Files.App.UserControls.Widgets
+namespace KyraFiles.App.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents group of control displays a list of <see cref="WidgetFileTagsContainerItem"/>

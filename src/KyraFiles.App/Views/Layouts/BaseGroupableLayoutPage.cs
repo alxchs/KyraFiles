@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Helpers;
-using Files.App.ViewModels.Layouts;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +16,7 @@ using Windows.UI.Core;
 using Windows.Win32;
 using WinRT;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents layout page that can be grouped by.

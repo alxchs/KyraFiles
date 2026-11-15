@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	public readonly struct RichGlyph
 	{

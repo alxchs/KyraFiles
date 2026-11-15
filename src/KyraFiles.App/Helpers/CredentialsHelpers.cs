@@ -1,6 +1,6 @@
 ﻿using Windows.Security.Credentials;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal sealed class CredentialsHelpers
 	{

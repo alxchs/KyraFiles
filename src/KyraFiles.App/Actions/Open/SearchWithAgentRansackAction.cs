@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services.Search;
+using KyraFiles.App.Services.Search;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	/// <summary>
 	/// Files Custom: F3 opens Agent Ransack on the current folder, as in Explorer; without it, F3 opens the Files search (F013).

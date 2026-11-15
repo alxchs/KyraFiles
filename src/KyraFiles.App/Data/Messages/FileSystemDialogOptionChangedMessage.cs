@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace Files.App.Data.Messages
+namespace KyraFiles.App.Data.Messages
 {
 	/// <summary>
 	/// Represents a messenger for FileSystemDialog option changed.

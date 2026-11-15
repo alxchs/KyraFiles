@@ -3,7 +3,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Files.App.Helpers;
+namespace KyraFiles.App.Helpers;
 
 public static partial class RegexHelpers
 {

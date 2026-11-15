@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using System;
 
-namespace Files.App.UITests.Data
+namespace KyraFiles.App.UITests.Data
 {
 	public partial record OmnibarPaletteSuggestionItem(string Title, string Description, string HotKeys)
 		: IOmnibarTextMemberPathProvider

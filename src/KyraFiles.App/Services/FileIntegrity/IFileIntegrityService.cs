@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Services.FileIntegrity
+namespace KyraFiles.App.Services.FileIntegrity
 {
 	public enum ChecksumAlgorithm
 	{

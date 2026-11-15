@@ -3,7 +3,7 @@
 
 using FluentFTP;
 
-namespace Files.App.Storage
+namespace KyraFiles.App.Storage
 {
 	public abstract class FtpStorable : IStorableChild
 	{

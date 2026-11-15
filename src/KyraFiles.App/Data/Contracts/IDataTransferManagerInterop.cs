@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	[GeneratedComInterface]
 	[Guid("3A3DCD6C-3EAB-43DC-BCDE-45671CE800C8")]

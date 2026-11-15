@@ -4,15 +4,69 @@
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
-using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
-using static Files.App.Helpers.RegistryHelpers;
+using static KyraFiles.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
+using static KyraFiles.App.Helpers.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public sealed class LayoutPreferencesDatabase
 	{
-		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\LayoutPreferences";
+		private readonly static string LayoutSettingsKey = GetOrMigrateLayoutSettingsKey();
+
+		private static string GetOrMigrateLayoutSettingsKey()
+		{
+			var primaryKey = @$"Software\KyraFiles\{Package.Current.Id.Name}\v1\LayoutPreferences";
+			try
+			{
+				using var existingNewKey = Registry.CurrentUser.OpenSubKey(primaryKey);
+				if (existingNewKey is null)
+				{
+					var legacyCandidates = new[]
+					{
+						@$"Software\Files Community\{Package.Current.Id.Name}\v1\LayoutPreferences",
+						@"Software\Files Community\FilesDev\v1\LayoutPreferences",
+						@"Software\Files Community\FilesCustom\v1\LayoutPreferences",
+						@"Software\Files Community\49306TheFilesOrganization.Files\v1\LayoutPreferences"
+					};
+
+					foreach (var legacyPath in legacyCandidates)
+					{
+						using var legacyKey = Registry.CurrentUser.OpenSubKey(legacyPath);
+						if (legacyKey is not null)
+						{
+							using var newKey = Registry.CurrentUser.CreateSubKey(primaryKey);
+							CopyRegistryTree(legacyKey, newKey);
+							break;
+						}
+					}
+				}
+			}
+			catch { }
+
+			return primaryKey;
+		}
+
+		private static void CopyRegistryTree(RegistryKey source, RegistryKey destination)
+		{
+			foreach (var valueName in source.GetValueNames())
+			{
+				var val = source.GetValue(valueName);
+				var kind = source.GetValueKind(valueName);
+				if (val is not null)
+					destination.SetValue(valueName, val, kind);
+			}
+
+			foreach (var subKeyName in source.GetSubKeyNames())
+			{
+				using var srcSub = source.OpenSubKey(subKeyName);
+				if (srcSub is not null)
+				{
+					using var dstSub = destination.CreateSubKey(subKeyName);
+					CopyRegistryTree(srcSub, dstSub);
+				}
+			}
+		}
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{

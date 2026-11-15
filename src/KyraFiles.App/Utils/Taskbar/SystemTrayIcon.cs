@@ -13,7 +13,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Utils.Taskbar
+namespace KyraFiles.App.Utils.Taskbar
 {
 	/// <summary>
 	/// Represents a tray icon of Notification Area so-called System Tray.

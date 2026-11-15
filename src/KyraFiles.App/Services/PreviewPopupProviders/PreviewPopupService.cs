@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Services.PreviewPopupProviders
+namespace KyraFiles.App.Services.PreviewPopupProviders
 {
 	/// <inheritdoc cref="IPreviewPopupService"/>
 	internal sealed partial class PreviewPopupService : ObservableObject, IPreviewPopupService

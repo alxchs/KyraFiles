@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 
 namespace HexEditorHarness;
 

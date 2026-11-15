@@ -3,7 +3,7 @@
 
 using System.Text;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	/// <summary>
 	/// Represents a text encoding in the application.

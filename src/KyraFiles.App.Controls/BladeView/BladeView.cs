@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// A container that hosts <see cref="BladeItem"/> controls in a horizontal scrolling list

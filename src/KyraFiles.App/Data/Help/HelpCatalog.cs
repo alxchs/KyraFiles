@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Collections.ObjectModel;
-using Files.App.Data.Help;
+using KyraFiles.App.Data.Help;
 
-namespace Files.App.Data.Help
+namespace KyraFiles.App.Data.Help
 {
 	/// <summary>
 	/// Central catalog containing all pre-authored help topics, human explanations, and differentiators.

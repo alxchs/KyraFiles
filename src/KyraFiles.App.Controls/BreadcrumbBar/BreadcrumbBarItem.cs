@@ -5,7 +5,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class BreadcrumbBarItem : ContentControl
 	{

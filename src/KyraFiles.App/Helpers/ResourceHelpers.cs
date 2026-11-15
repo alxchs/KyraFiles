@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Markup;
 using Windows.ApplicationModel.Resources;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	[MarkupExtensionReturnType(ReturnType = typeof(string))]
 	public sealed partial class ResourceString : MarkupExtension

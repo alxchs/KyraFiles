@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public sealed class QuickAccessManager
 	{

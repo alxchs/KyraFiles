@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.Serialization
+namespace KyraFiles.App.Utils.Serialization
 {
 	[JsonSerializable(typeof(PaneNavigationArguments))]
 	[JsonSerializable(typeof(TaggedFile[]))]
@@ -10,8 +10,8 @@ namespace Files.App.Utils.Serialization
 	[JsonSerializable(typeof(List<LayoutPreferencesDatabaseItem>))]
 	[JsonSerializable(typeof(LayoutPreferencesItem))]
 	[JsonSerializable(typeof(List<ViewModels.Properties.FileProperty>))]
-	[JsonSerializable(typeof(List<Files.App.Data.Models.DynamicColumnDefinition>))]
-	[JsonSerializable(typeof(Files.App.Data.Models.DynamicColumnDefinition))]
+	[JsonSerializable(typeof(List<KyraFiles.App.Data.Models.DynamicColumnDefinition>))]
+	[JsonSerializable(typeof(KyraFiles.App.Data.Models.DynamicColumnDefinition))]
 	internal sealed partial class AppJsonSerializerContext : JsonSerializerContext
 	{
 	}

@@ -6,7 +6,7 @@ using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Resolves the localized shell type name for a file extension (for example ".txt" produces "Text Document").

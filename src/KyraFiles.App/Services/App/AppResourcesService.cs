@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IResourcesService"/>
 	public sealed class ResourcesService : IResourcesService
@@ -166,9 +166,9 @@ namespace Files.App.Services
 		{
 			double itemHeight = density switch
 			{
-				AppDensityKind.UltraCompact => 30.0,
-				AppDensityKind.Compact => 32.0,
-				_ => 40.0,
+				AppDensityKind.UltraCompact => 24.0,
+				AppDensityKind.Compact => 30.0,
+				_ => 36.0,
 			};
 			Application.Current.Resources["App.Theme.Sidebar.ItemHeight"] = itemHeight;
 		}

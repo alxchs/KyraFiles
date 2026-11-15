@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	[DebuggerDisplay("Command None")]
 	internal sealed partial class NoneCommand : IRichCommand

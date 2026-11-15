@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class BulkRenameDialogViewModel : ObservableObject
 	{

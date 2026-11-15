@@ -20,5 +20,5 @@ global using global::Microsoft.UI.Xaml;
 global using global::Microsoft.UI.Xaml.Controls;
 global using global::Microsoft.UI.Xaml.Controls.Primitives;
 
-// Files.App.Controls
-global using global::Files.App.Controls.Primitives;
+// KyraFiles.App.Controls
+global using global::KyraFiles.App.Controls.Primitives;

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.UserControls.Selection
+namespace KyraFiles.App.UserControls.Selection
 {
 	public abstract class ItemSelectionStrategy
 	{

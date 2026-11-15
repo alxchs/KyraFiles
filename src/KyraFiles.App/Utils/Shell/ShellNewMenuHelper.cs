@@ -7,7 +7,7 @@ using System.Security;
 using System.Text;
 using Windows.Storage;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Provides static helper to get extension-specific shell context menu from Windows Registry.

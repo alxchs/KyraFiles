@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 /// <summary>
 /// Checks whether a folder contains git-tracked files by executing git commands with fail-closed safety (FR-002, AC-5).

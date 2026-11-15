@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 /// <summary>
 /// Defines a rule for identifying build folders by folder name, project type, and marker file patterns (FR-001).

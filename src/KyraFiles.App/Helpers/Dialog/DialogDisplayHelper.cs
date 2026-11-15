@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal sealed class DialogDisplayHelper
 	{

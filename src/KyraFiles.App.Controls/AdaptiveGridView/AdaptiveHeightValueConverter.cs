@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Data;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	internal partial class AdaptiveHeightValueConverter : IValueConverter
 	{

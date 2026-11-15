@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Windowing;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class ToggleFullScreenAction : ObservableObject, IToggleAction

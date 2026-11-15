@@ -1,9 +1,9 @@
 // Copyright (c) Files Community. Licensed under the MIT License.
 
 using System.Diagnostics;
-using Files.App.Search.Index.Ipc;
+using KyraFiles.App.Search.Index.Ipc;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class IndexServiceIpcTests

@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Layouts;
+using KyraFiles.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	public interface IBaseLayoutPage : IDisposable
 	{

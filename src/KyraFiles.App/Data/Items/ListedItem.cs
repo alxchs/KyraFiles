@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
-using Files.Shared.Helpers;
+using KyraFiles.App.ViewModels.Properties;
+using KyraFiles.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -13,11 +13,11 @@ using System.Text;
 using Windows.Storage;
 using Windows.Win32.UI.WindowsAndMessaging;
 using ByteSize = ByteSizeLib.ByteSize;
-using Files.App.Data.Models;
+using KyraFiles.App.Data.Models;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.App.Utils
+namespace KyraFiles.App.Utils
 {
 	public partial class ListedItem : ObservableObject, IGroupableItem, IListedItem
 	{

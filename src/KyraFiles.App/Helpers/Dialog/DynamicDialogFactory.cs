@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Dialogs;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Dialogs;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class DynamicDialogFactory
 	{
@@ -725,7 +725,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_CombineFilesDialog(string manifestFilePath, Files.Shared.Helpers.SplitManifest manifest)
+		public static DynamicDialog GetFor_CombineFilesDialog(string manifestFilePath, KyraFiles.Shared.Helpers.SplitManifest manifest)
 		{
 			DynamicDialog? dialog = null;
 
@@ -743,17 +743,17 @@ namespace Files.App.Helpers
 			var itemReject = new ComboBoxItem
 			{
 				Content = Strings.CollisionPolicyReject.GetLocalizedResource(),
-				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Recusar
+				Tag = KyraFiles.Shared.Helpers.CombineCollisionPolicy.Recusar
 			};
 			var itemOverwrite = new ComboBoxItem
 			{
 				Content = Strings.CollisionPolicyOverwrite.GetLocalizedResource(),
-				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Sobrescrever
+				Tag = KyraFiles.Shared.Helpers.CombineCollisionPolicy.Sobrescrever
 			};
 			var itemRename = new ComboBoxItem
 			{
 				Content = Strings.CollisionPolicyRename.GetLocalizedResource(),
-				Tag = Files.Shared.Helpers.CombineCollisionPolicy.Renomear
+				Tag = KyraFiles.Shared.Helpers.CombineCollisionPolicy.Renomear
 			};
 
 			policyCombo.Items.Add(itemReject);
@@ -804,9 +804,9 @@ namespace Files.App.Helpers
 				bool isValid = !string.IsNullOrWhiteSpace(destPathBox.Text);
 				var selectedPolicy = policyCombo.SelectedIndex switch
 				{
-					1 => Files.Shared.Helpers.CombineCollisionPolicy.Sobrescrever,
-					2 => Files.Shared.Helpers.CombineCollisionPolicy.Renomear,
-					_ => Files.Shared.Helpers.CombineCollisionPolicy.Recusar
+					1 => KyraFiles.Shared.Helpers.CombineCollisionPolicy.Sobrescrever,
+					2 => KyraFiles.Shared.Helpers.CombineCollisionPolicy.Renomear,
+					_ => KyraFiles.Shared.Helpers.CombineCollisionPolicy.Recusar
 				};
 
 				if (dialog != null)
@@ -935,7 +935,7 @@ namespace Files.App.Helpers
 
 	public sealed class CombineDialogResult
 	{
-		public Files.Shared.Helpers.CombineCollisionPolicy CollisionPolicy { get; set; } = Files.Shared.Helpers.CombineCollisionPolicy.Recusar;
+		public KyraFiles.Shared.Helpers.CombineCollisionPolicy CollisionPolicy { get; set; } = KyraFiles.Shared.Helpers.CombineCollisionPolicy.Recusar;
 		public string DestinationDirectory { get; set; } = string.Empty;
 	}
 }

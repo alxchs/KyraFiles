@@ -9,7 +9,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal static class BitmapHelper
 	{

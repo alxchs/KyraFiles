@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.Enums
+namespace KyraFiles.App.Data.Enums
 {
 	/// <summary>
 	/// SortDirection is used instead of the CommunityToolkit equivalent because it is tied to the model

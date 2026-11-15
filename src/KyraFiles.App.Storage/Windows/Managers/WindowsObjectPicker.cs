@@ -11,7 +11,7 @@ using Windows.Win32.System.Com;
 using Windows.Win32.Networking.ActiveDirectory;
 using Windows.Win32.System.Variant;
 
-namespace Files.App.Storage
+namespace KyraFiles.App.Storage
 {
 	public static unsafe class WindowsObjectPicker
 	{

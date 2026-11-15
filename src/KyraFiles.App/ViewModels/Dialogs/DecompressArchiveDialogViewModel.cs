@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using Windows.Storage;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class DecompressArchiveDialogViewModel : ObservableObject
 	{

@@ -1,8 +1,8 @@
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Helpers.Application;
+using KyraFiles.App.Helpers.Application;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,7 +17,7 @@ using Windows.Storage;
 using Windows.Win32;
 using WinRT;
 
-namespace Files.App
+namespace KyraFiles.App
 {
 	/// <summary>
 	/// Represents the entry point of UI for Files app.
@@ -210,8 +210,8 @@ namespace Files.App
 					// Files Custom: F069 - Confirma estabilidade apos 10 segundos de execucao estavel
 					_ = Task.Run(async () =>
 					{
-						await Task.Delay(Files.Shared.Helpers.CrashGuardService.StabilityThreshold);
-						Files.Shared.Helpers.CrashGuardService.RecordStable();
+						await Task.Delay(KyraFiles.Shared.Helpers.CrashGuardService.StabilityThreshold);
+						KyraFiles.Shared.Helpers.CrashGuardService.RecordStable();
 					});
 
 					// Deferred so the first frame renders first

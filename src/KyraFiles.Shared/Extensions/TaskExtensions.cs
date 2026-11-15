@@ -4,7 +4,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class TaskExtensions
 	{

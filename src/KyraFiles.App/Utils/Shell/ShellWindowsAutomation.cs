@@ -9,7 +9,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell.Common;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>Provides the AOT-safe vtable calls needed for the IDispatch-based IShellWindows interface.</summary>
 	internal sealed unsafe partial class ShellWindowsAutomation : IDisposable

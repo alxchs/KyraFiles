@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 
-namespace Files.App.Storage
+namespace KyraFiles.App.Storage
 {
 	public static partial class WindowsStorableHelpers
 	{

@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 
-namespace Files.App.Utils.FileTags
+namespace KyraFiles.App.Utils.FileTags
 {
 	public sealed class FileTagsManager
 	{

@@ -7,7 +7,7 @@ using System.IO;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class FlattenFolderAction : ObservableObject, IAction

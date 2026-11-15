@@ -1,12 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Dialogs;
+using KyraFiles.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class ChooseDetailsDialog : ContentDialog, IDialog<ChooseDetailsDialogViewModel>
 	{

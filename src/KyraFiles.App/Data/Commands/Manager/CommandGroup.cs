@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 
-namespace Files.App.Data.Commands;
+namespace KyraFiles.App.Data.Commands;
 
 public abstract class CommandGroup
 {

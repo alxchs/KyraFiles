@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UITests
+namespace KyraFiles.App.UITests
 {
 	public partial class App : Application
 	{

@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class LayoutSizeKindHelper
 	{

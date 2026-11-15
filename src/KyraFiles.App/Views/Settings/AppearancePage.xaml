@@ -1,14 +1,14 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
-	x:Class="Files.App.Views.Settings.AppearancePage"
+	x:Class="KyraFiles.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="using:Files.App.Converters"
+	xmlns:converters="using:KyraFiles.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitem="using:Files.App.Data.Items"
-	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:dataitem="using:KyraFiles.App.Data.Items"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:uc="using:Files.App.UserControls"
+	xmlns:uc="using:KyraFiles.App.UserControls"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
 

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Shared.Helpers;
+namespace KyraFiles.Shared.Helpers;
 
 /// <summary>
 /// Política de tratamento quando já existe um arquivo com o nome de destino na recombinação (F060 M1).

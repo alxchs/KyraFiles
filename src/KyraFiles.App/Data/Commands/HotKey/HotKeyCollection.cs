@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	/// <summary>
 	/// Represents immutable collection of <see cref="HotKey"/>.

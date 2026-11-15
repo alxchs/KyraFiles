@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	internal sealed class ToolbarHistoryItemModel
 	{

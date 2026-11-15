@@ -4,7 +4,7 @@
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class ToggleCompactOverlayAction : ObservableObject, IToggleAction

@@ -4,10 +4,10 @@
 using System.IO;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
-using static Files.App.Helpers.Win32Helper;
-using static Files.App.Helpers.Win32PInvoke;
+using static KyraFiles.App.Helpers.Win32Helper;
+using static KyraFiles.App.Helpers.Win32PInvoke;
 
-namespace Files.App.Utils.Serialization.Implementation
+namespace KyraFiles.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultSettingsSerializer : ISettingsSerializer
 	{

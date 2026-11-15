@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Data.Parameters
+namespace KyraFiles.App.Data.Parameters
 {
 	public sealed class ColumnParam : NavigationArguments
 	{

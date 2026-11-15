@@ -3,11 +3,11 @@
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Security;
+namespace KyraFiles.App.Search.Index.Security;
 
 /// <summary>
 /// Filtro de segurança por permissão de diretório e utilitários de ACL para o modo completo (F015 T15 — FR-025, FR-043, NFR-006, AC-16).
@@ -132,12 +132,12 @@ public sealed class AccessFilter
 	}
 
 	/// <summary>
-	/// Retorna o diretório padrão de snapshots para o modo completo (<c>%ProgramData%\FilesCustom\Index</c> — NFR-006).
+	/// Retorna o diretório padrão de snapshots para o modo completo (<c>%ProgramData%\KyraFiles\Index</c> — NFR-006).
 	/// </summary>
 	public static string GetDefaultFullModeCacheDirectory()
 	{
 		string commonAppData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-		return Path.Combine(commonAppData, "FilesCustom", "Index");
+		return Path.Combine(commonAppData, "KyraFiles", "Index");
 	}
 
 	/// <summary>

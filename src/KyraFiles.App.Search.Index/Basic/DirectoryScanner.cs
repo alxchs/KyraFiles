@@ -1,11 +1,11 @@
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Files.App.Search.Index.Interop;
-using Files.App.Search.Index.Storage;
-using Files.App.Search.Index.Volumes;
+using KyraFiles.App.Search.Index.Interop;
+using KyraFiles.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Volumes;
 
-namespace Files.App.Search.Index.Basic;
+namespace KyraFiles.App.Search.Index.Basic;
 
 /// <summary>
 /// Progresso da varredura de diretório no modo básico.

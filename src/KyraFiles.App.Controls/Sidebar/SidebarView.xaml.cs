@@ -9,7 +9,7 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl

@@ -1,4 +1,4 @@
-﻿namespace Files.Shared.Utils
+﻿namespace KyraFiles.Shared.Utils
 {
 	/// <summary>
 	/// Represents an image which can be displayed in the UI.

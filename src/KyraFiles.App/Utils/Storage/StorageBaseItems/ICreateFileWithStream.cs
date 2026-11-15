@@ -5,7 +5,7 @@ using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public interface ICreateFileWithStream
 	{

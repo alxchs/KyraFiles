@@ -3,7 +3,7 @@
 
 using Windows.Win32.Foundation;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Provides service to manage storage security objects on NTFS and ReFS.

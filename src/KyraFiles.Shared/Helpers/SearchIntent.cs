@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Files.Shared.Helpers
+namespace KyraFiles.Shared.Helpers
 {
 	/// <summary>
 	/// Represents a date/time range filter with inclusive boundaries.

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.Factories
+namespace KyraFiles.App.Data.Factories
 {
 	public static class SecurityAdvancedAccessControlItemFactory
 	{

@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <summary>
 	/// Outcome of a <see cref="ReleaseCheckService.CheckAsync"/> call.
@@ -53,7 +53,7 @@ namespace Files.App.Services
 			try
 			{
 				using var client = new HttpClient { Timeout = Timeout };
-				client.DefaultRequestHeaders.UserAgent.ParseAdd("FilesCustom-UpdateCheck");
+				client.DefaultRequestHeaders.UserAgent.ParseAdd("KyraFiles-UpdateCheck");
 				client.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
 
 				using var response = await client.GetAsync(Constants.ExternalUrl.CustomReleasesApiUrl, cancellationToken);
@@ -74,11 +74,28 @@ namespace Files.App.Services
 
 				var pageUrl = json.RootElement.TryGetProperty("html_url", out var urlElement) ? urlElement.GetString() : null;
 
+				string? downloadUrl = null;
+				if (json.RootElement.TryGetProperty("assets", out var assetsElement) && assetsElement.ValueKind == JsonValueKind.Array)
+				{
+					foreach (var asset in assetsElement.EnumerateArray())
+					{
+						var name = asset.TryGetProperty("name", out var nameProp) ? nameProp.GetString() : null;
+						if (name is not null && name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+						{
+							downloadUrl = asset.TryGetProperty("browser_download_url", out var dlProp) ? dlProp.GetString() : null;
+							if (!string.IsNullOrEmpty(downloadUrl))
+								break;
+						}
+					}
+				}
+
+				var targetUrl = downloadUrl ?? pageUrl ?? Constants.ExternalUrl.CustomReleasesPageUrl;
+
 				// Missing parts count as zero ("4.2" == "4.2.0.0"), so compare normalized versions.
 				var normalizedLatest = new Version(latest.Major, latest.Minor, Math.Max(latest.Build, 0), Math.Max(latest.Revision, 0));
 
 				return normalizedLatest > current
-					? new(ReleaseCheckStatus.Available, current, normalizedLatest, pageUrl ?? Constants.ExternalUrl.CustomReleasesPageUrl)
+					? new(ReleaseCheckStatus.Available, current, normalizedLatest, targetUrl)
 					: new(ReleaseCheckStatus.UpToDate, current, normalizedLatest);
 			}
 			catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or JsonException or InvalidOperationException)

@@ -3,7 +3,7 @@
 
 using System.Collections.Specialized;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	/// <summary>
 	/// Provides manager of recent files and folders of File Explorer on Windows.

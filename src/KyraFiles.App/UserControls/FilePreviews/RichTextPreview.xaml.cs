@@ -1,11 +1,11 @@
-using Files.App.ViewModels.Previews;
+using KyraFiles.App.ViewModels.Previews;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.App.UserControls.FilePreviews
+namespace KyraFiles.App.UserControls.FilePreviews
 {
 	public sealed partial class RichTextPreview : UserControl
 	{

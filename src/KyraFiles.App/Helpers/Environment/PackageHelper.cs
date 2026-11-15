@@ -3,7 +3,7 @@
 
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class PackageHelper
 	{

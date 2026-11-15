@@ -1,16 +1,16 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Items;
-using Files.App.Extensions;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Extensions;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Enumeration;
 using FileAttributes = System.IO.FileAttributes;
 using StorageItemTypes = Windows.Storage.StorageItemTypes;
 
-namespace Files.App.Services.Search
+namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
 	/// Provedor nativo autônomo de busca de alta velocidade, baseado em System.IO.Enumeration Win32 puro e streaming assíncrono.

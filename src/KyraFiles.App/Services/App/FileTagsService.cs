@@ -3,7 +3,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IFileTagsService"/>
 	internal sealed class FileTagsService : IFileTagsService

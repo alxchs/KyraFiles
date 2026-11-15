@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	public static class KeyboardAcceleratorExtensions
 	{

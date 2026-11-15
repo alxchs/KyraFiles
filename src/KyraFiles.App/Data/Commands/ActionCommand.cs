@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Actions;
+using KyraFiles.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Sentry;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code}")]
 	internal sealed partial class ActionCommand : ObservableObject, IRichCommand

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Files.InteractionTests.Helper
+namespace KyraFiles.InteractionTests.Helper
 {
 	public sealed class AxeHelper
 	{

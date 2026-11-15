@@ -1,6 +1,6 @@
 ﻿using Windows.UI.StartScreen;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IStartMenuService"/>
 	internal sealed class StartMenuService : IStartMenuService

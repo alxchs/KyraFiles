@@ -36,7 +36,7 @@ public class PaneToggleHelperTests
         int failed = 0;
         foreach (var c in cases)
         {
-            var res = Files.App.Helpers.InfoPaneToggleHelper.Toggle(c.isOpen, c.currentTab, c.requestedTab);
+            var res = KyraFiles.App.Helpers.InfoPaneToggleHelper.Toggle(c.isOpen, c.currentTab, c.requestedTab);
             bool pass = (res.IsPaneOpen == c.expOpen) && (res.SelectedTab == c.expTab);
             if (!pass)
             {

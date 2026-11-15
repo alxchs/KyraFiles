@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
-using Files.App.Views.Settings;
+using KyraFiles.App.Data.Enums;
+using KyraFiles.App.Views.Settings;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenAboutAction : IAction

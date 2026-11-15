@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.Drawing.Text;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{

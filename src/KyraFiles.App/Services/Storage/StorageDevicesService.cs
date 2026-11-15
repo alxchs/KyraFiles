@@ -6,7 +6,7 @@ using OwlCore.Storage.System.IO;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public sealed class RemovableDrivesService : IRemovableDrivesService
 	{

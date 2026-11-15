@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Windows.Win32.Foundation;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	[WinRT.GeneratedBindableCustomProperty(
 		[

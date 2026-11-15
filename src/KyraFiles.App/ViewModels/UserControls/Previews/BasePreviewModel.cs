@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Files.App.ViewModels.Properties;
+using KyraFiles.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.ViewModels.Previews
+namespace KyraFiles.App.ViewModels.Previews
 {
 	public abstract partial class BasePreviewModel : ObservableObject
 	{

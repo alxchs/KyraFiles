@@ -1,11 +1,11 @@
 // Copyright(c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using System.IO;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public sealed class FileProperties : BaseProperties, IFileProperties
 	{

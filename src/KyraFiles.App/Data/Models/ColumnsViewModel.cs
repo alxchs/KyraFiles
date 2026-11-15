@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using System.Collections.ObjectModel;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	[WinRT.GeneratedBindableCustomProperty(
 		[

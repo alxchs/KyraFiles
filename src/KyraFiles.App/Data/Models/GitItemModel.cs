@@ -1,7 +1,7 @@
 ﻿using LibGit2Sharp;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	/// <summary>
 	/// Represents a model for Git items

@@ -13,7 +13,7 @@ using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public sealed partial class ShelfPane : UserControl
 	{

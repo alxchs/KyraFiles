@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.App.Utils.CommandLine
+namespace KyraFiles.App.Utils.CommandLine
 {
 	/// <summary>
 	/// Provides static helper for parsing of command line arguments on Windows.

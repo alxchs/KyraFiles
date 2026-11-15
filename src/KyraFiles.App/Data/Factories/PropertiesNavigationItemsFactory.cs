@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Controls;
-using Files.App.ViewModels.Properties;
-using Files.Shared.Helpers;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Properties;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
 using WinRT;
 
-namespace Files.App.Data.Factories
+namespace KyraFiles.App.Data.Factories
 {
 	public static class PropertiesNavigationItemsFactory
 	{

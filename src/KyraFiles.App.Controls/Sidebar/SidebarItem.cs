@@ -12,7 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public sealed partial class SidebarItem : Control
 	{
@@ -97,6 +97,13 @@ namespace Files.App.Controls
 					flyoutRepeater.ElementPrepared += FlyoutChildrenPresenter_ElementPrepared;
 					flyoutRepeater.ItemsSource = Item?.Children;
 				}
+			}
+
+			if (GetTemplateChild("ElementBorder") is Border elementBorder &&
+				Microsoft.UI.Xaml.Application.Current?.Resources?.TryGetValue("App.Theme.Sidebar.ItemHeight", out var itemHeightObj) == true &&
+				itemHeightObj is double itemHeight && itemHeight > 0)
+			{
+				elementBorder.Height = itemHeight;
 			}
 
 			if (Owner is null)

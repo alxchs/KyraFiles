@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using WinRT;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	internal abstract class BaseAppThemeAction : ObservableObject
 	{

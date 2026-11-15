@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using System.Collections.Specialized;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class SidebarViewModel
 	{
@@ -27,6 +27,8 @@ namespace Files.App.ViewModels.UserControls
 				yield return SectionKeyByEnum[(int)SectionType.Pinned];
 			if (general.IsLibrarySectionExpanded)
 				yield return SectionKeyByEnum[(int)SectionType.Library];
+			if (general.IsThisPCSectionExpanded)
+				yield return SectionKeyByEnum[(int)SectionType.ThisPC];
 			if (general.IsDriveSectionExpanded)
 				yield return SectionKeyByEnum[(int)SectionType.Drives];
 			if (general.IsCloudDriveSectionExpanded)
@@ -49,6 +51,9 @@ namespace Files.App.ViewModels.UserControls
 					break;
 				case SectionType.Library:
 					general.IsLibrarySectionExpanded = isExpanded;
+					break;
+				case SectionType.ThisPC:
+					general.IsThisPCSectionExpanded = isExpanded;
 					break;
 				case SectionType.Drives:
 					general.IsDriveSectionExpanded = isExpanded;

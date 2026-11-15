@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed class PinnedFoldersManager
 	{

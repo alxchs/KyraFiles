@@ -7,10 +7,10 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Services.FileIntegrity;
+using KyraFiles.App.Services.FileIntegrity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	[TestClass]
 	public class FileIntegrityTests

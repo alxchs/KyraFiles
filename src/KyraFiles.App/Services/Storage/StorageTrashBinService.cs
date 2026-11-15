@@ -11,7 +11,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IStorageTrashBinService"/>
 	public class StorageTrashBinService : IStorageTrashBinService

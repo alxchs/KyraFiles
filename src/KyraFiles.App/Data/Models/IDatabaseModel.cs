@@ -1,6 +1,6 @@
-﻿using Files.Shared.Utils;
+﻿using KyraFiles.Shared.Utils;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	/// <summary>
 	/// Represents a database to store data identified by <typeparamref name="TKey"/>.

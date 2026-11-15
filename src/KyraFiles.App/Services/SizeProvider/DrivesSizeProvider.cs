@@ -4,7 +4,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Files.App.Services.SizeProvider
+namespace KyraFiles.App.Services.SizeProvider
 {
 	public sealed partial class DrivesSizeProvider : ISizeProvider
 	{

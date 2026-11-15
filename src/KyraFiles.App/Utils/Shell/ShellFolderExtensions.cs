@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
 	/// Provides static extension for shell folders.

@@ -5,7 +5,7 @@ using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace KyraFiles.App.Utils.Cloud
 {
 	/// <summary>
 	/// Provides an utility for OX Drive Cloud detection.

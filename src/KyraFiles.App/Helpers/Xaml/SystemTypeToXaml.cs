@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Markup;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public sealed partial class SystemTypeToXaml : MarkupExtension
 	{

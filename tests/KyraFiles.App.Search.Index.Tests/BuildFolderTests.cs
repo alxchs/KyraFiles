@@ -3,9 +3,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using Files.Shared.BuildFolder;
+using KyraFiles.Shared.BuildFolder;
 
-namespace Files.App.Search.Index.Tests;
+namespace KyraFiles.App.Search.Index.Tests;
 
 [TestClass]
 public sealed class BuildFolderTests

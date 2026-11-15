@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	public interface IFoldersSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{

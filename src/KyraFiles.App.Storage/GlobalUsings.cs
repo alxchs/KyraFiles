@@ -15,17 +15,17 @@ global using global::System.Text.Json;
 global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
-// Files.Core.Storage
+// KyraFiles.Core.Storage
 
-global using global::Files.Core.Storage;
-global using global::Files.Core.Storage.Contracts;
-global using global::Files.Core.Storage.Storables;
-global using global::Files.Core.Storage.Enums;
-global using global::Files.Core.Storage.EventArguments;
-global using global::Files.Core.Storage.Extensions;
+global using global::KyraFiles.Core.Storage;
+global using global::KyraFiles.Core.Storage.Contracts;
+global using global::KyraFiles.Core.Storage.Storables;
+global using global::KyraFiles.Core.Storage.Enums;
+global using global::KyraFiles.Core.Storage.EventArguments;
+global using global::KyraFiles.Core.Storage.Extensions;
 global using global::OwlCore.Storage;
 
-// Files.App.Storage
+// KyraFiles.App.Storage
 
-global using global::Files.App.Storage;
-global using global::Files.App.Storage.Storables;
+global using global::KyraFiles.App.Storage;
+global using global::KyraFiles.App.Storage.Storables;

@@ -7,7 +7,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WNDPROC = Windows.Win32.Extras.ManagedWNDPROC;
 
-namespace Files.App.Utils.Taskbar
+namespace KyraFiles.App.Utils.Taskbar
 {
 	/// <summary>
 	/// Represents an icon window of Notification Area so-called System Tray.

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-namespace Files.App.Data.Contexts
+namespace KyraFiles.App.Data.Contexts
 {
 	/// <inheritdoc cref="IMultiPanesContext"/>
 	internal sealed class MultiPanesContext : IMultiPanesContext

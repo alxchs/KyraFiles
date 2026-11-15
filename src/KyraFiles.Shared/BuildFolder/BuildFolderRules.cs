@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Files.Shared.BuildFolder;
+namespace KyraFiles.Shared.BuildFolder;
 
 [JsonSourceGenerationOptions(
 	PropertyNameCaseInsensitive = true,

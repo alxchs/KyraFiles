@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls.Primitives;
 
-namespace Files.App.Data.EventArguments
+namespace KyraFiles.App.Data.EventArguments
 {
 	public sealed class WidgetsRightClickedItemChangedEventArgs
 	{

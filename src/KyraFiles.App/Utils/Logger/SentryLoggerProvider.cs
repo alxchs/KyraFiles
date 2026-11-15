@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Files.App.Utils.Logger
+namespace KyraFiles.App.Utils.Logger
 {
 	public sealed partial class SentryLoggerProvider : ILoggerProvider
 	{

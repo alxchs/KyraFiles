@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Win32;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -9,7 +9,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.AboutPage"/>.
@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Settings
 		// Properties
 
 		public string Version
-			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {Files.App.Helpers.BuildInfo.BuildDateTime}");
+			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {KyraFiles.App.Helpers.BuildInfo.BuildDateTime}");
 
 		public string AppName
 			=> "KyraFiles";
@@ -258,7 +258,7 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetAppVersion()
 		{
-			return $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {Files.App.Helpers.BuildInfo.BuildDateTime}";
+			return $"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision} • {KyraFiles.App.Helpers.BuildInfo.BuildDateTime}";
 		}
 
 		public string GetWindowsVersion()

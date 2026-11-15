@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Contracts;
-using Files.App.Data.Models;
+using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Data.Models;
 using System.Collections.ObjectModel;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class ChooseDetailsItemViewModel : ObservableObject
 	{

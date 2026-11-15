@@ -6,7 +6,7 @@ using System.Text;
 using Windows.Win32;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 
-namespace Files.App.Data.Commands
+namespace KyraFiles.App.Data.Commands
 {
 	/// <summary>
 	/// Represents hot key.

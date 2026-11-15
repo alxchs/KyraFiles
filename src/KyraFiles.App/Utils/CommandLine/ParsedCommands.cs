@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Utils.CommandLine
+namespace KyraFiles.App.Utils.CommandLine
 {
 	/// <summary>
 	/// Represents a collection of parsed command.

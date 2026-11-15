@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	internal interface IIconCacheService
 	{

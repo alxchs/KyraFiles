@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	/// <summary>
 	/// This class is used for grouping file properties into sections so that it can be used as a grouped ListView data source

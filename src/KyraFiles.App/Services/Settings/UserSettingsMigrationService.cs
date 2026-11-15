@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	/// <summary>
 	/// Non-destructive settings migration service that imports configurations, layouts, and tags
@@ -104,6 +104,7 @@ namespace Files.App.Services.Settings
 				if (!string.IsNullOrWhiteSpace(localAppData))
 				{
 					// 1. Unpackaged legacy folders
+					list.Add(Path.Combine(localAppData, "KyraFiles", SettingsFolderName));
 					list.Add(Path.Combine(localAppData, "FilesCustom", SettingsFolderName));
 					list.Add(Path.Combine(localAppData, "Files", SettingsFolderName));
 
@@ -116,6 +117,8 @@ namespace Files.App.Services.Settings
 						{
 							var pkgName = Path.GetFileName(pkg);
 							if (pkgName.StartsWith("FilesDev_", StringComparison.OrdinalIgnoreCase) ||
+								pkgName.StartsWith("KyraFilesDev_", StringComparison.OrdinalIgnoreCase) ||
+								pkgName.StartsWith("KyraFiles_", StringComparison.OrdinalIgnoreCase) ||
 								pkgName.StartsWith("49306TheFilesOrganization.Files_", StringComparison.OrdinalIgnoreCase) ||
 								pkgName.StartsWith("FilesCustom_", StringComparison.OrdinalIgnoreCase))
 							{

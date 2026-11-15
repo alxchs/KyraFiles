@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class CompressSkippedItemsDialog : ContentDialog, IDialog<CompressSkippedItemsDialogViewModel>
 	{

@@ -1,4 +1,4 @@
-﻿namespace Files.App.Helpers
+﻿namespace KyraFiles.App.Helpers
 {
 	public sealed partial class Strings
 	{

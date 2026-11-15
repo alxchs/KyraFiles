@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Settings
+namespace KyraFiles.App.ViewModels.Settings
 {
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.

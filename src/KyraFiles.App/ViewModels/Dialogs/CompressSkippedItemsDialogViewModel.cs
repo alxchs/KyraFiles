@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 #pragma warning disable CS0618 // Imaging service API obsolete; migrate when ImagingService is refactored
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class CompressSkippedItemsDialogViewModel : ObservableObject
 	{

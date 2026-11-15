@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Services.SizeProvider
+namespace KyraFiles.App.Services.SizeProvider
 {
 	public interface ISizeProvider : IDisposable
 	{

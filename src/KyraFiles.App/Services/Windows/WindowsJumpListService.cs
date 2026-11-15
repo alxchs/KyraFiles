@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.UI.StartScreen;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	public sealed class WindowsJumpListService : IWindowsJumpListService
 	{

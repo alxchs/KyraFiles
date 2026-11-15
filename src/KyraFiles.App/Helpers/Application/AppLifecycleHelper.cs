@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // NativeStorageLegacyService obsolete; migrate to WindowsStorable when ready
 
-using Files.App.Helpers.Application;
-using Files.App.Services.Git;
-using Files.App.Services.FileIntegrity;
-using Files.App.Services.Search;
-using Files.App.Services.SizeProvider;
-using Files.App.Utils.Logger;
-using Files.App.Utils.Storage;
-using Files.App.ViewModels.Settings;
-using Files.App.Services.Help;
-using Files.App.ViewModels.Help;
+using KyraFiles.App.Helpers.Application;
+using KyraFiles.App.Services.Git;
+using KyraFiles.App.Services.FileIntegrity;
+using KyraFiles.App.Services.Search;
+using KyraFiles.App.Services.SizeProvider;
+using KyraFiles.App.Utils.Logger;
+using KyraFiles.App.Utils.Storage;
+using KyraFiles.App.ViewModels.Settings;
+using KyraFiles.App.Services.Help;
+using KyraFiles.App.ViewModels.Help;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -25,7 +25,7 @@ using Windows.Storage;
 using Windows.System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Provides static helper to manage app lifecycle.
@@ -413,13 +413,11 @@ namespace Files.App.Helpers
 					.AddSingleton<LibraryManager>()
 					.AddSingleton(appModel);
 
-			// Conditional DI
-			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
-				services.AddSingleton<IUpdateService, SideloadUpdateService>();
-			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
+			// Conditional DI: Para Store usa StoreUpdateService; para Sideload e builds customizadas/dev usa SideloadUpdateService
+			if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
 				services.AddSingleton<IUpdateService, StoreUpdateService>();
 			else
-				services.AddSingleton<IUpdateService, DummyUpdateService>();
+				services.AddSingleton<IUpdateService, SideloadUpdateService>();
 
 			var serviceProvider = services.BuildServiceProvider();
 			// F021: Desarmado o warmup forçado do IndexedSearchProvider no startup para evitar

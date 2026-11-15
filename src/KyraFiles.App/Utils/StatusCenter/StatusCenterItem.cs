@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Items;
+using KyraFiles.App.Data.Items;
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
 using System.Windows.Input;
 using WinRT;
 
-namespace Files.App.Utils.StatusCenter
+namespace KyraFiles.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents an item for Status Center operation tasks.

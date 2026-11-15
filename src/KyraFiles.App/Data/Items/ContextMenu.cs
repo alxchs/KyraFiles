@@ -3,7 +3,7 @@
 
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public enum HBITMAP_HMENU : long
 	{

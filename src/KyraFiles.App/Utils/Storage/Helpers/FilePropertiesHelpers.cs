@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Views.Properties;
+using KyraFiles.App.Views.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 using Windows.Graphics;
 using Windows.Win32;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents a helper class that helps users open and handle item properties window
@@ -133,7 +133,7 @@ namespace Files.App.Utils.Storage
 			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
 				PropertiesWindowsClosingTCS = new();
 
-			var parentHwnd = Files.App.Helpers.UIHelpers.CurrentActiveWindowHandle;
+			var parentHwnd = KyraFiles.App.Helpers.UIHelpers.CurrentActiveWindowHandle;
 			if (parentHwnd != 0)
 			{
 				PInvoke.SetWindowLongPtr(new Windows.Win32.Foundation.HWND(propertiesWindow.WindowHandle), Windows.Win32.UI.WindowsAndMessaging.WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, parentHwnd);

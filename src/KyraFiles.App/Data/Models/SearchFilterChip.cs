@@ -5,7 +5,7 @@ using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public enum SearchFilterKind
 	{

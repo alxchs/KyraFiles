@@ -3,7 +3,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	public sealed partial class ThreadWithMessageQueue : Disposable
 	{

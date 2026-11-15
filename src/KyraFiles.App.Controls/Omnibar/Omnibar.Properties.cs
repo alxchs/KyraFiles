@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class Omnibar
 	{

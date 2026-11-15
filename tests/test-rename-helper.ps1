@@ -38,7 +38,7 @@ public class RenameHelperTests {
         };
         int failed = 0;
         foreach (var c in cases) {
-            var res = Files.App.Helpers.FileNameExtensionHelper.Split(c.input, c.isFolder, c.isShortcut);
+            var res = KyraFiles.App.Helpers.FileNameExtensionHelper.Split(c.input, c.isFolder, c.isShortcut);
             if (res.NamePart != c.expName || res.ExtensionPart != c.expExt) {
                 Console.WriteLine($"[FAIL] '{c.input}' -> Name='{res.NamePart}', Ext='{res.ExtensionPart}' (Expected Name='{c.expName}', Ext='{c.expExt}')");
                 failed++;

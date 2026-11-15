@@ -11,7 +11,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{

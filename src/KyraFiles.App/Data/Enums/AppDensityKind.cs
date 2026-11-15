@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Enums
+namespace KyraFiles.App.Data.Enums
 {
 	/// <summary>
 	/// Represents UI density mode for file views and navigation controls.

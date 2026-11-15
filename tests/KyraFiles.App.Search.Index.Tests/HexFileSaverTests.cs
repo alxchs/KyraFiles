@@ -9,10 +9,10 @@ using System.IO.Hashing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	[TestClass]
 	public sealed class HexFileSaverTests

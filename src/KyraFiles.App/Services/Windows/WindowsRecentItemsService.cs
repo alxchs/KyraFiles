@@ -11,7 +11,7 @@ using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IWindowsRecentItemsService"/>
 	public class WindowsRecentItemsService : IWindowsRecentItemsService

@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UserControls.FilePreviews;
-using Files.App.ViewModels.Previews;
-using Files.Shared.Helpers;
+using KyraFiles.App.UserControls.FilePreviews;
+using KyraFiles.App.ViewModels.Previews;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using Windows.Storage;
 using WinRT;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class InfoPaneViewModel : ObservableObject, IDisposable
 	{
@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource? loadCancellationTokenSource;
-		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
+		private KyraFiles.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
 		/// Value indicating if the info pane is on/off
@@ -616,7 +616,7 @@ namespace Files.App.ViewModels.UserControls
 				// Create menu once and reuse it for subsequent selections
 				if (cachedTagsContextMenu is null)
 				{
-					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(selectedItems);
+					cachedTagsContextMenu = new KyraFiles.App.UserControls.Menus.FileTagsContextMenu(selectedItems);
 					cachedTagsContextMenu.TagsChanged += async (s, e) =>
 					{
 						if (contentPageContext.ShellPage is { } shellPage)

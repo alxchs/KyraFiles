@@ -5,7 +5,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Media;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// Represents the control that redistributes space between columns or rows of a Grid control.

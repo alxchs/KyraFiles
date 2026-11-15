@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Utils;
+using KyraFiles.Shared.Utils;
 using System.Collections.Specialized;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed record class WatcherReference(IFolderWatcher FolderWatcher, int ReferenceCount)
 	{

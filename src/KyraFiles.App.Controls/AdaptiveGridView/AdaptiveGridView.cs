@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Windows.Foundation.Collections;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the

@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 using Windows.Foundation.Metadata;
 using WinRT;
 
-namespace Files.App.Dialogs
+namespace KyraFiles.App.Dialogs
 {
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{

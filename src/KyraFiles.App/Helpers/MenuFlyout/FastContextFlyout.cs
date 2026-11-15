@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: MPL-2.0
 
 using CommunityToolkit.WinUI;
-using Files.App.UserControls.Menus;
+using KyraFiles.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Helpers.ContextFlyouts
+namespace KyraFiles.App.Helpers.ContextFlyouts
 {
 	/// <summary>
 	/// Lightweight MenuFlyout-based context menu host. Renders commands as regular menu items plus a horizontal

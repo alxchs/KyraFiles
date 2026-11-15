@@ -6,7 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed partial class StringToBrushConverter : IValueConverter
 	{

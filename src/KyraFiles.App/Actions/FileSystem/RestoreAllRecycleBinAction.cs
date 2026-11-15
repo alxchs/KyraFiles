@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class RestoreAllRecycleBinAction : BaseUIAction, IAction

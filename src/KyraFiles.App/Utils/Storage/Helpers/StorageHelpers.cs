@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// <see cref="IStorageItem"/> related Helpers

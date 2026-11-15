@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Storage.Operations;
-using Files.Shared.Helpers;
+using KyraFiles.App.Utils.Storage.Operations;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
@@ -15,7 +15,7 @@ using HWND = Windows.Win32.Foundation.HWND;
 using PROPERTYKEY = Windows.Win32.Foundation.PROPERTYKEY;
 using SLR_FLAGS = Windows.Win32.UI.Shell.SLR_FLAGS;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public sealed partial class FileOperationsHelpers
 	{

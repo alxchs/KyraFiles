@@ -3,7 +3,7 @@
 
 using Microsoft.Win32;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	/// <inheritdoc cref="IWindowsCompatibilityService"/>
 	public sealed class WindowsCompatibilityService : IWindowsCompatibilityService

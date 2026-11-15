@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.UserControls.TabBar
+namespace KyraFiles.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents an interface for <see cref="UserControls.TabBar"/>.

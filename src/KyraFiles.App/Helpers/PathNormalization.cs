@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static class PathNormalization
 	{

@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class PinFolderToSidebarAction : ObservableObject, IAction

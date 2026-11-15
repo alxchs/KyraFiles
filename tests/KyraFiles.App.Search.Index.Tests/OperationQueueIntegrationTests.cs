@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.App.Utils.Storage;
+using KyraFiles.App.Utils.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Files.App.Search.Index.Tests
+namespace KyraFiles.App.Search.Index.Tests
 {
 	/// <summary>
 	/// Integration tests for F036 T3: verifying operation queue behavior under realistic concurrent dispatch.

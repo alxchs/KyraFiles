@@ -7,7 +7,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenSettingsFileAction : IAction

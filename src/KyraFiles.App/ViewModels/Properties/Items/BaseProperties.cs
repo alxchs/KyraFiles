@@ -8,7 +8,7 @@ using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.ViewModels.Properties
+namespace KyraFiles.App.ViewModels.Properties
 {
 	public abstract class BaseProperties
 	{

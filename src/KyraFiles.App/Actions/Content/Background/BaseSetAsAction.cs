@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	internal abstract class BaseSetAsAction : ObservableObject, IAction
 	{

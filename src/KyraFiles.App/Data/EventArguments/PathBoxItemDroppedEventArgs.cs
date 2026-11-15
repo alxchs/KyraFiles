@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.Data.EventArguments
+namespace KyraFiles.App.Data.EventArguments
 {
 	public sealed class PathBoxItemDroppedEventArgs
 	{

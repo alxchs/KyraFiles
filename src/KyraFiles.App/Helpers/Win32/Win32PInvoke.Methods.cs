@@ -8,7 +8,7 @@ using Microsoft.Win32.SafeHandles;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	public static partial class Win32PInvoke
 	{

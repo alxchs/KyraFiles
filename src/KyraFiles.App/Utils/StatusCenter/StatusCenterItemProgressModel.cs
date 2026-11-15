@@ -4,10 +4,10 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Files.App.Data.Enums;
-using Files.App.Helpers;
+using KyraFiles.App.Data.Enums;
+using KyraFiles.App.Helpers;
 
-namespace Files.App.Utils.StatusCenter
+namespace KyraFiles.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents a model for file system operation progress.

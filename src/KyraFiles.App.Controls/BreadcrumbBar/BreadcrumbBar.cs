@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	public partial class BreadcrumbBar : Control
 	{

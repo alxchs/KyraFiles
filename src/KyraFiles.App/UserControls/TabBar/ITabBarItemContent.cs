@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UserControls.TabBar
+namespace KyraFiles.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents content item for <see cref="TabBarItem"/>.

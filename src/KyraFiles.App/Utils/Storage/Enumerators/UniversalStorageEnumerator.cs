@@ -1,14 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services.SizeProvider;
-using Files.Shared.Helpers;
+using KyraFiles.App.Services.SizeProvider;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	public static class UniversalStorageEnumerator
 	{

@@ -1,10 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Help;
+using KyraFiles.App.ViewModels.Help;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.Views.Settings
+namespace KyraFiles.App.Views.Settings
 {
 	public sealed partial class HelpPage : Page
 	{

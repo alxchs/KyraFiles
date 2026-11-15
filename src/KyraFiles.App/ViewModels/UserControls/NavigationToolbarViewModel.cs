@@ -3,9 +3,9 @@
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
 using CommunityToolkit.WinUI;
-using Files.App.Controls;
-using Files.App.ViewModels.Settings;
-using Files.Shared.Helpers;
+using KyraFiles.App.Controls;
+using KyraFiles.App.ViewModels.Settings;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -18,7 +18,7 @@ using WinRT;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class NavigationToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{

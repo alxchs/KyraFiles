@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace Files.Shared.Extensions
+namespace KyraFiles.Shared.Extensions
 {
 	public static class DateExtensions
 	{

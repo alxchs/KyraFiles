@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.Dialogs
+namespace KyraFiles.App.ViewModels.Dialogs
 {
 	public sealed partial class GitHubLoginDialogViewModel : ObservableObject
 	{

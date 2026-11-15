@@ -1,13 +1,13 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Properties;
-using Files.Shared.Helpers;
+using KyraFiles.App.ViewModels.Properties;
+using KyraFiles.Shared.Helpers;
 using System.Windows.Input;
 using TagLib;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	public sealed partial class SelectedItemsPropertiesViewModel : ObservableObject
 	{

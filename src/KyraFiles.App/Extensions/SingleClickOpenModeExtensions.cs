@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Input;
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	public static class SingleClickOpenModeExtensions
 	{

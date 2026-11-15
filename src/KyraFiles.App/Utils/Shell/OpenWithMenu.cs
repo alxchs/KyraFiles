@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // SPDX-License-Identifier: MPL-2.0
 
-using Files.App.Data.Items;
+using KyraFiles.App.Data.Items;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -12,7 +12,7 @@ using Windows.Win32.System.Memory;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Files.App.Utils.Shell
+namespace KyraFiles.App.Utils.Shell
 {
 	internal sealed partial class OpenWithMenu : IDisposable
 	{

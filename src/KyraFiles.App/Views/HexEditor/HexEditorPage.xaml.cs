@@ -3,9 +3,9 @@
 
 using System.Globalization;
 using System.IO;
-using Files.App.Helpers;
-using Files.App.ViewModels.HexEditor;
-using Files.Shared.Helpers;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.ViewModels.HexEditor;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +15,7 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 
-namespace Files.App.Views.HexEditor
+namespace KyraFiles.App.Views.HexEditor
 {
 	public sealed partial class HexEditorPage : Page
 	{

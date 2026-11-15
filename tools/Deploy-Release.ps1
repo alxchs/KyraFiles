@@ -7,7 +7,10 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path "$PSScriptRoot\..").Path
 
 if ([string]::IsNullOrEmpty($Source)) {
-    $branch = & git -C $repoRoot rev-parse --abbrev-ref HEAD 2>$null
+    $branch = try {
+        $env:GIT_CONFIG_GLOBAL = "NUL"
+        & git -c include.path="" -C $repoRoot rev-parse --abbrev-ref HEAD 2>$null
+    } catch { "main" }
     $tagRepo = if ($branch -and $branch -ne 'HEAD') { $branch -replace '[/\\:*?"<>|]', '-' } else { 'colab' }
     
     $rootDrive = [System.IO.Path]::GetPathRoot($repoRoot).Substring(0, 1).ToLower()
@@ -30,7 +33,8 @@ if ([string]::IsNullOrEmpty($Source)) {
     }
 }
 
-$dst = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom"
+$dst = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles"
+$legacyDst = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom"
 
 if (-not (Test-Path $Source)) {
     throw "Source not found: $Source"
@@ -39,8 +43,21 @@ if (-not (Test-Path $Source)) {
 Write-Host "Fonte do deploy: $Source" -ForegroundColor Cyan
 Write-Host "Destino: $dst" -ForegroundColor Cyan
 
-Write-Host "Encerrando processos de suporte..."
-Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService, KyraFiles, Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Write-Host "Encerrando processos de suporte (restrito a KyraFiles/FilesCustom)..."
+$processNames = @("KyraFiles.Watchdog", "KyraFiles.HotkeyService", "KyraFiles", "Files.Watchdog", "Files.HotkeyService", "Files", "Files.App.Server", "KyraFiles.App.Server", "KyraFiles.App.IndexService")
+$targetDirs = @($dst.ToLowerInvariant(), $legacyDst.ToLowerInvariant(), $repoRoot.ToLowerInvariant())
+Get-Process -Name $processNames -ErrorAction SilentlyContinue | Where-Object {
+    try {
+        $pPath = $_.Path
+        if ($pPath) {
+            $pLower = $pPath.ToLowerInvariant()
+            foreach ($td in $targetDirs) {
+                if ($pLower.StartsWith($td)) { return $true }
+            }
+        }
+    } catch {}
+    return $false
+} | Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 500
 
 Write-Host "Atualizando arquivos..."

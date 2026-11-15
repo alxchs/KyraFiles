@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using System.Text.Json.Serialization;
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	[WinRT.GeneratedBindableCustomProperty([nameof(LengthPixels), nameof(LengthIncludingGridSplitterPixels), nameof(Visibility)], [])]
 	public sealed partial class DynamicColumnDefinition : ObservableObject

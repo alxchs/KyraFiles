@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class StatusCenterViewModel : ObservableObject
 	{
-		private readonly Files.App.Storage.TaskbarManager _taskbar = Files.App.Storage.TaskbarManager.Default;
+		private readonly KyraFiles.App.Storage.TaskbarManager _taskbar = KyraFiles.App.Storage.TaskbarManager.Default;
 
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 

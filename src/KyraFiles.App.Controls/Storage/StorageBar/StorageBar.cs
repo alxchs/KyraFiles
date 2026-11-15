@@ -4,7 +4,7 @@
 using Windows.Foundation;
 using WinRT;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	// TemplateParts
 	[TemplatePart(Name = TemplatePartName_Container, Type = typeof(Grid))]

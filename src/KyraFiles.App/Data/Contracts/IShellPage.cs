@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Files.App.Data.Contracts
+namespace KyraFiles.App.Data.Contracts
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{

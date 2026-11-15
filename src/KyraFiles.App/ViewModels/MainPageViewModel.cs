@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Help;
+using KyraFiles.App.ViewModels.Help;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -13,7 +13,7 @@ using Windows.Services.Store;
 using Windows.System;
 using WinRT.Interop;
 
-namespace Files.App.ViewModels
+namespace KyraFiles.App.ViewModels
 {
 	/// <summary>
 	/// Represents ViewModel of <see cref="MainPage"/>.

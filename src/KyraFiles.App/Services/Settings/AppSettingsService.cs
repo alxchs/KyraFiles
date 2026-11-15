@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	internal sealed partial class AppSettingsService : BaseObservableJsonSettings, IAppSettingsService
 	{

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Services.FileIntegrity
+namespace KyraFiles.App.Services.FileIntegrity
 {
 	/// <summary>
 	/// Default implementation of file integrity verification using streaming buffers (128 KB) to guarantee minimal memory footprint.

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Files.App.Views.HexEditor;
-using Files.Shared.Helpers;
+using KyraFiles.App.Views.HexEditor;
+using KyraFiles.Shared.Helpers;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenInHexEditorAction : ObservableObject, IAction

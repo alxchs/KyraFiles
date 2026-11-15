@@ -4,7 +4,7 @@
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Storage
+namespace KyraFiles.App.Utils.Storage
 {
 	/// <summary>
 	/// Provides group of shell file system operation for given page instance.

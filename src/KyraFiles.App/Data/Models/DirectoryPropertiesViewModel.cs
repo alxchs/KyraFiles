@@ -1,16 +1,16 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Items;
-using Files.App.Utils.Storage;
-using Files.Shared.Helpers;
+using KyraFiles.App.Data.Items;
+using KyraFiles.App.Utils.Storage;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class StatusBarViewModel : ObservableObject, IDisposable
 	{

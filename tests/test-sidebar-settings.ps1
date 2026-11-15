@@ -143,6 +143,39 @@ Assert-Test "AC3_T4b_SidebarViewModel_ExplorerFallback" ($sidebarVm -match 'expl
 Assert-Test "AC3_T4c_NetworkSection_ConcatenatesShortcuts" ($sidebarVm -match 'NetworkService\.Computers\.Concat\(NetworkService\.Shortcuts\)') "Network section must concatenate Shortcuts"
 Assert-Test "AC3_T4c_NetworkSection_ObservesShortcutsCollectionChanged" ($sidebarVm -match 'NetworkService\.Shortcuts\.CollectionChanged') "Network section must observe Shortcuts.CollectionChanged"
 
+# 26. 1A / T7: Densidade e alturas na barra lateral (Normal 36, Compacto 30, Ultracompacto 24)
+$appResources = Get-Content -Path (Join-Path $root "src\KyraFiles.App\Services\App\AppResourcesService.cs") -Raw
+Assert-Test "1A_T7_AppResources_UltraCompact_24" ($appResources -match 'AppDensityKind\.UltraCompact\s*=>\s*24\.0') "UltraCompact density must set sidebar item height to 24px"
+Assert-Test "1A_T7_AppResources_Compact_30" ($appResources -match 'AppDensityKind\.Compact\s*=>\s*30\.0') "Compact density must set sidebar item height to 30px"
+Assert-Test "1A_T7_AppResources_Normal_36" ($appResources -match '_\s*=>\s*36\.0') "Normal density must set sidebar item height to 36px"
+
+# 27. 1A / T7: SidebarStyles.xaml não sombreia App.Theme.Sidebar.ItemHeight localmente
+$sidebarStyles = Get-Content -Path (Join-Path $root "src\KyraFiles.App.Controls\Sidebar\SidebarStyles.xaml") -Raw
+Assert-Test "1A_T7_SidebarStyles_NoLocalShadowItemHeight" ($sidebarStyles -notmatch 'x:Key="App\.Theme\.Sidebar\.ItemHeight"') "SidebarStyles.xaml must not declare a shadowing local ItemHeight"
+
+# 28. 1A / T8: Alinhamento consistente sem zigue-zague (margem 8,0,8,0)
+$marginMatches = [regex]::Matches($sidebarStyles, 'ItemNameTextBlock\.Margin"\s+Value="8,0,8,0"')
+Assert-Test "1A_T8_SidebarStyles_UniformMarginsAcrossStates" ($marginMatches.Count -ge 3) "SidebarStyles.xaml must enforce uniform 8,0,8,0 margin across expansion states"
+
+# 29. 1B / T9: KyraFiles.App.csproj inclui FluentIcons, Sidebar e WSL Assets
+$csproj = Get-Content -Path (Join-Path $root "src\KyraFiles.App\KyraFiles.App.csproj") -Raw
+Assert-Test "1B_T9_Csproj_IncludesFluentIcons" ($csproj -match 'Include="Assets\\FluentIcons\\\*\*' -and $csproj -match 'CopyToOutputDirectory>PreserveNewest') "KyraFiles.App.csproj must copy FluentIcons"
+Assert-Test "1B_T9_Csproj_IncludesWslIcons" ($csproj -match 'Include="Assets\\WSL\\\*\*' -and $csproj -match 'CopyToOutputDirectory>PreserveNewest') "KyraFiles.App.csproj must copy WSL icons"
+
+# 30. 1B / T9: LocationItem e WslDistroItem fornecem ícones nativos do sistema
+Assert-Test "1B_T9_LocationItem_SystemGlyphForThisPC" ($locationItem -match 'Section\s+is\s+SectionType\.ThisPC' -and $locationItem -match '\\uE7F8') "LocationItem must provide \uE7F8 glyph for ThisPC"
+Assert-Test "1B_T9_LocationItem_SystemGlyphForControlPanel" ($locationItem -match 'Section\s+is\s+SectionType\.ControlPanel' -and $locationItem -match '\\uE713') "LocationItem must provide \uE713 glyph for ControlPanel"
+
+$wslDistro = Get-Content -Path (Join-Path $root "src\KyraFiles.App\Data\Items\WslDistroItem.cs") -Raw
+Assert-Test "1B_T9_WslDistroItem_GlyphFallback" ($wslDistro -match '\\uE756') "WslDistroItem must provide \uE756 glyph fallback"
+
+# 31. 1B / T10: Este Computador concatena unidades de disco na hierarquia clássica
+Assert-Test "1B_T10_ThisPC_ConcatenatesDrives" ($sidebarVm -match 'drivesViewModel\.Drives\.Cast<INavigationControlItem>\(\)\.Concat\(thisPcDelegateItems\.AsReadOnly\(\)\)') "ThisPC must concatenate disk drives in classic hierarchy"
+Assert-Test "1B_T10_GeneralSettings_IsThisPCSectionExpanded" ($generalSettings -match 'public\s+bool\s+IsThisPCSectionExpanded\s*\{\s*get\s*=>\s*Get\(true\);') "IsThisPCSectionExpanded must default to true"
+
+# 32. 1B / T11: Seção Drives isolada é suprimida quando Este Computador está ativo para evitar duplicação
+Assert-Test "1B_T11_SidebarViewModel_NoDriveDuplicationWhenThisPCActive" ($sidebarVm -match 'ShowDrivesSection == false \|\| ShowThisPCSection == true') "SidebarViewModel must suppress redundant Drives section when ThisPC is shown"
+
 Write-Output "---"
 Write-Output "Resultado: $passCount passaram, $failCount falharam."
 

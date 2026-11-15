@@ -3,7 +3,7 @@
 
 using Microsoft.Win32;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	internal static class PolicyHelpers
 	{

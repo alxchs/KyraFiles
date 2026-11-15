@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels
+namespace KyraFiles.App.ViewModels
 {
 	public sealed partial class HomeViewModel : ObservableObject, IDisposable
 	{

@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Data;
 using System.Text;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed partial class DoubleArrayToStringConverter : IValueConverter
 	{

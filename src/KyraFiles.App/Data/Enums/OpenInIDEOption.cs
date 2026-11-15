@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Enums
+namespace KyraFiles.App.Data.Enums
 {
 	/// <summary>
 	/// Defines constants that specify options for the Open in IDE button.

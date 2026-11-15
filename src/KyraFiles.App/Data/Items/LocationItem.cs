@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public partial class LocationItem : ExpandableSidebarItemBase, INavigationControlItem, IExpandableSidebarFolder
 	{
@@ -86,16 +86,75 @@ namespace Files.App.Data.Items
 		{
 			get
 			{
-				// CreateIconElement throws a catastrophic 0x8000FFFF on a null source, so wait for the icon to load before building one
-				if (icon is null)
-					return null;
-
-				var source = new ImageIconSource()
+				if (Section is SectionType.ThisPC)
 				{
-					ImageSource = icon
-				};
-				return source.CreateIconElement();
+					return new FontIcon()
+					{
+						Glyph = "\uE7F8",
+						FontSize = 16,
+						FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Microsoft.UI.Xaml.Application.Current.Resources["SymbolThemeFontFamily"]
+					};
+				}
+
+				if (Section is SectionType.ControlPanel)
+				{
+					return new FontIcon()
+					{
+						Glyph = "\uE713",
+						FontSize = 16,
+						FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Microsoft.UI.Xaml.Application.Current.Resources["SymbolThemeFontFamily"]
+					};
+				}
+
+				if (icon is not null)
+				{
+					var source = new ImageIconSource()
+					{
+						ImageSource = icon
+					};
+					return source.CreateIconElement();
+				}
+
+				var glyph = GetSectionGlyph(Section, Path);
+				if (glyph is not null)
+				{
+					return new FontIcon()
+					{
+						Glyph = glyph,
+						FontSize = 16,
+						FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Microsoft.UI.Xaml.Application.Current.Resources["SymbolThemeFontFamily"]
+					};
+				}
+
+				return null;
 			}
+		}
+
+		private static string? GetSectionGlyph(SectionType section, string? itemPath)
+		{
+			if (string.Equals(itemPath, "Home", StringComparison.OrdinalIgnoreCase))
+				return "\uE80F";
+
+			if (string.Equals(itemPath, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) || section == SectionType.ThisPC)
+				return "\uE7F8";
+
+			if (string.Equals(itemPath, Constants.UserEnvironmentPaths.ControlPanelPath, StringComparison.OrdinalIgnoreCase) || section == SectionType.ControlPanel)
+				return "\uE713";
+
+			return section switch
+			{
+				SectionType.Home => "\uE80F",
+				SectionType.Pinned => "\uE718",
+				SectionType.Library => "\uE8B7",
+				SectionType.ThisPC => "\uE7F8",
+				SectionType.ControlPanel => "\uE713",
+				SectionType.Drives => "\uEDA2",
+				SectionType.CloudDrives => "\uE753",
+				SectionType.Network => "\uE968",
+				SectionType.WSL => "\uE756",
+				SectionType.FileTag => "\uE8EC",
+				_ => null
+			};
 		}
 
 		FrameworkElement? ISidebarItemPresentationModel.IconElement => IconElement;

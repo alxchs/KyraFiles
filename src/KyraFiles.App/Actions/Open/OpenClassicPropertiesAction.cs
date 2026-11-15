@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class OpenClassicPropertiesAction : ObservableObject, IAction

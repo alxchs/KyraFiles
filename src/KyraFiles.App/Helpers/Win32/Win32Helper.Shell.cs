@@ -7,7 +7,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Provides static helper for Win32.
@@ -51,7 +51,7 @@ namespace Files.App.Helpers
 						{
 							try
 							{
-								var shellFileItem = folderItem is Files.App.Utils.Shell.ShellLink link ?
+								var shellFileItem = folderItem is KyraFiles.App.Utils.Shell.ShellLink link ?
 									ShellFolderExtensions.GetShellLinkItem(link) :
 									ShellFolderExtensions.GetShellFileItem(folderItem);
 								if (shellFileItem is null)

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using WinRT;
 
-namespace Files.App.UserControls
+namespace KyraFiles.App.UserControls
 {
 	public enum PreviewPanePositions : ushort
 	{

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
+using KyraFiles.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 using WinRT;
 using ByteSize = ByteSizeLib.ByteSize;
 
-namespace Files.App.Data.Items
+namespace KyraFiles.App.Data.Items
 {
 	public sealed partial class DriveItem : ExpandableSidebarItemBase, INavigationControlItem, IFolder, IExpandableSidebarFolder
 	{

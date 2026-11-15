@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.UserControls.Selection;
+using KyraFiles.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +16,7 @@ using Windows.System;
 using Windows.UI.Core;
 using WinRT;
 
-namespace Files.App.Views.Layouts
+namespace KyraFiles.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View

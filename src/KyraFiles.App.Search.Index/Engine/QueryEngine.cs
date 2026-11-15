@@ -2,11 +2,11 @@
 
 using System.Collections;
 using System.Diagnostics;
-using Files.App.Search.Index.Models;
-using Files.App.Search.Index.Query;
-using Files.App.Search.Index.Storage;
+using KyraFiles.App.Search.Index.Models;
+using KyraFiles.App.Search.Index.Query;
+using KyraFiles.App.Search.Index.Storage;
 
-namespace Files.App.Search.Index.Engine;
+namespace KyraFiles.App.Search.Index.Engine;
 
 /// <summary>
 /// Motor de consulta de alto desempenho para busca em volumes indexados.

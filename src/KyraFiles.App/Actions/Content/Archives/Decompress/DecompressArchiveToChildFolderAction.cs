@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Dialogs;
+using KyraFiles.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 
-namespace Files.App.Actions
+namespace KyraFiles.App.Actions
 {
 	[GeneratedRichCommand]
 	internal sealed partial class DecompressArchiveToChildFolderAction : BaseDecompressArchiveAction

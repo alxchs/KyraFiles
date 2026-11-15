@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Extensions
+namespace KyraFiles.App.Extensions
 {
 	/// <summary>
 	/// Provides extension to convert doubles to fractions

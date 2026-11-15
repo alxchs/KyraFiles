@@ -1,11 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
+using KyraFiles.App.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Services.Settings
+namespace KyraFiles.App.Services.Settings
 {
 	internal sealed partial class AppearanceSettingsService : BaseObservableJsonSettings, IAppearanceSettingsService
 	{

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace KyraFiles.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="FileTagsWidget"/>.

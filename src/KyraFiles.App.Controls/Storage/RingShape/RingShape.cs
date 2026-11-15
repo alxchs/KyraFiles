@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
 
-namespace Files.App.Controls.Primitives
+namespace KyraFiles.App.Controls.Primitives
 {
 	/// <summary>
 	/// Represents primitive Path shape for drawing a circular or elliptical ring.

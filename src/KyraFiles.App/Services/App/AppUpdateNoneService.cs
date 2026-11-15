@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Files.App.Services
+namespace KyraFiles.App.Services
 {
 	internal sealed partial class DummyUpdateService : ObservableObject, IUpdateService
 	{

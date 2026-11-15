@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Input;
 
-namespace Files.App.Controls
+namespace KyraFiles.App.Controls
 {
 	/// <summary>
 	/// An Abstract control to simplify items added to the Toolbar,

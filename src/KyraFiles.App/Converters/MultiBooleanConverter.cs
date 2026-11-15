@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Converters
+namespace KyraFiles.App.Converters
 {
 	internal sealed class MultiBooleanConverter
 	{

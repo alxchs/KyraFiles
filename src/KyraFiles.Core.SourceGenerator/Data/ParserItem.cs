@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.Core.SourceGenerator.Data
+namespace KyraFiles.Core.SourceGenerator.Data
 {
 	/// <summary>
 	/// Represents an item used for parsing data.

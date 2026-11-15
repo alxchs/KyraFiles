@@ -3,7 +3,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace Files.App.Search.Index.Interop;
+namespace KyraFiles.App.Search.Index.Interop;
 
 internal static partial class NativeMethods
 {

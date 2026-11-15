@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Utils.Cloud
+namespace KyraFiles.App.Utils.Cloud
 {
 	public static class CloudDrivesManager
 	{

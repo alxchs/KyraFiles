@@ -9,7 +9,7 @@ using Windows.Storage.FileProperties;
 using Windows.Win32;
 using IO = System.IO;
 
-namespace Files.App.Utils.FileTags
+namespace KyraFiles.App.Utils.FileTags
 {
 
 	public static class FileTagsHelper

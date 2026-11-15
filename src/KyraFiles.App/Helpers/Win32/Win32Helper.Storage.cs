@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
@@ -24,7 +24,7 @@ using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Windows.Win32.Foundation.HRESULT;
 using HWND = Windows.Win32.Foundation.HWND;
 
-namespace Files.App.Helpers
+namespace KyraFiles.App.Helpers
 {
 	/// <summary>
 	/// Provides static helper for Win32.

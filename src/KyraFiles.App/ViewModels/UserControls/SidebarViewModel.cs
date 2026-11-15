@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls;
-using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
+using KyraFiles.App.Controls;
+using KyraFiles.App.Helpers;
+using KyraFiles.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,7 +20,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using WinRT;
 
-namespace Files.App.ViewModels.UserControls
+namespace KyraFiles.App.ViewModels.UserControls
 {
 	public sealed partial class SidebarViewModel : ObservableObject, IDisposable
 	{
@@ -343,6 +343,7 @@ namespace Files.App.ViewModels.UserControls
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.ThisPC, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -447,7 +448,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
-					SectionType.ThisPC => thisPcDelegateItems.AsReadOnly(),
+					SectionType.ThisPC => drivesViewModel.Drives.Cast<INavigationControlItem>().Concat(thisPcDelegateItems.AsReadOnly()).ToList().AsReadOnly(),
 					SectionType.ControlPanel => Array.Empty<INavigationControlItem>(),
 					_ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, "The sidebar section type is not supported.")
 				};
@@ -455,7 +456,11 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Drives, e);
+		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			Manager_DataChanged(SectionType.Drives, e);
+			Manager_DataChanged(SectionType.ThisPC, e);
+		}
 
 		private void Manager_DataChangedForNetworkComputers(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Network, e);
 
@@ -644,6 +649,7 @@ namespace Files.App.ViewModels.UserControls
 					section = BuildSection(Strings.ThisPC.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true, ShowHideSection = true }, true);
 					section.Path = Constants.UserEnvironmentPaths.MyComputerPath;
 					section.IsHeader = true;
+					section.IsExpanded = UserSettingsService.GeneralSettingsService.IsThisPCSectionExpanded;
 					break;
 
 				case SectionType.ControlPanel:
@@ -655,7 +661,9 @@ namespace Files.App.ViewModels.UserControls
 					break;
 
 				case SectionType.Drives:
-					if (ShowDrivesSection == false)
+					// Se Este Computador estiver ativo, as unidades ja estao canonicamente sob Este Computador.
+					// A secao isolada "Drives" so e exibida se Este Computador estiver oculto, eliminando duplicacao.
+					if (ShowDrivesSection == false || ShowThisPCSection == true)
 						break;
 					section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 					section.IsHeader = true;

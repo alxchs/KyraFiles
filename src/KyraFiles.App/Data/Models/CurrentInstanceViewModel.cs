@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.Data.Models
+namespace KyraFiles.App.Data.Models
 {
 	[WinRT.GeneratedBindableCustomProperty([nameof(IsPageTypeCloudDrive)], [])]
 	public sealed partial class CurrentInstanceViewModel : ObservableObject

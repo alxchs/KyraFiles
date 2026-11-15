@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Runtime.CompilerServices;
 using WinRT;
 
-namespace Files.App.UserControls.TabBar
+namespace KyraFiles.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents base class for <see cref="TabBar"/>.
@@ -154,7 +154,7 @@ namespace Files.App.UserControls.TabBar
 			if (tabItem is null || tabItem.IsPinned)
 				return;
 
-			if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is Files.App.Views.MainPage mainPage)
+			if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is KyraFiles.App.Views.MainPage mainPage)
 				mainPage.DetachTabContent(tabItem);
 
 			Items.Remove(tabItem);

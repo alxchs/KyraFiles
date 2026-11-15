@@ -703,6 +703,12 @@ namespace KyraFiles.App.Data.Factories
 						&& !currentInstanceViewModel.IsPageTypeZipFolder,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CleanBuildFolders)
+				{
+					IsVisible = (!itemsSelected || areAllItemsFolders)
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.SendTo.GetLocalizedResource(),

@@ -43,8 +43,8 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 | F043 | Histórico de operações | 🟢 LIVRE | 0/8 |
 | F044 | Quick Look com espaço | 🟢 LIVRE | 0/8 |
 | F045 | Ações de projeto | 🟢 LIVRE | 0/8 |
-| F047 | Limpeza de pastas de build | 🟢 LIVRE | 0/7 |
-| F048 | Diff de arquivos | 🔴 OCUPADO | 0/7 tarefas; AGY iniciando implementação de diff configurável |
+| F047 | Limpeza de pastas de build | ⚪ CONCLUÍDO | 7/7 tarefas entregues; diálogo, medição, lixeira e proteção git; RELATORIO.md |
+| F048 | Diff de arquivos | 🟢 LIVRE | 0/7 tarefas; integração de diff externo configurado (aguardando leitura do usuário) |
 | F049 | Links, symlinks, junctions | 🟢 LIVRE | 0/8 |
 | F056 | Formatos de cópia de caminho | ⚪ CONCLUÍDO | 6/6 tarefas entregues na v4.3.15.0; 13 testes verdes, RELATORIO.md |
 | F057 | Atalhos de botões em diálogos | ⚪ CONCLUÍDO | 5/5 tarefas entregues na v4.3.16.0; 8 testes verdes, RELATORIO.md |
@@ -76,3 +76,5 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[FEITO] F091, F093, F018, F092 · AGY · 2026-11-15 · correções da revisão da Claude aplicadas, integrado na main e gerado release v4.3.17`
 - `[PEGO] F037 · AGY · feature/f037-bulk-rename · renomear em lote com prévia ao vivo, conflitos, regex e desfazer atômico · não inclui renomear conteúdo de arquivos nem IA`
 - `[FEITO] F037 · AGY · 2026-11-15 · renomear em lote com prévia ao vivo, conflitos, regex, swaps e desfazer atômico (8/8 ACs confirmados)`
+- `[PEGO] F047 · AGY · feature/f047-build-folder-cleaner · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git · não inclui caches globais (~/.nuget, ~/.gradle)`
+- `[FEITO] F047 · AGY · 2026-11-15 · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git (7/7 ACs confirmados)`

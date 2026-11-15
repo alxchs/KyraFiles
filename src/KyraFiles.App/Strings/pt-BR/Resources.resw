@@ -5151,4 +5151,37 @@
   <data name="StatusCenter_SingleFileCannotPauseTip" xml:space="preserve">
     <value>Uma cópia de um arquivo só não pausa no meio; use Cancelar</value>
   </data>
+  <data name="CleanBuildFolders" xml:space="preserve">
+    <value>Limpar pastas de build</value>
+  </data>
+  <data name="CleanBuildFoldersDescription" xml:space="preserve">
+    <value>Localiza e remove pastas temporárias de compilação (bin, obj, node_modules, etc.)</value>
+  </data>
+  <data name="CleanBuildFoldersDialogTitle" xml:space="preserve">
+    <value>Limpar pastas de build</value>
+  </data>
+  <data name="CleanBuildFoldersMoveToTrash" xml:space="preserve">
+    <value>Mover para a Lixeira</value>
+  </data>
+  <data name="CleanBuildFoldersDeletePermanently" xml:space="preserve">
+    <value>Excluir permanentemente (sem Lixeira)</value>
+  </data>
+  <data name="CleanBuildFoldersSelectAll" xml:space="preserve">
+    <value>Selecionar tudo</value>
+  </data>
+  <data name="CleanBuildFoldersDeselectAll" xml:space="preserve">
+    <value>Desmarcar tudo</value>
+  </data>
+  <data name="CleanBuildFoldersNoFoldersFound" xml:space="preserve">
+    <value>Nenhuma pasta de build recriável encontrada neste diretório.</value>
+  </data>
+  <data name="CleanBuildFoldersInUse" xml:space="preserve">
+    <value>Em uso</value>
+  </data>
+  <data name="CleanBuildFoldersReady" xml:space="preserve">
+    <value>Pronto para excluir</value>
+  </data>
+  <data name="CleanBuildFoldersDeleted" xml:space="preserve">
+    <value>Excluído</value>
+  </data>
 </root>

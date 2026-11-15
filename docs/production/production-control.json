@@ -1695,8 +1695,8 @@
       ],
       "title": "build folder cleaner",
       "type": "feature",
-      "state": "in_progress",
-      "category": "em_andamento",
+      "state": "completed",
+      "category": "entregue",
       "points": 3,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1706,17 +1706,17 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "not_calculable",
+      "progress": "complete",
       "evidence": [
         {
-          "ref": "2ab7a65bc",
-          "type": "commit",
-          "note": "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+          "ref": "docs/agents/evidence/F047/RELATORIO.md",
+          "type": "doc",
+          "note": "7/7 tasks concluidas, BuildFolderTests.cs e test-f047-all-criteria.ps1 100% aprovados"
         },
         {
           "ref": "docs/specs/F047-build-folder-cleaner/",
           "type": "doc",
-          "note": "testes BuildFolderTests.cs existem; tasks.md 0/7 marcadas"
+          "note": "spec, plan e tasks concluidas"
         }
       ],
       "blockers": [],

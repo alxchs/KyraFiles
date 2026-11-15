@@ -1,4 +1,4 @@
-﻿# SPEC-INDEX
+# SPEC-INDEX
 
 Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPEC -> ID legado.
 
@@ -46,7 +46,7 @@ Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPE
 | SPEC-0040 | F044 | spacebar quick look | not_started | fila | 3 |
 | SPEC-0041 | F045 | project actions | not_started | fila | 5 |
 | SPEC-0042 | F046 | deep network search | not_started | fila | 8 |
-| SPEC-0043 | F047 | build folder cleaner | in_progress | em_andamento | 3 |
+| SPEC-0043 | F047 | build folder cleaner | completed | entregue | 3 |
 | SPEC-0044 | F048 | file diff | not_started | fila | 5 |
 | SPEC-0045 | F049 | links symlinks junctions | not_started | fila | 5 |
 | SPEC-0046 | F050 | embedded terminal | not_started | fila | 8 |

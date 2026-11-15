@@ -5363,4 +5363,37 @@
   <data name="StatusCenter_SingleFileCannotPauseTip" xml:space="preserve">
     <value>A single file copy cannot be paused in the middle; use Cancel</value>
   </data>
+  <data name="CleanBuildFolders" xml:space="preserve">
+    <value>Clean build folders</value>
+  </data>
+  <data name="CleanBuildFoldersDescription" xml:space="preserve">
+    <value>Find and remove build and package folders (bin, obj, node_modules, etc.)</value>
+  </data>
+  <data name="CleanBuildFoldersDialogTitle" xml:space="preserve">
+    <value>Clean build folders</value>
+  </data>
+  <data name="CleanBuildFoldersMoveToTrash" xml:space="preserve">
+    <value>Move to Recycle Bin</value>
+  </data>
+  <data name="CleanBuildFoldersDeletePermanently" xml:space="preserve">
+    <value>Delete permanently (skip Recycle Bin)</value>
+  </data>
+  <data name="CleanBuildFoldersSelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="CleanBuildFoldersDeselectAll" xml:space="preserve">
+    <value>Deselect all</value>
+  </data>
+  <data name="CleanBuildFoldersNoFoldersFound" xml:space="preserve">
+    <value>No rebuildable build folders found in this directory.</value>
+  </data>
+  <data name="CleanBuildFoldersInUse" xml:space="preserve">
+    <value>In use</value>
+  </data>
+  <data name="CleanBuildFoldersReady" xml:space="preserve">
+    <value>Ready to delete</value>
+  </data>
+  <data name="CleanBuildFoldersDeleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
 </root>

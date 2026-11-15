@@ -28,6 +28,7 @@ namespace KyraFiles.App.Services
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
 				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },
 				{ typeof(BulkRenameDialogViewModel), () => new BulkRenameDialog() },
+				{ typeof(CleanBuildFoldersDialogViewModel), () => new CleanBuildFoldersDialog() },
 				{ typeof(CloneRepoDialogViewModel), () => new CloneRepoDialog() },
 				{ typeof(CompressSkippedItemsDialogViewModel), () => new CompressSkippedItemsDialog() },
 			}.ToFrozenDictionary();

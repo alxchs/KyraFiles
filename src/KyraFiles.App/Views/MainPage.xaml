@@ -260,6 +260,16 @@
 							Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 					</Border>
 
+					<!--  Quick Look Overlay (F044)  -->
+					<uc:QuickLookOverlay
+						x:Name="QuickLookOverlayControl"
+						Grid.Row="0"
+						Grid.RowSpan="5"
+						Grid.Column="0"
+						Grid.ColumnSpan="5"
+						Canvas.ZIndex="1000"
+						Visibility="Collapsed" />
+
 					<!--  Info Pane Splitter  -->
 					<controls:GridSplitter
 						x:Name="InfoPaneSizer"

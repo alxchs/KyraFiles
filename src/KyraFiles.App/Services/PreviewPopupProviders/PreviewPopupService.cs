@@ -15,7 +15,7 @@ namespace KyraFiles.App.Services.PreviewPopupProviders
 			if (await PowerToysPeekProvider.Instance.DetectAvailability())
 				return await Task.FromResult<IPreviewPopupProvider>(PowerToysPeekProvider.Instance);
 			else
-				return null;
+				return BuiltInPreviewPopupProvider.Instance;
 		}
 	}
 }

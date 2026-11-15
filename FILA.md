@@ -41,7 +41,7 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 | F035 | Segunda instância | 🟢 LIVRE | 0/6 |
 | F037 | Renomear em lote com prévia | ⚪ CONCLUÍDO | 8/8 tarefas entregues; prévia ao vivo, regex, numeração, swaps e desfazer atômico; RELATORIO.md |
 | F043 | Histórico de operações | 🟢 LIVRE | 0/8 |
-| F044 | Quick Look com espaço | 🟢 LIVRE | 0/8 |
+| F044 | Quick Look com espaço | ⚪ CONCLUÍDO | 8/8 tarefas entregues; sobreposição embutida, leitor multimodo, setas e fechar com Esc/Espaço; RELATORIO.md |
 | F045 | Ações de projeto | 🟢 LIVRE | 0/8 |
 | F047 | Limpeza de pastas de build | ⚪ CONCLUÍDO | 7/7 tarefas entregues; diálogo, medição, lixeira e proteção git; RELATORIO.md |
 | F048 | Diff de arquivos | 🟢 LIVRE | 0/7 tarefas; integração de diff externo configurado (aguardando leitura do usuário) |
@@ -78,3 +78,4 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[FEITO] F037 · AGY · 2026-11-15 · renomear em lote com prévia ao vivo, conflitos, regex, swaps e desfazer atômico (8/8 ACs confirmados)`
 - `[PEGO] F047 · AGY · feature/f047-build-folder-cleaner · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git · não inclui caches globais (~/.nuget, ~/.gradle)`
 - `[FEITO] F047 · AGY · 2026-11-15 · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git (7/7 ACs confirmados)`
+- `[PEGO] F044 · AGY · feature/f044-quick-look · prévia rápida instantânea com barra de espaço, sobreposição própria, navegação e metadados · não inclui edição nem anotações`

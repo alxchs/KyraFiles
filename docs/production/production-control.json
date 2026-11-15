@@ -1593,7 +1593,7 @@
       ],
       "title": "spacebar quick look",
       "type": "feature",
-      "state": "not_started",
+      "state": "completed",
       "category": "fila",
       "points": 3,
       "points_confidence": "low",
@@ -1604,12 +1604,12 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "not_calculable",
+      "progress": 1.0,
       "evidence": [
         {
-          "ref": "docs/specs/F044-spacebar-quick-look/",
+          "ref": "docs/agents/evidence/F044/RELATORIO.md",
           "type": "doc",
-          "note": "tasks.md 0/8; sem codigo"
+          "note": "12/12 criterios PASS no test-f044-all-criteria.ps1"
         }
       ],
       "blockers": [],

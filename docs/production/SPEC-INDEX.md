@@ -43,7 +43,7 @@ Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPE
 | SPEC-0037 | F041 | folder compare sync | not_started | fila | 8 |
 | SPEC-0038 | F042 | saved searches | not_started | fila | 3 |
 | SPEC-0039 | F043 | operation history | not_started | fila | 5 |
-| SPEC-0040 | F044 | spacebar quick look | not_started | fila | 3 |
+| SPEC-0040 | F044 | spacebar quick look | completed | fila | 3 |
 | SPEC-0041 | F045 | project actions | not_started | fila | 5 |
 | SPEC-0042 | F046 | deep network search | not_started | fila | 8 |
 | SPEC-0043 | F047 | build folder cleaner | completed | entregue | 3 |

@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using KyraFiles.App.Services.PreviewPopupProviders;
 using KyraFiles.App.Utils.Git;
 using Windows.Foundation.Metadata;
 using Windows.System;
@@ -410,9 +411,14 @@ namespace KyraFiles.App.Views.Shells
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				// Escape cancels an ongoing search (F015 FR-023 / AC-18)
+				// Escape cancels an ongoing search (F015 FR-023 / AC-18) or closes Quick Look (F044 AC-3)
 				case (false, false, false, _, VirtualKey.Escape):
-					if (ShellViewModel is { IsLoadingItems: true, IsSearchResults: true })
+					if (BuiltInPreviewPopupProvider.Instance.IsShowing)
+					{
+						BuiltInPreviewPopupProvider.Instance.Close();
+						args.Handled = true;
+					}
+					else if (ShellViewModel is { IsLoadingItems: true, IsSearchResults: true })
 					{
 						ShellViewModel.CancelSearch();
 						args.Handled = true;

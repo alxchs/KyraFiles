@@ -107,7 +107,7 @@ Gerado a partir de `docs/production/production-control.json` (protocolo v2) em 2
 | SPEC-0037 | F041 | folder compare sync | 8 | not_started | fila | unknown | - |
 | SPEC-0038 | F042 | saved searches | 3 | not_started | fila | unknown | - |
 | SPEC-0039 | F043 | operation history | 5 | not_started | fila | unknown | - |
-| SPEC-0040 | F044 | spacebar quick look | 3 | not_started | fila | unknown | - |
+| SPEC-0040 | F044 | spacebar quick look | 3 | completed | fila | unknown | - |
 | SPEC-0041 | F045 | project actions | 5 | not_started | fila | unknown | - |
 | SPEC-0042 | F046 | deep network search | 8 | not_started | fila | unknown | - |
 | SPEC-0043 | F047 | build folder cleaner | 3 | in_progress | em_andamento | unknown | 2ab7a65bc |

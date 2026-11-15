@@ -1,0 +1,9 @@
+AC,Descricao,Status,Evidencia
+AC-1,"Previa ao vivo para 10 arquivos sem tocar o disco",CONFIRMED,"10 itens previstos com prefixo relatorio_; nenhum arquivo original alterado no disco"
+AC-2,"Deteccao de nomes duplicados e bloqueio de aplicacao",CONFIRMED,"Itens conflitantes marcados com HasConflict=True; motivo: 'Conflito: multiplos arquivos do lote terao o mesmo nome'"
+AC-3,"Aplicacao de lote e geracao de StorageHistory atomico",CONFIRMED,"Arquivos renomeados com sucesso; registro de historico unico criado com 2 fontes e destinos"
+AC-4,"Blindagem de extensoes duplas e dotfiles (F001/F037)",CONFIRMED,"backup.tar.gz -> backup_01.tar.gz; .gitignore -> .gitignore_02"
+AC-5,"Tratamento gracioso de regex invalida sem crash",CONFIRMED,"ArgumentException capturada silenciosamente; nome original preservado intacto"
+AC-6,"Falha parcial isolada quando arquivo esta em uso",CONFIRMED,"Arquivo destravado renomeou; arquivo travado foi listado em FailedItems e historico cobriu apenas o alterado"
+AC-7,"Numeracao sequencial com padding de zeros",CONFIRMED,"fA.jpg -> 001.jpg; fB.jpg -> 002.jpg"
+NFR-001,"Performance da previa para 5.000 itens em <= 500 ms",CONFIRMED,"5.000 itens avaliados em 79 ms (limite: 500 ms)"

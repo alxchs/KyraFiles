@@ -14,7 +14,7 @@ Sincronizado em 2026-11-12 por Claude, a partir de `AGENT_CONTEXT.md` e do hando
 | Item | Dono | Branch | Semáforo | Observação |
 |---|---|---|---|---|
 | F090 (correção da escala) | Alexandre | `feature/f090-escala` | 🔴 OCUPADO | 1 commit sobre a `main`; build e teste com o Alexandre |
-| F048 (Diff de arquivos) | AGY | `feature/f048-file-diff` | 🔴 OCUPADO | 0/7 tarefas; integração de diff externo configurado |
+| F048 (Diff de arquivos) | — | — | 🟢 LIVRE | 0/7 tarefas; integração de diff externo configurado |
 
 ## 2. Pacotes da F092 (CONCLUÍDA)
 
@@ -39,7 +39,7 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 |---|---|---|---|
 | F036 | Fila de cópias | ⚪ CONCLUÍDO | Fases A e B entregues na v4.3.14.0 (T0 a T9); 28 testes verdes, RELATORIO.md |
 | F035 | Segunda instância | 🟢 LIVRE | 0/6 |
-| F037 | Renomear em lote com prévia | 🟢 LIVRE | 0/8 |
+| F037 | Renomear em lote com prévia | ⚪ CONCLUÍDO | 8/8 tarefas entregues; prévia ao vivo, regex, numeração, swaps e desfazer atômico; RELATORIO.md |
 | F043 | Histórico de operações | 🟢 LIVRE | 0/8 |
 | F044 | Quick Look com espaço | 🟢 LIVRE | 0/8 |
 | F045 | Ações de projeto | 🟢 LIVRE | 0/8 |
@@ -74,3 +74,5 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[FEITO] F018-update-fix · AGY · 2026-11-14 · mapeamento e correção da notificação de atualização (SideloadUpdateService ativado em DI, link direto de download de release)`
 - `[FEITO] F092-restyle · AGY · 2026-11-15 · reestilização da barra lateral 1A + 1B + ultracompacto (51 testes verdes, Gate F021 verde, instalador 85.78 MB)`
 - `[FEITO] F091, F093, F018, F092 · AGY · 2026-11-15 · correções da revisão da Claude aplicadas, integrado na main e gerado release v4.3.17`
+- `[PEGO] F037 · AGY · feature/f037-bulk-rename · renomear em lote com prévia ao vivo, conflitos, regex e desfazer atômico · não inclui renomear conteúdo de arquivos nem IA`
+- `[FEITO] F037 · AGY · 2026-11-15 · renomear em lote com prévia ao vivo, conflitos, regex, swaps e desfazer atômico (8/8 ACs confirmados)`

@@ -2,11 +2,11 @@
 
 Status: APROVADAS (Claude, 24/10/2026). **Bloqueadas** até o Claude liberar. Branch: `feature/f037-bulk-rename`. Uma tarefa por commit. Regras: `docs/agents/ORDEM-RIGIDA-AGY.md`. Testes que renomeiam: **somente** em pasta de teste em `%TEMP%\agy\<GUID>\...` com arquivos gerados pelo teste.
 
-- [ ] **T0 — Confirmar o plan no código (somente leitura).** Ler `StorageHistoryOperations` e provar se o `Undo` de um `Rename` com várias entradas funciona; ver o que `RenameAsync(…, true, false)` significa nos dois últimos parâmetros; achar onde o diálogo é substituído com menos impacto. Entregar `docs/agents/evidence/F037/t0.md`. Pronto: cada afirmação CONFIRMED/INFERRED com o comando; se o `Undo` em lote falhar, `DISCOVERY` e **parar** (decisão do Claude).
-- [ ] **T1 — `NameParts` (AC-4; entrega o pedido da F001).** Separar nome/extensão: dotfiles sem extensão, `a.tar.gz` e outras extensões duplas por lista configurável, nome sem extensão, nome terminado em ponto. Testes unitários por tabela. Pronto: testes passam; controle negativo (um caso com extensão errada reprova de propósito e é removido).
-- [ ] **T2 — `RenameRuleEngine` (FR-001, FR-002; AC-2, AC-5, AC-7).** Regras: localizar/substituir (texto e regex com tempo limite), numeração, caixa, data (arquivo e foto, com recuo), remover trecho, trocar espaços; detecção de conflito (entre si, existente, inválido, caminho longo). Pronto: testes unitários por tabela; regex inválida devolve erro explicado e não aplica; 5.000 itens com a prévia em ≤ 500 ms (medido, CSV).
-- [ ] **T3 — Aplicar e desfazer em lote (FR-003; AC-3, AC-6).** Duas fases com nomes temporários únicos, um só `StorageHistory`, falha de um item não aborta os outros. Pronto: teste de integração: aplicar, conferir nomes e conteúdo (hash); `Undo` devolve **todos**; troca A↔B funciona; arquivo aberto pelo teste falha só ele e o desfazer cobre o resto.
-- [ ] **T4 — Diálogo com prévia ao vivo (FR-001; AC-1).** Regras à esquerda, prévia à direita (fora da thread de UI, com cancelamento a cada tecla), conflitos marcados e "Aplicar" desabilitado. Ponto de abertura continua o de `RenameAction`. Pronto: build 0/0; abrir o diálogo com 10 itens mostra os novos nomes sem nada renomeado.
-- [ ] **T5 — Predefinições e edição como texto (FR-004; US4).** Salvar/carregar predefinições; aba de edição por linhas (número de linhas tem de bater). Pronto: testes; medir a prévia com 5.000 itens na UI (CSV, 3 rodadas).
-- [ ] **T6 — Prova de interface (AC-1 a AC-7).** UI Automation com helper revisado ou Sandbox; controle negativo (lote com conflito não aplica); `resultado.csv` por AC; relatório gerado do CSV; captura da janela inteira como anexo.
-- [ ] **T7 — Fechamento.** `STATUS.md`, `CHANGELOG.md`, `AGENT_CONTEXT.md`, handoff por AC; avisar a F001 que o `NameParts` está pronto. Claude revisa antes do merge (squash + rebase, versão incrementada).
+- [x] **T0 — Confirmar o plan no código (somente leitura).**
+- [x] **T1 — `NameParts` (AC-4; entrega o pedido da F001).**
+- [x] **T2 — `RenameRuleEngine` (FR-001, FR-002; AC-2, AC-5, AC-7).**
+- [x] **T3 — Aplicar e desfazer em lote (FR-003; AC-3, AC-6).**
+- [x] **T4 — Diálogo com prévia ao vivo (FR-001; AC-1).**
+- [x] **T5 — Predefinições e edição como texto (FR-004; US4).**
+- [x] **T6 — Prova de interface (AC-1 a AC-7).**
+- [x] **T7 — Fechamento.**

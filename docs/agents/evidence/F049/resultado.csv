@@ -1,0 +1,8 @@
+ID,Descricao,Status,Evidencia
+AC-1,Criacao de Junction e Hardlink,PASS,"Junction: True, Hardlink: True"
+AC-2,Resolucao e exibicao do destino,PASS,"IsLink: True, Target: TargetFolder, Exists: True"
+AC-3,Exclusao segura de link (destino intacto),PASS,"Link sumiu: True, Destino existe: True, Arquivo interno: True"
+AC-4,Link quebrado identificado sem travamento,PASS,"IsLink: True, TargetExists: False, Path: EphemeralTarget"
+AC-5,Deteccao de permissao e recuo estruturado,PASS,"Success/PrivilegeDenied estruturado e tratado"
+AC-6,Calculo de tamanho ignora reparse points,PASS,"Tamanho contado: 1048576 bytes (sem duplicar)"
+NFR-001,Leitura com Cache em segundo plano,PASS,"1000 chamadas em < 150 ms"

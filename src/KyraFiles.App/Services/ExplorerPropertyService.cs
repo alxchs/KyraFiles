@@ -64,6 +64,9 @@ namespace KyraFiles.App.Services
 			// Files Custom: F053
 			("FilesCustom.Text.Encoding", "Document", 110, TextAlignment.Left),
 			("FilesCustom.Text.LineEnding", "Document", 90, TextAlignment.Left),
+
+			// Files Custom: F049
+			("FilesCustom.FileSystem.LinkTarget", "File", 200, TextAlignment.Left),
 		];
 
 		private static readonly Dictionary<string, string> CategoryByName =
@@ -89,6 +92,8 @@ namespace KyraFiles.App.Services
 				return "Codificação";
 			if (canonicalName == "FilesCustom.Text.LineEnding")
 				return "Fim de linha";
+			if (canonicalName == "FilesCustom.FileSystem.LinkTarget")
+				return "Destino do link";
 
 			var key = "ExplorerColumn" + canonicalName.Replace("System.", string.Empty, StringComparison.Ordinal).Replace(".", string.Empty, StringComparison.Ordinal);
 			var name = key.GetLocalizedResource();
@@ -124,6 +129,14 @@ namespace KyraFiles.App.Services
 			{
 				var info = KyraFiles.Shared.Helpers.TextEncodingHelper.GetFileInfo(filePath);
 				return info.IsText ? info.LineEnding : string.Empty;
+			}
+			if (canonicalName == "FilesCustom.FileSystem.LinkTarget")
+			{
+				var info = KyraFiles.Shared.Helpers.LinkHelper.GetLinkInfo(filePath);
+				if (!info.IsLink)
+					return string.Empty;
+
+				return info.TargetExists ? info.TargetPath : $"[Quebrado] {info.TargetPath}";
 			}
 
 			try

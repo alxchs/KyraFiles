@@ -730,6 +730,12 @@ namespace KyraFiles.App.Data.Factories
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin
 						&& !currentInstanceViewModel.IsPageTypeZipFolder,
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateLink)
+				{
+					IsVisible = itemsSelected
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.SendTo.GetLocalizedResource(),

@@ -45,7 +45,7 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 | F045 | Ações de projeto | 🟢 LIVRE | 0/8 |
 | F047 | Limpeza de pastas de build | ⚪ CONCLUÍDO | 7/7 tarefas entregues; diálogo, medição, lixeira e proteção git; RELATORIO.md |
 | F048 | Diff de arquivos | 🟢 LIVRE | 0/7 tarefas; integração de diff externo configurado (aguardando leitura do usuário) |
-| F049 | Links, symlinks, junctions | 🟢 LIVRE | 0/8 |
+| F049 | Links, symlinks, junctions | ⚪ CONCLUÍDO | 7/7 tarefas entregues; motor LinkHelper, coluna Destino do link, criação no menu e exclusão segura; RELATORIO.md |
 | F053 | Codificação e fim de linha (EOL) | ⚪ CONCLUÍDO | 6/6 tarefas entregues; detecção streaming 4 KB, colunas dinâmicas, conversão em lote e desfazer; RELATORIO.md |
 | F056 | Formatos de cópia de caminho | ⚪ CONCLUÍDO | 6/6 tarefas entregues na v4.3.15.0; 13 testes verdes, RELATORIO.md |
 | F057 | Atalhos de botões em diálogos | ⚪ CONCLUÍDO | 5/5 tarefas entregues na v4.3.16.0; 8 testes verdes, RELATORIO.md |
@@ -89,4 +89,6 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[PEGO] F071 · AGY · feature/f071-unblock-action · desbloqueio web em lote de arquivos baixados e integridade em streaming · não inclui antivírus em nuvem`
 - `[FEITO] F071 · AGY · 2026-11-15 · desbloqueio web em lote no menu de contexto e integridade com baixo consumo de RAM (9/9 ACs confirmados, hash 611e5f342)`
 - `[PEGO] F053 · AGY · feature/f053-encoding-eol · coluna de codificação e fim de linha + conversão em lote e desfazer · não inclui conversão de encoding exótico`
-- `[FEITO] F053 · AGY · 2026-11-15 · coluna de codificação e fim de linha, conversão atômica em lote e desfazer byte a byte (8/8 ACs confirmados)`
+- `[FEITO] F053 · AGY · 2026-11-15 · coluna de codificação e fim de linha, conversão atômica em lote e desfazer byte a byte (8/8 ACs confirmados, hash 5b7fdd32c)`
+- `[PEGO] F049 · AGY · feature/f049-links · links simbólicos, junctions e hardlinks via menu de contexto, exibição do destino e proteção na exclusão · não inclui edição de link existente`
+- `[FEITO] F049 · AGY · 2026-11-15 · links simbólicos, junctions e hardlinks via menu de contexto, exibição do destino e exclusão segura (7/7 ACs confirmados)`

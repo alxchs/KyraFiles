@@ -1768,31 +1768,44 @@
       ],
       "title": "links symlinks junctions",
       "type": "feature",
-      "state": "not_started",
+      "state": "completed",
       "category": "fila",
       "points": 5,
-      "points_confidence": "low",
-      "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+      "points_confidence": "high",
+      "points_note": "links simbolicos, juncoes e hardlinks concluidos com exito",
       "hours": {
         "original": null,
         "current": null,
         "actual": null,
-        "remaining": null
+        "remaining": 0
       },
-      "progress": "not_calculable",
+      "progress": "completed",
       "evidence": [
         {
           "ref": "docs/specs/F049-links-symlinks-junctions/",
           "type": "doc",
-          "note": "tasks.md 0/8; sem codigo"
+          "note": "spec.md, plan.md, tasks.md"
+        },
+        {
+          "ref": "docs/agents/evidence/F049/RELATORIO.md",
+          "type": "report",
+          "note": "relatorio formal de aceite F049"
+        },
+        {
+          "ref": "docs/agents/evidence/F049/resultado.csv",
+          "type": "data",
+          "note": "matriz de testes 7/7 PASS"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F049-links-symlinks-junctions/spec.md"
+        "docs/specs/F049-links-symlinks-junctions/spec.md",
+        "src/KyraFiles.Shared/Helpers/LinkHelper.cs",
+        "src/KyraFiles.App/Actions/FileSystem/CreateLinkAction.cs",
+        "tests/test-f049-all-criteria.ps1"
       ],
-      "migration_status": "migration_pending",
-      "owner": "unknown",
+      "migration_status": "migrated",
+      "owner": "AGY",
       "created_at": null
     },
     {

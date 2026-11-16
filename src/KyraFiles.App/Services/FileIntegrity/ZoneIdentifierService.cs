@@ -25,15 +25,8 @@ namespace KyraFiles.App.Services.FileIntegrity
 			var streamPath = filePath + ZoneStreamSuffix;
 			try
 			{
-				if (File.Exists(streamPath))
-					return true;
-
 				using var fs = new FileStream(streamPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 				return fs.Length > 0;
-			}
-			catch (FileNotFoundException)
-			{
-				return false;
 			}
 			catch
 			{
@@ -53,13 +46,8 @@ namespace KyraFiles.App.Services.FileIntegrity
 				if (!HasZoneIdentifier(filePath))
 					return false;
 
-				if (File.Exists(streamPath))
-				{
-					File.Delete(streamPath);
-					return true;
-				}
-
-				return !HasZoneIdentifier(filePath);
+				bool deleted = Windows.Win32.PInvoke.DeleteFileFromApp(streamPath);
+				return deleted || !HasZoneIdentifier(filePath);
 			}
 			catch
 			{

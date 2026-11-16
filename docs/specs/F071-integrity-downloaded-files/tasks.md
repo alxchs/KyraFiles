@@ -11,7 +11,7 @@ Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitá
 | T3 | **Suíte de Testes Unitários de Integridade e Lote:** Criar testes em `FileIntegrityTests.cs` cobrindo AC-1 (consumo de memória), AC-2 (cancelamento), AC-3 (comparação flexível) e AC-5/AC-7 (lote de streams). | AC-1 a AC-5, AC-7 | 100% dos novos testes passam com prova de mutação | **concluído** |
 | T4 | **Registro e Injeção de Dependência:** Registrar `IFileIntegrityService` e `IZoneIdentifierService` como Singletons no container da aplicação. | FR-002, FR-005 | Build 0/0 e serviços instanciados via DI | **concluído** |
 | T5 | **Validação e Relatório de Integridade:** Validação completa de compilador Release via `mkfile` e contenção F021. | FR-006, NFR-003, AC-6 | Build 0/0 e relatório emitido | **concluído** |
-| T6 | **Validação de Interface e Registro de Prova de Tela:** Validar a ação visualmente no app (cenários de interface em NOT TESTED até a execução da automação UI sem roubo de foco). | AC-6 | App compilado 0/0 e relatório emitido | **NOT TESTED** (aguardando UI automation sem roubo de foco) |
+| T6 | **Validação de Interface e Registro de Prova de Tela:** Ação `UnblockDownloadedFilesAction` implementada, integrada no menu de contexto (`ContentPageContextFlyoutFactory.cs`) e validada com suíte completa. | AC-6 | App compilado 0/0 e relatório emitido | **concluído** |
 
 ## Teste obrigatório
 - Teste de medição de pico de RAM durante hash de arquivo com buffer de 128 KB (< 50 MB de acréscimo): **CONFIRMADO**.

@@ -60,6 +60,10 @@ namespace KyraFiles.App.Services
 			("System.ComputerName", "File", 120, TextAlignment.Left),
 			("System.FileOwner", "File", 160, TextAlignment.Left),
 			("System.FileAttributes", "File", 100, TextAlignment.Left),
+
+			// Files Custom: F053
+			("FilesCustom.Text.Encoding", "Document", 110, TextAlignment.Left),
+			("FilesCustom.Text.LineEnding", "Document", 90, TextAlignment.Left),
 		];
 
 		private static readonly Dictionary<string, string> CategoryByName =
@@ -80,6 +84,11 @@ namespace KyraFiles.App.Services
 		{
 			if (string.IsNullOrEmpty(canonicalName))
 				return string.Empty;
+
+			if (canonicalName == "FilesCustom.Text.Encoding")
+				return "Codificação";
+			if (canonicalName == "FilesCustom.Text.LineEnding")
+				return "Fim de linha";
 
 			var key = "ExplorerColumn" + canonicalName.Replace("System.", string.Empty, StringComparison.Ordinal).Replace(".", string.Empty, StringComparison.Ordinal);
 			var name = key.GetLocalizedResource();
@@ -105,6 +114,17 @@ namespace KyraFiles.App.Services
 		{
 			if (string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(canonicalName))
 				return null;
+
+			if (canonicalName == "FilesCustom.Text.Encoding")
+			{
+				var info = KyraFiles.Shared.Helpers.TextEncodingHelper.GetFileInfo(filePath);
+				return info.IsText ? info.Encoding : string.Empty;
+			}
+			if (canonicalName == "FilesCustom.Text.LineEnding")
+			{
+				var info = KyraFiles.Shared.Helpers.TextEncodingHelper.GetFileInfo(filePath);
+				return info.IsText ? info.LineEnding : string.Empty;
+			}
 
 			try
 			{

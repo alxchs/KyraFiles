@@ -716,6 +716,20 @@ namespace KyraFiles.App.Data.Factories
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin
 						&& !currentInstanceViewModel.IsPageTypeZipFolder,
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.ConvertToCrlf)
+				{
+					IsVisible = itemsSelected
+						&& !areAllItemsFolders
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.ConvertToLf)
+				{
+					IsVisible = itemsSelected
+						&& !areAllItemsFolders
+						&& !currentInstanceViewModel.IsPageTypeRecycleBin
+						&& !currentInstanceViewModel.IsPageTypeZipFolder,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = Strings.SendTo.GetLocalizedResource(),

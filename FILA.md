@@ -46,16 +46,22 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 | F047 | Limpeza de pastas de build | ⚪ CONCLUÍDO | 7/7 tarefas entregues; diálogo, medição, lixeira e proteção git; RELATORIO.md |
 | F048 | Diff de arquivos | 🟢 LIVRE | 0/7 tarefas; integração de diff externo configurado (aguardando leitura do usuário) |
 | F049 | Links, symlinks, junctions | 🟢 LIVRE | 0/8 |
+| F053 | Codificação e fim de linha (EOL) | ⚪ CONCLUÍDO | 6/6 tarefas entregues; detecção streaming 4 KB, colunas dinâmicas, conversão em lote e desfazer; RELATORIO.md |
 | F056 | Formatos de cópia de caminho | ⚪ CONCLUÍDO | 6/6 tarefas entregues na v4.3.15.0; 13 testes verdes, RELATORIO.md |
 | F057 | Atalhos de botões em diálogos | ⚪ CONCLUÍDO | 5/5 tarefas entregues na v4.3.16.0; 8 testes verdes, RELATORIO.md |
 | F060 | SFTP, script, hex, divisão | 🟢 LIVRE | 13/22; `origin/feature/f060-m3-sftp` e `f060-m4-script` ainda fora da `main` |
 | F026, F082, F083 | Resíduos de 1 tarefa cada | 🟢 LIVRE | 3/4, 17/18, 18/19 |
-| F058, F062, F063, F070, F071 | Specs aprovadas em 12/11/2026 | 🟢 LIVRE | Conferir se `plan.md` e `tasks.md` estão aprovados antes de codificar (SDD) |
+| F071 | Integridade e desbloqueio web em lote | ⚪ CONCLUÍDO | Ação no menu de contexto, stream de hash e remoção Zone.Identifier; 9 testes verdes, RELATORIO.md |
+| F058, F062, F063, F070 | Specs aprovadas em 12/11/2026 | 🟢 LIVRE | Conferir se `plan.md` e `tasks.md` estão aprovados antes de codificar (SDD) |
 
 ## 4. Concluído recentemente (na `main`)
 
 | Item | Hash |
 |---|---|
+| F071 desbloqueio web em lote | ⚪ `611e5f342` |
+| F044 Quick Look com espaço | ⚪ `13f76b6eb` |
+| F047 limpeza de pastas pesadas de build | ⚪ `167676b4d` |
+| F037 renomear em lote com prévia | ⚪ `734814ce5` |
 | F091, F093, F018, F092 (identidade, quick-ship, update, sidebar) v4.3.17 | ⚪ `v4.3.17` |
 | Specs aprovadas, decisões resolvidas, brief F092 | ⚪ `5827968aa` |
 | F052 visão Git | ⚪ `2e401a04f` |
@@ -79,3 +85,8 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[PEGO] F047 · AGY · feature/f047-build-folder-cleaner · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git · não inclui caches globais (~/.nuget, ~/.gradle)`
 - `[FEITO] F047 · AGY · 2026-11-15 · limpeza de pastas pesadas de build com diálogo, medição, lixeira e proteção git (7/7 ACs confirmados)`
 - `[PEGO] F044 · AGY · feature/f044-quick-look · prévia rápida instantânea com barra de espaço, sobreposição própria, navegação e metadados · não inclui edição nem anotações`
+- `[FEITO] F044 · AGY · 2026-11-15 · prévia rápida instantânea com barra de espaço, sobreposição fluente embutida e navegação (12/12 ACs confirmados, hash 13f76b6eb)`
+- `[PEGO] F071 · AGY · feature/f071-unblock-action · desbloqueio web em lote de arquivos baixados e integridade em streaming · não inclui antivírus em nuvem`
+- `[FEITO] F071 · AGY · 2026-11-15 · desbloqueio web em lote no menu de contexto e integridade com baixo consumo de RAM (9/9 ACs confirmados, hash 611e5f342)`
+- `[PEGO] F053 · AGY · feature/f053-encoding-eol · coluna de codificação e fim de linha + conversão em lote e desfazer · não inclui conversão de encoding exótico`
+- `[FEITO] F053 · AGY · 2026-11-15 · coluna de codificação e fim de linha, conversão atômica em lote e desfazer byte a byte (8/8 ACs confirmados)`

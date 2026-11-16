@@ -1909,31 +1909,46 @@
       ],
       "title": "encoding eol column",
       "type": "feature",
-      "state": "not_started",
+      "state": "completed",
       "category": "fila",
       "points": 2,
-      "points_confidence": "low",
-      "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+      "points_confidence": "high",
+      "points_note": "coluna e conversao em lote concluidas e validadas",
       "hours": {
         "original": null,
         "current": null,
         "actual": null,
-        "remaining": null
+        "remaining": 0
       },
-      "progress": "not_calculable",
+      "progress": "completed",
       "evidence": [
         {
           "ref": "docs/specs/F053-encoding-eol-column/",
           "type": "doc",
-          "note": "somente spec.md"
+          "note": "spec.md, plan.md, tasks.md"
+        },
+        {
+          "ref": "docs/agents/evidence/F053/RELATORIO.md",
+          "type": "report",
+          "note": "relatorio formal de aceite F053"
+        },
+        {
+          "ref": "docs/agents/evidence/F053/resultado.csv",
+          "type": "data",
+          "note": "matriz de testes 8/8 PASS"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F053-encoding-eol-column/spec.md"
+        "docs/specs/F053-encoding-eol-column/spec.md",
+        "src/KyraFiles.Shared/Helpers/TextEncodingHelper.cs",
+        "src/KyraFiles.Shared/Helpers/BatchTextConverter.cs",
+        "src/KyraFiles.App/Actions/FileSystem/ConvertToCrlfAction.cs",
+        "src/KyraFiles.App/Actions/FileSystem/ConvertToLfAction.cs",
+        "tests/test-f053-all-criteria.ps1"
       ],
-      "migration_status": "migration_pending",
-      "owner": "unknown",
+      "migration_status": "migrated",
+      "owner": "AGY",
       "created_at": null
     },
     {

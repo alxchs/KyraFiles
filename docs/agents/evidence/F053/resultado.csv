@@ -1,0 +1,9 @@
+ID,Descricao,Status,Evidencia
+AC-1,Deteccao de Encodings e Linhas,PASS,"UTF-8/CRLF: True, BOM/LF: True, Binario: True"
+AC-2,Deteccao de quebras mistas,PASS,"LineEnding: Misto"
+AC-3,Conversao bidirecional CRLF / LF,PASS,"CRLF: True, LF: True, Conteudo integro: True"
+AC-4,Tolerancia a arquivo bloqueado/em uso,PASS,"Convertido: 1, Falhou: 1"
+AC-5,Desfazer conversao byte a byte (Undo),PASS,"Alterou antes: True, Restaurou: 1, Hash identico: True"
+AC-6,Performance com Cache (1000 chamadas),PASS,"Tempo: 64 ms (< 100 ms para 1000 consultas)"
+AC-7,Rejeicao explicada de binarios/nao-texto,PASS,"Skipped: 1, Motivo: binary.bin: nao e arquivo de texto."
+NFR-001,Analise streaming (4 KB) em arquivo de 5 MB,PASS,"Tempo: 10 ms, LineEnding: CRLF"

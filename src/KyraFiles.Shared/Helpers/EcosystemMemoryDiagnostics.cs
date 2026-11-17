@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -36,7 +36,7 @@ namespace KyraFiles.Shared.Helpers
 	}
 
 	/// <summary>
-	/// Represents an aggregated snapshot of memory across all Files Custom processes.
+	/// Represents an aggregated snapshot of memory across all KyraFiles processes.
 	/// </summary>
 	public sealed record EcosystemMemoryReport(
 		DateTimeOffset Timestamp,
@@ -56,7 +56,7 @@ namespace KyraFiles.Shared.Helpers
 		public string ToClipboardText()
 		{
 			var sb = new StringBuilder();
-			sb.AppendLine($"Files Custom — Ecosystem Memory Report");
+			sb.AppendLine($"KyraFiles — Ecosystem Memory Report");
 			sb.AppendLine($"Timestamp: {Timestamp:yyyy-MM-dd HH:mm:ss zzz}");
 			sb.AppendLine($"Total Working Set (RAM): {FormattedTotalWorkingSet}");
 			sb.AppendLine($"Total Private Bytes: {FormattedTotalPrivateMemory}");
@@ -80,7 +80,7 @@ namespace KyraFiles.Shared.Helpers
 	}
 
 	/// <summary>
-	/// Provides memory diagnostic capabilities across all known processes of the Files Custom ecosystem.
+	/// Provides memory diagnostic capabilities across all known processes of the KyraFiles ecosystem.
 	/// </summary>
 	public static class EcosystemMemoryDiagnostics
 	{

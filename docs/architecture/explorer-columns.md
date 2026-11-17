@@ -1,4 +1,4 @@
-# Arquitetura: F010 — Todas as Colunas do Windows Explorer
+﻿# Arquitetura: F010 — Todas as Colunas do Windows Explorer
 
 Status: **FASE 1 CONCLUÍDA — PENDING DECISION (Claude / Alexandre)**
 Data: 2026-10-05
@@ -73,10 +73,10 @@ Executadas 100 iterações de extração de propriedades completas via `tools/pe
 
 ---
 
-## 3. Mapeamento no Files App Atual
+## 3. Mapeamento no KyraFiles Atual
 
 ### 3.1. Estado Atual das Colunas (100% Estático)
-Hoje o Files App possui exatamente **16 colunas fixas**:
+Hoje o KyraFiles possui exatamente **16 colunas fixas**:
 1. `Icon`
 2. `Name`
 3. `Tag`
@@ -101,7 +101,7 @@ Essas colunas estão codificadas fixamente em:
 - `LayoutPreferencesManager.cs` / `LayoutPreferencesDatabase.cs`: serialização no Registro.
 
 ### 3.2. Infraestrutura Existente Pronta para Reuso
-- `ShellItemPropertyStore` (`src/Files.App/Utils/Shell/ShellItem.cs`): Já possui o método `GetPropertyString(string propertyName)` que chama `PSGetPropertyKeyFromName` e `PSFormatForDisplayAlloc`.
+- `ShellItemPropertyStore` (`src/KyraFiles.App/Utils/Shell/ShellItem.cs`): Já possui o método `GetPropertyString(string propertyName)` que chama `PSGetPropertyKeyFromName` e `PSFormatForDisplayAlloc`.
 - `ShellViewModel.LoadExtendedItemPropertiesAsync`: Já possui o loop virtualizado em background com cancelamento.
 
 ---
@@ -157,7 +157,7 @@ public void SetDynamicProperty(string canonicalName, string value)
   3. Botões "Mover para Cima", "Mover para Baixo" e largura em pixels.
 
 ### 4.5. Persistência Híbrida
-- As 16 colunas existentes continuam usando a chave de Registro atual (`HKCU\Software\Files Community\<PackageId>\v1\LayoutPreferences\<pasta>`).
+- As 16 colunas existentes continuam usando a chave de Registro atual (`HKCU\Software\KyraFiles Community\<PackageId>\v1\LayoutPreferences\<pasta>`).
 - Novas colunas ativas são serializadas como lista de nomes canônicos e larguras em valor string JSON (`DynamicColumns = "[{\"Key\":\"System.Image.Dimensions\",\"Width\":140}]"`). Se não houver colunas adicionais, a chave não é criada.
 
 ---

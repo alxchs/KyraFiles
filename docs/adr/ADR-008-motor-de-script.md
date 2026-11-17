@@ -129,8 +129,8 @@ Caso a recomendação seja aceita e aprovada pelo Alexandre:
 ## 7. Gate de Dependências (§10.7) e Próximos Passos
 
 - Conforme as regras da SPEC e o processo de SDD, **nenhuma dependência NuGet foi instalada no projeto principal (`src/`)**.
-- A inclusão do pacote `Jint` (versão 4.17.0, licença BSD-2-Clause, 0 dependências) em `Directory.Packages.props` e `src/Files.Shared/Files.Shared.csproj` fica formalmente **condicionada à aprovação deste ADR pelo Alexandre**.
-- Uma vez aprovado o ADR pelo Alexandre, a tarefa M4-T1 poderá ser iniciada para estruturar o `ScriptEngine` em `Files.Shared`.
+- A inclusão do pacote `Jint` (versão 4.17.0, licença BSD-2-Clause, 0 dependências) em `Directory.Packages.props` e `src/KyraFiles.Shared/KyraFiles.Shared.csproj` fica formalmente **condicionada à aprovação deste ADR pelo Alexandre**.
+- Uma vez aprovado o ADR pelo Alexandre, a tarefa M4-T1 poderá ser iniciada para estruturar o `ScriptEngine` em `KyraFiles.Shared`.
 
 ---
 

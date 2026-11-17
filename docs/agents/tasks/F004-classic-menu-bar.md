@@ -1,10 +1,10 @@
-# F004 — Barra de menus tradicional (opcional)
+﻿# F004 — Barra de menus tradicional (opcional)
 
 Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 03/10/2026). Executor: AGY (análise e protótipo na branch); o Claude aprova antes do merge. Branch: `feature/classic-menu`. Depende de F003/F005 estarem decididas (os comandos de aba e de painel entram nos menus).
 
 ## ARQUITETURA ATUAL (lida no código em 03/10/2026; nada executado)
 
-- **Não existe barra de menus** (`rg "MenuBar" src/Files.App` sem resultado fora de `obj`).
+- **Não existe barra de menus** (`rg "MenuBar" src/KyraFiles.App` sem resultado fora de `obj`).
 - `Views/MainPage.xaml` (~l.112): `Grid` com 3 linhas: `TabBar`, `NavigationToolbar`, conteúdo. Dentro de cada painel há outra `Toolbar` (`UserControls/Toolbar.xaml`, "InnerNavigationToolbar") personalizável (`CustomizeToolbarAction`, `ToolbarItemDescriptor`, `ToolbarSections`).
 - Os comandos são `IAction`/`IToggleAction` com `[GeneratedRichCommand]`: cada um tem `Label`, `Description`, `HotKey`, `Glyph`, `Category` (`ActionCategory`), `IsExecutable`; o gerador cria `Commands.<Nome>` usável no XAML (`Command="{x:Bind Commands.NewTab}"`, `Commands.X.HotKeyText`, `.Label`, `.IsExecutable`, `.AutomationName`). Já existe o Command Palette (`OpenCommandPaletteAction`, `Ctrl+Shift+P`) que lista as ações com `IsAccessibleGlobally`.
 - Contagem de ações por categoria (`rg -o "ActionCategory\.\w+" Actions`): FileSystem 30, Open 22, Navigation 13, Show 11, DualPane 10, Grouping 8, Sorting 7, Create 7, Git 6, Window 4, Theme 4, Selection 4, Layout 4, Install 3, Start 2, Run 2, Image 2, Archive 2, Media 1.

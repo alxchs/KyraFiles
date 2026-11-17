@@ -1,4 +1,4 @@
-<title>Files Custom 09/10 07:30</title>
+﻿<title>KyraFiles 09/10 07:30</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   /* Layout: one reading column; a status ledger (item / o que muda / estado) is the core of the page */
@@ -56,15 +56,15 @@
 <main>
   <header>
     <span class="eyebrow">Nota de liberação · F012 · 09/10/2026 07:30</span>
-    <h1>O diálogo "Abrir" do Files agora devolve o arquivo escolhido</h1>
-    <p class="lede">Antes, escolher um arquivo no Files aberto como diálogo e fechar a janela fazia o programa receber "Cancelar" em parte das vezes, e cada uso acrescentava uma aba à sua sessão. Os dois vinham do mesmo defeito, corrigido nesta build (decisão D-016).</p>
+    <h1>O diálogo "Abrir" do KyraFiles agora devolve o arquivo escolhido</h1>
+    <p class="lede">Antes, escolher um arquivo no KyraFiles aberto como diálogo e fechar a janela fazia o programa receber "Cancelar" em parte das vezes, e cada uso acrescentava uma aba à sua sessão. Os dois vinham do mesmo defeito, corrigido nesta build (decisão D-016).</p>
   </header>
 
   <section>
     <h2>Build</h2>
     <dl class="facts">
-      <dt>Executável</dt><dd><code>src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.exe</code></dd>
-      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-FilesDev.ps1</code></dd>
+      <dt>Executável</dt><dd><code>src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe</code></dd>
+      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-KyraFiles.ps1</code></dd>
       <dt>Branch</dt><dd><code>feature/f012-explorer-replacement</code>, commits <code>7d1da75d1</code> e <code>74c16dbf5</code></dd>
       <dt>Compilação</dt><dd><code>mkfile r Files.slnx</code>: 0 Warning(s), 0 Error(s)</dd>
     </dl>
@@ -76,15 +76,15 @@
       <table>
         <thead><tr><th>Item</th><th>O que muda para você</th><th>Estado</th></tr></thead>
         <tbody>
-          <tr><td>Escolher arquivo no diálogo "Abrir"</td><td>Selecione o arquivo e feche a janela do Files: ele abre no programa.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">3 de 3 pelo script de teste, caminho com espaço e acento</span></td></tr>
+          <tr><td>Escolher arquivo no diálogo "Abrir"</td><td>Selecione o arquivo e feche a janela do KyraFiles: ele abre no programa.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">3 de 3 pelo script de teste, caminho com espaço e acento</span></td></tr>
           <tr><td>Diálogo "Salvar"</td><td>Mesmo fluxo, escolhendo um arquivo existente.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">1 de 1. Nome novo e app 32 bits: não testados</span></td></tr>
           <tr><td>Suas abas ficam intactas</td><td>O diálogo abre só com a pasta pedida e não grava nada na sua sessão.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">5 usos seguidos; sessão continuou Configurações e D:\</span></td></tr>
           <tr><td>Ligar e desligar o gerenciador padrão</td><td>Desligar devolve pastas e Win + E ao Explorer e desliga junto o diálogo; religar volta tudo. Sem pedir administrador.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">pela tela, registro conferido nos dois sentidos</span></td></tr>
           <tr><td>Diálogo desligado</td><td>Os programas voltam a usar o diálogo do Windows.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
-          <tr><td>Abrir pasta pelo Windows</td><td>start, Win + R e duplo clique abrem a pasta na janela do Files já aberta.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">4,0 s até a janela mudar</span></td></tr>
+          <tr><td>Abrir pasta pelo Windows</td><td>start, Win + R e duplo clique abrem a pasta na janela do KyraFiles já aberta.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">4,0 s até a janela mudar</span></td></tr>
           <tr><td>Pasta aberta por fora com o diálogo aberto</td><td>Vai para a janela principal, não para a de diálogo.</td><td><span class="chip warn">INFERRED</span><span class="ev">pelo código; não testado</span></td></tr>
           <tr><td>explorer.exe &lt;pasta&gt; direto</td><td>Continua abrindo o Explorer do Windows.</td><td><span class="chip pend">DECISÃO SUA</span><span class="ev">D-017: aceitar, ou interceptar de forma invasiva</span></td></tr>
-          <tr><td>Win + E</td><td>Deve abrir o Files.</td><td><span class="chip nt">NOT TESTED</span><span class="ev">precisa de teclado real</span></td></tr>
+          <tr><td>Win + E</td><td>Deve abrir o KyraFiles.</td><td><span class="chip nt">NOT TESTED</span><span class="ev">precisa de teclado real</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -102,11 +102,11 @@
   <section>
     <h2>Como testar</h2>
     <ol>
-      <li>Feche o Files Dev e rode <code>.\Open-FilesDev.ps1</code>.</li>
+      <li>Feche o KyraFiles e rode <code>.\Open-KyraFiles.ps1</code>.</li>
       <li>Em Configurações &gt; Avançado, deixe as duas opções ligadas (já estão nesta máquina).</li>
-      <li>Em qualquer programa, Ctrl+O. O Files abre só com a pasta; selecione um arquivo e feche a janela do Files. O arquivo deve abrir no programa.</li>
-      <li>Abra o Files normalmente: suas abas devem ser as de antes.</li>
-      <li>Aperte Win + E: deve abrir o Files.</li>
+      <li>Em qualquer programa, Ctrl+O. o KyraFiles abre só com a pasta; selecione um arquivo e feche a janela do KyraFiles. O arquivo deve abrir no programa.</li>
+      <li>Abra o KyraFiles normalmente: suas abas devem ser as de antes.</li>
+      <li>Aperte Win + E: deve abrir o KyraFiles.</li>
     </ol>
   </section>
 

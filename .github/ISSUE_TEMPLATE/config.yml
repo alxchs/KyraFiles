@@ -1,14 +1,14 @@
-blank_issues_enabled: false
+﻿blank_issues_enabled: false
 contact_links:
   - name: Feature Request
-    url: https://discord.gg/files
+    url: https://discord.gg/kyrafiles
     about: Suggest an idea for Files.
   - name: Translation issue
-    url: https://crowdin.com/project/files-app
+    url: https://crowdin.com/project/kyrafiles
     about: Help improve translations on Crowdin.
   - name: Question & Discussion
-    url: https://discord.gg/files
+    url: https://discord.gg/kyrafiles
     about: Post your questions and join the discussion. You can participate in chats on every channel.
   - name: Code Quality
-    url: https://discord.gg/files
+    url: https://discord.gg/kyrafiles
     about: Discuss code quality and improvements on our Discord server.

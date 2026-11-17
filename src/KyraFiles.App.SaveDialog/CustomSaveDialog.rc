@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -98,7 +98,7 @@ END
 
 IDR_CUSTOMSAVEDIALOG    REGISTRY                "CustomSaveDialog.rgs"
 
-IDR_FILESSAVEDIALOG     REGISTRY                "KyraFilesSaveDialog.rgs"
+IDR_KYRAFILESSAVEDIALOG     REGISTRY                "KyraFilesSaveDialog.rgs"
 
 
 /////////////////////////////////////////////////////////////////////////////

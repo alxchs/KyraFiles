@@ -1,4 +1,4 @@
-# Relatório de Conclusão e Evidências — F049 (Links Simbólicos, Junções e Hardlinks)
+﻿# Relatório de Conclusão e Evidências — F049 (Links Simbólicos, Junções e Hardlinks)
 
 **Data:** 15/11/2026  
 **Status:** CONCLUÍDO E APROVADO  
@@ -19,7 +19,7 @@ A especificação **F049 — Links Simbólicos, Junções e Hardlinks** implemen
    - Detecta automaticamente se o item é arquivo ou pasta e sugere o tipo apropriado.
    - Recuo automático: quando a criação de link simbólico for negada por política do Windows, sugere e cria alternativamente uma Junção (para pasta) ou Hardlink (para arquivo).
 3. **Exibição e Segurança:**
-   - Coluna dinâmica `FilesCustom.FileSystem.LinkTarget` ("Destino do link") disponível no seletor de colunas e detalhes.
+   - Coluna dinâmica `KyraFiles.FileSystem.LinkTarget` ("Destino do link") disponível no seletor de colunas e detalhes.
    - Exclusão segura (`SafeDeleteLink`): excluir um link remove apenas o ponteiro do link, mantendo o diretório ou arquivo de destino 100% intacto (`AC-3`, `FR-003`).
    - Cálculo de tamanho de pasta ignora reparse points, evitando duplicações ou loops (`AC-6`).
 
@@ -44,6 +44,6 @@ A especificação **F049 — Links Simbólicos, Junções e Hardlinks** implemen
 - `src/KyraFiles.Shared/Helpers/LinkHelper.cs`: Motor de criação, resolução, cache e exclusão segura de links.
 - `src/KyraFiles.App/Actions/FileSystem/CreateLinkAction.cs`: Comando de contexto com recuo gracioso.
 - `src/KyraFiles.App/Data/Factories/ContentPageContextFlyoutFactory.cs`: Exposição de `Commands.CreateLink` no menu contextual.
-- `src/KyraFiles.App/Services/ExplorerPropertyService.cs`: Exposição da coluna dinâmica `FilesCustom.FileSystem.LinkTarget`.
+- `src/KyraFiles.App/Services/ExplorerPropertyService.cs`: Exposição da coluna dinâmica `KyraFiles.FileSystem.LinkTarget`.
 - `tests/test-f049-all-criteria.ps1`: Suíte de validação formal cobrindo AC-1 a AC-6 e NFR-001.
 - `docs/agents/evidence/F049/resultado.csv`: Matriz formal de evidências.

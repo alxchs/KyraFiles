@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
@@ -43,7 +43,7 @@ namespace KyraFiles.App.Services.Search
 			_logger = logger;
 		}
 
-		// Files Custom: also used by the F3 action (F013)
+		// KyraFiles: also used by the F3 action (F013)
 		internal static string? GetExecutablePath()
 		{
 			foreach (var path in PossibleExePaths)

@@ -1,9 +1,9 @@
-# Build 2026-10-18 22:10 — FilesCustomSetup v4.3.0
+﻿# Build 2026-10-18 22:10 — KyraFilesSetup v4.3.0
 
-- **Instalador:** `artifacts\Setup\FilesCustomSetup-4.3.0.exe` (52,7 MB, Inno Setup 6, LZMA2 Ultra64).
-- **Executável instalado:** `%LocalAppData%\Programs\FilesCustom\Files.exe` (pacote `FilesDev_4.3.0.0_x64__ykqwq8d6ps0ag`).
-- **Build:** `dotnet build src\Files.App\Files.App.csproj -c Release -m:1` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
-- **Layout AppX & Manifest:** `Open-FilesDev.ps1 -Configuration Release -NoLaunch` + `Generate-PackageManifest.ps1` (CONFIRMED).
+- **Instalador:** `artifacts\Setup\KyraFilesSetup-4.3.0.exe` (52,7 MB, Inno Setup 6, LZMA2 Ultra64).
+- **Executável instalado:** `%LocalAppData%\Programs\KyraFiles\KyraFiles.exe` (pacote `FilesDev_4.3.0.0_x64__ykqwq8d6ps0ag`).
+- **Build:** `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -m:1` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
+- **Layout AppX & Manifest:** `Open-KyraFiles.ps1 -Configuration Release -NoLaunch` + `Generate-PackageManifest.ps1` (CONFIRMED).
 - **Gate de Recursos:** `tools\perf\verify_no_index_service.ps1` = `IndexService inativo` (CONFIRMED).
 
 ## O que está liberado nesta versão (v4.3.0)

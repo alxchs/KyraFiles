@@ -1,10 +1,10 @@
-using System.IO.Pipes;
+﻿using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.ServiceProcess;
 
 // Spike descartável — F015 T1. Não entra em src/.
-// Responde "ping" num named pipe FilesCustom.IndexService.Spike.
+// Responde "ping" num named pipe KyraFiles.IndexService.Spike.
 // Roda como SYSTEM; pipe acessível a qualquer usuário autenticado.
 
 if (args.Length > 0 && args[0] == "--service")
@@ -27,7 +27,7 @@ else
 /// </summary>
 internal static class PipeServer
 {
-    internal const string PipeName = "FilesCustom.IndexService.Spike";
+    internal const string PipeName = "KyraFiles.IndexService.Spike";
 
     internal static async Task RunAsync(CancellationToken token)
     {

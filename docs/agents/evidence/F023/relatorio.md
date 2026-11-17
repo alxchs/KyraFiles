@@ -1,4 +1,4 @@
-# F023 — Relatório de Estresse de Memória, Robustez e Validação Visual da Busca (24/10/2026, AGY)
+﻿# F023 — Relatório de Estresse de Memória, Robustez e Validação Visual da Busca (24/10/2026, AGY)
 
 ## 1. Resumo Executivo
 - **Objetivo:** Validar a estabilidade de recursos (memória, vazamento de kernel handles) sob estresse contínuo de busca híbrida com streaming, descarte de CTS (`CancellationTokenSource`) no Omnibar, e coletar evidências visuais físicas de funcionamento sem travamentos.
@@ -43,14 +43,14 @@
 
 ## 4. Evidências Visuais Físicas (T13)
 As capturas de tela foram geradas pelo script de automação com o aplicativo aberto fisicamente na sessão interativa:
-1. `f023_busca_estresse_concluida.png`: Demonstra a janela do Files após a conclusão dos 15 ciclos de busca, interface íntegra, sem congelamento e pronta para uso.
+1. `f023_busca_estresse_concluida.png`: Demonstra a janela do KyraFiles após a conclusão dos 15 ciclos de busca, interface íntegra, sem congelamento e pronta para uso.
 2. `f023_busca_resultados_ativos.png`: Demonstra a exibição imediata dos resultados de busca no Omnibar e lista de resultados.
 
 ---
 
 ## 5. Portão Anti-Daemon F021 (T10)
 - **Script:** `tools/perf/verify_no_index_service.ps1`
-- **Resultado:** **CONFIRMED**. `Files.App.IndexService.exe` permaneceu rigorosamente inativo e desarmado. Exit code 0.
+- **Resultado:** **CONFIRMED**. `KyraFiles.App.IndexService.exe` permaneceu rigorosamente inativo e desarmado. Exit code 0.
 
 ---
 

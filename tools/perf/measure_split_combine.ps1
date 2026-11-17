@@ -60,7 +60,7 @@ if (-not (Test-Path $harnessExe)) {
 
 # 3. Configuracao do Diretorio Temporario
 $guid = [guid]::NewGuid().ToString()
-$tempRoot = [System.IO.Path]::Combine($env:TEMP, "agy", $guid, "desenv", "utils", "FilesApp-f060-m1", "Files")
+$tempRoot = [System.IO.Path]::Combine($env:TEMP, "agy", $guid, "desenv", "utils", "KyraFiles-f060-m1", "Files")
 Write-Host "`nDiretorio temporario da sessao: $tempRoot"
 [System.IO.Directory]::CreateDirectory($tempRoot) | Out-Null
 

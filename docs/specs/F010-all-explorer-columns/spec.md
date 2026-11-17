@@ -1,8 +1,8 @@
-# F010 — Todas as Colunas do Windows Explorer
+﻿# F010 — Todas as Colunas do Windows Explorer
 
 ## 1. Objetivo
 
-Permitir que o usuário inclua no layout Details do Files App qualquer coluna oferecida pelo Windows Explorer (o diálogo "Escolher Detalhes... / More..." do Explorer com centenas de propriedades do Windows Property System: Autor, Álbum, Dimensões, Duração, Taxa de bits, Data de captura, Câmera, Modelo, etc.), além das 16 colunas fixas atuais do Files.
+Permitir que o usuário inclua no layout Details do KyraFiles qualquer coluna oferecida pelo Windows Explorer (o diálogo "Escolher Detalhes... / More..." do Explorer com centenas de propriedades do Windows Property System: Autor, Álbum, Dimensões, Duração, Taxa de bits, Data de captura, Câmera, Modelo, etc.), além das 16 colunas fixas atuais do KyraFiles.
 
 ## 2. Origem e Decisão de Arquitetura
 

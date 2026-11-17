@@ -1,9 +1,9 @@
-# F065 — Busca: Nome e Caminho nas colunas — PLAN
+﻿# F065 — Busca: Nome e Caminho nas colunas — PLAN
 
 Status: APROVADO (Alexandre, 30/10/2026: "aprovado e siga sem pausas com todas as pendencias").
 
 ## Arquitetura atual (lida no código em 30/10/2026)
-- `EverythingSearchProvider.SearchAsync` (`src/Files.App/Services/Search/EverythingSearchProvider.cs:223-236`) cria `ListedItem` com `ItemPath`, `ItemNameRaw`, tamanho, datas e tipo, **sem `Opacity`**. — CONFIRMED (leitura). `IndexedSearchProvider.cs:203,228` e `NativeFilesSearchProvider.cs:119` definem `Opacity = isHidden ? Constants.UI.DimItemOpacity : 1`. — CONFIRMED (leitura).
+- `EverythingSearchProvider.SearchAsync` (`src/KyraFiles.App/Services/Search/EverythingSearchProvider.cs:223-236`) cria `ListedItem` com `ItemPath`, `ItemNameRaw`, tamanho, datas e tipo, **sem `Opacity`**. — CONFIRMED (leitura). `IndexedSearchProvider.cs:203,228` e `NativeFilesSearchProvider.cs:119` definem `Opacity = isHidden ? Constants.UI.DimItemOpacity : 1`. — CONFIRMED (leitura).
 - `ListedItem.Opacity` é `double` sem inicializador (`Data/Items/ListedItem.cs:139`), logo 0. — CONFIRMED (leitura).
 - O nome na lista de detalhes usa `Opacity="{x:Bind Opacity}"` (`Views/Layouts/DetailsLayoutPage.xaml:1028`). — CONFIRMED (leitura). Que isso produza o nome em branco da captura: INFERRED (não reproduzido; ver T1).
 - Coluna Caminho: cabeçalho `PathHeader` (xaml ~745-752) e célula `ItemPathTextBlock` (xaml ~1193-1203); exibição por `PathColumn.Show()/Hide()` em `DetailsLayoutPage.xaml.cs:490-493`, dentro de `FilesystemViewModel_PageTypeUpdated`, chamado (a) com `PageTypeUpdated` do `ShellViewModel` — que, nos pontos lidos (linhas ~2256-2278), não define `IsTypeSearchResults` — e (b) uma vez ao navegar (`xaml.cs:263-269`), lendo `InstanceViewModel.IsPageTypeSearchResults`, definido em `BaseLayoutPage.cs:604`. Por que o Caminho não apareceu na captura: **desconhecido** (preferência `ShowPathColumn`, largura zero ou evento tardio; ver T2).

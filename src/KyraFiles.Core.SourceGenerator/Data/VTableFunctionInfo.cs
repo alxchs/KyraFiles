@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 
 namespace KyraFiles.Core.SourceGenerator.Data

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
@@ -13,7 +13,7 @@ namespace KyraFiles.App.Services
 	/// </summary>
 	public sealed class ExplorerPropertyService : IExplorerPropertyService
 	{
-		// Files Custom: names and categories come from the app resources, in the app language (G1 C2).
+		// KyraFiles: names and categories come from the app resources, in the app language (G1 C2).
 		// Resource keys: "ExplorerColumn" + canonical name without "System." and dots; "ExplorerColumnCategory" + category.
 		private static readonly (string CanonicalName, string Category, double Width, TextAlignment Alignment)[] Entries =
 		[
@@ -61,12 +61,12 @@ namespace KyraFiles.App.Services
 			("System.FileOwner", "File", 160, TextAlignment.Left),
 			("System.FileAttributes", "File", 100, TextAlignment.Left),
 
-			// Files Custom: F053
-			("FilesCustom.Text.Encoding", "Document", 110, TextAlignment.Left),
-			("FilesCustom.Text.LineEnding", "Document", 90, TextAlignment.Left),
+			// KyraFiles: F053
+			("KyraFiles.Text.Encoding", "Document", 110, TextAlignment.Left),
+			("KyraFiles.Text.LineEnding", "Document", 90, TextAlignment.Left),
 
-			// Files Custom: F049
-			("FilesCustom.FileSystem.LinkTarget", "File", 200, TextAlignment.Left),
+			// KyraFiles: F049
+			("KyraFiles.FileSystem.LinkTarget", "File", 200, TextAlignment.Left),
 		];
 
 		private static readonly Dictionary<string, string> CategoryByName =
@@ -88,11 +88,11 @@ namespace KyraFiles.App.Services
 			if (string.IsNullOrEmpty(canonicalName))
 				return string.Empty;
 
-			if (canonicalName == "FilesCustom.Text.Encoding")
+			if (canonicalName == "KyraFiles.Text.Encoding")
 				return "Codificação";
-			if (canonicalName == "FilesCustom.Text.LineEnding")
+			if (canonicalName == "KyraFiles.Text.LineEnding")
 				return "Fim de linha";
-			if (canonicalName == "FilesCustom.FileSystem.LinkTarget")
+			if (canonicalName == "KyraFiles.FileSystem.LinkTarget")
 				return "Destino do link";
 
 			var key = "ExplorerColumn" + canonicalName.Replace("System.", string.Empty, StringComparison.Ordinal).Replace(".", string.Empty, StringComparison.Ordinal);
@@ -120,17 +120,17 @@ namespace KyraFiles.App.Services
 			if (string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(canonicalName))
 				return null;
 
-			if (canonicalName == "FilesCustom.Text.Encoding")
+			if (canonicalName == "KyraFiles.Text.Encoding")
 			{
 				var info = KyraFiles.Shared.Helpers.TextEncodingHelper.GetFileInfo(filePath);
 				return info.IsText ? info.Encoding : string.Empty;
 			}
-			if (canonicalName == "FilesCustom.Text.LineEnding")
+			if (canonicalName == "KyraFiles.Text.LineEnding")
 			{
 				var info = KyraFiles.Shared.Helpers.TextEncodingHelper.GetFileInfo(filePath);
 				return info.IsText ? info.LineEnding : string.Empty;
 			}
-			if (canonicalName == "FilesCustom.FileSystem.LinkTarget")
+			if (canonicalName == "KyraFiles.FileSystem.LinkTarget")
 			{
 				var info = KyraFiles.Shared.Helpers.LinkHelper.GetLinkInfo(filePath);
 				if (!info.IsLink)

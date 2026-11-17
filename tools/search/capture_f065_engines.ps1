@@ -1,4 +1,4 @@
-# capture_f065_engines.ps1
+﻿# capture_f065_engines.ps1
 # Prepara e executa a captura de tela dos resultados de busca por motor (Everything, índice, nativo, Agent Ransack)
 # e as provas de variantes da coluna Caminho (F065-T11 e F065-T12).
 #
@@ -40,14 +40,14 @@ Write-Host "Horário de início: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Destino de evidências: $evidencePath"
 
 # 3. Localiza instância de desenvolvimento do Files (sem tocar no processo de produção do Alexandre)
-$pkg = Get-AppxPackage -Name "FilesDev"
+$pkg = Get-AppxPackage -Name "KyraFiles"
 if (-not $pkg) {
-    throw "Pacote FilesDev não encontrado. Execute Open-FilesDev.ps1 -NoLaunch previamente."
+    throw "Pacote KyraFiles não encontrado. Execute Open-KyraFiles.ps1 -NoLaunch previamente."
 }
 
-# Localiza processos Files.exe que pertençam ao pacote de desenvolvimento
+# Localiza processos KyraFiles.exe que pertençam ao pacote de desenvolvimento
 $devProcs = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Where-Object {
-    $_.Path -and ($_.Path.Contains("FilesDev") -or $_.Path.Contains("FilesCustom") -or $_.Path.Contains("AppX"))
+    $_.Path -and ($_.Path.Contains("KyraFiles") -or $_.Path.Contains("KyraFiles") -or $_.Path.Contains("AppX"))
 }
 
 if (-not $devProcs) {

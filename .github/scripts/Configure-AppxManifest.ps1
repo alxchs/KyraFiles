@@ -1,4 +1,4 @@
-﻿# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # SPDX-License-Identifier: MPL-2.0
 
 param(
@@ -36,8 +36,8 @@ if ($Branch -eq "SideloadPreview")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files-preview");
-    $ea.SetAttribute("Alias", "files-preview.exe");
+    $ap.SetAttribute("Name", "kyrafiles-preview");
+    $ea.SetAttribute("Alias", "kyrafiles-preview.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -50,7 +50,7 @@ if ($Branch -eq "SideloadPreview")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-preview" }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -71,8 +71,8 @@ elseif ($Branch -eq "StorePreview")
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files-preview");
-    $ea.SetAttribute("Alias", "files-preview.exe");
+    $ap.SetAttribute("Name", "kyrafiles-preview");
+    $ea.SetAttribute("Alias", "kyrafiles-preview.exe");
     
     $xmlDoc.Save($PackageManifestPath)
 
@@ -84,7 +84,7 @@ elseif ($Branch -eq "StorePreview")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-preview" }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -98,8 +98,8 @@ elseif ($Branch -eq "SideloadStable")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files-stable");
-    $ea.SetAttribute("Alias", "files-stable.exe");
+    $ap.SetAttribute("Name", "kyrafiles-stable");
+    $ea.SetAttribute("Alias", "kyrafiles-stable.exe");
     
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -112,7 +112,7 @@ elseif ($Branch -eq "SideloadStable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-stable" }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -121,7 +121,7 @@ elseif ($Branch -eq "StoreStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-    $xmlDoc.Package.Properties.DisplayName="Files App"
+    $xmlDoc.Package.Properties.DisplayName="KyraFiles"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
@@ -130,8 +130,8 @@ elseif ($Branch -eq "StoreStable")
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files-stable");
-    $ea.SetAttribute("Alias", "files-stable.exe");
+    $ap.SetAttribute("Name", "kyrafiles-stable");
+    $ea.SetAttribute("Alias", "kyrafiles-stable.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -144,7 +144,7 @@ elseif ($Branch -eq "StoreStable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-stable" }) | `
         Set-Content $_ -NoNewline `
     }
 

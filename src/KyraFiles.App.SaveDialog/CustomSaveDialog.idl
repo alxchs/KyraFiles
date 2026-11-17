@@ -17,7 +17,7 @@ library CustomSaveDialogLib
 	[
 		uuid(C0B4E2F3-BA21-4773-8DBA-335EC946EB8B)
 	]
-	coclass FilesSaveDialog
+	coclass KyraFilesSaveDialog
 	{
 		[default] interface IFileSaveDialog;
 		interface IFileDialog;

@@ -1,4 +1,4 @@
-# Memória Consolidada do Projeto — Files Custom
+﻿# Memória Consolidada do Projeto — KyraFiles
 
 **Data/Hora:** 2026-10-26 09:50  
 **Autor:** AGY (Google Antigravity)  
@@ -20,11 +20,11 @@
 ## 2. Mapa das Worktrees e Branches Ativas
 
 ```text
-C:/desenv/utils/FilesApp               -> branch feature/f056-copy-path-formats (checkout principal)
-C:/desenv/utils/FilesApp-f035          -> branch feature/f035-second-instance (investigação e correções F035)
-C:/desenv/utils/FilesApp-f047          -> branch feature/f047-build-folder-cleaner (limpador de build atômico)
-C:/desenv/utils/FilesApp-specs-backlog -> branch claude/specs-backlog (especificações SDD, SITUACAO.md e fila)
-C:/desenv/utils/FilesApp-upstream-base -> detached HEAD (baseline original de comparação)
+C:/desenv/utils/KyraFiles               -> branch feature/f056-copy-path-formats (checkout principal)
+C:/desenv/utils/KyraFiles-f035          -> branch feature/f035-second-instance (investigação e correções F035)
+C:/desenv/utils/KyraFiles-f047          -> branch feature/f047-build-folder-cleaner (limpador de build atômico)
+C:/desenv/utils/KyraFiles-specs-backlog -> branch claude/specs-backlog (especificações SDD, SITUACAO.md e fila)
+C:/desenv/utils/KyraFiles-upstream-base -> detached HEAD (baseline original de comparação)
 ```
 
 ---
@@ -41,7 +41,7 @@ C:/desenv/utils/FilesApp-upstream-base -> detached HEAD (baseline original de co
 3. **SDD Completo Aprovado:**
    - F035 (P0), F056, F047, F049 (Onda 1), F037, F044, F045, F048 (Onda 2), F036, F043 (Onda 3).
 4. **F056 — T1 Concluída (`44aa312bd`):**
-   - Classe central `PathFormatter.cs` em `Files.Shared` e testes unitários em `Files.App.Search.Index.Tests` verdes.
+   - Classe central `PathFormatter.cs` em `KyraFiles.Shared` e testes unitários em `KyraFiles.App.Search.Index.Tests` verdes.
 5. **F047 — T0 a T2 e C1 a C3 Concluídas:**
    - Estrutura de limpeza de pastas de build concluída com testes por tabela e falha fechada no verificador git.
 
@@ -65,7 +65,7 @@ C:/desenv/utils/FilesApp-upstream-base -> detached HEAD (baseline original de co
 1. **Crash nativo com o Painel de Prévia aberto:**
    - Relatado pelo Alexandre (26/10 08:11:45).
    - Módulo: `Microsoft.UI.Input.dll`, código de exceção: `0xc0000409` (fail-fast / stack buffer overrun), disparado durante scroll/navegação rápida passando por arquivo de vídeo com prévia aberta.
-   - Dump salvo e protegido em `%LOCALAPPDATA%\CrashDumps\Files.exe.15768.dmp` (não apagar!).
+   - Dump salvo e protegido em `%LOCALAPPDATA%\CrashDumps\KyraFiles.exe.15768.dmp` (não apagar!).
    - Roteiro de reprodução em `docs/agents/tasks/R-crashes-reproducao.md`.
 2. **Crash do `GridLayoutPage`:**
    - Falha observada no log de eventos do Windows (`LookupConverter`/`Update_FileTagsUI`, 26/10 00:59:04). Causa raiz em investigação.

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
@@ -102,7 +102,7 @@ namespace KyraFiles.App.Helpers
 			try
 			{
 				CanShowDialog = false;
-				DialogShortcuts.Attach(dialog); // Files Custom: F057
+				DialogShortcuts.Attach(dialog); // KyraFiles: F057
 				return await SetContentDialogRoot(dialog).ShowAsync();
 			}
 			catch // A content dialog is already open

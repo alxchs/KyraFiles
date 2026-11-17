@@ -1,0 +1,60 @@
+{
+  "$schema": "./legacy-names-allowlist.schema.json",
+  "description": "Lista de excecoes permitidas para nomes legados no KyraFiles (INSTRUCTIONS_OPERARY.md R5). Apenas duas categorias sao aceitas: (a) licenca/atribuicao exigida; (b) o que o Alexandre decidir manter.",
+  "exceptions": [
+    {
+      "file": "LICENSE-MIT",
+      "exact_snippet": "Copyright (c) 2018 - present Files Community",
+      "category": "a",
+      "reason": "Atribuicao de direitos autorais exigida pela licenca MIT original do projeto upstream (INSTRUCTIONS_OPERARY.md Limite juridico)."
+    },
+    {
+      "file": "LICENSE-MPL",
+      "exact_snippet": "Files",
+      "category": "a",
+      "reason": "Licenca de terceiros (MPL) protegida contra alteracao (INSTRUCTIONS_OPERARY.md Limite juridico)."
+    },
+    {
+      "file": ".github/NOTICE.md",
+      "exact_snippet": null,
+      "category": "a",
+      "reason": "Avisos de licenca de terceiros protegidos (INSTRUCTIONS_OPERARY.md Modo acelerado)."
+    },
+    {
+      "file": "installer/KyraFilesSetup.iss",
+      "exact_snippet": "[Files]",
+      "category": "b",
+      "reason": "Palavra-chave mandatória da sintaxe do compilador Inno Setup."
+    },
+    {
+      "file": "docs/agents/evidence/F047/nfr001_scan_pruning_50k_files.csv",
+      "exact_snippet": "nfr001_scan_pruning_50k_files.csv",
+      "category": "b",
+      "reason": "Nome de artefato de metrica em ingles ('50k files' = 50 mil arquivos)."
+    },
+    {
+      "file": "docs/specs/F071-integrity-downloaded-files/spec.md",
+      "exact_snippet": "F071-integrity-downloaded-files",
+      "category": "b",
+      "reason": "Identificador da spec F071 ('downloaded files' = arquivos baixados da internet)."
+    },
+    {
+      "file": "docs/specs/F071-integrity-downloaded-files/plan.md",
+      "exact_snippet": "F071-integrity-downloaded-files",
+      "category": "b",
+      "reason": "Identificador da spec F071 ('downloaded files' = arquivos baixados da internet)."
+    },
+    {
+      "file": "docs/specs/F071-integrity-downloaded-files/tasks.md",
+      "exact_snippet": "F071-integrity-downloaded-files",
+      "category": "b",
+      "reason": "Identificador da spec F071 ('downloaded files' = arquivos baixados da internet)."
+    },
+    {
+      "file": "docs/specs/F071-integrity-downloaded-files/RELATORIO.md",
+      "exact_snippet": "F071-integrity-downloaded-files",
+      "category": "b",
+      "reason": "Identificador da spec F071 ('downloaded files' = arquivos baixados da internet)."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# F060 — Matriz de situação da SPEC "Diferenciais" (v1.2) contra o projeto atual
+﻿# F060 — Matriz de situação da SPEC "Diferenciais" (v1.2) contra o projeto atual
 
 Data: 26/10/2026. Fonte: `origem/SPEC_original_v1.2.md`. Pedido do Alexandre: "adicione essa spec e descarte o que já estiver feito".
 Estados da própria SPEC original (§1.2). Cada linha cita o comando/arquivo que a sustenta. Não é a TASK-000 completa (não leu cada requisito até o fim do código): onde só há indício, vale `NEEDS_REVIEW`.
@@ -7,11 +7,11 @@ Estados da própria SPEC original (§1.2). Cada linha cita o comando/arquivo que
 
 | Requisito da SPEC | Situação | Evidência / destino |
 |---|---|---|
-| SYNC-003 (MD5, SHA-1, SHA-256) | **EXISTS** (cálculo). SHA-384 e SHA-512 também | `src/Files.Shared/Helpers/ChecksumHelpers.cs` (`CreateMD5/SHA1/SHA256/SHA384/SHA512`); `HashesViewModel.cs` (aba Hashes das propriedades) |
+| SYNC-003 (MD5, SHA-1, SHA-256) | **EXISTS** (cálculo). SHA-384 e SHA-512 também | `src/KyraFiles.Shared/Helpers/ChecksumHelpers.cs` (`CreateMD5/SHA1/SHA256/SHA384/SHA512`); `HashesViewModel.cs` (aba Hashes das propriedades) |
 | SYNC-001, 002, 004 a 011, 014 (inventário, diff por hash, lado a lado, espelho, dry-run, filtros) | **Coberto por spec aprovada** | `F041-folder-compare-sync` (AC-1 a AC-6; prévia, "conteúdo", espelho com Lixeira, ignorar padrões) e `F040-duplicate-finder` (tamanho e depois conteúdo) |
 | REN-001, 002, 005, 006, 007, 009 (regex, máscaras, prévia, colisão, desfazer, execução parcial) | **Coberto por spec aprovada** | `F037-bulk-rename-preview` (US1 a US3, AC-5 regex inválida, AC-6 parcial, FR-003 desfazer atômico). O diálogo atual é só `BulkRenameDialog` simples (sem regex: sem ocorrência de `Regex` em `BulkRenameDialogViewModel.cs`), por isso a F037 continua valendo |
 | QUEUE-001 a 006, 009, 010 (fila central, background, pausar, cancelar, reordenar, progresso) | **Coberto por spec aprovada** | `F036-copy-queue` (fases A e B aprovadas; T7/T8 aguardam D-F036-1). Progresso e cancelamento básicos já existem no Status Center (`StatusCenterViewModel.cs`, `StatusCenterItem.cs`) |
-| REM-001 (FTP: conectar, listar, baixar, enviar) | **EXISTS** | `src/Files.App.Storage/Ftp/*` e `Utils/Storage/Helpers/FtpHelpers.cs`; pacote FluentFTP 55.0.0 em `Directory.Packages.props` |
+| REM-001 (FTP: conectar, listar, baixar, enviar) | **EXISTS** | `src/KyraFiles.App.Storage/Ftp/*` e `Utils/Storage/Helpers/FtpHelpers.cs`; pacote FluentFTP 55.0.0 em `Directory.Packages.props` |
 | ADR de runtime/UI/DI/persistência (ADR-001 a 004) | **Descartado** | Stack real já conhecida: WinUI 3, .NET (SDK 10.0.301 no build), DI por `Ioc.Default`, `GeneralSettingsService`. A SPEC manda não trocar nada; não há decisão a tomar |
 | §14 e §15 (regras Claude/AGY, prompt persistente) | **Descartado** | Já cobertos por `AGENTS.md`, `METODO.md` e `INSTRUCTIONS_OPERARY.md` |
 | §13 Fase 0 (auditoria) | **Feita em parte** | Esta matriz + `docs/agents/SITUACAO.md`. Licença do upstream (REM/ADR-015) segue em aberto, ver F060 T0 |

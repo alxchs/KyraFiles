@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 namespace KyraFiles.Core.SourceGenerator.Extensions
@@ -30,7 +30,7 @@ namespace KyraFiles.Core.SourceGenerator.Extensions
 		/// <returns>The <see cref="StringBuilder"/> instance with the appended license header.</returns>
 		internal static StringBuilder AppendLicenceHeader(this StringBuilder sb)
 		{
-			return sb.AppendLine($"// Copyright (c) Files Community")
+			return sb.AppendLine($"// Copyright (c) KyraFiles contributors")
 				.AppendLine("// Licensed under the MIT License.");
 		}
 

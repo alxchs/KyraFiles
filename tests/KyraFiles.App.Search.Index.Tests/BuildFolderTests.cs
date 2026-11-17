@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Diagnostics;
 using System.Globalization;
@@ -14,7 +14,7 @@ public sealed class BuildFolderTests
 	{
 		string guid = Guid.NewGuid().ToString("N");
 		guidDir = Path.Combine(Path.GetTempPath(), "agy", guid);
-		string targetDir = Path.Combine(guidDir, "desenv", "utils", "FilesApp", "Files", "f047");
+		string targetDir = Path.Combine(guidDir, "desenv", "utils", "KyraFiles", "Files", "f047");
 		Directory.CreateDirectory(targetDir);
 		return targetDir;
 	}

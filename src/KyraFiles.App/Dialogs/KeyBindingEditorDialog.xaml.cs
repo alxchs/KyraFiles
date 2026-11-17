@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.ViewModels.Settings;
@@ -36,7 +36,7 @@ namespace KyraFiles.App.Dialogs
 			CommandDescription = itemToEdit?.CommandDescription ?? string.Empty;
 
 			InitializeComponent();
-			DialogShortcuts.Attach(this); // Files Custom: F057
+			DialogShortcuts.Attach(this); // KyraFiles: F057
 
 			Title = IsAddMode ? Strings.AddCommand.GetLocalizedResource() : Strings.Edit.GetLocalizedResource();
 			PrimaryButtonText = IsAddMode ? Strings.Add.GetLocalizedResource() : Strings.Save.GetLocalizedResource();

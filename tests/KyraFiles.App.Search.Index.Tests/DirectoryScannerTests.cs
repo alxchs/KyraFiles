@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Diagnostics;
 using KyraFiles.App.Search.Index.Basic;
@@ -18,7 +18,7 @@ public sealed class DirectoryScannerTests
 			"claude",
 			"desenv",
 			"utils",
-			"FilesApp",
+			"KyraFiles",
 			"f015",
 			"t7_cycle_" + Guid.NewGuid().ToString("N"));
 
@@ -69,7 +69,7 @@ public sealed class DirectoryScannerTests
 			"claude",
 			"desenv",
 			"utils",
-			"FilesApp",
+			"KyraFiles",
 			"f015",
 			"t7_hardlink_" + Guid.NewGuid().ToString("N"));
 

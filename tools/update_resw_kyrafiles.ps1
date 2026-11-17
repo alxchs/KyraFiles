@@ -1,4 +1,4 @@
-# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # SPDX-License-Identifier: MPL-2.0
 
 # 1. en-US
@@ -13,8 +13,8 @@ $en = $en.Replace("<value>Files can't initialize this directory as a Git reposit
 $en = $en.Replace("<value>Files is still running in the background to improve startup performance.</value>", "<value>KyraFiles is still running in the background to improve startup performance.</value>")
 $en = $en.Replace("<value>Choose the search engine used for searches in Files</value>", "<value>Choose the search engine used for searches in KyraFiles</value>")
 $en = $en.Replace("<value>Files Native (Windows Search / Win32)</value>", "<value>KyraFiles Native (Windows Search / Win32)</value>")
-$en = $en.Replace("<value>Files Custom is using {0} across {1} active process(es)</value>", "<value>KyraFiles is using {0} across {1} active process(es)</value>")
-$en = $en.Replace("<value>Checks if a newer version of Files Custom has been published.</value>", "<value>Checks if a newer version of KyraFiles has been published.</value>")
+$en = $en.Replace("<value>KyraFiles is using {0} across {1} active process(es)</value>", "<value>KyraFiles is using {0} across {1} active process(es)</value>")
+$en = $en.Replace("<value>Checks if a newer version of KyraFiles has been published.</value>", "<value>Checks if a newer version of KyraFiles has been published.</value>")
 $en = $en.Replace("<value>Set Files as the default file manager</value>", "<value>Set KyraFiles as the default file manager</value>")
 $en = $en.Replace("<value>Use Files as Open File Dialog</value>", "<value>Use KyraFiles as Open File Dialog</value>")
 $en = $en.Replace("<value>Open tab in existing window when opening Files from another app</value>", "<value>Open tab in existing window when opening KyraFiles from another app</value>")
@@ -40,8 +40,8 @@ $pt = $pt.Replace("<value>Files ainda está em execução em segundo plano para 
 $pt = $pt.Replace("<value>Aonde o Files foi?</value>", "<value>Aonde o KyraFiles foi?</value>")
 $pt = $pt.Replace("<value>Mostrar ícone do Files na bandeja do sistema</value>", "<value>Mostrar ícone do KyraFiles na bandeja do sistema</value>")
 $pt = $pt.Replace("<value>Files Nativo (Windows Search / Win32)</value>", "<value>KyraFiles Nativo (Windows Search / Win32)</value>")
-$pt = $pt.Replace("<value>Verifica se foi publicada uma versão mais recente do Files Custom.</value>", "<value>Verifica se foi publicada uma versão mais recente do KyraFiles.</value>")
-$pt = $pt.Replace("<value>O Files Custom está usando {0} em {1} processo(s) ativo(s)</value>", "<value>O KyraFiles está usando {0} em {1} processo(s) ativo(s)</value>")
+$pt = $pt.Replace("<value>Verifica se foi publicada uma versão mais recente do KyraFiles.</value>", "<value>Verifica se foi publicada uma versão mais recente do KyraFiles.</value>")
+$pt = $pt.Replace("<value>O KyraFiles está usando {0} em {1} processo(s) ativo(s)</value>", "<value>O KyraFiles está usando {0} em {1} processo(s) ativo(s)</value>")
 [System.IO.File]::WriteAllText($ptPath, $pt, [System.Text.Encoding]::UTF8)
 
 # 3. de-DE

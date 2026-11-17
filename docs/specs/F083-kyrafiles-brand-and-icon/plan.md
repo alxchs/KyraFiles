@@ -1,16 +1,16 @@
-# F083 — Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About — PLAN
+﻿# F083 — Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About — PLAN
 
 ## 1. Arquitetura e Componentes Impactados
 
 ### A. Recursos de Ícone e Mídia
 1. **Origem da Arte**: `D:\DriveD\Downloads\KyraFiles.png` (resolução 1254x1254).
 2. **Artefatos Derivados a Gerar**:
-   - `src/Files.App/Assets/AppTiles/Dev/KyraLogo.png`: versão em alta resolução para exibição em XAML (`AboutPage`).
-   - `src/Files.App/Assets/AppTiles/Release/KyraLogo.png` e `src/Files.App/Assets/AppTiles/Preview/KyraLogo.png`.
+   - `src/KyraFiles.App/Assets/AppTiles/Dev/KyraLogo.png`: versão em alta resolução para exibição em XAML (`AboutPage`).
+   - `src/KyraFiles.App/Assets/AppTiles/Release/KyraLogo.png` e `src/KyraFiles.App/Assets/AppTiles/Preview/KyraLogo.png`.
    - `Logo.ico` (geração de multi-resolução: 16x16, 24x24, 32x32, 48x48, 64x64, 128x128, 256x256) substituindo os arquivos `Logo.ico` em:
-     - `src/Files.App/Assets/AppTiles/Dev/Logo.ico`
-     - `src/Files.App/Assets/AppTiles/Preview/Logo.ico`
-     - `src/Files.App/Assets/AppTiles/Release/Logo.ico`
+     - `src/KyraFiles.App/Assets/AppTiles/Dev/Logo.ico`
+     - `src/KyraFiles.App/Assets/AppTiles/Preview/Logo.ico`
+     - `src/KyraFiles.App/Assets/AppTiles/Release/Logo.ico`
    - Atualização dos tiles principais de manifest (`Square44x44Logo`, `Square150x150Logo`, `Small71x71Logo`, etc.) para refletir a nova identidade e extinguir as pastinhas rosa.
 
 ### B. Tela Sobre (`AboutPage.xaml` e `AboutViewModel.cs`)

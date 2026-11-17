@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Buffers.Binary;
 using System.Diagnostics;
@@ -19,7 +19,7 @@ public sealed class VolumeSnapshotTests
 			"claude",
 			"desenv",
 			"utils",
-			"FilesApp",
+			"KyraFiles",
 			"f015",
 			"snapshot_" + Guid.NewGuid().ToString("N")[..8]);
 

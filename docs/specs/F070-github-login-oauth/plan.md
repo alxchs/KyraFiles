@@ -1,11 +1,11 @@
-# F070 — Login do GitHub Próprio — PLAN
+﻿# F070 — Login do GitHub Próprio — PLAN
 
 Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Responde "como", sem alterar o "o quê".
 
 ## Arquitetura atual (lida no código; estado de cada afirmação)
 
-- `src/Files.App/Constants.cs` (CONFIRMED): Contém `Constants.AutomatedWorkflowInjectionKeys.GitHubClientId = "githubclientid.secret"`.
-- `src/Files.App/Utils/Git/GitHelpers.cs` e `LibGit2Service.cs` (CONFIRMED):
+- `src/KyraFiles.App/Constants.cs` (CONFIRMED): Contém `Constants.AutomatedWorkflowInjectionKeys.GitHubClientId = "githubclientid.secret"`.
+- `src/KyraFiles.App/Utils/Git/GitHelpers.cs` e `LibGit2Service.cs` (CONFIRMED):
   Definem `_clientId` como `string.Empty` em ambiente Dev ou `CLIENT_ID_SECRET` em Release.
   Ao acionar o login, executam `POST https://github.com/login/device/code?client_id={_clientId}&scope=repo`.
   Se a resposta não for bem-sucedida, simplesmente invocam `DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync()`.
@@ -49,13 +49,13 @@ Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Respon
 
 ## Arquivos
 - **Mexer:**
-  - `src/Files.App/Services/Git/IGitHubAuthService.cs` e `GitHubAuthService.cs` (novos).
-  - `src/Files.App/Utils/Git/GitHelpers.cs`: integração com o novo serviço.
-  - `src/Files.App/Helpers/CredentialsHelpers.cs`: garantia de métodos completos de logout.
-  - `src/Files.App/Strings/en-US/Resources.resw` e `pt-BR/Resources.resw`: mensagens explicativas de configuração de OAuth.
-  - `tests/Files.App.Search.Index.Tests/`: testes unitários do serviço de autenticação com mock HTTP.
+  - `src/KyraFiles.App/Services/Git/IGitHubAuthService.cs` e `GitHubAuthService.cs` (novos).
+  - `src/KyraFiles.App/Utils/Git/GitHelpers.cs`: integração com o novo serviço.
+  - `src/KyraFiles.App/Helpers/CredentialsHelpers.cs`: garantia de métodos completos de logout.
+  - `src/KyraFiles.App/Strings/en-US/Resources.resw` e `pt-BR/Resources.resw`: mensagens explicativas de configuração de OAuth.
+  - `tests/KyraFiles.App.Search.Index.Tests/`: testes unitários do serviço de autenticação com mock HTTP.
 - **Não mexer:**
-  - `src/Files.App/Services/Git/LibGit2Service.cs` (ações de commit/push via LibGit2Sharp continuam consumindo a credencial padrão).
+  - `src/KyraFiles.App/Services/Git/LibGit2Service.cs` (ações de commit/push via LibGit2Sharp continuam consumindo a credencial padrão).
 
 ## Riscos e regressões a vigiar
 - **Loop de polling sem fim:** Se o servidor GitHub não responder erro ou o usuário fechar a janela, o polling deve ser estritamente cancelado pelo token do diálogo.

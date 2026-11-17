@@ -1,11 +1,11 @@
-# F071 — Integridade e Arquivos Baixados — PLAN
+﻿# F071 — Integridade e Arquivos Baixados — PLAN
 
 Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Responde "como", sem alterar o "o quê".
 
 ## Arquitetura atual (lida no código; estado de cada afirmação)
 
-- `src/Files.Shared/Helpers/ChecksumHelpers.cs` (CONFIRMED): Implementa métodos estáticos assíncronos para geração de checksums (`CreateCRC32`, `CreateMD5`, `CreateSHA1`, `CreateSHA256`, `CreateSHA384`, `CreateSHA512`) recebendo `Stream` e `CancellationToken`. Utiliza as APIs de streaming do runtime .NET (`HashDataAsync`).
-- `src/Files.App/ViewModels/Properties/HashesViewModel.cs` (CONFIRMED): Gerencia a aba de hashes da tela de propriedades de um único arquivo (`ListedItem`). Dispara o cálculo no dispatcher e possui comparação básica de texto via `OnHashInputTextChanged()`.
+- `src/KyraFiles.Shared/Helpers/ChecksumHelpers.cs` (CONFIRMED): Implementa métodos estáticos assíncronos para geração de checksums (`CreateCRC32`, `CreateMD5`, `CreateSHA1`, `CreateSHA256`, `CreateSHA384`, `CreateSHA512`) recebendo `Stream` e `CancellationToken`. Utiliza as APIs de streaming do runtime .NET (`HashDataAsync`).
+- `src/KyraFiles.App/ViewModels/Properties/HashesViewModel.cs` (CONFIRMED): Gerencia a aba de hashes da tela de propriedades de um único arquivo (`ListedItem`). Dispara o cálculo no dispatcher e possui comparação básica de texto via `OnHashInputTextChanged()`.
 - Detecção e Remoção de Zona da Web (CONFIRMED):
   - Detecção: `FileProperties.cs` utiliza `Win32Helper.ReadStringFromFile($"{itemPath}:Zone.Identifier") is not null`.
   - Remoção: `GeneralPage.xaml.cs` executa `PInvoke.DeleteFileFromApp($"{itemPath}:Zone.Identifier")` isoladamente em um único arquivo ao clicar no botão Desbloquear.
@@ -14,7 +14,7 @@ Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Respon
 ## Abordagem
 
 1. **Backend Primeiro (Núcleo Sem Tela e Testado)**
-   - Criar módulo desacoplado no `Files.App.Storage` / `Files.Shared`:
+   - Criar módulo desacoplado no `KyraFiles.App.Storage` / `KyraFiles.Shared`:
      - `IFileIntegrityService` com métodos:
        - `CalculateHashAsync(string filePath, HashAlgorithmName algorithm, IProgress<FileHashProgress>? progress, CancellationToken ct)`:
          Utiliza `IncrementalHash` e `FileStream` aberto em modo sequencial (`FileOptions.Asynchronous | FileOptions.SequentialScan`) com buffer fixo de 128 KB, processando blocos incrementais para garantir pico de memória desprezível (< 10 MB de RAM ocupada pelo buffer) mesmo para arquivos de 50+ GB.
@@ -26,7 +26,7 @@ Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Respon
    - Suíte de testes unitários rica cobrindo cálculos de hash, cancelamento de stream, arquivos vazios, correspondência de strings formatadas e criação/remoção de streams NTFS simulados.
 
 2. **Integração de Comandos e Notificações (Tela por Último)**
-   - Criar comando `UnblockDownloadedFilesAction` derivado de `IAction` em `src/Files.App/Actions/FileSystem/`.
+   - Criar comando `UnblockDownloadedFilesAction` derivado de `IAction` em `src/KyraFiles.App/Actions/FileSystem/`.
    - Adicionar o comando ao menu de contexto de múltiplos itens (`ContentPageContextFlyoutFactory.cs`) e barra de comandos, exibido quando arquivos regulares estiverem selecionados.
    - Ao término do desbloqueio em lote, exibir notificação de sucesso através do Status Center / InfoBar com o sumário quantitativo (ex.: *"3 arquivos baixados foram desbloqueados"*).
    - Requisitos de tela permanecem em `NOT TESTED` durante a entrega do backend.
@@ -45,11 +45,11 @@ Status: RASCUNHO (AGY, 31/10/2026). Só começa com a `spec.md` APROVADA. Respon
 
 ## Arquivos
 - **Mexer:**
-  - `src/Files.Shared/Helpers/ChecksumHelpers.cs`: extensão ou refatoração para suportar progresso em streaming com `IncrementalHash`.
-  - `src/Files.App/Services/`: inclusão de `IZoneIdentifierService` e `IFileIntegrityService`.
-  - `src/Files.App/Actions/FileSystem/UnblockDownloadedFilesAction.cs`: ação de contexto.
-  - `src/Files.App/Strings/en-US/Resources.resw` e `pt-BR/Resources.resw`: novas chaves de localização.
-  - `tests/Files.App.Search.Index.Tests/`: testes unitários do motor de hash e remoção de Zone.Identifier.
+  - `src/KyraFiles.Shared/Helpers/ChecksumHelpers.cs`: extensão ou refatoração para suportar progresso em streaming com `IncrementalHash`.
+  - `src/KyraFiles.App/Services/`: inclusão de `IZoneIdentifierService` e `IFileIntegrityService`.
+  - `src/KyraFiles.App/Actions/FileSystem/UnblockDownloadedFilesAction.cs`: ação de contexto.
+  - `src/KyraFiles.App/Strings/en-US/Resources.resw` e `pt-BR/Resources.resw`: novas chaves de localização.
+  - `tests/KyraFiles.App.Search.Index.Tests/`: testes unitários do motor de hash e remoção de Zone.Identifier.
 - **Não mexer:**
   - Código de propriedades clássico que já funciona para arquivo individual.
   - Indexador de busca e serviços do sistema.

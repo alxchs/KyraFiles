@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -23,7 +23,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			Guid.NewGuid().ToString("N"),
 			"desenv",
 			"utils",
-			"FilesApp-f060-m2",
+			"KyraFiles-f060-m2",
 			"Files");
 
 		[ClassInitialize]

@@ -33,14 +33,14 @@
 - CONFIRMED: Chamada direta à API do GitHub Device Code Flow (`https://github.com/login/device/code`) validada com HTTP 200 OK e recebimento de `device_code` e `user_code` reais.
 
 
-## Release v4.3.7 — Correção do fechamento ao abrir o Files várias vezes seguidas (26/10/2026)
+## Release v4.3.7 — Correção do fechamento ao abrir o KyraFiles várias vezes seguidas (26/10/2026)
 
-- CONFIRMED: Versão 4.3.6 -> 4.3.7 em Package.appxmanifest e FilesCustomSetup.iss. Esta versão contém **só** a correção da F035 (arquivo de código alterado: `src/Files.App/Program.cs`).
-- CONFIRMED: Build `dotnet build src\Files.App\Files.App.csproj -c Release -p:Platform=x64` = 0 Warning(s), 0 Error(s) (restore da solução `Files.slnx` antes).
+- CONFIRMED: Versão 4.3.6 -> 4.3.7 em Package.appxmanifest e KyraFilesSetup.iss. Esta versão contém **só** a correção da F035 (arquivo de código alterado: `src/KyraFiles.App/Program.cs`).
+- CONFIRMED: Build `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64` = 0 Warning(s), 0 Error(s) (restore da solução `KyraFiles.slnx` antes).
 - CONFIRMED (log de eventos do Windows, independente do script): app **sem** a correção (4.3.6 instalado), 20 rodadas de 5 aberturas seguidas: **3 rodadas com crash** (`SemaphoreFullException`, 1026 às 00:42:43, 00:43:01 e 00:43:11) e só 3 das 5 abas abertas. App **com** a correção: **20 de 20 rodadas com as 5 abas abertas e 0 eventos 1026** (`docs/agents/evidence/F035/resultado-20261026-0054.csv`, revisão em `revisao-claude.md`).
-- CONFIRMED: Instalador `FilesCustomSetup-4.3.7.exe` (52.694.203 bytes, 50,25 MB; 4.3.6 tinha 50,24 MB, +17 KB), SHA256 `9A841441E1B352C338DB0151858C9CA1C6965E0B7053C1C7F496196976CF1555`; instalado em `%LOCALAPPDATA%\Programs\FilesCustom` (`Get-AppxPackage FilesDev` = 4.3.7.0).
+- CONFIRMED: Instalador `KyraFilesSetup-4.3.7.exe` (52.694.203 bytes, 50,25 MB; 4.3.6 tinha 50,24 MB, +17 KB), SHA256 `9A841441E1B352C338DB0151858C9CA1C6965E0B7053C1C7F496196976CF1555`; instalado em `%LOCALAPPDATA%\Programs\KyraFiles` (`Get-AppxPackage KyraFiles` = 4.3.7.0).
 - CONFIRMED: Gate F021 (`verify_no_index_service.ps1`, exit 0): IndexService inativo, CPU em repouso 1,66%, RAM 301,66 MB.
-- NOT TESTED: AC-2 da F035 (o teste precisa partir de sessão limpa), AC-4 (abrir o `Files.exe` direto).
+- NOT TESTED: AC-2 da F035 (o teste precisa partir de sessão limpa), AC-4 (abrir o `KyraFiles.exe` direto).
 - INFERRED: AC-5 (janela estacionada não volta ao primeiro plano) reprova **também** no app sem a correção; causa provável: ramo `else` de `PerformNavigationAsync`. Defeito anterior, **não corrigido** nesta versão.
 - DISCOVERY aberto: crash diferente, `GridLayoutPage` / `Update_FileTagsUI` / `LookupConverter` (26/10/2026 00:59:04), causa não determinada; **não corrigido** nesta versão.
 - NOT TESTED: captura de tela de fumaça da 4.3.7 (o Gate F021 abriu e mediu o app instalado, sem captura).
@@ -48,40 +48,40 @@
 ## Release v4.3.6 — Busca Híbrida sem Crash, Setas Fluidas Explorer, Lista sem Checkbox e Evidências Consolidadas (24/10/2026)
 - NOT TESTED (revisão do Claude, 24/10/2026): a v4.3.6 foi publicada sem a revisão do arquiteto. As capturas de F030, F032, F033 e F034 não mostram o estado pedido (a de F034 é do VS Code; a de F030 não tem painel aberto; a de F032 não tem aba fixada) e os scripts de teste enviam teclas para a janela em foco, sem asserção. F023 foi verificada com script sem trava de foco. Todos os AC dessas entregas valem NOT TESTED até um resultado.csv com asserção e controle negativo, revisado pelo Claude.
 
-- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.5 -> 4.3.6 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.5 -> 4.3.6 em Package.appxmanifest e KyraFilesSetup.iss.
 - INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 1 (F030, F032, F033) — Evidências visuais físicas comprovadas em tela e relatórios emitidos sob docs/agents/evidence/. Specs e tarefas atualizadas.
 - INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 2 (F034) — Lista e Grade sem caixa de seleção por padrão via x:Load="False" e opção desativada nas preferências de pastas. Evidências visuais salvas sob docs/agents/evidence/F034/.
 - INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 3 (F029) — Setas fluidas estilo Windows Explorer: fixado em definitivo o comportamento vencedor da A/B test (TryMoveRow ativa por padrão para Up/Down sem modificadores com throttle de 1 quadro) e expurgadas todas as flags temporárias (ReadF029Flags, f029_flags.txt).
 - INFERRED (REABERTO em 24/10/2026 pelo Claude: código presente, mas a evidência de interface é inválida; ver docs/specs/BACKLOG-ORDEM-AGY.md): Tópico 4 (F023) — Busca híbrida com streaming: bateria de 15 buscas consecutivas sem vazamento de handles (3940 -> 3933 handles). Eliminado crash crítico de Access Violation (0xc0000005) no Escape do Omnibar (e.Handled = true) e descarte determinístico de CTS (_suggestSearchCTS.Dispose()).
 - CONFIRMED: Tópico 4 (Lições do Everything) — Documento arquitetural docs/specs/F023-hybrid-fast-search/licoes_everything.md elaborado detalhando USN Journal/MFT direto, arrays contíguos em RAM, busca SIMD e IPC sem locks para o futuro app independente.
-- CONFIRMED: Compilação de Release do Files.App e projetos nativos com 0 Warning(s), 0 Error(s).
-- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.6.exe (50,24 MB, 52.676.689 bytes, SHA256: AE8E9F32DC99CF216FD65B2603B30F6632973D7162FAA634FB650BB0BAF29B11) gerado via Inno Setup 6.
-- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.6.0).
+- CONFIRMED: Compilação de Release do KyraFiles.App e projetos nativos com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\KyraFilesSetup-4.3.6.exe (50,24 MB, 52.676.689 bytes, SHA256: AE8E9F32DC99CF216FD65B2603B30F6632973D7162FAA634FB650BB0BAF29B11) gerado via Inno Setup 6.
+- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\KyraFiles (Get-AppxPackage KyraFiles -> Version: 4.3.6.0).
 - CONFIRMED: Gate de contenção de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente inativo e CPU em repouso contida).
 - CONFIRMED: Higiene absoluta de binários com zero pastas Debug sob o repositório.
 
 ## Release v4.3.5 — Recomposição do Pacote e Validação de Integridade (24/10/2026)
 
-- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.4 -> 4.3.5 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Incremento mandatório de versão aplicado: 4.3.4 -> 4.3.5 em Package.appxmanifest e KyraFilesSetup.iss.
 - CONFIRMED: Verificação de código confirmando preservação integral de todas as otimizações anteriores (F024 enumeração sem resets, F026 seleção coalescida, F027 checkbox preguiçoso, F028 frame throttling, F029 setas Explorer, F031 abas ultrarrápidas).
-- CONFIRMED: Recompilação nativa C++ em Release de todos os componentes auxiliares (Files.HotkeyService.exe, Files.Watchdog.exe, Files.App.Launcher.exe, DLLs de diálogo Open/Save 32 e 64 bits).
-- CONFIRMED: Compilação de Release do Files.App (dotnet build src\Files.App\Files.App.csproj -c Release -p:Platform=x64) com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Recompilação nativa C++ em Release de todos os componentes auxiliares (KyraFiles.HotkeyService.exe, KyraFiles.Watchdog.exe, KyraFiles.App.Launcher.exe, DLLs de diálogo Open/Save 32 e 64 bits).
+- CONFIRMED: Compilação de Release do KyraFiles.App (dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64) com 0 Warning(s), 0 Error(s).
 - CONFIRMED: Layout AppX e manifesto SHA256 regenerados (installer\package_manifest.json: 1.333 arquivos, 212,02 MB, versão 4.3.5).
-- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.5.exe (50,27 MB, 52.711.802 bytes, SHA256: 71A8BC0E96745CA4EA698A8E225780F5334E16540C88683835B60D7F156BD879) compilado com Inno Setup 6.
-- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.5.0).
+- CONFIRMED: Instalador oficial artifacts\Setup\KyraFilesSetup-4.3.5.exe (50,27 MB, 52.711.802 bytes, SHA256: 71A8BC0E96745CA4EA698A8E225780F5334E16540C88683835B60D7F156BD879) compilado com Inno Setup 6.
+- CONFIRMED: Atualização local instalada silenciosamente em %LOCALAPPDATA%\Programs\KyraFiles (Get-AppxPackage KyraFiles -> Version: 4.3.5.0).
 - CONFIRMED: Gate de contenção de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente ausente e inativo).
 - CONFIRMED: Higienização completa de binários com expurgo de todas as pastas Debug no repositório.
 
 ## Release v4.3.4 — Limpeza de Desenvolvimento e Instalador Consolidado (22/10/2026)
 
-- CONFIRMED: Incremento mandatorio de versao aplicado: 4.3.3 -> 4.3.4 em Package.appxmanifest e FilesCustomSetup.iss.
+- CONFIRMED: Incremento mandatorio de versao aplicado: 4.3.3 -> 4.3.4 em Package.appxmanifest e KyraFilesSetup.iss.
 - CONFIRMED: Higienizacao completa de desenvolvimento: remocao de todas as pastas Debug em src\**\bin e src\**\obj, remocao de debug.log e exclusao de branches locais de feature ja integradas na main (f024 a f029).
 - CONFIRMED: Desmontagem e remocao total do laboratorio F024 (C:\FilesUXLab\perf\1600) via cleanup_f024_lab.ps1 (Test-Path = False).
 - CONFIRMED: Consolidacao de status e documentacao em tasks.md de F024 (T8), F027 (T1–T4) e F026 (T3).
 - CONFIRMED: Preservacao intacta dos pontos de extensao e metodos A/B da F029 em DetailsLayoutPage.xaml.cs.
-- CONFIRMED: Compilacao de Release do Files.App e projetos nativos com 0 Warning(s), 0 Error(s).
-- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.4.exe (50,25 MB, 52.690.949 bytes, SHA256: 7ED43A932EE51DFB3AA3965D0921715102A8422258712220136079F7365B803B) compilado com Inno Setup 6.
-- CONFIRMED: Atualizacao local instalada via instalador silencioso para versao 4.3.4.0 em %LOCALAPPDATA%\Programs\FilesCustom (Get-AppxPackage FilesDev -> Version: 4.3.4.0).
+- CONFIRMED: Compilacao de Release do KyraFiles.App e projetos nativos com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\KyraFilesSetup-4.3.4.exe (50,25 MB, 52.690.949 bytes, SHA256: 7ED43A932EE51DFB3AA3965D0921715102A8422258712220136079F7365B803B) compilado com Inno Setup 6.
+- CONFIRMED: Atualizacao local instalada via instalador silencioso para versao 4.3.4.0 em %LOCALAPPDATA%\Programs\KyraFiles (Get-AppxPackage KyraFiles -> Version: 4.3.4.0).
 - CONFIRMED: Gate de contencao de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService rigorosamente inativo).
 
 ## Release v4.3.3 — Troca e Criacao Ultrarrapidas de Abas (F031) (22/10/2026)
@@ -90,8 +90,8 @@
 - CONFIRMED: F031 - Reducao de 59,1% no tempo de troca de abas (SwitchTab: mediana caiu de 1.116,7 ms para 456,1 ms), superando com folga a meta de 30%. Removido atraso artificial e introduzido fast-path com dados do cabecalho em memoria.
 - CONFIRMED: F031 - Reducao de 45,3% na abertura de novas abas (NewTab: mediana caiu de 526,4 ms para 287,9 ms).
 - CONFIRMED: F031 - Preservacao de estado (rolagem e selecao intactas) e validacao de memoria (NFR-1) com estabilidade total (+0,08% de acrescimo com 10 abas abertas, limite < 10%).
-- CONFIRMED: Compilacao de Release do Files.App com 0 Warning(s), 0 Error(s).
-- CONFIRMED: Instalador oficial artifacts\Setup\FilesCustomSetup-4.3.3.exe (50,1 MB, SHA256: A45F9D595C4E57CE0A4F0B9B62FFD20E852E8BCBE8D1436C9D532512307303F3) compilado com Inno Setup 6.
+- CONFIRMED: Compilacao de Release do KyraFiles.App com 0 Warning(s), 0 Error(s).
+- CONFIRMED: Instalador oficial artifacts\Setup\KyraFilesSetup-4.3.3.exe (50,1 MB, SHA256: A45F9D595C4E57CE0A4F0B9B62FFD20E852E8BCBE8D1436C9D532512307303F3) compilado com Inno Setup 6.
 - CONFIRMED: Gate de contencao de recursos F021 executado e aprovado via tools\perf\verify_no_index_service.ps1 (IndexService ausente, CPU em repouso 3,34%).
 - CONFIRMED: Higiene de binarios validada com remocao de pastas e artefatos de Debug.
 
@@ -106,33 +106,33 @@
 
 ## Release v4.3.0 e Instalador Atualizado (18/10/2026)
 
-- CONFIRMED: Compilação de Release do `Files.App` e projetos associados com `0 Error(s), 0 Warning(s)`.
-- CONFIRMED: Layout AppX atualizado via `Open-FilesDev.ps1 -Configuration Release -NoLaunch` e manifesto gerado via `Generate-PackageManifest.ps1` (1.334 arquivos com hash SHA256).
-- CONFIRMED: Compilação do instalador Inno Setup (`artifacts\Setup\FilesCustomSetup-4.3.0.exe`, 52,7 MB comprimido com LZMA2 Ultra64). Inclui `es.exe`, `Files.HotkeyService.exe`, `Files.Watchdog.exe` e runtime AppX completo.
-- CONFIRMED: Gate mandatório F021 executado via `tools\perf\verify_no_index_service.ps1` com ausência comprovada do `Files.App.IndexService.exe`.
+- CONFIRMED: Compilação de Release do `KyraFiles.App` e projetos associados com `0 Error(s), 0 Warning(s)`.
+- CONFIRMED: Layout AppX atualizado via `Open-KyraFiles.ps1 -Configuration Release -NoLaunch` e manifesto gerado via `Generate-PackageManifest.ps1` (1.334 arquivos com hash SHA256).
+- CONFIRMED: Compilação do instalador Inno Setup (`artifacts\Setup\KyraFilesSetup-4.3.0.exe`, 52,7 MB comprimido com LZMA2 Ultra64). Inclui `es.exe`, `KyraFiles.HotkeyService.exe`, `KyraFiles.Watchdog.exe` e runtime AppX completo.
+- CONFIRMED: Gate mandatório F021 executado via `tools\perf\verify_no_index_service.ps1` com ausência comprovada do `KyraFiles.App.IndexService.exe`.
 - CONFIRMED: Busca rápida autônoma híbrida (F023), drag and drop CF_HDROP universal (Win32/Delphi/IDEs), preferências de densidade compacta e formato de data do sistema.
 
 ## Publicação (02/10/2026)
 
-- CONFIRMED: `git push origin main:refs/heads/custom/main` publicou os commits do Files Custom em `https://github.com/alxchs/FilesCustom` (branch `custom/main`). O `main` do fork foi sincronizado com o upstream (127 commits à frente de v4.2.9), então o push direto de `main` foi rejeitado (non-fast-forward). Nada foi forçado. Comando: `git rev-list --left-right --count HEAD...origin/main` = `7 127`.
-- CONFIRMED (03/10/2026, D-008): base migrada para `upstream/main` (`0e3c17ca4`, 24/09/2026) por merge, com a tag `tag_v4.2.9.0_build-zero-warnings-abertura-appx-perf-onecommander_salvo` antes. Build: `mkfile release src\Files.App\Files.App.csproj` = `0 Warning(s)`, `0 Error(s)`. App aberto por `Open-FilesDev.ps1` (pacote 4.2.37.0).
-- CONFIRMED (03/10/2026, G0 FECHADO): smoke test completo do §16 (itens 1 a 9) executado e validado no app aberto por `Open-FilesDev.ps1` (pacote 4.2.37.0), com capturas de tela e comandos de evidência registrados. Linha de base de CPU/RAM e A/B do backdrop (F007-A) medidos e documentados em `tools/perf/README.md`.
+- CONFIRMED: `git push origin main:refs/heads/custom/main` publicou os commits do KyraFiles em `https://github.com/alxchs/KyraFilesCustom` (branch `custom/main`). O `main` do fork foi sincronizado com o upstream (127 commits à frente de v4.2.9), então o push direto de `main` foi rejeitado (non-fast-forward). Nada foi forçado. Comando: `git rev-list --left-right --count HEAD...origin/main` = `7 127`.
+- CONFIRMED (03/10/2026, D-008): base migrada para `upstream/main` (`0e3c17ca4`, 24/09/2026) por merge, com a tag `tag_v4.2.9.0_build-zero-warnings-abertura-appx-perf-onecommander_salvo` antes. Build: `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Warning(s)`, `0 Error(s)`. App aberto por `Open-KyraFiles.ps1` (pacote 4.2.37.0).
+- CONFIRMED (03/10/2026, G0 FECHADO): smoke test completo do §16 (itens 1 a 9) executado e validado no app aberto por `Open-KyraFiles.ps1` (pacote 4.2.37.0), com capturas de tela e comandos de evidência registrados. Linha de base de CPU/RAM e A/B do backdrop (F007-A) medidos e documentados em `tools/perf/README.md`.
 - Pendente: o merge ainda não foi enviado (push) para `custom/main`.
 
 ## F017 — Win+E (12/10/2026, Claude por falta de cota da AGY)
 
-- CONFIRMED: `RegisterHotKey(MOD_WIN,'E')` falha com erro 1409; o Win+Y (controle) registra. Teste: P/Invoke em PowerShell. Com o serviço antigo vivo, Win+E simulado abriu o Explorer (janelas 3 -> 4) e o Files não abriu. Ver D-021.
-- CONFIRMED: o URI `files-dev:?tab=Home` derrubava o Files (`TabBarItemParameter.Deserialize`: "'H' is an invalid start of a value", em `debug.log`). O ramo do `MainWindow` feito para Win+E é o URI exato `files-dev:`. O serviço passou a usá-lo.
-- CONFIRMED (hook `WH_KEYBOARD_LL`): `pwsh -File toolsperf017_win_e_test.ps1`, 2 rodadas seguidas, saídas idênticas: AC-1 Files rodando = True e janelas do Explorer 2/2, menu Iniciar não abriu; AC-2 Files em primeiro plano com o Files já aberto (Explorer 2/2); AC-3 `taskkill /F` do serviço reaparece em 228 ms e 242 ms (inclui polling de 10 ms) e o Win+E segue funcionando (Explorer 2/2, Files rodando); AC-7 encerrar pelo evento `GlobalFilesCustom_ShutdownHotkeyService` devolve o Win+E ao Explorer (janelas 2 -> 3, Files não abre).
-- CONFIRMED: build com MSBuild Release x64, 0 avisos: `Files.HotkeyService.exe` 107008 bytes, `Files.Watchdog.exe` 108032 bytes (< 150 KB).
-- OBSERVED (simulação `keybd_event`, não substitui o teclado físico): o teste acima. **NOT TESTED:** Win+E com o teclado físico do Alexandre; `HKCU...Run` do instalador (tarefa `startupwatchdog` do `FilesCustomSetup.iss` vem **desmarcada**; o instalador nunca foi executado).
+- CONFIRMED: `RegisterHotKey(MOD_WIN,'E')` falha com erro 1409; o Win+Y (controle) registra. Teste: P/Invoke em PowerShell. Com o serviço antigo vivo, Win+E simulado abriu o Explorer (janelas 3 -> 4) e o KyraFiles não abriu. Ver D-021.
+- CONFIRMED: o URI `kyrafiles-dev:?tab=Home` derrubava o KyraFiles (`TabBarItemParameter.Deserialize`: "'H' is an invalid start of a value", em `debug.log`). O ramo do `MainWindow` feito para Win+E é o URI exato `kyrafiles-dev:`. O serviço passou a usá-lo.
+- CONFIRMED (hook `WH_KEYBOARD_LL`): `pwsh -File toolsperf017_win_e_test.ps1`, 2 rodadas seguidas, saídas idênticas: AC-1 Files rodando = True e janelas do Explorer 2/2, menu Iniciar não abriu; AC-2 Files em primeiro plano com o KyraFiles já aberto (Explorer 2/2); AC-3 `taskkill /F` do serviço reaparece em 228 ms e 242 ms (inclui polling de 10 ms) e o Win+E segue funcionando (Explorer 2/2, Files rodando); AC-7 encerrar pelo evento `GlobalFilesCustom_ShutdownHotkeyService` devolve o Win+E ao Explorer (janelas 2 -> 3, Files não abre).
+- CONFIRMED: build com MSBuild Release x64, 0 avisos: `KyraFiles.HotkeyService.exe` 107008 bytes, `KyraFiles.Watchdog.exe` 108032 bytes (< 150 KB).
+- OBSERVED (simulação `keybd_event`, não substitui o teclado físico): o teste acima. **NOT TESTED:** Win+E com o teclado físico do Alexandre; `HKCU...Run` do instalador (tarefa `startupwatchdog` do `KyraFilesSetup.iss` vem **desmarcada**; o instalador nunca foi executado).
 - Mudança no Watchdog: se o serviço sai com código 2 (hook não instalado, ver `hotkey.log` ao lado do exe), espera 5 s antes de reiniciar, em vez de 200 ms em loop.
 
 ## F018 — Sobre e Verificar atualizações (12/10/2026)
 
 - CONFIRMED (`pwsh -File tools\perf\f018_help_menu_test.ps1`, app aberto, UI Automation + captura): menu Ajuda = Help | Release Notes | Check for updates | About | Open log file | ...; AC-1 True; AC-5 diálogo "No version has been published yet. You are using 4.2.37.0."; AC-2 página Sobre com "Version: 4.2.37.0" e botão "Check for updates" ao lado do "Copy". Build: 0 avisos, 0 erros.
 - NOT TESTED: AC-3 (mesma versão), AC-4 (versão maior: botão abre a página), AC-6 (sem rede); exigem apontar `CustomReleasesApiUrl` para um servidor de teste.
-- LIÇÃO (CONFIRMED): `dotnet build`/`mkfile d` **não atualiza** o layout `AppX\` registrado; só `.\Open-FilesDev.ps1 -Configuration Debug -NoLaunch` copia. Até 12/10 ~18:30 os testes visuais desta sessão rodaram um `Files.dll` das 13:11 (layout) enquanto o build era das 18:32. A prova "as 10 formas não derrubam o app" valia para o binário antigo e foi refeita depois do deploy.
+- LIÇÃO (CONFIRMED): `dotnet build`/`mkfile d` **não atualiza** o layout `AppX\` registrado; só `.\Open-KyraFiles.ps1 -Configuration Debug -NoLaunch` copia. Até 12/10 ~18:30 os testes visuais desta sessão rodaram um `KyraFiles.dll` das 13:11 (layout) enquanto o build era das 18:32. A prova "as 10 formas não derrubam o app" valia para o binário antigo e foi refeita depois do deploy.
 
 ## F020 — Aba única por endereço e Configurações na primeira posição (15/10/2026)
 
@@ -145,11 +145,11 @@
 
 ## Release e Instalador Modular (15/10/2026)
 
-- CONFIRMED: `installer/FilesCustomSetup.iss` atualizado para empacotar o layout completo do AppX (`{#SourceAppX}\*`), eliminando a falha de isolamento de DLLs em `Dependencies\` que quebrava o host do .NET Core (`hostpolicy.dll`).
-- CONFIRMED: Inclusão do registro automático de identidade AppX (`Add-AppxPackage -Register`) no pós-instalação e desregistro no desinstalador, ativando WinUI 3, alias `files-dev.exe` e protocolo `files-dev:`.
-- CONFIRMED: Encerramento completo de processos em execução no instalador e atualizador (`Files.exe`, `Files.HotkeyService.exe`, `Files.Watchdog.exe`, `Files.App.Server.exe`, `Files.App.IndexService.exe`).
-- CONFIRMED: Compilação do instalador Inno Setup (`ISCC.exe`) gerando `artifacts\Setup\FilesCustomSetup-4.2.37.exe` (67,4 MB, 1.380 arquivos comprimidos com LZMA2 Ultra64).
-- CONFIRMED: Instalação silenciosa executada com código de saída 0; aplicativo aberto e validado a partir de `%localappdata%\Programs\FilesCustom` via protocolo e alias; remoção completa de executáveis obsoletos do repositório (`dist\`, spikes, testes, builds temporários).
+- CONFIRMED: `installer/KyraFilesSetup.iss` atualizado para empacotar o layout completo do AppX (`{#SourceAppX}\*`), eliminando a falha de isolamento de DLLs em `Dependencies\` que quebrava o host do .NET Core (`hostpolicy.dll`).
+- CONFIRMED: Inclusão do registro automático de identidade AppX (`Add-AppxPackage -Register`) no pós-instalação e desregistro no desinstalador, ativando WinUI 3, alias `kyrafiles.exe` e protocolo `kyrafiles-dev:`.
+- CONFIRMED: Encerramento completo de processos em execução no instalador e atualizador (`KyraFiles.exe`, `KyraFiles.HotkeyService.exe`, `KyraFiles.Watchdog.exe`, `KyraFiles.App.Server.exe`, `KyraFiles.App.IndexService.exe`).
+- CONFIRMED: Compilação do instalador Inno Setup (`ISCC.exe`) gerando `artifacts\Setup\KyraFilesSetup-4.2.37.exe` (67,4 MB, 1.380 arquivos comprimidos com LZMA2 Ultra64).
+- CONFIRMED: Instalação silenciosa executada com código de saída 0; aplicativo aberto e validado a partir de `%localappdata%\Programs\KyraFiles` via protocolo e alias; remoção completa de executáveis obsoletos do repositório (`dist\`, spikes, testes, builds temporários).
 
 ## F015 — Índice de busca, T17 medições (16/10/2026, Claude)
 
@@ -166,7 +166,7 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 
 | Gate | Descrição | Estado |
 |---|---|---|
-| G0 | Baseline: Files oficial compila, abre, smoke test (§16) | CONCLUÍDO (CONFIRMED 03/10/2026: compila 0/0, abre por `Open-FilesDev.ps1`, itens 1 a 9 do smoke test §16 validados com capturas) |
+| G0 | Baseline: Files oficial compila, abre, smoke test (§16) | CONCLUÍDO (CONFIRMED 03/10/2026: compila 0/0, abre por `Open-KyraFiles.ps1`, itens 1 a 9 do smoke test §16 validados com capturas) |
 | G1 | Pipeline validado com F001 (§28) | em andamento (OC-rename concluído, iniciando F001) |
 
 ## Features (ordem do §29)
@@ -192,10 +192,10 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 
 ## Observações do ambiente (28/09/2026)
 
-- CONFIRMED: repositório git criado em 28/09/2026 (D-006). `main` parte do commit upstream `99951c66` ("Build: v4.2.9", 19/08/2026), que bate com os horários dos arquivos da pasta. Comando: `git reset --mixed 99951c66` + `git status`. Remotos: `origin` = `alxchs/FilesCustom` (fork), `upstream` = `files-community/Files`. Nada foi enviado (push).
-- OBSERVED: `Get-ChildItem src\Files.App\bin -Recurse -Filter Files.App.exe` não encontrou nada. Isso diz que não há build nesse caminho, não que o app não compila.
+- CONFIRMED: repositório git criado em 28/09/2026 (D-006). `main` parte do commit upstream `99951c66` ("Build: v4.2.9", 19/08/2026), que bate com os horários dos arquivos da pasta. Comando: `git reset --mixed 99951c66` + `git status`. Remotos: `origin` = `alxchs/KyraFiles` (fork), `upstream` = `alxchs/KyraFiles`. Nada foi enviado (push).
+- OBSERVED: `Get-ChildItem src\KyraFiles.App\bin -Recurse -Filter KyraFiles.App.exe` não encontrou nada. Isso diz que não há build nesse caminho, não que o app não compila.
 - CONFIRMED: em relação ao upstream v4.2.9, só quatro arquivos de código/build diferem (`git diff --ignore-cr-at-eol`). São ajustes da AGY, ainda **sem commit**; INFERRED que foram feitos para compilar, NOT TESTED o motivo de cada um:
-  - `Files.slnx`: removidas as plataformas arm64/x86 e os projetos Files.App.Launcher, OpenDialog (+Win32), SaveDialog (+Win32), Files.App.Server, Files.App.UITests e Files.InteractionTests; Files.App perdeu as BuildDependency deles.
+  - `KyraFiles.slnx`: removidas as plataformas arm64/x86 e os projetos KyraFiles.App.Launcher, OpenDialog (+Win32), SaveDialog (+Win32), KyraFiles.App.Server, KyraFiles.App.UITests e KyraFiles.InteractionTests; KyraFiles.App perdeu as BuildDependency deles.
   - `Directory.Packages.props`: `Microsoft.WindowsAppSDK` 2.4.0→2.5.1; `Microsoft.CodeAnalysis.CSharp/Analyzers/Workspaces.Common` 5.9.0→5.6.0.
   - `Directory.Build.props`: `Platform` vazio/AnyCPU passa a x64; BOM removido.
   - `nuget.config`: `<clear />` em `packageSourceMapping`; BOM removido.
@@ -207,8 +207,8 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 - **`Directory.Build.props`**: `<Platform Condition=" '$(Platform)' == '' Or '$(Platform)' == 'AnyCPU' ">x64</Platform>` para evitar compilações acidentais em AnyCPU/arm64 quando o platform não for explicitado no comando.
 - **`nuget.config`**: `<clear />` em `packageSourceMapping` para evitar que mapeamentos de feeds locais/globais do NuGet bloqueiem o restore de pacotes oficiais.
 - **`Directory.Packages.props`**: `Microsoft.WindowsAppSDK` atualizado para 2.5.1 (alinhado com o runtime x64 2.5.1.0 instalado na máquina) e `Microsoft.CodeAnalysis` para 5.6.0 (compatível com o compilador Roslyn integrado no SDK .NET 10.0.301).
-- **`Files.slnx`**: restrito aos projetos C# ativos x64, excluindo projetos C++ (.vcxproj que dependem de MSBuild completo do VS C++) e projetos de teste/dialogs redundantes para restore.
-- **`Files.App.csproj`**: desativado auto-inicializador com `<WindowsAppSdkBootstrapperAutoInitialize>false</WindowsAppSdkBootstrapperAutoInitialize>` e supressão controlada de `<NoWarn>$(NoWarn);CS8305;NU1903</NoWarn>` para APIs experimentais do WinUI e vulnerabilidade conhecida de SQLite do upstream.
+- **`KyraFiles.slnx`**: restrito aos projetos C# ativos x64, excluindo projetos C++ (.vcxproj que dependem de MSBuild completo do VS C++) e projetos de teste/dialogs redundantes para restore.
+- **`KyraFiles.App.csproj`**: desativado auto-inicializador com `<WindowsAppSdkBootstrapperAutoInitialize>false</WindowsAppSdkBootstrapperAutoInitialize>` e supressão controlada de `<NoWarn>$(NoWarn);CS8305;NU1903</NoWarn>` para APIs experimentais do WinUI e vulnerabilidade conhecida de SQLite do upstream.
 
 ## Requisito de qualidade de build (28/09/2026 — Alexandre)
 
@@ -216,57 +216,57 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 > Todo build de release final deve terminar com `0 Error(s)` **e** `0 Warning(s)`.
 
 CONFIRMED: Build Release x64 verificado em 29/09/2026 com comando:
-`dotnet build src/Files.App/Files.App.csproj -c Release -p:Platform=x64 -v:quiet`
+`dotnet build src/KyraFiles.App/KyraFiles.App.csproj -c Release -p:Platform=x64 -v:quiet`
 Saída: `0 Warning(s)`, `0 Error(s)`.
 
 ### Ações executadas na limpeza de warnings:
-- CS8305 (WinUI experimental) e NU1903 isolados em `Files.App.csproj`.
+- CS8305 (WinUI experimental) e NU1903 isolados em `KyraFiles.App.csproj`.
 - CS0108 corrigido com modificador `new` em `INavigationControlItem.cs`.
 - CS0067 corrigido em `NoSizeProvider.cs` e isolado com justificativa em `FileTagsWidgetViewModel.cs`.
 - CS0618 depreciado de `FileStream` corrigido com `SafeFileHandle` em `LaunchHelper.cs`.
 - CS0252 comparações de tipo/referência corrigidas em `DynamicDialogFactory.cs` e `BaseShellPage.cs`.
 - CS0618/CS0612 do Omnibar e de gerados isolados via `.editorconfig` (`[**/*.g.cs]`) e `#pragma` justificados em arquivos de UI.
-- IL2026 suprimido com justificativa documentada em `Program.cs` (`Files.App.Server`).
+- IL2026 suprimido com justificativa documentada em `Program.cs` (`KyraFiles.App.Server`).
 
 ## Problemas preexistentes do upstream
 
 Correção em 01/10/2026 (Claude): as duas linhas que estavam aqui afirmavam correções que não se confirmaram.
 
-- CONFIRMED: `Files.exe` aberto direto de `bin\x64\Release\...\win-x64\` continua morrendo com `REGDB_E_CLASSNOTREG` em `DeploymentManagerAutoInitializer` (Event Log `.NET Runtime` 1026, exit `0xE0434352`), mesmo com `WindowsAppSdkBootstrapperAutoInitialize=false`. Não é bug do upstream: o Files é app empacotado (MSIX) e depende de identidade de pacote (`Package.Current`, `ApplicationData`). Esse exe não foi feito para abrir solto.
-- CONFIRMED: registrado com a pasta `bin\...\win-x64\` como layout (o que o `Open-FilesDev.ps1` anterior fazia), o app ficava parado no splash. Log `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\debug.log`: `DirectoryNotFoundException ... Assets\AppTiles\Dev\Logo.ico` em `SystemTrayIcon..ctor()` dentro de `App.OnLaunched`. Causa: `dotnet build` só gera a receita `Files.App.build.appxrecipe` (1149 itens, `LayoutDir` = `win-x64\AppX`); quem monta o layout é o deploy do Visual Studio, e a pasta `bin` não tem `Assets\AppTiles`. O "processo ativo com ~185 MB" do handoff da AGY era esse splash travado.
-- CONFIRMED: `Open-FilesDev.ps1` reescrito. Monta `win-x64\AppX\` pela receita, copia `Files.App.Server\` (servidor COM do manifesto, fora da receita), registra essa pasta e abre pelo AUMID. Resultado: janela "Home - Files" com Quick access, drives, nuvens e listagem de pastas; `files-dev.exe` (alias do manifesto) ativa a instância e abre aba. Evidência: captura da janela por `PrintWindow` e título por `Get-Process`.
-- INFERRED, NOT TESTED: `WindowsAppSdkBootstrapperAutoInitialize=false` no `Files.App.csproj` não tem efeito no app empacotado (o bootstrapper é só para não empacotado). Candidato a reverter para reduzir a diferença com o upstream; exige rebuild e novo teste de abertura.
+- CONFIRMED: `KyraFiles.exe` aberto direto de `bin\x64\Release\...\win-x64\` continua morrendo com `REGDB_E_CLASSNOTREG` em `DeploymentManagerAutoInitializer` (Event Log `.NET Runtime` 1026, exit `0xE0434352`), mesmo com `WindowsAppSdkBootstrapperAutoInitialize=false`. Não é bug do upstream: o KyraFiles é app empacotado (MSIX) e depende de identidade de pacote (`Package.Current`, `ApplicationData`). Esse exe não foi feito para abrir solto.
+- CONFIRMED: registrado com a pasta `bin\...\win-x64\` como layout (o que o `Open-KyraFiles.ps1` anterior fazia), o app ficava parado no splash. Log `%LOCALAPPDATA%\Packages\KyraFiles_ykqwq8d6ps0ag\LocalState\debug.log`: `DirectoryNotFoundException ... Assets\AppTiles\Dev\Logo.ico` em `SystemTrayIcon..ctor()` dentro de `App.OnLaunched`. Causa: `dotnet build` só gera a receita `KyraFiles.App.build.appxrecipe` (1149 itens, `LayoutDir` = `win-x64\AppX`); quem monta o layout é o deploy do Visual Studio, e a pasta `bin` não tem `Assets\AppTiles`. O "processo ativo com ~185 MB" do handoff da AGY era esse splash travado.
+- CONFIRMED: `Open-KyraFiles.ps1` reescrito. Monta `win-x64\AppX\` pela receita, copia `KyraFiles.App.Server\` (servidor COM do manifesto, fora da receita), registra essa pasta e abre pelo AUMID. Resultado: janela "Home - Files" com Quick access, drives, nuvens e listagem de pastas; `kyrafiles.exe` (alias do manifesto) ativa a instância e abre aba. Evidência: captura da janela por `PrintWindow` e título por `Get-Process`.
+- INFERRED, NOT TESTED: `WindowsAppSdkBootstrapperAutoInitialize=false` no `KyraFiles.App.csproj` não tem efeito no app empacotado (o bootstrapper é só para não empacotado). Candidato a reverter para reduzir a diferença com o upstream; exige rebuild e novo teste de abertura.
 
 ## DISCOVERY
 
 - **D-IDX-01 — Consulta lê o índice sem lock enquanto ele é escrito (16/10/2026, Claude).** INFERRED pela leitura de `VolumeIndex`/`QueryEngine`, não reproduzido: `QueryEngine` percorre os arrays sem o `SyncRoot`, enquanto watcher/reconciliador fazem `Add` (incrementa `_count` antes de gravar o nome) e `WriteNames` (offset e tamanhos gravados em passos separados). Em x64 não deve estourar índice (os arrays crescem antes do `_count++`), mas uma consulta pode ver uma entrada pela metade (nome vazio ou de outro item). Avaliar depois da T17c (lock em fatias), que muda esse cenário.
 
 - **D-A11Y-01 — Nome acessível de arquivo com tipo errado (09/10/2026, Claude).** OBSERVED por UI Automation: o item da lista de `arquivo de teste ação.txt` se chama `arquivo de teste ação.txt, Pasta`. Causa não investigada; afeta leitor de tela.
-- **D-PERF-02 — Abrir pasta por fora leva ~4 s (09/10/2026).** OBSERVED: `Start-Process <pasta>` até a janela do Files mudar = 4,0 s (antes 4,7 a 7,1 s); quase tudo no segundo processo do Files que só repassa o pedido (instância única). Ver nota `docs/releases/2026-10-09_0100_...`.
-- **D-PERF-03 — `explorer.exe <pasta>` leva ~3 s até o Files assumir (09/10/2026).** CONFIRMED: o Explorer só registra a janela na `ShellWindows` ~3,2 s depois do comando (medido com o Files fechado). Ideia: ler a barra de endereço do Explorer por UI Automation, que pode ficar pronta antes.
-- **D-LEAK-01 — A DLL do diálogo deixa `fsd*.tmp` vazios no `%TEMP%` (09/10/2026).** OBSERVED: 10 arquivos de 0 byte após os testes da T7 (apagados). Código do upstream (`FilesOpenDialog.cpp` cria o temporário no construtor).
+- **D-PERF-02 — Abrir pasta por fora leva ~4 s (09/10/2026).** OBSERVED: `Start-Process <pasta>` até a janela do KyraFiles mudar = 4,0 s (antes 4,7 a 7,1 s); quase tudo no segundo processo do KyraFiles que só repassa o pedido (instância única). Ver nota `docs/releases/2026-10-09_0100_...`.
+- **D-PERF-03 — `explorer.exe <pasta>` leva ~3 s até o KyraFiles assumir (09/10/2026).** CONFIRMED: o Explorer só registra a janela na `ShellWindows` ~3,2 s depois do comando (medido com o KyraFiles fechado). Ideia: ler a barra de endereço do Explorer por UI Automation, que pode ficar pronta antes.
+- **D-LEAK-01 — A DLL do diálogo deixa `fsd*.tmp` vazios no `%TEMP%` (09/10/2026).** OBSERVED: 10 arquivos de 0 byte após os testes da T7 (apagados). Código do upstream (`KyraFilesOpenDialog.cpp` cria o temporário no construtor).
 - **D-C4 — Coluna marcada em pasta que não a exibe (09/10/2026).** OBSERVED no diálogo "Choose Details": "Dimensions" marcada numa pasta sem essa coluna. É o defeito C4 da revisão do G1.
-- **D-SHELL-02 — Git Bash não abre no menu de contexto (11/10/2026, Alexandre).** OBSERVED: Git Bash ("Git Bash Here" / terminal) não abre pelo menu de contexto do Files. Duas causas investigadas no código: (1) `OpenTerminalAction` só possui roteamento para `wt.exe` ou `cmd.exe`; (2) no menu de contexto Win32 clássico (`ShellContextFlyoutHelper.cs`), `InvokeItem(menuId)` é chamado com `workingDirectory = null` no caso padrão, herdando o diretório de execução do pacote (`AppX`) em vez da pasta ativa onde o usuário clicou. Fica registrado como DISCOVERY para correção apropriada de integração de shell.
+- **D-SHELL-02 — Git Bash não abre no menu de contexto (11/10/2026, Alexandre).** OBSERVED: Git Bash ("Git Bash Here" / terminal) não abre pelo menu de contexto do KyraFiles. Duas causas investigadas no código: (1) `OpenTerminalAction` só possui roteamento para `wt.exe` ou `cmd.exe`; (2) no menu de contexto Win32 clássico (`ShellContextFlyoutHelper.cs`), `InvokeItem(menuId)` é chamado com `workingDirectory = null` no caso padrão, herdando o diretório de execução do pacote (`AppX`) em vez da pasta ativa onde o usuário clicou. Fica registrado como DISCOVERY para correção apropriada de integração de shell.
 
-- **D-PERF-01 — Files Dev percebido como lento (01/10/2026, Alexandre).** Abrir o app, entrar em pastas, rolagem/miniaturas e cliques/menus: tudo mais lento que o Explorer e o OneCommander. Decisão: IMPLEMENT como F007 (D-007, meta: superar o OneCommander). Linha de base e scripts em `tools/perf/`.
+- **D-PERF-01 — KyraFiles percebido como lento (01/10/2026, Alexandre).** Abrir o app, entrar em pastas, rolagem/miniaturas e cliques/menus: tudo mais lento que o Explorer e o OneCommander. Decisão: IMPLEMENT como F007 (D-007, meta: superar o OneCommander). Linha de base e scripts em `tools/perf/`.
   - OBSERVED (processo em uso, ~5 min): 2 min 06 s de CPU acumulada, 514 MB de working set, 411 MB privados, 65 threads, 3089 handles; ocioso em 1,4% de CPU. Máquina: 12 núcleos, 16 GB, sem outro processo acima de 3,3% de CPU.
-  - CONFIRMED: o build não está sem otimização: `AppX\Files.dll` é o ReadyToRun de `obj\...\R2R` (13,5 MB, contra 5,9 MB do IL), configuração Release. O GC Satori não entra no build empacotado (`Satori.targets` desliga com `EnableMsixTooling=true`).
+  - CONFIRMED: o build não está sem otimização: `AppX\KyraFiles.dll` é o ReadyToRun de `obj\...\R2R` (13,5 MB, contra 5,9 MB do IL), configuração Release. O GC Satori não entra no build empacotado (`Satori.targets` desliga com `EnableMsixTooling=true`).
   - INFERRED, NOT TESTED: parte do custo vem de pastas desta máquina: `C:\desenv` é pasta do Google Drive (status de sincronização por item) e tem repositórios git (o log registra `LibGit2Sharp ... remote authentication required` ao navegar).
-  - OBSERVED (`tools/perf/`, 01/10/2026): contra o OneCommander, o Files gasta 1,7× a 1,9× de CPU para abrir pastas, 3,4× de memória e 18× de CPU parado. Parado, 74% da CPU vai para a thread "DWM Compositor Thread"; ao abrir a pasta de 10 mil arquivos, 59%.
+  - OBSERVED (`tools/perf/`, 01/10/2026): contra o OneCommander, o KyraFiles gasta 1,7× a 1,9× de CPU para abrir pastas, 3,4× de memória e 18× de CPU parado. Parado, 74% da CPU vai para a thread "DWM Compositor Thread"; ao abrir a pasta de 10 mil arquivos, 59%.
 
 ## Metodologia comum (03/10/2026)
 
-- CONFIRMED: a metodologia geral saiu deste projeto para `C:\Users\alxch\.dev-method\METODO.md` (com modelos e `Novo-Projeto.ps1`); `~/.claude/CLAUDE.md` importa o arquivo e `~/.gemini/GEMINI.md` manda a AGY lê-lo. Aqui ficam só as regras do Files Custom (`MASTER_SPEC.md`, `docs/agents/CONTINUITY.md`, `docs/agents/PLAYBOOK.md`).
-- CONFIRMED: `WindowsAppSdkBootstrapperAutoInitialize=false` não existe mais em `Files.App.csproj` (o merge adotou o upstream: `grep Bootstrapper src/Files.App/Files.App.csproj` sem resultado) e o app abre. A pendência "reverter essa flag" está encerrada.
+- CONFIRMED: a metodologia geral saiu deste projeto para `C:\Users\alxch\.dev-method\METODO.md` (com modelos e `Novo-Projeto.ps1`); `~/.claude/CLAUDE.md` importa o arquivo e `~/.gemini/GEMINI.md` manda a AGY lê-lo. Aqui ficam só as regras do KyraFiles (`MASTER_SPEC.md`, `docs/agents/CONTINUITY.md`, `docs/agents/PLAYBOOK.md`).
+- CONFIRMED: `WindowsAppSdkBootstrapperAutoInitialize=false` não existe mais em `KyraFiles.App.csproj` (o merge adotou o upstream: `grep Bootstrapper src/KyraFiles.App/KyraFiles.App.csproj` sem resultado) e o app abre. A pendência "reverter essa flag" está encerrada.
 - NOT TESTED: se a AGY lê o `~/.gemini/GEMINI.md` e o `GEMINI.md` do projeto (D-005); o prompt de disparo deve continuar mandando ler os arquivos explicitamente.
 
 ## Smoke test §16 — 4.2.37.0 (03/10/2026, Gate G0 Fechado)
 
-Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. Pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag` gerado por build Release x64 ReadyToRun, registrado e aberto via `.\Open-FilesDev.ps1`. Testes destrutivos/manipulações isolados em `C:\FilesUXLab\`.
+Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. Pacote `KyraFiles_4.2.37.0_x64__ykqwq8d6ps0ag` gerado por build Release x64 ReadyToRun, registrado e aberto via `.\Open-KyraFiles.ps1`. Testes destrutivos/manipulações isolados em `C:\FilesUXLab\`.
 
 1. **Abertura, título e tempo de resposta**
    - Estado: `CONFIRMED`.
-   - Evidência: O app abre com sucesso pelo AUMID `FilesDev_ykqwq8d6ps0ag!App`. Classe da janela `WinUIDesktopWin32WindowClass`. Título dinâmico reflete a pasta ativa (ex.: `"Downloads - Files"`, `"Home - Files"`). Tempo até a primeira renderização visual medido em `bench.ps1`: ~3,5 s (mediana de 3); tempo do processo lançador ~2,8 s.
+   - Evidência: O app abre com sucesso pelo AUMID `KyraFiles_ykqwq8d6ps0ag!App`. Classe da janela `WinUIDesktopWin32WindowClass`. Título dinâmico reflete a pasta ativa (ex.: `"Downloads - Files"`, `"Home - Files"`). Tempo até a primeira renderização visual medido em `bench.ps1`: ~3,5 s (mediana de 3); tempo do processo lançador ~2,8 s.
    - Capturas: `tools/perf/captures/window_test.png`, `tools/perf/captures/smoke_step0_current.png`, `tools/perf/captures/smoke_resume_check.png`.
 
 2. **Navegação (Home, Drive C, C:\FilesUXLab, Back/Forward/Up)**
@@ -308,7 +308,7 @@ Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. P
 8. **Colunas no layout Details (Arraste de divisor, independência e limites)**
    - Estado: `CONFIRMED`.
    - Evidência (insumo direto para a F002):
-     - Código-fonte (`src/Files.App.Controls/GridSplitter/GridSplitter.Events.cs` linhas 266–320 e `src/Files.App/Views/Layouts/DetailsLayoutPage.xaml.cs`):
+     - Código-fonte (`src/KyraFiles.App.Controls/GridSplitter/GridSplitter.Events.cs` linhas 266–320 e `src/KyraFiles.App/Views/Layouts/DetailsLayoutPage.xaml.cs`):
        (a) Todas as colunas do DetailsLayout usam larguras explícitas em pixel (`GridUnitType.Pixel` em `ColumnsViewModel.cs`); nenhuma coluna ativa é Star (`*`).
        (b) Quando o `GridSplitter` de uma coluna (ex.: `NameColumnHeaderGridSplitter`) é manipulado, a lógica em `GridSplitter.Events.cs` chama `SetColumnWidth(CurrentColumn, horizontalChange, GridUnitType.Pixel)`, alterando exclusivamente a coluna atual. As colunas vizinhas **não mudam de largura** (mantêm seus valores fixos em pixels).
        (c) A coluna "Name" não absorve diferenças automaticamente; possui `NormalMaxLength = 1000` e mínima de 50.
@@ -319,7 +319,7 @@ Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. P
 
 9. **Fechar e reabrir (Restauração de abas e layout)**
    - Estado: `CONFIRMED`.
-   - Evidência: Processo encerrado e reaberto via `.\Open-FilesDev.ps1`. O app lê `"ContinueLastSessionOnStartUp": true` em `user_settings.json`, restaura as abas da sessão anterior (`Downloads`), restaura o layout Details com colunas preservadas e mantém o estado fechado do InfoPane.
+   - Evidência: Processo encerrado e reaberto via `.\Open-KyraFiles.ps1`. O app lê `"ContinueLastSessionOnStartUp": true` em `user_settings.json`, restaura as abas da sessão anterior (`Downloads`), restaura o layout Details com colunas preservadas e mantém o estado fechado do InfoPane.
    - Capturas: `tools/perf/captures/smoke_item9_reopened.png`, `tools/perf/captures/smoke_item9_reopened_ready.png`.
 
 ## Exploração OneCommander — Renomeação (OC-rename, 03/10/2026)

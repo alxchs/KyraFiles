@@ -1,14 +1,14 @@
-# Arquitetura: Densidade de Interface OneCommander (UltraCompact / Compact)
+﻿# Arquitetura: Densidade de Interface OneCommander (UltraCompact / Compact)
 
 ## Contexto & Motivação
 O OneCommander é reconhecido pela alta densidade de informação por polegada quadrada de tela. Usuários avançados e gestores de arquivos que lidam com centenas de itens por pasta necessitam visualizar o máximo de linhas possíveis sem rolagem excessiva.
 
-No Files App Community padrão:
+No KyraFiles Community padrão:
 - O modo Detalhes (Details) com tamanho "Small" utilizava 36px de altura por item. Em telas 1080p padrão, isso limitava a visão a aproximadamente 22–24 itens simultâneos.
 - A barra lateral de navegação (Sidebar) utilizava altura fixa de 40px por item.
 
-Com a especificação F008, o Files ganha a opção de Densidade de Interface em 3 níveis:
-1. **Normal (Padrão do Files)**: Linhas de 36px em detalhes, 40px na barra lateral.
+Com a especificação F008, o KyraFiles ganha a opção de Densidade de Interface em 3 níveis:
+1. **Normal (Padrão do KyraFiles)**: Linhas de 36px em detalhes, 40px na barra lateral.
 2. **Compacto (Compact)**: Linhas de 28px em detalhes, 24px em lista/colunas, 32px na barra lateral.
 3. **Ultra-compacto (UltraCompact / OneCommander Style)**: Linhas de 24px em detalhes, 22px em lista/colunas, 30px na barra lateral. Em telas 1080p, permite visualizar 38 a 42 itens simultâneos (aumento de mais de 75% na densidade útil de tela).
 

@@ -1,4 +1,4 @@
-# Handoff: F007-B — Bissecção do Compositor Parado Concluída
+﻿# Handoff: F007-B — Bissecção do Compositor Parado Concluída
 
 Data: 2026-10-06
 Executor: Antigravity
@@ -9,7 +9,7 @@ Status: **CONCLUÍDO (MEDIÇÃO E ANÁLISE RIGOROSA)**
 
 ## 1. Resumo Executivo da Tarefa
 
-Conforme especificado em `docs/agents/tasks/F007-B-compositor-idle.md`, foi realizada a bateria completa de bissecção empírica para diagnosticar o que mantinha a thread `DWM Compositor Thread` acordada com consumo excessivo no Files Custom quando o aplicativo se encontra inativo/parado.
+Conforme especificado em `docs/agents/tasks/F007-B-compositor-idle.md`, foi realizada a bateria completa de bissecção empírica para diagnosticar o que mantinha a thread `DWM Compositor Thread` acordada com consumo excessivo no KyraFiles quando o aplicativo se encontra inativo/parado.
 
 Todas as medições foram executadas via PowerShell automatizado (`tools/perf/run_f007b_all.ps1` e `tools/perf/measure_f007b.ps1`) com amostragem de 10 segundos por rodada (3 rodadas intercaladas por cenário), apurando tempos exatos da `DWM Compositor Thread`, `UI Thread` e CPU total do processo.
 
@@ -56,13 +56,13 @@ Todas as medições foram executadas via PowerShell automatizado (`tools/perf/ru
 
 ## 4. Descoberta Central e Proposta de Correção (sem implementação de código)
 
-- **Descoberta:** Com fundo Solid e pasta de arquivos simples, o Files Dev **consome apenas 78 ms em 10 s (7,8 ms por segundo)**, tornando-se **mais econômico que o OneCommander (14 ms/s)**!
+- **Descoberta:** Com fundo Solid e pasta de arquivos simples, o KyraFiles **consome apenas 78 ms em 10 s (7,8 ms por segundo)**, tornando-se **mais econômico que o OneCommander (14 ms/s)**!
 - A causa raiz do consumo contínuo anterior de ~400–490 ms/s decorre estritamente de:
   1. Manter a **Página Home aberta** com seus widgets ativos.
   2. Manter **múltiplas abas abertas** simultaneamente sem virtualização do compositor.
 - **Proposta de Correção Técnica (para avaliação do Claude/Alexandre):**
-  - *Mecanismo 1 (Abas)*: Em `src/Files.App/UserControls/TabBar/` ou `ShellPanesPage`, ao trocar de aba ativa, definir `Visibility = Visibility.Collapsed` no container visual da aba inativa para retirá-la da árvore de composição do DWM.
-  - *Mecanismo 2 (Widgets Home)*: Em `src/Files.App/Views/HomePage.xaml.cs` e `DriveItemViewModel`, suspender timers de monitoramento e renderização de composição quando a página Home perder o foco.
+  - *Mecanismo 1 (Abas)*: Em `src/KyraFiles.App/UserControls/TabBar/` ou `ShellPanesPage`, ao trocar de aba ativa, definir `Visibility = Visibility.Collapsed` no container visual da aba inativa para retirá-la da árvore de composição do DWM.
+  - *Mecanismo 2 (Widgets Home)*: Em `src/KyraFiles.App/Views/HomePage.xaml.cs` e `DriveItemViewModel`, suspender timers de monitoramento e renderização de composição quando a página Home perder o foco.
 
 ---
 

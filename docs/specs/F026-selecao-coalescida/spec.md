@@ -1,9 +1,9 @@
-# F026 — Navegação por teclado fluida: efeitos da seleção coalescidos (experimento)
+﻿# F026 — Navegação por teclado fluida: efeitos da seleção coalescidos (experimento)
 
 Status: **APROVADA** pelo Alexandre em 20/10/2026 ("aceito o teste isolado"). Origem: F025 (`docs/agents/evidence/F025/relatorio.md`).
 
 ## Contexto
-Medido (F025): segurando `Down`, o app processa só ~10 a 17 linhas/s das ~30 enviadas; o thread de UI fica 44% a 74% ocupado; o Files original se comporta quase igual. O Alexandre considera inutilizável. Outras aplicações nativas aguentam.
+Medido (F025): segurando `Down`, o app processa só ~10 a 17 linhas/s das ~30 enviadas; o thread de UI fica 44% a 74% ocupado; o KyraFiles original se comporta quase igual. O Alexandre considera inutilizável. Outras aplicações nativas aguentam.
 
 ## Histórias
 - **US1 (P1):** como usuário, ao segurar uma tecla de seta na lista, a seleção acompanha a repetição do teclado sem engasgar.

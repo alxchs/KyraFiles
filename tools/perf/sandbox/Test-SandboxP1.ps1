@@ -1,10 +1,10 @@
-<#
-  Prova P1 do Windows Sandbox (host): sobe o Sandbox, instala o Files Custom lá dentro, abre e devolve o resultado.
+﻿<#
+  Prova P1 do Windows Sandbox (host): sobe o Sandbox, instala o KyraFiles lá dentro, abre e devolve o resultado.
   Criado pelo Claude em 25/10/2026. NOT TESTED: o recurso estava desligado nesta data (ver Habilitar-WindowsSandbox.ps1).
   Contexto: C:\Users\alxch\.dev-method\SANDBOX.md. O host NÃO recebe teclas nem cliques: só abre a janela do Sandbox.
 #>
 param(
-  [string]$Repo = 'C:\desenv\utils\FilesApp',
+  [string]$Repo = 'C:\desenv\utils\KyraFiles',
   [string]$ScriptsDir = $PSScriptRoot,
   [int]$MemoryMB = 4096,
   [int]$TimeoutSec = 600,
@@ -24,10 +24,10 @@ if ($avail -lt ($MemoryMB + 512)) {
 }
 
 $setup = Join-Path $Repo 'artifacts\Setup'
-if (-not (Get-ChildItem $setup -Filter 'FilesCustomSetup-*.exe' -ErrorAction SilentlyContinue)) { throw "Sem instalador em $setup." }
+if (-not (Get-ChildItem $setup -Filter 'KyraFilesSetup-*.exe' -ErrorAction SilentlyContinue)) { throw "Sem instalador em $setup." }
 
 $guid = [guid]::NewGuid()
-$out = Join-Path $env:TEMP "claude\$guid\desenv\utils\FilesApp\Files\sandbox-p1"
+$out = Join-Path $env:TEMP "claude\$guid\desenv\utils\KyraFiles\Files\sandbox-p1"
 New-Item -ItemType Directory -Force $out | Out-Null
 $net = if ($ComRede) { 'Default' } else { 'Disable' }
 $wsb = Join-Path $out 'p1.wsb'

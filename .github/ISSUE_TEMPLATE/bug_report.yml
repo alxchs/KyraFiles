@@ -1,4 +1,4 @@
-name: Bug Report
+﻿name: Bug Report
 description: Create a bug report to help improve Files.
 type: 'Bug'
 title: 'Bug: '
@@ -31,12 +31,12 @@ body:
     validations:
       required: true
 
-  # Files Version
+  # KyraFiles version
   - type: input
     id: files_version
     attributes:
-      label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version.
+      label: KyraFiles version
+      description: Which version of Files are you using? To copy your KyraFiles version, access it from Settings -> About -> Copy -> KyraFiles version.
       placeholder: "e.g. 2.0.34.0"
     validations:
       required: true
@@ -66,7 +66,7 @@ body:
     attributes:
       value: |
         > [!IMPORTANT]
-        > The log file can be accessed from **Settings → About → Open log location**. If you cannot access the UI, you can locate the file [manually](https://files.community/docs/getting-started/faq#:~:text=How%20to%20Locate%20the%20Log%20File).
+        > The log file can be accessed from **Settings → About → Open log location**. If you cannot access the UI, you can locate the file [manually](https://kyrafiles.org/docs/getting-started/faq#:~:text=How%20to%20Locate%20the%20Log%20File).
         >
         > Feel free to remove potentially sensitive information such as usernames or drive names before uploading the file.
 

@@ -1,4 +1,4 @@
-# Handoff: F060 M1 — Dividir e Juntar Arquivos (Split/Combine)
+﻿# Handoff: F060 M1 — Dividir e Juntar Arquivos (Split/Combine)
 
 - **Data/Hora:** 2026-10-28 18:45 (horário local)
 - **Agente:** AGY (Google DeepMind)
@@ -22,7 +22,7 @@
 
 Comandos de verificação de testes:
 ```powershell
-dotnet test tests\Files.App.Search.Index.Tests --filter SplitCombine
+dotnet test tests\KyraFiles.App.Search.Index.Tests --filter SplitCombine
 ```
 Saída real: 85 testes aprovados, 0 falhas, 1 ignorado.
 

@@ -1,4 +1,4 @@
-# F005 — Preview e Details com acesso imediato — PLAN
+﻿# F005 — Preview e Details com acesso imediato — PLAN
 
 Status: **APROVADO** (Claude, 04/10/2026). Só vale com a `spec.md` APROVADA. Estado de cada afirmação: lido em 04/10/2026 nos arquivos citados.
 
@@ -38,7 +38,7 @@ Status: **APROVADO** (Claude, 04/10/2026). Só vale com a `spec.md` APROVADA. Es
 - Comando sempre executável: não pode abrir o painel sobre estado inválido (sem aba escolhida): usar a aba padrão já existente.
 
 ## Estratégia de teste
-Não existe projeto de testes unitários no repositório (`tests/` tem só `Files.App.UITests`, `Files.InteractionTests` e o script `test-rename-helper.ps1`; **os briefs antigos citam `tests/Files.App.UnitTests`, que não existe**). A função pura é testada por **script `pwsh` no padrão da F001** ou por projeto novo `tests/Files.Custom.Tests` que compila só o arquivo puro; escolher o mais simples e registrar em `DECISIONS.md`.
+Não existe projeto de testes unitários no repositório (`tests/` tem só `KyraFiles.App.UITests`, `KyraFiles.InteractionTests` e o script `test-rename-helper.ps1`; **os briefs antigos citam `tests/KyraFiles.App.UnitTests`, que não existe**). A função pura é testada por **script `pwsh` no padrão da F001** ou por projeto novo `tests/KyraFiles.Custom.Tests` que compila só o arquivo puro; escolher o mais simples e registrar em `DECISIONS.md`.
 
 | Cenário | Tipo | Prova |
 |---|---|---|

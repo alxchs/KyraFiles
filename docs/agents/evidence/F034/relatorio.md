@@ -1,7 +1,7 @@
-# Relatório de Evidência — F034 Lista Sem Caixa de Seleção por Padrão
+﻿# Relatório de Evidência — F034 Lista Sem Caixa de Seleção por Padrão
 
 - **Data:** 24/10/2026
-- **Ambiente:** Files Custom v4.3.5 / Build F034
+- **Ambiente:** KyraFiles v4.3.5 / Build F034
 - **Status dos Critérios de Aceite:**
   - **AC-1:** Com a opção desligada em Detalhes, nenhuma linha renderiza caixa de seleção e o cabeçalho não instancia a caixa "selecionar tudo" (`x:Load="False"`).
   - **AC-2:** Nos modos Grade, Lista e Cartões, o mesmo comportamento é mantido sem pintura nem alocação de caixas (`ac2_sem_checkbox_grade.png`).

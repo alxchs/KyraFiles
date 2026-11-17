@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,7 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace FilesCustomInstaller
+namespace KyraFilesInstaller
 {
     public class InstallerForm : Form
     {
@@ -33,7 +33,7 @@ namespace FilesCustomInstaller
 
         private void InitializeComponent()
         {
-            this.Text = "Instalador do Files Custom — v4.2.37.0";
+            this.Text = "Instalador do KyraFiles";
             this.Size = new Size(580, 420);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -51,7 +51,7 @@ namespace FilesCustomInstaller
             };
 
             Label lblTitle = new Label();
-            lblTitle.Text = "Instalação do Files Custom";
+            lblTitle.Text = "Instalação do KyraFiles";
             lblTitle.Font = new Font("Segoe UI", 13.5f, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(20, 60, 120);
             lblTitle.Location = new Point(24, 14);
@@ -75,7 +75,7 @@ namespace FilesCustomInstaller
             lblDestPrompt.AutoSize = true;
             this.Controls.Add(lblDestPrompt);
 
-            string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs\\FilesCustom");
+            string defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs\\KyraFiles");
             txtDest = new TextBox();
             txtDest.Text = defaultPath;
             txtDest.Location = new Point(25, 125);
@@ -90,7 +90,7 @@ namespace FilesCustomInstaller
                 using (FolderBrowserDialog fbd = new FolderBrowserDialog())
                 {
                     fbd.SelectedPath = txtDest.Text;
-                    fbd.Description = "Selecione a pasta de instalação do Files Custom:";
+                    fbd.Description = "Selecione a pasta de instalação do KyraFiles:";
                     if (fbd.ShowDialog() == DialogResult.OK)
                     {
                         txtDest.Text = fbd.SelectedPath;
@@ -115,7 +115,7 @@ namespace FilesCustomInstaller
             this.Controls.Add(chkStartMenu);
 
             chkLaunch = new CheckBox();
-            chkLaunch.Text = "Executar o Files Custom ao concluir";
+            chkLaunch.Text = "Executar o KyraFiles ao concluir";
             chkLaunch.Checked = true;
             chkLaunch.Location = new Point(25, 228);
             chkLaunch.AutoSize = true;
@@ -209,12 +209,12 @@ namespace FilesCustomInstaller
                 Directory.CreateDirectory(targetDir);
 
                 UpdateStatus("Localizando pacote autocontido...", 10);
-                Stream zipStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FilesAppPayload.zip");
+                Stream zipStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KyraFilesPayload.zip");
                 
                 // Fallback: se não estiver embutido, busca no diretório do instalador
                 if (zipStream == null)
                 {
-                    string localZip = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FilesApp-v4.2.37.0-x64-standalone.zip");
+                    string localZip = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "KyraFiles-x64-standalone.zip");
                     if (File.Exists(localZip))
                     {
                         zipStream = File.OpenRead(localZip);
@@ -223,7 +223,7 @@ namespace FilesCustomInstaller
 
                 if (zipStream == null)
                 {
-                    throw new FileNotFoundException("Pacote autocontido (FilesAppPayload.zip) não encontrado nem embutido.");
+                    throw new FileNotFoundException("Pacote autocontido (KyraFilesPayload.zip) não encontrado nem embutido.");
                 }
 
                 using (zipStream)
@@ -240,9 +240,9 @@ namespace FilesCustomInstaller
 
                         // Se a entrada começa com a pasta raiz do zip, remove o prefixo
                         string entryName = entry.FullName;
-                        if (entryName.StartsWith("FilesApp-v4.2.37.0-x64-standalone/", StringComparison.OrdinalIgnoreCase))
+                        if (entryName.StartsWith("KyraFiles-x64-standalone/", StringComparison.OrdinalIgnoreCase))
                         {
-                            entryName = entryName.Substring("FilesApp-v4.2.37.0-x64-standalone/".Length);
+                            entryName = entryName.Substring("KyraFiles-x64-standalone/".Length);
                         }
 
                         if (string.IsNullOrEmpty(entryName)) continue;
@@ -347,20 +347,20 @@ namespace FilesCustomInstaller
 
         private void CreateShortcuts(string targetDir)
         {
-            string exePath = Path.Combine(targetDir, "Files.exe");
-            string appId = "FilesDev_ykqwq8d6ps0ag!App";
+            string exePath = Path.Combine(targetDir, "KyraFiles.exe");
+            string appId = "KyraFiles_ykqwq8d6ps0ag!App";
 
             if (chkDesktop.Checked)
             {
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                string lnkPath = Path.Combine(desktopPath, "Files Custom.lnk");
+                string lnkPath = Path.Combine(desktopPath, "KyraFiles.lnk");
                 CreateShellShortcut(lnkPath, exePath, appId);
             }
 
             if (chkStartMenu.Checked)
             {
                 string startMenuPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
-                string lnkPath = Path.Combine(startMenuPath, "Files Custom.lnk");
+                string lnkPath = Path.Combine(startMenuPath, "KyraFiles.lnk");
                 CreateShellShortcut(lnkPath, exePath, appId);
             }
         }
@@ -377,7 +377,7 @@ namespace FilesCustomInstaller
                     shortcut.TargetPath = "explorer.exe";
                     shortcut.Arguments = "shell:AppsFolder\\" + appId;
                     shortcut.IconLocation = targetExe + ",0";
-                    shortcut.Description = "Files Custom — Gerenciador de Arquivos Moderno";
+                    shortcut.Description = "KyraFiles — Gerenciador de Arquivos Moderno";
                     shortcut.WorkingDirectory = Path.GetDirectoryName(targetExe);
                     shortcut.Save();
                 }
@@ -393,18 +393,18 @@ namespace FilesCustomInstaller
                 string uninstallerPs1 = Path.Combine(targetDir, "Desinstalar.ps1");
 
                 string ps1Content = 
-                    "# Desinstalador do Files Custom\r\n" +
-                    "Write-Host 'Desinstalando Files Custom...' -ForegroundColor Cyan\r\n" +
-                    "$pkg = Get-AppxPackage -Name 'FilesDev'\r\n" +
+                    "# Desinstalador do KyraFiles\r\n" +
+                    "Write-Host 'Desinstalando KyraFiles...' -ForegroundColor Cyan\r\n" +
+                    "$pkg = Get-AppxPackage -Name '*KyraFiles*'\r\n" +
                     "if ($pkg) { Remove-AppxPackage -Package $pkg.PackageFullName }\r\n" +
-                    "$desktopLnk = Join-Path ([Environment]::GetFolderPath('DesktopDirectory')) 'Files Custom.lnk'\r\n" +
+                    "$desktopLnk = Join-Path ([Environment]::GetFolderPath('DesktopDirectory')) 'KyraFiles.lnk'\r\n" +
                     "if (Test-Path $desktopLnk) { Remove-Item $desktopLnk -Force }\r\n" +
-                    "$startLnk = Join-Path ([Environment]::GetFolderPath('StartMenu')) 'Programs\\Files Custom.lnk'\r\n" +
+                    "$startLnk = Join-Path ([Environment]::GetFolderPath('StartMenu')) 'Programs\\KyraFiles.lnk'\r\n" +
                     "if (Test-Path $startLnk) { Remove-Item $startLnk -Force }\r\n" +
-                    "$unsetReg = Join-Path $PSScriptRoot 'Assets\\FilesOpenDialog\\UnsetFilesAsDefault.reg'\r\n" +
+                    "$unsetReg = Join-Path $PSScriptRoot 'Assets\\KyraFilesOpenDialog\\UnsetKyraFilesAsDefault.reg'\r\n" +
                     "if (Test-Path $unsetReg) { Start-Process regedit.exe -ArgumentList '/s', ('\"' + $unsetReg + '\"') -Wait -ErrorAction SilentlyContinue }\r\n" +
                     "Remove-Item -Path (Join-Path $env:LocalAppData 'Files') -Recurse -Force -ErrorAction SilentlyContinue\r\n" +
-                    "Remove-Item -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\FilesCustom' -Recurse -Force -ErrorAction SilentlyContinue\r\n" +
+                    "Remove-Item -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\KyraFiles' -Recurse -Force -ErrorAction SilentlyContinue\r\n" +
                     "Write-Host 'Arquivos do aplicativo prontos para remoção.' -ForegroundColor Green\r\n";
 
                 File.WriteAllText(uninstallerPs1, ps1Content);
@@ -412,21 +412,21 @@ namespace FilesCustomInstaller
                 string cmdContent = 
                     "@echo off\r\n" +
                     "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"%~dp0Desinstalar.ps1\"\r\n" +
-                    "echo Files Custom foi desinstalado.\r\n" +
+                    "echo KyraFiles foi desinstalado.\r\n" +
                     "pause\r\n";
 
                 File.WriteAllText(uninstallerCmd, cmdContent);
 
                 // Registro no Windows (Adicionar/Remover Programas)
-                using (RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\FilesCustom"))
+                using (RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\KyraFiles"))
                 {
                     if (key != null)
                     {
-                        key.SetValue("DisplayName", "Files Custom");
+                        key.SetValue("DisplayName", "KyraFiles");
                         key.SetValue("DisplayVersion", "4.2.37.0");
-                        key.SetValue("Publisher", "Files Community / Alexandre");
+                        key.SetValue("Publisher", "KyraFiles");
                         key.SetValue("InstallLocation", targetDir);
-                        key.SetValue("DisplayIcon", Path.Combine(targetDir, "Files.exe"));
+                        key.SetValue("DisplayIcon", Path.Combine(targetDir, "KyraFiles.exe"));
                         key.SetValue("UninstallString", "\"" + uninstallerCmd + "\"");
                         key.SetValue("NoModify", 1, RegistryValueKind.DWord);
                         key.SetValue("NoRepair", 1, RegistryValueKind.DWord);
@@ -440,7 +440,7 @@ namespace FilesCustomInstaller
         {
             try
             {
-                Process.Start("explorer.exe", "shell:AppsFolder\\FilesDev_ykqwq8d6ps0ag!App");
+                Process.Start("explorer.exe", "shell:AppsFolder\\KyraFiles_ykqwq8d6ps0ag!App");
             }
             catch { }
         }
@@ -471,7 +471,7 @@ namespace FilesCustomInstaller
             {
                 string target = !string.IsNullOrEmpty(customTarget) 
                     ? customTarget 
-                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs\\FilesCustom");
+                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs\\KyraFiles");
                 
                 InstallerForm form = new InstallerForm();
                 form.RunInstallation(target);

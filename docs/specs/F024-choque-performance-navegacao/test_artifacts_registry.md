@@ -1,4 +1,4 @@
-# Registro de Artefatos de Teste — F024
+﻿# Registro de Artefatos de Teste — F024
 
 Este arquivo registra OBRIGATORIAMENTE cada pasta, arquivo temporário, script ou binário auxiliar criado durante a bateria de testes de performance da F024, para garantir remoção cuidadosa e 100% comprovada ao final da tarefa, evitando qualquer poluição do ambiente ou confusão de arquivos.
 
@@ -17,5 +17,5 @@ Este arquivo registra OBRIGATORIAMENTE cada pasta, arquivo temporário, script o
 
 ## Higiene Estrita Confirmada
 - Todos os artefatos temporários foram expurgados.
-- Nenhuma pasta duplicada de programa existe em `%LOCALAPPDATA%\Programs` (somente a oficial `FilesCustom`).
+- Nenhuma pasta duplicada de programa existe em `%LOCALAPPDATA%\Programs` (somente a oficial `KyraFiles`).
 - Todos os processos foram encerrados.

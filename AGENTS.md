@@ -1,4 +1,4 @@
-# Files Development Guidelines
+﻿# Files Development Guidelines
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
@@ -10,7 +10,7 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 - Prefer targeted search over full file reads.
 - Touch only what you must. Clean up only files you created or changed for the task.
 - Treat file operations, shell integration, drag/drop, preview handlers, archive actions, settings persistence, and localization as high-risk areas.
-- For Win32, COM, Shell, clipboard, hotkey, and file operation interop, prefer `src/Files.App.CsWin32`, `NativeMethods.txt`, and existing wrappers/helpers.
+- For Win32, COM, Shell, clipboard, hotkey, and file operation interop, prefer `src/KyraFiles.App.CsWin32`, `NativeMethods.txt`, and existing wrappers/helpers.
 - Avoid ad hoc P/Invoke declarations when CsWin32 or existing interop code can cover the API.
 - Do not edit generated CsWin32 output directly. Update source declarations, wrappers, or generator inputs instead.
 - For UI work, use existing XAML resources, controls, converters, commands, and localization patterns. Avoid one-off styles or hard-coded user-visible strings.
@@ -25,7 +25,7 @@ This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
 - Reject new uses of `DllImport`. Prefer existing interop wrappers or CsWin32, and use `LibraryImport` only when CsWin32 cannot generate or safely express the required API.
 - Reject new uses of `ComImport`. Prefer CsWin32-generated COM interfaces or `GeneratedComInterface`, and use a focused AOT-safe vtable wrapper only when source-generated COM cannot represent the interface.
-- Add app runtime CsWin32 APIs to `src/Files.App.CsWin32/NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
+- Add app runtime CsWin32 APIs to `src/KyraFiles.App.CsWin32/NativeMethods.txt`, and keep test-only APIs in the relevant test project's `NativeMethods.txt`; do not edit generated CsWin32 output.
 - When introducing a required native module, add the matching `DirectPInvoke` entry to `src/KyraFiles.App/KyraFiles.App.csproj`. Do not direct-bind optional modules or entry points that are not guaranteed to exist on every supported Windows version.
 
 ### Reflection and Native AOT
@@ -127,9 +127,9 @@ Code Quality: Add source-generated settings serialization
 For the PR body, follow `./.github/PULL_REQUEST_TEMPLATE.md`.
 
 
-## Files Custom (regras do fork)
+## KyraFiles (regras do fork)
 
-Este checkout é o **Files Custom**, derivado do Files Community. Além das diretrizes acima:
+Este checkout é o **KyraFiles**, derivado do KyraFiles Community. Além das diretrizes acima:
 
 - Leia `C:\Users\alxch\.dev-method\METODO.md` (metodologia geral do Alexandre, comum a todos os projetos), `MASTER_SPEC.md` (seções da tarefa), `AGENT_CONTEXT.md` (estado atual), `docs/agents/PLAYBOOK.md` (fila e pré-aprovações para seguir sem o Claude) e `docs/agents/CONTINUITY.md` (específico deste projeto) antes de agir.
 - **REGRA DE OURO DA MAIN (15/10/2026):** É terminantemente PROIBIDO alterar ou comitar direto na `main`. Toda e qualquer alteração (conduzida pela AGY ou pelo Claude) DEVE ser feita em branch própria (`feature/<nome>`). A integração na `main` é feita OBRIGATORIAMENTE via squash/rebase, gerando um commit único atômico por feature para manter a `main` compacta, linear e organizada.
@@ -147,13 +147,13 @@ Este checkout é o **Files Custom**, derivado do Files Community. Além das dire
 - Declare `NOT TESTED`, `OBSERVED`, `INFERRED` ou `CONFIRMED`; nunca invente resultado.
 - Commit local a cada passo verde; ao parar, escreva handoff em `docs/agents/handoffs/`. `git push` só com confirmação do Alexandre.
 - Todo exe gerado para teste leva uma nota de liberação em `docs/releases/` (e página HTML quando possível): ver "Nota de liberação" em `docs/agents/PLAYBOOK.md`.
-- **GATE MANDATÓRIO DE CONTENÇÃO DE RECURSOS (16/10/2026 - F021):** Nenhuma tarefa pode ser dada como concluída pela AGY ou pelo Claude sem a execução e validação formal de `pwsh tools\perf\verify_no_index_service.ps1`. O processo `Files.App.IndexService.exe` deve estar rigorosamente inativo e a CPU em repouso em 0% (ou < 5%).
+- **GATE MANDATÓRIO DE CONTENÇÃO DE RECURSOS (16/10/2026 - F021):** Nenhuma tarefa pode ser dada como concluída pela AGY ou pelo Claude sem a execução e validação formal de `pwsh tools\perf\verify_no_index_service.ps1`. O processo `KyraFiles.App.IndexService.exe` deve estar rigorosamente inativo e a CPU em repouso em 0% (ou < 5%).
 - **PROIBIÇÃO DE PROLIFERAÇÃO DE BINÁRIOS E COMPLEMENTOS (07/11/2026 - REGRA DURA):**
   É expressamente PROIBIDO espalhar executáveis (.exe), bibliotecas (.dll) e complementos pelo disco ou deixá-los órfãos pelo caminho ("comportamento TDAH").
-  1. **Destino Único Oficial:** No ambiente instalado do usuário, existe APENAS UM local oficial para a versão instalada ativa (`%LOCALAPPDATA%\Programs\FilesCustom` ou `%LOCALAPPDATA%\Programs\KyraFiles`). NUNCA deixar cópias soltas de executáveis em outras pastas do disco.
+  1. **Destino Único Oficial:** No ambiente instalado do usuário, existe APENAS UM local oficial para a versão instalada ativa (`%LOCALAPPDATA%\Programs\KyraFiles` ou `%LOCALAPPDATA%\Programs\KyraFiles`). NUNCA deixar cópias soltas de executáveis em outras pastas do disco.
   2. **Zero Binários de Debug no Repositório:** Pastas `bin\Debug`, `obj\Debug` e `artifacts\Debug` são estritamente efêmeras para testes. Concluído o desenvolvimento/teste, devem ser IMEDIATAMENTE purgadas. Somente binários de Release necessários devem existir.
   3. **Apenas o Instalador Mais Recente em `artifacts\Setup`:** Ao gerar uma versão nova do instalador (ex: `4.3.12`), o instalador da versão anterior (ex: `4.3.11`) DEVE ser excluído na mesma operação. Nunca acumular histórico de instaladores no workspace.
-  4. **Purga Compulsória em Renomeações (Repositório, Disco e Instalador):** Ao renomear ou descontinuar qualquer componente (ex: `Files.App.Server` -> `KyraFiles.App.Server`, `FilesOpenDialog` -> `KyraFilesOpenDialog`):
+  4. **Purga Compulsória em Renomeações (Repositório, Disco e Instalador):** Ao renomear ou descontinuar qualquer componente (ex: `KyraFiles.App.Server` -> `KyraFiles.App.Server`, `KyraFilesOpenDialog` -> `KyraFilesOpenDialog`):
      a) Purgar os binários e referências antigas do repositório;
      b) Purgar ativamente os vestígios da pasta instalada no disco do usuário;
      c) Adicionar diretivas no instalador (`[InstallDelete]` no Inno Setup) para limpar os resíduos da máquina do usuário durante a instalação.

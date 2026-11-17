@@ -1,8 +1,8 @@
-# F027 — Resultado do experimento do checkbox (20/10/2026, Claude)
+﻿# F027 — Resultado do experimento do checkbox (20/10/2026, Claude)
 
 Mudança (`DetailsLayoutPage.xaml.cs`): sem pintura do checkbox por linha em `OnSelectionChanged` e em `FileList_ContainerContentChanging`; eventos ligados uma vez por checkbox; estado do checkbox pintado só ao passar o ponteiro (`SelectionCheckbox_PointerEntered`). Build Release `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
 
-A primeira rodada (J1) foi **invalida**: o foco caiu em outras janelas e o Files fechou no meio (itens finais "Message input", "Tab actions menu"). Removida do CSV. Rodada valida: J2, o computador sem uso durante a medicao.
+A primeira rodada (J1) foi **invalida**: o foco caiu em outras janelas e o KyraFiles fechou no meio (itens finais "Message input", "Tab actions menu"). Removida do CSV. Rodada valida: J2, o computador sem uso durante a medicao.
 
 ## Medicao (CSV: `docs/agents/evidence/F025/hold_key2.csv`, rotulo `J2-f027`; 5 rodadas, 5 s)
 | Teste | Linhas alcancadas | Mediana | CPU por 5 s | Memoria privada |

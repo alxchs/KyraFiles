@@ -1,9 +1,9 @@
-# Teste de persistência e recursos F017 (T1 / T2)
-$proc = Start-Process 'bin\Release\Files.Watchdog.exe' -PassThru
+﻿# Teste de persistência e recursos F017 (T1 / T2)
+$proc = Start-Process 'bin\Release\KyraFiles.Watchdog.exe' -PassThru
 Start-Sleep -Milliseconds 800
 
-$hotkey = Get-Process Files.HotkeyService -ErrorAction SilentlyContinue
-$watchdog = Get-Process Files.Watchdog -ErrorAction SilentlyContinue
+$hotkey = Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue
+$watchdog = Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue
 
 $hotkeyMem = if ($hotkey) { [math]::Round($hotkey.WorkingSet64 / 1MB, 2) } else { 0 }
 $watchdogMem = if ($watchdog) { [math]::Round($watchdog.WorkingSet64 / 1MB, 2) } else { 0 }
@@ -19,7 +19,7 @@ Stop-Process -Id $hotkey.Id -Force
 $revived = $null
 while ($sw.ElapsedMilliseconds -lt 2000) {
     Start-Sleep -Milliseconds 30
-    $revived = Get-Process Files.HotkeyService -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $hotkey.Id }
+    $revived = Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $hotkey.Id }
     if ($revived) { break }
 }
 $sw.Stop()
@@ -38,7 +38,7 @@ public static class EventHelper {
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern bool CloseHandle(IntPtr h);
     public static void Signal() {
-        IntPtr h = OpenEvent(0x0002, false, "Global\\FilesCustom_ShutdownHotkeyService");
+        IntPtr h = OpenEvent(0x0002, false, "Global\\KyraFiles_ShutdownHotkeyService");
         if (h != IntPtr.Zero) { SetEvent(h); CloseHandle(h); }
     }
 }
@@ -46,7 +46,7 @@ public static class EventHelper {
 [EventHelper]::Signal()
 Start-Sleep -Milliseconds 600
 
-$remaining = Get-Process Files.HotkeyService, Files.Watchdog -ErrorAction SilentlyContinue
+$remaining = Get-Process KyraFiles.HotkeyService, KyraFiles.Watchdog -ErrorAction SilentlyContinue
 Write-Host "Processos remanescentes apos sinal de shutdown: $($remaining.Count)"
 if ($remaining) { $remaining | Stop-Process -Force }
 

@@ -1,7 +1,7 @@
-# Relatório de Evidência — F032 Fixar Aba
+﻿# Relatório de Evidência — F032 Fixar Aba
 
 - **Data:** 24/10/2026
-- **Ambiente:** Files Custom v4.3.5 (Release Oficial)
+- **Ambiente:** KyraFiles v4.3.5 (Release Oficial)
 - **Status dos Critérios de Aceite:**
   - **AC-1:** Aba fixada recebe propriedade `IsPinned`, posiciona-se à esquerda das abas comuns e substitui o botão fechar por alfinete fixo.
   - **AC-2:** Fechar outras abas (`CloseOtherTabs`) preserva a aba fixada e a aba ativa.

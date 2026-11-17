@@ -2,7 +2,7 @@ HKCR
 {
 	NoRemove CLSID
 	{
-		ForceRemove {C0B4E2F3-BA21-4773-8DBA-335EC946EB8B} = s 'FilesSaveDialog class'
+		ForceRemove {C0B4E2F3-BA21-4773-8DBA-335EC946EB8B} = s 'KyraFilesSaveDialog class'
 		{
 			ForceRemove Programmable
 			InprocServer32 = s '%MODULE%'

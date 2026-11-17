@@ -1,9 +1,9 @@
-# CONTEXTO DE DESENVOLVIMENTO
+﻿# CONTEXTO DE DESENVOLVIMENTO
 
 Estado atual, curto. Atualize ao mudar de fase/tarefa (METODO.md §1).
 
 ```text
-PROJECT        Files Custom / KyraFiles. Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
+PROJECT        KyraFiles / KyraFiles. Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível. Ver MASTER_SPEC.md §2 e §44
 CURRENT PHASE  Release v4.3.18.0 (F037, F047, F044, F071, F053, F049 Consolidadas na Main)
 CURRENT TASK   ⚪ [FEITO] F044, F071, F053 e F049 concluídas e validadas, instalador v4.3.18 gerado e publicado

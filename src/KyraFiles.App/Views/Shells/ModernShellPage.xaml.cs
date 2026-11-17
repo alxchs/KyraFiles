@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
@@ -180,7 +180,7 @@ namespace KyraFiles.App.Views.Shells
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 
 			// Update the ShellViewModel with the current working directory
-			// Fixes https://github.com/files-community/Files/issues/17469
+			// Fixes https://github.com/alxchs/KyraFiles/issues/17469
 			if (parameters.IsSearchResultPage == false)
 				ShellViewModel!.IsSearchResults = false;
 

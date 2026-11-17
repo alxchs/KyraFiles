@@ -1,8 +1,8 @@
-# Handoff: F014 — Sistema de Ajuda (Help) Completo e Contextual Concluído
+﻿# Handoff: F014 — Sistema de Ajuda (Help) Completo e Contextual Concluído
 
 - **Data / Hora:** 10/10/2026 23:20
 - **Autor:** Antigravity (AGY)
-- **Worktree:** `C:\desenv\utils\FilesApp-feature-help-contextual`
+- **Worktree:** `C:\desenv\utils\KyraFiles-feature-help-contextual`
 - **Branch:** `feature/sistema-help-contextual`
 - **Status:** CONCLUÍDO (T1 a T6 CONFIRMED)
 
@@ -10,11 +10,11 @@
 
 ## 1. O que foi feito
 
-Implementação do Sistema de Ajuda (Help) Completo e Contextual (F014) no Files Custom:
+Implementação do Sistema de Ajuda (Help) Completo e Contextual (F014) no KyraFiles:
 1. **Catálogo & Modelos (`HelpModels.cs`, `HelpCatalog.cs`):**
    - Modelagem de dados: `HelpTopic`, `HelpShortcut`, `HelpContextId`, `HelpBadgeType`.
-   - Conteúdo humano, claro e pedagógico com explicação dos diferenciais do Files Custom vs Windows Explorer e inspirações no OneCommander / Mac.
-   - Badges editoriais temáticas ("Superior ao Windows Explorer", "Inspirado no OneCommander / Mac", "Files Custom Edition") respeitando estritamente a diretriz de não usar vermelho nem combinações partidárias.
+   - Conteúdo humano, claro e pedagógico com explicação dos diferenciais do KyraFiles vs Windows Explorer e inspirações no OneCommander / Mac.
+   - Badges editoriais temáticas ("Superior ao Windows Explorer", "Inspirado no OneCommander / Mac", "KyraFiles Edition") respeitando estritamente a diretriz de não usar vermelho nem combinações partidárias.
 2. **Serviço de Ajuda (`IHelpService`, `HelpService`):**
    - Roteamento por contexto (Colunas / Miller Columns, Modo Detalhes, Redimensionamento Independente, Abas, Renomeação, Visão Geral).
    - Busca em tempo real com filtragem textual por título, descrição, atalhos e tags.
@@ -28,9 +28,9 @@ Implementação do Sistema de Ajuda (Help) Completo e Contextual (F014) no Files
    - Nova aba "Help" (Ajuda e Recursos) integrada à barra de navegação de `SettingsPage`.
    - Layout nativo em cards com busca instantânea e renderização de atalhos em badges visuais.
 6. **Compilação e Verificação Física:**
-   - `mkfile debug src\Files.App\Files.App.csproj`: 0 Warnings, 0 Errors.
-   - `mkfile release src\Files.App\Files.App.csproj`: 0 Warnings, 0 Errors.
-   - Execução real pelo `Open-FilesDev.ps1` com testes físicos na UI do Windows e captura de telas comprobatórias.
+   - `mkfile debug src\KyraFiles.App\KyraFiles.App.csproj`: 0 Warnings, 0 Errors.
+   - `mkfile release src\KyraFiles.App\KyraFiles.App.csproj`: 0 Warnings, 0 Errors.
+   - Execução real pelo `Open-KyraFiles.ps1` com testes físicos na UI do Windows e captura de telas comprobatórias.
 
 ---
 

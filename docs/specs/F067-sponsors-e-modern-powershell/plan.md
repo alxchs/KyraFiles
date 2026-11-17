@@ -1,10 +1,10 @@
-# Plano de Implementação - F067
+﻿# Plano de Implementação - F067
 
 ## Arquitetura e Decisões Técnicas
 
 1. **Localização de `PowerShellHelpers`**:
-   - `Files.Shared` é o projeto compartilhado central referenciado por `Files.App`, `Files.App.Storage` e os projetos de teste.
-   - Definiremos `Files.Shared.Helpers.PowerShellHelpers` com a propriedade estática `PreferredExecutable`.
+   - `KyraFiles.Shared` é o projeto compartilhado central referenciado por `KyraFiles.App`, `KyraFiles.App.Storage` e os projetos de teste.
+   - Definiremos `KyraFiles.Shared.Helpers.PowerShellHelpers` com a propriedade estática `PreferredExecutable`.
    - Adicionaremos resolução com cache, buscando primeiro diretórios comuns conhecidos e o `PATH`.
    - Em caso de exceção ou ausência, fallback para `"powershell.exe"`.
 
@@ -15,10 +15,10 @@
 
 3. **Substituição de URLs de Patrocínio**:
    - `.github/FUNDING.yml`: `github: [alxchs]`
-   - `src/Files.App/Constants.cs`: `SupportUsUrl = @"https://github.com/alxchs";`
+   - `src/KyraFiles.App/Constants.cs`: `SupportUsUrl = @"https://github.com/alxchs";`
 
 4. **Testes e Validação**:
-   - Teste unitário em `tests/Files.App.Search.Index.Tests/PowerShellHelpersTests.cs` verificando a detecção e execução de `PreferredExecutable`.
+   - Teste unitário em `tests/KyraFiles.App.Search.Index.Tests/PowerShellHelpersTests.cs` verificando a detecção e execução de `PreferredExecutable`.
    - Execução do conjunto completo de testes (159+ testes).
    - Verificação F021 (`verify_no_index_service.ps1`).
    - Compilação do pacote Release e substituição no diretório de instalação local.

@@ -1,5 +1,5 @@
-# measure_search_app.ps1
-# Medição de desempenho de busca no aplicativo Files Custom (F065-T12 / NFR-001)
+﻿# measure_search_app.ps1
+# Medição de desempenho de busca no aplicativo KyraFiles (F065-T12 / NFR-001)
 # Executa rodadas de busca dentro do app através de automação sem roubar foco físico.
 # Mede: tempo até o 1º resultado visível e tempo total de conclusão no app.
 #
@@ -39,9 +39,9 @@ Write-Host "Horário de início: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Parâmetros: Query='$Query', Pasta='$Folder', Rodadas=$Rounds"
 
 # 3. Localiza pacote e instância do Files
-$pkg = Get-AppxPackage -Name "FilesDev"
+$pkg = Get-AppxPackage -Name "KyraFiles"
 if (-not $pkg) {
-    throw "Pacote FilesDev não encontrado."
+    throw "Pacote KyraFiles não encontrado."
 }
 
 # Identifica motor de busca ativo
@@ -58,9 +58,9 @@ if (Test-Path $settingsFile) {
 }
 Write-Host "Motor de Busca Ativo no Perfil Dev: $enginePref" -ForegroundColor Green
 
-# Localiza processos Files.exe da instância de desenvolvimento
+# Localiza processos KyraFiles.exe da instância de desenvolvimento
 $devProcs = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Where-Object {
-    $_.Path -and ($_.Path.Contains("FilesDev") -or $_.Path.Contains("FilesCustom") -or $_.Path.Contains("AppX"))
+    $_.Path -and ($_.Path.Contains("KyraFiles") -or $_.Path.Contains("KyraFiles") -or $_.Path.Contains("AppX"))
 }
 
 if (-not $devProcs) {

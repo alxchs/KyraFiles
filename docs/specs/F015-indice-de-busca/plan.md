@@ -1,16 +1,16 @@
-# F015 — Índice de busca próprio — PLAN
+﻿# F015 — Índice de busca próprio — PLAN
 
 Status: APROVADO (Claude, 11/10/2026), condicionado às duas verificações T1 e T2: se o resultado delas contrariar uma premissa marcada `INFERRED` abaixo, o plan volta para revisão antes de T3.
 
 ## Arquitetura atual (lida no código em 11/10/2026)
 
-- `CONFIRMED` A busca da lista de arquivos entra por `ShellViewModel.SearchAsync(FolderSearch)` (`src/Files.App/ViewModels/ShellViewModel.cs`, ~linha 3479). Ela pede o motor a `ISearchProviderFactory.GetCurrentProvider()`; se não for `native`, chama `provider.SearchAsync(request, results, token)` e só atualiza a tela **no fim**. Os resultados parciais (`SearchTick`) só existem para o `FolderSearch` nativo.
-- `CONFIRMED` Os motores estão em `src/Files.App/Services/Search/` (`NativeFilesSearchProvider`, `AgentRansackSearchProvider`, `EverythingSearchProvider`, `SearchProviderFactory`), registrados como singleton em `Helpers/Application/AppLifecycleHelper.cs` (linhas 374-377). O contrato é `Data/Contracts/ISearchProvider.cs` (`SearchRequest`: `Query`, `Folder`, `MaxItemCount`, `SearchSubfolders`, `SearchContent`).
+- `CONFIRMED` A busca da lista de arquivos entra por `ShellViewModel.SearchAsync(FolderSearch)` (`src/KyraFiles.App/ViewModels/ShellViewModel.cs`, ~linha 3479). Ela pede o motor a `ISearchProviderFactory.GetCurrentProvider()`; se não for `native`, chama `provider.SearchAsync(request, results, token)` e só atualiza a tela **no fim**. Os resultados parciais (`SearchTick`) só existem para o `FolderSearch` nativo.
+- `CONFIRMED` Os motores estão em `src/KyraFiles.App/Services/Search/` (`NativeFilesSearchProvider`, `AgentRansackSearchProvider`, `EverythingSearchProvider`, `SearchProviderFactory`), registrados como singleton em `Helpers/Application/AppLifecycleHelper.cs` (linhas 374-377). O contrato é `Data/Contracts/ISearchProvider.cs` (`SearchRequest`: `Query`, `Folder`, `MaxItemCount`, `SearchSubfolders`, `SearchContent`).
 - `CONFIRMED` Agent Ransack e Everything abrem um processo por busca, esperam ele sair, leem um CSV e chamam `Directory.Exists` para cada resultado; criam `ListedItem` só com caminho e nome (sem tamanho e sem data). O Everything exige `es.exe`, ausente nesta máquina; sem ele, cai no nativo sem aviso, enquanto `IsAvailable` diz `true` se o processo `Everything` está aberto.
 - `CONFIRMED` Dois outros pontos usam `FolderSearch` direto, sem passar pela fábrica: as sugestões do Omnibar (`ViewModels/UserControls/NavigationToolbarViewModel.cs`, ~linha 1217, `MaxItemCount = 10`, espera 200 ms) e o Atualizar de uma página de resultados (`Views/Shells/BaseShellPage.cs`, ~linha 599).
 - `CONFIRMED` `FolderSearch` (`Utils/Storage/Search/FolderSearch.cs`) trata `Folder == "Home"` buscando em todos os `drivesViewModel.Drives` que não são de rede, bibliotecas via `App.LibraryManager`, e consultas de etiqueta (`IsTagQuery`). Usa o índice do Windows e cai em varredura Win32.
 - `CONFIRMED` A escolha de motor é `SearchEnginePreference` (`Data/Enums/SearchEngineKind.cs`: 0 Native, 1 AgentRansack, 2 Everything), lida em `Services/Settings/FoldersSettingsService.cs` e exibida por `ViewModels/Settings/FoldersViewModel.cs`.
-- `CONFIRMED` O pacote (`src/Files.App/Package.appxmanifest`) já declara `runFullTrust`, `broadFileSystemAccess` e **`allowElevation`**, e já leva um executável à parte, `Files.App.Server` (servidor WinRT fora do processo, `WinExe`, `net10.0-windows`), modelo para empacotar mais um executável.
+- `CONFIRMED` O pacote (`src/KyraFiles.App/Package.appxmanifest`) já declara `runFullTrust`, `broadFileSystemAccess` e **`allowElevation`**, e já leva um executável à parte, `KyraFiles.App.Server` (servidor WinRT fora do processo, `WinExe`, `net10.0-windows`), modelo para empacotar mais um executável.
 - `CONFIRMED` Testes C#: o repositório usa MSTest 4.4.1 (`Directory.Packages.props`). Não há projeto de teste unitário para a lógica do app; `tests/` tem testes de interação e scripts PowerShell.
 - `CONFIRMED` Ambiente de referência (11/10/2026, `Get-Volume`, `Get-CimInstance Win32_MountPoint`/`Win32_Volume`, `Get-Disk`): C: 930 GB NVMe, D: 806 GB e R: 125 GB no disco SATA, S: 466 GB no disco USB, todos NTFS; volume do Google Drive montado em `C:\Google\Drive\disk` (relatado como FAT32, 930 GB); dois volumes de sistema sem letra; nenhum `subst`, nenhuma unidade de rede.
 
@@ -18,18 +18,18 @@ Status: APROVADO (Claude, 11/10/2026), condicionado às duas verificações T1 e
 
 ### Visão geral
 
-Um **motor de índice** único, numa biblioteca sem interface (`Files.App.Search.Index`), roda dentro de um **processo próprio** (`Files.App.IndexService.exe`), que funciona de dois jeitos:
+Um **motor de índice** único, numa biblioteca sem interface (`KyraFiles.App.Search.Index`), roda dentro de um **processo próprio** (`KyraFiles.App.IndexService.exe`), que funciona de dois jeitos:
 
 | | Modo completo | Modo básico |
 |---|---|---|
-| Como roda | serviço do Windows, conta SYSTEM, instalado uma vez com UAC (método decidido em T1) | processo do usuário, sem privilégio, iniciado pelo Files |
+| Como roda | serviço do Windows, conta SYSTEM, instalado uma vez com UAC (método decidido em T1) | processo do usuário, sem privilégio, iniciado pelo KyraFiles |
 | Indexação inicial NTFS | lê a MFT bruta do volume em blocos sequenciais grandes | varre pastas com `GetFileInformationByHandleEx(FileIdBothDirectoryInfo)`, em paralelo por disco físico |
-| Mudanças com o Files aberto | lê o diário USN (`FSCTL_READ_USN_JOURNAL`) | `ReadDirectoryChangesExW` recursivo por volume; estouro do buffer → reconferir só a subárvore afetada |
-| Mudanças com o Files fechado | retoma do último USN salvo; diário reiniciado ou truncado → reindexa o volume e diz por quê | ao abrir, reconfere pastas cuja data de modificação mudou (a data de uma pasta muda quando entra, sai ou é renomeado um item dela) |
+| Mudanças com o KyraFiles aberto | lê o diário USN (`FSCTL_READ_USN_JOURNAL`) | `ReadDirectoryChangesExW` recursivo por volume; estouro do buffer → reconferir só a subárvore afetada |
+| Mudanças com o KyraFiles fechado | retoma do último USN salvo; diário reiniciado ou truncado → reindexa o volume e diz por quê | ao abrir, reconfere pastas cuja data de modificação mudou (a data de uma pasta muda quando entra, sai ou é renomeado um item dela) |
 | Volumes | NTFS | todos os locais não cobertos pelo completo (FAT32, exFAT, ReFS, virtuais) |
 | Permissão (FR-025) | filtra cada resultado com a identidade do usuário que perguntou (personificação do cliente do pipe), com cache por pasta | natural: o processo só enxerga o que o usuário enxerga |
 
-O índice fica **no processo do motor, não no Files** (NFR-003). O Files conversa com ele por **named pipe** com protocolo versionado: consulta, resultados em lotes, cancelamento, estado e comandos de configuração. No modo completo, o pipe é do serviço; no básico, um pipe por sessão do usuário. Volumes NTFS podem estar no serviço e os demais no processo básico ao mesmo tempo: o Files consulta os dois e junta os resultados.
+O índice fica **no processo do motor, não no KyraFiles** (NFR-003). o KyraFiles conversa com ele por **named pipe** com protocolo versionado: consulta, resultados em lotes, cancelamento, estado e comandos de configuração. No modo completo, o pipe é do serviço; no básico, um pipe por sessão do usuário. Volumes NTFS podem estar no serviço e os demais no processo básico ao mesmo tempo: o KyraFiles consulta os dois e junta os resultados.
 
 ### Identidade de volume e caminhos (FR-010 a FR-016)
 
@@ -70,7 +70,7 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
   - Teto padrão de 100 mil resultados, com sinal de "limitado" para a tela.
   - Cancelamento verificado entre blocos.
 
-### Integração no Files
+### Integração no KyraFiles
 
 - **Motor da busca:** novo `IndexedSearchProvider` (`id = "index"`) vira o padrão para busca por nome.
   - O contrato `ISearchProvider` ganha entrega progressiva (callback de lote).
@@ -90,7 +90,7 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
 
 ### Opções descartadas
 
-- **Índice dentro do processo do Files:** a RAM cresceria com o índice (NFR-003), e o modo completo precisaria de privilégio no próprio Files.
+- **Índice dentro do processo do KyraFiles:** a RAM cresceria com o índice (NFR-003), e o modo completo precisaria de privilégio no próprio Files.
 - **Índice de pesquisa do Windows (Windows Search):** não cobre todas as pastas, não acha tudo por padrão e é a lentidão que já existe hoje.
 - **`FSCTL_ENUM_USN_DATA` em vez da MFT bruta no modo completo:** dá nomes e pais, mas não tamanho nem datas. Buscá-los arquivo por arquivo seria lento e violaria FR-024. Fica como plano B se a leitura da MFT se mostrar inviável em T2.
 - **Banco de dados (SQLite etc.) para o índice:** consulta por substring sem índice próprio é varredura de qualquer jeito, e com mais sobrecarga que arrays em memória.
@@ -99,7 +99,7 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
 
 | Requisito | Onde é atendido |
 |---|---|
-| FR-001, FR-002, FR-011, FR-013, FR-017 | `Files.App.Search.Index/Volumes/VolumeTable` |
+| FR-001, FR-002, FR-011, FR-013, FR-017 | `KyraFiles.App.Search.Index/Volumes/VolumeTable` |
 | FR-003, FR-042 | protocolo `Status`/`Configure` + página de configurações |
 | FR-004 | indexadores nunca abrem arquivo; atributos `RECALL_ON_*` respeitados |
 | FR-010, FR-014 | chave `(volume, referência)` em `Index/VolumeIndex` |
@@ -110,27 +110,27 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
 | FR-022, FR-023 | `Query/QueryEngine` + `IndexedSearchProvider` + `ShellViewModel.SearchAsync` |
 | FR-024 | `IndexedSearchProvider` monta `ListedItem` completo |
 | FR-025 | `Service/AccessFilter` (completo); natural no básico |
-| FR-026 | filtro de ocultos e de sistema aplicado no Files com a preferência atual |
+| FR-026 | filtro de ocultos e de sistema aplicado no KyraFiles com a preferência atual |
 | FR-030, FR-031 | `Full/UsnFollower`; `Basic/ChangeWatcher` |
 | FR-032 | `Basic/Reconciler` |
 | FR-033 | `Volumes/VolumeArrival` + snapshot com número de série e ID do diário |
-| FR-040, FR-041, FR-043 | `Files.App.IndexService` (modos), `IndexedSearchProvider` (fallback com aviso) |
+| FR-040, FR-041, FR-043 | `KyraFiles.App.IndexService` (modos), `IndexedSearchProvider` (fallback com aviso) |
 | NFR-001 a NFR-005 | scripts `tools/perf/f015_*.ps1` |
-| NFR-006 | snapshots do completo em `%ProgramData%\FilesCustom\Index` com ACL SYSTEM + Administradores; do básico na `LocalCache` do pacote |
+| NFR-006 | snapshots do completo em `%ProgramData%\KyraFiles\Index` com ACL SYSTEM + Administradores; do básico na `LocalCache` do pacote |
 | NFR-007 | `SearchProviderFactory` + configurações |
 
 ## Arquivos
 
 **Mexer:**
 - Novos:
-  - `src/Files.App.Search.Index/` (biblioteca `net10.0-windows`, sem WinUI);
-  - `src/Files.App.IndexService/` (executável dos dois modos);
-  - `tests/Files.App.Search.Index.Tests/` (MSTest);
+  - `src/KyraFiles.App.Search.Index/` (biblioteca `net10.0-windows`, sem WinUI);
+  - `src/KyraFiles.App.IndexService/` (executável dos dois modos);
+  - `tests/KyraFiles.App.Search.Index.Tests/` (MSTest);
   - `tools/perf/f015_*.ps1`.
 - Existentes:
   - `Files.slnx`;
   - `Package.appxmanifest`, para empacotar o novo exe e o serviço, conforme T1;
-  - `Files.App.csproj`;
+  - `KyraFiles.App.csproj`;
   - `Data/Contracts/ISearchProvider.cs`;
   - `Services/Search/SearchProviderFactory.cs`;
   - novo `Services/Search/IndexedSearchProvider.cs`;
@@ -162,7 +162,7 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
   - nenhum caminho vindo do cliente é aberto como SYSTEM sem personificação;
   - ACL do pipe só para usuários autenticados locais;
   - sem comando que leia ou altere arquivo.
-- **Versão do serviço diferente da do Files** depois de atualizar: aperto de mão de versão; se não bate, o Files cai no básico e oferece atualizar o serviço (UAC).
+- **Versão do serviço diferente da do KyraFiles** depois de atualizar: aperto de mão de versão; se não bate, o KyraFiles cai no básico e oferece atualizar o serviço (UAC).
 - **Antivírus** reclamando de serviço que abre `\\.\C:`: assinatura do pacote e nome claro do serviço.
 - **Google Drive:** o volume virtual pode responder devagar ou baixar dados ao ser listado (`INFERRED` que não baixa; medido em T2). Se baixar, ele sai do índice por padrão, com opção de incluir.
 - **Regressão na busca atual:** etiquetas, bibliotecas e rede continuam no `FolderSearch` e precisam ser testadas de novo.
@@ -174,9 +174,9 @@ O índice fica **no processo do motor, não no Files** (NFR-003). O Files conver
 |---|---|---|
 | AC-1, AC-2 | funcional no app + medição | `tools/perf/f015_search_latency.ps1`: digita por UI Automation, mede até a lista aparecer, 10 repetições, mediana e pior caso |
 | AC-3, AC-4 | integração + funcional | cria `subst` em pasta de teste, busca, conta ocorrências por caminho e por chave |
-| AC-5, AC-6, AC-9 | integração | junção (sem admin) e link simbólico em `%TEMP%\claude\desenv\utils\FilesApp\f015\`; ciclo junção→ancestral |
+| AC-5, AC-6, AC-9 | integração | junção (sem admin) e link simbólico em `%TEMP%\claude\desenv\utils\KyraFiles\f015\`; ciclo junção→ancestral |
 | AC-7, AC-8 | integração (requer admin) | VHDX de teste montado em pasta e com letra, criado e removido pelo script com autorização do Alexandre; alternativa observável: o volume do Google Drive (montado só em pasta) |
-| AC-10, AC-11, AC-12 | integração | script cria, renomeia, move e apaga e mede o tempo até a busca refletir; com o Files fechado e aberto de novo |
+| AC-10, AC-11, AC-12 | integração | script cria, renomeia, move e apaga e mede o tempo até a busca refletir; com o KyraFiles fechado e aberto de novo |
 | AC-13 | manual com roteiro | desconecta e reconecta o disco USB S:, com captura |
 | AC-14 | funcional no app | serviço parado ou desinstalado → estado e aviso na tela, com captura |
 | AC-15, AC-21 | unitário + integração | normalizador e casador; link físico com `fsutil hardlink create` (sem admin) |

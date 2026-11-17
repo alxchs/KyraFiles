@@ -1,4 +1,4 @@
-# F019 — Efeito visível das formas (janela, abas, área de arquivos) — SPEC
+﻿# F019 — Efeito visível das formas (janela, abas, área de arquivos) — SPEC
 
 Estado: APROVADA (Claude, 12/10/2026). Decisão do Alexandre (12/10/2026): efeito **marcante em tudo**. Origem: "não achei os efeitos nos shapes e no formulário".
 
@@ -27,9 +27,9 @@ Capturas do app com a forma "Sawtooth Triangle" (Aparência) mostraram: dentes d
 - **AC-9** Nenhuma faixa ou ponta de cor destoante nas extremidades: fora do contorno aparece apenas o fundo da janela, e nenhum painel (barra lateral, rolagem, cabeçalho) é cortado por dentes ou ondas em tamanho maior que o raio do canto.
 - **AC-10** Conferido com o fundo "Blue" e backdrop "Thin Acrylic" (configuração do Alexandre) nas formas 1 a 9, com capturas dos quatro cantos da janela.
 
-## Revisão 12/10/2026 (2) — não perder a referência visual do Files
-Pedido do Alexandre: o efeito não pode fazer o aplicativo perder a referência visual ao Files.
-- **AC-11** Com qualquer forma de 1 a 9, o aplicativo continua reconhecível como o Files: mesma estrutura (abas, barra de menu, barra de endereço, barra lateral, área de arquivos), mesmas cores do tema, ícones, tipografia e espaçamentos. **Só o contorno** muda. Nada é movido, escondido ou recolorido por causa da forma.
-- **AC-12** A forma 0 (Fluent) é pixel a pixel o visual atual do Files (sem recorte e com os `CornerRadius` originais), servindo de referência de comparação.
-- **AC-13** As formas 1 a 9 usam o mesmo conjunto de cantos e da mesma família de raios do Files como base (o Files original já arredonda 4/8 px): o recorte **acrescenta** o motivo da forma nos cantos e nas abas, sem remover os cantos arredondados do Files nos demais elementos.
+## Revisão 12/10/2026 (2) — não perder a referência visual do KyraFiles
+Pedido do Alexandre: o efeito não pode fazer o aplicativo perder a referência visual ao KyraFiles.
+- **AC-11** Com qualquer forma de 1 a 9, o aplicativo continua reconhecível como o KyraFiles: mesma estrutura (abas, barra de menu, barra de endereço, barra lateral, área de arquivos), mesmas cores do tema, ícones, tipografia e espaçamentos. **Só o contorno** muda. Nada é movido, escondido ou recolorido por causa da forma.
+- **AC-12** A forma 0 (Fluent) é pixel a pixel o visual atual do KyraFiles (sem recorte e com os `CornerRadius` originais), servindo de referência de comparação.
+- **AC-13** As formas 1 a 9 usam o mesmo conjunto de cantos e da mesma família de raios do KyraFiles como base (o KyraFiles original já arredonda 4/8 px): o recorte **acrescenta** o motivo da forma nos cantos e nas abas, sem remover os cantos arredondados do KyraFiles nos demais elementos.
 - Verificação: tabela de captura lado a lado (forma 0 x forma N) da janela inteira; o Alexandre confirma que a estrutura é a mesma e só os contornos diferem.

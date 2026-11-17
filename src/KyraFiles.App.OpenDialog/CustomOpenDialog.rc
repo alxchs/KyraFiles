@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -74,10 +74,10 @@ BEGIN
     BEGIN
         BLOCK "041004B0"
         BEGIN
-            VALUE "CompanyName", "Files Community"
+            VALUE "CompanyName", "KyraFiles"
             VALUE "FileDescription", "CustomOpenDialog"
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "LegalCopyright", "Copyright (c) Files Community"
+            VALUE "LegalCopyright", "Copyright (c) KyraFiles contributors"
             VALUE "InternalName", "CustomOpenDialog.dll"
             VALUE "OriginalFilename", "CustomOpenDialog.dll"
             VALUE "ProductName", "CustomOpenDialog"
@@ -98,7 +98,7 @@ END
 
 IDR_CUSTOMOPENDIALOG    REGISTRY                "CustomOpenDialog.rgs"
 
-IDR_FILESOPENDIALOG     REGISTRY                "KyraFilesOpenDialog.rgs"
+IDR_KYRAFILESOPENDIALOG     REGISTRY                "KyraFilesOpenDialog.rgs"
 
 
 /////////////////////////////////////////////////////////////////////////////

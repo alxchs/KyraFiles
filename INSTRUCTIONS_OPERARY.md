@@ -1,4 +1,4 @@
-# INSTRUCTIONS_OPERARY
+﻿# INSTRUCTIONS_OPERARY
 
 Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Claude na revisão de cada tarefa. Complementa `AGENTS.md`, `MASTER_SPEC.md` e a spec da feature em andamento; não os substitui.
 
@@ -10,17 +10,17 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 - **A mensagem de commit descreve só o que está no diff.** Confira sempre com `git diff --stat` ou `git show --stat` antes de fechar a mensagem do commit.
 - **Itens de "Este Computador" sem letra de unidade (servidor de mídia DLNA, celular MTP) são pastas virtuais do Shell:** enumerar por `Shell.Application.NameSpace(17)` ou `IShellFolder` numa thread STA em segundo plano com timeout (`STATask`); `DriveInfo.GetDrives()` do .NET não os enxerga.
 
-### Testes (`tests/Files.App.Search.Index.Tests`)
+### Testes (`tests/KyraFiles.App.Search.Index.Tests`)
 
 - **`dotnet test` não executa os testes deste projeto** (11/10/2026: "Zero tests ran", código de saída 5, embora a descoberta ache 15). Rode o executável gerado, que usa o Microsoft.Testing.Platform:
-  `tests\Files.App.Search.Index.Tests\bin\x64\Release\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.exe`
+  `tests\KyraFiles.App.Search.Index.Tests\bin\x64\Release\net10.0-windows10.0.26100.0\KyraFiles.App.Search.Index.Tests.exe`
   Use `--list-tests` para listar. A evidência "N/N passou" cita essa saída (`total`, `succeeded`).
 - Nome do teste começa pelo `AC-n` quando cobre um cenário de aceite (ex.: `AC15_BuscaAcao_MatchesExpectedVariants`).
 - MSTest, `[TestClass] public sealed class`, `Assert.*`. Usings globais em `GlobalUsings.cs` do projeto de teste.
 
-### Código da biblioteca de índice (`src/Files.App.Search.Index`)
+### Código da biblioteca de índice (`src/KyraFiles.App.Search.Index`)
 
-- Cabeçalho `// Copyright (c) Files Community. Licensed under the MIT License.`, namespace por arquivo (`namespace X;`), tabs, comentários XML em português.
+- Cabeçalho `// Copyright (c) KyraFiles Community. Licensed under the MIT License.`, namespace por arquivo (`namespace X;`), tabs, comentários XML em português.
 - Caminho quente sem alocação: `ReadOnlySpan<T>`, `ref readonly` sobre arrays de structs, nada de LINQ dentro do laço de consulta.
 - `NameNormalizer.Normalize` (T4): FormD → tira `NonSpacingMark` → minúsculas invariantes → FormC. Limitações conhecidas, aceitas por ora: letras sem decomposição (`ø`, `ł`, `ß`, `æ`) não viram ASCII; marca combinante fora do BMP não é removida.
 - `QueryMatcher` (T4): palavras separadas por espaço = E; termo **sem** curinga é substring; termo **com** `*`/`?` casa o nome **inteiro** (ancorado, como o Everything: `rel*` = começa com "rel"; `*.pdf` = termina em ".pdf"). `?` vale um `char` UTF-16.
@@ -29,10 +29,10 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 - **Lock do índice (`SyncRoot`) em fatias curtas.** Trabalho longo (reconciliação, revarredura) solta o lock a cada ~1.000 pastas. Lock segurado por minutos trava watcher, snapshot e a reconciliação da abertura.
 - **Trabalho de fundo em prioridade baixa e sem tempestade**: thread em `THREAD_MODE_BACKGROUND_BEGIN`; evento repetido (estouro do watcher) só marca "pendente" e um único executor roda depois de um intervalo sem eventos.
 - **Publique cada volume assim que ficar pronto**; nunca espere todos os discos para mostrar o primeiro.
-- **Medição do serviço fora do pacote** usa `%LOCALAPPDATA%\FilesCustom\Index` (não a `LocalCache` do pacote). Para indexar do zero sem apagar o cache real, passe `--cache <pasta temporária>`.
+- **Medição do serviço fora do pacote** usa `%LOCALAPPDATA%\KyraFiles\Index` (não a `LocalCache` do pacote). Para indexar do zero sem apagar o cache real, passe `--cache <pasta temporária>`.
 - Perfil de CPU: `tools/perf/f015_trace_reconcile.ps1` (`dotnet-trace` já instalado). Antes de dizer de onde vem o CPU, rode o perfil.
 
-### UI WinUI 3 (`src/Files.App`)
+### UI WinUI 3 (`src/KyraFiles.App`)
 
 - **`UIElement.Clip` só aceita `RectangleGeometry`** (12/10/2026: `PathGeometry` dá CS0266). Para recorte livre use a camada de Composition: `ElementCompositionPreview.GetElementVisual(el).Clip = compositor.CreateGeometricClip(compositor.CreatePathGeometry(new CompositionPath(CanvasGeometry.CreatePath(new CanvasPathBuilder(null)))))`. Modelo pronto: `Helpers/UI/ShapeGeometryHelper.cs`.
 - Em `CanvasPathBuilder`, arco que contorna a curva para fora num desenho com Y para baixo é `CanvasSweepDirection.Clockwise`; `Counterclockwise` abaula para dentro da forma.
@@ -64,7 +64,7 @@ A F024 terminou com um veredito grande ("WinUI 3 é inviável") sustentado por p
 
 ### Lições da F028/F029 (21/10/2026, Claude)
 
-13. **O exe de teste do Alexandre sai de `dotnet build src/Files.App/Files.App.csproj -c Release -p:Platform=x64` + `.\Open-FilesDev.ps1`.** O `mkfile` compila para `%TEMP%\Compiler` e falha no `Files.App.Server`: não atualiza o `AppX`.
+13. **O exe de teste do Alexandre sai de `dotnet build src/KyraFiles.App/KyraFiles.App.csproj -c Release -p:Platform=x64` + `.\Open-KyraFiles.ps1`.** O `mkfile` compila para `%TEMP%\Compiler` e falha no `KyraFiles.App.Server`: não atualiza o `AppX`.
 14. **Erro de XAML em massa (`WMC0001 Unknown type`, `WMC1509 No LocalAssembly`) costuma ser um erro de C#.** Rode com `-v:minimal` e procure `error CS`.
 15. **Captura de tela por script precisa de `SetProcessDPIAware()`**, senão sai cortada com a escala de 150%. Encaixe a janela na área de trabalho e clique numa linha para o foco estar na lista (`tools/perf/prep_window.ps1`).
 16. **Toda tecla ou clique sintético confere antes a janela em primeiro plano** (`GetForegroundWindow`). Um clique "na lista" caiu num VS Code de outro projeto. Os scripts F025/F028/F029 param se a janela medida sair da frente.
@@ -94,23 +94,23 @@ A F024 terminou com um veredito grande ("WinUI 3 é inviável") sustentado por p
 15. **Teste precisa checar o que o AC diz, não um substituto.** AC-1 pede "as 5 pastas aparecem"; o teste só contou eventos 1026. AC-2 pede "uma janela com 2 pastas"; o CSV diz "4 abas" e ninguém explicou. Meça o que o critério exige (abas, janelas) por UI Automation.
 16. **Um arquivo de resultado por execução**, com data e hora no nome; nunca sobrescreva evidência. Relatório gerado do CSV da mesma execução.
 17. **Não copie arquivo de outra branch para a sua** (o `Send-GuardedInput.ps1` foi duplicado na F035): peça ao Claude para integrar na ordem certa (a `test-input-guard` entra na `main` antes).
-18. **Restaure o ambiente sozinha ao fim:** registro do `FilesDev` (`Remove-AppxPackage -PreserveApplicationData` + `Add-AppxPackage -Register` do layout instalado), feche as instâncias de teste, apague `bin`/`obj` e `%TEMP%\agy`. Em 26/10 o Claude teve de restaurar e fechar um `Files.exe` órfão.
+18. **Restaure o ambiente sozinha ao fim:** registro do `KyraFiles` (`Remove-AppxPackage -PreserveApplicationData` + `Add-AppxPackage -Register` do layout instalado), feche as instâncias de teste, apague `bin`/`obj` e `%TEMP%\agy`. Em 26/10 o Claude teve de restaurar e fechar um `KyraFiles.exe` órfão.
 19. **Cota:** `--print` usa o login da CLI; se der 429, **pare** e escreva no handoff o que ficou pronto; não troque de conta nem insista.
-20. **Build do app depende de dois projetos fora do `Files.slnx` (medido em 26/10/2026).** Antes de `mkfile d src\Files.App\Files.App.csproj`, rode `dotnet restore` de `src\Files.App.Server` e de `src\Files.App.IndexService` com `--artifacts-path` igual ao do `mkfile` (`%TEMP%\Compiler\c\desenv\utils\FilesApp\src\Files.App\<branch-com-hifens>`) e `dotnet build -c Debug -p:Platform=x64` do Server para gerar o .winmd. Sem isso: NETSDK1004. Linha de base: 25 avisos CS0618 em código gerado. Lógica pura vai em `Files.Shared/Helpers` e se testa com `dotnet test tests\Files.App.Search.Index.Tests`.
-21. **Padrão validado na F060 M1-T1 (27/10/2026):** motor puro em `Files.Shared/Helpers` (`SplitEngine`), leitura em blocos de buffer fixo, CRC32 por `System.IO.Hashing.Crc32` (`GetCurrentHash` vem little-endian: inverta para o hexa padrão), manifesto JSON versionado por `JsonSerializerContext`, limpeza das partes no `catch`, temporários do teste em `%TEMP%\agy\<GUID>\...` apagados no `TestCleanup`. Referência de projeto nova no csproj de testes: **só a linha nova**.
-23. **Avise o Alexandre no Telegram quando o trabalho parar esperando ação dele** (regra dura, `~/.dev-method/METODO.md` §17): `avisar --origem "FilesApp / AGY" "o que ele precisa fazer, curto e sem segredo"`. Vale para cota esgotada, bloqueio que você não resolve, decisão que é dele ou fim de lote que depende dele. Não avise por andamento rotineiro. Se o `avisar` falhar, diga no handoff e siga com o que não depende dele.
-22. **Erros achados na revisão da M1-T1:** (a) a edição do `.csproj` pôs BOM e tirou a linha em branco final: confira o diff do csproj e não reescreva o arquivo inteiro; (b) o teste só checava `Crc32` "não vazio": todo hash/CRC precisa de **vetor conhecido** (CRC-32 de `123456789` = `CBF43926`) e de conferência independente por parte; (c) o gate F021 abriu o app instalado: rode só quando a tarefa mexer no app, nunca para lógica pura em `Files.Shared`.
+20. **Build do app depende de dois projetos fora do `KyraFiles.slnx` (medido em 26/10/2026).** Antes de `mkfile d src\KyraFiles.App\KyraFiles.App.csproj`, rode `dotnet restore` de `src\KyraFiles.App.Server` e de `src\KyraFiles.App.IndexService` com `--artifacts-path` igual ao do `mkfile` (`%TEMP%\Compiler\c\desenv\utils\KyraFiles\src\KyraFiles.App\<branch-com-hifens>`) e `dotnet build -c Debug -p:Platform=x64` do Server para gerar o .winmd. Sem isso: NETSDK1004. Linha de base: 25 avisos CS0618 em código gerado. Lógica pura vai em `KyraFiles.Shared/Helpers` e se testa com `dotnet test tests\KyraFiles.App.Search.Index.Tests`.
+21. **Padrão validado na F060 M1-T1 (27/10/2026):** motor puro em `KyraFiles.Shared/Helpers` (`SplitEngine`), leitura em blocos de buffer fixo, CRC32 por `System.IO.Hashing.Crc32` (`GetCurrentHash` vem little-endian: inverta para o hexa padrão), manifesto JSON versionado por `JsonSerializerContext`, limpeza das partes no `catch`, temporários do teste em `%TEMP%\agy\<GUID>\...` apagados no `TestCleanup`. Referência de projeto nova no csproj de testes: **só a linha nova**.
+23. **Avise o Alexandre no Telegram quando o trabalho parar esperando ação dele** (regra dura, `~/.dev-method/METODO.md` §17): `avisar --origem "KyraFiles / AGY" "o que ele precisa fazer, curto e sem segredo"`. Vale para cota esgotada, bloqueio que você não resolve, decisão que é dele ou fim de lote que depende dele. Não avise por andamento rotineiro. Se o `avisar` falhar, diga no handoff e siga com o que não depende dele.
+22. **Erros achados na revisão da M1-T1:** (a) a edição do `.csproj` pôs BOM e tirou a linha em branco final: confira o diff do csproj e não reescreva o arquivo inteiro; (b) o teste só checava `Crc32` "não vazio": todo hash/CRC precisa de **vetor conhecido** (CRC-32 de `123456789` = `CBF43926`) e de conferência independente por parte; (c) o gate F021 abriu o app instalado: rode só quando a tarefa mexer no app, nunca para lógica pura em `KyraFiles.Shared`.
 ### Lições de 1 e 2/11/2026 (Claude): rename para KyraFiles, build, deploy e Git. Erros reais, leia antes de qualquer tarefa
 
-Os nomes de projeto neste arquivo (`Files.App`, `Files.slnx`) são de antes do rename: hoje são `src\KyraFiles.App`, `KyraFiles.slnx` etc.
+Os nomes de projeto neste arquivo (`KyraFiles.App`, `KyraFiles.slnx`) são de antes do rename: hoje são `src\KyraFiles.App`, `KyraFiles.slnx` etc.
 
-24. **Rename não é busca-e-troca.** Depois de renomear projeto, pasta ou assembly, ache **quem consome o nome**: (a) `ms-appx:///<Assembly>/...` em XAML (o `Generic.xaml` dos Controls ficou com `Files.App.Controls` e o app **abria e fechava em 2 s** com `0x802B000A`, `E_XAMLPARSEFAILED`); (b) caminho de executável no código (`IndexServiceProcessManager` procurava `Files.App.IndexService.exe` com o projeto já gerando `KyraFiles.App.IndexService.exe`: a busca indexada não subiria); (c) `Include` de `.winmd`/DLL em `.csproj` (o `AssemblyName` do Server continuou `Files.App.Server`, mas o `Include` foi trocado e o build quebrou); (d) nome de processo em monitor de memória, instalador e scripts; (e) pastas `%LOCALAPPDATA%\Files` no guarda de quedas e no atualizador. Verificação, a rodar **antes** de dizer "concluído": `git grep -n "ms-appx:///Files\|Files\.App\.\(IndexService\|Controls\)" -- src tests installer tools`.
+24. **Rename não é busca-e-troca.** Depois de renomear projeto, pasta ou assembly, ache **quem consome o nome**: (a) `ms-appx:///<Assembly>/...` em XAML (o `Generic.xaml` dos Controls ficou com `KyraFiles.App.Controls` e o app **abria e fechava em 2 s** com `0x802B000A`, `E_XAMLPARSEFAILED`); (b) caminho de executável no código (`IndexServiceProcessManager` procurava `KyraFiles.App.IndexService.exe` com o projeto já gerando `KyraFiles.App.IndexService.exe`: a busca indexada não subiria); (c) `Include` de `.winmd`/DLL em `.csproj` (o `AssemblyName` do Server continuou `KyraFiles.App.Server`, mas o `Include` foi trocado e o build quebrou); (d) nome de processo em monitor de memória, instalador e scripts; (e) pastas `%LOCALAPPDATA%\Files` no guarda de quedas e no atualizador. Verificação, a rodar **antes** de dizer "concluído": `git grep -n "ms-appx:///Files\|Files\.App\.\(IndexService\|Controls\)" -- src tests installer tools`.
 25. **Build com 0 erros não prova rename.** A F084/F085 foi dada como concluída sem abrir o app. Rename só é `CONFIRMED` com o app aberto (no horário de teste de tela, regra §16). Antes disso: `NOT TESTED`, escrito assim no relatório.
 26. **Diagnóstico de "abre e fecha":** `Start-Process kyrafiles.exe -PassThru` e leia `ExitCode` em hexa (`0x802B000A` = XAML); `Get-WinEvent Microsoft-Windows-AppModel-Runtime/Admin` mostra criação e destruição do contêiner; o `debug.log` está em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState`. Ache o erro antes de mexer em código.
-27. **`AssemblyName` que ainda é `Files.*` de propósito:** `Files.App.Server` (o manifesto aponta `Files.App.Server\Files.App.Server.exe`) e `Files.App.BackgroundTasks` (`ActivatableClass`). Mude **assembly, manifesto, `.csproj` e código juntos** (spec F088), nunca só um deles.
-28. **O App precisa do `.winmd` do Server dentro de `src\KyraFiles.App.Server\bin\x64\<Config>\...\win-x64\Files.App.Server.winmd`** (`CsWinRTInputs`). Se apagou `src\*\bin`, rode antes do `mkfile`: `dotnet build src\KyraFiles.App.Server\KyraFiles.App.Server.csproj -c <Config> -p:Platform=x64`. O Server agora está no `KyraFiles.slnx` (o restore da solução o inclui; vale no lugar do passo de restore manual do item 20).
+27. **`AssemblyName` que ainda é `Files.*` de propósito:** `KyraFiles.App.Server` (o manifesto aponta `KyraFiles.App.Server\KyraFiles.App.Server.exe`) e `KyraFiles.App.BackgroundTasks` (`ActivatableClass`). Mude **assembly, manifesto, `.csproj` e código juntos** (spec F088), nunca só um deles.
+28. **O App precisa do `.winmd` do Server dentro de `src\KyraFiles.App.Server\bin\x64\<Config>\...\win-x64\KyraFiles.App.Server.winmd`** (`CsWinRTInputs`). Se apagou `src\*\bin`, rode antes do `mkfile`: `dotnet build src\KyraFiles.App.Server\KyraFiles.App.Server.csproj -c <Config> -p:Platform=x64`. O Server agora está no `KyraFiles.slnx` (o restore da solução o inclui; vale no lugar do passo de restore manual do item 20).
 29. **`mkfile r` não empacota Server nem indexador no layout do app** (o `.csproj` só os copia de `bin` dentro do projeto). Para instalar use `pwsh tools\Deploy-Release.ps1`: ele copia os dois de `%TEMP%\Compiler\...\bin`, apaga restos do nome antigo e inicia o Watchdog. Não copie arquivo na mão.
-30. **Depois do deploy, registre o pacote:** `Add-AppxPackage -Register <pasta>\AppxManifest.xml -ForceApplicationShutdown -ForceUpdateFromAnyVersion`. Manifesto novo sem registro deixa `Executable` e alias antigos (o `Files.exe` não existia mais). Alias atual: `kyrafiles.exe`; a identidade do pacote ainda é `FilesDev` até a F087.
+30. **Depois do deploy, registre o pacote:** `Add-AppxPackage -Register <pasta>\AppxManifest.xml -ForceApplicationShutdown -ForceUpdateFromAnyVersion`. Manifesto novo sem registro deixa `Executable` e alias antigos (o `KyraFiles.exe` não existia mais). Alias atual: `kyrafiles.exe`; a identidade do pacote ainda é `KyraFiles` até a F087.
 31. **Saída do `mkfile` é enorme** (25 avisos `CS0618` de código gerado se repetem 3 vezes). Nunca cole inteira: filtre por `Select-String -Pattern ' error |Warning\(s\)|Error\(s\)|Build succeeded|FAILED'`. Linha de base: 25 avisos `CS0618`, todos em `*.g.cs`, 0 erros.
 32. **Git, uma entrega = um commit.** O `pre-push` recusa em `main`, `master` e `colab` merge commit e mais de 1 commit novo (novo = ainda não está na `main` remota). Nunca `--no-verify`. Force só com autorização literal do Alexandre e `--force-with-lease=<ref>:<sha>`. Não use `git branch -f` na branch em checkout (use `git switch` e `merge --ff-only`). Mensagem de commit com here-string `@'...'@` (um array de linhas vira uma linha só).
 33. **Não deixe trabalho só em branch ou worktree.** Em 2/11/2026 havia 8 worktrees e 14 branches com trabalho que nunca voltou para a `colab` (instalador A3, medições F063/F065), em pastas cujo `.git` apontava para um caminho renomeado. Ao encerrar: devolva na `colab` ou escreva no handoff o hash e o motivo. Antes de apagar branch: `git bundle create <arquivo> --branches` e `git cherry <colab> <branch>`.
@@ -134,10 +134,58 @@ Os nomes de projeto neste arquivo (`Files.App`, `Files.slnx`) são de antes do r
 2. **Você não altera `src/`.** Se achar um bug, registre como `DISCOVERY` no relatório.
 3. Os scripts da F024 estão no git: `git show ecb9c6d29:tools/perf/<nome>`. Restaure com prefixo `f025_` e parâmetro `-Exe`.
 4. Dois builds do app empacotado não convivem registrados ao mesmo tempo: meça um, desregistre, meça o outro e anote a ordem.
-5. Worktree do upstream fica ao lado do repositório (`..\FilesApp-upstream-base`), não em `%TEMP%`.
+5. Worktree do upstream fica ao lado do repositório (`..\KyraFiles-upstream-base`), não em `%TEMP%`.
 6. Relatório em `docs/agents/evidence/F025/relatorio.md`, cada afirmação com estado de evidência e comando. A palavra "inviável" não aparece sem número e trace.
 7. Ao terminar: handoff, `AGENT_CONTEXT.md` atualizado e o Claude revisa antes de qualquer limpeza.
 
 20. **Relatório de situação (regra R13, 26/10/2026):** começo de tarefa lê `docs/agents/SITUACAO.md`; fim de tarefa (ou parada por cota ou orçamento) atualiza o arquivo e escreve no handoff: o que deu certo, o que deu errado e o ponto do projeto, nessa ordem.
 
 21. **Nada é pulado sem prova ou autorização (regra dura, 29/10/2026):** leia `docs/agents/REGRA-NAO-PULAR.md` antes de começar e antes de cada handoff. Todo item pedido é executado e provado, ou avaliado com prova de que não se aplica, ou perguntado ao Alexandre (so a resposta dele libera). Pulo autorizado exige a frase "PULADO COM AUTORIZACAO DO ALEXANDRE em ..." com citacao literal, no handoff, no commit, na nota de liberacao e na spec.
+
+## Protocolo Anti-Reincidência: Purga Total de "Files" (16/11/2026, REGRA DURA)
+
+Origem: a F091 foi declarada "zero resíduos" com um verificador que só olhava `Files.(App|Shared|Core|...)` em `src/`, `tests/` e 2 harnesses, ignorando `.md`. Auditoria do Claude achou 86 linhas `Files.*` e 749 de outras variantes fora disso. Meta nova do Alexandre: **nenhuma sobra, desvinculação completa do KyraFiles.**
+
+### Erros cometidos (não repetir)
+1. **Provou com a própria régua.** O verificador foi escrito pela mesma IA que fez o trabalho, com escopo menor que a afirmação. "Zero" só vale para o que a busca cobre.
+2. **Padrão estreito.** Procurou só `Files.X`; esqueceu `KyraFiles`, `KyraFiles`, `KyraFiles`, `KyraFilesOpenDialog`, "KyraFiles", "KyraFiles Community", URL `kyrafiles`.
+3. **Escopo estreito.** Só `src/tests`; esqueceu `installer/`, `tools/`, `.github/`, `.iss`, `.vcxproj`, `.idl`, `.rgs`, `.xaml`, `.resw`, `.json`, `.yml`, `.csproj`, `.props`, `.slnx`, `.gitignore`, `crowdin.yml`.
+4. **Esqueceu nomes de arquivo e pasta**, e não só conteúdo (`Assets\KyraFilesOpenDialog`, `FilesCustom_*.png`).
+5. **Esqueceu texto visível ao usuário** (runtime, `.resw`, manifesto, instalador, tela Sobre).
+6. **Lista de exceções aberta e sem justificativa.** Exceção vira esconderijo.
+7. **Declarou CONFIRMED sem repetir o comando de ponta a ponta** no estado final da branch.
+8. **Copiou "0 erros / 4 aprovados" de relatório anterior** sem rodar de novo (METODO §7 e disciplina de verificação, item 5).
+
+### Regras
+- **R1. Verificador antes do trabalho.** Primeiro amplie `tools/check-legacy-names.ps1` e rode: ele DEVE falhar com a lista completa atual. Esse é o backlog. Trabalho termina quando sai 0. Commit separado, antes de qualquer renomeação.
+- **R2. Padrão por conteúdo, sem diferenciar maiúscula:** `(?<![A-Za-z0-9])Files(?![A-Za-z0-9]*System)` mais as variantes juntas, em TODOS os arquivos versionados (`git ls-files`), sem `:!docs` e sem `:!*.md`. Palavra comum em inglês ("files", "Files" como "arquivos") não é marca: tratar em lista de **falsos positivos nominal** (arquivo + trecho + motivo), nunca por glob.
+- **R3. Também por nome:** `git ls-files` e as pastas, com o mesmo padrão. Renomear com `git mv`.
+- **R4. Também binário e gerado:** depois do build autorizado, varrer `AppxManifest.xml`, `.exe/.dll` (`FileDescription`, `ProductName`, nome do arquivo), saída do instalador e `package_manifest.json`. Fonte gerada não se edita: corrija o gerador/entrada.
+- **R5. Lista de exceções fechada**, em `tools/legacy-names-allowlist.json` (arquivo, trecho exato, motivo). Só duas categorias aceitas: (a) licença/atribuição exigida; (b) o que o Alexandre decidir manter (ver `DECISIONS.md`). Exceção sem motivo = falha do verificador.
+- **R6. Fatiar a refatoração gigante.** Um pacote por commit coeso, por categoria (ver ordem abaixo); build e verificador no fim de cada pacote, nunca só no final.
+- **R7. Compatibilidade antes de renomear identidade persistente.** Antes de trocar qualquer CLSID, nome de pipe, mutex, chave de registro, AppUserModelID, nome de pacote, protocolo URI, nome de processo ou pasta de dados: registrar em `DECISIONS.md` o que muda e a migração. Nunca trocar GUID por "limpeza".
+- **R8. Prova no estado final, não no meio.** Relatório lista: comando exato, saída literal, commit (`git rev-parse HEAD`), árvore limpa (`git status --short` vazio). Afirmação sem isso é `INFERRED`.
+- **R9. Auditoria independente.** Ao fechar, a AGY entrega o comando de varredura e o Claude o roda com um padrão próprio. Divergência = devolvido.
+- **R10. Aviso de build.** Este é o Heloize-PC: build só com autorização do Alexandre (`<YouNeedDo>`). Sem build, os ACs de binário ficam `NOT TESTED`, nunca `CONFIRMED`.
+- **R11. Resíduo no disco do usuário.** Todo nome antigo purgado do repo precisa de `[InstallDelete]`/limpeza no instalador e de varredura em `%LOCALAPPDATA%`, `%APPDATA%`, `HKCU\Software`, tarefas agendadas e atalhos (regra de contenção de binários).
+
+### Ordem dos pacotes
+1. Verificador ampliado + allowlist vazia (falha esperada) + inventário em `docs/specs/<ID>/inventario.md`.
+2. Nomes de pasta e arquivo (`git mv`) e referências a eles.
+3. Componentes nativos (`OpenDialog`, `SaveDialog`, `Launcher`: `.idl`, `.h`, `.rgs`, `.vcxproj`) e workflows `.github/`.
+4. `installer/` e `tools/` (inclui `tools/installer/Program.cs`, `Create-SelfContained-Release.ps1`, spikes, `perf/`, `_desativados`).
+5. Textos: comentários "KyraFiles: Fxxx" (substituir por "KyraFiles: Fxxx" ou remover), strings de runtime, `.resw`, manifesto, Sobre.
+6. Código de migração de dados legados: aplicar a decisão do Alexandre (manter / manter por N versões / remover).
+7. `.md` e `docs/`: ver decisão sobre histórico.
+8. Relatório final (F091 corrigido) e auditoria do Claude.
+
+### Limite jurídico (não é negociável pela AGY)
+`LICENSE-MIT` exige manter o aviso "Copyright (c) 2018 - present KyraFiles Community" e a permissão; `LICENSE-MPL` vale para os arquivos MPL. Essas atribuições ficam e são a única exceção da categoria (a). Remover o aviso viola a licença.
+
+### Modo acelerado (16/11/2026, Alexandre: app fora de produção; commit 539a85108 mantido na main)
+- O commit `539a85108` fica. A correção segue por cima dele, em commits pequenos (pode ser na `main`, a pedido do Alexandre; registrar no ledger).
+- **Sem usuários legados:** remover o código de migração de dados `Files`/`KyraFiles`/`KyraFiles Community` (`UserSettingsMigrationService`, `LegacyNamespacePrefix`, migração de registro em `LayoutPreferencesDatabase`/`FileTagsDatabase`, `[InstallDelete]` do nome antigo que não tenha mais o que apagar). Ajustar os testes de migração (apagar os que testam só o legado).
+- **`.md` e `docs/`:** substituição mecânica por script versionado (`tools/purge-names.ps1`), com a mesma lista de padrões do verificador, aplicada em lote e conferida por diff por categoria. Renomear com `git mv` os arquivos `*KyraFiles*` de `docs/releases`. Não tocar `LICENSE-MIT`, `LICENSE-MPL`, `.github/NOTICE.md`.
+- **Pacotes 1, 2 e 3 viram um só commit de verificador + inventário;** depois um commit por categoria (nativo/`.github`, `installer`+`tools`, textos/`.resw`, migração, docs). Ainda vale R1 (verificador falhando antes), R8 e R9.
+- **Atenção a identidade persistente (R7) continua:** CLSID/GUID não muda; só o nome simbólico.
+- Build: pedir autorização uma vez ao fim, para o conjunto, em vez de por pacote.

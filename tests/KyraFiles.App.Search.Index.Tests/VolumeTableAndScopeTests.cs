@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Diagnostics;
 using KyraFiles.App.Search.Index.Volumes;
@@ -117,7 +117,7 @@ public sealed class VolumeTableAndScopeTests
 			return;
 		}
 
-		string tempBase = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "FilesApp", "f015", "t6_test");
+		string tempBase = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "KyraFiles", "f015", "t6_test");
 		string realTarget = Path.Combine(tempBase, "alvo");
 		string junctionPath = Path.Combine(tempBase, "link_juncao");
 

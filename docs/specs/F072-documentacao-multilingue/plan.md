@@ -1,4 +1,4 @@
-# F072 — Documentação Local Offline Multilíngue — PLAN
+﻿# F072 — Documentação Local Offline Multilíngue — PLAN
 
 Status: **APROVADO PARA EXECUÇÃO**  
 Metodologia: Spec-Driven Development (`METODO.md` §6)
@@ -7,9 +7,9 @@ Metodologia: Spec-Driven Development (`METODO.md` §6)
 
 ## 1. Arquitetura e Estrutura de Arquivos
 
-### 1.1 Estrutura de Pastas em `src/Files.App/Docs/`
+### 1.1 Estrutura de Pastas em `src/KyraFiles.App/Docs/`
 ```text
-src/Files.App/Docs/
+src/KyraFiles.App/Docs/
 ├── index.html                   (Redirecionador raiz por navigator.language)
 ├── pt-BR/                       (Português do Brasil)
 │   ├── index.html
@@ -56,7 +56,7 @@ src/Files.App/Docs/
   3. `<root>/Docs/pt-BR/<subPath>` (fallback primário local)
   4. `<root>/Docs/en-US/<subPath>` (fallback secundário local)
   5. `<root>/Docs/<subPath>` (legado/raiz)
-  6. Fallback final para web: `https://files.community/docs/<subPath>`
+  6. Fallback final para web: `https://kyrafiles.org/docs/<subPath>`
 
 ### 1.3 Seletor de Idiomas no Menu Lateral dos HTMLs
 Cada arquivo HTML ganha um componente no topo da `<aside>`:
@@ -72,7 +72,7 @@ Cada arquivo HTML ganha um componente no topo da `<aside>`:
 ---
 
 ## 2. Testes de Unidade
-Atualizar `tests/Files.App.Search.Index.Tests/DocumentationHelperTests.cs` para testar:
+Atualizar `tests/KyraFiles.App.Search.Index.Tests/DocumentationHelperTests.cs` para testar:
 - Resolução com cultura `pt-BR` -> abre pasta `pt-BR`
 - Resolução com cultura `en-US` -> abre pasta `en-US`
 - Resolução com cultura `es-ES` -> abre pasta `es-ES`
@@ -83,6 +83,6 @@ Atualizar `tests/Files.App.Search.Index.Tests/DocumentationHelperTests.cs` para 
 
 ## 3. Desempenho e Requisitos F021
 - Todos os arquivos HTML são estáticos, sem JS pesado, sem requisições de rede.
-- Cópia no build com `<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>` em `Files.App.csproj`.
+- Cópia no build com `<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>` em `KyraFiles.App.csproj`.
 - Verificação F021 obrigatória com CPU em repouso < 5% e sem IndexService.
 

@@ -1,4 +1,4 @@
-# Handoff: Consistência do Launcher KyraFiles, Padronização 64-bit e Purga de Nomes Legados
+﻿# Handoff: Consistência do Launcher KyraFiles, Padronização 64-bit e Purga de Nomes Legados
 
 **Data/Hora:** 2026-11-03 08:50 (UTC-3)  
 **Agente:** AGY (executora)  
@@ -11,7 +11,7 @@
 
 Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 
-### Item 1 — Server & BackgroundTasks (`Files.App.*` -> `KyraFiles.App.*`)
+### Item 1 — Server & BackgroundTasks (`KyraFiles.App.*` -> `KyraFiles.App.*`)
 - `<AssemblyName>` e `<RootNamespace>` atualizados para `KyraFiles.App.Server` e `KyraFiles.App.BackgroundTasks`.
 - Namespaces alinhados em `UpdateTask.cs`, `AppInstanceMonitor.cs`, `Helpers.cs` e `Program.cs`.
 - `Package.appxmanifest` atualizado em `EntryPoint`, `ActivatableClassId` e `OutOfProcessServer`.
@@ -19,12 +19,12 @@ Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 - `EcosystemMemoryDiagnostics.cs`, `Program.cs`, scripts de dev e release ajustados para monitorar os novos processos.
 
 ### Item 2 — Padronização 64-bit dos Projetos Nativos C++
-- Removidos projetos legados Win32 (`Files.App.OpenDialog.Win32.vcxproj`, `Files.App.SaveDialog.Win32.vcxproj`).
+- Removidos projetos legados Win32 (`KyraFiles.App.OpenDialog.Win32.vcxproj`, `KyraFiles.App.SaveDialog.Win32.vcxproj`).
 - `tools/Build-Native.ps1` ajustado para compilar exclusivamente em 64-bit (`x64`).
 - Fontes C++ renomeados via `git mv`:
   - `FilesLauncher.cpp` -> `KyraFilesLauncher.cpp`
-  - `FilesOpenDialog.*` -> `KyraFilesOpenDialog.*`
-  - `FilesSaveDialog.*` -> `KyraFilesSaveDialog.*`
+  - `KyraFilesOpenDialog.*` -> `KyraFilesOpenDialog.*`
+  - `KyraFilesSaveDialog.*` -> `KyraFilesSaveDialog.*`
   - `FilesDialogEvents.*` -> `KyraFilesDialogEvents.*`
   - Filtros `.vcxproj.filters` e recursos `.rc` correspondentes devidamente atualizados.
 
@@ -32,8 +32,8 @@ Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 - Confirmado que referências a `FileSystem` (`FileSystemDialog`, `FilesystemOperations`, etc.) são termos de infraestrutura de Sistema Operacional e foram mantidos intactos.
 
 ### Item 4 — Purga de Sobras e Pastas de Build Legadas
-- Purgados todos os artefatos antigos contendo `Files.App.*` em `artifacts/`, `bin/`, `obj/` e `src/KyraFiles.App/Assets/FilesOpenDialog/`.
-- `Assets/FilesOpenDialog/` no build final contém estritamente os binários 64-bit da nova identidade:
+- Purgados todos os artefatos antigos contendo `KyraFiles.App.*` em `artifacts/`, `bin/`, `obj/` e `src/KyraFiles.App/Assets/KyraFilesOpenDialog/`.
+- `Assets/KyraFilesOpenDialog/` no build final contém estritamente os binários 64-bit da nova identidade:
   - `KyraFiles.App.Launcher.exe` (2.700.288 bytes)
   - `KyraFiles.App.OpenDialog64.dll` (496.128 bytes)
   - `KyraFiles.App.SaveDialog64.dll` (986.624 bytes)
@@ -50,7 +50,7 @@ Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 Listas geradas e comparadas em `scratch/`:
 - **Total de arquivos antes:** 10.852
 - **Total de arquivos depois:** 7.749 (redução de resíduos e pastas intermediárias)
-- **Arquivos com nome velho (`\Files.App.`, `\FilesLauncher`, `files-custom.html`):**
+- **Arquivos com nome velho (`\KyraFiles.App.`, `\FilesLauncher`, `files-custom.html`):**
   - **Antes:** 109 arquivos
   - **Depois:** **0 arquivos** (100% dos nomes antigos purgados do repositório e dos binários)
 
@@ -65,7 +65,7 @@ Listas geradas e comparadas em `scratch/`:
 3. **Testes Unitários (`tests/KyraFiles.App.Search.Index.Tests/KyraFiles.App.Search.Index.Tests.csproj`):**
    - Execução: 194 testes no total (193 aprovados, 0 falhas, 1 pulado documentado).
 4. **Contenção de Recursos:**
-   - Nenhum processo `Files.App.IndexService` ativo.
+   - Nenhum processo `KyraFiles.App.IndexService` ativo.
 
 ---
 

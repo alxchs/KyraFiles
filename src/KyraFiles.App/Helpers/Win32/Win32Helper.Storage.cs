@@ -1,4 +1,4 @@
-// Copyright (c) 2024 Files Community
+﻿// Copyright (c) 2024 KyraFiles Community
 // Licensed under the MIT License. See the LICENSE.
 
 using KyraFiles.Shared.Helpers;
@@ -732,7 +732,7 @@ namespace KyraFiles.App.Helpers
 
 		public static unsafe void OpenFolderInExistingShellWindow(string folderPath)
 		{
-			// Files Custom: Files opens Explorer on purpose here; do not take the window back (F012 AC-12)
+			// KyraFiles: Files opens Explorer on purpose here; do not take the window back (F012 AC-12)
 			ExplorerWindowRedirector.SuppressFor(TimeSpan.FromSeconds(10));
 
 			if (TryOpenFolderInExistingShellWindow(folderPath))

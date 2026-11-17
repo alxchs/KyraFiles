@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="KyraFiles.App.UserControls.NavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -132,7 +132,7 @@
 						<MenuFlyout.MenuFlyoutPresenterStyle>
 							<Style TargetType="MenuFlyoutPresenter">
 								<Setter Property="MaxHeight" Value="400" />
-								<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+								<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/13078  -->
 								<Setter Target="HighContrastAdjustment" Value="None" />
 							</Style>
 						</MenuFlyout.MenuFlyoutPresenterStyle>
@@ -189,7 +189,7 @@
 						<MenuFlyout.MenuFlyoutPresenterStyle>
 							<Style TargetType="MenuFlyoutPresenter">
 								<Setter Property="MaxHeight" Value="400" />
-								<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+								<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/13078  -->
 								<Setter Target="HighContrastAdjustment" Value="None" />
 							</Style>
 						</MenuFlyout.MenuFlyoutPresenterStyle>
@@ -487,7 +487,7 @@
 
 			</Button>
 
-			<!--  Update The Files App Button When An Update Available  -->
+			<!--  Update The KyraFiles Button When An Update Available  -->
 			<Button
 				x:Name="UpdateAppButton"
 				HorizontalContentAlignment="Stretch"

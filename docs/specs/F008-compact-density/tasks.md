@@ -1,7 +1,7 @@
-# Tarefas: F008 Densidade Ultra-Compacta
+﻿# Tarefas: F008 Densidade Ultra-Compacta
 
 - [x] **T1: Modelagem e Configurações**
-  - Criar enum `AppDensityKind` em `src/Files.App/Data/Enums/AppDensityKind.cs`.
+  - Criar enum `AppDensityKind` em `src/KyraFiles.App/Data/Enums/AppDensityKind.cs`.
   - Adicionar propriedade `AppDensity` em `IAppearanceSettingsService.cs` e `AppearanceSettingsService.cs`.
 
 - [x] **T2: Ajustes Dinâmicos da Barra Lateral (Sidebar)**
@@ -20,7 +20,7 @@
 
 - [x] **T5: Validação e Build Oficial**
   - Compilar em Release x64 com 0 Warnings e 0 Errors.
-  - Registrar pacote via `Open-FilesDev.ps1 -Configuration Release -NoLaunch`.
+  - Registrar pacote via `Open-KyraFiles.ps1 -Configuration Release -NoLaunch`.
 
 - [x] **T6: Evidências e Fechamento**
   - Documentar evidências visuais e comportamentais.

@@ -1,4 +1,4 @@
-# F014 — Sistema de Ajuda (Help) Completo e Contextual — TASKS
+﻿# F014 — Sistema de Ajuda (Help) Completo e Contextual — TASKS
 
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Critério: cada tarefa é atômica, executável e verificável por compilação/teste.
@@ -8,8 +8,8 @@ Critério: cada tarefa é atômica, executável e verificável por compilação/
 ## Tarefas de Implementação
 
 - [x] **T1 — Modelos e Catálogo de Dados de Ajuda:**
-  - Criar `HelpContextId`, `HelpBadgeType`, `HelpShortcut`, `HelpTopic` em `src/Files.App/Data/Help/` ou `src/Files.App/Services/Help/`.
-  - Escrever o repositório inicial de tópicos com badges editoriais explícitas para os diferenciais do Files Custom vs Windows Explorer e inspirações no OneCommander.
+  - Criar `HelpContextId`, `HelpBadgeType`, `HelpShortcut`, `HelpTopic` em `src/KyraFiles.App/Data/Help/` ou `src/KyraFiles.App/Services/Help/`.
+  - Escrever o repositório inicial de tópicos com badges editoriais explícitas para os diferenciais do KyraFiles vs Windows Explorer e inspirações no OneCommander.
 
 - [x] **T2 — Serviço Central de Ajuda (`IHelpService` & `HelpService`):**
   - Implementar interface e serviço com suporte a tópicos, busca textual, chaveamento de contexto e notificação de eventos.
@@ -29,6 +29,6 @@ Critério: cada tarefa é atômica, executável e verificável por compilação/
 
 - [x] **T6 — Validação, Compilação e Evidências:**
   - Compilar solução via `mkfile` em Debug e Release x64 com 0 warnings e 0 errors.
-  - Abrir app via `Open-FilesDev.ps1`, testar abertura geral por F1, testar abertura contextual em modo colunas e captura de evidências físicas (armazenadas em `docs/agents/evidence/f014/`).
+  - Abrir app via `Open-KyraFiles.ps1`, testar abertura geral por F1, testar abertura contextual em modo colunas e captura de evidências físicas (armazenadas em `docs/agents/evidence/f014/`).
   - Atualizar `AGENT_CONTEXT.md` e `STATUS.md`.
 

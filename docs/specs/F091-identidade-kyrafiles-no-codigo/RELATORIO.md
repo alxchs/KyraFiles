@@ -1,9 +1,9 @@
-# Relatório de Conclusão — F091: Identidade KyraFiles de Ponta a Ponta no Código e Migração Transparente
+﻿# Relatório de Conclusão — F091: Identidade KyraFiles de Ponta a Ponta no Código e Migração Transparente
 
 **Data:** 14/11/2026  
 **Responsável:** AGY  
 **Branch:** `feature/f091-identidade-e-migracao-kyrafiles`  
-**Escopo:** Item 1 da priorização do Alexandre (substituição integral de `Files.*` / `FilesCustom` por `KyraFiles`, preservando 100% de configurações, registros e dados de quem já usa o app).
+**Escopo:** Item 1 da priorização do Alexandre (substituição integral de `Files.*` / `KyraFiles` por `KyraFiles`, preservando 100% de configurações, registros e dados de quem já usa o app).
 
 ---
 
@@ -15,14 +15,14 @@
    - XAML atualizados (`x:Class="KyraFiles.App..."`, `using:KyraFiles.App...`).
 
 2. **Migração Transparente e Sem Perda de Dados (Requisito Crítico do Alexandre):**
-   - **Abas salvas (`TabBarItemParameter.cs`):** Adicionado suporte a `LegacyNamespacePrefix` (`Files.App.`). Abas persistidas em sessões anteriores sob o namespace antigo são convertidas transparentemente para `KyraFiles.App.Views.*` na desserialização, evitando queda no modo padrão.
-   - **Configurações em disco (`UserSettingsMigrationService.cs`):** O serviço descobre automaticamente dados em `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\FilesCustom\settings`, `%LOCALAPPDATA%\Files\settings` e pacotes `%LOCALAPPDATA%\Packages\FilesDev_*\LocalState\settings`, migrando-os de forma não-destrutiva sem sobrescrever preferências existentes.
-   - **Preferências de Layout no Registro (`LayoutPreferencesDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\LayoutPreferences`. Caso ainda não exista, copia recursivamente toda a árvore legada de `Software\Files Community\{Package.Current.Id.Name}\v1\LayoutPreferences` (e variantes `FilesDev`, `FilesCustom`).
-   - **Etiquetas de Arquivos no Registro (`FileTagsDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags` com migração recursiva automática de dados legados do Files Community.
+   - **Abas salvas (`TabBarItemParameter.cs`):** Adicionado suporte a `LegacyNamespacePrefix` (`KyraFiles.App.`). Abas persistidas em sessões anteriores sob o namespace antigo são convertidas transparentemente para `KyraFiles.App.Views.*` na desserialização, evitando queda no modo padrão.
+   - **Configurações em disco (`UserSettingsMigrationService.cs`):** O serviço descobre automaticamente dados em `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\Files\settings` e pacotes `%LOCALAPPDATA%\Packages\FilesDev_*\LocalState\settings`, migrando-os de forma não-destrutiva sem sobrescrever preferências existentes.
+   - **Preferências de Layout no Registro (`LayoutPreferencesDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\LayoutPreferences`. Caso ainda não exista, copia recursivamente toda a árvore legada de `Software\KyraFiles Community\{Package.Current.Id.Name}\v1\LayoutPreferences` (e variantes `KyraFiles`, `KyraFiles`).
+   - **Etiquetas de Arquivos no Registro (`FileTagsDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags` com migração recursiva automática de dados legados do KyraFiles Community.
 
 3. **Scripts de Build e Deploy Operacionais:**
    - `tools/Deploy-Release.ps1`: Destino canônico atualizado para `%LOCALAPPDATA%\Programs\KyraFiles`.
-   - `installer/KyraFilesSetup.iss`: Diretiva `[InstallDelete]` configurada para purgar vestígios de `%LOCALAPPDATA%\Programs\FilesCustom` de forma limpa.
+   - `installer/KyraFilesSetup.iss`: Diretiva `[InstallDelete]` configurada para purgar vestígios de `%LOCALAPPDATA%\Programs\KyraFiles` de forma limpa.
    - `tools/check-legacy-names.ps1`: Verificador automático validado (sai 0, sem resíduos de `Files.*` fora das exceções de limpeza e compatibilidade).
 
 ---

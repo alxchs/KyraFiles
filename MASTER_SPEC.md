@@ -1,21 +1,21 @@
-# Files Custom — Especificação de Desenvolvimento
-## Aplicativo derivado do Files Community com melhorias de UX inspiradas em uso observável do OneCommander
+﻿# KyraFiles — Especificação de Desenvolvimento
+## Aplicativo derivado do KyraFiles Community com melhorias de UX inspiradas em uso observável do OneCommander
 
 **Status:** Documento-base de desenvolvimento  
-**Objetivo:** servir como `MASTER_SPEC.md` para Claude, Codex e agentes de implementação/teste no desenvolvimento de uma versão customizada do Files Community.
+**Objetivo:** servir como `MASTER_SPEC.md` para Claude, Codex e agentes de implementação/teste no desenvolvimento de uma versão customizada do KyraFiles Community.
 
 ---
 
 # 1. Visão do projeto
 
-Criar uma versão personalizada do **Files Community** para Windows, preservando sua base de file manager moderna, rápida e integrada ao Windows, mas corrigindo pontos de experiência de usuário que hoje incomodam o usuário no OneCommander.
+Criar uma versão personalizada do **KyraFiles Community** para Windows, preservando sua base de file manager moderna, rápida e integrada ao Windows, mas corrigindo pontos de experiência de usuário que hoje incomodam o usuário no OneCommander.
 
 O produto não deve ser um clone do OneCommander.
 
 A estratégia é:
 
 ```text
-Files Community
+KyraFiles Community
     +
 customizações de UX e produtividade
     +
@@ -23,10 +23,10 @@ melhorias próprias de busca
     +
 integração com ferramentas especializadas quando fizer sentido
     =
-Files Custom
+KyraFiles
 ```
 
-O Files Community é um projeto open source e seu repositório público contém, entre outros itens, `AGENTS.md`, `CLAUDE.md`, projetos em `src`, testes em `tests` e arquivos de licença MIT e MPL-2.0. A estrutura atual também suporta builds para x86, x64 e ARM64. [Referências oficiais: GitHub Files Community e projeto Files.App]
+O KyraFiles Community é um projeto open source e seu repositório público contém, entre outros itens, `AGENTS.md`, `CLAUDE.md`, projetos em `src`, testes em `tests` e arquivos de licença MIT e MPL-2.0. A estrutura atual também suporta builds para x86, x64 e ARM64. [Referências oficiais: GitHub KyraFiles Community e projeto KyraFiles]
 
 > **Regra:** antes de assumir detalhes atuais do projeto, os agentes devem consultar o código e a documentação existentes no checkout local.
 
@@ -34,7 +34,7 @@ O Files Community é um projeto open source e seu repositório público contém,
 
 # 2. Objetivo de produto
 
-O Files Custom deve buscar a seguinte combinação:
+O KyraFiles deve buscar a seguinte combinação:
 
 - aparência moderna;
 - fluidez;
@@ -50,7 +50,7 @@ O Files Custom deve buscar a seguinte combinação:
 - busca rápida e competente;
 - integração natural com o Windows;
 - manutenção simples;
-- capacidade de acompanhar o upstream do Files.
+- capacidade de acompanhar o upstream do KyraFiles.
 
 O princípio central é:
 
@@ -108,7 +108,7 @@ As melhorias prioritárias surgem destes problemas observados durante o uso do O
 6. A busca do OneCommander é fraca quando comparada a ferramentas especializadas como Everything e Agent Ransack.
 7. Apesar dessas limitações, a combinação de aparência, leveza, organização, abas e produtividade do OneCommander continua sendo uma referência importante.
 
-O objetivo do Files Custom é resolver esses pontos mantendo suas qualidades e evitando introduzir complexidade desnecessária.
+O objetivo do KyraFiles é resolver esses pontos mantendo suas qualidades e evitando introduzir complexidade desnecessária.
 
 ---
 
@@ -175,7 +175,7 @@ Testar também:
 
 A experiência deve tornar impossível ou, no mínimo, altamente improvável alterar a extensão por acidente durante uma simples renomeação.
 
-A solução deve utilizar as abstrações existentes do Files sempre que possível e não reescrever o sistema de rename inteiro sem necessidade.
+A solução deve utilizar as abstrações existentes do KyraFiles sempre que possível e não reescrever o sistema de rename inteiro sem necessidade.
 
 ---
 
@@ -291,7 +291,7 @@ Falta de uma barra de menus superior com comandos facilmente descobertos.
 
 ### Objetivo
 
-Criar uma opção de menu tradicional, compatível com a linguagem visual do Files, sem abandonar a interface moderna.
+Criar uma opção de menu tradicional, compatível com a linguagem visual do KyraFiles, sem abandonar a interface moderna.
 
 ### Estrutura inicial sugerida
 
@@ -304,7 +304,7 @@ Tools
 Help
 ```
 
-A lista final deve ser determinada após análise do conjunto real de comandos do Files.
+A lista final deve ser determinada após análise do conjunto real de comandos do KyraFiles.
 
 ### Requisitos
 
@@ -323,7 +323,7 @@ Cada menu deve:
 
 Não copiar visualmente o OneCommander.
 
-Usar o conceito de descoberta e organização de comandos, adaptando-o ao design do Files.
+Usar o conceito de descoberta e organização de comandos, adaptando-o ao design do KyraFiles.
 
 ---
 
@@ -355,7 +355,7 @@ Toggle Details Pane
 Toggle Info Pane
 ```
 
-Os nomes finais devem respeitar o vocabulário utilizado pelo Files.
+Os nomes finais devem respeitar o vocabulário utilizado pelo KyraFiles.
 
 ### Critério de aceitação
 
@@ -371,7 +371,7 @@ Busca é um dos pontos em que o OneCommander é percebido como inferior a ferram
 
 ### Estratégia
 
-Não assumir que o melhor caminho seja simplesmente reescrever a busca nativa do Files.
+Não assumir que o melhor caminho seja simplesmente reescrever a busca nativa do KyraFiles.
 
 Primeiro investigar:
 
@@ -514,10 +514,10 @@ upstream Files
       ↓
 fork
       ↓
-Files Custom
+KyraFiles
 ```
 
-Evitar alterações que dificultem futuras atualizações do Files.
+Evitar alterações que dificultem futuras atualizações do KyraFiles.
 
 Quando possível:
 
@@ -679,7 +679,7 @@ Cada documento:
 
 ## Comportamentos observados
 
-## Possíveis melhorias no Files
+## Possíveis melhorias no KyraFiles
 
 ## Comportamentos que não devem ser reproduzidos
 
@@ -704,7 +704,7 @@ Foi interpretado, mas não confirmado.
 
 ## PROPOSED REQUIREMENT
 
-É o comportamento que desejamos no Files.
+É o comportamento que desejamos no KyraFiles.
 
 Exemplo:
 
@@ -861,7 +861,7 @@ outros projetos = WAITING
 
 Os agentes devem trabalhar em tarefas fechadas e transferíveis.
 
-Para este projeto, isso significa que o Files Custom não deve depender da presença contínua do Claude em cada minuto de execução.
+Para este projeto, isso significa que o KyraFiles não deve depender da presença contínua do Claude em cada minuto de execução.
 
 ---
 
@@ -1073,12 +1073,12 @@ A versão customizada deve ser identificável como derivada/customizada.
 Exemplo conceitual:
 
 ```text
-Files Custom
+KyraFiles
 version:
   upstream-version + custom revision
 ```
 
-A estratégia exata de versionamento deve ser definida depois de analisar como o Files atualmente versiona, empacota e publica builds.
+A estratégia exata de versionamento deve ser definida depois de analisar como o KyraFiles atualmente versiona, empacota e publica builds.
 
 Antes de distribuir internamente:
 
@@ -1092,13 +1092,13 @@ Antes de distribuir internamente:
 
 # 35. Licenciamento
 
-O repositório do Files possui arquivos de licença MIT e MPL-2.0.
+O repositório do KyraFiles possui arquivos de licença MIT e MPL-2.0.
 
 Isso significa que o fork deve respeitar as licenças aplicáveis ao código e às dependências utilizadas.
 
 Antes de uma distribuição corporativa ou pública, realizar uma revisão de:
 
-- licença do Files;
+- licença do KyraFiles;
 - licença de cada componente utilizado;
 - dependências NuGet;
 - componentes do Windows App SDK;
@@ -1112,7 +1112,7 @@ A distribuição não deve ser tratada como "simplesmente MIT" sem verificar qua
 # 36. Estrutura de diretórios sugerida
 
 ```text
-FilesCustom/
+KyraFiles/
 │
 ├── MASTER_SPEC.md
 ├── AGENT_CONTEXT.md
@@ -1178,7 +1178,7 @@ direto ao mecanismo externo.
 
 ## Files original behavior
 
-## Desired Files Custom behavior
+## Desired KyraFiles behavior
 
 ## Architectural analysis
 
@@ -1211,7 +1211,7 @@ direto ao mecanismo externo.
 
 Use este bloco como instrução inicial para qualquer agente que trabalhar no projeto:
 
-> Você está trabalhando no Files Custom, uma versão derivada do Files Community.
+> Você está trabalhando no KyraFiles, uma versão derivada do KyraFiles Community.
 >
 > Leia `MASTER_SPEC.md`, `AGENT_CONTEXT.md` e os documentos relevantes antes de agir.
 >
@@ -1271,13 +1271,13 @@ Quando a tarefa for descobrir comportamento:
 >
 > Não implemente nada.
 >
-> Produza a documentação antes de qualquer alteração no Files.
+> Produza a documentação antes de qualquer alteração no KyraFiles.
 
 ---
 
 # 41. Prompt de análise arquitetural
 
-> Analise somente o Files Custom.
+> Analise somente o KyraFiles.
 >
 > Para a feature especificada:
 > - encontre View;
@@ -1365,7 +1365,7 @@ Deve ser:
 
 O OneCommander serve como referência de boas ideias de UX.
 
-O Files fornece a base aberta, a integração e a arquitetura sobre a qual essas melhorias podem ser construídas.
+o KyraFiles fornece a base aberta, a integração e a arquitetura sobre a qual essas melhorias podem ser construídas.
 
 O resultado final deve ser um aplicativo próprio, sustentável e tecnicamente bem estruturado.
 
@@ -1373,11 +1373,11 @@ O resultado final deve ser um aplicativo próprio, sustentável e tecnicamente b
 
 # 45. Referências
 
-- Files Community — repositório oficial:  
-  https://github.com/files-community/Files
+- KyraFiles Community — repositório oficial:  
+  https://github.com/alxchs/KyraFiles
 
-- Files Community — documentação oficial:  
-  https://files.community/docs/
+- KyraFiles Community — documentação oficial:  
+  https://kyrafiles.org/docs/
 
 - OneCommander — termos e licença:  
   https://www.onecommander.com/terms
@@ -1386,14 +1386,14 @@ O resultado final deve ser um aplicativo próprio, sustentável e tecnicamente b
 
 # 46. Requisitos adicionais: configurações e busca (Alexandre, 03/10/2026)
 
-Acrescentado por pedido do Alexandre, registrado em `DECISIONS.md` (D-009). O §33 diz "criar configuração só com razão legítima": estas quatro **têm** razão legítima porque foram pedidas expressamente. Cada uma vira feature com brief em `docs/agents/tasks/`. Itens de configuração entram na tela de Settings existente, com strings localizáveis, e **o padrão não muda o comportamento atual do Files** (quem não mexe vê o mesmo app).
+Acrescentado por pedido do Alexandre, registrado em `DECISIONS.md` (D-009). O §33 diz "criar configuração só com razão legítima": estas quatro **têm** razão legítima porque foram pedidas expressamente. Cada uma vira feature com brief em `docs/agents/tasks/`. Itens de configuração entram na tela de Settings existente, com strings localizáveis, e **o padrão não muda o comportamento atual do KyraFiles** (quem não mexe vê o mesmo app).
 
 ## F008 — Modo compacto (menor entrelinhamento)
 
 Objetivo: reduzir a altura das linhas e o espaçamento vertical para caber mais itens na tela.
 
 - Opção de configuração de densidade que valha para a **lista de arquivos** (Details, List, Columns, Grid onde fizer sentido) e para as **áreas fixas** (barra lateral, abas, barra de ferramentas, barra de status).
-- O Files já tem tamanhos por layout (`DetailsViewSizeKind.Compact` = 28 px de linha no Details, o menor hoje). O requisito é ir **além** do Compact atual (linha mais baixa, espaçamento interno menor) e aplicar a densidade também às áreas fixas, que hoje não têm opção. O upstream tem uma branch de trabalho de densidade da barra lateral (`ya/CompactSpacing`); ler antes de implementar e preferir alinhar com ela para reduzir conflito futuro (§13).
+- o KyraFiles já tem tamanhos por layout (`DetailsViewSizeKind.Compact` = 28 px de linha no Details, o menor hoje). O requisito é ir **além** do Compact atual (linha mais baixa, espaçamento interno menor) e aplicar a densidade também às áreas fixas, que hoje não têm opção. O upstream tem uma branch de trabalho de densidade da barra lateral (`ya/CompactSpacing`); ler antes de implementar e preferir alinhar com ela para reduzir conflito futuro (§13).
 - Critério: legibilidade preservada (fonte e ícone proporcionais), alvo de clique mínimo documentado, DPI 100/150%, acessibilidade (§32), sem corte de texto. Medir quantas linhas cabem antes/depois na mesma janela.
 
 ## F009 — Fonte das áreas fixas separada da fonte dos resultados
@@ -1406,7 +1406,7 @@ Objetivo: poder escolher uma fonte (família e tamanho) para as **áreas fixas**
 
 ## F010 — Todas as colunas do Windows Explorer
 
-Objetivo: o usuário poder incluir no layout Details **qualquer coluna que o Windows Explorer oferece** (a lista "More..." do Explorer: Autor, Álbum, Dimensões, Duração, Taxa de bits, Data de captura, Câmera, Marca, e as centenas de propriedades do Windows Property System), além das colunas atuais do Files.
+Objetivo: o usuário poder incluir no layout Details **qualquer coluna que o Windows Explorer oferece** (a lista "More..." do Explorer: Autor, Álbum, Dimensões, Duração, Taxa de bits, Data de captura, Câmera, Marca, e as centenas de propriedades do Windows Property System), além das colunas atuais do KyraFiles.
 
 - Fonte dos dados: o Property System do Windows (propriedades `System.*` e as de formato). Enumerar as propriedades visualizáveis (`PSEnumeratePropertyDescriptions`) e ler o valor de cada item (`IPropertyStore`/`IShellItem2`) pelo CsWin32, sem P/Invoke ad hoc (AGENTS.md). **Validar na investigação** que isso reproduz a lista do Explorer; se não, documentar a diferença.
 - Interface: seletor de colunas (como o "More..." do Explorer) com busca e agrupamento; as escolhas persistem por pasta/tipo de pasta como já ocorre com as colunas atuais.
@@ -1415,7 +1415,7 @@ Objetivo: o usuário poder incluir no layout Details **qualquer coluna que o Win
 
 ## F011 — Motor de busca escolhido pelo usuário no F3 (e Ctrl+F)
 
-Objetivo: o atalho de busca (hoje `F3` e `Ctrl+F` ligados ao `SearchAction`) usar o motor que o usuário escolher nas configurações: **Busca nativa do Files**, **Agent Ransack** ou **Everything**.
+Objetivo: o atalho de busca (hoje `F3` e `Ctrl+F` ligados ao `SearchAction`) usar o motor que o usuário escolher nas configurações: **Busca nativa do KyraFiles**, **Agent Ransack** ou **Everything**.
 
 - **Sem abrir a tela do outro programa.** Os resultados voltam para a lista do próprio Files. Usar o motor deles em segundo plano:
   - Everything: pelo IPC/SDK oficial (o Everything 1.4.1.1032 já está instalado e em execução nesta máquina, OBSERVED). Verificar se precisa do `Everything64.dll` do SDK (licença MIT, redistribuível) ou implementar o protocolo de mensagens via CsWin32; avaliar o que é compatível com NativeAOT.

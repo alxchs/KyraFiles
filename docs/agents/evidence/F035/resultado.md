@@ -1,7 +1,7 @@
-# Evidencia F035 T3 — Validacao de Aceite (AC-1, AC-2, AC-3, AC-5)
+﻿# Evidencia F035 T3 — Validacao de Aceite (AC-1, AC-2, AC-3, AC-5)
 
 - **Data/Hora:** 2026-10-26 00:29:19
-- **Ambiente:** FilesDev (Release x64) com correcao do SemaphoreFullException
+- **Ambiente:** KyraFiles (Release x64) com correcao do SemaphoreFullException
 - **Resultado Geral:** FALHA
 
 ## Tabela de Resultados por Cenario (gerada a partir de resultado.csv)
@@ -31,8 +31,8 @@
 | AC-1_Rodada_20 | 0 eventos 1026, nenhum crash | 0 eventos 1026 em 189 ms | PASS | LaunchParallel 5 pastas < 1s |
 | AC-1 | 20 rodadas de 5 disparos em < 1s na principal estacionada sem nenhum crash (0 eventos 1026) | 20/20 rodadas passaram com 0 eventos 1026 | PASS | LaunchParallel 5 pastas em 20 rodadas com principal estacionada |
 | AC-2 | 1 janela aberta com 2 pastas abertas, 0 eventos 1026 | Janela ativa, 4 abas, 0 eventos 1026 | PASS | LaunchParallel 2 pastas com Files fechado |
-| AC-3 | Dialogo roda em processo proprio isolado, nao redireciona para principal, 0 eventos 1026 | Processo de dialogo isolado: True, 0 eventos 1026 | PASS | files-dev.exe -outputpath <arquivo> |
-| AC-5 | Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026 | Janela visivel: False, 0 eventos 1026 | FAIL | files-dev.exe C:\Windows com principal estacionada |
+| AC-3 | Dialogo roda em processo proprio isolado, nao redireciona para principal, 0 eventos 1026 | Processo de dialogo isolado: True, 0 eventos 1026 | PASS | kyrafiles.exe -outputpath <arquivo> |
+| AC-5 | Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026 | Janela visivel: False, 0 eventos 1026 | FAIL | kyrafiles.exe C:\Windows com principal estacionada |
 
 ## Resumo dos Cenarios
 

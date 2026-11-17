@@ -1,4 +1,4 @@
-# Medicao Tecnica: Entrega de Entrada via PostMessage
+﻿# Medicao Tecnica: Entrega de Entrada via PostMessage
 
 **Data:** 2026-10-25 10:47:49  
 **Status:** MEDICAO REALIZADA (APENAS MEDICAO, SEM ADOTAR)  
@@ -21,7 +21,7 @@ Esta medicao atende a solicitacao de revisao (c): registrar em docs/agents/evide
    - WM_CHAR direto via PostMessage e **ACEITO**, inserindo o caractere no controle mesmo sem foco do sistema.
    - WM_KEYDOWN/WM_KEYUP direto via PostMessage e **ACEITO** pelo controle nativo Edit (produzindo o texto 'aa' nos testes), pois a implementacao interna de WndProc do controle Edit/TextBox processa as mensagens de tecla diretamente e insere os caracteres correspondentes na caixa, mesmo sem passagem previa por TranslateMessage no loop da aplicacao.
 
-2. **Aplicabilidade ao WinUI 3 / Files Custom:**
+2. **Aplicabilidade ao WinUI 3 / KyraFiles:**
    - O WinUI 3 utiliza a arvore XAML com InputKeyboardSource e seu proprio despachante de foco (FocusManager).
    - Elementos XAML como TextBox, AutoSuggestBox e itens de grid nao possuem HWNDs Win32 filhos individuais -- compartilham o HWND de nivel superior da janela.
    - Portanto, PostMessage de baixo nivel nao alcanca com precisao nem confiabilidade os controles filhos internos do WinUI 3, alem de nao acionar os manipuladores de eventos de interacao XAML de alto nivel.

@@ -1,4 +1,4 @@
-# F069 — Sair para o Explorer após quedas seguidas — PLAN
+﻿# F069 — Sair para o Explorer após quedas seguidas — PLAN
 
 Status: **APROVADO PARA EXECUÇÃO**  
 Metodologia: Spec-Driven Development (`METODO.md` §6)
@@ -7,7 +7,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6)
 
 ## 1. Arquitetura e Componentes
 
-### 1.1 `CrashGuardService` (`Files.Shared/Helpers/CrashGuardService.cs` e `Files.App/Helpers/Application/CrashGuardService.cs`)
+### 1.1 `CrashGuardService` (`KyraFiles.Shared/Helpers/CrashGuardService.cs` e `KyraFiles.App/Helpers/Application/CrashGuardService.cs`)
 Responsável pelo monitoramento do ciclo de vida, contagem de quedas com janela deslizante de 60 segundos e orquestração de fallback:
 - **Arquivo de Estado:** `%LOCALAPPDATA%\Files\crash_guard.json`.
 - **Arquivo de Log:** `%LOCALAPPDATA%\Files\crash_guard.log`.
@@ -33,18 +33,18 @@ Responsável pelo monitoramento do ciclo de vida, contagem de quedas com janela 
 1. **Startup (`Program.cs`):**
    - Ao iniciar, `CrashGuardService.RecordStart()` registra o início da sessão.
    - Registra manipuladores de `AppDomain.CurrentDomain.UnhandledException` e `TaskScheduler.UnobservedTaskException`.
-   - Verifica `CrashGuardService.ShouldFallbackToExplorer()`. Se for uma chamada de abertura de pasta com fallback ativado, invoca `explorer.exe` no caminho recebido e encerra silenciosamente o processo do Files sem travar o usuário.
+   - Verifica `CrashGuardService.ShouldFallbackToExplorer()`. Se for uma chamada de abertura de pasta com fallback ativado, invoca `explorer.exe` no caminho recebido e encerra silenciosamente o processo do KyraFiles sem travar o usuário.
 2. **Pós-Ativação Estável (`App.xaml.cs` / `MainWindow.xaml.cs`):**
    - Dispara um timer/delay de 10 segundos. Se o app permanecer vivo, chama `CrashGuardService.RecordStableState()`, que limpa a contagem de quedas.
-   - Se `PromptOnNextManualLaunch` estiver ativo, exibe um diálogo não intrusivo informando que o Explorer foi usado anteriormente e que o Files foi restaurado com sucesso.
-3. **Lançador C++ (`src/Files.App.Launcher/FilesLauncher.cpp`):**
+   - Se `PromptOnNextManualLaunch` estiver ativo, exibe um diálogo não intrusivo informando que o Explorer foi usado anteriormente e que o KyraFiles foi restaurado com sucesso.
+3. **Lançador C++ (`src/KyraFiles.App.Launcher/FilesLauncher.cpp`):**
    - Lê o arquivo `crash_guard.json` ao ser acionado. Se `FallbackTriggered` estiver marcado como verdadeiro e houver 2 quedas recentes em 60s, delega diretamente para `RunFileExplorer(openDirectory)`.
 
 ---
 
 ## 2. Estratégia de Testes
 
-Criar `tests/Files.App.Search.Index.Tests/CrashGuardServiceTests.cs`:
+Criar `tests/KyraFiles.App.Search.Index.Tests/CrashGuardServiceTests.cs`:
 - `Test_SingleCrash_DoesNotTriggerFallback`: 1 queda isolada não deve acionar fallback.
 - `Test_TwoCrashesWithin60Seconds_TriggersFallback`: 2 quedas em 30s devem acionar `ShouldFallback = true`.
 - `Test_CrashesOlderThan60Seconds_ArePruned`: quedas de mais de 60s atrás são descartadas.

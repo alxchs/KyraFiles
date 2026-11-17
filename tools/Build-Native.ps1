@@ -1,6 +1,6 @@
-# Compila os projetos C++ do upstream que o `dotnet build` (mkfile) não compila:
-# Files.App.Launcher (gerenciador padrão / Win+E) e as DLLs de diálogo de abrir/salvar.
-# O pós-build de cada projeto copia a saída para src\KyraFiles.App\Assets\FilesOpenDialog,
+﻿# Compila os projetos C++ do upstream que o `dotnet build` (mkfile) não compila:
+# KyraFiles.App.Launcher (gerenciador padrão / Win+E) e as DLLs de diálogo de abrir/salvar.
+# O pós-build de cada projeto copia a saída para src\KyraFiles.App\Assets\KyraFilesOpenDialog,
 # que entra no pacote. Rode antes do mkfile quando esses projetos mudarem ou num clone novo.
 #
 # Uso: pwsh tools\Build-Native.ps1 [-Configuration Release|Debug]
@@ -53,5 +53,5 @@ foreach ($b in $builds) {
     if ($LASTEXITCODE) { throw "Falha ao compilar $($b[0]) [$($b[1])]." }
 }
 
-Get-ChildItem (Join-Path $root 'src\KyraFiles.App\Assets\FilesOpenDialog') |
+Get-ChildItem (Join-Path $root 'src\KyraFiles.App\Assets\KyraFilesOpenDialog') |
     Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize

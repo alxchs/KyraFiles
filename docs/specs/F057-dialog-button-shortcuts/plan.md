@@ -1,10 +1,10 @@
-# F057 — PLAN
+﻿# F057 — PLAN
 
 Status: **APROVADO (Claude, 26/10/2026)**, a pedido do Alexandre ("precisa ser incluída no plan"). Alcance global.
 
 ## 1. Arquitetura atual (lida em 26/10/2026)
 - CONFIRMED: `FilesystemOperationDialog.xaml` é um `ContentDialog` com `PrimaryButtonText`, `SecondaryButtonText`, `CloseButtonText` ligados ao ViewModel e um `CheckBox` `chkPermanentlyDelete`; nenhum `AccessKey` (`git grep AccessKey -- *.xaml` vazio).
-- CONFIRMED: 17 arquivos `src/Files.App/Dialogs/*.xaml` com `<ContentDialog`, todos com `Style="{StaticResource DefaultContentDialogStyle}"` (estilo do WinUI, sem ponto próprio para um `Setter`).
+- CONFIRMED: 17 arquivos `src/KyraFiles.App/Dialogs/*.xaml` com `<ContentDialog`, todos com `Style="{StaticResource DefaultContentDialogStyle}"` (estilo do WinUI, sem ponto próprio para um `Setter`).
 - CONFIRMED: não há ponto único de exibição: `TryShowAsync` em `Helpers/UI/UIHelpers.cs:97` cobre parte; várias caixas chamam `base.ShowAsync()` ou `SetContentDialogRoot(this).ShowAsync()` direto; seis lugares usam `new ContentDialog` e `ShowAsync()` (`LibGit2Service` x2, `StorageNetworkService`, `LibraryManager` x2, `DetailsLayoutPage`).
 - CONFIRMED: os textos dos botões vêm de `Strings.*.GetLocalizedResource()` (OK, Yes, Cancel, Delete...), reaproveitados em muitas caixas.
 
@@ -18,8 +18,8 @@ Descartadas: `AccessKey` nativo (só mostra com Alt e exige achar botões do mod
 ## 3. Mapa requisito → código
 | Requisito | Onde |
 |---|---|
-| FR-001, FR-004 | `src/Files.App/Helpers/UI/DialogShortcuts.cs` |
-| FR-002, FR-003, AC-5 | `src/Files.App/Helpers/UI/DialogAccessKeys.cs` + `tests/Files.App.Search.Index.Tests/DialogAccessKeysTests.cs` (arquivo ligado ao projeto de teste) |
+| FR-001, FR-004 | `src/KyraFiles.App/Helpers/UI/DialogShortcuts.cs` |
+| FR-002, FR-003, AC-5 | `src/KyraFiles.App/Helpers/UI/DialogAccessKeys.cs` + `tests/KyraFiles.App.Search.Index.Tests/DialogAccessKeysTests.cs` (arquivo ligado ao projeto de teste) |
 | AC-7, AC-9 | verificação de foco e `IsEnabled` em `Dialog_PreviewKeyDown` |
 
 ## 4. Mexer e não mexer

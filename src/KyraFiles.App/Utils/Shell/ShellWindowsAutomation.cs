@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
@@ -175,7 +175,7 @@ namespace KyraFiles.App.Utils.Shell
 			}
 
 			/// <summary>
-			/// Files Custom: reads the window handle, the parsing name of the current folder and the selected items (F012 T9).
+			/// KyraFiles: reads the window handle, the parsing name of the current folder and the selected items (F012 T9).
 			/// </summary>
 			public bool TryGetLocation(out nint windowHandle, out string? parsingName, out List<string> selection)
 			{
@@ -265,7 +265,7 @@ namespace KyraFiles.App.Utils.Shell
 			}
 
 			/// <summary>
-			/// Files Custom: reads the window handle and the navigation URL, which Explorer sets before the folder view is ready (F012 T9).
+			/// KyraFiles: reads the window handle and the navigation URL, which Explorer sets before the folder view is ready (F012 T9).
 			/// </summary>
 			public bool TryGetHandleAndUrl(out nint windowHandle, out string? url)
 			{
@@ -301,7 +301,7 @@ namespace KyraFiles.App.Utils.Shell
 			private static partial void SysFreeString(char* value);
 
 			/// <summary>
-			/// Files Custom: asks Explorer to close this window (F012 T9).
+			/// KyraFiles: asks Explorer to close this window (F012 T9).
 			/// </summary>
 			public bool TryQuit()
 			{

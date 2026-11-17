@@ -1,10 +1,10 @@
-# F006 — Busca de alto desempenho (Search Provider)
+﻿# F006 — Busca de alto desempenho (Search Provider)
 
 Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 03/10/2026). É a fase de maior impacto arquitetural (§29): a AGY faz só a fase 1 (medição) até o Claude aprovar o desenho. Branch: `feature/search-provider`.
 
 ## ARQUITETURA ATUAL (lida no código em 03/10/2026; nada executado)
 
-- Motor nativo: `src/Files.App/Utils/Storage/Search/FolderSearch.cs` (`FolderSearch`, propriedades `Query`, `Folder`, `MaxItemCount`, `SearchTick`).
+- Motor nativo: `src/KyraFiles.App/Utils/Storage/Search/FolderSearch.cs` (`FolderSearch`, propriedades `Query`, `Folder`, `MaxItemCount`, `SearchTick`).
   - `SearchAsync(IList<ListedItem>, CancellationToken)` decide por pasta: biblioteca (`AddItemsForLibraryAsync`), `Home` (`AddItemsForHomeAsync`) ou pasta comum (`AddItemsAsync`).
   - Consulta: `AQSQuery` — se começa com `$`, é AQS (Advanced Query Syntax do Windows Search) puro; se tem `:`, usa como está; senão vira `System.FileName:<termo>*`. Há um caminho Win32 (`FindFirstFile`, `SearchWithWin32Async`) para pastas fora do índice / ocultos, e busca por tag (`SearchTagsAsync`, `TagQueryExpression`).
   - Não há regex, filtro de tamanho/data na UI, nem busca por conteúdo própria (só o que o AQS entregar).
@@ -18,13 +18,13 @@ Cumprir §10 "Primeiro investigar: Files Search × Everything × Agent Ransack".
 
 - latência até o 1º resultado e até o fim; consulta por nome, extensão (`*.json`), caminho, wildcard, regex (onde existir), tamanho, data, subpastas, conteúdo (Agent Ransack);
 - custo de indexação / atualização (Everything é instantâneo via NTFS/USN; o índice do Windows Search depende da pasta estar indexada);
-- uso de CPU/memória do Files durante a busca (`tools/perf`).
+- uso de CPU/memória do KyraFiles durante a busca (`tools/perf`).
 Resultados em `docs/test-plans/search-benchmark.md`, cada número `OBSERVED` com o comando. Agent Ransack: só se estiver instalado; senão registrar "não encontrado em <locais pesquisados>" e seguir (nunca "não existe").
 
 ### Fase 2 — Desenho (Claude aprova; AGY propõe em `docs/architecture/search-provider.md`)
 - Interface `ISearchProvider` (nome, disponibilidade, capacidades: regex/conteúdo/tamanho/data, `SearchAsync(SearchRequest, IProgress, CancellationToken)`), com `NativeFilesSearchProvider` (envolve `FolderSearch` sem mudar seu comportamento) e `EverythingSearchProvider` opcional (§10).
 - Everything **nunca obrigatório**: sem ele, a busca nativa segue idêntica e a interface não quebra; indicar qual motor está em uso (rótulo discreto) quando relevante.
-- Integração com Everything: avaliar (a) SDK `Everything64.dll` por IPC, (b) `es.exe`. Critérios: licença/redistribuição (§35), requer o serviço rodando, AOT/trimming do Files (NativeAOT está ligado no upstream: `Enabled NativeAOT`), custo de P/Invoke via CsWin32 (regra do AGENTS.md: sem P/Invoke ad hoc).
+- Integração com Everything: avaliar (a) SDK `Everything64.dll` por IPC, (b) `es.exe`. Critérios: licença/redistribuição (§35), requer o serviço rodando, AOT/trimming do KyraFiles (NativeAOT está ligado no upstream: `Enabled NativeAOT`), custo de P/Invoke via CsWin32 (regra do AGENTS.md: sem P/Invoke ad hoc).
 - Mudança mínima nos 3 pontos de chamada: trocar `new FolderSearch{...}` por uma fábrica de provider; manter `ShellViewModel.SearchAsync` como destino dos resultados.
 - Registrar `DECISIONS.md` D-009 (Context/Problem/Options/Decision/Reason/Trade-offs/Consequences).
 

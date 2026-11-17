@@ -1,4 +1,4 @@
-# Renomeação — OneCommander UX Reference
+﻿# Renomeação — OneCommander UX Reference
 
 Documento de referência de UX do OneCommander elaborado conforme MASTER_SPEC §18 e §19, com base em testes automatizados e observações diretas em `C:\FilesUXLab`.
 Data da observação: 03/10/2026.
@@ -169,9 +169,9 @@ O diagnóstico da queixa histórica do Alexandre ficou 100% evidente nas mediç�
 
 ---
 
-## Possíveis melhorias no Files (PROPOSED REQUIREMENT para F001)
+## Possíveis melhorias no KyraFiles (PROPOSED REQUIREMENT para F001)
 
-Com base no teste do OneCommander e no brief de `F001`, as melhorias a adotar no Files Custom são:
+Com base no teste do OneCommander e no brief de `F001`, as melhorias a adotar no KyraFiles são:
 
 1. **Opção A (Manter campo único no layout, com desbloqueio explícito da extensão):**
    - Ao teclar `F2`, apenas o nome base é selecionado.
@@ -187,7 +187,7 @@ Com base no teste do OneCommander e no brief de `F001`, as melhorias a adotar no
 
 ---
 
-## Comportamentos que NÃO devem ser reproduzidos no Files
+## Comportamentos que NÃO devem ser reproduzidos no KyraFiles
 
 1. **NUNCA reproduzir a falha do `.gitignore`:** Selecionar 0 caracteres deixando o cursor no limbo é inaceitável.
 2. **NUNCA reproduzir o toast *"The file extension is different. Do you want to add the original extension back?"*:** É irritante e desrespeita a intenção consciente do usuário técnico.
@@ -227,5 +227,5 @@ Todas as capturas de tela foram registradas na pasta:
 
 ## Dúvidas
 
-1. **Atalho preferido para o Files Custom:** O `Tab` deve alternar entre Nome <-> Extensão antes de passar para o próximo arquivo, ou `Tab` deve pular de arquivo e uma tecla dedicada (ex.: `Ctrl+E` / `Right Arrow` no final) destravar a extensão?
+1. **Atalho preferido para o KyraFiles:** O `Tab` deve alternar entre Nome <-> Extensão antes de passar para o próximo arquivo, ou `Tab` deve pular de arquivo e uma tecla dedicada (ex.: `Ctrl+E` / `Right Arrow` no final) destravar a extensão?
    - Recomendação para F001: Se houver extensão, `Tab` alterna Nome -> Extensão -> Próximo Arquivo. Isso resolve 100% a queixa do Alexandre sem quebrar o fluxo com uma das mãos no teclado.

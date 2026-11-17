@@ -1,4 +1,4 @@
-# F002 — Tarefas de Investigação e Validação
+﻿# F002 — Tarefas de Investigação e Validação
 
 ## Status: CONCLUÍDO (Investigação e Validação Empírica / Arquitetural)
 
@@ -30,7 +30,7 @@ Branch: `feature/independent-column-resize`
 - [x] Redimensionar a janela não dispara auto-fit indesejado.
 
 ### T5 — Persistência
-- [x] Persistência por pasta: gravada no Registro do Windows em `HKCU\Software\Files Community\<PackageId>\v1\LayoutPreferences\<pasta>` ao soltar o splitter (`GridSplitter_ManipulationCompleted`).
+- [x] Persistência por pasta: gravada no Registro do Windows em `HKCU\Software\KyraFiles Community\<PackageId>\v1\LayoutPreferences\<pasta>` ao soltar o splitter (`GridSplitter_ManipulationCompleted`).
 - [x] Persistência padrão global: item de menu "Definir como padrão" (`SetCurrentColumnsAsDefaultMenuFlyoutItem`) salva as larguras atuais no JSON de configurações de layout do usuário.
 
 ### T6 — Auto-fit por duplo clique e menu
@@ -40,4 +40,4 @@ Branch: `feature/independent-column-resize`
 
 ### T7 — Comparação OneCommander e queixa histórica
 - [x] Comparação documentada em `docs/ux-reference/onecommander/columns.md`.
-- [x] Diagnóstico: O sintoma de "colunas amarradas" decorre de layouts onde a coluna principal usa dimensionamento proporcional (`Star` / `*`), fazendo com que o ajuste de uma coluna reduza a coluna principal. No Files App, todas as colunas já utilizam largura fixa em pixels (`Pixel`), portanto a queixa não procede no código atual.
+- [x] Diagnóstico: O sintoma de "colunas amarradas" decorre de layouts onde a coluna principal usa dimensionamento proporcional (`Star` / `*`), fazendo com que o ajuste de uma coluna reduza a coluna principal. No KyraFiles, todas as colunas já utilizam largura fixa em pixels (`Pixel`), portanto a queixa não procede no código atual.

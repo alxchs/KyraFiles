@@ -1,4 +1,4 @@
-# F036 — Fila de cópias com pausar e retomar — PLAN
+﻿# F036 — Fila de cópias com pausar e retomar — PLAN
 
 Status: APROVADO (Claude, 24/10/2026) **nas fases A e B**; a fase C e a mudança do AC-1 dependem da decisão `D-F036-1` (ver §2). Spec aprovada pelo Alexandre em 24/10/2026. **Execução bloqueada** até o Claude liberar (`docs/agents/ORDEM-RIGIDA-AGY.md`). É a feature de maior risco da Onda 3: mexe no caminho que copia arquivos do usuário.
 
@@ -9,7 +9,7 @@ Status: APROVADO (Claude, 24/10/2026) **nas fases A e B**; a fase C e a mudança
 - **CONFIRMED** `StatusCenterItem` tem `IsCancelable`, `Progress`, `IsSpeedAndProgressAvailable` e o token; **não há** estado "na fila" nem "pausado".
 - **INFERRED** o motor do shell **não expõe pausa** ao aplicativo: a operação roda inteira e só aceita cancelar. T0/T7 confirmam por leitura da interface e por spike.
 - **INFERRED** `CopyFile2` do Windows aceita pausar pelo callback de progresso (`COPYFILE2_PROGRESS_PAUSE`) e retomar com `COPY_FILE_RESUME_FROM_PAUSE`. É conhecimento de documentação **não verificado aqui**: o spike T7 tem de provar, inclusive entre volumes e em rede.
-- **CONFIRMED** o projeto já gera chamadas nativas por CsWin32 (`Files.App.CsWin32/NativeMethods.txt`).
+- **CONFIRMED** o projeto já gera chamadas nativas por CsWin32 (`KyraFiles.App.CsWin32/NativeMethods.txt`).
 
 ## 2. O problema de fundo e a decisão necessária (`D-F036-1`)
 

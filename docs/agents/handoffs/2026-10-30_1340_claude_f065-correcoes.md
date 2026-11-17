@@ -1,6 +1,6 @@
-# Handoff Claude — F065 correções (T6..T10) — 30/10/2026
+﻿# Handoff Claude — F065 correções (T6..T10) — 30/10/2026
 
-Branch: `feature/f065-correcoes` (worktree `FilesApp-claude`), integrada na `colab` por fast-forward. Substitui, para efeito de estado, a tabela de `AC-n` do handoff `2026-10-30_1220_agy_conclusao-f065-busca-nome-e-caminho.md`, que marcou CONFIRMED sem prova.
+Branch: `feature/f065-correcoes` (worktree `KyraFiles-claude`), integrada na `colab` por fast-forward. Substitui, para efeito de estado, a tabela de `AC-n` do handoff `2026-10-30_1220_agy_conclusao-f065-busca-nome-e-caminho.md`, que marcou CONFIRMED sem prova.
 
 ## O que mudou
 - **T6** `ListedItem`: a opacidade nasce 1 (`D-F065-1` em `DECISIONS.md`). Cobre o motor Agent Ransack, que criava resultados sem opacidade, e qualquer motor futuro.
@@ -9,9 +9,9 @@ Branch: `feature/f065-correcoes` (worktree `FilesApp-claude`), integrada na `col
 - **T9** `SearchItemOpacityAndPathTests.cs` apagado: recalculava a regra dentro do teste e montava as colunas numa ordem que o `es.exe` não usa (`caminho, tamanho, data, atributos`).
 
 ## Provas
-- Build do app: `dotnet build src/Files.App/Files.App.csproj -c Release -p:Platform=x64` → `Build succeeded`, `0 Warning(s)`, `0 Error(s)`, 3m39s (13:25). Antes, NETSDK1004 do `Files.App.Server` numa worktree nova; resolvido com `dotnet restore` do `Files.App.Server` e do `Files.App.IndexService`.
+- Build do app: `dotnet build src/KyraFiles.App/KyraFiles.App.csproj -c Release -p:Platform=x64` → `Build succeeded`, `0 Warning(s)`, `0 Error(s)`, 3m39s (13:25). Antes, NETSDK1004 do `KyraFiles.App.Server` numa worktree nova; resolvido com `dotnet restore` do `KyraFiles.App.Server` e do `KyraFiles.App.IndexService`.
 - Build dos testes: `0 Error(s)`, `3 Warning(s)`; os 3 são CA2014 em `HexFileSaverTests.cs` (F060), anteriores a esta mudança.
-- Suíte: `Files.App.Search.Index.Tests.exe` → `total: 160`, `failed: 0`, `succeeded: 159`, `skipped: 1` (13:20).
+- Suíte: `KyraFiles.App.Search.Index.Tests.exe` → `total: 160`, `failed: 0`, `succeeded: 159`, `skipped: 1` (13:20).
 - Os testes pegam o defeito: com a leitura dos atributos trocada para a 4ª coluna (a ordem que o teste antigo supunha), `--filter FullyQualifiedName~EverythingResultLineTests` deu `total: 6`, `failed: 2` (`AC6_HiddenAttribute_IsReadFromSecondColumn`, `Folder_FromDirectoryAttribute_HasNameAndNoSize`), saída 2. Restaurada a leitura da 2ª coluna: `total: 6`, `failed: 0`, saída 0. Log em `%TEMP%\claude-f065-prova.log`.
 - Formato real conferido com `es.exe -tsv -no-header -attrib -size -dm -n 4 -path "D:\DriveD\Downloads" *.exe` (13:0x): `D:\...\7z.exe<TAB>8224<TAB>749608<TAB>19/12/2019 17:05:38`.
 

@@ -1,4 +1,4 @@
-# REGRA DURA: NADA É PULADO SEM PROVA OU SEM AUTORIZAÇÃO DO ALEXANDRE
+﻿# REGRA DURA: NADA É PULADO SEM PROVA OU SEM AUTORIZAÇÃO DO ALEXANDRE
 
 Vale para a AGY, em todo projeto e em toda tarefa. Escrita pelo Claude em 29/10/2026, a pedido do Alexandre, depois que a F063 foi entregue com itens marcados CONFIRMED sem prova, gatilho vetado mantido no código, medição de janela real e `Stop-Process`/`git checkout --` sem pedir.
 
@@ -51,7 +51,7 @@ Descumprimento é registrado pelo Claude em `docs/agents/DESCUMPRIMENTOS.md`, en
 ## 5. Lembretes que já custaram caro (não são pulos autorizáveis pela rotina)
 
 Estes **só** podem ser pulados pela saída C, com autorização dele para o caso específico:
-- `Stop-Process`/`taskkill` em `Files.exe` instalado, `git checkout --`, `git restore`, `git clean`, `git reset --hard`, `Remove-Item` fora de `%TEMP%\agy\<GUID>\...`;
+- `Stop-Process`/`taskkill` em `KyraFiles.exe` instalado, `git checkout --`, `git restore`, `git clean`, `git reset --hard`, `Remove-Item` fora de `%TEMP%\agy\<GUID>\...`;
 - minimizar, restaurar ou mover a janela real do Alexandre (`ShowWindow`), fora das 23:59 ou sem ele ausente (METODO §16);
 - editar `AGENTS.md`, `PLAYBOOK.md`, `METODO.md` ou `INSTRUCTIONS_OPERARY.md`;
 - aprovar sua própria spec, plan ou tasks (quem aprova é o Claude ou o Alexandre);

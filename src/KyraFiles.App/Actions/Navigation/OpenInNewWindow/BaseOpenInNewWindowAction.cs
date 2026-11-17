@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Windows.System;
@@ -54,7 +54,7 @@ namespace KyraFiles.App.Actions
 			{
 				var targetPath = (listedItem as IShortcutItem)?.TargetPath;
 				var selectedItemPath = !string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.GetRequiredPath();
-				var folderUri = new Uri($"files-dev:?folder={@selectedItemPath}");
+				var folderUri = new Uri($"kyrafiles-dev:?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);
 			}

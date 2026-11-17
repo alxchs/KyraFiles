@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <string>
 
-// Files Custom: F069 - Verifica se o CrashGuard ativou fallback apos quedas seguidas
+// KyraFiles: F069 - Verifica se o CrashGuard ativou fallback apos quedas seguidas
 bool ShouldFallbackFromCrashGuard()
 {
 	WCHAR statePath[MAX_PATH];
@@ -25,7 +25,7 @@ bool ShouldFallbackFromCrashGuard()
 	return false;
 }
 
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 #include <iostream>
@@ -98,7 +98,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (ShouldFallbackFromCrashGuard())
 	{
-		std::wcout << L"Files Custom: Fallback to Windows Explorer due to consecutive crashes (F069)" << std::endl;
+		std::wcout << L"KyraFiles: Fallback to Windows Explorer due to consecutive crashes (F069)" << std::endl;
 		RunFileExplorer(withArgs ? openDirectory : NULL);
 		if (_debugStream)
 			fclose(_debugStream);
@@ -107,19 +107,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	WCHAR szBuf[MAX_PATH];
 	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\kyrafiles.exe", szBuf, MAX_PATH - 1);
-	if (_waccess(szBuf, 0) == -1)
-	{
-		ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files-dev.exe", szBuf, MAX_PATH - 1);
-	}
 	std::wcout << szBuf << std::endl;
 	if (_waccess(szBuf, 0) == -1)
 	{
-		std::cout << "Files has been uninstalled" << std::endl;
+		std::cout << "KyraFiles has been uninstalled" << std::endl;
 
-		// Files Custom: silent fallback (no message box, no UAC); the unset file only touches HKCU.
+		// KyraFiles: silent fallback (no message box, no UAC); the unset file only touches HKCU.
 		// Wait for it so explorer.exe does not resolve the folder verb back to this launcher.
 		TCHAR szCmd[MAX_PATH];
-		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\KyraFiles\\UnsetFilesAsDefault.reg");
+		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\KyraFiles\\UnsetKyraFilesAsDefault.reg");
 		SHELLEXECUTEINFO unsetInfo = { 0 };
 		unsetInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		unsetInfo.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_DOENVSUBST;
@@ -162,7 +158,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		// Register the window class.
-		const wchar_t CLASS_NAME[] = L"Files Window Class";
+		const wchar_t CLASS_NAME[] = L"KyraFiles Window Class";
 
 		WNDCLASSEX wcex = { };
 		wcex.cbSize = sizeof(wcex);
@@ -179,7 +175,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		HWND hwnd = CreateWindowEx(
 			WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
 			CLASS_NAME,
-			L"Files Launcher",
+			L"KyraFiles Launcher",
 			0,
 			0, 0, 0, 0,
 			NULL,
@@ -214,7 +210,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			TCHAR args[1024];
 			swprintf(args, _countof(args) - 1, L"\"%s\" %s \"%s\"", szBuf, verb, target.c_str());
 
-			std::wstring uriWithArgs = L"files-dev:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+			std::wstring uriWithArgs = L"kyrafiles:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
 
 			std::wcout << L"Invoking: " << args << L" = " << uriWithArgs << std::endl;
 
@@ -301,17 +297,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI | SEE_MASK_NOCLOSEPROCESS;
-		ShExecInfo.lpFile = L"files-dev:";
+		ShExecInfo.lpFile = L"kyrafiles:";
 		ShExecInfo.nShow = SW_SHOW;
 
 		if (!ShellExecuteEx(&ShExecInfo))
 		{
 			std::wcout << L"Protocol error: " << GetLastError() << std::endl;
-			//ShExecInfo.lpFile = L"files-dev.exe";
-			//if (!ShellExecuteEx(&ShExecInfo))
-			//{
-				//std::wcout << L"Command line error: " << GetLastError() << std::endl;
-			//}
 		}
 		else
 		{
@@ -430,7 +421,7 @@ std::wstring str2wstr(const std::string& str)
 
 // Packaged-app protocol activations are delivered asynchronously even with
 // SEE_MASK_NOASYNC; exiting before delivery completes discards the activation
-// and Files never opens (#18818). Wait on the activated process when the shell
+// and KyraFiles never opens (#18818). Wait on the activated process when the shell
 // provides one, otherwise give the activation broker a grace period.
 void WaitForProtocolActivation(HANDLE hProcess)
 {

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     F015 T2a — Sonda da MFT bruta (requer admin / SYSTEM).
     Abre \\.\C:, lê dados do volume NTFS e extents da $MFT, conta registros em uso.
@@ -11,10 +11,10 @@
 
 .NOTES
     Não altera nenhum arquivo. Só leitura.
-    Grava saída em %TEMP%\claude\desenv\utils\FilesApp\f015\
+    Grava saída em %TEMP%\claude\desenv\utils\KyraFiles\f015\
 #>
 
-$LogDir  = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir  = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "f015_mft_probe-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 

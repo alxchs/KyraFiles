@@ -1,4 +1,4 @@
-# F001 — Rename UX (extensão protegida)
+﻿# F001 — Rename UX (extensão protegida)
 
 Status: **APROVADO (Claude, 03/10/2026)**, opção A. Pré-requisitos cumpridos: G0 fechado (revisão `docs/agents/reviews/2026-10-03_Claude_revisao-G0-smoke.md`) e `docs/ux-reference/onecommander/rename.md` existe. Executor: AGY. Branch: `feature/rename-ux`.
 
@@ -7,7 +7,7 @@ Status: **APROVADO (Claude, 03/10/2026)**, opção A. Pré-requisitos cumpridos:
 Opção **A** (caixa de texto única, blindada), pelos fatos:
 
 - FACT (OneCommander, `rename.md`): também usa uma caixa única, seleciona só o nome base, `Tab` pula para o **próximo arquivo** (não para a extensão), e trocar a extensão exige setas + Backspace manual. Após o Enter mostra um toast pedindo para recolocar a extensão antiga. Falha em `.gitignore` (seleção vazia) e em `.tar.gz` (seleciona `arquivo.tar`).
-- FACT (Files, código lido): também caixa única; a extensão fica livre para editar; `.gitignore` tem o mesmo defeito de seleção vazia (e a caixa aparece truncada, ver revisão do G0). Ao trocar a extensão o Files mostra um **diálogo modal Sim/Não** (`FilesystemHelpers.RenameAsync`, ~l.587-601: `showExtensionDialog && GetExtension(origem) != GetExtension(novo) && FoldersSettings.ShowFileExtensionWarning`), desligável pela opção `ShowFileExtensionWarning`.
+- FACT (Files, código lido): também caixa única; a extensão fica livre para editar; `.gitignore` tem o mesmo defeito de seleção vazia (e a caixa aparece truncada, ver revisão do G0). Ao trocar a extensão o KyraFiles mostra um **diálogo modal Sim/Não** (`FilesystemHelpers.RenameAsync`, ~l.587-601: `showExtensionDialog && GetExtension(origem) != GetExtension(novo) && FoldersSettings.ShowFileExtensionWarning`), desligável pela opção `ShowFileExtensionWarning`.
 - Conclusão: o problema de fundo é o mesmo nos dois (sem gesto deliberado para a extensão, sem proteção contra apagá-la sem querer). Um segundo campo (opção B) mexe nos três layouts sem ganho extra.
 
 ### Requisitos fechados para a implementação
@@ -21,7 +21,7 @@ Opção **A** (caixa de texto única, blindada), pelos fatos:
 
 ### DISCOVERY registrado (não implementar agora)
 - **Renomear em cadeia com `Tab` → próximo arquivo** (comportamento do OneCommander). Estado: `IMPLEMENT LATER`. Conflita com o uso de `Tab` do item 3; se um dia entrar, usar `Ctrl+Tab`/seta para baixo.
-- **Seleção múltipla + F2:** o OneCommander reduz ao item ativo; o Files abre o `BulkRenameDialog`. O do Files é melhor; manter.
+- **Seleção múltipla + F2:** o OneCommander reduz ao item ativo; o KyraFiles abre o `BulkRenameDialog`. O do KyraFiles é melhor; manter.
 
 ## TASK
 Renomear (F2) deve separar NOME e EXTENSÃO: mudar o nome não altera a extensão; mudar a extensão é ato deliberado. Casos: MASTER_SPEC §5 (`arquivo.txt`, `arquivo`, `arquivo.tar.gz`, `arquivo.final.txt`, `arquivo final 01.txt`, `arquivo.`, `.gitignore`).
@@ -46,7 +46,7 @@ Renomear (F2) deve separar NOME e EXTENSÃO: mudar o nome não altera a extensã
 §5 do spec: impossível ou altamente improvável alterar a extensão por acidente; Enter confirma, Esc cancela; todos os casos da lista passam; conflito de nome e nome inválido tratados; cancelamento não altera nada; teste de seleção múltipla (Bulk) sem regressão.
 
 ## ARQUIVOS PROVÁVEIS
-`BaseGroupableLayoutPage.cs`, `DetailsLayoutPage.xaml.cs`, `GridLayoutPage.xaml.cs`, `ColumnLayoutPage.xaml.cs`, helper novo isolado para separar nome/extensão (arquivo próprio, §13), testes em `tests/Files.App.UnitTests`.
+`BaseGroupableLayoutPage.cs`, `DetailsLayoutPage.xaml.cs`, `GridLayoutPage.xaml.cs`, `ColumnLayoutPage.xaml.cs`, helper novo isolado para separar nome/extensão (arquivo próprio, §13), testes em `tests/KyraFiles.App.UnitTests`.
 
 ## DO NOT CHANGE
 `BulkRenameDialog` (fora de escopo), motor de rename de `FilesystemHelpers`, outros recursos.

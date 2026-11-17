@@ -1,8 +1,8 @@
-# Lições Arquiteturais do Everything e Diretrizes para Motor de Busca Nativo Independente (F023 — T14)
+﻿# Lições Arquiteturais do Everything e Diretrizes para Motor de Busca Nativo Independente (F023 — T14)
 
 **Data:** 2026-10-24  
 **Contexto:** Especificação F023 / Tarefa T14  
-**Objetivo:** Sistematizar a engenharia reversa conceitual do voidtools Everything, registrar os erros e armadilhas identificados no indexador legado do Files, e fornecer as bases arquiteturais para a criação de um motor de busca independente superior.
+**Objetivo:** Sistematizar a engenharia reversa conceitual do voidtools Everything, registrar os erros e armadilhas identificados no indexador legado do KyraFiles, e fornecer as bases arquiteturais para a criação de um motor de busca independente superior.
 
 ---
 
@@ -38,9 +38,9 @@ O voidtools Everything é amplamente considerado o padrão de ouro de indexaçã
 
 ---
 
-## 2. Diagnóstico do Files Custom: O que NÃO Fazer (Erros do `IndexService` Legado)
+## 2. Diagnóstico do KyraFiles: O que NÃO Fazer (Erros do `IndexService` Legado)
 
-O desenvolvimento do `Files.App.IndexService` legado cometeu quase todos os erros clássicos de arquitetura de indexação no Windows:
+O desenvolvimento do `KyraFiles.App.IndexService` legado cometeu quase todos os erros clássicos de arquitetura de indexação no Windows:
 
 1. **Uso de Banco Relacional em Disco (SQLite / EF Core):**
    - Gravar milhões de arquivos em tabelas SQLite com índices B-Tree fragmenta o arquivo de banco em disco, consome centenas de megabytes de I/O contínuo e gera commits transacionais que travam o disco.
@@ -55,7 +55,7 @@ O desenvolvimento do `Files.App.IndexService` legado cometeu quase todos os erro
 
 ---
 
-## 3. O Padrão Híbrido F023 Implementado no Files Custom
+## 3. O Padrão Híbrido F023 Implementado no KyraFiles
 
 Para atender à demanda imediata sem sobrecarregar a máquina, a arquitetura F023 estabeleceu o padrão híbrido seguro:
 
@@ -105,4 +105,4 @@ Para superar o Everything no futuro sem depender de ferramentas de terceiros, o 
 ---
 
 ## 5. Conclusão
-A F023 resolveu em definitivo os gargalos, vazamentos e bloqueios na camada de aplicação do Files Custom, transformando a busca em uma experiência fluida e sem consumo abusivo de recursos. As lições aqui documentadas formam o roteiro definitivo para quando o projeto optar por embarcar seu próprio motor nativo em nível de sistema de arquivos.
+A F023 resolveu em definitivo os gargalos, vazamentos e bloqueios na camada de aplicação do KyraFiles, transformando a busca em uma experiência fluida e sem consumo abusivo de recursos. As lições aqui documentadas formam o roteiro definitivo para quando o projeto optar por embarcar seu próprio motor nativo em nível de sistema de arquivos.

@@ -1,4 +1,4 @@
-# Prestação de Contas — AGY para Claude
+﻿# Prestação de Contas — AGY para Claude
 
 - **Data / Hora**: 2026-11-01 10:00 (Horário de Brasília)
 - **Autor**: AGY
@@ -15,7 +15,7 @@
 
 2. **F072 — Documentação Offline Multilíngue**:
    - Integrado na branch `colab` (`f083eeb26`).
-   - 36 páginas HTML em `src/Files.App/Docs/` com suporte a `pt-BR`, `en-US`, `es-ES`, `de-DE`, seletor de idiomas interativo e fallback local-first no `DocumentationHelper`.
+   - 36 páginas HTML em `src/KyraFiles.App/Docs/` com suporte a `pt-BR`, `en-US`, `es-ES`, `de-DE`, seletor de idiomas interativo e fallback local-first no `DocumentationHelper`.
 
 3. **F070 — Login do GitHub Próprio (Device Flow RFC 8628 + Credential Vault)**:
    - Integrado na branch `colab` (`0bb9617a9`).
@@ -28,7 +28,7 @@
    - Leitura de streams em blocos sequenciais de 128 KB, consumo desprezível de RAM (< 1 MB no heap mesmo com arquivos de dezenas de GB), cancelamento cooperativo (< 50 ms), comparação flexível de hashes.
    - `IZoneIdentifierService` para detecção e remoção em lote de fluxos secundários NTFS `:Zone.Identifier`.
    - 188 testes unitários aprovados (0 falhas).
-   - Release oficial compilado via `mkfile` com 0 erros e instalado em `%LOCALAPPDATA%\Programs\FilesCustom`.
+   - Release oficial compilado via `mkfile` com 0 erros e instalado em `%LOCALAPPDATA%\Programs\KyraFiles`.
    - Gate F021 executado e aprovado (`verify_no_index_service.ps1`, CPU 0%).
    - Relatório formal gerado em `docs/specs/F071-integrity-downloaded-files/RELATORIO.md`.
 
@@ -60,5 +60,5 @@
 2. Prosseguir com a **F081 (Identidade KyraFiles)** na branch `feature/f081-identity-kyrafiles`:
    - Implementação do `UserSettingsMigrationService` (migração atômica de configurações anteriores para `KyraFiles`).
    - Testes unitários do migrador.
-   - Atualização das strings de identidade visíveis sem violar copyright/licença MIT do Files Community.
+   - Atualização das strings de identidade visíveis sem violar copyright/licença MIT do KyraFiles Community.
    - Compilação Release oficial e validação de gates.

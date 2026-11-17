@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
@@ -25,7 +25,7 @@ namespace KyraFiles.App.Dialogs
 		public CreateShortcutDialog()
 		{
 			InitializeComponent();
-			DialogShortcuts.Attach(this); // Files Custom: F057
+			DialogShortcuts.Attach(this); // KyraFiles: F057
 			this.Closing += CreateShortcutDialog_Closing;
 
 			InvalidPathWarning.SetBinding(TeachingTip.TargetProperty, new Binding()

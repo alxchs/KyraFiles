@@ -1,8 +1,8 @@
-# F004 — Barra de Menus Tradicional Opcional
+﻿# F004 — Barra de Menus Tradicional Opcional
 
 ## Visão Geral
 
-Implementação de uma barra de menus tradicional suspensa (`MenuBar`) no topo da janela principal do Files App (contendo os menus clássicos **File**, **Edit**, **View**, **Go**, **Tools** e **Help**). A barra é **opcional**, iniciando desativada por padrão (preservando 100% da interface moderna e do layout padrão), e pode ser ativada pelo usuário em **Configurações > Aparência**.
+Implementação de uma barra de menus tradicional suspensa (`MenuBar`) no topo da janela principal do KyraFiles (contendo os menus clássicos **File**, **Edit**, **View**, **Go**, **Tools** e **Help**). A barra é **opcional**, iniciando desativada por padrão (preservando 100% da interface moderna e do layout padrão), e pode ser ativada pelo usuário em **Configurações > Aparência**.
 
 ## Origem e Motivação
 
@@ -23,7 +23,7 @@ Implementação de uma barra de menus tradicional suspensa (`MenuBar`) no topo d
 2. **Reutilização Total de Comandos (`ICommandManager`)**:
    - Nenhum comando novo ou lógica duplicada; todos os itens de menu conectam-se diretamente a instâncias de `IRichCommand` expostas por `ICommandManager`.
    - O estado de habilitação (`IsEnabled`) acompanha automaticamente `Action.IsExecutable` via eventos `CanExecuteChanged`.
-   - Os atalhos de teclado configurados no Files aparecem ao lado de cada item via `KeyboardAcceleratorTextOverride`.
+   - Os atalhos de teclado configurados no KyraFiles aparecem ao lado de cada item via `KeyboardAcceleratorTextOverride`.
 
 3. **Acessibilidade e Navegação por Teclado**:
    - Controle nativo `Microsoft.UI.Xaml.Controls.MenuBar` do WinUI 3.

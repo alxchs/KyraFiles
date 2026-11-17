@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -610,7 +610,7 @@
     <value>{0} - atalho</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>O Files encontrou um problema que os programadores não previram.</value>
+    <value>o KyraFiles encontrou um problema que os programadores não previram.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Ocorreu um erro!</value>
@@ -2113,10 +2113,10 @@
     <value>Olá!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>Está a gostar do Files? Considere deixar uma classificação na Microsoft Store.</value>
+    <value>Está a gostar do KyraFiles? Considere deixar uma classificação na Microsoft Store.</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Está a gostar do Files? Considere apoiar o projeto no GitHub.</value>
+    <value>Está a gostar do KyraFiles? Considere apoiar o projeto no GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>Patrocinador</value>
@@ -3523,7 +3523,7 @@
     <value>A aplicação está a ser executada no modo de administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Devido a uma limitação com o Windows e o WinAppSdk, a funcionalidade arrastar e largar não está disponível quando o Files é executado como administrador. Se pretender utilizar o arrastar e largar, pode contornar esta limitação abrindo o UAC (Controlo de Conta do Utilizador) a partir do Menu Iniciar e selecionando o terceiro nível, e reiniciando o Windows. Caso contrário, pode continuar a utilizar o Files sem a funcionalidade arrastar e soltar.</value>
+    <value>Devido a uma limitação com o Windows e o WinAppSdk, a funcionalidade arrastar e largar não está disponível quando o KyraFiles é executado como administrador. Se pretender utilizar o arrastar e largar, pode contornar esta limitação abrindo o UAC (Controlo de Conta do Utilizador) a partir do Menu Iniciar e selecionando o terceiro nível, e reiniciando o Windows. Caso contrário, pode continuar a utilizar o KyraFiles sem a funcionalidade arrastar e soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Manter aplicação em segundo plano ao fechar a janela</value>

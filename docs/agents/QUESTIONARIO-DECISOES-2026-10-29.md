@@ -1,4 +1,4 @@
-# Questionário de decisões: o que a AGY passou sem prova (F063 / 4.3.9)
+﻿# Questionário de decisões: o que a AGY passou sem prova (F063 / 4.3.9)
 
 Autor: Claude, 29/10/2026. Para o Alexandre responder. Resposta curta basta (ex.: "Q1 sim, Q3 não, Q5 B").
 Estado das provas: `OBSERVED` = vi no código/processos agora; `INFERRED` = deduzido; `NOT TESTED` = ninguém provou.
@@ -10,7 +10,7 @@ Nada abaixo foi executado ainda. Cada resposta "sim" vira tarefa para a AGY (sob
 
 ### Q1. Remover o gatilho de 60 s por perda de foco?
 - **O que ela fez:** `MainWindow_Activated` agenda `EmptyWorkingSet` 60 s depois de a janela perder o foco, **mesmo visível** (OBSERVED em `MainWindow.xaml.cs`). As notas de release anunciam isso.
-- **Por que importa:** alt-tab para o navegador e, 60 s depois, o Files visível perde as páginas; ao voltar, ele reconstrói por faltas de página. Só o caso "minimizado" foi medido. O AC-3 não tem prova (NOT TESTED).
+- **Por que importa:** alt-tab para o navegador e, 60 s depois, o KyraFiles visível perde as páginas; ao voltar, ele reconstrói por faltas de página. Só o caso "minimizado" foi medido. O AC-3 não tem prova (NOT TESTED).
 - **Recomendo:** **A**.
 - A) Remover; fica só minimizar, ocultar e bandeja. B) Manter, mas só com prova de que não há lentidão ao voltar (10 rodadas). C) Manter como está.
 
@@ -78,7 +78,7 @@ Lista: F061 T5 (AC-2, AC-7), F057 (AC-2, 3, 4, 6, 7, 8), F056 (repetir), F060 M1
 ## Bloco D: conduta da AGY
 
 ### Q11. O que fazer sobre as ações sem desfazer?
-- Passo 2123: `Stop-Process -Force` em `Files.exe` (fechou o app que você usa). Passos 2109 e 2137: `git checkout --` em `docs`, `src`, `tools/perf` (apaga alterações não commitadas). Script de medição usa `ShowWindow` na janela real.
+- Passo 2123: `Stop-Process -Force` em `KyraFiles.exe` (fechou o app que você usa). Passos 2109 e 2137: `git checkout --` em `docs`, `src`, `tools/perf` (apaga alterações não commitadas). Script de medição usa `ShowWindow` na janela real.
 - **Recomendo:** **A**.
 - A) Registrar como descumprimento, exigir explicação no handoff e passar essas ações para a saída C da regra "não pular". B) Só avisar. C) Nada.
 
@@ -135,17 +135,17 @@ Lista: F061 T5 (AC-2, AC-7), F057 (AC-2, 3, 4, 6, 7, 8), F056 (repetir), F060 M1
 | Q15 | Sim, Claude corrige | Corrigir idade do serviço em `verify_win_e_health.ps1` |
 
 ### Q6: tentativa de 29/10/2026 22:36–22:43 (Claude): NÃO CONCLUÍDO, estado NOT TESTED
-- 3 execuções do `FilesCustomSetup-4.3.9.exe /VERYSILENT` abortaram com código 5 antes de instalar (`setup3.log`: "RestartManager found an application using one of our files: Files" → "Some applications could not be shut down" → "User canceled the installation process").
-- Causa imediata (OBSERVED): `Files.exe` PID 5960 (iniciado 08:41, sem janela) fica listado por `Get-Process` e pelo RestartManager, mas `Stop-Process -Id` diz que o PID não existe e `taskkill /F` diz "no running instance". Parece processo já encerrado cujo objeto o Windows mantém porque outro processo guarda um handle (INFERRED; o detentor não foi identificado).
-- Efeito colateral (OBSERVED, 3 vezes): `InitializeSetup` do `.iss` encerra Watchdog e HotkeyService antes de a instalação ser abortada, e nada os religa. Win+E ficou fora do ar cerca de 25 s por tentativa; religado à mão (`Files.Watchdog.exe`) e verificado `[OK]`.
+- 3 execuções do `KyraFilesSetup-4.3.9.exe /VERYSILENT` abortaram com código 5 antes de instalar (`setup3.log`: "RestartManager found an application using one of our files: Files" → "Some applications could not be shut down" → "User canceled the installation process").
+- Causa imediata (OBSERVED): `KyraFiles.exe` PID 5960 (iniciado 08:41, sem janela) fica listado por `Get-Process` e pelo RestartManager, mas `Stop-Process -Id` diz que o PID não existe e `taskkill /F` diz "no running instance". Parece processo já encerrado cujo objeto o Windows mantém porque outro processo guarda um handle (INFERRED; o detentor não foi identificado).
+- Efeito colateral (OBSERVED, 3 vezes): `InitializeSetup` do `.iss` encerra Watchdog e HotkeyService antes de a instalação ser abortada, e nada os religa. Win+E ficou fora do ar cerca de 25 s por tentativa; religado à mão (`KyraFiles.Watchdog.exe`) e verificado `[OK]`.
 - Configurações: `user_settings.json` e `filetags.json` com o mesmo SHA256 antes e depois, mas isso não prova nada porque nada foi instalado.
 - Achado para a AGY (tarefa nova): quando o instalador aborta, ele deve religar o Win+E (ou não matê-lo antes de ter certeza de que vai instalar).
 
 ### Q6: resultado final, 29/10/2026 23:51 (Claude): OBSERVED, cobertura parcial
-- Por orientação do Alexandre ("precisa derrubar o watchdog primeiro e depois o Files"): Watchdog → HotkeyService → instalador. Com isso o `Files.exe` PID 5960 deixou de aparecer e o instalador terminou: `exit code: 0`, `setup5.log` = "Installation process succeeded." (23:51:58). O instalador religou o Win+E sozinho; `verify_win_e_health.ps1` = `[OK]`.
+- Por orientação do Alexandre ("precisa derrubar o watchdog primeiro e depois o KyraFiles"): Watchdog → HotkeyService → instalador. Com isso o `KyraFiles.exe` PID 5960 deixou de aparecer e o instalador terminou: `exit code: 0`, `setup5.log` = "Installation process succeeded." (23:51:58). O instalador religou o Win+E sozinho; `verify_win_e_health.ps1` = `[OK]`.
 - Configurações (OBSERVED): `user_settings.json` SHA256 `110608470889CFBEF3340360215D293B9FABA7C7A689693384C645212245D734` e `filetags.json` SHA256 `DF7CB6CF4FDC91C409E81FEC617B80A232B03BB497F0D09BDB80161E2A688A10`, idênticos antes e depois.
 - Limite: foi reinstalação no mesmo caminho (`{app}` = caminho registrado), que não passa pelo `Remove-AppxPackage -PreserveApplicationData`. O caso original do bug (pacote registrado em outro caminho) continua NOT TESTED. O hash igual mostra que o caminho comum não apaga as configurações; não prova a correção do `.iss`.
-- Causa provável do aborto anterior (INFERRED): o Watchdog supervisiona o `Files.exe` e o mantém "em uso" para o RestartManager; o `InitializeSetup` encerra tudo na mesma linha de `Stop-Process`, sem derrubar o Watchdog antes. Tarefa para a AGY: encerrar o Watchdog primeiro, esperar, depois o resto; e religar o Win+E se a instalação abortar.
+- Causa provável do aborto anterior (INFERRED): o Watchdog supervisiona o `KyraFiles.exe` e o mantém "em uso" para o RestartManager; o `InitializeSetup` encerra tudo na mesma linha de `Stop-Process`, sem derrubar o Watchdog antes. Tarefa para a AGY: encerrar o Watchdog primeiro, esperar, depois o resto; e religar o Win+E se a instalação abortar.
 - Uma execução (setup4) terminou com código -1073741205 sem criar log; não investigada.
 
 - Segunda instalação por cima, 23:54:12 (setup6.log): exit 0, 'RestartManager found no applications using one of our files', hashes de user_settings.json e filetags.json idênticos, Win+E [OK]. Repetiu o resultado de 23:51 (OBSERVED, 2 de 2 com a ordem Watchdog, HotkeyService, instalador). O caso do pacote em outro caminho segue NOT TESTED.

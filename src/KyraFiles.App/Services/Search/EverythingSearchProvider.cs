@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
@@ -78,18 +78,12 @@ namespace KyraFiles.App.Services.Search
 			if (File.Exists(localApp))
 				return localApp;
 
-			// 3. Pasta oficial instalada do KyraFiles (com fallback legado para FilesCustom)
+			// 3. Pasta oficial instalada do KyraFiles
 			string kyraFilesDir = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Programs", "KyraFiles", "es.exe");
 			if (File.Exists(kyraFilesDir))
 				return kyraFilesDir;
-
-			string filesCustomDir = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Programs", "FilesCustom", "es.exe");
-			if (File.Exists(filesCustomDir))
-				return filesCustomDir;
 
 			// 4. Pasta de utilitários do usuário (~/bin)
 			string userBin = Path.Combine(

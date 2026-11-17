@@ -152,9 +152,9 @@ public static class F035WinHelper {
 }
 "@ -ErrorAction SilentlyContinue
 
-$FilesAlias = "$env:LOCALAPPDATA\Microsoft\WindowsApps\files-dev.exe"
+$FilesAlias = "$env:LOCALAPPDATA\Microsoft\WindowsApps\kyrafiles.exe"
 if (-not (Test-Path $FilesAlias)) {
-    throw "Executavel do pacote FilesDev nao encontrado em $FilesAlias. Registre o layout com Open-FilesDev.ps1."
+    throw "Executavel do pacote KyraFiles nao encontrado em $FilesAlias. Registre o layout com Open-KyraFiles.ps1."
 }
 
 function Ensure-FilesClosed {
@@ -175,7 +175,7 @@ function Ensure-FilesMainParked {
                 if ($hwnd -ne [IntPtr]::Zero -and [F035WinHelper]::IsWindowVisible($hwnd)) { break }
             }
         }
-        if (-not $proc) { throw "Falha ao iniciar FilesDev para teste." }
+        if (-not $proc) { throw "Falha ao iniciar KyraFiles para teste." }
         Start-Sleep -Seconds 3
     }
 
@@ -311,7 +311,7 @@ function Run-NegativeControl([int]$totalRounds, [string]$outCsv) {
 # Evidencia F035 T1 — Controle Negativo (Reproducao do SemaphoreFullException)
 
 - **Data/Hora:** $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-- **Ambiente:** FilesDev (Release x64) no codigo original sem correcao
+- **Ambiente:** KyraFiles (Release x64) no codigo original sem correcao
 - **Parametros:** $totalRounds rodadas, 5 disparos simultaneos por rodada, janela principal estacionada
 - **Pilha de erro capturada:**
 ````text
@@ -355,7 +355,7 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
 
     $rows = @()
     $testDirs = @("C:\Windows", "C:\Windows\System32", "C:\Windows\Fonts", "C:\Windows\Help", "C:\Windows\Media")
-    $tempBase = Join-Path $env:TEMP "agy\9f035f03-5f03-5f03-5f03-5f035f035f03\desenv\utils\FilesApp\Files"
+    $tempBase = Join-Path $env:TEMP "agy\9f035f03-5f03-5f03-5f03-5f035f035f03\desenv\utils\KyraFiles\Files"
     if (-not (Test-Path $tempBase)) { New-Item -ItemType Directory -Path $tempBase -Force | Out-Null }
 
     # Controle Negativo incluso em resultado.csv
@@ -544,7 +544,7 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
         Esperado = "Dialogo roda em processo proprio isolado, nao redireciona para principal, 0 eventos 1026"
         Observado = "Processo de dialogo isolado: $dialogRunning, $($eventsAC3.Count) eventos 1026"
         Resultado = if ($passAC3) { "PASS" } else { "FAIL" }
-        Comando = "files-dev.exe -outputpath <arquivo>"
+        Comando = "kyrafiles.exe -outputpath <arquivo>"
     }
 
     # --- AC-5: Janela principal estacionada volta ao primeiro plano com pasta ---
@@ -583,7 +583,7 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
         Esperado = "Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026"
         Observado = "Janela visivel: $isVisibleAC5, $($eventsAC5.Count) eventos 1026"
         Resultado = if ($passAC5) { "PASS" } else { "FAIL" }
-        Comando = "files-dev.exe C:\Windows com principal estacionada"
+        Comando = "kyrafiles.exe C:\Windows com principal estacionada"
     }
 
     # Salva CSV
@@ -601,7 +601,7 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
 # Evidencia F035 T3 — Validacao de Aceite (AC-1, AC-2, AC-3, AC-5)
 
 - **Data/Hora:** $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
-- **Ambiente:** FilesDev (Release x64) com correcao do SemaphoreFullException
+- **Ambiente:** KyraFiles (Release x64) com correcao do SemaphoreFullException
 - **Resultado Geral:** $resGeral
 
 ## Tabela de Resultados por Cenario (gerada a partir de $($outCsv | Split-Path -Leaf))

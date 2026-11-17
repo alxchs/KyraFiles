@@ -1,4 +1,4 @@
-# F031 — Plano
+﻿# F031 — Plano
 
 Status: **APROVADO E ATUALIZADO** (AGY, 22/10/2026 - T2 concluída, hipóteses identificadas para T3).
 
@@ -9,7 +9,7 @@ Status: **APROVADO E ATUALIZADO** (AGY, 22/10/2026 - T2 concluída, hipóteses i
 
 ## Diagnóstico e Causas-Raiz Identificadas (T2)
 1. **Delay Artificial de 100 ms em `MultitaskingControl_CurrentInstanceChanged`:**
-   - Em `src/Files.App/Views/MainPage.xaml.cs` (linha 219), existe `await Task.Delay(100);` forçado no fluxo principal antes de invocar `FocusActivePane()`.
+   - Em `src/KyraFiles.App/Views/MainPage.xaml.cs` (linha 219), existe `await Task.Delay(100);` forçado no fluxo principal antes de invocar `FocusActivePane()`.
 2. **I/O de Disco Redundante na Troca de Aba:**
    - A chamada `await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs)` recalcula via `GetSelectedTabInfoAsync(path)` no disco o título da janela a cada troca de aba, ignorando que o `tabItem.Header` já possui o nome da pasta em cache.
 3. **Ciclo Síncrono de Reavaliação de Painéis:**
@@ -24,6 +24,6 @@ Status: **APROVADO E ATUALIZADO** (AGY, 22/10/2026 - T2 concluída, hipóteses i
 - **Validação A/B:** Medir novamente com `tools/perf/f031_tabs.ps1` comprovando a redução da latência (meta: redução >= 30%).
 
 ## Arquivos Afetados
-- `src/Files.App/Views/MainPage.xaml.cs`
-- `src/Files.App/Helpers/Navigation/NavigationHelpers.cs`
-- `src/Files.App/UserControls/TabBar/BaseTabBar.cs`
+- `src/KyraFiles.App/Views/MainPage.xaml.cs`
+- `src/KyraFiles.App/Helpers/Navigation/NavigationHelpers.cs`
+- `src/KyraFiles.App/UserControls/TabBar/BaseTabBar.cs`

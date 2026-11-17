@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -237,7 +237,7 @@ namespace KyraFiles.App.Services
 				try
 				{
 					var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
-					if (!string.Equals(branch.Trim(), "files-dev", StringComparison.OrdinalIgnoreCase))
+					if (!string.Equals(branch.Trim(), "kyrafiles-dev", StringComparison.OrdinalIgnoreCase))
 						return;
 				}
 				catch { }
@@ -247,14 +247,14 @@ namespace KyraFiles.App.Services
 				try
 				{
 					// Create branch file for users updating from versions earlier than v4.0.20.
-					await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
+					await File.WriteAllTextAsync(branchFilePath, "kyrafiles-dev", Encoding.UTF8);
 				}
 				catch { }
 			}
 
 			try
 			{
-				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/KyraFiles.App.Launcher.exe"));
+				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/KyraFilesOpenDialog/KyraFiles.App.Launcher.exe"));
 				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
 				await srcExeFile.CopyAsync(destFolder, "KyraFiles.App.Launcher.exe", NameCollisionOption.ReplaceExisting);

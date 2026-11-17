@@ -1,7 +1,7 @@
-# Especificação F008: Densidade Ultra-Compacta OneCommander
+﻿# Especificação F008: Densidade Ultra-Compacta OneCommander
 
 ## Objetivo
-Implementar controle de densidade global de interface no Files App inspirado no OneCommander, permitindo modos de densidade Normal, Compacto e Ultra-compacto para maximizar o número de itens visíveis na tela simultaneamente.
+Implementar controle de densidade global de interface no KyraFiles inspirado no OneCommander, permitindo modos de densidade Normal, Compacto e Ultra-compacto para maximizar o número de itens visíveis na tela simultaneamente.
 
 ## Escopo
 - Adição da configuração `AppDensity` em `AppearanceSettingsService`.

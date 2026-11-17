@@ -1,4 +1,4 @@
-# SPEC Técnica — Diferenciais para um Gerenciador de Arquivos baseado no Files
+﻿# SPEC Técnica — Diferenciais para um Gerenciador de Arquivos baseado no KyraFiles
 
 **Versão:** 1.2  
 **Status:** Proposta para evolução incremental de projeto existente  
@@ -11,7 +11,7 @@
 
 ## 0. Contexto, objetivo e premissas
 
-O projeto **já existe e está bem avançado**. Sua base foi obtida do repositório público do Files no GitHub; desde então, foram feitas correções, melhorias e implementações próprias. Portanto, esta SPEC não autoriza iniciar um produto novo, substituir a arquitetura existente ou reimplementar recursos que já funcionam.
+O projeto **já existe e está bem avançado**. Sua base foi obtida do repositório público do KyraFiles no GitHub; desde então, foram feitas correções, melhorias e implementações próprias. Portanto, esta SPEC não autoriza iniciar um produto novo, substituir a arquitetura existente ou reimplementar recursos que já funcionam.
 
 O objetivo é definir e planejar diferenciais que agreguem valor ao código existente, mantendo as correções, adaptações, funcionalidades próprias e a identidade atual do aplicativo.
 
@@ -77,7 +77,7 @@ Um recurso não pode ser marcado `EXISTS` apenas porque há uma classe com nome 
 
 ### 1.3. Auditoria do upstream e licença
 
-Como o projeto foi derivado do Files disponível no GitHub, verificar a licença aplicável à versão efetivamente utilizada, os avisos de copyright, as exigências de distribuição e a forma correta de preservar atribuições. Não presumir que a licença atual da branch principal seja necessariamente a licença do commit originalmente utilizado.
+Como o projeto foi derivado do KyraFiles disponível no GitHub, verificar a licença aplicável à versão efetivamente utilizada, os avisos de copyright, as exigências de distribuição e a forma correta de preservar atribuições. Não presumir que a licença atual da branch principal seja necessariamente a licença do commit originalmente utilizado.
 
 Quando viável, documentar as diferenças entre upstream e fork sem tentar sincronizar ou sobrescrever automaticamente as alterações locais. Atualizações do upstream devem ser tratadas como trabalho independente, com análise de conflito e testes.
 
@@ -941,7 +941,7 @@ Tarefas independentes que não dependam desse bloqueio podem continuar.
 Salvar este conteúdo no arquivo de instruções do projeto que Claude realmente utilize. Confirmar o local efetivo de instruções no ambiente antes de depender dele.
 
 ```text
-PAPEL: Arquiteto e coordenador técnico de um gerenciador de arquivos existente baseado no Files, com melhorias locais já realizadas.
+PAPEL: Arquiteto e coordenador técnico de um gerenciador de arquivos existente baseado no KyraFiles, com melhorias locais já realizadas.
 
 A fonte de verdade funcional é docs/SPEC.md. As decisões aprovadas ficam em docs/ADR/. O projeto NÃO deve ser refeito do zero.
 

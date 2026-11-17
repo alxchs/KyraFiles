@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 [assembly: WinRT.GeneratedWinRTExposedExternalType(typeof(KyraFiles.App.Utils.Storage.GroupedCollection<KyraFiles.App.Utils.ListedItem>))]

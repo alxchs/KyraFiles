@@ -1,6 +1,6 @@
-# tools/perf/f017_perf_audit.ps1
+﻿# tools/perf/f017_perf_audit.ps1
 # F017 T6: Medição de desempenho, profiling de boot e auditoria de velocidade de UI (NFR-001 a NFR-005, AC-8).
-# Saída JSON em %TEMP%\claude\desenv\utils\FilesApp\f017_perf_audit_result.json
+# Saída JSON em %TEMP%\claude\desenv\utils\KyraFiles\f017_perf_audit_result.json
 
 param(
     [string]$BinDir = (Join-Path $PSScriptRoot '..\..\bin\Release'),
@@ -9,7 +9,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $BinDir = (Resolve-Path $BinDir).Path
-$tmpDir = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp'
+$tmpDir = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles'
 New-Item -ItemType Directory -Force $tmpDir | Out-Null
 
 Add-Type -Path (Join-Path $PSScriptRoot 'vc.cs') -ErrorAction SilentlyContinue
@@ -38,7 +38,7 @@ public static class F017PerfNative {
     public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
 
     public static void SignalCooperativeShutdown() {
-        IntPtr h = OpenEvent(0x0002, false, "Global\\FilesCustom_ShutdownHotkeyService");
+        IntPtr h = OpenEvent(0x0002, false, "Global\\KyraFiles_ShutdownHotkeyService");
         if (h != IntPtr.Zero) {
             SetEvent(h);
             CloseHandle(h);
@@ -53,7 +53,7 @@ public static class F017PerfNative {
         var sw = Stopwatch.StartNew();
         using (var proc = Process.Start(psi)) {
             while (sw.Elapsed.TotalMilliseconds < 200.0) {
-                IntPtr hEv = OpenEvent(0x00100000 /*SYNCHRONIZE*/, false, "Global\\FilesCustom_ShutdownHotkeyService");
+                IntPtr hEv = OpenEvent(0x00100000 /*SYNCHRONIZE*/, false, "Global\\KyraFiles_ShutdownHotkeyService");
                 if (hEv != IntPtr.Zero) {
                     CloseHandle(hEv);
                     sw.Stop();
@@ -81,12 +81,12 @@ $report = [ordered]@{}
 # 1. Encerra instâncias anteriores de Watchdog/HotkeyService para medir NFR-001..NFR-003 limpos
 [F017PerfNative]::SignalCooperativeShutdown()
 Start-Sleep -Milliseconds 300
-Stop-Process -Name Files.Watchdog, Files.HotkeyService -Force -ErrorAction SilentlyContinue
+Stop-Process -Name KyraFiles.Watchdog, KyraFiles.HotkeyService -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 300
 
-# --- NFR-001: Boot time do Files.HotkeyService.exe (< 10 ms de CPU de inicialização do loop Win32) ---
-$hotkeyExe = Join-Path $BinDir 'Files.HotkeyService.exe'
-$watchdogExe = Join-Path $BinDir 'Files.Watchdog.exe'
+# --- NFR-001: Boot time do KyraFiles.HotkeyService.exe (< 10 ms de CPU de inicialização do loop Win32) ---
+$hotkeyExe = Join-Path $BinDir 'KyraFiles.HotkeyService.exe'
+$watchdogExe = Join-Path $BinDir 'KyraFiles.Watchdog.exe'
 
 # Aquece cache de imagem do SO em 1 execução descartada
 $dummyCpu = 0.0
@@ -114,12 +114,12 @@ $report['NFR-001_HotkeyWallClockMedianMs'] = $medianBootMs
 $report['NFR-001_TargetMs'] = 10.0
 $report['NFR-001_OK'] = ($medianCpuInitMs -le 10.0)
 
-# --- NFR-002: Consumo de RAM de Files.Watchdog + Files.HotkeyService (< 3 MB Private Bytes por processo) ---
+# --- NFR-002: Consumo de RAM de KyraFiles.Watchdog + KyraFiles.HotkeyService (< 3 MB Private Bytes por processo) ---
 $wdProc = Start-Process -FilePath $watchdogExe -WindowStyle Hidden -PassThru
 Start-Sleep -Milliseconds 800
 
-$hkProc = Get-Process -Name Files.HotkeyService -ErrorAction SilentlyContinue | Select-Object -First 1
-$wdProc = Get-Process -Name Files.Watchdog -ErrorAction SilentlyContinue | Select-Object -First 1
+$hkProc = Get-Process -Name KyraFiles.HotkeyService -ErrorAction SilentlyContinue | Select-Object -First 1
+$wdProc = Get-Process -Name KyraFiles.Watchdog -ErrorAction SilentlyContinue | Select-Object -First 1
 
 $hkWsMb = if ($hkProc) { [math]::Round($hkProc.WorkingSet64 / 1MB, 2) } else { -1 }
 $wdWsMb = if ($wdProc) { [math]::Round($wdProc.WorkingSet64 / 1MB, 2) } else { -1 }
@@ -139,7 +139,7 @@ $swRec = [Diagnostics.Stopwatch]::StartNew()
 Stop-Process -Id $oldPid -Force
 $newHk = $null
 while ($swRec.ElapsedMilliseconds -lt 2000) {
-    $cand = Get-Process -Name Files.HotkeyService -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $oldPid } | Select-Object -First 1
+    $cand = Get-Process -Name KyraFiles.HotkeyService -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $oldPid } | Select-Object -First 1
     if ($cand) {
         $newHk = $cand
         break
@@ -198,7 +198,7 @@ if (-not $filesProc) {
 }
 
 $testFolders = @(
-    'C:\desenv\utils\FilesApp',
+    'C:\desenv\utils\KyraFiles',
     'C:\Windows\System32'
 )
 if (Test-Path 'C:\FilesUXLab\perf\10k') {
@@ -212,7 +212,7 @@ for ($r = 1; $r -le $NavRuns; $r++) {
         $hwnd = [VC]::FindMainWindow($filesProc.Id)
         $cpu0 = $filesProc.TotalProcessorTime
         $swNav = [Diagnostics.Stopwatch]::StartNew()
-        Start-Process "files-dev.exe" -ArgumentList ('"' + $folder + '"')
+        Start-Process "kyrafiles.exe" -ArgumentList ('"' + $folder + '"')
         $watchRes = [VC]::Watch($hwnd, $swNav, 6000, 600)
         $filesProc.Refresh()
         $cpuMs = [int]($filesProc.TotalProcessorTime - $cpu0).TotalMilliseconds
@@ -241,7 +241,7 @@ foreach ($grp in ($navMetrics | Group-Object Folder)) {
 
 $filesProc.Refresh()
 $report['NFR-005_FilesWorkingSetMB'] = [math]::Round($filesProc.WorkingSet64 / 1MB, 1)
-$idxProc = Get-Process -Name Files.App.IndexService -ErrorAction SilentlyContinue | Select-Object -First 1
+$idxProc = Get-Process -Name KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($idxProc) {
     $report['NFR-005_IndexServiceWorkingSetMB'] = [math]::Round($idxProc.WorkingSet64 / 1MB, 1)
 }

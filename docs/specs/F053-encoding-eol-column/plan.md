@@ -1,4 +1,4 @@
-# F053 — Codificação e Fim de Linha — PLAN
+﻿# F053 — Codificação e Fim de Linha — PLAN
 
 Status: APROVADO. Responde "como", sem alterar o "o quê" da `spec.md`.
 
@@ -27,8 +27,8 @@ Status: APROVADO. Responde "como", sem alterar o "o quê" da `spec.md`.
      - Armazena backup em memória/temporário permitindo reversão byte a byte via desfazer (`Ctrl+Z`) (AC-5).
 3. **Exposição em Colunas (`ExplorerPropertyService.cs`):**
    - Novas propriedades dinâmicas:
-     - `FilesCustom.Text.Encoding` ("Codificação")
-     - `FilesCustom.Text.LineEnding` ("Fim de linha")
+     - `KyraFiles.Text.Encoding` ("Codificação")
+     - `KyraFiles.Text.LineEnding` ("Fim de linha")
    - Retorna vazio para binários (AC-1) e valor formatado para arquivos de texto.
 4. **Comandos de Contexto:**
    - `ConvertToCrlfAction` ("Converter para CRLF")

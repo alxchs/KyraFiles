@@ -1,4 +1,4 @@
-# Build 2026-11-07 — KyraFilesSetup v4.3.12
+﻿# Build 2026-11-07 — KyraFilesSetup v4.3.12
 
 - **Instalador:** `artifacts\Setup\KyraFilesSetup-4.3.12.exe` (53.641.735 bytes, 51,16 MB). Inno Setup 6.
 - **SHA256:** `2009682CA23120114155961D8900883F034BB64DDFC93C9B40582638AF1CB4F8` (`Get-FileHash`).
@@ -6,7 +6,7 @@
 - **Build:** `tools\Build-Native.ps1 -Configuration Release` + `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64` → `0 Warning(s)`, `0 Error(s)`. Pacote: 1.240 arquivos, 179,45 MB (`installer\package_manifest.json`).
 - **Conteúdo e Correções:**
   - Versão oficial atualizada para 4.3.12.0 (`Package.appxmanifest`, `KyraFilesSetup.iss`, `package_manifest.json`).
-  - **Purga de vestígios legados:** remoção completa de executáveis e bibliotecas antigas (`Files.App.Server\`, `Files.App.BackgroundTasks.*`, `Files.App.OpenDialog*.dll`, `Files.App.SaveDialog*.dll`, `KyraFilesOpenDialog`, `*.locked.*`) e de todos os diretórios/artefatos de Debug no repositório.
+  - **Purga de vestígios legados:** remoção completa de executáveis e bibliotecas antigas (`KyraFiles.App.Server\`, `KyraFiles.App.BackgroundTasks.*`, `KyraFiles.App.OpenDialog*.dll`, `KyraFiles.App.SaveDialog*.dll`, `KyraFilesOpenDialog`, `*.locked.*`) e de todos os diretórios/artefatos de Debug no repositório.
   - **Inno Setup [InstallDelete]:** incorporada diretiva no instalador para purgar preventivamente quaisquer vestígios de binários legados no diretório de destino `{app}` durante a instalação/atualização.
   - **Manifesto de Integridade:** corrigido o cálculo do SHA256 em `installer\Generate-PackageManifest.ps1`, registrando os hashes SHA256 reais de todos os 1.240 arquivos em `package_manifest.json`.
 

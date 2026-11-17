@@ -4,7 +4,7 @@ $p = Get-Process Files | Select-Object -First 1
 $hwnd = if ($p.MainWindowHandle -ne 0) { $p.MainWindowHandle } else { [Thr]::FindMainWindow($p.Id) }
 $ui = [Thr]::UiThread($hwnd)
 $a = [Thr]::Snap($p.Id); $c0 = $p.TotalProcessorTime
-Start-Process files-dev.exe -ArgumentList ('"' + $Folder + '"'); Start-Sleep $WaitS
+Start-Process kyrafiles.exe -ArgumentList ('"' + $Folder + '"'); Start-Sleep $WaitS
 $b = [Thr]::Snap($p.Id); $p.Refresh(); $tot = ($p.TotalProcessorTime - $c0).TotalMilliseconds
 "Processo: {0:N0} ms de CPU em {1}s" -f $tot, $WaitS
 $rows = foreach ($k in $b.Keys) { $o = if ($a.ContainsKey($k)) { $a[$k].Cpu100ns } else { 0 }

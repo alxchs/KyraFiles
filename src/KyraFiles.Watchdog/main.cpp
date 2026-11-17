@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles Community. Licensed under the MIT License.
 // KyraFiles.Watchdog: Supervisor mútuo ultraleve para garantia de retorno instantâneo (< 1s)
 
 #include <windows.h>

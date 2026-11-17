@@ -1,9 +1,9 @@
-# F004 — Plano de Implementação da Barra de Menus Tradicional
+﻿# F004 — Plano de Implementação da Barra de Menus Tradicional
 
 ## 1. Arquitetura e Componentes
 
 ### 1.1 Controle Visual Isolado
-- Local: `src/Files.App/UserControls/Menus/ClassicMenuBar.xaml` e `ClassicMenuBar.xaml.cs`.
+- Local: `src/KyraFiles.App/UserControls/Menus/ClassicMenuBar.xaml` e `ClassicMenuBar.xaml.cs`.
 - Base: `UserControl` envelopando um `MenuBar` nativo do WinUI 3.
 - Recursos: `ICommandManager` injetado via `Ioc.Default.GetRequiredService<ICommandManager>()`.
 - Menus:

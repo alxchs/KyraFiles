@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Diagnostics;
 using KyraFiles.App.Search.Index.Basic;
@@ -134,7 +134,7 @@ public sealed class ChildLinksAndReconcileTests
 	[TestMethod]
 	public void T17b_AC12_ChangeInParentAndChild_BothReflectedAfterReconcile()
 	{
-		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "FilesApp", "f015", "t17b_" + Guid.NewGuid().ToString("N")[..8]);
+		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "KyraFiles", "f015", "t17b_" + Guid.NewGuid().ToString("N")[..8]);
 		string dirA = Path.Combine(rootDir, "A");
 		string dirB = Path.Combine(dirA, "B");
 		Directory.CreateDirectory(dirB);
@@ -166,7 +166,7 @@ public sealed class ChildLinksAndReconcileTests
 	[TestMethod]
 	public void T17a_Reconcile_FolderMovedIntoLaterFolderAndDeletedFolder()
 	{
-		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "FilesApp", "f015", "t17a_" + Guid.NewGuid().ToString("N")[..8]);
+		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "KyraFiles", "f015", "t17a_" + Guid.NewGuid().ToString("N")[..8]);
 		Directory.CreateDirectory(Path.Combine(rootDir, "Origem", "Movida", "Funda"));
 		Directory.CreateDirectory(Path.Combine(rootDir, "Destino"));
 		Directory.CreateDirectory(Path.Combine(rootDir, "Condenada", "Sub"));
@@ -200,7 +200,7 @@ public sealed class ChildLinksAndReconcileTests
 	[TestMethod]
 	public void T17c_VolumeReconciler_BurstOfRequests_RunsOnceAfterQuietPeriod()
 	{
-		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "FilesApp", "f015", "t17c_" + Guid.NewGuid().ToString("N")[..8]);
+		string rootDir = Path.Combine(Path.GetTempPath(), "claude", "desenv", "utils", "KyraFiles", "f015", "t17c_" + Guid.NewGuid().ToString("N")[..8]);
 		Directory.CreateDirectory(Path.Combine(rootDir, "Sub"));
 
 		try

@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
 	x:Class="KyraFiles.App.Views.Properties.LibraryPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

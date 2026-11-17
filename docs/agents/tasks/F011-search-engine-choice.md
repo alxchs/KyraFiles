@@ -1,4 +1,4 @@
-# F011 — Motor de busca escolhido pelo usuário (F3 / Ctrl+F)
+﻿# F011 — Motor de busca escolhido pelo usuário (F3 / Ctrl+F)
 
 Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 03/10/2026). Executa depois da fase 1 e do desenho da F006 (`F006-search-provider.md`), que é a infraestrutura. A AGY faz agora **apenas a investigação dos dois motores externos**. Branch: `feature/search-engine-choice`. Spec: `MASTER_SPEC.md` §46.
 
@@ -12,7 +12,7 @@ Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 
 
 ### Everything (IPC)
 1. Confirmar como consultar sem janela: (a) SDK `Everything64.dll` (baixar do site do fabricante só com autorização do Alexandre) ou (b) falar o protocolo IPC direto (janela oculta de mensagens `EVERYTHING_TASKBAR_NOTIFICATION`, `WM_COPYDATA` com `EVERYTHING_IPC_QUERY`). Escrever um protótipo **fora de `src/`** (script ou projeto em `tools/search/`) que devolva 50 resultados de uma consulta por nome e por caminho, com tempo medido.
-2. Registrar: precisa do serviço? funciona com o Everything minimizado/na bandeja? requisitos de elevação? licença do SDK (MIT, a confirmar no texto do SDK) e se a DLL é compatível com NativeAOT do Files (`P/Invoke` via CsWin32).
+2. Registrar: precisa do serviço? funciona com o Everything minimizado/na bandeja? requisitos de elevação? licença do SDK (MIT, a confirmar no texto do SDK) e se a DLL é compatível com NativeAOT do KyraFiles (`P/Invoke` via CsWin32).
 
 ### Agent Ransack (`flpsearch.exe`)
 1. Descobrir os parâmetros: `flpsearch.exe /?` e a pasta `help/` e `Sample Scripts/` (somente leitura). **Atenção**: rodar com `/?` pode abrir janela; fazer isso em um desktop sem trabalho aberto e fechar em seguida. Registrar o que o executável realmente faz.
@@ -26,7 +26,7 @@ Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 
 
 - Setting `SearchEngine` = `Native | AgentRansack | Everything` (padrão `Native`), em Settings; mostra a disponibilidade de cada um (instalado, versão, respondendo).
 - `ISearchProvider` (F006) com três implementações; o `SearchAction` e os 3 pontos de chamada passam por uma fábrica que lê a setting. Motor indisponível: cai na nativa com aviso discreto, nunca erro.
-- Resultados voltam como `ListedItem` na lista do Files (sem abrir a janela do outro programa), com rótulo do motor ativo na caixa de busca. Busca incremental, cancelável, fora da UI thread.
+- Resultados voltam como `ListedItem` na lista do KyraFiles (sem abrir a janela do outro programa), com rótulo do motor ativo na caixa de busca. Busca incremental, cancelável, fora da UI thread.
 
 ## ACCEPTANCE (fases seguintes)
 

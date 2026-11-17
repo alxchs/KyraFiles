@@ -1,4 +1,4 @@
-# F024 — Lista de Tarefas (Tasks)
+﻿# F024 — Lista de Tarefas (Tasks)
 
 ## Status: Bateria de Testes Executada — Concluída
 
@@ -35,7 +35,7 @@
 ### T7 — Execução da Bateria de Testes Pós-Correção
 - [x] Executar `tools\perf\f024_watcher_sync_test.ps1` (Concluído: 21 ms criação / 30 ms exclusão).
 - [x] Executar `tools\perf\idle.ps1 -WaitS 5` (Concluído).
-- [x] Correção de travamento no tratamento de protocolo `files-dev:` em `MainWindow.xaml.cs` (Concluído).
+- [x] Correção de travamento no tratamento de protocolo `kyrafiles-dev:` em `MainWindow.xaml.cs` (Concluído).
 
 ### T8 — Higiene Absoluta e Limpeza dos Artefatos de Teste
 - [x] Executar `tools\perf\cleanup_f024_lab.ps1` após validação do Alexandre. (Concluído: executado em 22/10/2026 com saída 0).

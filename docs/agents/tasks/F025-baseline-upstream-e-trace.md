@@ -1,4 +1,4 @@
-# F025 — Baseline do upstream e trace: o diagnóstico da F024 precisa de prova
+﻿# F025 — Baseline do upstream e trace: o diagnóstico da F024 precisa de prova
 
 Brief de **medição** (sem comportamento novo, sem código de produto). Escrito pelo Claude em 20/10/2026 depois de revisar a F024.
 Executora: AGY. Revisor: Claude. Decisão final (continuar ou encerrar o projeto): Alexandre.
@@ -42,7 +42,7 @@ Pronto quando: `pwsh -File tools\perf\f025_keyboard_nav.ps1 -Exe <caminho> -What
 Criar o laboratório em `C:\FilesUXLab\perf\1600` e registrar cada caminho em `docs/specs/F024-choque-performance-navegacao/test_artifacts_registry.md` (ou no registro novo da F025). Esta é a **única** coisa descartável.
 
 ### P3 — Compilar o upstream puro
-`git worktree add ..\FilesApp-upstream-base upstream/main` (worktree ao lado do repositório, nunca em `%TEMP%`). Compilar em Release x64 com `mkfile r`. O upstream tem de ser **o mesmo commit-base** do nosso fork (`git merge-base HEAD upstream/main`), para a comparação ser justa; registre o hash.
+`git worktree add ..\KyraFiles-upstream-base upstream/main` (worktree ao lado do repositório, nunca em `%TEMP%`). Compilar em Release x64 com `mkfile r`. O upstream tem de ser **o mesmo commit-base** do nosso fork (`git merge-base HEAD upstream/main`), para a comparação ser justa; registre o hash.
 Atenção: o app é empacotado (MSIX). Registre o layout pelo script do projeto; feche a instância anterior antes. **Dois builds não podem estar instalados ao mesmo tempo com a mesma identidade**: meça um, desregistre, meça o outro, e registre a ordem.
 Pronto quando: o upstream abre, abre a pasta `1600` e o hash do commit está no relatório.
 

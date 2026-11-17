@@ -1,12 +1,12 @@
-# tools/perf/verify_no_index_service.ps1
+﻿# tools/perf/verify_no_index_service.ps1
 # Verificação mandatória de contenção de recursos e ausência do IndexService (F021 / NFR-001 / NFR-002)
-# Pré-requisito obrigatório para AGY e Claude considerarem qualquer tarefa concluída no Files Custom.
+# Pré-requisito obrigatório para AGY e Claude considerarem qualquer tarefa concluída no KyraFiles.
 
 [CmdletBinding()]
 param(
     [string]$InstallPath = $(
         $kyra = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles\KyraFiles.exe"
-        $custom = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\KyraFiles.exe"
+        $custom = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles\KyraFiles.exe"
         if (Test-Path -LiteralPath $kyra) { $kyra } else { $custom }
     ),
     [string]$AliasPath = (Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps\kyrafiles.exe"),
@@ -27,46 +27,46 @@ if (-not (Test-Path -LiteralPath $InstallPath)) {
 }
 
 # 2. Garante que processos anteriores estao fechados
-Stop-Process -Name "Files.App.IndexService" -Force -ErrorAction SilentlyContinue
-Stop-Process -Name "Files" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "KyraFiles.App.IndexService" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "KyraFiles" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "KyraFiles" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-# 3. Inicia o Files Custom oficial instalado
+# 3. Inicia o KyraFiles oficial instalado
 $targetToRun = if (Test-Path -LiteralPath $InstallPath) { $InstallPath } else { $AliasPath }
-Write-Host "[1/4] Iniciando Files Custom instalado..." -ForegroundColor Yellow
+Write-Host "[1/4] Iniciando KyraFiles instalado..." -ForegroundColor Yellow
 $proc = Start-Process -FilePath $targetToRun -WindowStyle Minimized -PassThru
 if (-not $proc -or $proc.HasExited) {
     Start-Sleep -Seconds 2
-    $proc = Get-Process -Name "KyraFiles", "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
+    $proc = Get-Process -Name "KyraFiles" -ErrorAction SilentlyContinue | Select-Object -First 1
 }
 
 if (-not $proc) {
-    Write-Error "ERRO: Falha ao iniciar processo Files"
+    Write-Error "ERRO: Falha ao iniciar processo KyraFiles"
     exit 1
 }
 
 Write-Host "[2/4] Aguardando estabilizacao de startup e background..." -ForegroundColor Yellow
 Start-Sleep -Seconds $WaitSeconds
 
-# 4. Verifica se o Files.App.IndexService foi gerado
-Write-Host "[3/4] Verificando se Files.App.IndexService tentou subir..." -ForegroundColor Yellow
-$indexProcs = @(Get-Process -Name "Files.App.IndexService" -ErrorAction SilentlyContinue)
+# 4. Verifica se o KyraFiles.App.IndexService foi gerado
+Write-Host "[3/4] Verificando se KyraFiles.App.IndexService tentou subir..." -ForegroundColor Yellow
+$indexProcs = @(Get-Process -Name "KyraFiles.App.IndexService" -ErrorAction SilentlyContinue)
 
 if ($indexProcs.Count -gt 0) {
-    Write-Host "FALHA CRITICA: Processo Files.App.IndexService DETECTADO em execucao!" -ForegroundColor Red
+    Write-Host "FALHA CRITICA: Processo KyraFiles.App.IndexService DETECTADO em execucao!" -ForegroundColor Red
     $indexProcs | Format-Table Id, ProcessName, WorkingSet64, TotalProcessorTime
     if (-not $KeepOpen) {
-        Stop-Process -Name "Files", "Files.App.IndexService" -Force -ErrorAction SilentlyContinue
+        Stop-Process -Name "KyraFiles", "KyraFiles.App.IndexService" -Force -ErrorAction SilentlyContinue
     }
     exit 1
 } else {
-    Write-Host 'SUCESSO: Files.App.IndexService NAO esta rodando. Bloqueio F021 confirmado!' -ForegroundColor Green
+    Write-Host 'SUCESSO: KyraFiles.App.IndexService NAO esta rodando. Bloqueio F021 confirmado!' -ForegroundColor Green
 }
 
 # 5. Mede o consumo de CPU e RAM do Files em repouso
-Write-Host "[4/4] Medindo CPU e RAM do Files.exe em repouso (amostra de 5s)..." -ForegroundColor Yellow
-$proc = Get-Process -Name "KyraFiles", "Files" -ErrorAction SilentlyContinue | Select-Object -First 1
+Write-Host "[4/4] Medindo CPU e RAM do KyraFiles.exe em repouso (amostra de 5s)..." -ForegroundColor Yellow
+$proc = Get-Process -Name "KyraFiles" -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($proc) {
     $cpuSampleStart = $proc.TotalProcessorTime.TotalSeconds
     $sw = [System.Diagnostics.Stopwatch]::StartNew()
@@ -80,7 +80,7 @@ if ($proc) {
     $wsMb = [math]::Round($proc.WorkingSet64 / 1MB, 2)
     $roundedCpu = [math]::Round($cpuPercent, 2)
 
-    Write-Host "Files PID: $($proc.Id)" -ForegroundColor Gray
+    Write-Host "KyraFiles PID: $($proc.Id)" -ForegroundColor Gray
     Write-Host "RAM Working Set: $wsMb MB" -ForegroundColor Gray
     Write-Host "CPU em repouso: $roundedCpu %" -ForegroundColor Gray
 

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 #pragma warning disable CS0618 // Imaging service API obsolete; migrate when ImagingService is refactored
 

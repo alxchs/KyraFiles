@@ -1,11 +1,11 @@
-# Evidencia F035 T1 — Controle Negativo (Reproducao do SemaphoreFullException)
+﻿# Evidencia F035 T1 — Controle Negativo (Reproducao do SemaphoreFullException)
 
 - **Data/Hora:** 2026-10-25 23:45:28
-- **Ambiente:** FilesDev (Release x64) no codigo original sem correcao
+- **Ambiente:** KyraFiles (Release x64) no codigo original sem correcao
 - **Parametros:** 20 rodadas, 5 disparos simultaneos por rodada, janela principal estacionada
 - **Pilha de erro capturada:**
 ```text
- ---> System.Threading.SemaphoreFullException: Adding the specified count to the semaphore would cause it to exceed its maximum count. |    at Files.App.Program..cctor()
+ ---> System.Threading.SemaphoreFullException: Adding the specified count to the semaphore would cause it to exceed its maximum count. |    at KyraFiles.App.Program..cctor()
 ```
 
 ## Tabela de Rodadas (gerada a partir de t1_controle_negativo.csv)

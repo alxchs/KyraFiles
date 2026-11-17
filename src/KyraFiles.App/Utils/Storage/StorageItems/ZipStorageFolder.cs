@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.Shared.Helpers;
@@ -152,7 +152,7 @@ namespace KyraFiles.App.Utils.Storage
 				{
 					return Constants.Distributions.KnownAppNames.Any(x => assoc.StartsWith(x, StringComparison.OrdinalIgnoreCase))
 						|| assoc == Package.Current.Id.FamilyName
-						|| assoc.EndsWith("Files.exe", StringComparison.OrdinalIgnoreCase)
+						|| assoc.EndsWith("KyraFiles.exe", StringComparison.OrdinalIgnoreCase)
 						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}
 				return true;

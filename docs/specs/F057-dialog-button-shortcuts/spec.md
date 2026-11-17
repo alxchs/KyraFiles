@@ -1,4 +1,4 @@
-# F057 — Atalhos de teclado nos botões das caixas de diálogo — SPEC
+﻿# F057 — Atalhos de teclado nos botões das caixas de diálogo — SPEC
 
 Status: **APROVADA pelo Alexandre em 26/10/2026**, com **alcance global** (todas as 17 caixas de diálogo do app, não só a de exclusão). Pedido dele com a captura da caixa "Excluir item". Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui.
 
@@ -10,7 +10,7 @@ Na caixa "Excluir item" (e nas parecidas), os botões **Excluir** e **Cancelar**
 ## 2. Histórias de usuário
 - **US1 (P1)** Como quem usa o teclado, quero apertar a letra sublinhada de um botão da caixa de diálogo para acioná-lo sem o mouse.
 - **US2 (P1)** Como quem apaga arquivos, quero marcar ou desmarcar "Excluir permanentemente" por uma letra, sem sair do teclado.
-- **US3 (P2)** Como quem usa o Files em outro idioma, quero que a letra sublinhada faça parte do texto traduzido, e não fique presa ao inglês.
+- **US3 (P2)** Como quem usa o KyraFiles em outro idioma, quero que a letra sublinhada faça parte do texto traduzido, e não fique presa ao inglês.
 
 ## 3. Cenários de aceite
 | ID | Dado | Quando | Então |

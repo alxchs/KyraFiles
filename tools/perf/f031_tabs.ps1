@@ -1,4 +1,4 @@
-# tools/perf/f031_tabs.ps1
+﻿# tools/perf/f031_tabs.ps1
 # Medição de tempo de troca de aba e abertura de nova aba (F031 T1 / AC-1)
 # Mede por UI Automation: tempo entre acionamento e aba ativa/pronta.
 # Suporta travas de ociosidade e primeiro plano (lições 16 e 17).
@@ -54,10 +54,10 @@ function Get-Stats([double[]]$values) {
 }
 
 # ==============================================================================
-# MEDIÇÃO: FILES CUSTOM (v4.3.2)
+# MEDIÇÃO: KyraFiles (v4.3.2)
 # ==============================================================================
 if (-not $SkipFiles) {
-    Log "--- Iniciando Medicao: Files Custom ---"
+    Log "--- Iniciando Medicao: KyraFiles ---"
 
     $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $p) {
@@ -241,14 +241,14 @@ $mdLines = @(
     "",
     "Data: " + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'),
     "Runs: $Runs repeticoes por cenario",
-    "Ambiente: Files Custom v4.3.2 (Windows 11 x64)",
+    "Ambiente: KyraFiles v4.3.2 (Windows 11 x64)",
     "",
     "## Tabela de Linha de Base Oficial (Valores em ms)",
     "",
     "| Aplicativo | Cenario | Min (ms) | Mediana (ms) | Media (ms) | Max (ms) | Meta F031 |",
     "| :--- | :--- | :---: | :---: | :---: | :---: | :---: |",
-    "| **Files Custom (v4.3.2)** | Troca de Aba (SwitchTab) | $($statFilSwitch.Min) | **$($statFilSwitch.Median)** | $($statFilSwitch.Mean) | $($statFilSwitch.Max) | Reducao >= 30% ou <= Explorer |",
-    "| **Files Custom (v4.3.2)** | Nova Aba (NewTab) | $($statFilNew.Min) | **$($statFilNew.Median)** | $($statFilNew.Mean) | $($statFilNew.Max) | Reducao >= 30% ou <= Explorer |",
+    "| **KyraFiles (v4.3.2)** | Troca de Aba (SwitchTab) | $($statFilSwitch.Min) | **$($statFilSwitch.Median)** | $($statFilSwitch.Mean) | $($statFilSwitch.Max) | Reducao >= 30% ou <= Explorer |",
+    "| **KyraFiles (v4.3.2)** | Nova Aba (NewTab) | $($statFilNew.Min) | **$($statFilNew.Median)** | $($statFilNew.Mean) | $($statFilNew.Max) | Reducao >= 30% ou <= Explorer |",
     "",
     "## Diagnostico da Linha de Base",
     "- **Troca de Aba (SwitchTab):** Mediana de **$($statFilSwitch.Median) ms**.",

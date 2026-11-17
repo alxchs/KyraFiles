@@ -1,6 +1,6 @@
-# SPEC-INDEX
+﻿# SPEC-INDEX
 
-Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPEC -> ID legado.
+Gerado de production-control.json em 2026-11-16T09:24:18.3979538Z. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -43,16 +43,16 @@ Gerado de production-control.json em 2026-11-15T12:32:09.9827130-03:00. Mapa SPE
 | SPEC-0037 | F041 | folder compare sync | not_started | fila | 8 |
 | SPEC-0038 | F042 | saved searches | not_started | fila | 3 |
 | SPEC-0039 | F043 | operation history | not_started | fila | 5 |
-| SPEC-0040 | F044 | spacebar quick look | completed | fila | 3 |
+| SPEC-0040 | F044 | spacebar quick look | completed | finalizadas | 3 |
 | SPEC-0041 | F045 | project actions | not_started | fila | 5 |
 | SPEC-0042 | F046 | deep network search | not_started | fila | 8 |
 | SPEC-0043 | F047 | build folder cleaner | completed | entregue | 3 |
 | SPEC-0044 | F048 | file diff | not_started | fila | 5 |
-| SPEC-0045 | F049 | links symlinks junctions | not_started | fila | 5 |
+| SPEC-0045 | F049 | links symlinks junctions | completed | finalizadas | 5 |
 | SPEC-0046 | F050 | embedded terminal | not_started | fila | 8 |
 | SPEC-0047 | F051 | code search | not_started | fila | 5 |
 | SPEC-0048 | F052 | git repo view | completed | finalizadas | 5 |
-| SPEC-0049 | F053 | encoding eol column | not_started | fila | 2 |
+| SPEC-0049 | F053 | encoding eol column | completed | finalizadas | 2 |
 | SPEC-0050 | F054 | technical preview | not_started | fila | 5 |
 | SPEC-0051 | F055 | repo map | not_started | fila | 5 |
 | SPEC-0052 | F056 | copy path formats | completed | finalizadas | 2 |

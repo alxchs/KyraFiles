@@ -1,4 +1,4 @@
-# Handoff: F006 — Infraestrutura de Busca Plugável Concluída
+﻿# Handoff: F006 — Infraestrutura de Busca Plugável Concluída
 
 Data: 2026-10-06
 Agente: Antigravity
@@ -17,9 +17,9 @@ Status: **CONCLUÍDO (Pronto para Merge / Início da F011)**
    - `docs/architecture/search-provider.md`: diagrama e design pattern para plugabilidade de provedores de busca.
    - `docs/specs/F006-search-provider/`: `spec.md`, `plan.md` e `tasks.md`.
 3. **Código de Produto**:
-   - `ISearchProvider.cs`, `SearchRequest`, `SearchCapabilities` em `src/Files.App/Data/Contracts/`.
-   - `ISearchProviderFactory.cs` em `src/Files.App/Data/Contracts/`.
-   - `NativeFilesSearchProvider.cs` e `SearchProviderFactory.cs` em `src/Files.App/Services/Search/`.
+   - `ISearchProvider.cs`, `SearchRequest`, `SearchCapabilities` em `src/KyraFiles.App/Data/Contracts/`.
+   - `ISearchProviderFactory.cs` em `src/KyraFiles.App/Data/Contracts/`.
+   - `NativeFilesSearchProvider.cs` e `SearchProviderFactory.cs` em `src/KyraFiles.App/Services/Search/`.
    - Registro no DI em `AppLifecycleHelper.cs`.
 4. **Qualidade do Build**:
    - `0 Warning(s), 0 Error(s)` verificado em Release.

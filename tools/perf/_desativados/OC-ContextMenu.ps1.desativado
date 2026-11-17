@@ -68,7 +68,7 @@ $rect = New-Object OCWin32+RECT
 [OCWin32]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
 $w = $rect.R - $rect.L
 $h = $rect.B - $rect.T
-$outPath = "C:\desenv\utils\FilesApp\docs\ux-reference\onecommander\evidence\rename\02_context_menu.png"
+$outPath = "C:\desenv\utils\KyraFiles\docs\ux-reference\onecommander\evidence\rename\02_context_menu.png"
 $bmp = New-Object System.Drawing.Bitmap $w, $h
 $gfx = [System.Drawing.Graphics]::FromImage($bmp)
 $gfx.CopyFromScreen($rect.L, $rect.T, 0, 0, (New-Object System.Drawing.Size($w, $h)))

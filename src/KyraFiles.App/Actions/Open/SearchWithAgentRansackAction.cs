@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Services.Search;
@@ -8,7 +8,7 @@ using System.IO;
 namespace KyraFiles.App.Actions
 {
 	/// <summary>
-	/// Files Custom: F3 opens Agent Ransack on the current folder, as in Explorer; without it, F3 opens the Files search (F013).
+	/// KyraFiles: F3 opens Agent Ransack on the current folder, as in Explorer; without it, F3 opens the Files search (F013).
 	/// </summary>
 	[GeneratedRichCommand]
 	internal sealed partial class SearchWithAgentRansackAction : ObservableObject, IAction

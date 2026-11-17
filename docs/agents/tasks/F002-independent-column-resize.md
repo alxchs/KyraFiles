@@ -1,12 +1,12 @@
-# F002 — Colunas com redimensionamento independente
+﻿# F002 — Colunas com redimensionamento independente
 
 Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 03/10/2026). Executor: AGY faz a investigação por teste; o Claude aprova antes de codar. Branch: `feature/independent-column-resize`.
 
 ## ARQUITETURA ATUAL (lida no código em 03/10/2026; nada executado, tudo NOT TESTED)
 
-`src/Files.App/Views/Layouts/DetailsLayoutPage.xaml(.cs)`, layout Details:
+`src/KyraFiles.App/Views/Layouts/DetailsLayoutPage.xaml(.cs)`, layout Details:
 
-- Cada coluna é um `ColumnDefinition` de um `Grid` com um `Files.App.Controls.GridSplitter` entre elas. `ColumnsViewModel` (`Data/Models/ColumnsViewModel.cs`) guarda um `DetailsLayoutColumnItem` por coluna (`UserLength`, `NormalMaxLength`, `UserCollapsed`, `IsResizable`).
+- Cada coluna é um `ColumnDefinition` de um `Grid` com um `KyraFiles.App.Controls.GridSplitter` entre elas. `ColumnsViewModel` (`Data/Models/ColumnsViewModel.cs`) guarda um `DetailsLayoutColumnItem` por coluna (`UserLength`, `NormalMaxLength`, `UserCollapsed`, `IsResizable`).
 - Arrastar: `GridSplitter_ManipulationDelta` → `UpdateColumnLayout()` copia `Column2.Width`…`Column12.Width` para o view model; ao soltar, `GridSplitter_ManipulationCompleted` grava em `FolderSettings.ColumnsViewModel` (persistência por pasta/layout). Teclado: `GridSplitter_PreviewKeyUp` (setas).
 - Duplo clique no divisor: `GridSplitter_DoubleTapped` → `ResizeColumnToFit(colunaÍndice)` (já existe auto-fit por coluna). Menu "Size all columns to fit" → `Commands.AutoFitColumns` (`Actions/Display/AutoFitColumnsAction.cs`).
 - Existe a opção `LayoutSettingsService.AutoSizeColumnsInDetailsLayout` (auto-fit ao carregar, com debounce de 250 ms em `AutoFitColumnsIfEnabled`).
@@ -16,11 +16,11 @@ Ou seja, grande parte do §6 (auto-fit, double-click, persistência, máximo) **
 
 ## TASK (investigação por teste, sem código de produto)
 
-No app (`Open-FilesDev.ps1`, `C:\FilesUXLab`, pasta com nomes curtos, nomes muito longos e a de 10 mil arquivos):
+No app (`Open-KyraFiles.ps1`, `C:\FilesUXLab`, pasta com nomes curtos, nomes muito longos e a de 10 mil arquivos):
 
 1. Arrastar o divisor de cada coluna e medir a largura de **todas** as colunas antes/depois (UI Automation ou captura + régua; registrar números). Responder: (a) a coluna vizinha muda? (b) a coluna Nome (provavelmente `*`) absorve a diferença? (c) existe largura mínima efetiva e qual? (d) o que acontece ao reduzir a janela e ao maximizar? (e) os valores persistem após fechar/reabrir e entre pastas?
 2. Repetir em DPI 100% e 150% se possível (§6).
-3. Comparar com o OneCommander só por observação externa: `docs/ux-reference/onecommander/columns.md` (modelo §18) e dizer se a queixa original ("colunas amarradas") ocorre no Files.
+3. Comparar com o OneCommander só por observação externa: `docs/ux-reference/onecommander/columns.md` (modelo §18) e dizer se a queixa original ("colunas amarradas") ocorre no KyraFiles.
 4. Resultado em `STATUS.md` (CONFIRMED/OBSERVED por caso, com captura) e proposta de correção mínima (qual arquivo, qual comportamento), **sem implementar**.
 
 ## ACCEPTANCE (do §6, para a fase de implementação futura)
@@ -29,7 +29,7 @@ Ajustar uma coluna não causa efeito colateral inesperado nas outras; largura m�
 
 ## ARQUIVOS PROVÁVEIS (fase de implementação, se for necessária)
 
-`DetailsLayoutPage.xaml(.cs)`, `ColumnsViewModel.cs`, `Controls/GridSplitter` (em `Files.App.Controls`). Layout Column (`ColumnLayoutPage`) e Grid ficam fora.
+`DetailsLayoutPage.xaml(.cs)`, `ColumnsViewModel.cs`, `Controls/GridSplitter` (em `KyraFiles.App.Controls`). Layout Column (`ColumnLayoutPage`) e Grid ficam fora.
 
 ## DO NOT CHANGE
 

@@ -1,10 +1,10 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 # Importa Send-GuardedInput
 . "$PSScriptRoot\Send-GuardedInput.ps1"
 
 $guid = [System.Guid]::NewGuid().ToString()
-$tempDir = Join-Path $env:TEMP "agy\$guid\desenv\utils\FilesApp\Files\test_videos"
+$tempDir = Join-Path $env:TEMP "agy\$guid\desenv\utils\KyraFiles\Files\test_videos"
 New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
 
 try {
@@ -25,19 +25,19 @@ try {
     $timestamp = Get-Date -Format "yyyyMMdd-HHmm"
     $csvPath = Join-Path $evidenceDir "resultado-$timestamp.csv"
 
-    Write-Host "Iniciando FilesDev apontando para $tempDir..."
+    Write-Host "Iniciando KyraFiles apontando para $tempDir..."
     $encodedPath = [System.Uri]::EscapeDataString($tempDir)
     
     # Roda contagem inicial de eventos de erro
-    $baselineErrors = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Application Error'; Id=1000} -MaxEvents 20 -ErrorAction SilentlyContinue | Where-Object { $_.TimeCreated -gt (Get-Date).AddMinutes(-5) -and $_.Message -like "*Files.exe*" }).Count
+    $baselineErrors = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Application Error'; Id=1000} -MaxEvents 20 -ErrorAction SilentlyContinue | Where-Object { $_.TimeCreated -gt (Get-Date).AddMinutes(-5) -and $_.Message -like "*KyraFiles.exe*" }).Count
 
     # Inicia app com o helper protegido
     $proc = Start-GuardedApp -FilePath "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App" -WaitReadyMs 6000
     
-    Write-Host "FilesDev iniciado. PID: $($proc.Id)"
+    Write-Host "KyraFiles iniciado. PID: $($proc.Id)"
     
     # Navega para a pasta via explorer protocol
-    Start-Process "explorer.exe" -ArgumentList "files-dev:?folder=$encodedPath"
+    Start-Process "explorer.exe" -ArgumentList "kyrafiles-dev:?folder=$encodedPath"
     Start-Sleep -Seconds 4
 
     $VK_P = [byte]0x50
@@ -61,7 +61,7 @@ try {
         Write-Host "Testando intervalo $intMs ms (5 rodadas)..."
         for ($r = 1; $r -le 5; $r++) {
             if ($proc.HasExited) {
-                Write-Host "FilesDev encerrou inesperadamente!"
+                Write-Host "KyraFiles encerrou inesperadamente!"
                 $crashed = $true
                 break
             }
@@ -103,7 +103,7 @@ try {
     }
 
     # Checa se surgiram novos eventos 1000/1026
-    $finalErrors = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Application Error'; Id=1000} -MaxEvents 20 -ErrorAction SilentlyContinue | Where-Object { $_.TimeCreated -gt (Get-Date).AddMinutes(-5) -and $_.Message -like "*Files.exe*" }).Count
+    $finalErrors = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Application Error'; Id=1000} -MaxEvents 20 -ErrorAction SilentlyContinue | Where-Object { $_.TimeCreated -gt (Get-Date).AddMinutes(-5) -and $_.Message -like "*KyraFiles.exe*" }).Count
 
     $newErrors = $finalErrors - $baselineErrors
     Write-Host "Novos eventos 1000 no log: $newErrors"

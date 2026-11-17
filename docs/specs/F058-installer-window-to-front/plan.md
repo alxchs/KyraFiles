@@ -1,10 +1,10 @@
-# F058 — PLAN
+﻿# F058 — PLAN
 
 Status: rascunho do Claude (26/10/2026), aguardando a spec aprovada.
 
 ## 1. Arquitetura atual (lida em 26/10/2026)
-- CONFIRMED: instalador Inno Setup `installer/FilesCustomSetup.iss`, `PrivilegesRequired=lowest`, `CloseApplications=yes` com filtro dos cinco executáveis do Files, `RestartApplications=no`; `[Run]` abre `files-dev.exe` com `postinstall skipifsilent`. Nenhum código de primeiro plano no `.iss` (`git grep -i foreground -- installer` vazio).
-- CONFIRMED: `installer/Update-FilesCustom.ps1` inicia o Watchdog oculto (linha 193) e não trata janela.
+- CONFIRMED: instalador Inno Setup `installer/KyraFilesSetup.iss`, `PrivilegesRequired=lowest`, `CloseApplications=yes` com filtro dos cinco executáveis do KyraFiles, `RestartApplications=no`; `[Run]` abre `kyrafiles.exe` com `postinstall skipifsilent`. Nenhum código de primeiro plano no `.iss` (`git grep -i foreground -- installer` vazio).
+- CONFIRMED: `installer/Update-KyraFiles.ps1` inicia o Watchdog oculto (linha 193) e não trata janela.
 - NOT TESTED / a descobrir na T0: **quem inicia o instalador na atualização** (o diálogo "Sobre e atualizações" da F018 ou o script) e com que parâmetros; se o processo pai fecha antes de o instalador abrir (perde o direito de ativar a janela).
 
 ## 2. Abordagem (PROPOSED, validar na T0)
@@ -16,7 +16,7 @@ Status: rascunho do Claude (26/10/2026), aguardando a spec aprovada.
 Descartadas: janela `TopMost` permanente (rouba o foco e atrapalha); `SendKeys`/Alt para enganar o sistema (frágil).
 
 ## 3. Mexer e não mexer
-- Mexer: `installer/FilesCustomSetup.iss`; o ponto do app/script que inicia o instalador (definido na T0); testes do instalador.
+- Mexer: `installer/KyraFilesSetup.iss`; o ponto do app/script que inicia o instalador (definido na T0); testes do instalador.
 - Não mexer: conteúdo dos arquivos instalados, lógica de atualização, `src/` além do ponto que inicia o instalador.
 
 ## 4. Estratégia de teste

@@ -1,4 +1,4 @@
-# Relatório de Conclusão — F065: Busca (Nome e Caminho nas Colunas)
+﻿# Relatório de Conclusão — F065: Busca (Nome e Caminho nas Colunas)
 
 - **Data:** 30/10/2026
 - **Agente:** AGY
@@ -61,7 +61,7 @@ O objetivo da F065 foi diagnosticar e sanar a causa raiz de ambos os problemas c
      ```
      impedindo que eventos assíncronos não sinalizados ocultem a coluna enquanto a página ativa for de resultados de busca, e garantindo que ela se oculte ao navegar para pastas normais.
 3. **Testes Automatizados (Task T3):**
-   - Criada a classe `SearchItemOpacityAndPathTests.cs` em `tests/Files.App.Search.Index.Tests/` com 6 testes unitários cobrindo AC-1 a AC-7.
+   - Criada a classe `SearchItemOpacityAndPathTests.cs` em `tests/KyraFiles.App.Search.Index.Tests/` com 6 testes unitários cobrindo AC-1 a AC-7.
    - Suíte de 160 testes executada com 100% de aprovação (159 passed, 1 skipped F021).
 
 ---
@@ -104,10 +104,10 @@ CSV de evidências arquivados:
 
 ## 6. Gates e Contenção de Recursos
 
-- **Compilação Release:** `mkfile r src/Files.App/Files.App.csproj` concluído com 0 erros e 25 warnings de baseline.
+- **Compilação Release:** `mkfile r src/KyraFiles.App/KyraFiles.App.csproj` concluído com 0 erros e 25 warnings de baseline.
 - **Gate Mandatório F021 (`tools/perf/verify_no_index_service.ps1`):**
-  - `Files.App.IndexService.exe`: Rigorosamente INATIVO (confirmado).
-  - CPU do `Files.exe` em repouso: **3.33 %** (meta < 5% atingida com folga).
+  - `KyraFiles.App.IndexService.exe`: Rigorosamente INATIVO (confirmado).
+  - CPU do `KyraFiles.exe` em repouso: **3.33 %** (meta < 5% atingida com folga).
   - RAM Working Set: 320.68 MB.
   - Higiene de binários: Todas as pastas Debug residuais de binários foram removidas.
 

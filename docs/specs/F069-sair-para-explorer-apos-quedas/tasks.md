@@ -1,20 +1,20 @@
-# Tarefas de Implementação — F069
+﻿# Tarefas de Implementação — F069
 
 - [x] Task 1: Criar o modelo e serviço central `CrashGuardService`
-  - [x] 1.1 Criar `src/Files.Shared/Helpers/CrashGuardService.cs` com lógica de janela deslizante de 60s, contagem de quedas e persistência JSON
+  - [x] 1.1 Criar `src/KyraFiles.Shared/Helpers/CrashGuardService.cs` com lógica de janela deslizante de 60s, contagem de quedas e persistência JSON
   - [x] 1.2 Implementar métodos `RecordCrash()`, `RecordStable()`, `ShouldFallbackToExplorer()`, `LaunchExplorerFallback()` e persistência em log
-- [x] Task 2: Integrar o `CrashGuardService` no ciclo de vida do Files
-  - [x] 2.1 Em `src/Files.App/Program.cs`, inicializar verificação de fallback precoce em argumentos de diretório e registrar `UnhandledException`
-  - [x] 2.2 Em `src/Files.App/App.xaml.cs`, disparar confirmação de estabilidade após 10s e exibir aviso caso `PromptOnNextManualLaunch` esteja ativo
-- [x] Task 3: Integrar no Lançador C++ `src/Files.App.Launcher/FilesLauncher.cpp`
+- [x] Task 2: Integrar o `CrashGuardService` no ciclo de vida do KyraFiles
+  - [x] 2.1 Em `src/KyraFiles.App/Program.cs`, inicializar verificação de fallback precoce em argumentos de diretório e registrar `UnhandledException`
+  - [x] 2.2 Em `src/KyraFiles.App/App.xaml.cs`, disparar confirmação de estabilidade após 10s e exibir aviso caso `PromptOnNextManualLaunch` esteja ativo
+- [x] Task 3: Integrar no Lançador C++ `src/KyraFiles.App.Launcher/FilesLauncher.cpp`
   - [x] 3.1 Adicionar leitura de `crash_guard.json` no `WinMain` antes de tentar invocar o protocolo
   - [x] 3.2 Se fallback estiver ativo, encaminhar imediatamente para `RunFileExplorer()`
 - [x] Task 4: Criar testes unitários e validar
-  - [x] 4.1 Criar `tests/Files.App.Search.Index.Tests/CrashGuardServiceTests.cs` cobrindo todos os cenários (AC-1 a AC-6)
+  - [x] 4.1 Criar `tests/KyraFiles.App.Search.Index.Tests/CrashGuardServiceTests.cs` cobrindo todos os cenários (AC-1 a AC-6)
   - [x] 4.2 Executar suite de testes (`dotnet test` com 172 testes passando, 0 falhas)
 - [x] Task 5: Compilar Release, validar F021 e instalar binários
-  - [x] 5.1 Compilar via `mkfile r src/Files.App/Files.App.csproj` (0 erros)
-  - [x] 5.2 Atualizar binários na pasta oficial `%LOCALAPPDATA%\Programs\FilesCustom`
+  - [x] 5.1 Compilar via `mkfile r src/KyraFiles.App/KyraFiles.App.csproj` (0 erros)
+  - [x] 5.2 Atualizar binários na pasta oficial `%LOCALAPPDATA%\Programs\KyraFiles`
   - [x] 5.3 Validar contenção F021 (`tools/perf/verify_no_index_service.ps1`)
 - [x] Task 6: Integração e conclusão
   - [x] 6.1 Commit atômico na branch `feature/f069-sair-para-explorer-apos-quedas`

@@ -1,4 +1,4 @@
-# Comparação de UX: Colunas — OneCommander vs. Files App
+﻿# Comparação de UX: Colunas — OneCommander vs. KyraFiles
 
 ## 1. Origem da Investigação
 
@@ -12,12 +12,12 @@ No OneCommander (versão 3.x/WPF):
 - Consequência: quando o usuário arrasta o divisor de uma coluna secundária (ex.: Tamanho, Data de Modificação) para a esquerda ou direita, a coluna Nome aumenta ou encolhe em tempo real para compensar o espaço, gerando a sensação física de que as colunas estão "amarradas" (efeito gangorra).
 - Ao atingir o limite da janela ou em janelas estreitas, o comportamento de rolagem horizontal entra em conflito com o redimensionamento elástico.
 
-## 3. Comportamento no Files App
+## 3. Comportamento no KyraFiles
 
-No Files App (WinUI 3):
+No KyraFiles (WinUI 3):
 - **Todas as colunas** usam largura explícita em pixels (`GridUnitType.Pixel` em `ColumnsViewModel.cs`).
 - Nenhuma coluna ativa no `DetailsLayoutPage.xaml` utiliza dimensionamento Star (`*`).
-- O manipulador de arraste em `src/Files.App.Controls/GridSplitter/GridSplitter.Events.cs` (linhas 266–274):
+- O manipulador de arraste em `src/KyraFiles.App.Controls/GridSplitter/GridSplitter.Events.cs` (linhas 266–274):
   ```csharp
   if (!IsStarColumn(CurrentColumn))
   {
@@ -37,6 +37,6 @@ No Files App (WinUI 3):
 
 ## 4. Conclusão
 
-A queixa original de "colunas amarradas" decorre de comportamentos observados em ferramentas com colunas elásticas (`*`). No Files App, a arquitetura já é totalmente independente e em pixels fixos, cumprindo o critério do §6.
+A queixa original de "colunas amarradas" decorre de comportamentos observados em ferramentas com colunas elásticas (`*`). No KyraFiles, a arquitetura já é totalmente independente e em pixels fixos, cumprindo o critério do §6.
 
 A única oportunidade de melhoria identificada é a amarração de `MinWidth` no XAML (`ColumnDefinition.MinWidth`), pois hoje o limite mínimo de 50px só é garantido pelo auto-fit programático, permitindo que o mouse arraste até ~13px. Essa melhoria foi proposta no relatório de F002.

@@ -1,8 +1,8 @@
-# F031 — Linha de Base e Resultados Pós-Otimização (AC-1, AC-2, AC-3, NFR-1)
+﻿# F031 — Linha de Base e Resultados Pós-Otimização (AC-1, AC-2, AC-3, NFR-1)
 
 Data: 2026-10-22
 Runs: 10 repetições oficiais por cenário
-Ambiente: Files Custom (Windows 11 x64)
+Ambiente: KyraFiles (Windows 11 x64)
 
 ## 1. Comparativo de Desempenho (Linha de Base vs Pós-Otimização)
 

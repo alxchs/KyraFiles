@@ -10,7 +10,7 @@ Promover a implementação vencedora das setas para navegação fluida estilo Wi
 A variante eleita utiliza `TryMoveRow` diretamente para as teclas `VirtualKey.Up` e `VirtualKey.Down` (sem modificadores) combinada com throttling de 1 frame de renderização (`CompositionTarget.Rendering`), eliminando a sobrecarga de `BringIntoView` interna da ListView nativa e garantindo fluidez sem acúmulo de fila (backlog = 0).
 
 ## 2. Modificações no Código
-Em `src/Files.App/Views/Layouts/DetailsLayoutPage.xaml.cs`:
+Em `src/KyraFiles.App/Views/Layouts/DetailsLayoutPage.xaml.cs`:
 - Ativação incondicional de `TryMoveRow` para `Up` e `Down` sem teclas modificadoras (`Ctrl`/`Shift`), sem foco em cabeçalho ou rodapé.
 - Throttling simplificado para 1 quadro (`CompositionTarget.Rendering` único), liberando imediatamente o próximo passo de navegação.
 - Remoção completa de `ReadF029Flags()`, `F029Flag()`, `f029Flags` e leitura de `C:\FilesUXLab\f029_flags.txt`.

@@ -1,10 +1,10 @@
-# F005 — Preview e Details com acesso imediato
+﻿# F005 — Preview e Details com acesso imediato
 
 Status: **SUBSTITUÍDO pelo conjunto SDD `docs/specs/F005-preview-details-toggle/` (spec, plan, tasks; Claude, 04/10/2026).** Este brief fica como histórico; a AGY executa `tasks.md`. Branch: `feature/preview-details-shortcuts`.
 
 ## ARQUITETURA ATUAL (lida no código em 03/10/2026; nada executado, tudo NOT TESTED)
 
-Ações em `src/Files.App/Actions/Show/`:
+Ações em `src/KyraFiles.App/Actions/Show/`:
 
 | Ação | Atalho | Global (Command Palette)? | Executável quando | O que faz |
 |---|---|---|---|---|
@@ -38,7 +38,7 @@ Nomes de strings: usar as existentes (`Strings.TogglePreviewPane`, `Strings.Togg
 
 ## ARQUIVOS PROVÁVEIS
 
-`Actions/Show/TogglePreviewPaneAction.cs`, `Actions/Show/ToggleDetailsPaneAction.cs` (edição pequena, são só estes dois), `InfoPane.xaml` (tooltips), `Strings.resx` se necessário. Testes em `tests/Files.App.UnitTests` se a lógica puder ser isolada (decisão aberto/aba como função pura).
+`Actions/Show/TogglePreviewPaneAction.cs`, `Actions/Show/ToggleDetailsPaneAction.cs` (edição pequena, são só estes dois), `InfoPane.xaml` (tooltips), `Strings.resx` se necessário. Testes em `tests/KyraFiles.App.UnitTests` se a lógica puder ser isolada (decisão aberto/aba como função pura).
 
 ## DO NOT CHANGE
 

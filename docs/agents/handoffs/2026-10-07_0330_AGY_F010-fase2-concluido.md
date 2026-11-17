@@ -1,4 +1,4 @@
-# Handoff: F010 — Todas as Colunas do Explorer (Fase 2 Concluída)
+﻿# Handoff: F010 — Todas as Colunas do Explorer (Fase 2 Concluída)
 
 - **Data**: 2026-10-07 03:30
 - **Autor**: AGY (Antigravity)
@@ -10,11 +10,11 @@
 ## 1. O que foi feito nesta sessão
 
 1. **Correção e Isolamento do Build**:
-   - Identificada e corrigida a ausência de diretiva `using Microsoft.Extensions.Logging;` em `src/Files.App/Data/Models/ColumnsViewModel.cs`.
+   - Identificada e corrigida a ausência de diretiva `using Microsoft.Extensions.Logging;` em `src/KyraFiles.App/Data/Models/ColumnsViewModel.cs`.
    - Compilação validada tanto em **Debug** (`mkfile d`) quanto em **Release** (`mkfile r`) com **0 Warning(s), 0 Error(s)**.
 
 2. **Deploy e Registro do App**:
-   - Pacote de Release x64 registrado e executado via `Open-FilesDev.ps1 -Configuration Release`.
+   - Pacote de Release x64 registrado e executado via `Open-KyraFiles.ps1 -Configuration Release`.
 
 3. **Validação Empírica da Interface (T2.7)**:
    - Acionado o menu de contexto do cabeçalho de colunas no modo Detalhes.

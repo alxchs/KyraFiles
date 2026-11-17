@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -129,7 +129,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			var (isLocal, target) = DocumentationHelper.ResolveDocumentationTarget("getting-started/overview.html", _tempTestDir);
 
 			Assert.IsFalse(isLocal, "Target should not be marked local when file does not exist.");
-			Assert.AreEqual("https://files.community/docs/getting-started/overview", target, "Should fall back to web URL.");
+			Assert.AreEqual("https://kyrafiles.org/docs/getting-started/overview", target, "Should fall back to web URL.");
 		}
 
 		[TestMethod]
@@ -152,7 +152,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			var (isLocal, target) = DocumentationHelper.ResolveDocumentationTarget(null, _tempTestDir);
 
 			Assert.IsFalse(isLocal, "Target should fall back to web when root docs do not exist.");
-			Assert.AreEqual("https://files.community/docs", target, "Should fall back to main web docs URL.");
+			Assert.AreEqual("https://kyrafiles.org/docs", target, "Should fall back to main web docs URL.");
 		}
 	}
 }

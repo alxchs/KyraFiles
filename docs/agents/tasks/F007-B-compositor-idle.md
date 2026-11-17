@@ -1,4 +1,4 @@
-# F007-B — O que mantém o compositor acordado com o app parado
+﻿# F007-B — O que mantém o compositor acordado com o app parado
 
 Status: BRIEF APROVADO (Claude, 03/10/2026). Executor: AGY. Só medição, sem código de produto. Continua o F007-A.
 
@@ -32,7 +32,7 @@ Ferramenta complementar (opcional, sem instalar nada novo): `Get-Counter` / cont
 
 ## ACCEPTANCE
 
-Tabela com ao menos as variáveis 1 a 4, conclusão em uma frase por variável (derruba / não derruba / inconclusivo), e uma recomendação de correção **proposta** (arquivo e mecanismo), sem implementar. Se nenhuma variável explicar, dizer isso e abrir F007-C com captura ETW (WPR) do `Files.exe` — pedir ao Alexandre antes de instalar qualquer ferramenta.
+Tabela com ao menos as variáveis 1 a 4, conclusão em uma frase por variável (derruba / não derruba / inconclusivo), e uma recomendação de correção **proposta** (arquivo e mecanismo), sem implementar. Se nenhuma variável explicar, dizer isso e abrir F007-C com captura ETW (WPR) do `KyraFiles.exe` — pedir ao Alexandre antes de instalar qualquer ferramenta.
 
 ## DO NOT CHANGE
 

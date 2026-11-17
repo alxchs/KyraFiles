@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 
 namespace KyraFiles.App.Data.Contracts
@@ -23,7 +23,7 @@ namespace KyraFiles.App.Data.Contracts
 		/// <br/>
 		/// For more info, visit:
 		/// <br/>
-		/// <a href="https://github.com/files-community/Files/issues/12390"/>
+		/// <a href="https://github.com/alxchs/KyraFiles/issues/12390"/>
 		/// <br/>
 		/// <a href="https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669"/>
 		/// </remarks>

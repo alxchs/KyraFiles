@@ -1,4 +1,4 @@
-# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # SPDX-License-Identifier: MPL-2.0
 
 # Creates an .msixbundle from individual per-platform .msix packages produced

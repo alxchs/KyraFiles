@@ -1,4 +1,4 @@
-# tools/perf/f015_ui_verification.ps1
+﻿# tools/perf/f015_ui_verification.ps1
 # Verifica na aplicação aberta (WinSta0\Default via UI Automation) as tarefas T11 e T12 da F015:
 # - T11: busca indexada em C:\desenv e em Home / Este Computador (todos os discos)
 # - T12: seção "Índice de Busca Instantânea" em Configurações -> Arquivos e pastas (volumes, itens, estado e exclusão)
@@ -11,7 +11,7 @@ param(
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
-$outDir = Join-Path $env:TEMP "claude\desenv\utils\FilesApp\f015"
+$outDir = Join-Path $env:TEMP "claude\desenv\utils\KyraFiles\f015"
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 
 $innerScript = @'
@@ -38,7 +38,7 @@ public static class Win32Uia {
 }
 "@
 
-$outDir = Join-Path $env:TEMP "claude\desenv\utils\FilesApp\f015"
+$outDir = Join-Path $env:TEMP "claude\desenv\utils\KyraFiles\f015"
 $AE = [System.Windows.Automation.AutomationElement]
 $CT = [System.Windows.Automation.ControlType]
 $Scope = [System.Windows.Automation.TreeScope]
@@ -143,7 +143,7 @@ if ($STEP_TO_RUN -eq 'All' -or $STEP_TO_RUN -eq 'ThisPC') {
         Start-Sleep -Milliseconds 800
     }
     [Win32Uia]::SetForegroundWindow($hwnd) | Out-Null
-    [System.Windows.Forms.SendKeys]::SendWait("Files.App.csproj{ENTER}")
+    [System.Windows.Forms.SendKeys]::SendWait("KyraFiles.App.csproj{ENTER}")
     Start-Sleep -Milliseconds 2500
 
     $allTexts2 = $win.FindAll($Scope::Descendants, (New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $CT::Text)))

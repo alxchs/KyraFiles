@@ -62,6 +62,6 @@ $res = Invoke-OnDefault -PowerShellScript $script
 Write-Output $res
 
 # Capture screen
-$outPath = 'c:\desenv\utils\FilesApp\docs\releases\evidence\f010_added_column.png'
+$outPath = 'c:\desenv\utils\KyraFiles\docs\releases\evidence\f010_added_column.png'
 Capture-FilesWindow -OutFile $outPath
 Write-Output "Captured evidence to $outPath"

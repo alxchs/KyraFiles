@@ -1,7 +1,7 @@
-# Evidencia F035 T3 — Validacao de Aceite (AC-1, AC-2, AC-3, AC-5)
+﻿# Evidencia F035 T3 — Validacao de Aceite (AC-1, AC-2, AC-3, AC-5)
 
 - **Data/Hora:** 2026-10-26 00:47:12
-- **Ambiente:** FilesDev (Release x64) com correcao do SemaphoreFullException
+- **Ambiente:** KyraFiles (Release x64) com correcao do SemaphoreFullException
 - **Resultado Geral:** FALHA
 
 ## Tabela de Resultados por Cenario (gerada a partir de resultado-controle-20261026-0042.csv)
@@ -31,8 +31,8 @@
 | AC-1_Rodada_20 | 0 eventos 1026, 5 pastas presentes como abas | 5 abas (System32, Windows, Fonts, Help, Media), 0 eventos 1026 em 89 ms | PASS | LaunchParallel 5 pastas < 1s |
 | AC-1 | 20 rodadas de 5 disparos em < 1s: 5 pastas aparecem como abas e 0 eventos 1026 | 17/20 rodadas passaram (todas as 5 pastas abertas, 0 eventos 1026; ultima rodada: 5 abas: System32, Windows, Fonts, Help, Media) | FAIL | LaunchParallel 5 pastas em 20 rodadas com principal estacionada |
 | AC-2 | 1 janela aberta mostrando as 2 pastas pedidas ('Windows', 'System32'), 0 eventos 1026 | Janelas: 2, 5 abas (System32, Windows, Fonts, Help, Media; inclui abas restauradas da sessao anterior por ContinueLastSessionOnStartUp=true), alvo presentes: True, 0 eventos 1026 | FAIL | LaunchParallel 2 pastas com Files fechado |
-| AC-3 | Dialogo roda em processo proprio isolado, nao redireciona para principal, 0 eventos 1026 | Processo de dialogo isolado: True, 0 eventos 1026 | PASS | files-dev.exe -outputpath <arquivo> |
-| AC-5 | Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026 | Janela visivel: False, 0 eventos 1026 | FAIL | files-dev.exe C:\Windows com principal estacionada |
+| AC-3 | Dialogo roda em processo proprio isolado, nao redireciona para principal, 0 eventos 1026 | Processo de dialogo isolado: True, 0 eventos 1026 | PASS | kyrafiles.exe -outputpath <arquivo> |
+| AC-5 | Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026 | Janela visivel: False, 0 eventos 1026 | FAIL | kyrafiles.exe C:\Windows com principal estacionada |
 
 ## Resumo dos Cenarios
 

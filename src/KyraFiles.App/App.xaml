@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <Application
 	x:Class="KyraFiles.App.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -23,12 +23,12 @@
 			<CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
 			<CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
 
-			<!-- Files Custom: Dynamic Control and Tab Shape Geometry Resources -->
+			<!-- KyraFiles: Dynamic Control and Tab Shape Geometry Resources -->
 			<CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
 			<CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
 			<CornerRadius x:Key="App.Theme.Tab.CornerRadius">0,14,0,4</CornerRadius>
 
-			<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+			<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/13078  -->
 			<Style TargetType="FlyoutPresenter">
 				<Setter Target="HighContrastAdjustment" Value="None" />
 				<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
@@ -90,17 +90,17 @@
 				<ContentPresenter Margin="4,2" Content="{TemplateBinding Tag}" />
 			</ControlTemplate>
 
-			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			</Style>
 
-			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultToggleMenuFlyoutItemStyle}" TargetType="ToggleMenuFlyoutItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			</Style>
 
-			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<!--  Workaround for https://github.com/alxchs/KyraFiles/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutSubItemStyle}" TargetType="MenuFlyoutSubItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			</Style>

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Testa o spike F015-T1 sem elevação: sc query + ping pelo named pipe.
 
@@ -12,7 +12,7 @@
     Pode ser chamado pelo Claude (sem RunAs) após Install-Spike.ps1 ter rodado elevado.
 #>
 
-$LogDir  = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir  = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "Test-Spike-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 

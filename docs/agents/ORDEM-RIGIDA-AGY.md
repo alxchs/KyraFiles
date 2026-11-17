@@ -1,4 +1,4 @@
-# ORDEM DE TRABALHO RÍGIDA PARA A AGY — 24/10/2026 (Claude, arquiteto)
+﻿# ORDEM DE TRABALHO RÍGIDA PARA A AGY — 24/10/2026 (Claude, arquiteto)
 
 > Texto autocontido: o Alexandre cola **tudo abaixo da linha** na janela da AGY. Ela não precisa ler outro arquivo para saber as regras. Vale até o Claude escrever "LIBERADO" numa nova ordem.
 
@@ -14,11 +14,11 @@ A automação de teste que você escreveu enviou teclas para a janela em foco e 
 - **R2. Branch.** Crie `feature/test-input-guard` a partir da `main` atual (v4.3.6). **Proibido** alterar ou commitar na `main`. Um commit por tarefa, formato `tipo(escopo): resumo`.
 - **R3. Sem publicar.** Proibido `git push`, tag, merge, release, instalador, `gh release`. Você só faz commits locais na sua branch. O Claude revisa e o Alexandre autoriza o push.
 - **R4. Nenhuma entrada global.** Até o Claude revisar o helper da S2, **é proibido rodar qualquer script que envie tecla ou clique global**, inclusive os antigos. Isso inclui `SendKeys`, `SendInput`, `keybd_event`, `mouse_event`, `SetCursorPos` e `SetForegroundWindow`. As provas da S3 usam somente janelas **que o próprio script cria**.
-- **R5. Nunca outro app.** É proibido anexar a um `Files.exe`, Bloco de Notas, navegador ou qualquer processo que você não iniciou. É proibido tocar no app que o Alexandre usa, no WhatsApp ou em qualquer chat, e-mail ou editor.
+- **R5. Nunca outro app.** É proibido anexar a um `KyraFiles.exe`, Bloco de Notas, navegador ou qualquer processo que você não iniciou. É proibido tocar no app que o Alexandre usa, no WhatsApp ou em qualquer chat, e-mail ou editor.
 - **R6. Sem texto livre por teclado.** Nunca digite caminho nem texto com `SendKeys`. Para preencher campo, use UI Automation (`ValuePattern`) ou argumento de linha de comando.
 - **R7. Afirmar só com prova.** "Funciona" exige o comando e a saída colados no handoff. Sem prova, escreva `NOT TESTED`. Proibido ✔ escrito à mão; relatório de teste é **gerado** do CSV do teste.
 - **R8. Dúvida para tudo.** Se algo for ambíguo, ou o resultado surpreender, **pare**, escreva `PENDING DECISION` em `DECISIONS.md` (contexto, opções, a escolha que faria) e aguarde. Não improvise e não "corrija o que parece errado" fora do escopo.
-- **R9. Temporários.** Todo arquivo temporário vai em `%TEMP%\agy\<GUID>\desenv\utils\FilesApp\Files\`. Nunca no Downloads, na Área de Trabalho nem solto no `%TEMP%`. Apague a pasta do GUID ao fim.
+- **R9. Temporários.** Todo arquivo temporário vai em `%TEMP%\agy\<GUID>\desenv\utils\KyraFiles\Files\`. Nunca no Downloads, na Área de Trabalho nem solto no `%TEMP%`. Apague a pasta do GUID ao fim.
 - **R10. Não matar processos alheios.** Nunca encerre `agy.exe --hub` de outra janela nem processos que você não iniciou.
 - **R11. Uma tarefa por vez, e pare no fim.** Termine a S5 e **pare**. Não comece F035, F036 ou qualquer feature. A próxima ordem vem do Claude.
 - **R12. Honestidade.** Se uma tarefa falhar, diga que falhou e mostre a saída. Dizer "concluído" sem prova é a violação mais grave desta ordem.
@@ -54,7 +54,7 @@ Gere `docs/agents/evidence/test-input-guard/resultado.csv` (uma linha por caso: 
 2. O teste negativo realmente reprova: as duas caixas vazias e saída ≠ 0.
 3. Não existe `SetForegroundWindow` no helper.
 4. O diff da branch não toca `src/`, `installer/` nem `docs/specs/`.
-5. Nenhum processo `Files.exe` ou outro app foi anexado durante as provas.
+5. Nenhum processo `KyraFiles.exe` ou outro app foi anexado durante as provas.
 6. Handoff com comandos e saídas; nenhum ✔ manual.
 
 ## R13. RELATÓRIO DE SITUAÇÃO (regra de 26/10/2026, pedido do Alexandre; vale a partir de agora)

@@ -39,6 +39,6 @@ $res = Invoke-OnDefault -PowerShellScript $script
 Write-Output $res
 
 # Capture screen showing D:\ again
-$outPath = 'c:\desenv\utils\FilesApp\docs\releases\evidence\f010_persisted_d_drive.png'
+$outPath = 'c:\desenv\utils\KyraFiles\docs\releases\evidence\f010_persisted_d_drive.png'
 Capture-FilesWindow -OutFile $outPath
 Write-Output "Captured evidence to $outPath"

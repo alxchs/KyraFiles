@@ -1,4 +1,4 @@
-# Passagem do KyraFiles para outra máquina (Claude, 06/11/2026)
+﻿# Passagem do KyraFiles para outra máquina (Claude, 06/11/2026)
 
 Leia este arquivo primeiro na máquina nova. Ele junta o estado do projeto e a memória que o Claude tinha
 nesta máquina. Essa memória fica fora do git, em `~/.claude/projects/<pasta>/memory/`, e não viaja com o clone.
@@ -7,7 +7,7 @@ Estado: conferido com `git rev-parse` e `git rev-list` em 06/11/2026. Reverifiqu
 
 ## 1. Primeiros passos na máquina nova
 
-1. Clone: `git clone https://github.com/alxchs/FilesCustom-private.git C:\desenv\utils\KyraFiles`.
+1. Clone: `git clone https://github.com/alxchs/KyraFilesCustom-private.git C:\desenv\utils\KyraFiles`.
    Use o mesmo caminho: as regras globais (hooks de git em `c:/desenv/`, temporários, `mkfile`) dependem dele.
 2. Confira se o push desta máquina chegou: `git log --oneline -1 origin/main` deve mostrar
    `fix(core): purga residuos de nomes legados, fecha F088 Fase 0 e registra specs F089/F090`.
@@ -48,15 +48,15 @@ Estado: conferido com `git rev-parse` e `git rev-list` em 06/11/2026. Reverifiqu
 
 ## 3. Onde o trabalho parou
 
-- **Produto:** KyraFiles (fork do Files Community). Versão do pacote `4.3.11.0`. A identidade do pacote
-  ainda é `FilesDev` / `CN=Files`: isso é a F087, que está em rascunho e é de alto risco, porque o Windows
+- **Produto:** KyraFiles (fork do KyraFiles Community). Versão do pacote `4.3.11.0`. A identidade do pacote
+  ainda é `KyraFiles` / `CN=Files`: isso é a F087, que está em rascunho e é de alto risco, porque o Windows
   trata o pacote como app novo.
 - **F088, remoção do vínculo com o ancestral:** a Fase 0 (resíduos de nomes legados) está fechada.
-  Decisões do Alexandre (03/11): zero referência visual ao Files Community; ficam só `LICENSE-MIT`,
+  Decisões do Alexandre (03/11): zero referência visual ao KyraFiles Community; ficam só `LICENSE-MIT`,
   `LICENSE-MPL` e os cabeçalhos de copyright (249 arquivos são MPL-2.0 e continuam MPL). O renome do
   `namespace Files.*` (cerca de 1.219 arquivos) ficou para a F091.
   Pontos em aberto: o que conta como "referência visual" (só marca, textos, links e ícones, ou também
-  o layout) e se o protocolo `files-dev:` fica.
+  o layout) e se o protocolo `kyrafiles-dev:` fica.
 - **F089, fontes não aplicadas** (`docs/specs/F089-fontes-nao-aplicadas/`): spec, plan e tasks em
   RASCUNHO, esperando aprovação do Alexandre. É a próxima a ser executada pela AGY, em `feature/f089-fontes`.
   Achado: `F009-separate-fonts` tem `spec.md` e `plan.md` vazios e o `tasks.md` todo marcado como feito,
@@ -83,7 +83,7 @@ Em 03/11/2026 a AGY declarou "build limpo" sem que o `KyraFiles.exe` tivesse sid
 **Por quê:** o Alexandre tem pouca tolerância a isso. Relatório sem prova vale `INFERRED`.
 **Como aplicar:** compare a data do exe/DLL em `bin/` com `git log -1 --format=%cd`. Para nomes antigos,
 use `git grep -P '(?<![A-Za-z])Files\.App\.(Launcher|OpenDialog|SaveDialog|Server|BackgroundTasks)'`.
-Sem o lookbehind há falso positivo, porque `KyraFiles.App.X` contém `Files.App.X`. Um commit citado no
+Sem o lookbehind há falso positivo, porque `KyraFiles.App.X` contém `KyraFiles.App.X`. Um commit citado no
 relatório pode ter outro hash depois do squash: confira com `git diff --stat` contra a `backup/*-pre-merge`.
 
 ### 4.2 F088 e specs seguintes (project)

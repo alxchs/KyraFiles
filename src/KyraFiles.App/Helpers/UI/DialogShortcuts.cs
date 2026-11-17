@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -19,7 +19,7 @@ using Windows.UI.Core;
 namespace KyraFiles.App.Helpers
 {
 	/// <summary>
-	/// Files Custom (F057): underlined accelerator letter on the buttons and options of a <see cref="ContentDialog"/>.
+	/// KyraFiles (F057): underlined accelerator letter on the buttons and options of a <see cref="ContentDialog"/>.
 	/// Pressing the letter does what a click does; it never fires while a text box, combo box or similar is focused.
 	/// </summary>
 	public static class DialogShortcuts

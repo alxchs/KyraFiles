@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -4068,7 +4068,7 @@
     <value>Files dalej działa w tle, aby poprawić wydajność uruchamiania.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Gdzie się podziało Files?</value>
+    <value>Gdzie się podziało KyraFiles?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Pytania i dyskusja</value>

@@ -1,14 +1,14 @@
-# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — PLAN
+﻿# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — PLAN
 
 ---
 
 ## 1. Arquitetura Atual e Diagnóstico
 
 ### Diagnóstico no Código
-1. `src/Files.App.CsWin32/NativeMethods.txt` já inclui a declaração da API Win32:
+1. `src/KyraFiles.App.CsWin32/NativeMethods.txt` já inclui a declaração da API Win32:
    `K32EmptyWorkingSet` (linha 407). O CsWin32 gera a assinatura:
    `Windows.Win32.PInvoke.K32EmptyWorkingSet(Windows.Win32.Foundation.HANDLE hProcess)`.
-2. Em `src/Files.App/App.xaml.cs`:
+2. Em `src/KyraFiles.App/App.xaml.cs`:
    - O método `TryEmptyWorkingSetWhenIdle` aceita `Windows.Win32.Foundation.HANDLE processHandle`, porém o método local `AggressiveGC` simplesmente ignora o handle e não chama `K32EmptyWorkingSet`!
    - Além disso, `TryEmptyWorkingSetWhenIdle` só é chamado nos métodos de finalização e fechamento para bandeja (`App.xaml.cs:234` e `417`), nunca durante o ciclo de vida normal com janela minimizada ou ociosa.
 3. No Windows 10/11, a chamada de `K32EmptyWorkingSet` remove as páginas não essenciais do Working Set do processo e as move para a *Standby List* do gerenciador de memória do sistema operacional (na própria RAM). Como as páginas permanecem na RAM enquanto não houver pressão extrema de memória global no SO, o retorno à tela é atendido por **soft page faults** na RAM física, sem I/O de disco, ocorrendo em microssegundos (latência praticamente zero).
@@ -35,14 +35,14 @@ Criar um serviço desacoplado de gestão de memória ou estender o ciclo de vida
 ## 3. Arquivos a Modificar e a Não Modificar
 
 ### Modificar:
-- `src/Files.App/Helpers/MemoryTrimHelper.cs` (novo helper especializado e seguro)
-- `src/Files.App/App.xaml.cs` (corrigir `TryEmptyWorkingSetWhenIdle` para chamar `K32EmptyWorkingSet` e conectar o hook de idle)
-- `src/Files.App/Views/MainWindow.xaml.cs` (adicionar escuta a evento de minimização para acionar o trim suave)
+- `src/KyraFiles.App/Helpers/MemoryTrimHelper.cs` (novo helper especializado e seguro)
+- `src/KyraFiles.App/App.xaml.cs` (corrigir `TryEmptyWorkingSetWhenIdle` para chamar `K32EmptyWorkingSet` e conectar o hook de idle)
+- `src/KyraFiles.App/Views/MainWindow.xaml.cs` (adicionar escuta a evento de minimização para acionar o trim suave)
 - `tools/perf/measure_memory_and_latency.ps1` (script de teste de baseline e verificação de latência de restauração)
 
 ### NÃO Modificar:
-- `src/Files.App.Server` (permanece isolado)
-- `src/Files.App.IndexService` (permanece rigorosamente desarmado conforme Gate F021)
+- `src/KyraFiles.App.Server` (permanece isolado)
+- `src/KyraFiles.App.IndexService` (permanece rigorosamente desarmado conforme Gate F021)
 - Lógica interna de virtualização de itens das pastas (`FolderViewModel`, `BaseLayoutPage`)
 
 ---
@@ -50,7 +50,7 @@ Criar um serviço desacoplado de gestão de memória ou estender o ciclo de vida
 ## 4. Estratégia de Teste e Roteiro
 
 1. **Roteiro de Teste 1 (Baseline vs Trim):**
-   - Abrir o Files Custom instalado (v4.3.8).
+   - Abrir o KyraFiles instalado (v4.3.8).
    - Medir Working Set em uso normal (abrir pastas, navegar).
    - Minimizar a janela por 5 segundos.
    - Medir Working Set após minimização.

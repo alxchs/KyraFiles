@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0612 // RecycleBinWatcher obsolete; migrate when replacement is available
 

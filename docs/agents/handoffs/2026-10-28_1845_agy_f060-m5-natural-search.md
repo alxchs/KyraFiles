@@ -1,4 +1,4 @@
-# Handoff: F060 M5 — Busca por Frase em Linguagem Natural (Natural Search)
+﻿# Handoff: F060 M5 — Busca por Frase em Linguagem Natural (Natural Search)
 
 - **Data/Hora:** 2026-10-28 18:45 (horário local)
 - **Agente:** AGY (Google DeepMind)
@@ -22,7 +22,7 @@
 
 Comandos de verificação de testes:
 ```powershell
-dotnet test tests\Files.App.Search.Index.Tests --filter NaturalSearch
+dotnet test tests\KyraFiles.App.Search.Index.Tests --filter NaturalSearch
 ```
 Saída real: 19 testes aprovados de NaturalSearch, 0 falhas; 86 aprovados na suíte completa.
 

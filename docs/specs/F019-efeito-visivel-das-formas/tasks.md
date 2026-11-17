@@ -1,4 +1,4 @@
-# F019 — TASKS
+﻿# F019 — TASKS
 
 | # | Tarefa | Atende | Pronto quando | Estado |
 |---|---|---|---|---|
@@ -6,7 +6,7 @@
 | T1b | Reescrever os 9 construtores com detalhes fixos e perfis (cantos vs lateral) | AC-7, AC-8, AC-9 | build 0/0 | CONCLUÍDO (12/10/2026: mkfile d, 0 erros, 0 avisos) |
 | T2 | `ShapeClip` (propriedade anexada) | FR-003, AC-1, AC-5 | build 0/0 | CONCLUÍDO (12/10/2026: mkfile d, 0 erros, 0 avisos) |
 | T3 | Usar `ShapeClip` na janela, área de arquivos e `TabContainer`; remover o código-behind do `MainPage` | FR-001, AC-3 | build 0/0; forma 0 sem recorte | CONCLUÍDO (12/10/2026: mkfile d, 0 erros, 0 avisos) |
-| T4 | Deploy (`Open-FilesDev.ps1 -Configuration Debug -NoLaunch`), capturas das 10 formas e conferência de cortes | AC-1..AC-6, AC-9..AC-13 | PNGs das 10 formas gerados, 4 cantos, abas e lado a lado | CONCLUÍDO (12/10/2026: deploy Debug AppX + f019_shapes_capture.ps1) |
+| T4 | Deploy (`Open-KyraFiles.ps1 -Configuration Debug -NoLaunch`), capturas das 10 formas e conferência de cortes | AC-1..AC-6, AC-9..AC-13 | PNGs das 10 formas gerados, 4 cantos, abas e lado a lado | CONCLUÍDO (12/10/2026: deploy Debug AppX + f019_shapes_capture.ps1) |
 | T5 | Mostrar as capturas ao Alexandre (caminho dos PNGs no handoff) e ajustar escalas se ele pedir | AC-2 | aprovação do Alexandre | CONCLUÍDO (caminhos dos PNGs guardados no handoff) |
 
 ## Revisão 12/10/2026 (feedback) — tarefas acrescentadas e alteradas

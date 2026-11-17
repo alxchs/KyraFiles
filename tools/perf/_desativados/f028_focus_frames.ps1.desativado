@@ -1,4 +1,4 @@
-# F028 — segura uma tecla e grava quadros em resolucao real da janela (CopyFromScreen), um PNG por quadro,
+﻿# F028 — segura uma tecla e grava quadros em resolucao real da janela (CopyFromScreen), um PNG por quadro,
 # para conferir onde o contorno de foco e desenhado (linha com conteudo ou linha vazia). Inclui quadros depois de soltar.
 # Uso: pwsh -File f028_focus_frames.ps1 -Label base -Key PageDown [-HoldS 3] [-EveryMs 150] [-Folder C:\FilesUXLab\perf\1600]
 param(
@@ -6,7 +6,7 @@ param(
     [ValidateSet('Down', 'Up', 'PageDown', 'PageUp')][string]$Key = 'PageDown',
     [double]$HoldS = 3, [int]$EveryMs = 150, [string]$ProcessName = 'Files',
     [string]$Folder = 'C:\FilesUXLab\perf\1600', [switch]$NoNav, [switch]$FromEnd,
-    [string]$OutDir = "$env:TEMP\claude\desenv\utils\FilesApp\f028_frames"
+    [string]$OutDir = "$env:TEMP\claude\desenv\utils\KyraFiles\f028_frames"
 )
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing, System.Windows.Forms

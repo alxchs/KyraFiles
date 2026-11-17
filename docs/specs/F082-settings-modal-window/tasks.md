@@ -1,4 +1,4 @@
-# F082 — Janela Modal de Configurações (Settings Modal Window) — TASKS
+﻿# F082 — Janela Modal de Configurações (Settings Modal Window) — TASKS
 
 Estado: **CONCLUÍDO** (01/11/2026).
 Branch: `feature/f082-settings-modal-window`
@@ -13,12 +13,12 @@ Branch: `feature/f082-settings-modal-window`
   - [x] Criar `tasks.md` com o checklist de execução.
 
 - [x] **Fase 2: Implementação da Janela Modal (`SettingsDialog.cs`)**
-  - [x] Criar `src/Files.App/Views/Settings/SettingsDialog.cs` com suporte a `WindowEx`, modalidade Win32 (`GWL_HWNDPARENT`, `EnableWindow`), centralização, atalho Escape e gestão de ciclo de vida singleton.
-  - [x] Ajustar `src/Files.App/Views/Settings/SettingsPage.xaml.cs` para suportar execução autônoma sem requerer `AssociatedTabInstance`.
+  - [x] Criar `src/KyraFiles.App/Views/Settings/SettingsDialog.cs` com suporte a `WindowEx`, modalidade Win32 (`GWL_HWNDPARENT`, `EnableWindow`), centralização, atalho Escape e gestão de ciclo de vida singleton.
+  - [x] Ajustar `src/KyraFiles.App/Views/Settings/SettingsPage.xaml.cs` para suportar execução autônoma sem requerer `AssociatedTabInstance`.
 
 - [x] **Fase 3: Roteamento de Ações e Limpeza de Abas**
-  - [x] Atualizar `src/Files.App/Actions/Open/OpenSettingsAction.cs` para chamar `SettingsDialog.Show`.
-  - [x] Atualizar `src/Files.App/Actions/Open/OpenAboutAction.cs` para chamar `SettingsDialog.Show(SettingsPageKind.AboutPage)`.
+  - [x] Atualizar `src/KyraFiles.App/Actions/Open/OpenSettingsAction.cs` para chamar `SettingsDialog.Show`.
+  - [x] Atualizar `src/KyraFiles.App/Actions/Open/OpenAboutAction.cs` para chamar `SettingsDialog.Show(SettingsPageKind.AboutPage)`.
   - [x] Ajustar `NavigationHelpers.cs` para interceptar e redirecionar qualquer pedido de navegação para "Settings" para o `SettingsDialog`.
   - [x] Atualizar `AppLifecycleHelper.cs` e `MainPageViewModel.cs` para purgar e filtrar abas legadas de `"Settings"` da lista de restauração de sessão.
 

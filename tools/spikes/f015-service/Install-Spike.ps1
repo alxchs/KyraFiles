@@ -1,11 +1,11 @@
-#Requires -RunAsAdministrator
+﻿#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
     Instala o spike F015-T1 como serviço do Windows (opção b: instalador elevado).
 
 .DESCRIPTION
     Spike descartável — F015 T1. Fora de src/.
-    Copia IndexServiceSpike.exe para %ProgramFiles%\FilesCustom\IndexService\
+    Copia IndexServiceSpike.exe para %ProgramFiles%\KyraFiles\IndexService\
     e registra o serviço com 'sc create'.
     Grava saída em log para o Claude ler.
 
@@ -14,7 +14,7 @@
     o Claude dispara com: Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File Install-Spike.ps1"
 #>
 
-$LogDir = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "Install-Spike-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 
@@ -46,7 +46,7 @@ if (-not (Test-Path $ExePath)) {
 Log "Exe encontrado: $ExePath"
 
 # Destino
-$Dest = "$env:ProgramFiles\FilesCustom\IndexService"
+$Dest = "$env:ProgramFiles\KyraFiles\IndexService"
 New-Item -ItemType Directory -Force -Path $Dest | Out-Null
 $DestExe = Join-Path $Dest "IndexServiceSpike.exe"
 
@@ -73,7 +73,7 @@ $scOut = sc.exe create "FilesCustomIndexServiceSpike" `
     binPath= "`"$DestExe`" --service" `
     start= demand `
     obj= LocalSystem `
-    DisplayName= "Files Custom Index Service (Spike F015)" 2>&1
+    DisplayName= "KyraFiles Index Service (Spike F015)" 2>&1
 Log "sc create: $scOut"
 
 # Iniciar

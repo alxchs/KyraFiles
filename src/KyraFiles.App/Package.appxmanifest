@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) KyraFiles contributors. Licensed under the MIT License.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -15,13 +15,13 @@
     IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5 virtualization">
 
     <Identity
-        Name="FilesDev"
-        Publisher="CN=Files"
+        Name="KyraFiles"
+        Publisher="CN=KyraFiles"
         Version="4.3.18.0" />
 
     <Properties>
         <DisplayName>KyraFiles</DisplayName>
-        <PublisherDisplayName>Yair A</PublisherDisplayName>
+        <PublisherDisplayName>Alexandre Chagas</PublisherDisplayName>
         <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
         <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
         <virtualization:RegistryWriteVirtualization>
@@ -121,17 +121,12 @@
 
                 <uap3:Extension Category="windows.appExtensionHost">
                     <uap3:AppExtensionHost>
-                        <uap3:Name>com.files.filepreview</uap3:Name>
+                        <uap3:Name>com.kyrafiles.filepreview</uap3:Name>
                     </uap3:AppExtensionHost>
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
                     <uap:Protocol ReturnResults="none" Name="kyrafiles" />
-                </uap:Extension>
-
-                <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-dev" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
@@ -200,7 +195,7 @@
         -->
         <rescap:Capability Name="unvirtualizedResources" />
         <!--
-            The packageManagement capability is used to download updates in the sideload version of Files.
+            The packageManagement capability is used to download updates in the sideload version of KyraFiles.
             We only use this capability in the sideload version and remove it when compiling the store version.
         -->
         <rescap:Capability Name="packageManagement" />

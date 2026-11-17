@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Diagnostics;
 using KyraFiles.App.Search.Index.Ipc;
@@ -15,7 +15,7 @@ public sealed class IndexServiceIpcTests
 			"claude",
 			"desenv",
 			"utils",
-			"FilesApp",
+			"KyraFiles",
 			"f015",
 			"ipc_" + Guid.NewGuid().ToString("N")[..8]);
 
@@ -36,7 +36,7 @@ public sealed class IndexServiceIpcTests
 		File.WriteAllText(Path.Combine(subInclude, "documento_visivel_t10.txt"), "ok");
 		File.WriteAllText(Path.Combine(subExclude, "documento_oculto_t10.txt"), "excluir");
 
-		string pipeName = $"FilesCustom.TestPipe.{Guid.NewGuid():N}";
+		string pipeName = $"KyraFiles.TestPipe.{Guid.NewGuid():N}";
 		string exePath = Path.Combine(AppContext.BaseDirectory, "KyraFiles.App.IndexService.exe");
 		Assert.IsTrue(File.Exists(exePath), $"Executável não encontrado em {exePath}");
 

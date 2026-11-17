@@ -1,4 +1,4 @@
-# Tarefas: F006 — Infraestrutura de Busca Plugável (Search Provider)
+﻿# Tarefas: F006 — Infraestrutura de Busca Plugável (Search Provider)
 
 Data: 2026-10-06
 Branch: `feature/search-provider`
@@ -16,13 +16,13 @@ Branch: `feature/search-provider`
   - [x] Desenhar a arquitetura em `docs/architecture/search-provider.md`.
   - [x] Criar especificação SDD em `docs/specs/F006-search-provider/` (`spec.md`, `plan.md`, `tasks.md`).
 - [x] **T3: Contratos e Modelos de Domínio**
-  - [x] Criar `src/Files.App/Data/Contracts/ISearchProvider.cs` com `SearchRequest`, `SearchCapabilities` e `ISearchProvider`.
-  - [x] Criar `src/Files.App/Data/Contracts/ISearchProviderFactory.cs`.
+  - [x] Criar `src/KyraFiles.App/Data/Contracts/ISearchProvider.cs` com `SearchRequest`, `SearchCapabilities` e `ISearchProvider`.
+  - [x] Criar `src/KyraFiles.App/Data/Contracts/ISearchProviderFactory.cs`.
 - [x] **T4: Implementação do Provedor Nativo**
-  - [x] Implementar `src/Files.App/Services/Search/NativeFilesSearchProvider.cs` integrando com `FolderSearch`.
-  - [x] Implementar `src/Files.App/Services/Search/SearchProviderFactory.cs`.
+  - [x] Implementar `src/KyraFiles.App/Services/Search/NativeFilesSearchProvider.cs` integrando com `FolderSearch`.
+  - [x] Implementar `src/KyraFiles.App/Services/Search/SearchProviderFactory.cs`.
 - [x] **T5: Registro no IoC e Validação de Build**
-  - [x] Registrar serviços no container em `src/Files.App/Helpers/Application/AppLifecycleHelper.cs`.
+  - [x] Registrar serviços no container em `src/KyraFiles.App/Helpers/Application/AppLifecycleHelper.cs`.
   - [x] Compilar projeto em Release (`mkfile r`) garantindo `0 Warning(s), 0 Error(s)`.
 - [x] **T6: Formalização e Handoff**
   - [x] Atualizar `STATUS.md` e `AGENT_CONTEXT.md`.

@@ -9,9 +9,9 @@
 
 ## 1. Contexto
 
-O Files Custom já possui suporte a conexões de rede FTP por meio da biblioteca `FluentFTP` (v55.0.0), mapeado em `src/Files.App.Storage/Ftp/*` e `src/Files.App/Utils/Storage/StorageItems/FtpStorage*`. No entanto, a revisão arquitetural realizada na tarefa M3-T0 evidenciou as seguintes realidades no código atual:
+O KyraFiles já possui suporte a conexões de rede FTP por meio da biblioteca `FluentFTP` (v55.0.0), mapeado em `src/KyraFiles.App.Storage/Ftp/*` e `src/KyraFiles.App/Utils/Storage/StorageItems/FtpStorage*`. No entanto, a revisão arquitetural realizada na tarefa M3-T0 evidenciou as seguintes realidades no código atual:
 1. **O FluentFTP não suporta SFTP:** O protocolo SFTP (SSH File Transfer Protocol) é um subsistema do SSH-2 (porta 22 por padrão), enquanto FTP/FTPS é um protocolo completamente distinto baseado em canais de controle e dados TCP (portas 21/990). O autor do FluentFTP afirma oficialmente que a biblioteca não suporta e não suportará SFTP, recomendando o uso de bibliotecas especializadas como `SSH.NET`.
-2. **FTPS existente inativo:** O código atual do Files Custom reconhece os esquemas `ftps://` e `ftpes://` para apontar a porta 990, porém instancia o cliente `AsyncFtpClient` sem habilitar `FtpConfig.EncryptionMode` (permanecendo em `None`). Portanto, FTPS não negocia TLS e opera apenas em texto puro.
+2. **FTPS existente inativo:** O código atual do KyraFiles reconhece os esquemas `ftps://` e `ftpes://` para apontar a porta 990, porém instancia o cliente `AsyncFtpClient` sem habilitar `FtpConfig.EncryptionMode` (permanecendo em `None`). Portanto, FTPS não negocia TLS e opera apenas em texto puro.
 3. **Fragilidade de credenciais no FTP:** As credenciais atuais de FTP são mantidas exclusivamente em um dicionário estático em memória (`FtpManager.Credentials`), sem persistência e sem o uso de DPAPI ou do Windows Credential Locker (`PasswordVault`).
 
 Para atender ao módulo M3 da F060 com qualidade de produção, é indispensável selecionar uma biblioteca para SFTP que seja aderente à stack .NET 10, de código aberto permissivo, estável e que respeite padrões rígidos de segurança.
@@ -39,7 +39,7 @@ Para atender ao módulo M3 da F060 com qualidade de produção, é indispensáve
 
 ### Opção C: `Rebex SFTP` ou `Chilkat SFTP`
 - **Tipo:** Bibliotecas comerciais proprietárias de código fechado.
-- **Avaliação:** Descartadas. Ambas exigem aquisição de licenças comerciais e pagamento de royalties, sendo incompatíveis com o modelo de código aberto do Files (licença MIT).
+- **Avaliação:** Descartadas. Ambas exigem aquisição de licenças comerciais e pagamento de royalties, sendo incompatíveis com o modelo de código aberto do KyraFiles (licença MIT).
 
 ### Opção D: `libssh2` via P/Invoke
 - **Tipo:** Biblioteca nativa em linguagem C com wrappers gerenciados.
@@ -62,7 +62,7 @@ Para atender ao módulo M3 da F060 com qualidade de produção, é indispensáve
 
 ## 4. Decisão Recomendada
 
-Adotar o pacote NuGet **`SSH.NET` versão `2026.0.0`** (ou a versão de linha 2024.2.0 se houver restrição futura) para a implementação do módulo M3 (SFTP) do Files Custom.
+Adotar o pacote NuGet **`SSH.NET` versão `2026.0.0`** (ou a versão de linha 2024.2.0 se houver restrição futura) para a implementação do módulo M3 (SFTP) do KyraFiles.
 
 A integração deverá ser implementada em componentes dedicados a SFTP (ex.: `SftpStorageFolder`, `SftpStorageFile`, `SftpHelpers`), mantendo o provedor FTP existente isolado e sem regressões.
 
@@ -75,10 +75,10 @@ A integração deverá ser implementada em componentes dedicados a SFTP (ex.: `S
    - *Mitigação:* Justificativa técnica formal documentada: o SSH-2 exige primitivas de cifras e curvas elípticas (como Ed25519 e chaves OpenSSH novas) que não estão expostas uniformemente na BCL básica do .NET. O crescimento de ~6 MB é o menor custo técnico viável para prover SFTP nativo e seguro sem introduzir DLLs nativas de C++.
 2. **Histórico de CVEs:**
    - *Risco:* Vulnerabilidades passadas no protocolo SSH ou no SSH.NET (CVE-2022-29245, Terrapin CVE-2023-48795, CVE-2026-48798).
-   - *Mitigação:* A versão estável mais recente `2026.0.0` inclui a mitigação estrita do Terrapin attack (`strict kex`), corrige o gerador de números aleatórios e saneia o download no SCP. Além disso, o Files Custom utilizará apenas a API de SFTP (`SftpClient`), que não é vulnerável ao CVE-2026-48798 (exclusivo do `ScpClient`).
+   - *Mitigação:* A versão estável mais recente `2026.0.0` inclui a mitigação estrita do Terrapin attack (`strict kex`), corrige o gerador de números aleatórios e saneia o download no SCP. Além disso, o KyraFiles utilizará apenas a API de SFTP (`SftpClient`), que não é vulnerável ao CVE-2026-48798 (exclusivo do `ScpClient`).
 3. **Trimming e Native AOT:**
    - *Risco:* A biblioteca BouncyCastle contém classes de algoritmos carregadas dinamicamente que podem gerar alertas de trimming.
-   - *Mitigação:* Como o Files Custom não compila a UI principal como Native AOT total (usa WinUI 3 com compilação JIT gerenciada padrão), a compatibilidade é plena. Caso haja rotinas de trimming no pipeline, as diretivas necessárias devem ser preservadas sem contornos arbitrários.
+   - *Mitigação:* Como o KyraFiles não compila a UI principal como Native AOT total (usa WinUI 3 com compilação JIT gerenciada padrão), a compatibilidade é plena. Caso haja rotinas de trimming no pipeline, as diretivas necessárias devem ser preservadas sem contornos arbitrários.
 
 ---
 

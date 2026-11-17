@@ -1,4 +1,4 @@
-$pkg = Get-AppxPackage -Name FilesDev
+﻿$pkg = Get-AppxPackage -Name KyraFiles
 $aumid = "$($pkg.PackageFamilyName)!App"
 Write-Host "Launching via explorer shell:AppsFolder\$aumid"
 Start-Process explorer.exe -ArgumentList "shell:AppsFolder\$aumid"

@@ -1,12 +1,12 @@
-# F012 / AC-3 e AC-10: abre localizações pelos mesmos caminhos que outros programas usam e conta
+﻿# F012 / AC-3 e AC-10: abre localizações pelos mesmos caminhos que outros programas usam e conta
 # quem mostrou o resultado (Files ou Explorer). "Mostrar na pasta" dos navegadores chama
 # SHOpenFolderAndSelectItems; pastas especiais vêm de explorer.exe shell:<nome>.
 #
 # Uso: pwsh tools\perf\f012_show_in_folder.ps1
-# Temporários em %TEMP%\claude\desenv\utils\FilesApp\f012 show.
+# Temporários em %TEMP%\claude\desenv\utils\KyraFiles\f012 show.
 
 $ErrorActionPreference = 'Stop'
-$folder = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f012 show\pasta ação'
+$folder = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f012 show\pasta ação'
 New-Item -ItemType Directory -Force $folder | Out-Null
 $file = Join-Path $folder 'baixado ação.txt'
 Set-Content -LiteralPath $file -Value 'AC-3' -Encoding utf8

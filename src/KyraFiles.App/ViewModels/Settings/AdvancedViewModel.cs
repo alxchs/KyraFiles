@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -55,8 +55,8 @@ namespace KyraFiles.App.ViewModels.Settings
 			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
-			if (!CopyFilesOpenDialogAssets(destFolder))
+			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "KyraFilesOpenDialog");
+			if (!CopyKyraFilesOpenDialogAssets(destFolder))
 			{
 				// Error copying files
 				await DetectResult();
@@ -68,7 +68,7 @@ namespace KyraFiles.App.ViewModels.Settings
 			{
 				var sourcePath = Path.Combine(destFolder, "*");
 				var branchPath = Path.Combine(dataPath, "Branch.txt");
-				var command = $"-command \"New-Item -Force -Path {Win32Helper.ToPowerShellStringLiteral(dataPath)} -ItemType Directory; Copy-Item -Filter *.* -Path {Win32Helper.ToPowerShellStringLiteral(sourcePath)} -Recurse -Force -Destination {Win32Helper.ToPowerShellStringLiteral(dataPath)}; 'files-dev' | Out-File -Encoding utf8 -Force -FilePath {Win32Helper.ToPowerShellStringLiteral(branchPath)}\"";
+				var command = $"-command \"New-Item -Force -Path {Win32Helper.ToPowerShellStringLiteral(dataPath)} -ItemType Directory; Copy-Item -Filter *.* -Path {Win32Helper.ToPowerShellStringLiteral(sourcePath)} -Recurse -Force -Destination {Win32Helper.ToPowerShellStringLiteral(dataPath)}; 'kyrafiles-dev' | Out-File -Encoding utf8 -Force -FilePath {Win32Helper.ToPowerShellStringLiteral(branchPath)}\"";
 				if (!await Win32Helper.RunPowershellCommandAsync(command, PowerShellExecutionOptions.Hidden))
 				{
 					// Error copying files
@@ -115,10 +115,10 @@ namespace KyraFiles.App.ViewModels.Settings
 			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
 				return;
 
-			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+			var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "KyraFilesOpenDialog");
 
-			// Files Custom: unregistering uses the registered copies; recopying would fail while an app has them loaded
-			if (IsSetAsOpenFileDialog && !CopyFilesOpenDialogAssets(destFolder))
+			// KyraFiles: unregistering uses the registered copies; recopying would fail while an app has them loaded
+			if (IsSetAsOpenFileDialog && !CopyKyraFilesOpenDialogAssets(destFolder))
 			{
 				// Error copying files
 				goto DetectResult;
@@ -126,8 +126,8 @@ namespace KyraFiles.App.ViewModels.Settings
 
 			try
 			{
-				// Files Custom: only the DLLs built for this machine exist (see tools/Build-Native.ps1)
-				string[] dialogDlls = ["KyraFiles.App.OpenDialog64.dll", "KyraFiles.App.SaveDialog64.dll", "Files.App.OpenDialog64.dll", "Files.App.SaveDialog64.dll"];
+				// KyraFiles: only the DLLs built for this machine exist (see tools/Build-Native.ps1)
+				string[] dialogDlls = ["KyraFiles.App.OpenDialog64.dll", "KyraFiles.App.SaveDialog64.dll"];
 				foreach (var dll in dialogDlls)
 				{
 					var dllPath = Path.Combine(destFolder, dll);
@@ -149,11 +149,11 @@ namespace KyraFiles.App.ViewModels.Settings
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 		}
 
-		// Files Custom: skip files already copied; the dialog DLLs stay loaded in any app that used them
-		private static bool CopyFilesOpenDialogAssets(string destFolder)
+		// KyraFiles: skip files already copied; the dialog DLLs stay loaded in any app that used them
+		private static bool CopyKyraFilesOpenDialogAssets(string destFolder)
 		{
 			Directory.CreateDirectory(destFolder);
-			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "FilesOpenDialog")))
+			foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Assets", "KyraFilesOpenDialog")))
 			{
 				var source = new FileInfo(file);
 				var dest = new FileInfo(Path.Combine(destFolder, source.Name));
@@ -275,7 +275,7 @@ namespace KyraFiles.App.ViewModels.Settings
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
 
-			return !string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("Files.App.Launcher.exe"));
+			return !string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("KyraFiles.App.Launcher.exe"));
 		}
 
 		private bool DetectIsSetAsOpenFileDialog()
@@ -283,8 +283,8 @@ namespace KyraFiles.App.ViewModels.Settings
 			using var subkeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
 			using var subkeySave = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{C0B4E2F3-BA21-4773-8DBA-335EC946EB8B}");
 
-			var isSetAsOpenDialog = subkeyOpen?.GetValue(string.Empty) as string == "FilesOpenDialog class";
-			var isSetAsSaveDialog = subkeySave?.GetValue(string.Empty) as string == "FilesSaveDialog class";
+			var isSetAsOpenDialog = subkeyOpen?.GetValue(string.Empty) as string == "KyraFilesOpenDialog class";
+			var isSetAsSaveDialog = subkeySave?.GetValue(string.Empty) as string == "KyraFilesSaveDialog class";
 
 			return isSetAsOpenDialog || isSetAsSaveDialog;
 		}

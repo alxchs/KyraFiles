@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System;
 using System.Diagnostics;
@@ -234,3 +234,4 @@ public static class Program
 		return Convert.ToHexStringLower(sha.GetHashAndReset());
 	}
 }
+

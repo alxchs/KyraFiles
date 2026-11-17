@@ -1,4 +1,4 @@
-# Measure-PostMessage.ps1
+﻿# Measure-PostMessage.ps1
 # Medicao de entrega por PostMessage direto na janela (Ajuste c do Claude).
 # REGRA: Executado EXCLUSIVAMENTE em janela criada pelo proprio teste.
 # NUNCA envia entradas globais de teclado ou mouse.
@@ -161,7 +161,7 @@ foreach ($m in $medicoes) {
 [void]$sb.AppendLine("   - WM_CHAR direto via PostMessage e **ACEITO**, inserindo o caractere no controle mesmo sem foco do sistema.")
 [void]$sb.AppendLine("   - WM_KEYDOWN/WM_KEYUP direto via PostMessage e **IGNORADO** para efeito de digitacao de texto, pois o WM_CHAR normalmente e sintetizado pelo TranslateMessage na bomba de mensagens quando ha foco do teclado.")
 [void]$sb.AppendLine("")
-[void]$sb.AppendLine("2. **Aplicabilidade ao WinUI 3 / Files Custom:**")
+[void]$sb.AppendLine("2. **Aplicabilidade ao WinUI 3 / KyraFiles:**")
 [void]$sb.AppendLine("   - O WinUI 3 utiliza a arvore XAML com InputKeyboardSource e seu proprio despachante de foco (FocusManager).")
 [void]$sb.AppendLine("   - Elementos XAML como TextBox, AutoSuggestBox e itens de grid nao possuem HWNDs Win32 filhos individuais -- compartilham o HWND de nivel superior da janela.")
 [void]$sb.AppendLine("   - Portanto, PostMessage de baixo nivel nao alcanca com precisao nem confiabilidade os controles filhos internos do WinUI 3, alem de nao acionar os manipuladores de eventos de interacao XAML de alto nivel.")

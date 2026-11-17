@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 namespace KyraFiles.Shared.Utils

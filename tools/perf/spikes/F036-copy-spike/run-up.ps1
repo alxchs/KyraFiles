@@ -1,4 +1,4 @@
-param([string]$OutDir = 'C:\desenv\utils\FilesApp-specs-backlog\docs\agents\evidence\F036')
+﻿param([string]$OutDir = 'C:\desenv\utils\KyraFiles-specs-backlog\docs\agents\evidence\F036')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSCommandPath
 $guid = Get-Content "$root\.guid"

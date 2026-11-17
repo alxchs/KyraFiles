@@ -1,4 +1,4 @@
-# Handoff — 2026-10-25 — Antigravity (Correções C1-C4 e T0 das 8 Features)
+﻿# Handoff — 2026-10-25 — Antigravity (Correções C1-C4 e T0 das 8 Features)
 
 - **Data/Hora:** 25/10/2026 (11:45)
 - **Agente:** Antigravity (AGY)
@@ -74,7 +74,7 @@ Conforme exigido nas restrições de T0, a medição foi conduzida exclusivament
 | **MÉDIA** | **4.096 MB** | **8,96 s** | **461,0 MB/s** | **14,70 s** | **358,1 MB/s** | **+39,0%** | **Fila serializada 1,64x mais rápida em média** |
 
 ### Prova de isolamento e limpeza de temporários (R9)
-- **Localização:** Todo o teste operou estritamente sob `C:\Users\alxch\AppData\Local\Temp\agy\079a400f-48d0-40e9-b52b-24fe33ec360f\desenv\utils\FilesApp\Files\`.
+- **Localização:** Todo o teste operou estritamente sob `C:\Users\alxch\AppData\Local\Temp\agy\079a400f-48d0-40e9-b52b-24fe33ec360f\desenv\utils\KyraFiles\Files\`.
 - **Limpeza:** A pasta do GUID temporário foi completamente removida ao término do teste (`Remove-Item -Recurse -Force`).
 - **Comprovação de ausência de resíduos:**
   ```powershell

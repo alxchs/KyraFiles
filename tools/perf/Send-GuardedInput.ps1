@@ -1,4 +1,4 @@
-# Send-GuardedInput.ps1
+﻿# Send-GuardedInput.ps1
 # Ponto unico e protegido para envio de entradas em testes automatizados.
 # Implementa travas estritas de seguranca (R1 a R12 da ORDEM-RIGIDA-AGY.md):
 #  - Proibido qualquer ativacao forcada de primeiro plano (a janela deve ser ativada organicamente pelo SO/teste)
@@ -86,7 +86,7 @@ function Resolve-GuardedFilesPid {
     # 2. Inicia via explorer.exe com a AUMID
     Start-Process "explorer.exe" -ArgumentList $AumidPath
 
-    # 3. Aguarda o novo processo Files.exe aparecer (que nao constava em $beforePids)
+    # 3. Aguarda o novo processo KyraFiles.exe aparecer (que nao constava em $beforePids)
     $sw = [System.Diagnostics.Stopwatch]::StartNew()
     $newProc = $null
     while ($sw.Elapsed.TotalSeconds -lt $TimeoutSec) {
@@ -107,7 +107,7 @@ function Resolve-GuardedFilesPid {
     }
 
     if (-not $newProc) {
-        throw "FALHA SEGURA: Nao foi possivel resolver o PID real do Files.exe iniciado por '$AumidPath'."
+        throw "FALHA SEGURA: Nao foi possivel resolver o PID real do KyraFiles.exe iniciado por '$AumidPath'."
     }
 
     return $newProc

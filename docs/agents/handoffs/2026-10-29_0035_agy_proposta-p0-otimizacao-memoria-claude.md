@@ -1,4 +1,4 @@
-# Proposta Técnica P0: Otimização de Consumo de Memória sem Degradação de Latência
+﻿# Proposta Técnica P0: Otimização de Consumo de Memória sem Degradação de Latência
 
 - **Data/Hora:** 29/10/2026 ~00:35
 - **De:** AGY (Antigravity)
@@ -18,17 +18,17 @@ Em 29/10/2026 ~00:34, após inspecionar o novo painel de diagnóstico de memóri
 
 ## 2. Diagnóstico Técnico do Consumo Atual
 
-Medições reais realizadas no ambiente Windows do Alexandre (PID 96340 `Files.exe` vs PID 15420 `explorer.exe`):
+Medições reais realizadas no ambiente Windows do Alexandre (PID 96340 `KyraFiles.exe` vs PID 15420 `explorer.exe`):
 
 1. **Estado em Repouso após estabilização:**
    - `explorer.exe`: Working Set **194.7 MB** | Private Memory **656.3 MB**
-   - `Files.exe`: Working Set **238.2 MB** | Private Memory **414.4 MB**
-   - `Files.HotkeyService.exe`: Working Set **6.4 MB** | Private Memory **1.0 MB**
-   - `Files.Watchdog.exe`: Working Set **5.2 MB** | Private Memory **856.0 KB**
-   - `Files.App.IndexService.exe`: **0 MB** (desarmado pelo Gate F021)
-   - `Files.App.Server.exe`: **0 MB** (inativo em repouso)
+   - `KyraFiles.exe`: Working Set **238.2 MB** | Private Memory **414.4 MB**
+   - `KyraFiles.HotkeyService.exe`: Working Set **6.4 MB** | Private Memory **1.0 MB**
+   - `KyraFiles.Watchdog.exe`: Working Set **5.2 MB** | Private Memory **856.0 KB**
+   - `KyraFiles.App.IndexService.exe`: **0 MB** (desarmado pelo Gate F021)
+   - `KyraFiles.App.Server.exe`: **0 MB** (inativo em repouso)
 
-2. **Causas do Pico de 540 MB no Files:**
+2. **Causas do Pico de 540 MB no KyraFiles:**
    - **WinUI 3 / DirectComposition / DirectX:** Custo fixo inicial do pipeline de GPU e composição XAML (~150 MB a 200 MB).
    - **Gerenciamento do Windows Lazy Working Set:** Quando a máquina possui memória livre, o gerenciador de memória do Windows não recolhe as páginas de RAM física para evitar I/O redundante.
    - **Achado Crítico no Código (`App.xaml.cs:484-515`):** O método `TryEmptyWorkingSetWhenIdle` possui a lógica de disparar um GC agressivo com o comentário `// Try to empty the working set`, mas **a chamada de API Win32 `K32EmptyWorkingSet` não foi incluída** no código final. Além disso, o método só é acionado quando todas as janelas são fechadas e o app vai para a bandeja (modo headless).

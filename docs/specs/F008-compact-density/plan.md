@@ -1,4 +1,4 @@
-# Plano de Implementação: F008 Densidade Ultra-Compacta
+﻿# Plano de Implementação: F008 Densidade Ultra-Compacta
 
 ## Fases do Plano
 1. **Fase 1: Modelo de Dados e Serviços**
@@ -20,5 +20,5 @@
 
 5. **Fase 5: Verificação e Validação**
    - Compilação Release x64 com 0 Warnings / 0 Errors.
-   - Atualização do pacote local via `Open-FilesDev.ps1 -NoLaunch`.
+   - Atualização do pacote local via `Open-KyraFiles.ps1 -NoLaunch`.
    - Teste de interface e registro de evidências.

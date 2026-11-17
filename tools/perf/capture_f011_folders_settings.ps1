@@ -6,7 +6,7 @@ Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 
-$evidenceDir = "c:\desenv\utils\FilesApp\docs\agents\evidence\f011"
+$evidenceDir = "c:\desenv\utils\KyraFiles\docs\agents\evidence\f011"
 if (!(Test-Path $evidenceDir)) {
     New-Item -ItemType Directory -Path $evidenceDir -Force | Out-Null
 }
@@ -14,7 +14,7 @@ if (!(Test-Path $evidenceDir)) {
 # Inicia o app se não estiver aberto
 $proc = Get-Process "Files" -ErrorAction SilentlyContinue
 if (!$proc) {
-    $pkg = Get-AppxPackage -Name "FilesDev"
+    $pkg = Get-AppxPackage -Name "KyraFiles"
     Start-Process "shell:AppsFolder\$($pkg.PackageFamilyName)!App"
     Start-Sleep -Seconds 5
     $proc = Get-Process "Files" -ErrorAction SilentlyContinue

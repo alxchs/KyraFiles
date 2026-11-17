@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 #pragma warning disable CS0612 // RecycleBinWatcher obsolete; migrate when replacement is available
 

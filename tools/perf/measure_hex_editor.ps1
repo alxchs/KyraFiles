@@ -2,7 +2,7 @@
 .SYNOPSIS
     M2-T3 (NFR-002, M2-AC-1): Medição de pico de memória e tempo para o Editor Hexadecimal (HexFileBuffer e HexFileSaver).
 .DESCRIPTION
-    Gera arquivos determinísticos de 256 MB e 4 GB em %TEMP%\agy\<GUID>\desenv\utils\FilesApp-f060-m2\Files\,
+    Gera arquivos determinísticos de 256 MB e 4 GB em %TEMP%\agy\<GUID>\desenv\utils\KyraFiles-f060-m2\Files\,
     e mede em processos separados por fase:
     (a) Abrir com HexFileBuffer e ler o primeiro bloco;
     (b) Ir ao fim (ler os últimos 256 bytes);
@@ -88,7 +88,7 @@ if (-not (Test-Path $harnessExe)) {
 
 # 4. Configuracao do Diretorio Temporario
 $guid = [guid]::NewGuid().ToString()
-$tempRoot = [System.IO.Path]::Combine($env:TEMP, "agy", $guid, "desenv", "utils", "FilesApp-f060-m2", "Files")
+$tempRoot = [System.IO.Path]::Combine($env:TEMP, "agy", $guid, "desenv", "utils", "KyraFiles-f060-m2", "Files")
 Write-Host "`nDiretorio temporario da sessao: $tempRoot"
 [System.IO.Directory]::CreateDirectory($tempRoot) | Out-Null
 

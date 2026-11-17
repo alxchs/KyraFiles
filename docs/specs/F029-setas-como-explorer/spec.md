@@ -1,9 +1,9 @@
-# F029 — Setas no mínimo como no Explorer do Windows
+﻿# F029 — Setas no mínimo como no Explorer do Windows
 
 Status: **APROVADA** (Claude, 21/10/2026, a pedido do Alexandre: "teclas no mínimo concorrendo com Windows Explorer").
 
 ## Contexto
-Depois da F028, o PgUp/PgDn ficou bom, mas o Alexandre sente o Explorer do Windows "nitidamente mais rápido e fluido" nas setas. Medido com o mesmo script (`Down` segurado 5 s, pasta de 1.600 itens, ~106 teclas reais por causa da resolução do relógio do Windows): o Files chega a 74 a 86 linhas; a lista nativa do Windows (WinForms) chega a 106. **O Explorer nunca foi medido com o mesmo método**, e é ele a referência pedida.
+Depois da F028, o PgUp/PgDn ficou bom, mas o Alexandre sente o Explorer do Windows "nitidamente mais rápido e fluido" nas setas. Medido com o mesmo script (`Down` segurado 5 s, pasta de 1.600 itens, ~106 teclas reais por causa da resolução do relógio do Windows): o KyraFiles chega a 74 a 86 linhas; a lista nativa do Windows (WinForms) chega a 106. **O Explorer nunca foi medido com o mesmo método**, e é ele a referência pedida.
 
 ## Histórias
 1. Como usuário, ao segurar ↓ ou ↑ numa pasta grande, quero que a seleção ande pelo menos tão rápido quanto no Explorer, com a lista rolando junto e a linha selecionada sempre visível.
@@ -17,7 +17,7 @@ Depois da F028, o PgUp/PgDn ficou bom, mas o Alexandre sente o Explorer do Windo
 - **NFR-2:** nada muda no comportamento de um toque isolado (seleção, foco, preview, toolbar, barra de status).
 
 ## Critérios de aceite
-- **AC-1 (FR-1):** `f025_hold_key.ps1`, 5 rodadas de `Down`: mediana de linhas do Files ≥ mediana do Explorer (`-WindowClass CabinetWClass`), mesma pasta e mesmo tamanho de janela.
+- **AC-1 (FR-1):** `f025_hold_key.ps1`, 5 rodadas de `Down`: mediana de linhas do KyraFiles ≥ mediana do Explorer (`-WindowClass CabinetWClass`), mesma pasta e mesmo tamanho de janela.
 - **AC-2 (FR-2):** coluna `backlog_steps_after_release` ≤ 1 em todas as rodadas.
 - **AC-3 (FR-3):** folha de contato de `Down` segurado com a linha selecionada visível em todos os quadros.
 - **AC-4 (NFR-1):** CPU mediana ≤ a do build de 21/10 09:20 (Down: 7,0 s).

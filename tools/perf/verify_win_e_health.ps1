@@ -1,7 +1,7 @@
-# tools/perf/verify_win_e_health.ps1
+﻿# tools/perf/verify_win_e_health.ps1
 # Verificacao de saude do Win+E e supervisao Watchdog (FR-005, AC-6, AC-8 / F061)
 # Sai com codigo 0 se OK, ou 1 se FALHA.
-# OK = exatamente 1 Files.HotkeyService vivo, no maximo 1 Files.Watchdog vivo,
+# OK = exatamente 1 KyraFiles.HotkeyService vivo, no maximo 1 KyraFiles.Watchdog vivo,
 #      menos de 5 processos terminados ainda listados e mutex de instancia existente.
 
 [CmdletBinding()]
@@ -31,14 +31,14 @@ function Evaluate-WinEHealth {
 
     $reasons = [System.Collections.Generic.List[string]]::new()
 
-    # 1. Exatamente 1 servico Files.HotkeyService vivo
+    # 1. Exatamente 1 servico KyraFiles.HotkeyService vivo
     if ($AliveHotkeyCount -ne 1) {
-        $reasons.Add("Files.HotkeyService vivos: $AliveHotkeyCount (esperado: exatamente 1)")
+        $reasons.Add("KyraFiles.HotkeyService vivos: $AliveHotkeyCount (esperado: exatamente 1)")
     }
 
-    # 2. No maximo 1 Files.Watchdog vivo (0 ou 1 aceito)
+    # 2. No maximo 1 KyraFiles.Watchdog vivo (0 ou 1 aceito)
     if ($AliveWatchdogCount -gt 1) {
-        $reasons.Add("Files.Watchdog vivos: $AliveWatchdogCount (esperado: no maximo 1)")
+        $reasons.Add("KyraFiles.Watchdog vivos: $AliveWatchdogCount (esperado: no maximo 1)")
     }
 
     # 3. Menos de 5 processos terminados listados
@@ -46,9 +46,9 @@ function Evaluate-WinEHealth {
         $reasons.Add("Processos terminados listados: $TerminatedCount (esperado: < 5)")
     }
 
-    # 4. Mutex Global\FilesCustom_HotkeyService_InstanceMutex existe
+    # 4. Mutex Global\KyraFiles_HotkeyService_InstanceMutex existe
     if (-not $MutexExists) {
-        $reasons.Add("Mutex Global\FilesCustom_HotkeyService_InstanceMutex nao encontrado")
+        $reasons.Add("Mutex Global\KyraFiles_HotkeyService_InstanceMutex nao encontrado")
     }
 
     $isFailure = ($reasons.Count -gt 0)
@@ -172,11 +172,11 @@ if ($Simulate) {
     $watchdogPids = if ($aliveWatchdogCount -gt 0) { "(simulado: $aliveWatchdogCount)" } else { "nenhum" }
 } else {
     # Coleta de processos reais
-    $hotkeyProcs = @(Get-Process -Name "KyraFiles.HotkeyService", "Files.HotkeyService" -ErrorAction SilentlyContinue)
+    $hotkeyProcs = @(Get-Process -Name "KyraFiles.HotkeyService" -ErrorAction SilentlyContinue)
     $aliveHotkeys = @($hotkeyProcs | Where-Object { -not $_.HasExited })
     $termHotkeys = @($hotkeyProcs | Where-Object { $_.HasExited })
 
-    $watchdogProcs = @(Get-Process -Name "KyraFiles.Watchdog", "Files.Watchdog" -ErrorAction SilentlyContinue)
+    $watchdogProcs = @(Get-Process -Name "KyraFiles.Watchdog" -ErrorAction SilentlyContinue)
     $aliveWatchdogs = @($watchdogProcs | Where-Object { -not $_.HasExited })
     $termWatchdogs = @($watchdogProcs | Where-Object { $_.HasExited })
 
@@ -184,12 +184,12 @@ if ($Simulate) {
     $aliveWatchdogCount = $aliveWatchdogs.Count
     $totalTerminated = $termHotkeys.Count + $termWatchdogs.Count
 
-    # Checar mutex Global\FilesCustom_HotkeyService_InstanceMutex
+    # Checar mutex Global\KyraFiles_HotkeyService_InstanceMutex
     $mutexRef = [System.Threading.Mutex]$null
     try {
         $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\KyraFiles_HotkeyService_InstanceMutex", [ref]$mutexRef)
         if (-not $mutexExists) {
-            $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\FilesCustom_HotkeyService_InstanceMutex", [ref]$mutexRef)
+            $mutexExists = [System.Threading.Mutex]::TryOpenExisting("Global\KyraFiles_HotkeyService_InstanceMutex", [ref]$mutexRef)
         }
     } catch {
         $mutexExists = $false
@@ -239,11 +239,11 @@ if ($eval.Status -eq "OK") {
 
 if (-not $Quiet) {
     Write-Host "Detalhes:" -ForegroundColor Gray
-    Write-Host "  Files.HotkeyService vivos:     $aliveHotkeyCount (PIDs: $hotkeyPids)" -ForegroundColor Gray
-    Write-Host "  Files.Watchdog vivos:          $aliveWatchdogCount (PIDs: $watchdogPids)" -ForegroundColor Gray
+    Write-Host "  KyraFiles.HotkeyService vivos:     $aliveHotkeyCount (PIDs: $hotkeyPids)" -ForegroundColor Gray
+    Write-Host "  KyraFiles.Watchdog vivos:          $aliveWatchdogCount (PIDs: $watchdogPids)" -ForegroundColor Gray
     Write-Host "  Processos terminados listados: $totalTerminated" -ForegroundColor Gray
     Write-Host "  Idade do servico:              $serviceAgeStr (StartTime: $serviceStartTimeStr)" -ForegroundColor Gray
-    Write-Host "  Mutex de instancia:            $(if ($mutexExists) { 'Presente (ativo)' } else { 'AUSENTE' }) (Global\FilesCustom_HotkeyService_InstanceMutex)" -ForegroundColor Gray
+    Write-Host "  Mutex de instancia:            $(if ($mutexExists) { 'Presente (ativo)' } else { 'AUSENTE' }) (Global\KyraFiles_HotkeyService_InstanceMutex)" -ForegroundColor Gray
     if ($eval.Status -eq "AVISO") {
         Write-Host "Aviso de resiliencia:" -ForegroundColor Yellow
         Write-Host "  - Win+E sem supervisor: se o servico cair, nao volta sozinho" -ForegroundColor Yellow

@@ -1,10 +1,10 @@
-param([string]$Phase = 'disk')
+﻿param([string]$Phase = 'disk')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSCommandPath
 $guid = Get-Content "$root\.guid"
 $exe = Get-ChildItem "$env:TEMP\Compiler" -Recurse -Filter CopySpike.exe | Where-Object FullName -match $guid | Select-Object -First 1 -ExpandProperty FullName
 $src = "$root\src"; $dst = "$root\dst"
-$d = "D:\Temp\claude\$guid\desenv\utils\FilesApp\Files\spike2"
+$d = "D:\Temp\claude\$guid\desenv\utils\KyraFiles\Files\spike2"
 New-Item -ItemType Directory -Force $src,$dst,$d | Out-Null
 $out = "$root\results2-$Phase.csv"
 function Log($l) { Write-Host $l; Add-Content $out $l }
@@ -115,8 +115,8 @@ if ($Phase -eq 'long') {
 
 if ($Phase -eq 'smb') {
   Log "teste,detalhe"
-  $unc = '\\localhost\desenv\utils\FilesApp\artifacts\Setup\FilesCustomSetup-4.3.6.exe'
-  $local = 'C:\desenv\utils\FilesApp\artifacts\Setup\FilesCustomSetup-4.3.6.exe'
+  $unc = '\\localhost\desenv\utils\KyraFiles\artifacts\Setup\KyraFilesSetup-4.3.6.exe'
+  $local = 'C:\desenv\utils\KyraFiles\artifacts\Setup\KyraFilesSetup-4.3.6.exe'
   Log "origem-existe-por-smb=$(Test-Path $unc)"
   $h = Hash $local
   foreach ($r in 1..2) {

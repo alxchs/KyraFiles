@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -39,7 +39,7 @@ namespace KyraFiles.Shared.Helpers
 				return false;
 
 			// Don't check folder paths to avoid issues
-			// https://github.com/files-community/Files/issues/17094
+			// https://github.com/alxchs/KyraFiles/issues/17094
 			if (Directory.Exists(filePathToCheck))
 				return false;
 

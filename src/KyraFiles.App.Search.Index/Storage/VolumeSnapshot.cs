@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
@@ -19,16 +19,16 @@ public sealed record VolumeSnapshotData(
 
 /// <summary>
 /// Serialização binária versionada de alta velocidade para <see cref="VolumeIndex"/> (NFR-004: carga do C: &lt; 2 s).
-/// Armazena em LocalCache no modo básico e em %ProgramData%\FilesCustom\Index no modo completo (NFR-006).
+/// Armazena em LocalCache no modo básico e em %ProgramData%\KyraFiles\Index no modo completo (NFR-006).
 /// </summary>
 public static class VolumeSnapshot
 {
-	public const uint MagicValue = 0x4E534346; // "FCSN" (Files Custom Snapshot)
+	public const uint MagicValue = 0x4E534346; // "FCSN" (KyraFiles Snapshot)
 	public const uint CurrentVersion = 1;
 
 	/// <summary>
 	/// Retorna o diretório padrão de snapshots para o modo básico (LocalCache do pacote quando disponível,
-	/// ou %LOCALAPPDATA%\FilesCustom\Index).
+	/// ou %LOCALAPPDATA%\KyraFiles\Index).
 	/// </summary>
 	public static string GetDefaultBasicCacheDirectory()
 	{

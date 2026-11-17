@@ -1,5 +1,5 @@
-# SmokeTest-Helper.ps1
-# Automates interaction and visual verification of Files Dev on the Default desktop.
+﻿# SmokeTest-Helper.ps1
+# Automates interaction and visual verification of KyraFiles on the Default desktop.
 
 $code = @"
 using System;

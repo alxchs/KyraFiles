@@ -1,4 +1,4 @@
-# F091 — Identidade KyraFiles de ponta a ponta no código — PLAN
+﻿# F091 — Identidade KyraFiles de ponta a ponta no código — PLAN
 
 Status: **RASCUNHO** (Claude, 12/11/2026). Depende da spec aprovada. **Não aplicar** até spec, plan e tasks aprovados e a F092 integrada na `main`.
 
@@ -10,26 +10,26 @@ Status: **RASCUNHO** (Claude, 12/11/2026). Depende da spec aprovada. **Não apli
 | Por projeto: App 985, Controls 101, Shared 45, App.Storage 35, Search.Index.Tests 35, App.Search.Index 23, Core.SourceGenerator 13, UITests 12, Core.Storage 12, InteractionTests 9, IndexService 1 | CONFIRMED | mesmo grep agrupado por pasta |
 | `App.Server` e `App.BackgroundTasks` já usam `KyraFiles.*` (namespace e `RootNamespace`) | CONFIRMED | `git grep '^namespace' -- src/KyraFiles.App.Server src/KyraFiles.App.BackgroundTasks` |
 | 98 XAML com `x:Class="Files.`; 307 ocorrências de `using:Files.` em 144 XAML | CONFIRMED | `git grep -l 'x:Class="Files\.'`, `git grep -h -o 'using:Files\.[A-Za-z.]*'` |
-| Geradores de código procuram atributos por nome em texto: `"Files.Shared.Attributes.GeneratedRichCommandAttribute"` (`CommandManagerGenerator.cs:12`) e `"Files.Shared.Attributes.RegistrySerializableAttribute"` (`RegistrySerializationGenerator.cs:19`) | CONFIRMED | `git grep '"Files\.Shared'` |
+| Geradores de código procuram atributos por nome em texto: `"KyraFiles.Shared.Attributes.GeneratedRichCommandAttribute"` (`CommandManagerGenerator.cs:12`) e `"KyraFiles.Shared.Attributes.RegistrySerializableAttribute"` (`RegistrySerializationGenerator.cs:19`) | CONFIRMED | `git grep '"Files\.Shared'` |
 | **Abas salvas guardam o nome completo do tipo da página**: `TabBarItemParameter.cs:37` grava `InitialPageType.FullName`; `:55-61` compara com `typeof(ShellPanesPage/ModernShellPage/ColumnShellPage).FullName` e, se não bater, cai em `ShellPanesPage` | CONFIRMED | `git show main:src/KyraFiles.App/Data/Parameters/TabBarItemParameter.cs` |
 | `App.Server` registra classes WinRT pelo `FullName` (`Program.cs:31`), já em `KyraFiles.App.Server` | CONFIRMED | idem |
 | Manifesto: `KyraFiles.App.BackgroundTasks.UpdateTask` (já novo) | CONFIRMED | `git grep EntryPoint -- Package.appxmanifest` |
-| `BuildInfo.cs:46` procura `Files.App.dll` e `:55` `Files.exe`, mas o assembly é `KyraFiles` (`KyraFiles.App.csproj:9`) | CONFIRMED (leitura); efeito em execução INFERRED | `git grep '"Files\.App\.dll\|"Files\.exe'` |
-| `tools/Create-SelfContained-Release.ps1:17` exige `Files.App.OpenDialog64.dll` etc., mas os `.vcxproj` geram `KyraFiles.App.OpenDialog$(PlatformArchitecture)` | CONFIRMED (leitura); falha da release INFERRED (não executado) | `git grep TargetName -- '*.vcxproj'` |
-| `Core.SourceGenerator/Properties/launchSettings.json:11` perfil chamado `Files.App.Server` | CONFIRMED | — |
+| `BuildInfo.cs:46` procura `KyraFiles.App.dll` e `:55` `KyraFiles.exe`, mas o assembly é `KyraFiles` (`KyraFiles.App.csproj:9`) | CONFIRMED (leitura); efeito em execução INFERRED | `git grep '"Files\.App\.dll\|"Files\.exe'` |
+| `tools/Create-SelfContained-Release.ps1:17` exige `KyraFiles.App.OpenDialog64.dll` etc., mas os `.vcxproj` geram `KyraFiles.App.OpenDialog$(PlatformArchitecture)` | CONFIRMED (leitura); falha da release INFERRED (não executado) | `git grep TargetName -- '*.vcxproj'` |
+| `Core.SourceGenerator/Properties/launchSettings.json:11` perfil chamado `KyraFiles.App.Server` | CONFIRMED | — |
 | Ocorrências de limpeza legítima (instalador `[InstallDelete]`, encerrar processos antigos em `Update-KyraFiles.ps1`, `Open-KyraFilesDev.ps1`, `Program.cs:143`, `ZipStorageFolder.cs:155`, `MainWindow.xaml.cs:83`) | CONFIRMED | `git grep -P '(?<![A-Za-z])Files\.App\.'` |
-| 176 arquivos com "Files Custom" (maioria histórico) | CONFIRMED | `git grep -l "Files Custom" main \| wc -l` |
+| 176 arquivos com "KyraFiles" (maioria histórico) | CONFIRMED | `git grep -l "KyraFiles" main \| wc -l` |
 
 ## 2. Abordagem
 Renome **mecânico**, por projeto, das folhas para a raiz, cada passo compilando sozinho:
 
 1. Verificador primeiro (`tools/check-legacy-names.ps1`) com lista de exceções explícita; ele define o "pronto" de cada passo.
 2. Correções de nome que já são defeito hoje (release script, `BuildInfo`, `launchSettings`), em commit à parte, antes do renome em massa.
-3. Compatibilidade de leitura das abas salvas antes do renome do App: aceitar `Files.App.Views.*` e `KyraFiles.App.Views.*` ao ler; gravar só o novo.
+3. Compatibilidade de leitura das abas salvas antes do renome do App: aceitar `KyraFiles.App.Views.*` e `KyraFiles.App.Views.*` ao ler; gravar só o novo.
 4. Renome por projeto: `Shared` (com as strings dos geradores no mesmo commit) → `Core.Storage` → `Core.SourceGenerator` → `App.Storage` → `App.Search.Index` → `App.Controls` → `App` → `IndexService` → testes. Em cada um: `namespace`, `using`, `global using`, `x:Class`, `using:` de XAML, `RootNamespace` se houver.
 5. Documentação viva (`AGENTS.md`, `CLAUDE.md`, `AGENT_CONTEXT.md`, `STATUS.md`, `docs/agents/PLAYBOOK.md`, `INSTRUCTIONS_OPERARY.md`, `MASTER_SPEC.md` só nas partes vivas).
 
-Ferramenta: substituição por expressão regular com fronteira (`(?<![A-Za-z])Files\.` → `KyraFiles.`) restrita a `.cs`, `.xaml`, `.csproj`, `.props`, `.targets`, `.json` de `src/` e `tests/`, revisada pelo diff. Lookbehind obrigatório: `KyraFiles.App.X` contém `Files.App.X`.
+Ferramenta: substituição por expressão regular com fronteira (`(?<![A-Za-z])Files\.` → `KyraFiles.`) restrita a `.cs`, `.xaml`, `.csproj`, `.props`, `.targets`, `.json` de `src/` e `tests/`, revisada pelo diff. Lookbehind obrigatório: `KyraFiles.App.X` contém `KyraFiles.App.X`.
 
 ### Opções descartadas
 - **Tudo num commit só:** diff de ~1.400 arquivos impossível de revisar e de bisseccionar.
@@ -51,7 +51,7 @@ Ferramenta: substituição por expressão regular com fronteira (`(?<![A-Za-z])F
 
 ## 4. Não mexer
 - `Package.appxmanifest` (identidade do pacote: F087).
-- `LICENSE-MIT`, `LICENSE-MPL`, cabeçalhos `Copyright (c) Files Community` e `SPDX-License-Identifier`.
+- `LICENSE-MIT`, `LICENSE-MPL`, cabeçalhos `Copyright (c) KyraFiles Community` e `SPDX-License-Identifier`.
 - Saída gerada do CsWin32, `bin/`, `obj/`.
 - `docs/agents/handoffs/`, `docs/agents/evidence/`, `docs/releases/` já publicadas.
 - Nomes de classes, métodos e pastas (só o prefixo do namespace).

@@ -1,7 +1,7 @@
-# Relatório de Evidência — F033 Copiar Para / Mover Para
+﻿# Relatório de Evidência — F033 Copiar Para / Mover Para
 
 - **Data:** 24/10/2026
-- **Ambiente:** Files Custom v4.3.5 (Release Oficial)
+- **Ambiente:** KyraFiles v4.3.5 (Release Oficial)
 - **Status dos Critérios de Aceite:**
   - **AC-1:** Itens selecionados no menu de contexto exibem as opções "Copiar para" e "Mover para" com seus respectivos submenus.
   - **AC-2:** Diálogo de confirmação com `DefaultButton = Close` garante que acionamentos acidentais por Enter/Esc fechem o diálogo sem executar cópia ou movimentação indesejada.

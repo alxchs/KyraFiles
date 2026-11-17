@@ -1,4 +1,4 @@
-# Roda DENTRO do Windows Sandbox (LogonCommand). PowerShell 5.1 do convidado. Prova P1: o Files Custom instala e abre aqui?
+﻿# Roda DENTRO do Windows Sandbox (LogonCommand). PowerShell 5.1 do convidado. Prova P1: o KyraFiles instala e abre aqui?
 # Entradas (somente leitura): C:\Host\in (instalador) | Saída (gravável): C:\Host\out. Sem rede, sem área de transferência.
 # Criado pelo Claude em 25/10/2026. NOT TESTED: o recurso do Sandbox estava desligado nesta data.
 $ErrorActionPreference = 'Continue'
@@ -18,7 +18,7 @@ Step 'rede'     { [bool](Test-Connection 1.1.1.1 -Count 1 -Quiet -ErrorAction Si
 # modo desenvolvedor no convidado (o instalador registra o pacote por Add-AppxPackage -Register)
 Step 'modo_dev' { reg add 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' /v AllowDevelopmentWithoutDevLicense /t REG_DWORD /d 1 /f | Out-String }
 
-$inst = Get-ChildItem 'C:\Host\in' -Filter 'FilesCustomSetup-*.exe' -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
+$inst = Get-ChildItem 'C:\Host\in' -Filter 'KyraFilesSetup-*.exe' -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
 $r['instalador'] = if ($inst) { "$($inst.Name) $([math]::Round($inst.Length/1MB,1)) MB" } else { 'NAO ENCONTRADO' }
 if ($inst) {
   Step 'instalacao_exit' {
@@ -26,14 +26,14 @@ if ($inst) {
     $p.ExitCode
   }
 }
-Step 'pacote' { $p = Get-AppxPackage FilesDev; if ($p) { "$($p.Name) $($p.Version) | $($p.InstallLocation) | PFN $($p.PackageFamilyName)" } else { 'FilesDev NAO REGISTRADO' } }
+Step 'pacote' { $p = Get-AppxPackage KyraFiles; if ($p) { "$($p.Name) $($p.Version) | $($p.InstallLocation) | PFN $($p.PackageFamilyName)" } else { 'KyraFiles NAO REGISTRADO' } }
 
-$pfn = (Get-AppxPackage FilesDev -ErrorAction SilentlyContinue).PackageFamilyName
+$pfn = (Get-AppxPackage KyraFiles -ErrorAction SilentlyContinue).PackageFamilyName
 if ($pfn) {
   Step 'abrir' { Start-Process "shell:AppsFolder\$pfn!App"; Start-Sleep -Seconds 20; 'lancado' }
   Step 'processo' {
     $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
-    if ($p) { "Files.exe PID $($p.Id) | janela: '$($p.MainWindowTitle)' | responde: $($p.Responding) | memoria $([math]::Round($p.WorkingSet64/1MB)) MB" } else { 'Files.exe NAO ESTA RODANDO' }
+    if ($p) { "KyraFiles.exe PID $($p.Id) | janela: '$($p.MainWindowTitle)' | responde: $($p.Responding) | memoria $([math]::Round($p.WorkingSet64/1MB)) MB" } else { 'KyraFiles.exe NAO ESTA RODANDO' }
   }
 }
 Step 'falhas_dotnet' {
@@ -52,6 +52,6 @@ try {
 } catch { $r['captura'] = "ERRO: $($_.Exception.Message)" }
 
 $r['fim'] = (Get-Date).ToString('s')
-$r['veredito'] = if ($r['processo'] -match 'Files.exe PID') { 'ABRIU' } else { 'NAO ABRIU' }
+$r['veredito'] = if ($r['processo'] -match 'KyraFiles.exe PID') { 'ABRIU' } else { 'NAO ABRIU' }
 $r | ConvertTo-Json | Set-Content "$out\result.json" -Encoding UTF8
 Stop-Transcript | Out-Null

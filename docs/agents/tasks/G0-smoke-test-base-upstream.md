@@ -1,9 +1,9 @@
-# G0 — Smoke test do §16 na base upstream/main (D-008)
+﻿# G0 — Smoke test do §16 na base upstream/main (D-008)
 
 Status: BRIEF APROVADO (Claude, 03/10/2026). Executor: AGY. Sem mudança de código.
 
 ## TASK
-Fechar o G0 na base atual (`upstream/main` 0e3c17ca4 + ajustes de build; pacote 4.2.37.0): smoke test do MASTER_SPEC §16 com o app aberto por `Open-FilesDev.ps1`.
+Fechar o G0 na base atual (`upstream/main` 0e3c17ca4 + ajustes de build; pacote 4.2.37.0): smoke test do MASTER_SPEC §16 com o app aberto por `Open-KyraFiles.ps1`.
 
 ## ACCEPTANCE
 Cada item abaixo registrado em `STATUS.md` (seção nova "Smoke test §16 — 4.2.37.0") com estado `CONFIRMED`/`OBSERVED`/`NOT TESTED`, o comando ou a captura que sustenta, e problemas preexistentes anotados à parte (não atribuir à customização):

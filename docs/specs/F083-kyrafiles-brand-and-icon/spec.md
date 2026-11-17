@@ -1,4 +1,4 @@
-# F083 — Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About
+﻿# F083 — Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About
 
 ## 1. Visão Geral e Motivação
 
@@ -33,5 +33,5 @@ Agora, o Alexandre solicitou a substituição visual e textual completa e defini
 ## 3. Restrições e Segurança
 
 - **Arte e Cores**: Respeitar a regra de arte do Alexandre: nunca usar vermelho, nunca vermelho com amarelo, nem vermelho com estrela amarela. A paleta do KyraFiles é azul ciano, azul elétrico, branco e grafite/preto, 100% conforme a arte fornecida.
-- **Licença**: Preservar todos os avisos de licença e copyright do Files Community nos cabeçalhos de código fonte (`Copyright (c) Files Community`).
+- **Licença**: Preservar todos os avisos de licença e copyright do KyraFiles Community nos cabeçalhos de código fonte (`Copyright (c) KyraFiles Community`).
 

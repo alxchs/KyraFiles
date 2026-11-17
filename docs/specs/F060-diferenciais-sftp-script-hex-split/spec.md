@@ -1,4 +1,4 @@
-# F060 — Diferenciais: Dividir/Juntar, editor hexadecimal, SFTP, script e busca por frase — SPEC
+﻿# F060 — Diferenciais: Dividir/Juntar, editor hexadecimal, SFTP, script e busca por frase — SPEC
 
 Status: **APROVADA pelo Alexandre em 26/10/2026** ("Siga com a F060"; ordem de entrega pedida por ele: independentes primeiro, dependências antes dos dependentes). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui (isso é do plan).
 Origem: `origem/SPEC_original_v1.2.md`, recortada pelo que **ainda não existe** (ver `matriz-situacao.md`). Sync, renomeio em lote e fila de cópias **não** estão aqui: já têm spec aprovada (F041, F037, F036).
@@ -8,7 +8,7 @@ Origem: `origem/SPEC_original_v1.2.md`, recortada pelo que **ainda não existe**
 Esta é uma spec-mãe de cinco módulos independentes. Cada um vira sua própria pasta `docs/specs/F06x-...` com plan e tasks quando for aprovado para começar; nenhum começa antes de aprovado.
 
 ## 1. Por quê
-O Files Custom já navega, copia e compara. Faltam quatro ferramentas que quem mexe com arquivos grandes, servidores e rotinas repetidas hoje busca em programas separados: dividir um arquivo em partes e juntar de novo conferindo se nada se perdeu, olhar e corrigir bytes de um arquivo enorme, abrir servidores SFTP como se fossem pastas, e automatizar tarefas repetitivas sem sair do programa.
+O KyraFiles já navega, copia e compara. Faltam quatro ferramentas que quem mexe com arquivos grandes, servidores e rotinas repetidas hoje busca em programas separados: dividir um arquivo em partes e juntar de novo conferindo se nada se perdeu, olhar e corrigir bytes de um arquivo enorme, abrir servidores SFTP como se fossem pastas, e automatizar tarefas repetitivas sem sair do programa.
 
 ## 2. Histórias de usuário (por módulo)
 - **M1 Dividir/Juntar (P1)** Como usuário, quero dividir um arquivo grande em partes de tamanho fixo (para pendrive FAT32, e-mail ou envio) e juntar de volta com a certeza de que ficou idêntico.

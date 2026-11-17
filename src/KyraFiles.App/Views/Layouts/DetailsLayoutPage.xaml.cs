@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
@@ -987,7 +987,7 @@ namespace KyraFiles.App.Views.Layouts
 				else
 				{
 					// Clear selection when clicking empty area via touch
-					// https://github.com/files-community/Files/issues/15051
+					// https://github.com/alxchs/KyraFiles/issues/15051
 					if (e.PointerDeviceType == PointerDeviceType.Touch)
 						ItemManipulationModel.ClearSelection();
 				}

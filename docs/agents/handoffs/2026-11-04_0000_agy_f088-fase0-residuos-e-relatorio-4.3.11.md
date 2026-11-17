@@ -1,4 +1,4 @@
-# Handoff: Relatório do Instalador 4.3.11, Purga de Resíduos (F088 Fase 0) e Destravamento de Dev
+﻿# Handoff: Relatório do Instalador 4.3.11, Purga de Resíduos (F088 Fase 0) e Destravamento de Dev
 
 **Data/Hora:** 2026-11-04 00:00 (UTC-3)  
 **Agente:** AGY (executora)  
@@ -32,7 +32,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
 
 - **Sintoma:** O script de desenvolvimento deixava o executável travado (`locked`), impedindo novas compilações ou gerando arquivos temporários `.locked.<guid>` sem conseguir sobrescrever os binários.
 - **Causa-Raiz Encontrada:** 
-  A linha 38 de `Open-KyraFilesDev.ps1` ainda usava `Get-Process Files, Files.App.Server, Files.App.IndexService`. Com a renomeação da identidade para `KyraFiles`, o processo principal em execução se chama `KyraFiles` (e o servidor COM `KyraFiles.App.Server`). Como o `Get-Process` buscava apenas `Files`, o processo `KyraFiles.exe` continuava em execução com handles abertos durante a rotina de cópia de arquivos para `$layoutDir`.
+  A linha 38 de `Open-KyraFilesDev.ps1` ainda usava `Get-Process Files, KyraFiles.App.Server, KyraFiles.App.IndexService`. Com a renomeação da identidade para `KyraFiles`, o processo principal em execução se chama `KyraFiles` (e o servidor COM `KyraFiles.App.Server`). Como o `Get-Process` buscava apenas `Files`, o processo `KyraFiles.exe` continuava em execução com handles abertos durante a rotina de cópia de arquivos para `$layoutDir`.
 - **Solução Implementada:**
   - `Open-KyraFilesDev.ps1` agora encerra ativamente `KyraFiles`, `KyraFiles.App.Server`, `KyraFiles.App.IndexService` (mantendo os nomes legados por garantia retroativa).
   - Incluído `Wait-Process -Timeout 3` e `Start-Sleep -Milliseconds 500` para garantir liberação completa dos arquivos pelo Windows antes da cópia.
@@ -59,10 +59,10 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
      - `.github/workflows/format-xaml.yml`
      - `.github/scripts/Configure-AppxManifest.ps1`
    - `Files.slnx` -> `KyraFiles.slnx`
-   - `src\Files.App\Files.App.csproj` -> `src\KyraFiles.App\KyraFiles.App.csproj`
-   - `src\Files.App.Launcher\Files.App.Launcher.vcxproj` -> `src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj`
-   - `tests\Files.InteractionTests\...` -> `tests\KyraFiles.InteractionTests\...`
-   - `src/Files.App.Controls` e `tests/Files.App.UITests` corrigidos no XAML styler.
+   - `src\KyraFiles.App\KyraFiles.App.csproj` -> `src\KyraFiles.App\KyraFiles.App.csproj`
+   - `src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj` -> `src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj`
+   - `tests\KyraFiles.InteractionTests\...` -> `tests\KyraFiles.InteractionTests\...`
+   - `src/KyraFiles.App.Controls` e `tests/KyraFiles.App.UITests` corrigidos no XAML styler.
 3. **Regras de Ignorados (`.gitignore`):**
    - Padrões adicionados para novos executáveis e arquivos de lock: `KyraFiles.HotkeyService.exe`, `KyraFiles.Watchdog.exe`, `*.locked.*`.
 4. **Diretrizes e Árvore de Código (`AGENTS.md`):**
@@ -75,7 +75,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
 
 1. **Build Nativo C++ 64-bit (`tools/Build-Native.ps1 -Configuration Release`):**
    - Compilação dos 5 projetos nativos C++ em x64: `0 Warning(s)`, `0 Error(s)`.
-   - Binários gerados e copiados para `src\KyraFiles.App\Assets\FilesOpenDialog`:
+   - Binários gerados e copiados para `src\KyraFiles.App\Assets\KyraFilesOpenDialog`:
      - `KyraFiles.App.Launcher.exe` (336.896 bytes)
      - `KyraFiles.App.OpenDialog64.dll` (133.120 bytes)
      - `KyraFiles.App.SaveDialog64.dll` (182.272 bytes)
@@ -88,7 +88,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
    - Ignorados: 1 (Benchmark justificado F021)
    - Tempo: 1m 38s
 4. **Contenção de Processos:**
-   - Nenhum processo `Files.App.IndexService` ativo.
+   - Nenhum processo `KyraFiles.App.IndexService` ativo.
 
 ---
 

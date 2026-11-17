@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
@@ -31,7 +31,7 @@ namespace KyraFiles.App.Dialogs
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{
 			InitializeComponent();
-			DialogShortcuts.Attach(this); // Files Custom: F057
+			DialogShortcuts.Attach(this); // KyraFiles: F057
 
 			dynamicDialogViewModel.HideDialog = Hide;
 			DataContext = dynamicDialogViewModel;

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
@@ -487,7 +487,7 @@ namespace KyraFiles.App.Views
 			catch (Exception ex)
 			{
 				// Handle exception in case WinUI Windows is closed
-				// (see https://github.com/files-community/Files/issues/15599)
+				// (see https://github.com/alxchs/KyraFiles/issues/15599)
 
 				App.Logger.LogWarning(ex, ex.Message);
 			}

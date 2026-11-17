@@ -1,4 +1,4 @@
-# Relatório de Conclusão — F070: Login do GitHub Próprio
+﻿# Relatório de Conclusão — F070: Login do GitHub Próprio
 
 - **Spec:** F070 (Item 2 da Fila KyraFiles)
 - **Data:** 01/11/2026
@@ -43,27 +43,27 @@
 
 ## 3. Arquitetura e Arquivos Tocados
 
-- `src/Files.App/Services/Git/IGitHubAuthService.cs` (novo): Contrato de serviço e DTOs `DeviceCodeResult`, `DeviceCodeStatus`, `TokenPollStatus`.
-- `src/Files.App/Services/Git/GitHubAuthService.cs` (novo): Implementação completa do fluxo RFC 8628.
-- `src/Files.App/Helpers/ICredentialsVault.cs` (novo): Abstração de cofre de credenciais para injeção e teste.
-- `src/Files.App/Helpers/Application/AppLifecycleHelper.cs`: Registro de `IGitHubAuthService` como singleton no contêiner de DI.
-- `src/Files.App/Helpers/Dialog/DynamicDialogFactory.cs`: Novo diálogo `GetFor_GitHubOAuthClientIdNotConfigured()`.
-- `src/Files.App/Utils/Git/GitHelpers.cs`: Refatoração do método `RequireGitAuthenticationAsync()` para consumir `IGitHubAuthService`.
-- `tests/Files.App.Search.Index.Tests/GitHubAuthServiceTests.cs` (novo): Testes unitários com mock HTTP e cofre em memória.
-- `tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj`: Inclusão dos novos arquivos na compilação de testes.
+- `src/KyraFiles.App/Services/Git/IGitHubAuthService.cs` (novo): Contrato de serviço e DTOs `DeviceCodeResult`, `DeviceCodeStatus`, `TokenPollStatus`.
+- `src/KyraFiles.App/Services/Git/GitHubAuthService.cs` (novo): Implementação completa do fluxo RFC 8628.
+- `src/KyraFiles.App/Helpers/ICredentialsVault.cs` (novo): Abstração de cofre de credenciais para injeção e teste.
+- `src/KyraFiles.App/Helpers/Application/AppLifecycleHelper.cs`: Registro de `IGitHubAuthService` como singleton no contêiner de DI.
+- `src/KyraFiles.App/Helpers/Dialog/DynamicDialogFactory.cs`: Novo diálogo `GetFor_GitHubOAuthClientIdNotConfigured()`.
+- `src/KyraFiles.App/Utils/Git/GitHelpers.cs`: Refatoração do método `RequireGitAuthenticationAsync()` para consumir `IGitHubAuthService`.
+- `tests/KyraFiles.App.Search.Index.Tests/GitHubAuthServiceTests.cs` (novo): Testes unitários com mock HTTP e cofre em memória.
+- `tests/KyraFiles.App.Search.Index.tests/KyraFiles.App.Search.Index.Tests.csproj`: Inclusão dos novos arquivos na compilação de testes.
 
 ---
 
 ## 4. Medições e Validação
 
 1. **Testes Unitários:**
-   - Comando: `dotnet test tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj -c Debug -a x64`
+   - Comando: `dotnet test tests/KyraFiles.App.Search.Index.tests/KyraFiles.App.Search.Index.Tests.csproj -c Debug -a x64`
    - Resultado: **184 testes (183 aprovados, 0 falhas, 1 benchmark F021 desativado)**.
 2. **Compilação Release:**
-   - Comando: `mkfile r src/Files.App/Files.App.csproj`
+   - Comando: `mkfile r src/KyraFiles.App/KyraFiles.App.csproj`
    - Resultado: **0 erros**, `[mkfile] concluido`.
 3. **Gate de Desempenho e Contenção F021:**
    - Comando: `pwsh tools\perf\verify_no_index_service.ps1 -AliasPath "none"`
-   - Resultado: **Aprovado**. `Files.App.IndexService` inativo, CPU em repouso < 5%, zero cópias de Debug no ambiente.
+   - Resultado: **Aprovado**. `KyraFiles.App.IndexService` inativo, CPU em repouso < 5%, zero cópias de Debug no ambiente.
 4. **Instalação:**
-   - Atualizado e verificado em `%LOCALAPPDATA%\Programs\FilesCustom\Files.exe`.
+   - Atualizado e verificado em `%LOCALAPPDATA%\Programs\KyraFiles\KyraFiles.exe`.

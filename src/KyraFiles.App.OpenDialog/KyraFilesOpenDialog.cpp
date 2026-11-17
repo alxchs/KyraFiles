@@ -1,8 +1,8 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 // Abstract:
-//  Implementation of CFilesOpenDialog.
+//  Implementation of CKyraFilesOpenDialog.
 
 #include "pch.h"
 #include <shlobj.h>
@@ -81,7 +81,7 @@ CComPtr<T> AsInterface(CComPtr<IFileOpenDialog> dialog)
 	return dialogInterface;
 }
 
-CFilesOpenDialog::CFilesOpenDialog()
+CKyraFilesOpenDialog::CKyraFilesOpenDialog()
 {
 	_fos = FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST;
 	_systemDialog = nullptr;
@@ -121,7 +121,7 @@ CFilesOpenDialog::CFilesOpenDialog()
 #endif
 }
 
-void CFilesOpenDialog::FinalRelease()
+void CKyraFilesOpenDialog::FinalRelease()
 {
 	if (_systemDialog)
 		_systemDialog.Release();
@@ -134,7 +134,7 @@ void CFilesOpenDialog::FinalRelease()
 		fclose(_debugStream);
 }
 
-STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
+STDAPICALL CKyraFilesOpenDialog::Show(HWND hwndOwner)
 {
 	cout << "Show, hwndOwner: " << hwndOwner << endl;
 	_selectedItems.clear();
@@ -150,7 +150,7 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	PWSTR pszPath = NULL;
 	WCHAR szBuf[MAX_PATH];
 	TCHAR args[1024] = { 0 };
-	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files-dev.exe", szBuf, MAX_PATH - 1);
+	ExpandEnvironmentStringsW(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\kyrafiles.exe", szBuf, MAX_PATH - 1);
 
 	HANDLE closeEvent = CreateEvent(NULL, FALSE, FALSE, TEXT("FILEDIALOG"));
 
@@ -165,7 +165,7 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 		swprintf(args, _countof(args) - 1, L"\"%s\" -outputpath \"%s\"", szBuf, _outputPath.c_str());
 	}
 
-	std::wstring uriWithArgs = L"files-dev:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+	std::wstring uriWithArgs = L"kyrafiles:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
 	ShExecInfo.lpFile = uriWithArgs.c_str();
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
@@ -226,7 +226,7 @@ STDAPICALL CFilesOpenDialog::Show(HWND hwndOwner)
 	return !_selectedItems.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
 
-STDAPICALL CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
+STDAPICALL CKyraFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
 {
 	cout << "SetFileTypes, cFileTypes: " << cFileTypes << endl;
 #ifdef SYSTEMDIALOG
@@ -235,7 +235,7 @@ STDAPICALL CFilesOpenDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSP
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
+STDAPICALL CKyraFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
 {
 	cout << "SetFileTypeIndex, iFileType: " << iFileType << endl;
 #ifdef SYSTEMDIALOG
@@ -244,7 +244,7 @@ STDAPICALL CFilesOpenDialog::SetFileTypeIndex(UINT iFileType)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
+STDAPICALL CKyraFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
 {
 	cout << "GetFileTypeIndex" << endl;
 #ifdef SYSTEMDIALOG
@@ -254,7 +254,7 @@ STDAPICALL CFilesOpenDialog::GetFileTypeIndex(UINT* piFileType)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
+STDAPICALL CKyraFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 {
 	cout << "Advise" << endl;
 #ifdef SYSTEMDIALOG
@@ -265,7 +265,7 @@ STDAPICALL CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::Unadvise(DWORD dwCookie)
+STDAPICALL CKyraFilesOpenDialog::Unadvise(DWORD dwCookie)
 {
 	cout << "Unadvise, dwCookie: " << dwCookie << endl;
 #ifdef SYSTEMDIALOG
@@ -275,7 +275,7 @@ STDAPICALL CFilesOpenDialog::Unadvise(DWORD dwCookie)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
+STDAPICALL CKyraFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 {
 	cout << "SetOptions, fos: " << fos << endl;
 #ifdef SYSTEMDIALOG
@@ -285,7 +285,7 @@ STDAPICALL CFilesOpenDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
+STDAPICALL CKyraFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
 {
 	cout << "GetOptions, fos: " << _fos << endl;
 #ifdef SYSTEMDIALOG
@@ -295,7 +295,7 @@ STDAPICALL CFilesOpenDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
+STDAPICALL CKyraFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -310,7 +310,7 @@ STDAPICALL CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetFolder(IShellItem* psi)
+STDAPICALL CKyraFilesOpenDialog::SetFolder(IShellItem* psi)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -325,7 +325,7 @@ STDAPICALL CFilesOpenDialog::SetFolder(IShellItem* psi)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetFolder(IShellItem** ppsi)
+STDAPICALL CKyraFilesOpenDialog::GetFolder(IShellItem** ppsi)
 {
 	cout << "GetFolder" << endl;
 #ifdef SYSTEMDIALOG
@@ -335,7 +335,7 @@ STDAPICALL CFilesOpenDialog::GetFolder(IShellItem** ppsi)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
+STDAPICALL CKyraFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
 {
 	cout << "GetCurrentSelection" << endl;
 #ifdef SYSTEMDIALOG
@@ -344,7 +344,7 @@ STDAPICALL CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
 	return GetResult(ppsi);
 }
 
-STDAPICALL CFilesOpenDialog::SetFileName(LPCWSTR pszName)
+STDAPICALL CKyraFilesOpenDialog::SetFileName(LPCWSTR pszName)
 {
 	wcout << L"SetFileName, pszName: " << pszName << endl;
 #ifdef SYSTEMDIALOG
@@ -353,7 +353,7 @@ STDAPICALL CFilesOpenDialog::SetFileName(LPCWSTR pszName)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetFileName(LPWSTR* pszName)
+STDAPICALL CKyraFilesOpenDialog::GetFileName(LPWSTR* pszName)
 {
 	cout << "GetFileName" << endl;
 #ifdef SYSTEMDIALOG
@@ -362,7 +362,7 @@ STDAPICALL CFilesOpenDialog::GetFileName(LPWSTR* pszName)
 	return SHStrDupW(_selectedItems.empty() ? L"" : _selectedItems[0].c_str(), pszName);
 }
 
-STDAPICALL CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
+STDAPICALL CKyraFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 {
 	cout << "SetTitle, title: " << pszTitle << endl;
 #ifdef SYSTEMDIALOG
@@ -371,7 +371,7 @@ STDAPICALL CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
+STDAPICALL CKyraFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 {
 	cout << "SetOkButtonLabel, pszText: " << pszText << endl;
 #ifdef SYSTEMDIALOG
@@ -380,7 +380,7 @@ STDAPICALL CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
 {
 	cout << "SetFileNameLabel, pszLabel: " << pszLabel << endl;
 #ifdef SYSTEMDIALOG
@@ -389,7 +389,7 @@ STDAPICALL CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetResult(IShellItem** ppsi)
+STDAPICALL CKyraFilesOpenDialog::GetResult(IShellItem** ppsi)
 {
 	cout << "GetResult" << endl;
 #ifdef SYSTEMDIALOG
@@ -401,7 +401,7 @@ STDAPICALL CFilesOpenDialog::GetResult(IShellItem** ppsi)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
+STDAPICALL CKyraFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 {
 	PWSTR pszPath = NULL;
 	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
@@ -415,7 +415,7 @@ STDAPICALL CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
+STDAPICALL CKyraFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
 	cout << "SetDefaultExtension, pszDefaultExtension: " << pszDefaultExtension << endl;
 #ifdef SYSTEMDIALOG
@@ -424,7 +424,7 @@ STDAPICALL CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::Close(HRESULT hr)
+STDAPICALL CKyraFilesOpenDialog::Close(HRESULT hr)
 {
 	cout << "Close, hr: " << hr << endl;
 #ifdef SYSTEMDIALOG
@@ -433,7 +433,7 @@ STDAPICALL CFilesOpenDialog::Close(HRESULT hr)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetClientGuid(REFGUID guid)
+STDAPICALL CKyraFilesOpenDialog::SetClientGuid(REFGUID guid)
 {
 	cout << "SetClientGuid" << endl;
 #ifdef SYSTEMDIALOG
@@ -442,7 +442,7 @@ STDAPICALL CFilesOpenDialog::SetClientGuid(REFGUID guid)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::ClearClientData(void)
+STDAPICALL CKyraFilesOpenDialog::ClearClientData(void)
 {
 	cout << "ClearClientData" << endl;
 #ifdef SYSTEMDIALOG
@@ -451,7 +451,7 @@ STDAPICALL CFilesOpenDialog::ClearClientData(void)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
+STDAPICALL CKyraFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
 {
 	cout << "SetFilter" << endl;
 #ifdef SYSTEMDIALOG
@@ -460,7 +460,7 @@ STDAPICALL CFilesOpenDialog::SetFilter(IShellItemFilter* pFilter)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
+STDAPICALL CKyraFilesOpenDialog::GetResults(IShellItemArray** ppenum)
 {
 	cout << "GetResults, results: " << _selectedItems.size() << endl;
 #ifdef SYSTEMDIALOG
@@ -494,7 +494,7 @@ STDAPICALL CFilesOpenDialog::GetResults(IShellItemArray** ppenum)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
+STDAPICALL CKyraFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
 {
 	cout << "GetSelectedItems" << endl;
 #ifdef SYSTEMDIALOG
@@ -503,7 +503,7 @@ STDAPICALL CFilesOpenDialog::GetSelectedItems(IShellItemArray** ppsai)
 	return GetResults(ppsai);
 }
 
-STDAPICALL CFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
 {
 	cout << "EnableOpenDropDown" << endl;
 #ifdef SYSTEMDIALOG
@@ -512,7 +512,7 @@ STDAPICALL CFilesOpenDialog::EnableOpenDropDown(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "AddMenu" << endl;
 #ifdef SYSTEMDIALOG
@@ -521,7 +521,7 @@ STDAPICALL CFilesOpenDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "AddPushButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -530,7 +530,7 @@ STDAPICALL CFilesOpenDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
 {
 	cout << "AddComboBox" << endl;
 #ifdef SYSTEMDIALOG
@@ -539,7 +539,7 @@ STDAPICALL CFilesOpenDialog::AddComboBox(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
 {
 	cout << "AddRadioButtonList" << endl;
 #ifdef SYSTEMDIALOG
@@ -548,7 +548,7 @@ STDAPICALL CFilesOpenDialog::AddRadioButtonList(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked)
+STDAPICALL CKyraFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked)
 {
 	cout << "AddCheckButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -557,7 +557,7 @@ STDAPICALL CFilesOpenDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOO
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CKyraFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "AddEditBox" << endl;
 #ifdef SYSTEMDIALOG
@@ -566,7 +566,7 @@ STDAPICALL CFilesOpenDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
 {
 	cout << "AddSeparator" << endl;
 #ifdef SYSTEMDIALOG
@@ -575,7 +575,7 @@ STDAPICALL CFilesOpenDialog::AddSeparator(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CKyraFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "AddText" << endl;
 #ifdef SYSTEMDIALOG
@@ -584,7 +584,7 @@ STDAPICALL CFilesOpenDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "SetControlLabel" << endl;
 #ifdef SYSTEMDIALOG
@@ -593,7 +593,7 @@ STDAPICALL CFilesOpenDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState)
+STDAPICALL CKyraFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState)
 {
 	cout << "GetControlState" << endl;
 #ifdef SYSTEMDIALOG
@@ -603,7 +603,7 @@ STDAPICALL CFilesOpenDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdw
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState)
+STDAPICALL CKyraFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState)
 {
 	cout << "SetControlState" << endl;
 #ifdef SYSTEMDIALOG
@@ -612,7 +612,7 @@ STDAPICALL CFilesOpenDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwSt
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
+STDAPICALL CKyraFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
 {
 	cout << "GetEditBoxText" << endl;
 #ifdef SYSTEMDIALOG
@@ -622,7 +622,7 @@ STDAPICALL CFilesOpenDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
+STDAPICALL CKyraFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
 {
 	cout << "SetEditBoxText" << endl;
 #ifdef SYSTEMDIALOG
@@ -631,7 +631,7 @@ STDAPICALL CFilesOpenDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
+STDAPICALL CKyraFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
 {
 	cout << "GetCheckButtonState" << endl;
 #ifdef SYSTEMDIALOG
@@ -641,7 +641,7 @@ STDAPICALL CFilesOpenDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
+STDAPICALL CKyraFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
 {
 	cout << "SetCheckButtonState" << endl;
 #ifdef SYSTEMDIALOG
@@ -650,7 +650,7 @@ STDAPICALL CFilesOpenDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
 	cout << "AddControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -659,7 +659,7 @@ STDAPICALL CFilesOpenDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWS
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
+STDAPICALL CKyraFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
 	cout << "RemoveControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -668,7 +668,7 @@ STDAPICALL CFilesOpenDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
 {
 	cout << "RemoveAllControlItems" << endl;
 #ifdef SYSTEMDIALOG
@@ -677,7 +677,7 @@ STDAPICALL CFilesOpenDialog::RemoveAllControlItems(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState)
+STDAPICALL CKyraFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState)
 {
 	cout << "GetControlItemState" << endl;
 #ifdef SYSTEMDIALOG
@@ -687,7 +687,7 @@ STDAPICALL CFilesOpenDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, 
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState)
+STDAPICALL CKyraFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState)
 {
 	cout << "SetControlItemState" << endl;
 #ifdef SYSTEMDIALOG
@@ -696,7 +696,7 @@ STDAPICALL CFilesOpenDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, 
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem)
+STDAPICALL CKyraFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem)
 {
 	cout << "GetSelectedControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -706,7 +706,7 @@ STDAPICALL CFilesOpenDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDI
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
+STDAPICALL CKyraFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
 	cout << "SetSelectedControlItem" << endl;
 #ifdef SYSTEMDIALOG
@@ -715,7 +715,7 @@ STDAPICALL CFilesOpenDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDIte
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
 	cout << "StartVisualGroup" << endl;
 #ifdef SYSTEMDIALOG
@@ -724,7 +724,7 @@ STDAPICALL CFilesOpenDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::EndVisualGroup(void)
+STDAPICALL CKyraFilesOpenDialog::EndVisualGroup(void)
 {
 	cout << "EndVisualGroup" << endl;
 #ifdef SYSTEMDIALOG
@@ -733,7 +733,7 @@ STDAPICALL CFilesOpenDialog::EndVisualGroup(void)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
+STDAPICALL CKyraFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
 {
 	cout << "MakeProminent" << endl;
 #ifdef SYSTEMDIALOG
@@ -742,7 +742,7 @@ STDAPICALL CFilesOpenDialog::MakeProminent(DWORD dwIDCtl)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
 	cout << "SetControlItemText" << endl;
 #ifdef SYSTEMDIALOG
@@ -751,7 +751,7 @@ STDAPICALL CFilesOpenDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, L
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
+STDAPICALL CKyraFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
 {
 	cout << "SetCancelButtonLabel" << endl;
 #ifdef SYSTEMDIALOG
@@ -760,7 +760,7 @@ STDAPICALL CFilesOpenDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
+STDAPICALL CKyraFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
 {
 	cout << "SetNavigationRoot" << endl;
 #ifdef SYSTEMDIALOG
@@ -769,7 +769,7 @@ STDAPICALL CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
+STDAPICALL CKyraFilesOpenDialog::SetSite(IUnknown* pUnkSite)
 {
 	cout << "SetSite" << endl;
 #ifdef SYSTEMDIALOG
@@ -778,7 +778,7 @@ STDAPICALL CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
+STDAPICALL CKyraFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
 {
 	cout << "GetSite" << endl;
 #ifdef SYSTEMDIALOG
@@ -787,7 +787,7 @@ STDAPICALL CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
+STDAPICALL CKyraFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
 {
 	cout << "HideControlsForHostedPickerProviderApp" << endl;
 #ifdef SYSTEMDIALOG
@@ -796,7 +796,7 @@ STDAPICALL CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
+STDAPICALL CKyraFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
 {
 	cout << "EnableControlsForHostedPickerProviderApp" << endl;
 #ifdef SYSTEMDIALOG
@@ -805,7 +805,7 @@ STDAPICALL CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
+STDAPICALL CKyraFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
 {
 	cout << "GetPrivateOptions" << endl;
 #ifdef SYSTEMDIALOG
@@ -815,7 +815,7 @@ STDAPICALL CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
+STDAPICALL CKyraFilesOpenDialog::SetPrivateOptions(unsigned long fos)
 {
 	cout << "SetPrivateOptions" << endl;
 #ifdef SYSTEMDIALOG
@@ -824,7 +824,7 @@ STDAPICALL CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
 	return S_OK;
 }
 
-STDAPICALL CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
+STDAPICALL CKyraFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
 {
 	cout << "SetPersistenceKey" << endl;
 #ifdef SYSTEMDIALOG
@@ -833,7 +833,7 @@ STDAPICALL CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::HasPlaces(void)
+STDAPICALL CKyraFilesOpenDialog::HasPlaces(void)
 {
 	cout << "HasPlaces" << endl;
 #ifdef SYSTEMDIALOG
@@ -842,7 +842,7 @@ STDAPICALL CFilesOpenDialog::HasPlaces(void)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
+STDAPICALL CKyraFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
 {
 	cout << "EnumPlaces" << endl;
 #ifdef SYSTEMDIALOG
@@ -851,7 +851,7 @@ STDAPICALL CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::EnumControls(void** ppv)
+STDAPICALL CKyraFilesOpenDialog::EnumControls(void** ppv)
 {
 	cout << "EnumControls" << endl;
 #ifdef SYSTEMDIALOG
@@ -860,7 +860,7 @@ STDAPICALL CFilesOpenDialog::EnumControls(void** ppv)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
+STDAPICALL CKyraFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
 {
 	cout << "GetPersistRegkey" << endl;
 #ifdef SYSTEMDIALOG
@@ -869,7 +869,7 @@ STDAPICALL CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
+STDAPICALL CKyraFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
 {
 	cout << "GetSavePropertyStore" << endl;
 #ifdef SYSTEMDIALOG
@@ -878,7 +878,7 @@ STDAPICALL CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPro
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
+STDAPICALL CKyraFilesOpenDialog::GetSaveExtension(unsigned short** pext)
 {
 	cout << "GetSaveExtension" << endl;
 #ifdef SYSTEMDIALOG
@@ -887,7 +887,7 @@ STDAPICALL CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetFileTypeControl(void** ftp)
+STDAPICALL CKyraFilesOpenDialog::GetFileTypeControl(void** ftp)
 {
 	cout << "GetFileTypeControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -896,7 +896,7 @@ STDAPICALL CFilesOpenDialog::GetFileTypeControl(void** ftp)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetFileNameControl(void** pctrl)
+STDAPICALL CKyraFilesOpenDialog::GetFileNameControl(void** pctrl)
 {
 	cout << "GetFileNameControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -905,7 +905,7 @@ STDAPICALL CFilesOpenDialog::GetFileNameControl(void** pctrl)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
+STDAPICALL CKyraFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
 {
 	cout << "GetFileProtectionControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -914,7 +914,7 @@ STDAPICALL CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
+STDAPICALL CKyraFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
 {
 	cout << "SetFolderPrivate" << endl;
 #ifdef SYSTEMDIALOG
@@ -923,7 +923,7 @@ STDAPICALL CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
+STDAPICALL CKyraFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
 {
 	cout << "SetCustomControlAreaHeight" << endl;
 #ifdef SYSTEMDIALOG
@@ -932,7 +932,7 @@ STDAPICALL CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
+STDAPICALL CKyraFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
 {
 	cout << "GetDialogState" << endl;
 #ifdef SYSTEMDIALOG
@@ -941,7 +941,7 @@ STDAPICALL CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* ps
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetAppControlsModule(void* papp)
+STDAPICALL CKyraFilesOpenDialog::SetAppControlsModule(void* papp)
 {
 	cout << "SetAppControlsModule" << endl;
 #ifdef SYSTEMDIALOG
@@ -950,7 +950,7 @@ STDAPICALL CFilesOpenDialog::SetAppControlsModule(void* papp)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetUserEditedSaveProperties(void)
+STDAPICALL CKyraFilesOpenDialog::SetUserEditedSaveProperties(void)
 {
 	cout << "SetUserEditedSaveProperties" << endl;
 #ifdef SYSTEMDIALOG
@@ -959,7 +959,7 @@ STDAPICALL CFilesOpenDialog::SetUserEditedSaveProperties(void)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
+STDAPICALL CKyraFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
 {
 	cout << "ShouldShowStandardNavigationRoots" << endl;
 #ifdef SYSTEMDIALOG
@@ -968,7 +968,7 @@ STDAPICALL CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
+STDAPICALL CKyraFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
 {
 	cout << "GetNavigationRoot" << endl;
 #ifdef SYSTEMDIALOG
@@ -977,7 +977,7 @@ STDAPICALL CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
+STDAPICALL CKyraFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
 {
 	cout << "ShouldShowFileProtectionControl" << endl;
 #ifdef SYSTEMDIALOG
@@ -986,7 +986,7 @@ STDAPICALL CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
+STDAPICALL CKyraFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
 {
 	cout << "GetCurrentDialogView" << endl;
 #ifdef SYSTEMDIALOG
@@ -995,7 +995,7 @@ STDAPICALL CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
+STDAPICALL CKyraFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
 {
 	cout << "SetSaveDialogEditBoxTextAndFileType" << endl;
 #ifdef SYSTEMDIALOG
@@ -1004,7 +1004,7 @@ STDAPICALL CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsign
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::MoveFocusFromBrowser(int arg)
+STDAPICALL CKyraFilesOpenDialog::MoveFocusFromBrowser(int arg)
 {
 	cout << "MoveFocusFromBrowser" << endl;
 #ifdef SYSTEMDIALOG
@@ -1013,7 +1013,7 @@ STDAPICALL CFilesOpenDialog::MoveFocusFromBrowser(int arg)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::EnableOkButton(int enbl)
+STDAPICALL CKyraFilesOpenDialog::EnableOkButton(int enbl)
 {
 	cout << "EnableOkButton" << endl;
 #ifdef SYSTEMDIALOG
@@ -1022,7 +1022,7 @@ STDAPICALL CFilesOpenDialog::EnableOkButton(int enbl)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
+STDAPICALL CKyraFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
 {
 	cout << "InitEnterpriseId" << endl;
 #ifdef SYSTEMDIALOG
@@ -1031,7 +1031,7 @@ STDAPICALL CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
+STDAPICALL CKyraFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
 {
 	cout << "AdviseFirst" << endl;
 #ifdef SYSTEMDIALOG
@@ -1040,7 +1040,7 @@ STDAPICALL CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long*
 	return E_NOTIMPL;
 }
 
-STDAPICALL CFilesOpenDialog::HandleTab(void)
+STDAPICALL CKyraFilesOpenDialog::HandleTab(void)
 {
 	cout << "HandleTab" << endl;
 #ifdef SYSTEMDIALOG

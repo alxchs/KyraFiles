@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -87,7 +87,7 @@ namespace KyraFiles.App.Data.Commands
 			catch (ArgumentException ex)
 			{
 				// The keys are not necessarily all different because they can be set manually in text editor
-				// ISSUE: https://github.com/files-community/Files/issues/15331
+				// ISSUE: https://github.com/alxchs/KyraFiles/issues/15331
 
 				var flat = _commands.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
 				var duplicates = flat.GroupBy(x => x).Where(x => x.Count() > 1).Select(group => group.Key);

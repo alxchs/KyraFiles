@@ -1,4 +1,4 @@
-# F082 — Janela Modal de Configurações (Settings Modal Window) — SPEC
+﻿# F082 — Janela Modal de Configurações (Settings Modal Window) — SPEC
 
 Estado: **EM EXECUÇÃO** (01/11/2026).
 Solicitação do Alexandre: *"Está abrindo settings na última aba e o lugar do settings era sempre na primeira. Quero uma mudança. O Settings precisa abrir numa janela modal"*.
@@ -9,7 +9,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
 
 ## 1. Contexto e Motivação
 
-1. Anteriormente, as Configurações do FilesApp eram abertas como uma aba dentro do `TabControl` de navegação de arquivos (antiga F020).
+1. Anteriormente, as Configurações do KyraFiles eram abertas como uma aba dentro do `TabControl` de navegação de arquivos (antiga F020).
 2. Na prática, a abertura de Configurações como uma aba:
    - Polui a barra de abas de arquivos e compete por espaço com abas de pastas de trabalho.
    - Apresentava inconsistência de posicionamento na restauração de sessões anteriores (`LastSessionTabList`), abrindo por vezes na última posição em vez de manter uma âncora fixa.
@@ -38,7 +38,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
 | ID | Dado (Contexto) | Quando (Ação) | Então (Resultado Esperado) |
 |---|---|---|---|
 | **AC-1** | O app está aberto com uma ou mais abas de pastas | O usuário aciona `Ctrl+,`, Menu Clássico (**Tools > Settings**) ou clica no ícone da Sidebar | A janela de Configurações é aberta como uma janela modal (`SettingsDialog`) sobre a janela principal; nenhuma aba é criada. |
-| **AC-2** | A janela modal de Configurações está aberta | O usuário clica na janela principal do Files ao fundo | A janela principal não processa cliques (`EnableWindow(false)`) e a janela modal recebe o foco. |
+| **AC-2** | A janela modal de Configurações está aberta | O usuário clica na janela principal do KyraFiles ao fundo | A janela principal não processa cliques (`EnableWindow(false)`) e a janela modal recebe o foco. |
 | **AC-3** | A janela modal de Configurações está aberta | O usuário fecha a janela modal pelo botão `X` do topo | A janela fecha, a janela principal é reabilitada (`EnableWindow(true)`) e foca na aba de pasta ativa. |
 | **AC-4** | A janela modal já está aberta na seção Geral | O usuário aciona **Help > About** ou passa parâmetro de página | A janela modal existente é trazida para frente e alterna a navegação para a página Sobre (`AboutPage`). |
 | **AC-5** | O app é fechado e reaberto | A sessão anterior salva é restaurada pelo app | Nenhuma aba de Configurações é aberta na barra de abas; apenas abas de pastas de arquivos válidas são restauradas. |

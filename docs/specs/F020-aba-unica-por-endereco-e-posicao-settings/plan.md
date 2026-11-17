@@ -1,4 +1,4 @@
-# F020 — Aba única por endereço e aba de Configurações na primeira posição — PLAN
+﻿# F020 — Aba única por endereço e aba de Configurações na primeira posição — PLAN
 
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 
@@ -75,14 +75,14 @@ public static int FindExistingTabIndex(object? navigationArg)
 ## 3. Arquivos Envolvidos
 
 ### Arquivos a Alterar:
-1. `src/Files.App/Helpers/Navigation/NavigationHelpers.cs` (normalização, busca de duplicidade, inserção forçada de Settings no índice 0, movimentação de Settings existente).
-2. `src/Files.App/ViewModels/UserControls/SidebarViewModel.cs` (roteamento do clique de Settings para a aba na posição 0).
-3. `src/Files.App/Actions/Navigation/DuplicateSelectedTabAction.cs` (verificação de aba duplicada).
-4. `src/Files.App/ViewModels/UserControls/NavigationToolbarViewModel.cs` (redirecionamento quando a barra de endereços recebe caminho já aberto).
+1. `src/KyraFiles.App/Helpers/Navigation/NavigationHelpers.cs` (normalização, busca de duplicidade, inserção forçada de Settings no índice 0, movimentação de Settings existente).
+2. `src/KyraFiles.App/ViewModels/UserControls/SidebarViewModel.cs` (roteamento do clique de Settings para a aba na posição 0).
+3. `src/KyraFiles.App/Actions/Navigation/DuplicateSelectedTabAction.cs` (verificação de aba duplicada).
+4. `src/KyraFiles.App/ViewModels/UserControls/NavigationToolbarViewModel.cs` (redirecionamento quando a barra de endereços recebe caminho já aberto).
 
 ### Arquivos a NÃO Alterar:
 - `TabBar.xaml` e estilos visuais de controle.
-- Páginas de configurações internas (`src/Files.App/Views/Settings/*`).
+- Páginas de configurações internas (`src/KyraFiles.App/Views/Settings/*`).
 - Mecanismo de persistência de abas ao fechar/restaurar (`TabBarItemParameter.Serialize`).
 
 ---

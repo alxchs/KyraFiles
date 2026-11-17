@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 namespace KyraFiles.App.Utils.StatusCenter
@@ -735,7 +735,7 @@ namespace KyraFiles.App.Utils.StatusCenter
 			{
 				// Include null check for items that don't have a parent dir
 				// This can happen when dragging an image from the browser
-				// https://github.com/files-community/Files/issues/13590
+				// https://github.com/alxchs/KyraFiles/issues/13590
 				if (card.Source.First() != null)
 				{
 					sourcePath = PathNormalization.GetParentDir(card.Source.First());

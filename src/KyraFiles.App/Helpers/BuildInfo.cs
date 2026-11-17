@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -43,7 +43,7 @@ namespace KyraFiles.App.Helpers
 						{
 							var dllPath = Path.Combine(AppContext.BaseDirectory, "KyraFiles.dll");
 							if (!File.Exists(dllPath))
-								dllPath = Path.Combine(AppContext.BaseDirectory, "Files.App.dll");
+								dllPath = Path.Combine(AppContext.BaseDirectory, "KyraFiles.App.dll");
 							if (File.Exists(dllPath))
 							{
 								_buildDateTime = File.GetLastWriteTime(dllPath).ToString("yyyy-MM-dd HH:mm:ss");
@@ -52,7 +52,7 @@ namespace KyraFiles.App.Helpers
 							{
 								var exePath = Path.Combine(AppContext.BaseDirectory, "KyraFiles.exe");
 								if (!File.Exists(exePath))
-									exePath = Path.Combine(AppContext.BaseDirectory, "Files.exe");
+									exePath = Path.Combine(AppContext.BaseDirectory, "KyraFiles.exe");
 								if (File.Exists(exePath))
 									_buildDateTime = File.GetLastWriteTime(exePath).ToString("yyyy-MM-dd HH:mm:ss");
 							}

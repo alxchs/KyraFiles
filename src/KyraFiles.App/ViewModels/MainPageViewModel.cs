@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.ViewModels.Help;
@@ -258,7 +258,7 @@ namespace KyraFiles.App.ViewModels
 				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
 			}
 
-			// Files Custom: the file dialog instance opens only the requested folder, never the user's session (F012 T7)
+			// KyraFiles: the file dialog instance opens only the requested folder, never the user's session (F012 T7)
 			var isFileDialog = App.OutputPath is not null;
 			if (isFileDialog)
 				ignoreStartupSettings = true;

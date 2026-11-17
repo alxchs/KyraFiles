@@ -1,16 +1,16 @@
 ﻿# PROVA F063-C8-test-green
-COMMAND: dotnet test tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj -p:Platform=x64 --filter FullyQualifiedName~EcosystemMemoryReport_FormatSummary
+COMMAND: dotnet test tests/KyraFiles.App.Search.Index.Tests/KyraFiles.App.Search.Index.Tests.csproj -p:Platform=x64 --filter FullyQualifiedName~EcosystemMemoryReport_FormatSummary
 HEAD: fcd1acf604ccb93a6133fd76aed1c9c13e10f683
 DIRTY: False
 START: 2026-10-30T19:34:15
 END: 2026-10-30T19:34:42
 EXIT: 0
 ---
-C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(528,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
-C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(539,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
-C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\HexFileSaverTests.cs(546,23): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\Files.App.Search.Index.Tests.csproj]
-Running tests from C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.dll (net10.0|x64)
-C:\desenv\utils\FilesApp-agy\tests\Files.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\Files.App.Search.Index.Tests.dll (net10.0|x64) passed (2s 595ms)
+C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\HexFileSaverTests.cs(528,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\KyraFiles.App.Search.Index.Tests.csproj]
+C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\HexFileSaverTests.cs(539,26): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\KyraFiles.App.Search.Index.Tests.csproj]
+C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\HexFileSaverTests.cs(546,23): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2014) [C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\KyraFiles.App.Search.Index.Tests.csproj]
+Running tests from C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\KyraFiles.App.Search.Index.Tests.dll (net10.0|x64)
+C:\desenv\utils\KyraFiles-agy\tests\KyraFiles.App.Search.Index.Tests\bin\x64\Debug\net10.0-windows10.0.26100.0\KyraFiles.App.Search.Index.Tests.dll (net10.0|x64) passed (2s 595ms)
 
 Test run summary: Passed!
   total: 1

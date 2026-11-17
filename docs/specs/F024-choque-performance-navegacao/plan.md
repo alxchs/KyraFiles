@@ -1,4 +1,4 @@
-# F024 — Plano de Arquitetura e Implementação (Choque de Performance)
+﻿# F024 — Plano de Arquitetura e Implementação (Choque de Performance)
 
 ## 1. Diagnóstico Técnico dos Gargalos
 
@@ -39,7 +39,7 @@
    - Envia `Ctrl+Home`, mede o tempo de retorno.
    - Envia sequências de `PgDn` e `PgUp`.
 3. Criar `tools\perf\f024_watcher_sync_test.ps1`:
-   - Cria 5 arquivos em paralelo na pasta enquanto o Files está aberto.
+   - Cria 5 arquivos em paralelo na pasta enquanto o KyraFiles está aberto.
    - Verifica se os 5 arquivos aparecem na lista sem congelar a janela.
    - Remove os 5 arquivos e verifica a desaparição imediata.
 4. Script de encerramento e higiene estrita `tools\perf\cleanup_f024_lab.ps1` que remove pasta e scripts, comprovando exclusão via `Test-Path`.

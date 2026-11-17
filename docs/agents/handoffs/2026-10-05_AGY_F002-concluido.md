@@ -1,4 +1,4 @@
-# Agent Handoff — F002 Concluído
+﻿# Agent Handoff — F002 Concluído
 
 Data: 2026-10-05
 Autor: Antigravity
@@ -35,7 +35,7 @@ Branch: `feature/independent-column-resize`
 
 ## Findings
 
-1. **Independência total de colunas**: O código do `GridSplitter.Events.cs` (linhas 266–274) trata exclusivamente de colunas com pixels fixos (`!IsStarColumn`), chamando `SetColumnWidth(CurrentColumn, ...)` e retornando de imediato sem alterar `SiblingColumn`. A queixa histórica não se reproduz no Files atual.
+1. **Independência total de colunas**: O código do `GridSplitter.Events.cs` (linhas 266–274) trata exclusivamente de colunas com pixels fixos (`!IsStarColumn`), chamando `SetColumnWidth(CurrentColumn, ...)` e retornando de imediato sem alterar `SiblingColumn`. A queixa histórica não se reproduz no KyraFiles atual.
 2. **Duplo clique e auto-fit**: Já implementados e plenamente funcionais tanto por duplo clique no divisor (`GridSplitter_DoubleTapped`) quanto por menu de contexto do cabeçalho ("Size all columns to fit").
 3. **Persistência**: Dupla camada (Registro por pasta individual e JSON de configurações para o padrão global).
 4. **Comportamento de Janela**: Preserva larguras exatas; reduzindo a janela, a barra horizontal acolhe o conteúdo; ampliando a janela, exibe espaço neutro à direita.

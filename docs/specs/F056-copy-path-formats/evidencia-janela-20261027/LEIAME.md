@@ -1,6 +1,6 @@
-# F056 - prova de tela de 27/10/2026 (janela 12:35-13:20)
+﻿# F056 - prova de tela de 27/10/2026 (janela 12:35-13:20)
 
-Build testado: integra-f056-f057 (main integrada com F056 e F057), app registrado como FilesDev, aberto por iles-dev.exe <pasta do laboratorio>; menu aberto com clique direito guardado (Send-GuardedClick) e itens acionados por UI Automation; area de transferencia lida em PowerShell e comparada com o esperado calculado de forma independente (sem usar o PathFormatter).
+Build testado: integra-f056-f057 (main integrada com F056 e F057), app registrado como KyraFiles, aberto por iles-dev.exe <pasta do laboratorio>; menu aberto com clique direito guardado (Send-GuardedClick) e itens acionados por UI Automation; area de transferencia lida em PowerShell e comparada com o esperado calculado de forma independente (sem usar o PathFormatter).
 
 | Rodada | Arquivo | AC-1 | AC-2 (WSL) | AC-3 (JSON) | AC-7 (3 arquivos) | Controle |
 |---|---|---|---|---|---|---|

@@ -1,4 +1,4 @@
-﻿// Copyright(c) Files Community
+﻿// Copyright(c) KyraFiles Community
 // Licensed under the MIT License.
 
 namespace KyraFiles.App.ViewModels.Properties

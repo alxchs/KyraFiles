@@ -29,7 +29,7 @@ $deltaBytes = 0L
 
 foreach ($entry in $manifest.Files) {
     $relPath = [string]$entry.Path
-    $isRootMain = $relPath -in @('KyraFiles.exe', 'Files.dll', 'AppxManifest.xml', 'resources.pri')
+    $isRootMain = $relPath -in @('KyraFiles.exe', 'KyraFiles.dll', 'AppxManifest.xml', 'resources.pri')
 
     # Determina onde o arquivo fica no layout da instalacao
     $localTarget = Join-Path $InstallDir $relPath
@@ -73,8 +73,8 @@ foreach ($entry in $manifest.Files) {
     }
 }
 
-# Verifica também os serviços nativos C++ (Files.HotkeyService.exe e Files.Watchdog.exe)
-foreach ($nativeExe in @('Files.HotkeyService.exe', 'Files.Watchdog.exe')) {
+# Verifica também os serviços nativos C++ (KyraFiles.HotkeyService.exe e KyraFiles.Watchdog.exe)
+foreach ($nativeExe in @('KyraFiles.HotkeyService.exe', 'KyraFiles.Watchdog.exe')) {
     $srcExe = Join-Path $SourceBin $nativeExe
     $dstExe = Join-Path $InstallDir $nativeExe
     if (Test-Path -LiteralPath $srcExe) {
@@ -107,7 +107,7 @@ $mode = if ($hasInstallDir -and $hasDepDir -and $depMatchRatio -ge 0.8) { "Delta
 # Gera pacote Delta (.zip) reduzido se solicitado (NFR-004: < 20 MB)
 $deltaZipSizeMB = 0.0
 if (-not [string]::IsNullOrWhiteSpace($OutputDeltaZip)) {
-    $stageDir = Join-Path ([System.IO.Path]::GetTempPath()) ("claude\desenv\utils\FilesApp\f017_delta_stage_" + [guid]::NewGuid().ToString("N"))
+    $stageDir = Join-Path ([System.IO.Path]::GetTempPath()) ("agy\" + [guid]::NewGuid().ToString("N") + "\KyraFiles\delta_stage")
     New-Item -ItemType Directory -Force -Path $stageDir | Out-Null
     try {
         # Em um pacote Delta, inclui ao menos os binários principais e tudo que divergiu
@@ -116,9 +116,9 @@ if (-not [string]::IsNullOrWhiteSpace($OutputDeltaZip)) {
         } else {
             @(
                 [PSCustomObject]@{ RelativePath = 'KyraFiles.exe'; SourcePath = (Join-Path $SourceAppX 'KyraFiles.exe') },
-                [PSCustomObject]@{ RelativePath = 'Files.dll'; SourcePath = (Join-Path $SourceAppX 'Files.dll') },
-                [PSCustomObject]@{ RelativePath = 'Files.HotkeyService.exe'; SourcePath = (Join-Path $SourceBin 'Files.HotkeyService.exe') },
-                [PSCustomObject]@{ RelativePath = 'Files.Watchdog.exe'; SourcePath = (Join-Path $SourceBin 'Files.Watchdog.exe') }
+                [PSCustomObject]@{ RelativePath = 'KyraFiles.dll'; SourcePath = (Join-Path $SourceAppX 'KyraFiles.dll') },
+                [PSCustomObject]@{ RelativePath = 'KyraFiles.HotkeyService.exe'; SourcePath = (Join-Path $SourceBin 'KyraFiles.HotkeyService.exe') },
+                [PSCustomObject]@{ RelativePath = 'KyraFiles.Watchdog.exe'; SourcePath = (Join-Path $SourceBin 'KyraFiles.Watchdog.exe') }
             )
         }
 
@@ -158,10 +158,10 @@ try {
     # Evento não existia (serviço já parado)
 }
 
-Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService, KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 300
 
-$remainingProcs = @(Get-Process Files.Watchdog, Files.HotkeyService, Files, Files.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue)
+$remainingProcs = @(Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService, KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue)
 $processesStoppedCleanly = ($remainingProcs.Count -eq 0)
 
 # Substituição atômica dos arquivos alterados sem travamento
@@ -188,11 +188,11 @@ if (Test-Path (Join-Path $InstallDir "AppxManifest.xml")) {
 
 $watchdogRestarted = $false
 if ($RestartWatchdog) {
-    $watchdogExe = Join-Path $InstallDir "Files.Watchdog.exe"
+    $watchdogExe = Join-Path $InstallDir "KyraFiles.Watchdog.exe"
     if (Test-Path -LiteralPath $watchdogExe) {
         Start-Process -FilePath $watchdogExe -WindowStyle Hidden | Out-Null
         Start-Sleep -Milliseconds 400
-        $watchdogRestarted = [bool](Get-Process Files.Watchdog -ErrorAction SilentlyContinue)
+        $watchdogRestarted = [bool](Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue)
     }
 }
 

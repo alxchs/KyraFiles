@@ -1,8 +1,8 @@
-# Spec F023: Busca Rápida Híbrida, Fluidez de UI e Sanificação de Recursos
+﻿# Spec F023: Busca Rápida Híbrida, Fluidez de UI e Sanificação de Recursos
 
 ## 1. Contexto e Objetivos
 
-O projeto Files Custom será distribuído publicamente no GitHub e deve oferecer busca de arquivos ultrarrápida (sub-50ms / instantânea na percepção do usuário), operando com excelência em qualquer máquina Windows sem exigir dependências externas instaladas e sem recorrer a daemons pesados em segundo plano (o indexador contínuo de background permanece 100% desarmado).
+O projeto KyraFiles será distribuído publicamente no GitHub e deve oferecer busca de arquivos ultrarrápida (sub-50ms / instantânea na percepção do usuário), operando com excelência em qualquer máquina Windows sem exigir dependências externas instaladas e sem recorrer a daemons pesados em segundo plano (o indexador contínuo de background permanece 100% desarmado).
 
 Adicionalmente, esta especificação atende à diretriz do Alexandre para uma análise e revisão profunda em quatro pilares vitais:
 1. **Validação e saneamento de vazamentos de memória:** Identificação e eliminação de leaks em handlers de eventos, tokens de cancelamento (`CancellationTokenSource`), handles Win32 e retenção de coleções.
@@ -61,4 +61,4 @@ Adicionalmente, esta especificação atende à diretriz do Alexandre para uma an
 - [ ] Com o Everything ativo: busca retorna instantaneamente sem criar arquivos no `%TEMP%` e sem chamadas a `Directory.Exists`.
 - [ ] Sem o Everything ativo: busca opera normalmente trazendo resultados sem travar a interface e sem mensagens de erro.
 - [ ] 50 buscas consecutivas executadas sem vazamento de handles ou travamento do processo.
-- [ ] A janela do Files Custom abre, permanece fluida durante a digitação e a rolagem dos resultados ocorre a 60 FPS.
+- [ ] A janela do KyraFiles abre, permanece fluida durante a digitação e a rolagem dos resultados ocorre a 60 FPS.

@@ -1,17 +1,17 @@
-#pragma once
+﻿#pragma once
 #include "resource.h"       // simboli principali
 
 #include "oaidl.h"
 #include "ocidl.h"
 #include "shobjidl.h"
 
-class FilesDialogEvents : public IFileDialogEvents
+class KyraFilesDialogEvents : public IFileDialogEvents
 {
 	IFileDialogEvents* _evt;
 	IFileDialog* _cust;
 
 public:
-	FilesDialogEvents(IFileDialogEvents* evt, IFileDialog *cust);
+	KyraFilesDialogEvents(IFileDialogEvents* evt, IFileDialog *cust);
 
 	// Ereditato tramite IFileDialogEvents
 	HRESULT __stdcall QueryInterface(REFIID riid, void** ppvObject) override;

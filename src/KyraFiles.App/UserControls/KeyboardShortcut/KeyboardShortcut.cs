@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+﻿// Copyright (c) 2023 KyraFiles Community
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;

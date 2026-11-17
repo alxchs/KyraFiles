@@ -1,4 +1,4 @@
-# F026 — Resultado do experimento (20/10/2026, Claude)
+﻿# F026 — Resultado do experimento (20/10/2026, Claude)
 
 Mudança: `BaseLayoutPage.cs` coalesce os efeitos colaterais da seleção (toolbar e seu re-measure de overflow, tamanho e contagem na barra de status) quando a seleção muda em rajada (< 150 ms entre mudanças); aplica 60 ms depois da última; mudança isolada continua imediata. `DetailsLayoutPage.xaml.cs` aplica o pendente antes de qualquer tecla que não seja navegação. Commit `f554f046c`. Build Release: `0 Warning(s)`, `0 Error(s)` (CONFIRMED, `dotnet build ... -c Release -m:1 --no-restore`).
 
@@ -14,7 +14,7 @@ Linha alcançada = estimada pela ordem alfabética (`backup_*` primeiro), **INFE
 
 - **OBSERVED:** o experimento levou a mediana de 52 para 93 linhas (+79%) e passou o upstream (69). Está a ~88% do teto do gerador.
 - **OBSERVED:** o CPU do thread de UI na janela da tecla caiu de ~3,8 s para 0,4 a 1,3 s (2 amostras; é pouco).
-- **Comparação com outra tecnologia:** a lista nativa mantém o ritmo todo da tecla com ~2 s de CPU e ~23 MB. O Files (WinUI 3) gasta ~11 s de CPU e 400 a 650 MB nessa mesma ação. Mas **não é comparação justa**: a lista nativa não tem ícones, miniaturas, toolbar nem painéis. Serve de teto, não de meta.
+- **Comparação com outra tecnologia:** a lista nativa mantém o ritmo todo da tecla com ~2 s de CPU e ~23 MB. o KyraFiles (WinUI 3) gasta ~11 s de CPU e 400 a 650 MB nessa mesma ação. Mas **não é comparação justa**: a lista nativa não tem ícones, miniaturas, toolbar nem painéis. Serve de teto, não de meta.
 - **Ainda alto:** o CPU total do processo continua em ~10 a 12 s por 5 s (outras threads, provável render). A fila de teclas melhorou; o custo bruto não zerou.
 
 ## Estado por critério (spec F026)
@@ -34,7 +34,7 @@ Linha alcançada = estimada pela ordem alfabética (`backup_*` primeiro), **INFE
 
 ## Adendo 1 (20/10/2026 20:40) — causa provável da "tela limpa": `CacheLength="10.0"` (nosso)
 
-Relato do Alexandre: segurando a tecla no Files, a tela fica toda limpa e se perde a referência visual da linha; no Explorer do Windows também é lento, mas a referência não se perde. (Sintoma já existia; faltou a informação.)
+Relato do Alexandre: segurando a tecla no KyraFiles, a tela fica toda limpa e se perde a referência visual da linha; no Explorer do Windows também é lento, mas a referência não se perde. (Sintoma já existia; faltou a informação.)
 
 - **Não reproduzi a tela limpa** com teclas sintéticas (quadros em `docs/agents/evidence/F026/frames/`, script `tools\perf\f025_capture_hold.ps1`; a métrica "vazio %" não discrimina, ficou em 30 a 32% sempre). Nos quadros se vê o toolbar perdendo os rótulos durante a rajada (re-medição). **NOT TESTED:** tela limpa em uso real.
 - **CONFIRMED por leitura (git):** `DetailsLayoutPage.xaml` linhas 1387 e 1496 têm `CacheLength="10.0"` desde o commit-base do fork `22fd57762` (F001 a F020). No upstream `0e3c17ca4` o atributo não existe (padrão do `ItemsStackPanel`: 4). Com 10, o app mantém ~10 telas de linhas materializadas de cada lado; cada rajada de rolagem cria e descarta centenas de contêineres. Cada linha também tem um `ItemsControl` aninhado de "colunas dinâmicas" (nosso, F013).

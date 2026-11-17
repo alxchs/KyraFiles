@@ -24,7 +24,7 @@ if (`$dim) {
     Write-Output ("Found Dimensões Text: Rect={0}" -f `$dim.Current.BoundingRectangle)
 }
 
-# Find Buttons in Files app
+# Find Buttons in KyraFiles
 `$condBtn = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
 `$condPid = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, [int]`$p.Id)
 `$cond = New-Object System.Windows.Automation.AndCondition(@(`$condBtn, `$condPid))

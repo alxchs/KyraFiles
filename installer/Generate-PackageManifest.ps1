@@ -22,7 +22,7 @@ foreach ($f in $files) {
     $relPath = $f.FullName.Substring((Resolve-Path $PackageDir).Path.Length).TrimStart('\')
     
     # Classifica se é binário principal ou dependência pesada
-    $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'KyraFiles.dll' -and $f.Name -ne 'KyraFiles.exe' -and $f.Name -ne 'Files.dll' -and $f.Name -ne 'Files.exe'
+    $isDependency = $f.Extension -match '\.(dll|winmd|pri)$' -and $f.Name -ne 'KyraFiles.dll' -and $f.Name -ne 'KyraFiles.exe'
     $totalBytes += $f.Length
     $hash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
     

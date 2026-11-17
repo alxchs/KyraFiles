@@ -1,4 +1,4 @@
-# F012 / T7: abre o diálogo "Abrir" (ou "Salvar") do Windows num processo separado, espera o Files
+﻿# F012 / T7: abre o diálogo "Abrir" (ou "Salvar") do Windows num processo separado, espera o Files
 # aparecer como diálogo, seleciona o arquivo de teste por UI Automation, fecha a janela e confere
 # o caminho devolvido ao app chamador.
 #
@@ -25,7 +25,7 @@ $A = [System.Windows.Automation.AutomationElement]
 $Scope = [System.Windows.Automation.TreeScope]
 
 # Temporários do projeto ficam em %TEMP%\claude\<caminho do projeto>, fáceis de limpar
-$work = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f012 diálogo ação'
+$work = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f012 diálogo ação'
 New-Item -ItemType Directory -Force $work | Out-Null
 $target = Join-Path $work 'arquivo de teste ação.txt'
 Set-Content -LiteralPath $target -Value 'F012 T7' -Encoding utf8

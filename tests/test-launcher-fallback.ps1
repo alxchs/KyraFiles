@@ -1,5 +1,5 @@
 ﻿# F012 AC-6: launcher com o Files "desinstalado" abre o Explorer, sem caixa de mensagem.
-# Simula a desinstalação apontando LOCALAPPDATA para uma pasta vazia (o alias files-dev.exe
+# Simula a desinstalação apontando LOCALAPPDATA para uma pasta vazia (o alias kyrafiles.exe
 # não é encontrado); o registro real não é tocado, porque o .reg de reversão também é
 # procurado nessa pasta vazia.
 #
@@ -7,7 +7,7 @@
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
-$launcher = Join-Path $root 'src\KyraFiles.App\Assets\FilesOpenDialog\KyraFiles.App.Launcher.exe'
+$launcher = Join-Path $root 'src\KyraFiles.App\Assets\KyraFilesOpenDialog\KyraFiles.App.Launcher.exe'
 $failed = 0
 function Check([string]$name, [bool]$ok, [string]$detail) {
     if ($ok) { Write-Host "PASS $name $detail" -ForegroundColor Green }

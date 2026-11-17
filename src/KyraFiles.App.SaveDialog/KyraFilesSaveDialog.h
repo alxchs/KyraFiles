@@ -1,4 +1,4 @@
-// FilesSaveDialog.h: dichiarazione di CFilesSaveDialog
+// KyraFilesSaveDialog.h: dichiarazione di CKyraFilesSaveDialog
 
 #pragma once
 #include "resource.h"       // simboli principali
@@ -21,11 +21,11 @@
 using namespace ATL;
 
 
-// CFilesSaveDialog
+// CKyraFilesSaveDialog
 
-class ATL_NO_VTABLE CFilesSaveDialog :
+class ATL_NO_VTABLE CKyraFilesSaveDialog :
 	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CFilesSaveDialog, &CLSID_FilesSaveDialog>,
+	public CComCoClass<CKyraFilesSaveDialog, &CLSID_KyraFilesSaveDialog>,
 	public IFileDialog,
 	public IFileDialog2,
 	public IFileSaveDialog,
@@ -35,11 +35,11 @@ class ATL_NO_VTABLE CFilesSaveDialog :
 	public IOleWindow
 {
 public:
-	CFilesSaveDialog();
+	CKyraFilesSaveDialog();
 
-DECLARE_REGISTRY_RESOURCEID(106)
+DECLARE_REGISTRY_RESOURCEID(IDR_KYRAFILESSAVEDIALOG)
 
-CUSTOM_BEGIN_COM_MAP(CFilesSaveDialog)
+CUSTOM_BEGIN_COM_MAP(CKyraFilesSaveDialog)
 	COM_INTERFACE_ENTRY(IFileDialog)
 	COM_INTERFACE_ENTRY(IFileDialog2)
 	COM_INTERFACE_ENTRY(IFileSaveDialog)
@@ -270,4 +270,4 @@ public:
 
 };
 
-OBJECT_ENTRY_AUTO(__uuidof(FilesSaveDialog), CFilesSaveDialog)
+OBJECT_ENTRY_AUTO(__uuidof(KyraFilesSaveDialog), CKyraFilesSaveDialog)

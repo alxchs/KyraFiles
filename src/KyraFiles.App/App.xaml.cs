@@ -1,5 +1,5 @@
-using KyraFiles.Shared.Helpers;
-﻿// Copyright (c) Files Community
+﻿using KyraFiles.Shared.Helpers;
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Helpers.Application;
@@ -20,7 +20,7 @@ using WinRT;
 namespace KyraFiles.App
 {
 	/// <summary>
-	/// Represents the entry point of UI for Files app.
+	/// Represents the entry point of UI for KyraFiles.
 	/// </summary>
 	public partial class App : Application
 	{
@@ -204,10 +204,10 @@ namespace KyraFiles.App
 						SplashScreenLoadingTCS = null;
 					}
 
-					// Files Custom: take over Explorer windows while running, from the start (F012 T9)
+					// KyraFiles: take over Explorer windows while running, from the start (F012 T9)
 					ExplorerWindowRedirector.Start();
 
-					// Files Custom: F069 - Confirma estabilidade apos 10 segundos de execucao estavel
+					// KyraFiles: F069 - Confirma estabilidade apos 10 segundos de execucao estavel
 					_ = Task.Run(async () =>
 					{
 						await Task.Delay(KyraFiles.Shared.Helpers.CrashGuardService.StabilityThreshold);
@@ -231,7 +231,7 @@ namespace KyraFiles.App
 					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
 						SystemTrayIcon.Show();
 
-					// Files Custom: take over Explorer windows while running (F012 T9)
+					// KyraFiles: take over Explorer windows while running (F012 T9)
 					ExplorerWindowRedirector.Start();
 
 					// Sleep current instance
@@ -280,7 +280,7 @@ namespace KyraFiles.App
 			if (args.WindowActivationState != WindowActivationState.Deactivated)
 				AppModel.IsMainWindowClosed = false;
 
-			// Files Custom: a file dialog instance never receives other launches (F012 T7)
+			// KyraFiles: a file dialog instance never receives other launches (F012 T7)
 			if ((args.WindowActivationState != WindowActivationState.CodeActivated &&
 				args.WindowActivationState != WindowActivationState.PointerActivated) ||
 				OutputPath is not null)
@@ -291,7 +291,7 @@ namespace KyraFiles.App
 			// Reclaim the tray icon if a sibling instance's exit removed the shared-GUID icon
 			SystemTrayIcon?.EnsureCreated();
 
-			// Files Custom: take over Explorer windows if a sibling instance held them until now (F012 T9)
+			// KyraFiles: take over Explorer windows if a sibling instance held them until now (F012 T9)
 			ExplorerWindowRedirector.Start();
 		}
 
@@ -315,7 +315,7 @@ namespace KyraFiles.App
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 			ICommandManager commandManager = Ioc.Default.GetRequiredService<ICommandManager>();
 
-			// Files Custom: as a file dialog, hand the selection back before any teardown can clear it,
+			// KyraFiles: as a file dialog, hand the selection back before any teardown can clear it,
 			// always signal the caller (it waits forever otherwise) and never park or save the user's session (F012 T7)
 			var isFileDialog = OutputPath is not null;
 			if (OutputPath is { } outputPath && !_isFileDialogSignaled)

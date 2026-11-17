@@ -2,8 +2,8 @@
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Host "Iniciando Files Dev..."
-$p = Start-Process "files-dev:" -PassThru
+Write-Host "Iniciando KyraFiles..."
+$p = Start-Process "kyrafiles-dev:" -PassThru
 Start-Sleep -Seconds 5
 
 $filesProc = Get-Process -Name Files -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1
@@ -61,7 +61,7 @@ if ($filesProc) {
     }
 '@
 
-    $evidencePath = "C:\desenv\utils\FilesApp\docs\agents\evidence\f011\f011_files_running.png"
+    $evidencePath = "C:\desenv\utils\KyraFiles\docs\agents\evidence\f011\f011_files_running.png"
     [WindowCapturer]::Capture($hwnd, $evidencePath)
     Write-Host "Captura salva em: $evidencePath"
 } else {

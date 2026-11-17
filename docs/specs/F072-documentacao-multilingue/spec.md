@@ -1,4 +1,4 @@
-# F072 — Documentação Local Offline Multilíngue — SPEC
+﻿# F072 — Documentação Local Offline Multilíngue — SPEC
 
 Status: **APROVADA PARA EXECUÇÃO**  
 Metodologia: Spec-Driven Development (`METODO.md` §6)  
@@ -8,7 +8,7 @@ Origem: Solicitação do usuário em 31/10/2026 (suporte aos 4 idiomas oficiais 
 
 ## 1. Por quê
 
-O Files Custom atende a usuários em diferentes regiões e idiomas. Embora o aplicativo possua tradução para dezenas de idiomas em sua interface WinUI, a documentação local offline (F068) foi inicialmente disponibilizada apenas em Português do Brasil (pt-BR).
+O KyraFiles atende a usuários em diferentes regiões e idiomas. Embora o aplicativo possua tradução para dezenas de idiomas em sua interface WinUI, a documentação local offline (F068) foi inicialmente disponibilizada apenas em Português do Brasil (pt-BR).
 
 Para oferecer uma experiência completa, inclusiva e com excelência operacional:
 - A documentação local offline precisa estar disponível nos **4 idiomas principais**:
@@ -24,7 +24,7 @@ Para oferecer uma experiência completa, inclusiva e com excelência operacional
 
 ## 2. Histórias de Usuário
 
-- **US1 (Abertura no Idioma do App):** Como usuário com o Files configurado em Espanhol (ou Alemão, Inglês, Português), ao clicar em "Documentação" no menu ou tela Sobre, quero que o navegador abra diretamente o guia no meu idioma.
+- **US1 (Abertura no Idioma do App):** Como usuário com o KyraFiles configurado em Espanhol (ou Alemão, Inglês, Português), ao clicar em "Documentação" no menu ou tela Sobre, quero que o navegador abra diretamente o guia no meu idioma.
 - **US2 (Alternância Fácil de Idiomas):** Como usuário navegando na documentação, quero poder clicar nas opções de idioma (PT | EN | ES | DE) na barra lateral para trocar de idioma instantaneamente sem perder a página em que estou lendo.
 - **US3 (Resiliência e Fallback):** Como usuário, se alguma página específica estiver ausente no meu idioma, quero que o sistema abra a versão correspondente em Português ou Inglês sem erros de página em branco ("404").
 - **US4 (Zero Dependência de Internet):** Toda a navegação e alternância entre os 4 idiomas deve funcionar 100% offline, sem carregar fontes, scripts ou estilos externos.

@@ -1,9 +1,9 @@
-using System.IO.Pipes;
+﻿using System.IO.Pipes;
 
 // Spike descartável — F015 T1. Cliente não elevado.
 // Conecta ao named pipe do IndexServiceSpike e faz "ping".
 
-const string PipeName = "FilesCustom.IndexService.Spike";
+const string PipeName = "KyraFiles.IndexService.Spike";
 const int TimeoutMs   = 5_000;
 
 Console.WriteLine($"Conectando ao pipe '{PipeName}'...");

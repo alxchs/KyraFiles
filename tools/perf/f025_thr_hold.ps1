@@ -1,4 +1,4 @@
-# F025 — CPU por thread do Files.exe durante a tecla segurada (separa UI, compositor e pool).
+﻿# F025 — CPU por thread do KyraFiles.exe durante a tecla segurada (separa UI, compositor e pool).
 # Roda f025_hold_key.ps1 (1 rodada) e amostra os threads so na janela de 5 s da tecla.
 # Uso: pwsh -File f025_thr_hold.ps1 -Label D1-atual   (app aberto; mesmo formato para o upstream)
 param([Parameter(Mandatory)][string]$Label)

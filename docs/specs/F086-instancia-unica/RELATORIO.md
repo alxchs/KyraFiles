@@ -1,4 +1,4 @@
-# F086 - Relatorio parcial
+﻿# F086 - Relatorio parcial
 
 Data: 02/11/2026. Estado por AC (METODO 7):
 
@@ -15,6 +15,6 @@ Medicao: n = 1 rodada, sem comparativo antes/depois de memoria. Memoria privada 
 
 ## Defeitos achados ao colocar para funcionar (cada um impedia o app de abrir)
 
-1. `Themes/Generic.xaml` dos Controls carregava `ms-appx:///Files.App.Controls/...`; o assembly agora e `KyraFiles.App.Controls`. Sintoma: processo encerra em ~2 s com `0x802B000A` (XAML parse failed).
-2. `Package.appxmanifest` declarava `windows.appExecutionAlias` duas vezes (`kyrafiles.exe` e `files-dev.exe`); o Windows recusa o registro (`0x80080204`). Removido o bloco do `files-dev.exe`; versao 4.3.11.0.
+1. `Themes/Generic.xaml` dos Controls carregava `ms-appx:///KyraFiles.App.Controls/...`; o assembly agora e `KyraFiles.App.Controls`. Sintoma: processo encerra em ~2 s com `0x802B000A` (XAML parse failed).
+2. `Package.appxmanifest` declarava `windows.appExecutionAlias` duas vezes (`kyrafiles.exe` e `kyrafiles.exe`); o Windows recusa o registro (`0x80080204`). Removido o bloco do `kyrafiles.exe`; versao 4.3.11.0.
 3. Registrar a mesma versao de novo com manifesto diferente exige `Remove-AppxPackage -PreserveApplicationData` antes (`0x80073CFB`).

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 #include "OpenInFolder.h"
@@ -135,7 +135,7 @@ HRESULT STDMETHODCALLTYPE OpenInFolder::get_TopLevelContainer(VARIANT_BOOL* pBoo
 HRESULT STDMETHODCALLTYPE OpenInFolder::get_Type(BSTR* type)
 {
 	RETURN_HR_IF_NULL(E_POINTER, type);
-	*type = SysAllocString(L"Files");
+	*type = SysAllocString(L"KyraFiles");
 	return *type ? S_OK : E_OUTOFMEMORY;
 }
 

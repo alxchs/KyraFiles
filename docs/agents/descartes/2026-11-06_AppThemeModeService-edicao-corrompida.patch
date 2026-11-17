@@ -2,7 +2,7 @@ diff --git a/src/KyraFiles.App/Services/App/AppThemeModeService.cs b/src/KyraFil
 index d79825e47..2afc018cc 100644
 --- a/src/KyraFiles.App/Services/App/AppThemeModeService.cs
 +++ b/src/KyraFiles.App/Services/App/AppThemeModeService.cs
-@@ -66,23 +66,7 @@ namespace Files.App.Services
+@@ -66,23 +66,7 @@ namespace KyraFiles.App.Services
  		}
  
  		/// <inheritdoc/>

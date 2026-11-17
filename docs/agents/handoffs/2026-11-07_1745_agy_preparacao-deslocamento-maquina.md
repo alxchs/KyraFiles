@@ -1,4 +1,4 @@
-# Handoff: Preparação para Deslocamento de Máquina e Release v4.3.12
+﻿# Handoff: Preparação para Deslocamento de Máquina e Release v4.3.12
 
 **Data/Hora:** 2026-11-07 17:45 (UTC-3)  
 **Agente:** AGY  
@@ -18,12 +18,12 @@
 2. **Geração do Novo Instalador v4.3.12:**
    - Corrigido o cálculo de SHA256 em `installer\Generate-PackageManifest.ps1` e gerado `installer\package_manifest.json` com hashes reais de todos os 1.240 arquivos do pacote (179,45 MB).
    - Gerado o instalador via Inno Setup 6: `artifacts\Setup\KyraFilesSetup-4.3.12.exe` (53.641.735 bytes, 51,16 MB, SHA256: `2009682CA23120114155961D8900883F034BB64DDFC93C9B40582638AF1CB4F8`).
-   - Adicionada seção `[InstallDelete]` em `installer\KyraFilesSetup.iss` para purgar preventivamente executáveis legados de instalações anteriores (`Files.App.Server\`, `Assets\FilesOpenDialog\Files.App.*`, `Files.App.BackgroundTasks.*`, etc.).
+   - Adicionada seção `[InstallDelete]` em `installer\KyraFilesSetup.iss` para purgar preventivamente executáveis legados de instalações anteriores (`KyraFiles.App.Server\`, `Assets\KyraFilesOpenDialog\KyraFiles.App.*`, `KyraFiles.App.BackgroundTasks.*`, etc.).
    - Nota de release documentada em `docs/releases/2026-11-07_build-KyraFilesSetup-4.3.12.md`.
 
 3. **Purga de Vestígios Legados e Regra Dura contra Espalhar Binários:**
    - Limpeza de todos os diretórios `Debug` residuais no repositório (`bin\Debug`, `artifacts\Debug`, `src\*\bin\*\Debug`, `src\*\obj\*\Debug`, etc.).
-   - Limpeza ativa dos binários obsoletos em `%LOCALAPPDATA%\Programs\FilesCustom`.
+   - Limpeza ativa dos binários obsoletos em `%LOCALAPPDATA%\Programs\KyraFiles`.
    - Adicionada **REGRA DURA DE NÃO PROLIFERAÇÃO E CONCENTRAÇÃO DE BINÁRIOS (07/11/2026)** em:
      - `AGENTS.md` (repositório local);
      - `~/.dev-method/METODO.md` (§12, comum com a Claude);

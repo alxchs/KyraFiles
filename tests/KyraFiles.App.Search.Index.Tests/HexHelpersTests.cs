@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -98,7 +98,7 @@ namespace KyraFiles.App.Search.Index.Tests
 		[TestMethod]
 		public void M2_AC1_HexRowFormatter_FormatRow_ProducesRowDataWithCorrectValues()
 		{
-			byte[] bytes = Encoding.ASCII.GetBytes("FilesCustom.Hex!");
+			byte[] bytes = Encoding.ASCII.GetBytes("KyraFiles.Hex!");
 			HexRowData rowData = HexRowFormatter.FormatRow(0x0040, bytes);
 
 			Assert.AreEqual(0x0040L, rowData.Offset);
@@ -106,7 +106,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			Assert.AreEqual(16, rowData.ByteCount);
 			Assert.AreEqual(16, rowData.HexCells.Length);
 			Assert.AreEqual("46", rowData.HexCells[0]); // 'F'
-			Assert.AreEqual("FilesCustom.Hex!", rowData.Text);
+			Assert.AreEqual("KyraFiles.Hex!", rowData.Text);
 		}
 
 		[TestMethod]

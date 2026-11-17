@@ -1,4 +1,4 @@
-<ResourceDictionary
+﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:helpers="using:KyraFiles.App.Helpers">
@@ -136,7 +136,7 @@
 							BorderBrush="{ThemeResource TabViewItemSeparator}"
 							BorderThickness="1" />
 
-						<!-- Files Custom: Efeito Onda Assimétrica / Modelo de Forma Dinâmico -->
+						<!-- KyraFiles: Efeito Onda Assimétrica / Modelo de Forma Dinâmico -->
 						<Grid
 							x:Name="TabContainer"
 							Grid.Column="1"

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace KyraFiles.App.Utils.Shell
 {
 	/// <summary>
-	/// Files Custom: takes over Explorer folder windows while Files is the default file manager (F012 T9, D-017).
+	/// KyraFiles: takes over Explorer folder windows while Files is the default file manager (F012 T9, D-017).
 	/// </summary>
 	/// <remarks>
 	/// Win+E and explorer.exe &lt;path&gt; are handled inside Explorer and ignore the registry associations.
@@ -320,7 +320,7 @@ namespace KyraFiles.App.Utils.Shell
 		{
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = subkey?.GetValue(string.Empty) as string;
-			return (command?.Contains("KyraFiles.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false) || (command?.Contains("Files.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false);
+			return (command?.Contains("KyraFiles.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false) || (command?.Contains("KyraFiles.App.Launcher.exe", StringComparison.OrdinalIgnoreCase) ?? false);
 		}
 
 		private static void Restore(nint window, int extendedStyle)

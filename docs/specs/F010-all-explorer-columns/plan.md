@@ -1,17 +1,17 @@
-# F010 — Plano de Implementação (Fase 2)
+﻿# F010 — Plano de Implementação (Fase 2)
 
 ## Etapas de Execução
 
 ### T2.1 — Modelo de Dados e Suporte a Propriedades em `ListedItem`
-- Adicionar `DynamicColumnDefinition` em `src/Files.App/Data/Models/`.
-- Adicionar armazenamento esparso sob demanda em `src/Files.App/Data/Items/ListedItem.cs`:
+- Adicionar `DynamicColumnDefinition` em `src/KyraFiles.App/Data/Models/`.
+- Adicionar armazenamento esparso sob demanda em `src/KyraFiles.App/Data/Items/ListedItem.cs`:
   - `Dictionary<string, string>? _dynamicProperties`
   - `GetDynamicProperty(string canonicalName)`
   - `SetDynamicProperty(string canonicalName, string value)`
 
 ### T2.2 — Catálogo de Propriedades do Explorer (`IExplorerPropertyService`)
-- Criar contrato `IExplorerPropertyService` em `src/Files.App/Data/Contracts/`.
-- Criar implementação `ExplorerPropertyService` em `src/Files.App/Services/`:
+- Criar contrato `IExplorerPropertyService` em `src/KyraFiles.App/Data/Contracts/`.
+- Criar implementação `ExplorerPropertyService` em `src/KyraFiles.App/Services/`:
   - Catálogo nativo das principais propriedades de colunas do Windows Explorer (`PDEF_COLUMN`), divididas por categoria (Mídia, Imagem, Áudio, Vídeo, Documento, etc.).
   - Tradução e nomes amigáveis em pt-BR e en-US via recursos ou Windows Property System.
   - Registro no container IoC (`AppLifecycleHelper.cs`).

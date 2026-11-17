@@ -1,4 +1,4 @@
-# F013 — F3 abre o Agent Ransack — PLAN
+﻿# F013 — F3 abre o Agent Ransack — PLAN
 
 Status: **APROVADO** (Claude, 09/10/2026).
 
@@ -11,12 +11,12 @@ Status: **APROVADO** (Claude, 09/10/2026).
 
 ## 2. Abordagem
 
-- Ação nova `Actions/Open/SearchWithAgentRansackAction.cs`, atalho F3, categoria Open. `ExecuteAsync`: se o Agent Ransack existir e `context.ShellPage.ShellViewModel.WorkingDirectory` for pasta de disco ou rede (`Path.IsPathRooted` e `Directory.Exists`), inicia `AgentRansack.exe -d "<pasta>"` (`ProcessStartInfo.ArgumentList`); senão, executa o comando de busca do Files.
+- Ação nova `Actions/Open/SearchWithAgentRansackAction.cs`, atalho F3, categoria Open. `ExecuteAsync`: se o Agent Ransack existir e `context.ShellPage.ShellViewModel.WorkingDirectory` for pasta de disco ou rede (`Path.IsPathRooted` e `Directory.Exists`), inicia `AgentRansack.exe -d "<pasta>"` (`ProcessStartInfo.ArgumentList`); senão, executa o comando de busca do KyraFiles.
 - `SearchAction` perde o `SecondHotKey` F3 (fica só Ctrl+F).
 - O caminho do executável passa a ser público e estático no `AgentRansackSearchProvider` (`GetExecutablePath`), para não duplicar a lista.
 - Textos novos em `Strings/en-US` e `Strings/pt-BR` (`SearchWithAgentRansack`, `SearchWithAgentRansackDescription`).
 
-Descartado: registrar o Files como "Find" do Windows (não é o caso de uso); trocar o F3 só quando o motor escolhido for Agent Ransack (o Alexandre quer o F3 assim independentemente da F011).
+Descartado: registrar o KyraFiles como "Find" do Windows (não é o caso de uso); trocar o F3 só quando o motor escolhido for Agent Ransack (o Alexandre quer o F3 assim independentemente da F011).
 
 ## 3. Arquivos
 
@@ -27,6 +27,6 @@ A não mexer: o restante da F011 (provedor, fábrica, Configurações > Pastas).
 
 - AC-1: script `tools/perf/f013_f3_agent_ransack.ps1`: Files numa pasta com espaço e acento, F3 por `SendInput`, confere o título da janela do Agent Ransack.
 - AC-2: INFERRED pelo código (renomear o executável do Agent Ransack exigiria administrador).
-- AC-3: F3 em "Início": caixa de busca do Files abre, Agent Ransack não.
-- AC-4: Ctrl+F abre a busca do Files.
+- AC-3: F3 em "Início": caixa de busca do KyraFiles abre, Agent Ransack não.
+- AC-4: Ctrl+F abre a busca do KyraFiles.
 - AC-5: captura da paleta de comandos.

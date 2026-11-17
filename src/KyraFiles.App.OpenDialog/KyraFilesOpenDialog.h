@@ -1,8 +1,8 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 // Abstract:
-//  Declaration of CFilesOpenDialog.
+//  Declaration of CKyraFilesOpenDialog.
 
 #pragma once
 
@@ -25,9 +25,9 @@
 
 using namespace ATL;
 
-class ATL_NO_VTABLE CFilesOpenDialog :
+class ATL_NO_VTABLE CKyraFilesOpenDialog :
 	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CFilesOpenDialog, &CLSID_FilesOpenDialog>,
+	public CComCoClass<CKyraFilesOpenDialog, &CLSID_KyraFilesOpenDialog>,
 	public IFileDialog,
 	public IFileDialog2,
 	public IFileOpenDialog,
@@ -36,11 +36,11 @@ class ATL_NO_VTABLE CFilesOpenDialog :
 	public IFileDialogPrivate
 {
 public:
-	CFilesOpenDialog();
+	CKyraFilesOpenDialog();
 
-DECLARE_REGISTRY_RESOURCEID(106)
+DECLARE_REGISTRY_RESOURCEID(IDR_KYRAFILESOPENDIALOG)
 
-CUSTOM_BEGIN_COM_MAP(CFilesOpenDialog)
+CUSTOM_BEGIN_COM_MAP(CKyraFilesOpenDialog)
 	COM_INTERFACE_ENTRY(IFileDialog)
 	COM_INTERFACE_ENTRY(IFileDialog2)
 	COM_INTERFACE_ENTRY(IFileOpenDialog)
@@ -167,4 +167,4 @@ public:
 	STDAPICALL HandleTab(void) override;
 };
 
-OBJECT_ENTRY_AUTO(__uuidof(FilesOpenDialog), CFilesOpenDialog)
+OBJECT_ENTRY_AUTO(__uuidof(KyraFilesOpenDialog), CKyraFilesOpenDialog)

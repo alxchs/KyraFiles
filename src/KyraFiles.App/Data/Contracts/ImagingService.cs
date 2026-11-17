@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0612 // FileThumbnailHelper.LoadIconFromPathAsync obsolete; migrate to GetIconAsync when ImagingService is refactored
 

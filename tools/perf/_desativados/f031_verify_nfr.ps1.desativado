@@ -1,4 +1,4 @@
-# tools/perf/f031_verify_nfr.ps1
+﻿# tools/perf/f031_verify_nfr.ps1
 # Validação de NFR-1 (memória com 10 abas) e AC-3 (preservação de rolagem/seleção)
 
 [CmdletBinding()]
@@ -11,7 +11,7 @@ $ErrorActionPreference = 'Stop'
 
 $scriptToRun = @'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Windows.Forms, System.Drawing
-Add-Type -Path 'C:\desenv\utils\FilesApp\tools\perf\thr.cs' -ErrorAction SilentlyContinue
+Add-Type -Path 'C:\desenv\utils\KyraFiles\tools\perf\thr.cs' -ErrorAction SilentlyContinue
 
 $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $p) {
@@ -88,7 +88,7 @@ if ($rect.Width -gt 100 -and $rect.Height -gt 100) {
     $bmp = New-Object System.Drawing.Bitmap ([int]$rect.Width), ([int]$rect.Height)
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen([int]$rect.X, [int]$rect.Y, 0, 0, $bmp.Size)
-    $proofDir = "C:\desenv\utils\FilesApp\docs\agents\evidence\F031"
+    $proofDir = "C:\desenv\utils\KyraFiles\docs\agents\evidence\F031"
     if (-not (Test-Path $proofDir)) { New-Item -ItemType Directory -Path $proofDir -Force | Out-Null }
     $proofPath = Join-Path $proofDir "tab10_proof.png"
     $bmp.Save($proofPath, [System.Drawing.Imaging.ImageFormat]::Png)

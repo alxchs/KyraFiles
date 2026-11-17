@@ -1,6 +1,6 @@
-# measure_f063_memory_restore.ps1
+﻿# measure_f063_memory_restore.ps1
 # Medição de latência de restauração via UI Automation e comprovação de memória (F063 - C6 e C8)
-# Utiliza WindowPattern em instância própria do Files (FilesDev), sem ShowWindow e sem roubar foco físico (METODO §16).
+# Utiliza WindowPattern em instância própria do Files (KyraFiles), sem ShowWindow e sem roubar foco físico (METODO §16).
 #
 # REGRA MANDATÓRIA DE HORÁRIO:
 # Só executa a partir de 31/10/2026 às 09:00 (Alexandre ausente / METODO §16).
@@ -39,14 +39,14 @@ Write-Host "Horário de início: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Rodadas solicitadas: $Rounds"
 
 # 3. Localiza pacote e instância do Files
-$pkg = Get-AppxPackage -Name "FilesDev"
+$pkg = Get-AppxPackage -Name "KyraFiles"
 if (-not $pkg) {
-    throw "Pacote FilesDev não encontrado."
+    throw "Pacote KyraFiles não encontrado."
 }
 
-# Localiza processos Files.exe da instância de desenvolvimento (não toca no processo do Alexandre)
+# Localiza processos KyraFiles.exe da instância de desenvolvimento (não toca no processo do Alexandre)
 $devProcs = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Where-Object {
-    $_.Path -and ($_.Path.Contains("FilesDev") -or $_.Path.Contains("FilesCustom") -or $_.Path.Contains("AppX"))
+    $_.Path -and ($_.Path.Contains("KyraFiles") -or $_.Path.Contains("KyraFiles") -or $_.Path.Contains("AppX"))
 }
 
 if (-not $devProcs) {

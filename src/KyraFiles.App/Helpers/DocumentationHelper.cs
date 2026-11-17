@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -20,7 +20,7 @@ namespace KyraFiles.App.Helpers
 	/// </summary>
 	public static class DocumentationHelper
 	{
-		public const string DefaultDocumentationUrl = "https://files.community/docs";
+		public const string DefaultDocumentationUrl = "https://kyrafiles.org/docs";
 
 		/// <summary>
 		/// Supported language codes.
@@ -166,7 +166,7 @@ namespace KyraFiles.App.Helpers
 				if (!string.IsNullOrWhiteSpace(localApp))
 				{
 					candidates.Add(Path.Combine(localApp, "Programs", "KyraFiles", "Docs"));
-					candidates.Add(Path.Combine(localApp, "Programs", "FilesCustom", "Docs"));
+					candidates.Add(Path.Combine(localApp, "Programs", "KyraFiles", "Docs"));
 				}
 			}
 

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Files Custom Setup v4.2.37 — Release Note</title>
+<title>KyraFiles Setup v4.2.37 — Release Note</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root {
@@ -56,8 +56,8 @@
 <body>
 <main>
   <header>
-    <span class="eyebrow">Nota de liberação · Files Custom · Baseline v4.2.37 · 15/10/2026 02:05</span>
-    <h1>Files Custom Setup v4.2.37 — Baseline Consolidada F001–F020</h1>
+    <span class="eyebrow">Nota de liberação · KyraFiles · Baseline v4.2.37 · 15/10/2026 02:05</span>
+    <h1>KyraFiles Setup v4.2.37 — Baseline Consolidada F001–F020</h1>
     <p class="lede">Novo instalador modular Inno Setup contendo o runtime AppX completo, registro automático de protocolo e alias, interceptação de Win+E pareada com Watchdog e as funcionalidades F001 a F020 consolidadas.</p>
   </header>
 
@@ -84,15 +84,15 @@
     <h2>Dados do Executável e Ambiente</h2>
     <dl class="facts">
       <dt>Instalador</dt>
-      <dd><code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code></dd>
+      <dd><code>artifacts\Setup\KyraFilesSetup-4.2.37.exe</code></dd>
       <dt>Pasta de Instalação</dt>
-      <dd><code>%LocalAppData%\Programs\FilesCustom\Files.exe</code></dd>
+      <dd><code>%LocalAppData%\Programs\KyraFiles\KyraFiles.exe</code></dd>
       <dt>Identidade de Pacote</dt>
       <dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code> (AppX Manifest)</dd>
       <dt>Serviços em Background</dt>
-      <dd><code>Files.HotkeyService.exe</code> e <code>Files.Watchdog.exe</code></dd>
+      <dd><code>KyraFiles.HotkeyService.exe</code> e <code>KyraFiles.Watchdog.exe</code></dd>
       <dt>Código-Fonte</dt>
-      <dd>Commit <code>22fd57762</code> (Baseline consolidado do Files Custom)</dd>
+      <dd>Commit <code>22fd57762</code> (Baseline consolidado do KyraFiles)</dd>
       <dt>Instalação Silenciosa</dt>
       <dd>ExitCode <code>0</code> (via <code>/VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code>)</dd>
     </dl>
@@ -113,11 +113,11 @@
           <tr>
             <td>Instalador modular Inno Setup</td>
             <td>Instalação autônoma em pasta isolada de usuário com layout completo AppX, sem falhas de carregamento de bibliotecas do .NET Core (hostpolicy.dll).</td>
-            <td><span class="chip ok">CONFIRMED</span><span class="ev">FilesCustomSetup.iss / ISCC.exe</span></td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">KyraFilesSetup.iss / ISCC.exe</span></td>
           </tr>
           <tr>
             <td>Registro automático AppX</td>
-            <td>Registra a identidade do pacote na conclusão da instalação, habilitando WinUI 3, alias <code>files-dev.exe</code> e protocolo <code>files-dev:</code>.</td>
+            <td>Registra a identidade do pacote na conclusão da instalação, habilitando WinUI 3, alias <code>kyrafiles.exe</code> e protocolo <code>kyrafiles-dev:</code>.</td>
             <td><span class="chip ok">CONFIRMED</span><span class="ev">Add-AppxPackage -Register</span></td>
           </tr>
           <tr>
@@ -132,7 +132,7 @@
           </tr>
           <tr>
             <td>F017: Interceptador Win+E e Watchdog</td>
-            <td>Hook ultraleve de Win+E abrindo o Files Custom instantaneamente com consumo mínimo e recuperação pelo Watchdog em 245 ms.</td>
+            <td>Hook ultraleve de Win+E abrindo o KyraFiles instantaneamente com consumo mínimo e recuperação pelo Watchdog em 245 ms.</td>
             <td><span class="chip ok">CONFIRMED</span><span class="ev">f017_win_e_test.ps1</span></td>
           </tr>
           <tr>
@@ -143,7 +143,7 @@
           <tr>
             <td>F015: Mecanismo de Busca USN/MFT</td>
             <td>Serviço desacoplado em background para indexação ultra-rápida de arquivos em discos NTFS.</td>
-            <td><span class="chip ok">CONFIRMED</span><span class="ev">Files.App.IndexService.exe</span></td>
+            <td><span class="chip ok">CONFIRMED</span><span class="ev">KyraFiles.App.IndexService.exe</span></td>
           </tr>
           <tr>
             <td>F001 a F014: Recursos do Fork</td>
@@ -158,8 +158,8 @@
   <section>
     <h2>Como testar</h2>
     <ol>
-      <li>Execute <code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code> e conclua a instalação.</li>
-      <li>Abra o aplicativo pelo atalho na Área de Trabalho ou digite <code>files-dev.exe</code> no terminal.</li>
+      <li>Execute <code>artifacts\Setup\KyraFilesSetup-4.2.37.exe</code> e conclua a instalação.</li>
+      <li>Abra o aplicativo pelo atalho na Área de Trabalho ou digite <code>kyrafiles.exe</code> no terminal.</li>
       <li>Navegue até uma pasta qualquer (ex: <code>C:\Windows</code>) e abra uma segunda aba.</li>
       <li>Tente abrir novamente <code>C:\Windows</code>: comprove que o foco retorna à primeira aba sem duplicá-la.</li>
       <li>Pressione <code>Ctrl+,</code>: comprove que a aba de Configurações posiciona-se no índice 0 (extrema esquerda).</li>

@@ -21,7 +21,7 @@ Start-Sleep -Milliseconds 200
 Start-Sleep -Milliseconds 500
 
 # Send address
-[System.Windows.Forms.SendKeys]::SendWait('c:\desenv\utils\FilesApp\docs\releases\evidence{ENTER}')
+[System.Windows.Forms.SendKeys]::SendWait('c:\desenv\utils\KyraFiles\docs\releases\evidence{ENTER}')
 Start-Sleep -Seconds 3
 
 Write-Output "Navigated to evidence directory"
@@ -41,6 +41,6 @@ $res = Invoke-OnDefault -PowerShellScript $script
 Write-Output $res
 
 # Capture screen showing image files and their dimensions
-$outPath = 'c:\desenv\utils\FilesApp\docs\releases\evidence\f010_dimensions_populated.png'
+$outPath = 'c:\desenv\utils\KyraFiles\docs\releases\evidence\f010_dimensions_populated.png'
 Capture-FilesWindow -OutFile $outPath
 Write-Output "Captured evidence to $outPath"

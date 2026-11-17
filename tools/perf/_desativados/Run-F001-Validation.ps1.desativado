@@ -3,7 +3,7 @@
 
 . "$PSScriptRoot\SmokeTest-Helper.ps1"
 
-$evidenceDir = "C:\desenv\utils\FilesApp\docs\agents\evidence\f001"
+$evidenceDir = "C:\desenv\utils\KyraFiles\docs\agents\evidence\f001"
 if (-not (Test-Path $evidenceDir)) {
     New-Item -ItemType Directory -Force $evidenceDir | Out-Null
 }
@@ -18,7 +18,7 @@ $hwndVal = $hwnd.ToInt64()
 Write-Host "Found Files window: $hwndVal" -ForegroundColor Cyan
 
 # Ensure window is active and on C:\FilesUXLab
-files-dev.exe C:\FilesUXLab
+kyrafiles.exe C:\FilesUXLab
 Start-Sleep -Seconds 1
 
 $testRunnerCode = @"

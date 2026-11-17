@@ -1,7 +1,7 @@
-# F015 T17: latencia da busca por nome pelo Named Pipe do Files.App.IndexService (AC-1, AC-2), RAM (NFR-003) e CPU parado (NFR-005).
+﻿# F015 T17: latencia da busca por nome pelo Named Pipe do KyraFiles.App.IndexService (AC-1, AC-2), RAM (NFR-003) e CPU parado (NFR-005).
 # Protocolo: JSON por linha (camelCase). Inicia o servico se nao estiver rodando e encerra ao final (se foi este script que iniciou).
 param(
-    [string]$ServiceExe = 'C:\desenv\utils\FilesApp\src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.App.IndexService\Files.App.IndexService.exe',
+    [string]$ServiceExe = 'C:\desenv\utils\KyraFiles\src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.App.IndexService\KyraFiles.App.IndexService.exe',
     [string[]]$Terms = @('readme', 'config', 'program', 'test', 'index', 'xaml', 'resw', 'perf', 'spec', 'handoff'),
     [string]$Scope = 'C:\desenv',
     [int]$Repeats = 5,
@@ -11,8 +11,8 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $sid = (Get-Process -Id $PID).SessionId
-$pipe = "FilesCustom.IndexService.Basic.S$sid"
-$out = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f015'; New-Item -ItemType Directory -Force $out | Out-Null
+$pipe = "KyraFiles.IndexService.Basic.S$sid"
+$out = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f015'; New-Item -ItemType Directory -Force $out | Out-Null
 
 function Send([hashtable]$req, [scriptblock]$onLine) {
     $c = New-Object System.IO.Pipes.NamedPipeClientStream('.', $pipe, 'InOut')
@@ -38,7 +38,7 @@ if (-not $alive) {
     while (-not $alive -and ((Get-Date) - $t0).TotalSeconds -lt 30) { Start-Sleep 1; try { Send @{ command = 'ping' } { param($o) $script:alive = $true; $true } } catch {} }
     if (-not $alive) { throw 'servico nao respondeu ao ping em 30 s' }
 }
-$svc = Get-Process Files.App.IndexService | Select-Object -First 1
+$svc = Get-Process KyraFiles.App.IndexService | Select-Object -First 1
 "Servico PID $($svc.Id) (iniciado por este script: $([bool]$started))"
 
 # espera Ready

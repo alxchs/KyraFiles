@@ -1,13 +1,13 @@
-# Tarefas de Implementação — F072
+﻿# Tarefas de Implementação — F072
 
 - [x] Task 1: Estruturar as pastas de idiomas e mover os arquivos em Português
-  - [x] 1.1 Criar diretórios `src/Files.App/Docs/pt-BR/`, `en-US/`, `es-ES/`, `de-DE/`
-  - [x] 1.2 Mover/organizar arquivos atuais em Português para `src/Files.App/Docs/pt-BR/` com seletor de idiomas
+  - [x] 1.1 Criar diretórios `src/KyraFiles.App/Docs/pt-BR/`, `en-US/`, `es-ES/`, `de-DE/`
+  - [x] 1.2 Mover/organizar arquivos atuais em Português para `src/KyraFiles.App/Docs/pt-BR/` com seletor de idiomas
 - [x] Task 2: Criar as versões completas em Inglês, Espanhol e Alemão
   - [x] 2.1 Criar documentação em Inglês (`en-US/`): `index.html`, `getting-started/overview.html`, e 7 guias em `features/`
   - [x] 2.2 Criar documentação em Espanhol (`es-ES/`): `index.html`, `getting-started/overview.html`, e 7 guias em `features/`
   - [x] 2.3 Criar documentação em Alemão (`de-DE/`): `index.html`, `getting-started/overview.html`, e 7 guias em `features/`
-  - [x] 2.4 Atualizar `src/Files.App/Docs/index.html` (portal raiz) para auto-redirecionar pelo `navigator.language`
+  - [x] 2.4 Atualizar `src/KyraFiles.App/Docs/index.html` (portal raiz) para auto-redirecionar pelo `navigator.language`
 - [x] Task 3: Atualizar `DocumentationHelper.cs` com detecção de idioma e fallback
   - [x] 3.1 Implementar `NormalizeCultureCode()` e integração com o idioma configurado no app
   - [x] 3.2 Atualizar ordem de resolução prioritária por idioma no disco
@@ -15,8 +15,8 @@
   - [x] 4.1 Adicionar testes de resolução multilíngue em `DocumentationHelperTests.cs`
   - [x] 4.2 Executar suite de testes (`dotnet test` com 100% de sucesso: 176 aprovados)
 - [x] Task 5: Compilar Release, instalar e validar F021
-  - [x] 5.1 Compilar via `mkfile r src/Files.App/Files.App.csproj` (0 erros)
-  - [x] 5.2 Copiar novos binários e pasta `Docs` para `%LOCALAPPDATA%\Programs\FilesCustom`
+  - [x] 5.1 Compilar via `mkfile r src/KyraFiles.App/KyraFiles.App.csproj` (0 erros)
+  - [x] 5.2 Copiar novos binários e pasta `Docs` para `%LOCALAPPDATA%\Programs\KyraFiles`
   - [x] 5.3 Validar contenção F021 (`tools/perf/verify_no_index_service.ps1`)
 - [x] Task 6: Conclusão e integração
   - [x] 6.1 Commit atômico na branch `feature/f072-documentacao-multilingue`

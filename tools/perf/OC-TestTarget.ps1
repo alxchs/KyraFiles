@@ -5,7 +5,7 @@ param([int]$ItemIndex, [string]$CaptureName)
 
 $runnerScript = @"
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing
-Add-Type -Path "C:\desenv\utils\FilesApp\tools\perf\OCInput.cs"
+Add-Type -Path "C:\desenv\utils\KyraFiles\tools\perf\OCInput.cs"
 
 `$hwnd = [IntPtr]1445996
 [OCInput]::Focus(`$hwnd)
@@ -62,7 +62,7 @@ try {
 [OCInput]::GetWindowRect(`$hwnd, [ref]`$rect) | Out-Null
 `$w = `$rect.R - `$rect.L
 `$h = `$rect.B - `$rect.T
-`$outPath = "C:\desenv\utils\FilesApp\docs\ux-reference\onecommander\evidence\rename\$CaptureName.png"
+`$outPath = "C:\desenv\utils\KyraFiles\docs\ux-reference\onecommander\evidence\rename\$CaptureName.png"
 `$bmp = New-Object System.Drawing.Bitmap `$w, `$h
 `$gfx = [System.Drawing.Graphics]::FromImage(`$bmp)
 `$gfx.CopyFromScreen(`$rect.L, `$rect.T, 0, 0, (New-Object System.Drawing.Size(`$w, `$h)))

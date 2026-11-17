@@ -1,16 +1,16 @@
-# F061 — Win+E sempre pronto e sem enxurrada de processos — SPEC
+﻿# F061 — Win+E sempre pronto e sem enxurrada de processos — SPEC
 
 Status: **APROVADA** (Claude, 28/10/2026, a pedido do Alexandre: "Crie as SPECS e siga"). O ponto em aberto do §7 vira a tarefa T0 (decisão D-F061-1). Prioridade **P0** (bug que afeta o computador inteiro). Complementa a F017, sem contradizê-la.
 
 ## 1. Por quê
 
-Em 28/10/2026 o Alexandre notou que o Win+E mostrava o Explorer do Windows antes de abrir o Files. A causa observada: havia cerca de **13 mil** processos `Files.HotkeyService.exe` (a maioria já terminada, mas ainda listada pelo Windows), criados a ~5 por segundo desde 23:48 de 27/10 (contagem por `Get-Process`; ao encerrar o Watchdog e o serviço, todos sumiram). Isso pesa no computador e pode atrasar ou derrubar o atalho. A causa raiz exata ainda **não está provada** (ver §7).
+Em 28/10/2026 o Alexandre notou que o Win+E mostrava o Explorer do Windows antes de abrir o KyraFiles. A causa observada: havia cerca de **13 mil** processos `KyraFiles.HotkeyService.exe` (a maioria já terminada, mas ainda listada pelo Windows), criados a ~5 por segundo desde 23:48 de 27/10 (contagem por `Get-Process`; ao encerrar o Watchdog e o serviço, todos sumiram). Isso pesa no computador e pode atrasar ou derrubar o atalho. A causa raiz exata ainda **não está provada** (ver §7).
 
-**Premissa permanente do projeto (pedido do Alexandre, 28/10/2026):** o Win+E abrir o Files é um recurso essencial. Ele precisa estar **sempre disponível, sempre rápido e nunca prejudicar o computador**. Toda mudança futura que mexa em instalador, atualizador, serviço de atalho ou Watchdog passa por esta garantia antes de ser liberada.
+**Premissa permanente do projeto (pedido do Alexandre, 28/10/2026):** o Win+E abrir o KyraFiles é um recurso essencial. Ele precisa estar **sempre disponível, sempre rápido e nunca prejudicar o computador**. Toda mudança futura que mexa em instalador, atualizador, serviço de atalho ou Watchdog passa por esta garantia antes de ser liberada.
 
 ## 2. Histórias de usuário
 
-- **US1 (P0):** Como usuário, quando aperto Win+E, o Files abre na hora e o Explorer do Windows nunca aparece, em qualquer momento depois do login.
+- **US1 (P0):** Como usuário, quando aperto Win+E, o KyraFiles abre na hora e o Explorer do Windows nunca aparece, em qualquer momento depois do login.
 - **US2 (P0):** Como usuário, o computador não pode ficar mais lento por causa do serviço de atalho: nada de processos se acumulando em segundo plano.
 - **US3 (P0):** Como usuário, se o serviço de atalho cair, ele volta sozinho em até 1 segundo, **sem nunca** entrar num ciclo de recriação descontrolado.
 - **US4 (P1):** Como usuário, quero poder confirmar com um comando que o Win+E está saudável (um serviço, um supervisor, sem sobra).
@@ -19,13 +19,13 @@ Em 28/10/2026 o Alexandre notou que o Win+E mostrava o Explorer do Windows antes
 
 | ID | Dado | Quando | Então |
 |---|---|---|---|
-| **AC-1** | Já existe um serviço de atalho ativo | O supervisor (Watchdog) inicia ou reinicia | O supervisor **não** cria outro serviço: existe exatamente 1 `Files.HotkeyService.exe` vivo e 1 `Files.Watchdog.exe` |
-| **AC-2** | O serviço de atalho é encerrado à força | Passam até 1 segundo | Um novo serviço está ativo e o Win+E volta a abrir o Files (mantém o AC-3 da F017) |
+| **AC-1** | Já existe um serviço de atalho ativo | O supervisor (Watchdog) inicia ou reinicia | O supervisor **não** cria outro serviço: existe exatamente 1 `KyraFiles.HotkeyService.exe` vivo e 1 `KyraFiles.Watchdog.exe` |
+| **AC-2** | O serviço de atalho é encerrado à força | Passam até 1 segundo | Um novo serviço está ativo e o Win+E volta a abrir o KyraFiles (mantém o AC-3 da F017) |
 | **AC-3** | O serviço morre várias vezes seguidas (ex.: falha repetida na partida) | Observo por 2 minutos | Nunca mais que 4 processos de serviço são criados por minuto, a espera entre tentativas cresce até 30 s, e o `hotkey.log` explica o motivo |
 | **AC-4** | O serviço está saudável há mais de 60 s e morre uma vez | O Watchdog reinicia | A espera volta ao mínimo (reinício em até 1 s) |
 | **AC-5** | Um segundo serviço é iniciado por fora (login, app, instalador) | Ele detecta que já existe um | Sai com um código próprio ("já existe") e o Watchdog entende que **não** é falha e não recria em ciclo |
-| **AC-6** | Uso normal por 30 minutos depois do login | Conto os processos `Files.HotkeyService` e `Files.Watchdog` | Exatamente 1 de cada, sem sobras terminadas na lista |
-| **AC-7** | O Files está fechado e aperto Win+E | A tecla é pressionada | O Files abre; o Explorer não aparece (mantém o AC-1 da F017) |
+| **AC-6** | Uso normal por 30 minutos depois do login | Conto os processos `KyraFiles.HotkeyService` e `KyraFiles.Watchdog` | Exatamente 1 de cada, sem sobras terminadas na lista |
+| **AC-7** | o KyraFiles está fechado e aperto Win+E | A tecla é pressionada | o KyraFiles abre; o Explorer não aparece (mantém o AC-1 da F017) |
 | **AC-8** | Qualquer liberação nova (exe) | Antes de entregar | O comando de verificação da saúde do Win+E passa e o resultado vai na nota de liberação |
 
 ## 4. Requisitos
@@ -61,8 +61,8 @@ Em 28/10/2026 o Alexandre notou que o Win+E mostrava o Explorer do Windows antes
 ## 7. Pontos em aberto
 
 - **O que disparou o ciclo às 23:48 de 27/10?**
-  - **Hipótese (a) [mecanismo CONFIRMED em 28/10/2026 via T0: 30 processos criados em 15 s com um serviço já vivo; o que fez existir um serviço vivo às 23:48 segue INFERRED, sem prova]:** Já existia um serviço de atalho vivo segurando o mutex `Global\FilesCustom_HotkeyService_InstanceMutex`. Quando o Watchdog iniciava uma nova instância de `Files.HotkeyService.exe`, a nova instância detectava `ERROR_ALREADY_EXISTS` no mutex e retornava `0` (`src/Files.HotkeyService/main.cpp:154`). O Watchdog tratava código 0 como término não-anômalo e reiniciava um novo processo após `Sleep(200)` (`src/Files.Watchdog/main.cpp:85`), gerando um ciclo contínuo de recriação a cada ~200 ms. Reproduzido de forma controlada em cópia isolada na T0: 30 processos distintos observados em 15 segundos (~2 processos/s amostrados; ciclo sustentado sem freio).
-  - **Hipótese (b) [DESCARTADA por leitura de código em 28/10/2026]:** Se o evento `Global\FilesCustom_ShutdownHotkeyService` ficasse sinalizado, o Watchdog sairia imediatamente do loop de supervisão (`src/Files.Watchdog/main.cpp:36-39, 78-81`: `break;`), terminando seu próprio processo sem recriar nenhum serviço. Portanto, o evento de encerramento não poderia ter sustentado o ciclo de recriação.
+  - **Hipótese (a) [mecanismo CONFIRMED em 28/10/2026 via T0: 30 processos criados em 15 s com um serviço já vivo; o que fez existir um serviço vivo às 23:48 segue INFERRED, sem prova]:** Já existia um serviço de atalho vivo segurando o mutex `Global\FilesCustom_HotkeyService_InstanceMutex`. Quando o Watchdog iniciava uma nova instância de `KyraFiles.HotkeyService.exe`, a nova instância detectava `ERROR_ALREADY_EXISTS` no mutex e retornava `0` (`src/KyraFiles.HotkeyService/main.cpp:154`). O Watchdog tratava código 0 como término não-anômalo e reiniciava um novo processo após `Sleep(200)` (`src/KyraFiles.Watchdog/main.cpp:85`), gerando um ciclo contínuo de recriação a cada ~200 ms. Reproduzido de forma controlada em cópia isolada na T0: 30 processos distintos observados em 15 segundos (~2 processos/s amostrados; ciclo sustentado sem freio).
+  - **Hipótese (b) [DESCARTADA por leitura de código em 28/10/2026]:** Se o evento `Global\FilesCustom_ShutdownHotkeyService` ficasse sinalizado, o Watchdog sairia imediatamente do loop de supervisão (`src/KyraFiles.Watchdog/main.cpp:36-39, 78-81`: `break;`), terminando seu próprio processo sem recriar nenhum serviço. Portanto, o evento de encerramento não poderia ter sustentado o ciclo de recriação.
 
 ## 8. Critérios de sucesso
 

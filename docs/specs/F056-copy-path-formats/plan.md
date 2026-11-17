@@ -1,10 +1,10 @@
-# F056 — Copiar caminho em vários formatos — PLAN
+﻿# F056 — Copiar caminho em vários formatos — PLAN
 
 Status: APROVADO (Claude, 24/10/2026). Spec aprovada pelo Alexandre em 24/10/2026. **Execução bloqueada** até o Claude liberar (ver `docs/agents/ORDEM-RIGIDA-AGY.md`, S5 revisada).
 
 ## 1. Arquitetura atual (lida no código em 24/10/2026)
-- **CONFIRMED** `src/Files.App/Actions/FileSystem/CopyPathAction.cs`: copia o caminho da **pasta atual** (`WorkingDirectory`), troca `\` por `/` só em caminho FTP, grava com `DataPackage.SetText` + `Clipboard.Flush()` dentro de `SafetyExtensions.IgnoreExceptions`.
-- **CONFIRMED** `CopyItemPathAction.cs` e `CopyItemPathWithQuotesAction.cs` (mesma pasta): copiam o caminho dos **itens selecionados**. Item de menu em `src/Files.App/Data/Factories/ContentPageContextFlyoutFactory.cs:~540`, visível se `GeneralSettingsService.ShowCopyPath` e há seleção, e fora da Lixeira.
+- **CONFIRMED** `src/KyraFiles.App/Actions/FileSystem/CopyPathAction.cs`: copia o caminho da **pasta atual** (`WorkingDirectory`), troca `\` por `/` só em caminho FTP, grava com `DataPackage.SetText` + `Clipboard.Flush()` dentro de `SafetyExtensions.IgnoreExceptions`.
+- **CONFIRMED** `CopyItemPathAction.cs` e `CopyItemPathWithQuotesAction.cs` (mesma pasta): copiam o caminho dos **itens selecionados**. Item de menu em `src/KyraFiles.App/Data/Factories/ContentPageContextFlyoutFactory.cs:~540`, visível se `GeneralSettingsService.ShowCopyPath` e há seleção, e fora da Lixeira.
 - **CONFIRMED** padrão de submenu a imitar: `CreateCopyMoveToFolderItem` (`ContentPageContextFlyoutFactory.cs:72`) e `BaseCopyMoveToFolderAction` (F033), que recebe o destino como `parameter`.
 - **INFERRED** o projeto de testes unitários existe em `tests/`; T0 confirma qual e como roda.
 
@@ -15,7 +15,7 @@ Opções descartadas: (a) reescrever as ações atuais: arrisca regressão sem g
 ## 3. Mapa requisito → código
 | Requisito | Onde |
 |---|---|
-| FR-001 (formatos) | novo `PathFormatter` (+ enum `PathFormat`) em `src/Files.App/Helpers/` (T0 confirma a pasta) |
+| FR-001 (formatos) | novo `PathFormatter` (+ enum `PathFormat`) em `src/KyraFiles.App/Helpers/` (T0 confirma a pasta) |
 | FR-002 | `CopyPathAsAction` chama o mesmo gravador de área de transferência das ações atuais |
 | AC-6 (relativo ao repositório) | descoberta da raiz git subindo pastas até achar `.git`; T0 verifica se já existe helper de git para reaproveitar |
 | AC-7 (vários itens) | `CopyPathAsAction` itera a seleção na ordem exibida |

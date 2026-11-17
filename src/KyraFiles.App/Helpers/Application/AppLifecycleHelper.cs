@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // NativeStorageLegacyService obsolete; migrate to WindowsStorable when ready
 
@@ -32,7 +32,7 @@ namespace KyraFiles.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
-		private readonly static string AppInformationKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\AppInformation";
+		private readonly static string AppInformationKey = @$"Software\KyraFiles Community\{Package.Current.Id.Name}\v1\AppInformation";
 
 		/// <summary>
 		/// Gets the value that indicates whether the app is updated.
@@ -430,7 +430,7 @@ namespace KyraFiles.App.Helpers
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
-			// Files Custom: a file dialog instance must not overwrite the user's session (F012 T7)
+			// KyraFiles: a file dialog instance must not overwrite the user's session (F012 T7)
 			if (App.OutputPath is not null)
 				return;
 
@@ -624,7 +624,7 @@ namespace KyraFiles.App.Helpers
 						// Try to re-launch and start over
 						MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
-							await Launcher.LaunchUriAsync(new Uri("files-dev:"));
+							await Launcher.LaunchUriAsync(new Uri("kyrafiles-dev:"));
 						})
 						.Wait(100);
 					}

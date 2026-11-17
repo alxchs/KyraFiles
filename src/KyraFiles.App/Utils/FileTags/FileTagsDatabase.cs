@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
@@ -14,58 +14,11 @@ namespace KyraFiles.App.Utils.FileTags
 	public sealed class FileTagsDatabase
 	{
 		private static string? _FileTagsKey;
-		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(GetOrMigrateFileTagsKey);
+		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(GetFileTagsKey);
 
-		private static string GetOrMigrateFileTagsKey()
+		private static string GetFileTagsKey()
 		{
-			var primaryKey = @$"Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags";
-			try
-			{
-				using var existing = Registry.CurrentUser.OpenSubKey(primaryKey);
-				if (existing is null)
-				{
-					var legacyCandidates = new[]
-					{
-						@$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags",
-						@"Software\Files Community\FilesDev\v1\FileTags",
-						@"Software\Files Community\FilesCustom\v1\FileTags",
-						@"Software\Files Community\49306TheFilesOrganization.Files\v1\FileTags"
-					};
-					foreach (var legacy in legacyCandidates)
-					{
-						using var legacyKey = Registry.CurrentUser.OpenSubKey(legacy);
-						if (legacyKey is not null)
-						{
-							using var newKey = Registry.CurrentUser.CreateSubKey(primaryKey);
-							CopyRegistryTree(legacyKey, newKey);
-							break;
-						}
-					}
-				}
-			}
-			catch { }
-			return primaryKey;
-		}
-
-		private static void CopyRegistryTree(RegistryKey source, RegistryKey destination)
-		{
-			foreach (var valueName in source.GetValueNames())
-			{
-				var val = source.GetValue(valueName);
-				var kind = source.GetValueKind(valueName);
-				if (val is not null)
-					destination.SetValue(valueName, val, kind);
-			}
-
-			foreach (var subKeyName in source.GetSubKeyNames())
-			{
-				using var srcSub = source.OpenSubKey(subKeyName);
-				if (srcSub is not null)
-				{
-					using var dstSub = destination.CreateSubKey(subKeyName);
-					CopyRegistryTree(srcSub, dstSub);
-				}
-			}
+			return @$"Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags";
 		}
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)

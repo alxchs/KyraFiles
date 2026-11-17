@@ -1,10 +1,10 @@
-# F018: prova no app aberto (UI Automation) que o menu Ajuda tem "Sobre" e "Verificar atualizações" e que as duas funcionam.
-# Temporarios e capturas em %TEMP%\claude\desenv\utils\FilesApp\.
+﻿# F018: prova no app aberto (UI Automation) que o menu Ajuda tem "Sobre" e "Verificar atualizações" e que as duas funcionam.
+# Temporarios e capturas em %TEMP%\claude\desenv\utils\KyraFiles\.
 param([string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms
-$tmp = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp'
+$tmp = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles'
 New-Item -ItemType Directory -Force $tmp | Out-Null
 $AE = [System.Windows.Automation.AutomationElement]
 $CT = [System.Windows.Automation.ControlType]

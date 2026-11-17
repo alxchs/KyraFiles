@@ -1,11 +1,11 @@
-# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — SPEC
+﻿# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — SPEC
 
 Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **RASCUNHO** (voltou a rascunho por decisão do Alexandre em 29/10/2026, Q13: "Volta a rascunho"; o Claude aprova depois das provas das 09:00 de 31/10). A versão anterior estava marcada "APROVADO" pela própria executora.
 
 ---
 
 ## 1. Por quê
-O diagnóstico de memória do ecossistema (F062) reportou um pico de consumo do `Files.exe` de até **540 MB (Working Set) / 417 MB (Private Bytes)**. Embora em repouso e após garbage collection o consumo caia para cerca de ~238 MB, o usuário manifestou grande preocupação com o impacto percebido ("receio de não usarem por roubar tanta memória").
+O diagnóstico de memória do ecossistema (F062) reportou um pico de consumo do `KyraFiles.exe` de até **540 MB (Working Set) / 417 MB (Private Bytes)**. Embora em repouso e após garbage collection o consumo caia para cerca de ~238 MB, o usuário manifestou grande preocupação com o impacto percebido ("receio de não usarem por roubar tanta memória").
 Em paralelo, a diretriz mandatória do Alexandre exige **equilíbrio absoluto: zero lentidão**. Qualquer redução de memória que provoque travamentos (jank), engasgos de interface ou lentidão de retorno ao restaurar janelas é estritamente proibida.
 
 A liberação usada (esvaziar o conjunto de trabalho) reduz a **memória ocupada na RAM**, não o consumo total do processo (memória privada comprometida). A promessa ao usuário fala só da RAM (Q3, 29/10/2026).
@@ -13,9 +13,9 @@ A liberação usada (esvaziar o conjunto de trabalho) reduz a **memória ocupada
 ---
 
 ## 2. Histórias de Usuário
-- **Como usuário**, quero que quando o Files Custom for minimizado, ocultado ou mandado para a bandeja, ele devolva ao Windows a RAM que não está usando.
+- **Como usuário**, quero que quando o KyraFiles for minimizado, ocultado ou mandado para a bandeja, ele devolva ao Windows a RAM que não está usando.
 - **Como usuário**, quero que ao restaurar a janela ela volte sem lentidão perceptível em relação a antes da otimização.
-- **Como usuário**, quero que o Files **visível** (mesmo sem foco, atrás de outra janela) nunca perca a RAM: ao voltar para ele com alt-tab, nada pode ficar mais lento (Q1, 29/10/2026).
+- **Como usuário**, quero que o KyraFiles **visível** (mesmo sem foco, atrás de outra janela) nunca perca a RAM: ao voltar para ele com alt-tab, nada pode ficar mais lento (Q1, 29/10/2026).
 - **Como usuário**, quero que a liberação nunca atrapalhe uma cópia, movimentação ou compactação em andamento.
 
 ---
@@ -42,7 +42,7 @@ A liberação usada (esvaziar o conjunto de trabalho) reduz a **memória ocupada
 ---
 
 ## 5. Critérios de Sucesso
-- Conjunto de trabalho privado do `Files.exe` abaixo de 80 MB depois de minimizar, medido.
+- Conjunto de trabalho privado do `KyraFiles.exe` abaixo de 80 MB depois de minimizar, medido.
 - Restauração dentro de ±10 ms da linha de base (mediana e p95), medida.
 - CPU em repouso sem regressão.
 - Textos ao usuário falam em "memória ocupada na RAM", nunca em "consumo total".

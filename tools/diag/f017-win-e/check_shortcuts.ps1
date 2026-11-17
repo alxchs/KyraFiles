@@ -1,4 +1,4 @@
-$sh = New-Object -ComObject WScript.Shell
+﻿$sh = New-Object -ComObject WScript.Shell
 
 Write-Host "=== DESKTOP SHORTCUTS ==="
 $desktopPath = [Environment]::GetFolderPath("Desktop")
@@ -15,7 +15,7 @@ Get-ChildItem $programsPath -Recurse -Filter "*Files*.lnk" | ForEach-Object {
 }
 
 Write-Host "`n=== APPDATA PROGRAMS FOLDER ==="
-$installedDir = "$env:LOCALAPPDATA\Programs\FilesCustom"
+$installedDir = "$env:LOCALAPPDATA\Programs\KyraFiles"
 if (Test-Path $installedDir) {
     Write-Host "Found: $installedDir"
     Get-ChildItem $installedDir | Select-Object Name, Length

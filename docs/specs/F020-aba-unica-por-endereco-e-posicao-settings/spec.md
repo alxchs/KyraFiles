@@ -1,4 +1,4 @@
-# F020 — Aba única por endereço e aba de Configurações na primeira posição — SPEC
+﻿# F020 — Aba única por endereço e aba de Configurações na primeira posição — SPEC
 
 Estado: **EM APROVAÇÃO** (14/10/2026). Pedido do Alexandre: *"Não permita abrir o mesmo endereço em duas abas diferentes. Abra a aba de configuracoes sempre na primeira posição"*.
 
@@ -8,7 +8,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
 
 ## 1. Por que
 
-1. No Files atual, acionar "Abrir em nova aba", atalhos de teclado, linha de comando ou itens da barra lateral permite acumular múltiplas abas com o mesmo endereço (`C:\`, `C:\Windows`, `Home`, etc.), causando desorganização na navegação e desperdício de recursos.
+1. no KyraFiles atual, acionar "Abrir em nova aba", atalhos de teclado, linha de comando ou itens da barra lateral permite acumular múltiplas abas com o mesmo endereço (`C:\`, `C:\Windows`, `Home`, etc.), causando desorganização na navegação e desperdício de recursos.
 2. A aba de Configurações ("Settings") era aberta na última posição da barra de abas ou substituía o conteúdo da pasta ativa quando clicada na barra lateral. Definir que a aba de Configurações abra sempre na primeira posição (índice 0) estabelece uma âncora fixa e previsível de navegação, sem destruir a pasta que o usuário estava visualizando.
 
 ---

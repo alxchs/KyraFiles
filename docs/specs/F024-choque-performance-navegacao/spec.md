@@ -1,7 +1,7 @@
-# F024 — Choque de Performance e Navegação Fluida (Última Tentativa)
+﻿# F024 — Choque de Performance e Navegação Fluida (Última Tentativa)
 
 ## 1. Contexto e Motivação
-Na avaliação de 18/10/2026, o Alexandre testou o Files Custom em pastas reais do cotidiano e identificou um cenário inviável para uso diário:
+Na avaliação de 18/10/2026, o Alexandre testou o KyraFiles em pastas reais do cotidiano e identificou um cenário inviável para uso diário:
 - **Lentidão extrema** na navegação em pastas com cerca de **1.600 arquivos**.
 - **Travamento e lentidão ao pressionar teclas de navegação rápida:** `Home`, `End`, `PgUp`, `PgDn` (associadas ou não com `Ctrl`).
 - Necessidade de **leitura paginada/sob demanda** durante a navegação para não sobrecarregar a UI.

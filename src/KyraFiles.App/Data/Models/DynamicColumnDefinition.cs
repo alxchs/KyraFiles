@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
@@ -13,7 +13,7 @@ namespace KyraFiles.App.Data.Models
 
 		public string CanonicalName { get; set; } = string.Empty;
 
-		// Files Custom: shown in the app language and not saved; old JSON with these fields is accepted and they are ignored (G1 C2)
+		// KyraFiles: shown in the app language and not saved; old JSON with these fields is accepted and they are ignored (G1 C2)
 		[JsonIgnore]
 		public string DisplayName => ExplorerPropertyService.GetDisplayName(CanonicalName);
 

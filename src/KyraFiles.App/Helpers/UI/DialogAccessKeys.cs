@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Globalization;
 namespace KyraFiles.App.Helpers
 {
 	/// <summary>
-	/// Files Custom (F057): chooses the accelerator letter of each button/option of a dialog from its own (already translated) text.
+	/// KyraFiles (F057): chooses the accelerator letter of each button/option of a dialog from its own (already translated) text.
 	/// Pure logic (no UI types) so it is unit tested by linking this file into the test project.
 	/// </summary>
 	public static class DialogAccessKeys

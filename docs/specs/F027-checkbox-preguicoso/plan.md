@@ -1,4 +1,4 @@
-# F027 — Plano
+﻿# F027 — Plano
 
 Status: **APROVADO** (Claude, 20/10/2026).
 
@@ -15,7 +15,7 @@ Status: **APROVADO** (Claude, 20/10/2026).
 Opção descartada: remover o checkbox (decisão do Alexandre se o teste indicar).
 
 ## Arquivos a mexer
-`src/Files.App/Views/Layouts/DetailsLayoutPage.xaml.cs` somente. **Não mexer:** `GridLayoutPage`, XAML, `BaseLayoutPage`.
+`src/KyraFiles.App/Views/Layouts/DetailsLayoutPage.xaml.cs` somente. **Não mexer:** `GridLayoutPage`, XAML, `BaseLayoutPage`.
 
 ## Riscos
 Checkbox obsoleto visível em contêiner reciclado sob o ponteiro até o próximo entra/sai do ponteiro; linha selecionada sem checkbox visível até passar o ponteiro.

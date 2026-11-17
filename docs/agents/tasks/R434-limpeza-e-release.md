@@ -1,6 +1,6 @@
-# R434 — Limpeza e Release 4.3.4
+﻿# R434 — Limpeza e Release 4.3.4
 
-Ordem do Claude (arquiteto), a pedido do Alexandre em 22/10/2026 ~21h: limpeza dos desenvolvimentos + release 4.3.4 + instalador. Projeto: C:\desenv\utils\FilesApp (trabalhe SÓ nele).
+Ordem do Claude (arquiteto), a pedido do Alexandre em 22/10/2026 ~21h: limpeza dos desenvolvimentos + release 4.3.4 + instalador. Projeto: C:\desenv\utils\KyraFiles (trabalhe SÓ nele).
 
 Antes de tudo: `ia check`, `ia claim agy "R434 limpeza e release 4.3.4"`. Crie a branch `feature/r434-limpeza-release` a partir da `main` atual (0ea9958db). Salve esta ordem como `docs/agents/tasks/R434-limpeza-e-release.md` (é brief de manutenção, não feature: não precisa de spec SDD). Commit local a cada passo verde.
 
@@ -17,19 +17,19 @@ d. **Temporários**: `%TEMP%\agy\` — apague as pastas desta sessão/projeto qu
 e. **`debug.log`** solto na raiz do repositório: apague (é ignorado pelo git).
 f. **Instaladores velhos** em `artifacts\Setup`: apague 4.3.1 e 4.3.2. **Mantenha o 4.3.3** (o Claude vai usá-lo para testar a atualização 4.3.3 → 4.3.4).
 g. **Branches locais** `feature/f024-*` a `feature/f029-*`: só apague a local se provar que todo o conteúdo dela já está na `main` (squash: compare `git diff <branch> main -- <arquivos que a branch mexeu>`). Não apague nenhuma branch remota. Liste o resultado.
-h. **NÃO mexa** no worktree `C:\desenv\utils\FilesApp-upstream-base` (base do F025, com 4 alterações): só registre que existe.
-i. **Cópias do app**: no fim, só a Release instalada em `%LOCALAPPDATA%\Programs\FilesCustom` deve estar registrada: `Get-AppxPackage FilesDev*` com `InstallLocation` nessa pasta.
+h. **NÃO mexa** no worktree `C:\desenv\utils\KyraFiles-upstream-base` (base do F025, com 4 alterações): só registre que existe.
+i. **Cópias do app**: no fim, só a Release instalada em `%LOCALAPPDATA%\Programs\KyraFiles` deve estar registrada: `Get-AppxPackage KyraFiles*` com `InstallLocation` nessa pasta.
 
 ## 2. Versão
-4.3.3 → **4.3.4** em `src/Files.App/Package.appxmanifest` (4.3.4.0) e `installer/FilesCustomSetup.iss` (MyAppVersion), como no commit 0ea9958db.
+4.3.3 → **4.3.4** em `src/KyraFiles.App/Package.appxmanifest` (4.3.4.0) e `installer/KyraFilesSetup.iss` (MyAppVersion), como no commit 0ea9958db.
 
 ## 3. Build Release e instalador (mesmo procedimento da 4.3.3)
-- `mkfile release src\Files.App\Files.App.csproj` = 0 Warning(s), 0 Error(s). Compile também `Files.HotkeyService.exe` e `Files.Watchdog.exe` em Release (`bin\Release`), 0/0.
-- `.\Open-FilesDev.ps1 -Configuration Release -NoLaunch` para o layout AppX; `installer\Generate-PackageManifest.ps1` (versão 4.3.4); ISCC → `artifacts\Setup\FilesCustomSetup-4.3.4.exe`. Informe tamanho e SHA256 (`Get-FileHash`) e compare o tamanho com o 4.3.3.
-- Instale o 4.3.4 por cima do 4.3.3 instalado (silencioso), confirme código de saída 0, `Get-AppxPackage FilesDev*` = 4.3.4.0 com InstallLocation em `%LOCALAPPDATA%\Programs\FilesCustom`, abra o app pelo protocolo/alias e capture a tela (Sobre mostrando 4.3.4.0). Gate F021: `pwsh tools\perf\verify_no_index_service.ps1` = 0.
+- `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = 0 Warning(s), 0 Error(s). Compile também `KyraFiles.HotkeyService.exe` e `KyraFiles.Watchdog.exe` em Release (`bin\Release`), 0/0.
+- `.\Open-KyraFiles.ps1 -Configuration Release -NoLaunch` para o layout AppX; `installer\Generate-PackageManifest.ps1` (versão 4.3.4); ISCC → `artifacts\Setup\KyraFilesSetup-4.3.4.exe`. Informe tamanho e SHA256 (`Get-FileHash`) e compare o tamanho com o 4.3.3.
+- Instale o 4.3.4 por cima do 4.3.3 instalado (silencioso), confirme código de saída 0, `Get-AppxPackage KyraFiles*` = 4.3.4.0 com InstallLocation em `%LOCALAPPDATA%\Programs\KyraFiles`, abra o app pelo protocolo/alias e capture a tela (Sobre mostrando 4.3.4.0). Gate F021: `pwsh tools\perf\verify_no_index_service.ps1` = 0.
 
 ## 4. Documentação
-- `docs/releases/2026-10-22_build-FilesCustomSetup-4.3.4.md` no modelo das anteriores: caminho, SHA256, tamanho, commit, build, o que mudou desde a 4.3.3 (a limpeza), como testar, o que NÃO está testado. Só CONFIRMED com o comando. Inclua em "o que ainda está no exe": bandeiras de A/B da F029 inertes (lidas de `C:\FilesUXLab\f029_flags.txt`; sem o arquivo ou vazio = comportamento da F028), saem na próxima versão; F030 T2, F032 T4 e F033 T4 (teste no app aberto) NOT TESTED, com o Claude.
+- `docs/releases/2026-10-22_build-KyraFilesSetup-4.3.4.md` no modelo das anteriores: caminho, SHA256, tamanho, commit, build, o que mudou desde a 4.3.3 (a limpeza), como testar, o que NÃO está testado. Só CONFIRMED com o comando. Inclua em "o que ainda está no exe": bandeiras de A/B da F029 inertes (lidas de `C:\FilesUXLab\f029_flags.txt`; sem o arquivo ou vazio = comportamento da F028), saem na próxima versão; F030 T2, F032 T4 e F033 T4 (teste no app aberto) NOT TESTED, com o Claude.
 - `STATUS.md` (seção Release v4.3.4), `AGENT_CONTEXT.md` (NEXT ACTION: "Claude revisa e publica a release 4.3.4 no GitHub"), handoff `docs/agents/handoffs/2026-10-22_HHMM_agy_r434-limpeza-release.md`.
 
 ## 5. Integração e parada

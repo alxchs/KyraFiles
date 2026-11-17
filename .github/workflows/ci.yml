@@ -1,4 +1,4 @@
-﻿# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # Licensed under the MIT License.
 
 # Abstract:
@@ -7,7 +7,7 @@
 #   However, the CI will not be executed if files not directly related to
 #   source code maintenance are updated.
 
-name: Files CI
+name: KyraFiles CI
 
 on:
   push:
@@ -25,7 +25,7 @@ on:
       - 'docs/**'
       - '*.md'
 
-run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
+run-name: ${{ github.event_name == 'pull_request' && 'KyraFiles PR Validation' || 'KyraFiles CI Validation' }}
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
@@ -44,7 +44,7 @@ jobs:
 
   check-formatting:
 
-    if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'alxchs'
 
     runs-on: windows-2025-vs2026
 
@@ -80,7 +80,7 @@ jobs:
 
   build:
 
-    if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'alxchs'
 
     runs-on: windows-2025-vs2026
     strategy:
@@ -219,7 +219,7 @@ jobs:
 
   report-bundle-size:
 
-    if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'alxchs'
 
     needs: [build]
     runs-on: windows-2025-vs2026
@@ -256,7 +256,7 @@ jobs:
 
   test:
 
-    if: github.repository_owner == 'files-community' && always()
+    if: github.repository_owner == 'alxchs' && always()
 
     needs: [build]
     runs-on: windows-2025-vs2026

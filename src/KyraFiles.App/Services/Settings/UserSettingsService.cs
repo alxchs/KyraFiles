@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Utils.Serialization.Implementation;
@@ -92,15 +92,6 @@ namespace KyraFiles.App.Services.Settings
 		{
 			var settingsSerializer = new DefaultSettingsSerializer();
 			SettingsSerializer = settingsSerializer;
-
-			// KyraFiles (F081): Automatic non-destructive migration from legacy installations
-			try
-			{
-				UserSettingsMigrationService.Instance.EnsureMigrated(ApplicationData.Current.LocalFolder.Path);
-			}
-			catch
-			{
-			}
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName));
 

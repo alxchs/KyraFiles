@@ -1,6 +1,6 @@
-# F058 — Janela do instalador e da atualização sempre à frente — SPEC
+﻿# F058 — Janela do instalador e da atualização sempre à frente — SPEC
 
-Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **PROPOSTA, aguardando aprovação do Alexandre** (pedido em 26/10/2026: "precisa servir para o instalador de qualquer projeto; a janela de atualização precisa sempre vir para a frente"). Instância no Files Custom do modelo `~/.dev-method/templates/spec-instalador-janela-frente.md` (METODO §15); mudou o modelo, mude aqui. Sem tecnologia, arquivo ou classe.
+Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **PROPOSTA, aguardando aprovação do Alexandre** (pedido em 26/10/2026: "precisa servir para o instalador de qualquer projeto; a janela de atualização precisa sempre vir para a frente"). Instância no KyraFiles do modelo `~/.dev-method/templates/spec-instalador-janela-frente.md` (METODO §15); mudou o modelo, mude aqui. Sem tecnologia, arquivo ou classe.
 
 - [ ] **APROVADA pelo Alexandre** (data: ____)
 
@@ -8,7 +8,7 @@ Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado an
 Janela de instalação ou atualização que abre **atrás** de outras passa despercebida: a pessoa acha que nada aconteceu, clica de novo, ou a atualização fica parada esperando uma resposta que ninguém viu.
 
 ## 2. Histórias de usuário
-- **US1 (P1)** Ao instalar ou atualizar o Files Custom, quero ver a janela do instalador na frente de todas as outras, qualquer que seja a forma de abrir.
+- **US1 (P1)** Ao instalar ou atualizar o KyraFiles, quero ver a janela do instalador na frente de todas as outras, qualquer que seja a forma de abrir.
 - **US2 (P1)** Quero que uma tecla que eu estava digitando em outro programa não confirme nem cancele nada no instalador por acidente.
 - **US3 (P2)** Se o Windows não permitir trazer a janela, quero um aviso visível (a barra de tarefas piscando), nunca silêncio.
 
@@ -16,7 +16,7 @@ Janela de instalação ou atualização que abre **atrás** de outras passa desp
 | ID | Dado | Quando | Então |
 |---|---|---|---|
 | AC-1 | outros programas abertos, um deles com foco | abro o instalador com duplo clique | a janela do instalador aparece na frente e com foco |
-| AC-2 | o Files Custom aberto | clico em "Atualizar agora" no próprio programa | o programa fecha e a janela do instalador aparece na frente, não atrás do navegador ou do chat que eu estava usando |
+| AC-2 | o KyraFiles aberto | clico em "Atualizar agora" no próprio programa | o programa fecha e a janela do instalador aparece na frente, não atrás do navegador ou do chat que eu estava usando |
 | AC-3 | atualização iniciada em segundo plano (automática) | o instalador precisa de uma resposta ou mostra progresso | a janela vem para a frente uma vez; depois não rouba o foco de novo a cada etapa |
 | AC-4 | um programa em tela cheia (jogo, vídeo, apresentação) | o instalador abre | a janela aparece na frente, ou a barra de tarefas pisca se o sistema impedir; nunca fica invisível |
 | AC-5 | eu estava digitando em outro programa quando a janela surgiu | continuo digitando por 1 segundo | nenhuma tecla confirma, cancela ou escolhe opção no instalador nesse intervalo |

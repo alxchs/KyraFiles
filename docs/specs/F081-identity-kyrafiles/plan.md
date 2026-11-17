@@ -1,29 +1,29 @@
-# Plano Técnico — F081: Identidade KyraFiles
+﻿# Plano Técnico — F081: Identidade KyraFiles
 
 ## 1. Arquitetura e Estrutura Técnica
 
 ### 1.1 Migração de Dados do Usuário (Sub-spec B)
 - **Caminho de Armazenamento Atual**:
-  - `%LOCALAPPDATA%\FilesCustom\` ou pasta local de configurações (`LocalCache` / `LocalState`).
+  - `%LOCALAPPDATA%\KyraFiles\` ou pasta local de configurações (`LocalCache` / `LocalState`).
   - Arquivos principais: `user_settings.json`, histórico de navegação, favoritos e snapshots de volume.
 - **Estratégia de Migração Segura**:
   - Implementar um componente de serviço `UserSettingsMigrationService` acionado na inicialização (antes da carga final de configurações).
-  - Se a nova pasta de dados do KyraFiles não contiver `user_settings.json`, verificar a existência de `user_settings.json` na pasta de dados anterior (`FilesCustom` / `Files`).
+  - Se a nova pasta de dados do KyraFiles não contiver `user_settings.json`, verificar a existência de `user_settings.json` na pasta de dados anterior (`KyraFiles` / `Files`).
   - Copiar recursivamente de forma atômica e não-destrutiva os arquivos de configuração para a pasta `KyraFiles`, mantendo intacta a pasta anterior (backup implícito).
   - Registrar no log operacional a data e o status da migração.
 
 ### 1.2 Atualização Textual e Uniformidade da Marca (Sub-spec A e C)
 - **Arquivos de Recursos Localizados (`.resw`)**:
-  - Atualizar strings em `pt-BR`, `en-US`, `es-ES`, `de-DE` substituindo menções visíveis de "Files Custom" por "KyraFiles".
+  - Atualizar strings em `pt-BR`, `en-US`, `es-ES`, `de-DE` substituindo menções visíveis de "KyraFiles" por "KyraFiles".
   - Garantir que a tela Sobre (About) apresente:
     - Nome do produto: **KyraFiles**
     - Versão e carimbo de data/hora oficial
     - Seção de créditos mantendo expressamente:
-      - `Baseado no projeto open-source Files Community (Licença MIT)`
-      - `Copyright (c) Files Community e Contribuidores`
+      - `Baseado no projeto open-source KyraFiles Community (Licença MIT)`
+      - `Copyright (c) KyraFiles Community e Contribuidores`
 - **Catálogo de Ajuda e Documentação Offline**:
   - Atualizar `HelpCatalog.cs` para referenciar o ecossistema KyraFiles.
-  - Atualizar os títulos e cabeçalhos em `src/Files.App/Docs/` (`pt-BR`, `en-US`, `es-ES`, `de-DE`).
+  - Atualizar os títulos e cabeçalhos em `src/KyraFiles.App/Docs/` (`pt-BR`, `en-US`, `es-ES`, `de-DE`).
 
 ### 1.3 Paleta Visual e Diretrizes Institucionais (Sub-spec A)
 - **Cores Oficiais**:

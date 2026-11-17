@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -67,7 +67,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			Assert.AreEqual(4, report.ActiveProcessCount);
 
 			string text = report.ToClipboardText();
-			StringAssert.Contains(text, "Files Custom — Ecosystem Memory Report");
+			StringAssert.Contains(text, "KyraFiles — Ecosystem Memory Report");
 			StringAssert.Contains(text, "Total Working Set (RAM): 179.0 MB");
 			StringAssert.Contains(text, "Files (PID 1000)");
 			StringAssert.Contains(text, "KyraFiles.App.IndexService: Inactive (0 MB)");

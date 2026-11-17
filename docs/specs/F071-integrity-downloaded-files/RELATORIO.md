@@ -1,4 +1,4 @@
-# Relatório de Conclusão — F071: Integridade e Arquivos Baixados
+﻿# Relatório de Conclusão — F071: Integridade e Arquivos Baixados
 
 ## 1. Resumo Executivo
 A especificação **F071 (Integridade e Arquivos Baixados)** foi implementada com foco em alta performance, robustez, ausência de impacto no consumo de memória RAM (< 50 MB de delta de memória mesmo em arquivos gigabytes) e suporte completo a cancelamento cooperativo e verificação de integridade criptográfica.
@@ -16,20 +16,20 @@ A especificação **F071 (Integridade e Arquivos Baixados)** foi implementada co
 3. **Registro no Container de Injeção de Dependências**:
    - Registrados como Singletons em `AppLifecycleHelper.ConfigureHost()`.
 4. **Bateria Abrangente de Testes Unitários**:
-   - `FileIntegrityTests.cs` em `tests/Files.App.Search.Index.Tests/` com vetores de teste RFC para SHA256, MD5, SHA1, CRC32, validação de progresso, cancelamento cooperativo em 50 ms, normalização e remoção de ADS em lote.
+   - `FileIntegrityTests.cs` em `tests/KyraFiles.App.Search.Index.Tests/` com vetores de teste RFC para SHA256, MD5, SHA1, CRC32, validação de progresso, cancelamento cooperativo em 50 ms, normalização e remoção de ADS em lote.
 
 ## 3. Evidências de Testes e Validação
 - **Testes Unitários**:
-  - Comando: `dotnet test tests/Files.App.Search.Index.Tests/Files.App.Search.Index.Tests.csproj --filter "FullyQualifiedName~FileIntegrityTests"`
+  - Comando: `dotnet test tests/KyraFiles.App.Search.Index.tests/KyraFiles.App.Search.Index.Tests.csproj --filter "FullyQualifiedName~FileIntegrityTests"`
   - Resultado: **100% aprovados** (7 testes de integridade específicos; suite total com 188 testes aprovados, 0 falhas).
 - **Compilação Release Oficial**:
-  - Comando: `mkfile r src/Files.App/Files.App.csproj`
+  - Comando: `mkfile r src/KyraFiles.App/KyraFiles.App.csproj`
   - Resultado: **0 erros**. Binários compilados com sucesso.
 - **Gate F021 (Contenção de Recursos)**:
   - Comando: `pwsh tools\perf\verify_no_index_service.ps1 -AliasPath "none"`
-  - Resultado: **Aprovado** (`Files.App.IndexService.exe` rigorosamente ausente, CPU 0%).
+  - Resultado: **Aprovado** (`KyraFiles.App.IndexService.exe` rigorosamente ausente, CPU 0%).
 - **Instalação Local**:
-  - Instalado em `%LOCALAPPDATA%\Programs\FilesCustom` com sucesso.
+  - Instalado em `%LOCALAPPDATA%\Programs\KyraFiles` com sucesso.
 
 ## 4. Métricas de Performance e Memória
 - **Uso de Memória RAM**: Operações de hash executam em streaming constante de 128 KB. Mesmo em arquivos de dezenas de gigabytes, a alocação de memória no heap é insignificante (< 1 MB), satisfazendo com ampla folga o critério AC-2 (< 50 MB de pico de RAM).

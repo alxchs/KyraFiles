@@ -1,4 +1,4 @@
-# F062 — Diagnóstico de Consumo de Memória do Ecossistema na Página Sobre — PLAN
+﻿# F062 — Diagnóstico de Consumo de Memória do Ecossistema na Página Sobre — PLAN
 
 Status: **RASCUNHO PARA APROVAÇÃO**
 Dependência: `spec.md` aprovada.
@@ -7,8 +7,8 @@ Dependência: `spec.md` aprovada.
 
 ## 1. Arquitetura e Componentes
 
-### 1.1 Modelo de Dados (`Files.Shared/Helpers/ProcessMemoryReport.cs`)
-Criar classe imutável de resultado em `Files.Shared` (testável via unit tests puros):
+### 1.1 Modelo de Dados (`KyraFiles.Shared/Helpers/ProcessMemoryReport.cs`)
+Criar classe imutável de resultado em `KyraFiles.Shared` (testável via unit tests puros):
 ```csharp
 public sealed record ProcessMemoryItem(
     string ProcessName,
@@ -26,9 +26,9 @@ public sealed record EcosystemMemoryReport(
 );
 ```
 
-### 1.2 Provedor de Diagnóstico (`Files.Shared/Helpers/EcosystemMemoryDiagnostics.cs`)
+### 1.2 Provedor de Diagnóstico (`KyraFiles.Shared/Helpers/EcosystemMemoryDiagnostics.cs`)
 Método estático puro e thread-safe:
-- Varre os nomes alvos: `Files`, `Files.App.Server`, `Files.HotkeyService`, `Files.Watchdog`, `Files.App.IndexService`.
+- Varre os nomes alvos: `Files`, `KyraFiles.App.Server`, `KyraFiles.HotkeyService`, `KyraFiles.Watchdog`, `KyraFiles.App.IndexService`.
 - Para cada processo, captura `WorkingSet64` e `PrivateMemorySize64` dentro de bloco `try/catch` para evitar corridas de processo saindo.
 - Agrupa por processo e calcula os totais consolidados.
 - Gera string formatada para área de transferência.
@@ -51,7 +51,7 @@ Método estático puro e thread-safe:
 
 ---
 
-## 2. Testes Unitários (`Files.App.Search.Index.Tests` ou `Files.App.UnitTests`)
+## 2. Testes Unitários (`KyraFiles.App.Search.Index.Tests` ou `KyraFiles.App.UnitTests`)
 - `EcosystemMemoryDiagnosticsTests.cs`:
   - Teste de formatação de bytes (`FormatBytes` para KB, MB, GB).
   - Teste de cálculo de totais a partir de lista simulada de processos.

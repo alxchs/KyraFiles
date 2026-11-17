@@ -1,19 +1,19 @@
-param([string]$Mode = 'preview')   # preview | control
+﻿param([string]$Mode = 'preview')   # preview | control
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\Send-GuardedInput.ps1"
 $script:GuardedTimeoutSec = 600
 $guid = [guid]::NewGuid().ToString()
-$tempDir = Join-Path $env:TEMP "agy\$guid\desenv\utils\FilesApp\Files\crashA"
+$tempDir = Join-Path $env:TEMP "agy\$guid\desenv\utils\KyraFiles\Files\crashA"
 New-Item -ItemType Directory $tempDir -Force | Out-Null
 $stamp = Get-Date -Format 'yyyyMMdd-HHmm'
 $csv = "$PSScriptRoot\..\..\docs\agents\evidence\crash-reproducao\resultado-held-$Mode-$stamp.csv"
 $res = @()
-function Count1000 { param($since) @(Get-WinEvent -FilterHashtable @{LogName='Application';Id=1000,1026;StartTime=$since} -ErrorAction SilentlyContinue | ? { $_.Message -like '*Files.exe*' }).Count }
+function Count1000 { param($since) @(Get-WinEvent -FilterHashtable @{LogName='Application';Id=1000,1026;StartTime=$since} -ErrorAction SilentlyContinue | ? { $_.Message -like '*KyraFiles.exe*' }).Count }
 try {
   1..12 | % { Copy-Item -LiteralPath 'D:\DriveD\Downloads\Abertura de telas.mp4' (Join-Path $tempDir ("{0:00}a.mp4" -f $_)); Copy-Item -LiteralPath 'D:\DriveD\Downloads\devolver.mp4' (Join-Path $tempDir ("{0:00}b.mp4" -f $_)); Set-Content (Join-Path $tempDir ("{0:00}c.txt" -f $_)) 'x' }
   $t0 = Get-Date
   $before = @(Get-Process Files -ErrorAction SilentlyContinue).Id
-  Start-Process files-dev.exe -ArgumentList "`"$tempDir`""
+  Start-Process kyrafiles.exe -ArgumentList "`"$tempDir`""
   $p = $null; 1..40 | % { if(-not $p){ Start-Sleep -Milliseconds 500; $p = Get-Process Files -ErrorAction SilentlyContinue | ? { $before -notcontains $_.Id -and $_.MainWindowHandle -ne 0 } | select -First 1 } }
   if (-not $p) { throw 'ABORT: Files de teste nao abriu' }
   $script:GuardedPid=$p.Id; $script:GuardedProcess=$p; $script:GuardedProcessName='Files'; $script:GuardedProcessPath=(Get-CimInstance Win32_Process -Filter "ProcessId=$($p.Id)").ExecutablePath; $script:GuardedStartTime.Restart()
@@ -37,7 +37,7 @@ try {
   }; if ($res[-1].Status -ne 'COMPLETED') { break } }
   $ev = Count1000 $t0
   $res | % { $_ | Add-Member -NotePropertyName WinEvents1000_1026_total -NotePropertyValue $ev -PassThru } | Export-Csv $csv -NoTypeInformation -Encoding utf8
-  "CSV: $csv ; eventos 1000/1026 do Files.exe desde $t0 : $ev ; rodadas=$($res.Count) completas=$(@($res|? Status -eq COMPLETED).Count)"
+  "CSV: $csv ; eventos 1000/1026 do KyraFiles.exe desde $t0 : $ev ; rodadas=$($res.Count) completas=$(@($res|? Status -eq COMPLETED).Count)"
 } finally {
   Get-Process Files -ErrorAction SilentlyContinue | ? { $before -notcontains $_.Id } | Stop-Process -Force -ErrorAction SilentlyContinue
   Remove-Item (Split-Path $tempDir -Parent | Split-Path -Parent | Split-Path -Parent | Split-Path -Parent | Split-Path -Parent) -Recurse -Force -ErrorAction SilentlyContinue

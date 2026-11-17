@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -32,8 +32,6 @@
         <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\FileIntegrityService.cs" Link="FileIntegrityService.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\IZoneIdentifierService.cs" Link="IZoneIdentifierService.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Services\FileIntegrity\ZoneIdentifierService.cs" Link="ZoneIdentifierService.cs" />
-        <Compile Include="..\..\src\KyraFiles.App\Services\Settings\IUserSettingsMigrationService.cs" Link="IUserSettingsMigrationService.cs" />
-        <Compile Include="..\..\src\KyraFiles.App\Services\Settings\UserSettingsMigrationService.cs" Link="UserSettingsMigrationService.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Data\Items\GitWorktreeItem.cs" Link="GitWorktreeItem.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\IOperationQueue.cs" Link="IOperationQueue.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\OperationQueue.cs" Link="OperationQueue.cs" />
@@ -48,6 +46,7 @@
         <ProjectReference Include="..\..\src\KyraFiles.App.Search.Index\KyraFiles.App.Search.Index.csproj" />
         <ProjectReference Include="..\..\src\KyraFiles.App.IndexService\KyraFiles.App.IndexService.csproj" />
         <ProjectReference Include="..\..\src\KyraFiles.Shared\KyraFiles.Shared.csproj" />
+        <ProjectReference Include="..\..\src\KyraFiles.App.CsWin32\KyraFiles.App.CsWin32.csproj" />
     </ItemGroup>
 
 </Project>

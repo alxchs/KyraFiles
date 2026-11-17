@@ -1,4 +1,4 @@
-# FILA KYRAFILES — ordem de trabalho da AGY (Claude, 31/10/2026)
+﻿# FILA KYRAFILES — ordem de trabalho da AGY (Claude, 31/10/2026)
 
 Fonte do plano: artefato "Super Explorer: Plano de Módulos" (https://claude.ai/artifact/BX5PJvm1fX53UErsA7v2ep, privado). Este arquivo é autocontido: a AGY não precisa abrir o artefato.
 
@@ -9,7 +9,7 @@ Tag de segurança antes da fila: `tag_v4.3.10.0_f063-f065-correcoes-f067-pwsh-f0
 - O nome do produto passa a ser **KyraFiles**. Decisão do Alexandre em 31/10/2026.
 - Logo "igual à do KyraDB": **BLOQUEADO.** Não existe arquivo de logo no repositório `C:\desenv\utils\KyraDB` (busca por `.svg`, `.png`, `.ico`, `.jpg`, `logo`, `brand`, em árvore e histórico git, retornou 0; o repositório só tem `docs`, `pesquisa` e `tools`). Sem o arquivo, a AGY **não inventa** a logo. Ela entrega tudo o que não depende dela (item 4, sub-specs a, b, c) e deixa a sub-spec d (ícones) em `WAITING` até o Alexandre informar onde está a arte.
 - Regra de arte do Alexandre: nunca vermelho, nunca vermelho com amarelo, nunca vermelho com estrela amarela.
-- Licença: arquivos que vieram do Files Community mantêm o aviso `Copyright (c) Files Community` e a licença MIT. Trocar nome e marca não autoriza apagar esse aviso.
+- Licença: arquivos que vieram do KyraFiles Community mantêm o aviso `Copyright (c) KyraFiles Community` e a licença MIT. Trocar nome e marca não autoriza apagar esse aviso.
 
 ## 1. Regras da fila (valem para todos os itens; descumprir = Claude reverte e o Alexandre é avisado)
 
@@ -22,7 +22,7 @@ Tag de segurança antes da fila: `tag_v4.3.10.0_f063-f065-correcoes-f067-pwsh-f0
 7. **Prova de tela** só com o Alexandre ausente ou às 09:00, **sem roubar foco**, só com UI Automation ou o helper com trava (`tools/perf/Send-GuardedInput.ps1`). AC de interface sem prova fica `NOT TESTED`.
 8. **Nunca** `git push`, tag ou release sem autorização expressa do Alexandre. A integração na `main` é feita via squash/rebase + ff-only mantendo histórico linear.
 9. Texto que o usuário final vê (notas de versão, avisos) segue o §14 do método: benefício em português simples, sem jargão.
-10. Temporários em `%TEMP%\agy\<GUID>\desenv\utils\FilesApp\Files\`. Apague ao fim.
+10. Temporários em `%TEMP%\agy\<GUID>\desenv\utils\KyraFiles\Files\`. Apague ao fim.
 11. Dúvida de arquitetura ou de escopo: `PENDING DECISION` em `DECISIONS.md` e siga com outra tarefa independente.
 12. Se a AGY estiver só no modelo flash, os itens 4 (identidade) e 9 (desfazer) exigem revisão do plano pelo Claude antes de qualquer código (mudam dado do usuário).
 13. Cota: ao receber 429, aplique a troca de grupo e de conta descrita em `~/.claude/CLAUDE.md`. Falta de cota **não** passa o trabalho para o Claude.
@@ -41,7 +41,7 @@ F065-T11/T12, F063-C6/C7/C8, A1, A3 e os dois travamentos de `docs/agents/SITUAC
 - **Pontos a decidir:** o que conta como queda (código de saída, tempo de vida menor que N s); onde guardar o contador.
 
 ### Item 2. F070 Login do GitHub próprio (baixo × médio) — sub da F079
-- **Por quê:** o login usa o marcador `githubclientid.secret` (`src/Files.App/Constants.cs`), que no fork provavelmente nunca recebeu um valor real (INFERRED, não testado). Por isso "conectar GitHub" não funciona.
+- **Por quê:** o login usa o marcador `githubclientid.secret` (`src/KyraFiles.App/Constants.cs`), que no fork provavelmente nunca recebeu um valor real (INFERRED, não testado). Por isso "conectar GitHub" não funciona.
 - **Antes de tudo:** reproduzir e registrar o erro real (CONFIRMED ou refutado).
 - **AC semente:** AC-1 entrar com o código de dispositivo funciona e mostra o usuário; AC-2 sair apaga a credencial; AC-3 a credencial fica no cofre do Windows, nunca em arquivo de configuração; AC-4 sem identificador configurado, o item explica o que falta em vez de falhar calado.
 - **Depende do Alexandre:** criar um aplicativo OAuth no GitHub (fluxo de dispositivo) e informar o identificador público. A AGY faz o identificador configurável, sem segredo no código. Sem o identificador, os ACs 1 e 2 ficam `NOT TESTED`; avisar no handoff.
@@ -53,7 +53,7 @@ F065-T11/T12, F063-C6/C7/C8, A1, A3 e os dois travamentos de `docs/agents/SITUAC
 - **Fora de escopo:** verificação de assinatura digital (vira ideia futura).
 
 ### Item 4. F081 Identidade KyraFiles (alto, base)
-- **Sub-specs, cada uma com sua branch e devolução:** a) decisão de nome, paleta e como o nome aparece (o nome está decidido: KyraFiles; falta paleta e textos) · b) identidade do pacote, pasta de dados do usuário e **migração das configurações** (quem usa o Files Custom não perde nada) · c) renomeio interno em lote (namespaces, nomes de arquivo, textos), com o aviso de copyright mantido · d) ícones e logo (**WAITING** pela arte do KyraDB).
+- **Sub-specs, cada uma com sua branch e devolução:** a) decisão de nome, paleta e como o nome aparece (o nome está decidido: KyraFiles; falta paleta e textos) · b) identidade do pacote, pasta de dados do usuário e **migração das configurações** (quem usa o KyraFiles não perde nada) · c) renomeio interno em lote (namespaces, nomes de arquivo, textos), com o aviso de copyright mantido · d) ícones e logo (**WAITING** pela arte do KyraDB).
 - **Regra de execução:** nenhuma outra spec em paralelo durante o item 4; todas as branches abertas fecham antes.
 - **AC semente:** AC-1 instalação nova abre com as configurações da versão anterior; AC-2 nenhum texto visível ao usuário cita o nome antigo, exceto o aviso de licença; AC-3 build `0 Error(s)` e `0 Warning(s)`; AC-4 atualizador acha a versão nova pelo canal novo; AC-5 sem vermelho nem vermelho com amarelo em nenhuma arte.
 - **Riscos para o plan tratar:** identidade do pacote muda e o usuário pode precisar reinstalar (INFERRED); migração falha pela metade; canal de atualização antigo. Pedir decisão do Alexandre sobre o que acontece com quem está na versão antiga.

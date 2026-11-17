@@ -1,10 +1,10 @@
-# F003 — Nova aba × duplicar aba
+﻿# F003 — Nova aba × duplicar aba
 
 Status: BRIEF APROVADO (Claude, 03/10/2026, a partir de análise do código). Executor: AGY. Branch: `feature/new-vs-duplicate-tab` (só se algum item abaixo exigir código).
 
 ## RESULTADO DA ANÁLISE (lido no código em 03/10/2026; nada executado, tudo NOT TESTED até a AGY confirmar no app)
 
-O Files **já separa** as duas ações, ao contrário da queixa original (que é do OneCommander):
+o KyraFiles **já separa** as duas ações, ao contrário da queixa original (que é do OneCommander):
 
 | Ação | Código | Atalho | Onde aparece |
 |---|---|---|---|
@@ -15,7 +15,7 @@ Ou seja: `Ctrl+T` e `+` abrem a **Home**, nunca a pasta atual. O requisito do §
 
 ## TASK
 
-1. **Confirmar no app** (`Open-FilesDev.ps1`, `C:\FilesUXLab`) os casos do §7: `Ctrl+T`, botão `+`, menu, duplicar, uma aba, várias abas, aba fixa, aba com seleção, fechar, restaurar (`ReopenClosedTab`), reiniciar, arrastar/reordenar. Registrar cada um como `OBSERVED`/`CONFIRMED` com captura, no `STATUS.md`. O smoke test do G0 cobre parte disso: não duplique o trabalho.
+1. **Confirmar no app** (`Open-KyraFiles.ps1`, `C:\FilesUXLab`) os casos do §7: `Ctrl+T`, botão `+`, menu, duplicar, uma aba, várias abas, aba fixa, aba com seleção, fechar, restaurar (`ReopenClosedTab`), reiniciar, arrastar/reordenar. Registrar cada um como `OBSERVED`/`CONFIRMED` com captura, no `STATUS.md`. O smoke test do G0 cobre parte disso: não duplique o trabalho.
 2. **Investigar e registrar, sem implementar**, estas lacunas candidatas (INFERRED):
    - A "nova aba" não tem política configurável (`§33 New Tab Behavior`: Home / local padrão / duplicar). Hoje é fixo em Home. `OpenSpecificPageOnStartupPath` existe só para a inicialização.
    - `Duplicate Tab` só está no menu de contexto da aba e no atalho; não aparece no menu da barra de ferramentas nem no `+` (descoberta). Isso é insumo da F004 (menu clássico).
@@ -24,7 +24,7 @@ Ou seja: `Ctrl+T` e `+` abrem a **Home**, nunca a pasta atual. O requisito do §
 
 ## ACCEPTANCE
 
-Tabela do §7 preenchida com evidência; `STATUS.md` marca F003 como "já atendido no Files, confirmado em <data>" ou lista o caso que falhou. Se algum caso falhar, abrir correção mínima em `feature/new-vs-duplicate-tab` com teste.
+Tabela do §7 preenchida com evidência; `STATUS.md` marca F003 como "já atendido no KyraFiles, confirmado em <data>" ou lista o caso que falhou. Se algum caso falhar, abrir correção mínima em `feature/new-vs-duplicate-tab` com teste.
 
 ## DO NOT CHANGE
 

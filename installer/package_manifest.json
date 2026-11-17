@@ -6269,31 +6269,31 @@
       "IsDependency": false
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\KyraFiles.App.Launcher.exe",
+      "Path": "Assets\\KyraFilesOpenDialog\\KyraFiles.App.Launcher.exe",
       "Length": 336896,
       "SHA256": "4D964DAA599360C55E3AC5EAEF85D649527DE31D808870353826622715DBB52F",
       "IsDependency": false
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\KyraFiles.App.OpenDialog64.dll",
+      "Path": "Assets\\KyraFilesOpenDialog\\KyraFiles.App.OpenDialog64.dll",
       "Length": 133120,
       "SHA256": "174D998E3D4E70DF38D0D92BD4EF804C936D8DBF1BF59367551E4925246ADF02",
       "IsDependency": true
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\KyraFiles.App.SaveDialog64.dll",
+      "Path": "Assets\\KyraFilesOpenDialog\\KyraFiles.App.SaveDialog64.dll",
       "Length": 182272,
       "SHA256": "427C387EB13D14AB13E5DA5429B2539A1802A19EA3E3F07D7CB0B195B0C16407",
       "IsDependency": true
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\SetFilesAsDefault.reg",
+      "Path": "Assets\\KyraFilesOpenDialog\\SetFilesAsDefault.reg",
       "Length": 1481,
       "SHA256": "45CB732C26E6FECC83A0A898F45FB7782B53486A846FAB5261D714B972DF6B38",
       "IsDependency": false
     },
     {
-      "Path": "Assets\\FilesOpenDialog\\UnsetFilesAsDefault.reg",
+      "Path": "Assets\\KyraFilesOpenDialog\\UnsetFilesAsDefault.reg",
       "Length": 848,
       "SHA256": "F03F2224F58DA2CEE053FD9490335000F8BDF392A06E94CB977D4F9202E80C4A",
       "IsDependency": false

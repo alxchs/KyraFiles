@@ -1,4 +1,4 @@
-# Citizen Code of Conduct
+﻿# Citizen Code of Conduct
 
 ## 1. Purpose
 
@@ -57,7 +57,7 @@ If a community member engages in unacceptable behavior, the community organizers
 
 ## 7. Reporting Guidelines
 
-If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a community organizer as soon as possible. filesapp@outlook.com.
+If you are subject to or witness unacceptable behavior, or have any other concerns, please notify a community organizer as soon as possible. contato@kyrafiles.com.
 
 
 
@@ -65,7 +65,7 @@ Additionally, community organizers are available to help community members engag
 
 ## 8. Addressing Grievances
 
-If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify files-community with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies. 
+If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify KyraFiles team with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies. 
 
 
 
@@ -77,7 +77,7 @@ This code of conduct and its related procedures also applies to unacceptable beh
 
 ## 10. Contact info
 
-filesapp@outlook.com
+contato@kyrafiles.com
 
 ## 11. License and attribution
 

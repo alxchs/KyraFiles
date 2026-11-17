@@ -1,4 +1,4 @@
-# Deploy-Release.ps1 - Atualiza %LOCALAPPDATA%\Programs\FilesCustom a partir da compilacao Release
+﻿# Deploy-Release.ps1 - Atualiza %LOCALAPPDATA%\Programs\KyraFiles a partir da compilacao Release
 param(
     [string]$Source = ""
 )
@@ -34,7 +34,7 @@ if ([string]::IsNullOrEmpty($Source)) {
 }
 
 $dst = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles"
-$legacyDst = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom"
+$legacyDst = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles"
 
 if (-not (Test-Path $Source)) {
     throw "Source not found: $Source"
@@ -43,8 +43,8 @@ if (-not (Test-Path $Source)) {
 Write-Host "Fonte do deploy: $Source" -ForegroundColor Cyan
 Write-Host "Destino: $dst" -ForegroundColor Cyan
 
-Write-Host "Encerrando processos de suporte (restrito a KyraFiles/FilesCustom)..."
-$processNames = @("KyraFiles.Watchdog", "KyraFiles.HotkeyService", "KyraFiles", "Files.Watchdog", "Files.HotkeyService", "Files", "Files.App.Server", "KyraFiles.App.Server", "KyraFiles.App.IndexService")
+Write-Host "Encerrando processos de suporte (restrito a KyraFiles/KyraFiles)..."
+$processNames = @("KyraFiles.Watchdog", "KyraFiles.HotkeyService", "KyraFiles", "KyraFiles.Watchdog", "KyraFiles.HotkeyService", "Files", "KyraFiles.App.Server", "KyraFiles.App.Server", "KyraFiles.App.IndexService")
 $targetDirs = @($dst.ToLowerInvariant(), $legacyDst.ToLowerInvariant(), $repoRoot.ToLowerInvariant())
 Get-Process -Name $processNames -ErrorAction SilentlyContinue | Where-Object {
     try {
@@ -95,9 +95,9 @@ if (-not $indexSrc) { throw "Indexador nao encontrado (compile a solucao em Rele
 & robocopy $serverSrc (Join-Path $dst "KyraFiles.App.Server") /E /NFL /NDL /NJH /NJS /NC /NS /NP /XF *.pdb | Out-Null
 & robocopy $indexSrc (Join-Path $dst "KyraFiles.App.IndexService") /E /NFL /NDL /NJH /NJS /NC /NS /NP /XF *.pdb | Out-Null
 
-# Restos do nome antigo de deploys anteriores (os assemblies Files.App.BackgroundTasks e a pasta do servidor ainda usam esse nome no produto)
+# Restos do nome antigo de deploys anteriores (os assemblies KyraFiles.App.BackgroundTasks e a pasta do servidor ainda usam esse nome no produto)
 Get-ChildItem $dst -File -Force | Where-Object { $_.Name -like 'Files.*' -or $_.Name -like '*.old' } | Remove-Item -Force -ErrorAction SilentlyContinue
-foreach ($legacy in 'Files.App.Controls', 'Files.App.IndexService', 'Files.App.Server') { Remove-Item (Join-Path $dst $legacy) -Recurse -Force -ErrorAction SilentlyContinue }
+foreach ($legacy in 'KyraFiles.App.Controls', 'KyraFiles.App.IndexService', 'KyraFiles.App.Server') { Remove-Item (Join-Path $dst $legacy) -Recurse -Force -ErrorAction SilentlyContinue }
 
 # Copia servicos nativos KyraFiles
 $binRelease = Join-Path $repoRoot "bin\Release"
@@ -112,7 +112,7 @@ if (Test-Path (Join-Path $binRelease "KyraFiles.Watchdog.exe")) {
 Write-Host "Registrando identidade AppX no Windows..." -ForegroundColor Cyan
 $manifestPath = Join-Path $dst "AppxManifest.xml"
 if (Test-Path $manifestPath) {
-    $existing = Get-AppxPackage -Name FilesDev -ErrorAction SilentlyContinue
+    $existing = Get-AppxPackage -Name KyraFiles -ErrorAction SilentlyContinue
     if ($existing) {
         Remove-AppxPackage $existing.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue
     }

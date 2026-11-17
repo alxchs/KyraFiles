@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     F015 T2c — Verifica se listar C:\Google\Drive\disk baixa dados do Google Drive.
 
@@ -13,7 +13,7 @@
 #>
 
 $ErrorActionPreference = 'Stop'
-$LogDir  = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir  = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "f015_gdrive_probe-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 

@@ -1,4 +1,4 @@
-# Relatório de Conclusão — F083: Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About
+﻿# Relatório de Conclusão — F083: Identidade KyraFiles: Marca, Ícones do Windows e Imagem no About
 
 - **Data de Conclusão:** 01/11/2026
 - **Branch de Trabalho:** `feature/f083-kyrafiles-brand-and-icon`
@@ -19,14 +19,14 @@ O usuário solicitou a eliminação definitiva de qualquer menção textual ao n
 1. **Arte Oficial**: Utilizada a arte `D:\DriveD\Downloads\KyraFiles.png` (resolução 1254x1254).
 2. **Geração de Ícones Multi-resolução**:
    - Criado e executado o gerador `tools/generate_kyra_icons.ps1`.
-   - Gerados os arquivos `Logo.ico` (contendo frames 16x16, 24x24, 32x32, 48x48, 64x64, 128x128 e 256x256) com interpolação bicúbica de alta qualidade em `src/Files.App/Assets/AppTiles/Dev/Logo.ico`, `Release/Logo.ico` e `Preview/Logo.ico`.
+   - Gerados os arquivos `Logo.ico` (contendo frames 16x16, 24x24, 32x32, 48x48, 64x64, 128x128 e 256x256) com interpolação bicúbica de alta qualidade em `src/KyraFiles.App/Assets/AppTiles/Dev/Logo.ico`, `Release/Logo.ico` e `Preview/Logo.ico`.
    - Substituídos todos os 37 tiles PNG em `Dev/` e `Release/` (Small71x71, Square44x44, Square150x150, StoreLogo, etc.), extinguindo os ícones rosa em todo o Windows.
-   - Criados `KyraLogo.png` e `KyraPet.png` em `src/Files.App/Assets/` para exibição no aplicativo.
+   - Criados `KyraLogo.png` e `KyraPet.png` em `src/KyraFiles.App/Assets/` para exibição no aplicativo.
 
 ### B. Tela Sobre (About)
-1. Em `src/Files.App/Views/Settings/AboutPage.xaml`:
+1. Em `src/KyraFiles.App/Views/Settings/AboutPage.xaml`:
    - Substituído o glifo genérico `&#xE946;` por `<BitmapIcon UriSource="ms-appx:///Assets/KyraPet.png" ShowAsMonochrome="False" Width="44" Height="44" />`.
-2. Em `src/Files.App/ViewModels/Settings/AboutViewModel.cs`:
+2. Em `src/KyraFiles.App/ViewModels/Settings/AboutViewModel.cs`:
    - `AppName` retorna formalmente `"KyraFiles"`.
 
 ### C. Harmonização Multilíngue de Mensagens
@@ -45,5 +45,5 @@ O usuário solicitou a eliminação definitiva de qualquer menção textual ao n
 
 - **Compilação**: `mkfile d Files.slnx` concluído com **0 erros** e 26 warnings (apenas avisos de depreciação do SDK/Omnibar upstream).
 - **Testes Unitários**: 193 testes executados, **192 passaram**, 0 falhas, 1 ignorado intencionalmente pelo gate F021.
-- **Gate F021**: `tools\perf\verify_no_index_service.ps1` executado com sucesso comprovando ausência de `Files.App.IndexService`.
+- **Gate F021**: `tools\perf\verify_no_index_service.ps1` executado com sucesso comprovando ausência de `KyraFiles.App.IndexService`.
 

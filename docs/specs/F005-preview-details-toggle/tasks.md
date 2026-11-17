@@ -1,11 +1,11 @@
-# F005 — Preview e Details com acesso imediato — TASKS
+﻿# F005 — Preview e Details com acesso imediato — TASKS
 
 Status: **APROVADAS** (Claude, 04/10/2026). Executor: AGY. Branch: `feature/preview-details-shortcuts`, criada a partir do HEAD de `feature/rename-ux` (a `main` publicada ainda não tem as correções da F001 e o exe de teste precisa delas; registre isso no handoff). Uma tarefa por commit.
 
 | # | Tarefa | Atende | Pronto quando | Estado |
 |---|---|---|---|---|
 | T1 | Reconfirmar por busca que `Alt+P` e `Alt+Shift+P` estão livres em `Actions/` e checar o menu e as teclas de acesso; se houver conflito, escolher outro par e registrar em `DECISIONS.md` | FR-004 | resultado da busca anotado no handoff | concluído |
-| T2 | Criar a função pura de alternância (arquivo novo em `Helpers/`, genérica no tipo da aba) e o teste dos 6 casos; registrar em `DECISIONS.md` a escolha entre script `pwsh` e projeto `tests/Files.Custom.Tests` | FR-001, AC-1..AC-6 | teste executado com saída de 6 aprovados | concluído |
+| T2 | Criar a função pura de alternância (arquivo novo em `Helpers/`, genérica no tipo da aba) e o teste dos 6 casos; registrar em `DECISIONS.md` a escolha entre script `pwsh` e projeto `tests/KyraFiles.Custom.Tests` | FR-001, AC-1..AC-6 | teste executado com saída de 6 aprovados | concluído |
 | T3 | Ajustar `TogglePreviewPaneAction` e `ToggleDetailsPaneAction`: usar a função, `IsExecutable => true`, `IsAccessibleGlobally => true`, `HotKey` | FR-001..FR-004 | `mkfile release` com 0 Warning(s) e 0 Error(s) | concluído |
 | T4 | Mostrar o atalho nos tooltips das abas (`InfoPane.xaml`); string nova só se faltar | FR-005, AC-11 | captura do tooltip | concluído |
 | T5 | Verificar foco ao fechar por atalho e `AutomationName`; corrigir só se faltar | FR-007, AC-9 | captura ou UI Automation mostrando o foco na lista | concluído |

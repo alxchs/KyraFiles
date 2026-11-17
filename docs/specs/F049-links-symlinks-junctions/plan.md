@@ -1,9 +1,9 @@
-# F049 — Links simbólicos, junctions e hardlinks — PLAN
+﻿# F049 — Links simbólicos, junctions e hardlinks — PLAN
 
 Status: APROVADO (Claude, 24/10/2026). Spec aprovada pelo Alexandre em 24/10/2026. **Execução bloqueada** até o Claude liberar (`docs/agents/ORDEM-RIGIDA-AGY.md`).
 
 ## 1. Arquitetura atual (lida no código em 24/10/2026)
-- **CONFIRMED** `ListedItem` tem a propriedade `IsSymLink` (`src/Files.App/Data/Items/ListedItem.cs:693`, `:880`, `:913`) e `IsLinkItem` (atalho de internet, `.url`, linha 536). **INFERRED**: `IsSymLink` hoje cobre atalhos `.lnk`/symlink de listagem; T0 confirma o que ela realmente marca e se separa junction de symlink.
+- **CONFIRMED** `ListedItem` tem a propriedade `IsSymLink` (`src/KyraFiles.App/Data/Items/ListedItem.cs:693`, `:880`, `:913`) e `IsLinkItem` (atalho de internet, `.url`, linha 536). **INFERRED**: `IsSymLink` hoje cobre atalhos `.lnk`/symlink de listagem; T0 confirma o que ela realmente marca e se separa junction de symlink.
 - **CONFIRMED** não há ação de criar link: a busca por `SymbolicLink|Junction|CreateHardLink` em `src/` não achou nada (24/10/2026). Existe só `CreateShortcut` (`.lnk`).
 - **INFERRED** o tamanho de pasta (`FolderSizeProvider`) segue links; T0 verifica e mede.
 - **INFERRED** a exclusão pode recursar dentro de uma junction (risco de apagar o destino); precisa de teste de controle antes de qualquer correção.

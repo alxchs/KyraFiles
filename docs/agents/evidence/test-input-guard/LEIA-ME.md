@@ -1,6 +1,6 @@
-# Execução real do Test-InputGuard (ALEXANDRE_AWAY=1)
+﻿# Execução real do Test-InputGuard (ALEXANDRE_AWAY=1)
 
-Data: 25/10/2026. Executor: Claude, com o Alexandre longe do teclado (autorizou: "Pode/rode"). Cópia do código em `C:\desenv\utils\FilesApp-guard` (branch `feature/test-input-guard`, commit `012406508`), sem tocar no checkout da AGY. Duração: 15 s. Estado do teclado depois: Shift, Ctrl e Alt soltos; nenhuma janela de teste sobrou.
+Data: 25/10/2026. Executor: Claude, com o Alexandre longe do teclado (autorizou: "Pode/rode"). Cópia do código em `C:\desenv\utils\KyraFiles-guard` (branch `feature/test-input-guard`, commit `012406508`), sem tocar no checkout da AGY. Duração: 15 s. Estado do teclado depois: Shift, Ctrl e Alt soltos; nenhuma janela de teste sobrou.
 
 | Caso | Resultado |
 |---|---|

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System;
 using System.IO;
@@ -20,7 +20,7 @@ public sealed class CombineEngineTests
 	public void Initialize()
 	{
 		_guid = Guid.NewGuid().ToString("N");
-		_tempRoot = Path.Combine(Path.GetTempPath(), "agy", _guid, "desenv", "utils", "FilesApp-f060-m1", "Files");
+		_tempRoot = Path.Combine(Path.GetTempPath(), "agy", _guid, "desenv", "utils", "KyraFiles-f060-m1", "Files");
 		Directory.CreateDirectory(_tempRoot);
 	}
 

@@ -1,4 +1,4 @@
-#Requires -RunAsAdministrator
+﻿#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
     Remove o spike F015-T1 (serviço + arquivos em %ProgramFiles%).
@@ -8,7 +8,7 @@
     o Claude dispara com: Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File Uninstall-Spike.ps1"
 #>
 
-$LogDir = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "Uninstall-Spike-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 
@@ -34,7 +34,7 @@ if ($svc) {
 }
 
 # Remover arquivos
-$Dest = "$env:ProgramFiles\FilesCustom\IndexService"
+$Dest = "$env:ProgramFiles\KyraFiles\IndexService"
 if (Test-Path $Dest) {
     Remove-Item -Recurse -Force $Dest
     Log "Diretório removido: $Dest"

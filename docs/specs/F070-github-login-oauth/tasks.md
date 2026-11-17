@@ -1,4 +1,4 @@
-# F070 — Login do GitHub Próprio — TASKS
+﻿# F070 — Login do GitHub Próprio — TASKS
 
 Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitários, Release compilado e validado. Branch: `feature/f070-github-login`.
 
@@ -20,4 +20,4 @@ Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitá
 - Verificação de não regressão do Gate F021 e suíte padrão de testes: **CONFIRMADO**.
 
 ## Entrega
-Compilado em Release via `mkfile` (0 erros), testes unitários verdes (183/184), instalado em `%LOCALAPPDATA%\Programs\FilesCustom`, gate F021 verificado com sucesso.
+Compilado em Release via `mkfile` (0 erros), testes unitários verdes (183/184), instalado em `%LOCALAPPDATA%\Programs\KyraFiles`, gate F021 verificado com sucesso.

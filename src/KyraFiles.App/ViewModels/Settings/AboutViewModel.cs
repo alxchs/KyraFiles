@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.Shared.Helpers;
@@ -90,7 +90,7 @@ namespace KyraFiles.App.ViewModels.Settings
 				new ("https://github.com/jeffijoe/messageformat.net", "MessageFormat"),
 				new ("https://github.com/dotnet/efcore", "EF Core for SQLite"),
 				new ("https://github.com/dotnet/runtime", "Microsoft.Extensions"),
-				new ("https://github.com/files-community/SevenZipSharp", "SevenZipSharp"),
+				new ("https://github.com/squid-box/SevenZipSharp", "SevenZipSharp"),
 				new ("https://sourceforge.net/projects/sevenzip", "7zip"),
 				new ("https://github.com/ericsink/SQLitePCL.raw", "PCL for SQLite"),
 				new ("https://github.com/microsoft/WindowsAppSDK", "WindowsAppSDK"),
@@ -177,7 +177,7 @@ namespace KyraFiles.App.ViewModels.Settings
 			var command = (string?)subkey?.GetValue(string.Empty);
 
 			// Close the settings dialog if Files is the default file manager
-			if (!string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("Files.App.Launcher.exe")))
+			if (!string.IsNullOrEmpty(command) && (command.Contains("KyraFiles.App.Launcher.exe") || command.Contains("KyraFiles.App.Launcher.exe")))
 				UIHelpers.CloseAllDialogs();
 
 			return true;

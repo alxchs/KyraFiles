@@ -1,4 +1,4 @@
-# Fila da AGY — gerenciada pelo Claude
+﻿# Fila da AGY — gerenciada pelo Claude
 
 Atualizado em 24/10/2026. Regra do Alexandre (24/10/2026): **solução de bugs e performance sempre tem prioridade** (DECISIONS.md D-BACKLOG-1). O Claude escreve plan e tasks, revisa cada entrega e só então libera o próximo item. A AGY executa na ordem, um item por vez, uma feature por branch.
 
@@ -30,13 +30,13 @@ Bug novo achado durante uma feature vira item P0/P1 na hora e passa na frente. I
 ## O que o Claude confere em cada entrega (checklist de revisão)
 
 - Existe `resultado.csv` com uma linha por AC, e o relatório foi gerado dele (não escrito à mão).
-- A captura mostra a janela do Files inteira e o estado pedido; não é de outra janela.
+- A captura mostra a janela do KyraFiles inteira e o estado pedido; não é de outra janela.
 - O teste usou instância própria e o build certo (caminho, versão e commit registrados).
 - Há controle negativo (o teste reprova onde deve).
 - Build com 0 erros e 0 avisos; o diff só toca o que o plan permite.
 - Para performance: medição antes e depois com os mesmos scripts (METODO §11).
 - Para qualquer tamanho/memória: o comando que mediu.
-- No fim: `FilesDev` de volta para o instalado, `bin` e GUID temporário apagados, uma cópia só do app.
+- No fim: `KyraFiles` de volta para o instalado, `bin` e GUID temporário apagados, uma cópia só do app.
 
 ## Regra de segurança da automação de teste (24/10/2026, incidente real)
 
@@ -84,8 +84,8 @@ O Alexandre adiou o Windows Sandbox (1 GB de RAM livre contra os ~4 GB que ele p
 
 
 ## Atualização de 25/10/2026 (23h): cota e disparos
-- **`agy --print` segue sem cota nos grupos Claude (até ~01/11 17:47) e GPT-OSS**, mesmo depois de o Alexandre trocar a conta **do aplicativo**: o `--print` usa o login da **CLI** (`antigravity-cli`), que não acompanha. Só `gemini-3.8-flash-high` responde. As janelas **interativas** (hubs) usam a conta nova do aplicativo e têm cota cheia: tarefas pesadas (F056 T2-T4, build do `Files.App`) são para **colar nelas**, não para o `--print`.
-- Disparados às 23h: **F035 T1-T3** (AWAY, worktree `FilesApp-f035`) e **F047 C1-C3** (sem janela, worktree `FilesApp-f047`), ambos com Flash.
+- **`agy --print` segue sem cota nos grupos Claude (até ~01/11 17:47) e GPT-OSS**, mesmo depois de o Alexandre trocar a conta **do aplicativo**: o `--print` usa o login da **CLI** (`antigravity-cli`), que não acompanha. Só `gemini-3.8-flash-high` responde. As janelas **interativas** (hubs) usam a conta nova do aplicativo e têm cota cheia: tarefas pesadas (F056 T2-T4, build do `KyraFiles.App`) são para **colar nelas**, não para o `--print`.
+- Disparados às 23h: **F035 T1-T3** (AWAY, worktree `KyraFiles-f035`) e **F047 C1-C3** (sem janela, worktree `KyraFiles-f047`), ambos com Flash.
 - **Erro de registro da AGY a corrigir:** D-F036-3 é a opção (b) (limite configurável, padrão 2, apagar/renomear fora da fila), e não "fila única serializada".
 
 ## Atualização de 26/10/2026 (noite): F057

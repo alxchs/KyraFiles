@@ -1,4 +1,4 @@
-# F091 — Identidade KyraFiles de ponta a ponta no código — SPEC
+﻿# F091 — Identidade KyraFiles de ponta a ponta no código — SPEC
 
 Status: **APROVADA e APLICADA por pedido do Alexandre em 13/11/2026** ("Eu pedi pra trocar a desgraca do nome faz mais de 30 dias. Primeiro verifica o nome dentro dos fontes URGENTE, comita, faz push e depois muda o nome do repo"). Estado anterior: rascunho de 12/11 ("Escreva, mas não aplique ainda").
 Origem: decisão de 03/11/2026, que separou da F088 o renome interno do código para uma spec própria (F091). A spec nunca foi escrita; esta é ela.
@@ -58,7 +58,7 @@ O produto já se chama KyraFiles para quem usa (marca, executáveis, instalador,
 
 ## 8. Pontos decididos (antes `[NEEDS CLARIFICATION]`)
 1. **Escopo:** só o prefixo do nome (recomendação da Claude, adotada pela urgência do pedido). Refatoração ampla, se houver, vira spec separada e por área.
-2. **Protocolo de ativação `files-dev:` e alias `files-dev.exe`:** ficam nesta entrega. Estão ligados ao registro do app no Windows (FR-003) e mudam junto com a identidade do pacote (F087), aceitando o antigo por uma versão.
+2. **Protocolo de ativação `kyrafiles-dev:` e alias `kyrafiles.exe`:** ficam nesta entrega. Estão ligados ao registro do app no Windows (FR-003) e mudam junto com a identidade do pacote (F087), aceitando o antigo por uma versão.
 
 ## 9. Histórico
 - 2026-11-12 — rascunho (Claude), a pedido do Alexandre. Não aplicar até aprovação de spec, plan e tasks e até a F092 estar na `main`.

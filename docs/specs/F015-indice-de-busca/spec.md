@@ -1,4 +1,4 @@
-# F015 — Índice de busca próprio (todos os discos, sem duplicatas) — SPEC
+﻿# F015 — Índice de busca próprio (todos os discos, sem duplicatas) — SPEC
 
 Status: APROVADA (Alexandre, 11/10/2026; pontos em aberto decididos em `DECISIONS.md` D-019). Fonte da verdade do **comportamento**. Sem tecnologia, arquivo ou classe aqui: isso é do `plan.md`.
 
@@ -6,7 +6,7 @@ Substitui, para busca por nome, os motores da F011 (Agent Ransack e Everything).
 
 ## 1. Por quê
 
-Queixa do Alexandre (11/10/2026): "O pesquisar está extremamente lento. Parecendo trabalho de principiante." Medido no mesmo dia: a busca por nome com o motor configurado (Agent Ransack) levou 8,3 s em `C:\desenv` (86.954 arquivos), mais que uma listagem simples do PowerShell (5,9 s), e a tela fica vazia até o fim. O Everything resolve isso, mas a decisão é **não depender dele**: o Files precisa de um índice próprio, **igual ou melhor** em velocidade, cobrindo **todos os discos**, sem indexar duas vezes o mesmo disco e sem mostrar duas vezes o mesmo arquivo quando ele é alcançável por mais de um caminho (letra criada com `subst`, link simbólico, junção, volume montado em pasta, unidade com duas letras).
+Queixa do Alexandre (11/10/2026): "O pesquisar está extremamente lento. Parecendo trabalho de principiante." Medido no mesmo dia: a busca por nome com o motor configurado (Agent Ransack) levou 8,3 s em `C:\desenv` (86.954 arquivos), mais que uma listagem simples do PowerShell (5,9 s), e a tela fica vazia até o fim. O Everything resolve isso, mas a decisão é **não depender dele**: o KyraFiles precisa de um índice próprio, **igual ou melhor** em velocidade, cobrindo **todos os discos**, sem indexar duas vezes o mesmo disco e sem mostrar duas vezes o mesmo arquivo quando ele é alcançável por mais de um caminho (letra criada com `subst`, link simbólico, junção, volume montado em pasta, unidade com duas letras).
 
 Decisão de arquitetura (Alexandre, 11/10/2026, opção C): dois modos, **completo** (com um componente instalado uma vez com autorização de administrador, indexação e atualização no nível do sistema de arquivos) e **básico** (sem privilégio, sempre disponível). O básico funciona sozinho; o completo, quando o usuário aceita instalá-lo, assume os volumes que suporta.
 
@@ -36,8 +36,8 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 | AC-8 | volume com letra **e** montado em pasta | busco em "Este computador" | o conteúdo aparece uma vez, pelo caminho com a letra |
 | AC-9 | link que aponta para um ancestral dele mesmo (ciclo) | o índice é construído e busco | a indexação termina, nada é listado infinitamente nem duplicado |
 | AC-10 | Files aberto, índice pronto | crio, renomeio, movo e apago um arquivo pelo Explorer do Windows | a busca reflete cada mudança em até 2 s (modo completo) ou até 5 s (modo básico) |
-| AC-11 | Files fechado, modo completo | crio e apago arquivos, depois abro o Files | a busca já reflete as mudanças sem reindexar o disco inteiro |
-| AC-12 | Files fechado, modo básico | crio e apago arquivos, depois abro o Files | a busca reflete as mudanças depois de uma reconferência que não bloqueia o uso (enquanto isso, o estado mostra "conferindo") |
+| AC-11 | Files fechado, modo completo | crio e apago arquivos, depois abro o KyraFiles | a busca já reflete as mudanças sem reindexar o disco inteiro |
+| AC-12 | Files fechado, modo básico | crio e apago arquivos, depois abro o KyraFiles | a busca reflete as mudanças depois de uma reconferência que não bloqueia o uso (enquanto isso, o estado mostra "conferindo") |
 | AC-13 | conecto o disco USB S: | — | ele entra no índice sozinho; ao desconectar, seus resultados somem da busca; ao reconectar sem mudanças, não é reindexado do zero |
 | AC-14 | componente do modo completo não instalado | uso a busca | funciona no modo básico, e o estado do índice diz qual modo está ativo e o que se ganha instalando o completo |
 | AC-15 | busco `acao` | — | `Ação.docx`, `AÇÃO.txt` e `acao.md` aparecem |
@@ -45,7 +45,7 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 | AC-17 | volume do Google Drive (arquivos só na nuvem) | o índice é construído | nenhum arquivo é baixado da nuvem por causa da indexação ou da busca |
 | AC-18 | a busca está rodando | troco de pasta, apago o texto ou pressiono Esc | a busca para na hora e a tela não mostra resultados velhos |
 | AC-19 | índice pronto | abro um resultado, uso o menu de contexto, ordeno por tamanho ou data | funciona como numa pasta comum; tamanho e data aparecem sem esperar o disco |
-| AC-20 | busca por nome com o componente e o índice prontos | comparo com o Everything na mesma máquina e consulta | o Files não é mais lento (mesma ordem de grandeza, medido com o mesmo script) e acha os mesmos arquivos, salvo as regras de duplicata desta spec |
+| AC-20 | busca por nome com o componente e o índice prontos | comparo com o Everything na mesma máquina e consulta | o KyraFiles não é mais lento (mesma ordem de grandeza, medido com o mesmo script) e acha os mesmos arquivos, salvo as regras de duplicata desta spec |
 | AC-21 | arquivo `D:\a\orig.txt` com um segundo nome `D:\b\copia.txt` (link físico) | busco `txt` em "Este computador" | aparece só `D:\a\orig.txt` |
 | AC-22 | unidade de rede mapeada | busco em "Este computador" e depois dentro da unidade | no primeiro caso ela não entra; no segundo, os resultados aparecem aos poucos, por varredura, e Esc cancela |
 
@@ -74,25 +74,25 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 - **FR-023** Os resultados DEVEM aparecer de forma progressiva e a busca DEVE ser cancelável a qualquer momento (AC-18).
 - **FR-024** Cada resultado DEVE trazer nome, caminho, tamanho, datas e atributos vindos do índice, sem consultar o disco item por item para mostrar a lista (AC-19).
 - **FR-025** A busca NÃO DEVE mostrar nome de item que o usuário atual não teria permissão de listar (AC-16).
-- **FR-026** Itens ocultos e de sistema DEVEM seguir a mesma preferência de exibição que o Files já aplica às pastas.
+- **FR-026** Itens ocultos e de sistema DEVEM seguir a mesma preferência de exibição que o KyraFiles já aplica às pastas.
 
 ### Atualização
-- **FR-030** Com o Files aberto, mudanças no disco DEVEM chegar ao índice em até 2 s (completo) ou 5 s (básico).
-- **FR-031** No modo completo, mudanças feitas com o Files fechado DEVEM ser recuperadas sem reindexação total, salvo se o registro de mudanças do sistema tiver sido perdido ou reiniciado; nesse caso o volume é reindexado e o estado diz por quê.
+- **FR-030** Com o KyraFiles aberto, mudanças no disco DEVEM chegar ao índice em até 2 s (completo) ou 5 s (básico).
+- **FR-031** No modo completo, mudanças feitas com o KyraFiles fechado DEVEM ser recuperadas sem reindexação total, salvo se o registro de mudanças do sistema tiver sido perdido ou reiniciado; nesse caso o volume é reindexado e o estado diz por quê.
 - **FR-032** No modo básico, ao abrir, uma reconferência DEVE atualizar o índice em segundo plano, sem bloquear a busca (que usa o índice anterior enquanto isso).
 - **FR-033** Disco removível desconectado DEVE sair dos resultados; ao reconectar, DEVE ser reaproveitado o índice anterior se o disco não mudou.
 
 ### Modos e estado
 - **FR-040** O modo básico DEVE funcionar sem privilégio de administrador nem instalação adicional.
 - **FR-041** O modo completo DEVE ser instalado só com aceite explícito do usuário (uma vez), DEVE poder ser removido pelas configurações, e sua ausência ou falha DEVE fazer a busca cair no modo básico **avisando**, nunca em silêncio.
-- **FR-042** O Files DEVE mostrar o estado do índice por volume: modo, itens, situação (indexando com progresso, pronto, conferindo, erro com motivo).
+- **FR-042** o KyraFiles DEVE mostrar o estado do índice por volume: modo, itens, situação (indexando com progresso, pronto, conferindo, erro com motivo).
 - **FR-043** Volume que o modo completo não suporta DEVE ser coberto pelo modo básico.
 
 ### Não funcionais
 - **NFR-001** Busca por nome em todos os discos, com o índice pronto: primeiros resultados em < 100 ms e lista completa em < 300 ms para até 5 milhões de itens indexados. Medido por script versionado, do texto digitado à lista desenhada.
 - **NFR-002** Indexação inicial no modo completo: o C: desta máquina em < 60 s. Modo básico: tempo medido e publicado (sem meta prévia, porque depende de varrer pasta por pasta); a busca DEVE funcionar parcialmente durante a indexação.
-- **NFR-003** Memória: reportar, medida, a RAM do índice por milhão de itens. Meta: até 100 MB por milhão no processo que guarda o índice, e o Files sem crescimento proporcional ao índice quando a busca não está em uso.
-- **NFR-004** Abertura do Files com o índice já existente: a busca disponível em < 2 s, sem atrasar a abertura da janela.
+- **NFR-003** Memória: reportar, medida, a RAM do índice por milhão de itens. Meta: até 100 MB por milhão no processo que guarda o índice, e o KyraFiles sem crescimento proporcional ao índice quando a busca não está em uso.
+- **NFR-004** Abertura do KyraFiles com o índice já existente: a busca disponível em < 2 s, sem atrasar a abertura da janela.
 - **NFR-005** Indexação e atualização em segundo plano não devem tornar a máquina perceptivelmente mais lenta: prioridade baixa de CPU e disco e limite de uso medido.
 - **NFR-006** O índice em disco DEVE ficar protegido para que outro usuário não leia nomes de arquivo alheios.
 - **NFR-007** A escolha de motor da F011 é substituída: o índice próprio é o padrão para busca por nome. Agent Ransack continua como ferramenta de conteúdo pelo F3.
@@ -100,16 +100,16 @@ Ambiente de referência (máquina do Alexandre, levantado em 11/10/2026): C:, D:
 ## 5. Casos de borda
 
 - Ciclos de links (AC-9), link quebrado, link para unidade de rede, link relativo.
-- `subst` criado ou removido com o Files aberto; `subst` de pasta dentro de outro `subst`.
+- `subst` criado ou removido com o KyraFiles aberto; `subst` de pasta dentro de outro `subst`.
 - Volume com duas letras, letra trocada pelo Gerenciamento de Disco, mesmo disco USB em outra letra.
 - Disco cheio, volume somente leitura, volume protegido por BitLocker ainda bloqueado (fica fora até ser desbloqueado, com estado dizendo isso).
 - Nomes com caracteres raros (emoji, combinação de acento composta e decomposta), caminhos com mais de 260 caracteres, nomes com vírgula ou aspas.
 - Pastas sem permissão de leitura durante a indexação básica.
 - Milhões de arquivos numa pasta só, ou árvores de dezenas de níveis (`node_modules`).
 - Hibernação ou suspensão com mudanças pendentes.
-- Mudança de usuário do Windows (troca rápida), dois usuários com o Files aberto.
+- Mudança de usuário do Windows (troca rápida), dois usuários com o KyraFiles aberto.
 - Busca com texto vazio, só espaços, só curinga `*`, que casaria com milhões de itens: o resultado é limitado e a tela diz que foi limitado.
-- Componente do modo completo de versão diferente do Files (atualização de um sem o outro).
+- Componente do modo completo de versão diferente do KyraFiles (atualização de um sem o outro).
 
 ## 6. Fora de escopo
 

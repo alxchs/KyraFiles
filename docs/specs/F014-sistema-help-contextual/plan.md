@@ -1,4 +1,4 @@
-# F014 — Sistema de Ajuda (Help) Completo e Contextual — PLAN
+﻿# F014 — Sistema de Ajuda (Help) Completo e Contextual — PLAN
 
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Documento de plano técnico: define arquitetura, classes, MVVM, componentes de UI e fluxo de contexto.
@@ -7,9 +7,9 @@ Documento de plano técnico: define arquitetura, classes, MVVM, componentes de U
 
 ## 1. Arquitetura Proposta
 
-### 1.1. Camada de Dados e Serviços (`Files.App.Services`)
+### 1.1. Camada de Dados e Serviços (`KyraFiles.App.Services`)
 - **`HelpContextId` (Enum ou Constantes de string):**
-  - `General` (Visão geral do FilesApp)
+  - `General` (Visão geral do KyraFiles)
   - `ColumnsLayout` (Navegação em Colunas / Miller Columns — *Inspirado no OneCommander*)
   - `DetailsLayout` (Modo Detalhes, redimensionamento independente e colunas extras)
   - `TabsAndPanes` (Abas inteligentes, divisão horizontal/vertical)
@@ -62,7 +62,7 @@ No `OpenHelpAction`:
 O catálogo inicial de ajuda incluirá os seguintes tópicos prioritários:
 1. **Miller Columns (Visualização em Colunas):** Explicação da navegação contínua por pastas com setas de teclado (`Left`/`Right`/`Up`/`Down`), histórico de navegação rápida e pré-visualização contínua. Badge: *Inspirado no OneCommander*.
 2. **Redimensionamento Independente de Colunas e 300+ Propriedades da Shell:** As larguras das colunas não interferem umas nas outras e qualquer metadado do Windows pode ser exibido. Badge: *Diferencial vs Explorer*.
-3. **Substituição Transparente do Explorer com Fallback:** Captura de `Win + E` e cliques duplos sem quebrar o sistema se o app for fechado. Badge: *Exclusivo Files Custom*.
+3. **Substituição Transparente do Explorer com Fallback:** Captura de `Win + E` e cliques duplos sem quebrar o sistema se o app for fechado. Badge: *Exclusivo KyraFiles*.
 4. **Abas e Painéis Divididos (Dual Pane):** Organização horizontal e vertical de pastas na mesma janela. Badge: *Produtividade Avançada*.
 5. **Busca Avançada com F3:** Integração rápida com indexadores e ferramentas externas. Badge: *Diferencial vs Explorer*.
 6. **Renomeação em Lote Segura:** Padrões numéricos e substituição de termos com prevenção de colisões. Badge: *Produtividade Avançada*.
@@ -70,6 +70,6 @@ O catálogo inicial de ajuda incluirá os seguintes tópicos prioritários:
 ---
 
 ## 3. Impacto e Riscos
-- **Impacto no Upstream:** Isolado em novos arquivos no namespace `Files.App.Services.Help` e `Files.App.UserControls.Pane`.
+- **Impacto no Upstream:** Isolado em novos arquivos no namespace `KyraFiles.App.Services.Help` e `KyraFiles.App.UserControls.Pane`.
 - **Risco de Conflito de F1:** Substitui com segurança o redirecionamento web externo no `OpenHelpAction.cs` pelo acionamento do serviço interno.
 

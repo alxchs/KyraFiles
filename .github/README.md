@@ -1,15 +1,15 @@
-<p align="center">
+﻿<p align="center">
   <img alt="Files hero image" src="./assets/ReadmeHero.png" />
 </p>
 
 <p align="center">
-  <a style="text-decoration:none" href="https://files.community/">
+  <a style="text-decoration:none" href="https://kyrafiles.org/">
     <img src="https://img.shields.io/badge/Files-Website-F9B81F" alt="Files Website" /></a>
-  <a style="text-decoration:none" href="https://github.com/files-community/Files/actions/workflows/ci.yml">
-    <img src="https://github.com/files-community/Files/actions/workflows/ci.yml/badge.svg" alt="Files CI Status" /></a>
-  <a style="text-decoration:none" href="https://crowdin.com/project/files-app">
+  <a style="text-decoration:none" href="https://github.com/alxchs/KyraFiles/actions/workflows/ci.yml">
+    <img src="https://github.com/alxchs/KyraFiles/actions/workflows/ci.yml/badge.svg" alt="KyraFiles CI Status" /></a>
+  <a style="text-decoration:none" href="https://crowdin.com/project/kyrafiles">
     <img src="https://badges.crowdin.net/files-app/localized.svg" alt="Files Localization Status" /></a>
-  <a style="text-decoration:none" href="https://discord.gg/files">
+  <a style="text-decoration:none" href="https://discord.gg/kyrafiles">
     <img src="https://img.shields.io/discord/725513575971684472?label=Discord&color=7289da" alt="Files Discord" /></a>
 </p>
 
@@ -29,7 +29,7 @@ You can also use the preview version alongside the stable release to get early a
       <img src="./assets/StoreBadge-light.png" height="80" /></picture></a>
   &ensp;
   <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://files.community/download">
+  <a style="text-decoration:none" href="https://kyrafiles.org/download">
     <picture>
       <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" height="80" />
       <img src="./assets/ClassicInstallerBadge-light.png" height="80" /></picture></a>
@@ -37,14 +37,14 @@ You can also use the preview version alongside the stable release to get early a
 
 ## Building from source
 
-Instructions for building the source code can be found on our [documentation site](https://files.community/docs/contributing/building-from-source).
+Instructions for building the source code can be found on our [documentation site](https://kyrafiles.org/docs/contributing/building-from-source).
 
 
 ## Contributing to Files
 
-Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
+Want to contribute to this project? Let us know with an [issue](https://github.com/alxchs/KyraFiles/issues) that communicates your intent to create a [pull request](https://github.com/alxchs/KyraFiles/pulls). Also, view our [contributing guidelines](https://github.com/alxchs/KyraFiles/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
 
-Looking for a place to start? Check out the [task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
+Looking for a place to start? Check out the [task board](https://github.com/orgs/alxchs/projects/3/views/2), where you can sort tasks by size and priority.
 
 ## Screenshots
 

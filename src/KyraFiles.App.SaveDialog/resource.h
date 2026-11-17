@@ -4,7 +4,7 @@
 //
 #define IDS_PROJNAME                    100
 #define IDR_CUSTOMSAVEDIALOG            101
-#define IDR_FILESSAVEDIALOG             106
+#define IDR_KYRAFILESSAVEDIALOG         106
 
 // Next default values for new objects
 // 

@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="KyraFiles.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -122,7 +122,7 @@
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Interface Scale (Files Custom F090)  -->
+			<!--  Interface Scale (KyraFiles F090)  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=AppUiScale}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE71E;" />
@@ -144,7 +144,7 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedAppDensityIndex, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Control & Tab Shape Model (Files Custom)  -->
+			<!--  Control & Tab Shape Model (KyraFiles)  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ControlShapeStyle}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />

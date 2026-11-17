@@ -1,4 +1,4 @@
-﻿# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # Licensed under the MIT License.
 
 # Abstract:
@@ -10,7 +10,7 @@
 #  3. Generate a msixupload file
 #  4. Publish the msixupload to GitHub Actions
 
-name: Files CD (Store Preview)
+name: KyraFiles CD (Store Preview)
 
 on:
   workflow_dispatch:
@@ -104,7 +104,7 @@ jobs:
         endpoint: https://eus.codesigning.azure.net/
         signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ github.workspace }}\src\KyraFiles.App\Assets\FilesOpenDialog
+        files-folder: ${{ github.workspace }}\src\KyraFiles.App\Assets\KyraFilesOpenDialog
         files-folder-filter: "*.exe"
         files-folder-recurse: false
         file-digest: SHA256
@@ -149,7 +149,7 @@ jobs:
       run: |
         . './.github/scripts/Create-MsixBundle.ps1' `
           -AppxPackageDir "$env:APPX_PACKAGE_DIR" `
-          -BundleName "Files.Package" `
+          -BundleName "KyraFiles.Package" `
           -BuildMode "StoreUpload"
 
     - name: Remove empty files from the packages

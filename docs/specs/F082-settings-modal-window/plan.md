@@ -1,4 +1,4 @@
-# F082 — Janela Modal de Configurações (Settings Modal Window) — PLAN
+﻿# F082 — Janela Modal de Configurações (Settings Modal Window) — PLAN
 
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 
@@ -8,7 +8,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
 
 ### 1.1. Ciclo de Vida da Janela Modal (`SettingsDialog.cs`)
 Inspirado na arquitetura limpa de `ToolbarCustomizationDialog.cs` e `HexEditorWindow.cs`:
-1. `SettingsDialog` será uma classe estática em `src/Files.App/Views/Settings/SettingsDialog.cs`.
+1. `SettingsDialog` será uma classe estática em `src/KyraFiles.App/Views/Settings/SettingsDialog.cs`.
 2. Mantém referência `private static WindowEx? _settingsWindow;` e `private static SettingsPage? _settingsPage;`.
 3. Método `Show(SettingsPageKind pageKind = SettingsPageKind.GeneralPage)`:
    - Se `_settingsWindow` estiver ativa:
@@ -57,11 +57,11 @@ Ao ser hospedada em uma janela modal independente:
 
 ## 2. Arquivos Modificados / Criados
 
-- `src/Files.App/Views/Settings/SettingsDialog.cs` (novo)
-- `src/Files.App/Views/Settings/SettingsPage.xaml.cs` (suporte a execução modal sem `AssociatedTabInstance`)
-- `src/Files.App/Actions/Open/OpenSettingsAction.cs` (invocação de `SettingsDialog.Show`)
-- `src/Files.App/Actions/Open/OpenAboutAction.cs` (invocação de `SettingsDialog.Show`)
-- `src/Files.App/Helpers/Navigation/NavigationHelpers.cs` (redirecionamento de chamadas residuais e descarte em restauração de sessão)
+- `src/KyraFiles.App/Views/Settings/SettingsDialog.cs` (novo)
+- `src/KyraFiles.App/Views/Settings/SettingsPage.xaml.cs` (suporte a execução modal sem `AssociatedTabInstance`)
+- `src/KyraFiles.App/Actions/Open/OpenSettingsAction.cs` (invocação de `SettingsDialog.Show`)
+- `src/KyraFiles.App/Actions/Open/OpenAboutAction.cs` (invocação de `SettingsDialog.Show`)
+- `src/KyraFiles.App/Helpers/Navigation/NavigationHelpers.cs` (redirecionamento de chamadas residuais e descarte em restauração de sessão)
 
 ---
 

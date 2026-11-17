@@ -1,8 +1,8 @@
-# Arquitetura da Barra de Menus Tradicional (ClassicMenuBar)
+﻿# Arquitetura da Barra de Menus Tradicional (ClassicMenuBar)
 
 ## 1. Visão Geral
 
-A barra de menus tradicional opcional do Files Custom é estruturada em torno de 6 menus canônicos do Windows:
+A barra de menus tradicional opcional do KyraFiles é estruturada em torno de 6 menus canônicos do Windows:
 
 1. **File** (`Alt+F`, `AccessKey="F"`)
 2. **Edit** (`Alt+E`, `AccessKey="E"`)

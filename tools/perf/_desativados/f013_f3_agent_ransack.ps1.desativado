@@ -1,11 +1,11 @@
-# F013: aperta F3 e Ctrl+F no Files por SendInput e confere quem abriu (Agent Ransack ou a busca do Files).
+﻿# F013: aperta F3 e Ctrl+F no Files por SendInput e confere quem abriu (Agent Ransack ou a busca do Files).
 #
 # Uso: pwsh tools\perf\f013_f3_agent_ransack.ps1 [-Capture]
-# Temporários em %TEMP%\claude\desenv\utils\FilesApp\f013.
+# Temporários em %TEMP%\claude\desenv\utils\KyraFiles\f013.
 
 param([switch]$Capture)
 $ErrorActionPreference = 'Stop'
-$folder = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f013\pasta com espaço e ação'
+$folder = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f013\pasta com espaço e ação'
 New-Item -ItemType Directory -Force $folder | Out-Null
 Set-Content -LiteralPath (Join-Path $folder 'exemplo.txt') -Value 'F013' -Encoding utf8
 
@@ -61,7 +61,7 @@ function Test-SearchMode($p) {
 }
 
 Get-Process AgentRansack -ErrorAction SilentlyContinue | Stop-Process
-Start-Process "$env:LOCALAPPDATA\Microsoft\WindowsApps\files-dev.exe" -ArgumentList "-directory `"$folder`""
+Start-Process "$env:LOCALAPPDATA\Microsoft\WindowsApps\kyrafiles.exe" -ArgumentList "-directory `"$folder`""
 Start-Sleep 6
 $p = Get-FilesWindow
 "Files: $($p.MainWindowTitle)"

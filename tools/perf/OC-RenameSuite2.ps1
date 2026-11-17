@@ -3,7 +3,7 @@
 
 $runnerScript = @'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing
-Add-Type -Path "C:\desenv\utils\FilesApp\tools\perf\OCInput.cs"
+Add-Type -Path "C:\desenv\utils\KyraFiles\tools\perf\OCInput.cs"
 
 # Ensure OneCommander is on C:\FilesUXLab
 Start-Process "C:\Program Files\OneCommander\OneCommander.exe" -ArgumentList '"C:\FilesUXLab"'

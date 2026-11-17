@@ -1,12 +1,12 @@
-# F015 T17: perfil de CPU do Files.App.IndexService durante a reconciliacao do snapshot (NFR-005).
+﻿# F015 T17: perfil de CPU do KyraFiles.App.IndexService durante a reconciliacao do snapshot (NFR-005).
 # Inicia o servico, espera WarmupS, coleta DurationS de amostragem com dotnet-trace e imprime as funcoes mais caras.
 param(
-    [string]$ServiceExe = 'C:\desenv\utils\FilesApp\src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.App.IndexService\Files.App.IndexService.exe',
+    [string]$ServiceExe = 'C:\desenv\utils\KyraFiles\src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.App.IndexService\KyraFiles.App.IndexService.exe',
     [int]$WarmupS = 30,
     [int]$DurationS = 30
 )
 $ErrorActionPreference = 'Stop'
-$out = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f015'; New-Item -ItemType Directory -Force $out | Out-Null
+$out = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f015'; New-Item -ItemType Directory -Force $out | Out-Null
 $trace = Join-Path $out ('reconcile-{0:yyyyMMdd_HHmmss}.nettrace' -f (Get-Date))
 
 $p = Start-Process $ServiceExe -PassThru -WindowStyle Hidden

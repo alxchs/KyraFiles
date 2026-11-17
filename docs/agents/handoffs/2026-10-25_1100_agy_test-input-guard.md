@@ -1,4 +1,4 @@
-# Handoff: Trava de Segurança de Entrada em Testes (test-input-guard)
+﻿# Handoff: Trava de Segurança de Entrada em Testes (test-input-guard)
 
 **Data:** 2026-10-25 11:00  
 **Autor:** AGY  
@@ -13,7 +13,7 @@
 ### S1 — Inventário de chamadas de entrada crua
 - Criado o inventário em `docs/agents/evidence/test-input-guard/inventario.csv` gerado via script automatizado.
 - Localizados **57 arquivos** em `tools/perf/` contendo chamadas cruas (`SendKeys`, `SendInput`, `keybd_event`, `mouse_event`, `SetCursorPos`, `SetForegroundWindow`).
-- Identificado que a grande maioria anexava a instâncias existentes de `Files.exe` sem verificar PID próprio.
+- Identificado que a grande maioria anexava a instâncias existentes de `KyraFiles.exe` sem verificar PID próprio.
 - **Commit:** `8022e833c docs(test-input-guard): S1 inventario de chamadas de entrada perigosas em tools/perf`
 
 ### S2 — Helper único com trava de segurança (`Send-GuardedInput.ps1`)
@@ -21,13 +21,13 @@
 - **Trava de Foco:** `Assert-ForegroundOwned` compara `GetForegroundWindow()` com o PID guardado (e filhos diretos via CIM); aborta imediatamente se o foco pertencer a qualquer outro processo.
 - **Repetição de Asserção (Ajuste a do Claude):** A asserção é executada antes de **cada** evento físico da sequência (modificador down, tecla down, tecla up).
 - **Liberação Garantida (Ajuste b do Claude):** Envio de teclas com modificadores envolvido em bloco `try/finally` para garantir que `Shift`, `Ctrl` e `Alt` sejam sempre liberados via `KEYEVENTF_KEYUP` mesmo em caso de erro no meio da execução.
-- **Identidade Estrita do Executável (Ajuste d do Claude):** `Set-GuardedTargetPid` valida nome e caminho do executável contra o processo iniciado por `Start-GuardedApp`. Para inicialização via `shell:AppsFolder`, `Resolve-GuardedFilesPid` toma snapshot prévio de PIDs e captura exclusivamente o novo `Files.exe`.
+- **Identidade Estrita do Executável (Ajuste d do Claude):** `Set-GuardedTargetPid` valida nome e caminho do executável contra o processo iniciado por `Start-GuardedApp`. Para inicialização via `shell:AppsFolder`, `Resolve-GuardedFilesPid` toma snapshot prévio de PIDs e captura exclusivamente o novo `KyraFiles.exe`.
 - **Zero SetForegroundWindow:** O helper **não** possui declaração P/Invoke e **não** chama `SetForegroundWindow`.
 - **Entrada de Texto Segura:** Apenas teclas virtuais (VK_*); texto livre é preenchido exclusivamente via UI Automation (`ValuePattern`) com `Set-ElementText`.
 - **Commit:** `7974c30ea feat(perf): S2 helper unico Send-GuardedInput com trava de foco e contencao`
 
 ### S3 — Prova do helper com asserções e medição PostMessage
-- Criado `tools/perf/Test-InputGuard.ps1` que cria exclusivamente dois formulários próprios (`GuardTest_AppA` e `GuardTest_AppB`) em processos isolados, sem tocar em nenhum app do usuário nem no `Files.exe`.
+- Criado `tools/perf/Test-InputGuard.ps1` que cria exclusivamente dois formulários próprios (`GuardTest_AppA` e `GuardTest_AppB`) em processos isolados, sem tocar em nenhum app do usuário nem no `KyraFiles.exe`.
 - **Caso Positivo (`Positivo_FocoAlinhado`):** Condicionado estritamente à presença da variável `ALEXANDRE_AWAY=1` (conforme regra de segurança de 25/10). Como a variável não estava ativa, registrado honestamente como `NOT RUN (aguarda o Alexandre)`. Nenhuma tecla real foi disparada no ambiente de trabalho.
 - **Caso Negativo 1 (`Negativo_FocoDesalinhado`):** Prova que, com a janela B (`GuardTest_AppB`) ativada e confirmada em primeiro plano via UI Automation `SetFocus` (sem qualquer chamada a `SetForegroundWindow`), o envio de tecla direcionado a A aborta imediatamente com exceção de segurança citando expressamente o PID de B (`SEGURANCA: Foco violado! Janela em primeiro plano pertence ao PID <PID_B>, mas o processo exclusivo do teste e PID <PID_A>`). As caixas de texto de A e B permanecem rigorosamente vazias. (**PASS**)
 - **Caso Negativo 2 (`Negativo_ProcessoEncerrado`):** Com processo alvo encerrado (`cmd.exe /c exit`), abortou imediatamente antes de qualquer disparo. (**PASS**)
@@ -101,8 +101,8 @@ TODOS OS TESTES EXECUTADOS PASSARAM COM SUCESSO.
 ### Critério S4: Prova da Trava `Test-NoRawInput.ps1`
 **1. Execução limpa (sucesso):**
 ```text
-PS C:\desenv\utils\FilesApp> pwsh -File tools/perf/Test-NoRawInput.ps1
-Verificando arquivos em 'C:\desenv\utils\FilesApp\tools\perf' contra chamadas de entrada crua...
+PS C:\desenv\utils\KyraFiles> pwsh -File tools/perf/Test-NoRawInput.ps1
+Verificando arquivos em 'C:\desenv\utils\KyraFiles\tools\perf' contra chamadas de entrada crua...
 
 SUCESSO: Nenhum arquivo em tools/perf contem chamadas de entrada crua ou perigosa.
 Todos os scripts legados estao devidamente quarentenados em _desativados/.
@@ -111,8 +111,8 @@ Todos os scripts legados estao devidamente quarentenados em _desativados/.
 
 **2. Execução com arquivo temporário de infração (falha detectada):**
 ```text
-PS C:\desenv\utils\FilesApp> pwsh -Command '& { Set-Content tools/perf/temp_violation.ps1 "[System.Windows.Forms.SendKeys]::SendWait(''x'')"; try { pwsh tools/perf/Test-NoRawInput.ps1 } finally { Remove-Item tools/perf/temp_violation.ps1 } }'
-Verificando arquivos em 'C:\desenv\utils\FilesApp\tools\perf' contra chamadas de entrada crua...
+PS C:\desenv\utils\KyraFiles> pwsh -Command '& { Set-Content tools/perf/temp_violation.ps1 "[System.Windows.Forms.SendKeys]::SendWait(''x'')"; try { pwsh tools/perf/Test-NoRawInput.ps1 } finally { Remove-Item tools/perf/temp_violation.ps1 } }'
+Verificando arquivos em 'C:\desenv\utils\KyraFiles\tools\perf' contra chamadas de entrada crua...
 
 ======================================================================
 VIOLACAO DE SEGURANCA: ENTRADA CRUA DETECTADA EM TOOLS/PERF!

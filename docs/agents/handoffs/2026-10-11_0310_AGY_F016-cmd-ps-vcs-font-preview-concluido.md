@@ -1,4 +1,4 @@
-# Handoff: F016 - Terminais (CMD/PS Admin), Status VCS e Preview de Tipografia em Fontes
+﻿# Handoff: F016 - Terminais (CMD/PS Admin), Status VCS e Preview de Tipografia em Fontes
 
 **Data:** 11/10/2026 03:10  
 **Agente:** Antigravity (AGY)  
@@ -37,8 +37,8 @@ Todas as evidências foram capturadas e validadas no app real em execução em t
 
 ## 3. Estado de Build e Integridade
 
-- `mkfile debug src\Files.App\Files.App.csproj`: 0 Warnings, 0 Errors.
-- `mkfile release src\Files.App\Files.App.csproj`: 0 Warnings, 0 Errors.
+- `mkfile debug src\KyraFiles.App\KyraFiles.App.csproj`: 0 Warnings, 0 Errors.
+- `mkfile release src\KyraFiles.App\KyraFiles.App.csproj`: 0 Warnings, 0 Errors.
 - `git diff --check`: 0 erros de formatação ou fim de linha.
 
 ---

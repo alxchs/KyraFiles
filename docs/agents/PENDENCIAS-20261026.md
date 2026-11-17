@@ -1,4 +1,4 @@
-# Pendências do Files Custom — 26/10/2026, noite (Claude)
+﻿# Pendências do KyraFiles — 26/10/2026, noite (Claude)
 
 Fonte: `docs/agents/SITUACAO.md`, `docs/specs/BACKLOG-ORDEM-AGY.md` e as pastas de `docs/specs/`. Estados: NOT TESTED / INFERRED / CONFIRMED.
 
@@ -29,7 +29,7 @@ Fonte: `docs/agents/SITUACAO.md`, `docs/specs/BACKLOG-ORDEM-AGY.md` e as pastas 
 F038 Áreas de trabalho nomeadas · F039 Mapa de uso de disco · F040 Localizador de duplicados · F041 Comparar e sincronizar pastas · F042 Buscas salvas (após F023) · F046 Busca profunda em rede (após a baseline A9) · F050 Terminal embutido (só se a medição justificar) · F051 Busca de código · F052 Visão de repositório git · F053 Coluna de codificação e fim de linha · F054 Prévia técnica (tarefa 0: medir a prévia atual) · F055 Mapa do repositório.
 
 ## D. Casa e decisões
-- Push pendente (precisa da sua autorização): `claude/specs-backlog` (commits locais desta noite), `feature/crash-reproducao` (5e2360986 e anteriores, em `FilesApp-crash`).
+- Push pendente (precisa da sua autorização): `claude/specs-backlog` (commits locais desta noite), `feature/crash-reproducao` (5e2360986 e anteriores, em `KyraFiles-crash`).
 - Sem release nova sem autorização. Próxima versão só com A1 a A3 decididos ou com as correções revisadas.
 - Cota da AGY: `--print` só com `gemini-3.8-flash-high` (Claude e GPT voltam ~01/11 17:48). Janelas interativas têm cota cheia.
 - Você: aprovar a spec F057 e os dois pontos dela; decidir A1 e A3; aprovar push; D-F036-1.
@@ -38,7 +38,7 @@ F038 Áreas de trabalho nomeadas · F039 Mapa de uso de disco · F040 Localizado
 1. **F057 T0** (somente leitura, `--print`/Flash serve): inventário das 17 caixas, botões, chaves do `.resw` e reaproveitamentos. *Só depois da sua aprovação da spec.*
 2. **Ordens T0 já liberadas** (somente leitura, uma por vez, handoff por tarefa): F036, F037, F044, F045, F048, F049, F043.
 3. **R-rede-baseline** (A9): CSV com 3 rodadas por variante, sem janela.
-4. **F056 T2 a T4** num **hub interativo** (cota cheia; exige build do `Files.App`): partir do patch salvo, restore da solução inteira, build 0/0, um commit por tarefa.
+4. **F056 T2 a T4** num **hub interativo** (cota cheia; exige build do `KyraFiles.App`): partir do patch salvo, restore da solução inteira, build 0/0, um commit por tarefa.
 5. **F047 T3 a T6**: build no hub; prova de interface só em AWAY.
 6. **Não despachar** (precisam de AWAY): A2, A4 a A8, provas T3/T6 de qualquer feature.
 Regras: R1 a R13, entrada global só pelo `Send-GuardedInput.ps1`, sem `src/` fora do escopo da tarefa, sem push.

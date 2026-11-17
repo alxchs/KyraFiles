@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     F015 T2b — Varredura básica por volume sem admin.
     Usa o BasicScanSpike (FileIdBothDirectoryInfo, sem abrir arquivo, sem descer em reparse).
@@ -16,7 +16,7 @@
 #>
 
 $ErrorActionPreference = 'Stop'
-$LogDir  = "$env:TEMP\claude\desenv\utils\FilesApp\f015"
+$LogDir  = "$env:TEMP\claude\desenv\utils\KyraFiles\f015"
 $LogFile = Join-Path $LogDir "f015_basic_scan-$(Get-Date -f 'yyyyMMdd_HHmmss').log"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 

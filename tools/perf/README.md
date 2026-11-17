@@ -1,26 +1,26 @@
-﻿# Medição de desempenho: Files Dev × OneCommander
+﻿# Medição de desempenho: KyraFiles × OneCommander
 
-Scripts para medir o Files Dev contra o OneCommander nas mesmas ações. Medem só o que é observável de fora: tempo de tela, CPU e memória do processo. Nada de inspecionar a implementação do OneCommander (MASTER_SPEC §3.1).
+Scripts para medir o KyraFiles contra o OneCommander nas mesmas ações. Medem só o que é observável de fora: tempo de tela, CPU e memória do processo. Nada de inspecionar a implementação do OneCommander (MASTER_SPEC §3.1).
 
-Pré-requisitos: os dois apps abertos, o Files Dev registrado por `Open-FilesDev.ps1` e o laboratório criado por `New-PerfLab.ps1` (10 mil arquivos em `C:\FilesUXLab\perf\10k`, 400 JPGs em `C:\FilesUXLab\perf\img400`). Use `pwsh` (PowerShell 7) e não mexa nas janelas durante a medição.
+Pré-requisitos: os dois apps abertos, o KyraFiles registrado por `Open-KyraFiles.ps1` e o laboratório criado por `New-PerfLab.ps1` (10 mil arquivos em `C:\FilesUXLab\perf\10k`, 400 JPGs em `C:\FilesUXLab\perf\img400`). Use `pwsh` (PowerShell 7) e não mexa nas janelas durante a medição.
 
 | Script | Mede |
 |---|---|
 | `bench.ps1` | Abre cada pasta nos dois apps pela linha de comando, 1 rodada de aquecimento + `-Runs`. Registra a primeira e a última mudança visível na janela (captura por `PrintWindow`, resolução de ~0,15 s), a CPU do processo e o working set. |
-| `thr.ps1` | CPU por thread do Files ao abrir uma pasta (`-Folder`). Separa UI, compositor e pool do .NET. |
-| `idle.ps1` | CPU por thread do Files parado (`-WaitS`). |
+| `thr.ps1` | CPU por thread do KyraFiles ao abrir uma pasta (`-Folder`). Separa UI, compositor e pool do .NET. |
+| `idle.ps1` | CPU por thread do KyraFiles parado (`-WaitS`). |
 
 Limitações conhecidas:
 
-- O tempo visual do `bench.ps1` inclui a criação do processo lançador (`files-dev.exe` ou `OneCommander.exe`), que domina o número. Use-o para CPU e memória. Para tempo de navegação dentro do app, falta um gatilho dentro do app (barra de endereço por teclado).
+- O tempo visual do `bench.ps1` inclui a criação do processo lançador (`kyrafiles.exe` ou `OneCommander.exe`), que domina o número. Use-o para CPU e memória. Para tempo de navegação dentro do app, falta um gatilho dentro do app (barra de endereço por teclado).
 - A captura por `PrintWindow` custa de 100 a 160 ms por quadro em janelas de ~2900×1600.
 - O OneCommander não expõe nomes de arquivo por UI Automation (os itens aparecem como `Rapidrive.PathData`), por isso a métrica é visual e não por item.
 
 ## Linha de base original v4.2.9 (01/10/2026)
 
-Máquina: 12 núcleos, 16 GB. Files Dev = upstream v4.2.9, Release x64, ReadyToRun, fundo Mica Alt (padrão). Os dois apps estavam em uso real, com abas abertas.
+Máquina: 12 núcleos, 16 GB. KyraFiles = upstream v4.2.9, Release x64, ReadyToRun, fundo Mica Alt (padrão). Os dois apps estavam em uso real, com abas abertas.
 
-| Medida | Files Dev | OneCommander | Razão |
+| Medida | KyraFiles | OneCommander | Razão |
 |---|---|---|---|
 | CPU para abrir `10k` (mediana de 3) | 2.781 ms | 1.453 ms | 1,9× |
 | CPU para abrir `img400` (mediana de 3) | 2.984 ms | 1.766 ms | 1,7× |
@@ -29,7 +29,7 @@ Máquina: 12 núcleos, 16 GB. Files Dev = upstream v4.2.9, Release x64, ReadyToR
 
 Comandos: `bench.ps1 -Runs 3`, `idle.ps1 -WaitS 10` e, para o OneCommander parado, `TotalProcessorTime` antes e depois de 10 s.
 
-Divisão da CPU do Files (`thr.ps1`, `idle.ps1`):
+Divisão da CPU do KyraFiles (`thr.ps1`, `idle.ps1`):
 - Abrindo `10k` (3.594 ms em 8 s): thread "DWM Compositor Thread" 2.109 ms (59%), thread de UI 1.234 ms (34%), pool do .NET ~140 ms.
 - Parado (3.422 ms em 10 s): compositor 2.516 ms, pool do .NET ~700 ms, thread de UI 16 ms.
 
@@ -37,9 +37,9 @@ Divisão da CPU do Files (`thr.ps1`, `idle.ps1`):
 
 ## Linha de base upstream/main 0e3c17ca4 (03/10/2026)
 
-Máquina: 12 núcleos, 16 GB. Files Dev = pacote 4.2.37.0 (`upstream/main` `0e3c17ca4` + ajustes de build), Release x64, ReadyToRun, fundo Mica Alt (padrão). OneCommander 3.108.0.0. Ambos os apps com janelas abertas e abas ativas.
+Máquina: 12 núcleos, 16 GB. KyraFiles = pacote 4.2.37.0 (`upstream/main` `0e3c17ca4` + ajustes de build), Release x64, ReadyToRun, fundo Mica Alt (padrão). OneCommander 3.108.0.0. Ambos os apps com janelas abertas e abas ativas.
 
-| Medida | Files Dev | OneCommander | Razão | Estado |
+| Medida | KyraFiles | OneCommander | Razão | Estado |
 |---|---|---|---|---|
 | CPU para abrir `10k` (mediana de 3) | 5.219 ms | 2.016 ms | 2,59× | OBSERVED |
 | Tempo visual para abrir `10k` (mediana de 3) | 3.545 ms | 2.841 ms | 1,25× | OBSERVED |
@@ -50,7 +50,7 @@ Máquina: 12 núcleos, 16 GB. Files Dev = pacote 4.2.37.0 (`upstream/main` `0e3c
 
 Comandos: `pwsh tools\perf\bench.ps1 -Runs 3`, `pwsh tools\perf\idle.ps1 -WaitS 10` e medição de `TotalProcessorTime` por 10 s no OneCommander.
 
-Divisão da CPU do Files Dev (MicaAlt padrão) na base upstream/main:
+Divisão da CPU do KyraFiles (MicaAlt padrão) na base upstream/main:
 - Parado (mediana 4.906 ms em 10 s): thread "DWM Compositor Thread" 4.906 ms (100% da CPU observada no processo).
 - Abrindo `10k` (mediana 3.219 ms em 8 s): compositor 3.188 ms (99,0%).
 
@@ -61,7 +61,7 @@ Divisão da CPU do Files Dev (MicaAlt padrão) na base upstream/main:
 Hipótese testada: o fundo `MicaAlt` (padrão, `AppearanceSettingsService.AppThemeBackdropMaterial = 2`) é a causa da alta CPU da thread "DWM Compositor Thread" parado (49% de 1 núcleo) e ao abrir pastas.
 
 Método:
-- Caminho utilizado para alternar o fundo: edição direta do valor `"AppThemeBackdropMaterial"` em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json` com o processo fechado, reabrindo em seguida via `.\Open-FilesDev.ps1` com layout AppX registrado.
+- Caminho utilizado para alternar o fundo: edição direta do valor `"AppThemeBackdropMaterial"` em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json` com o processo fechado, reabrindo em seguida via `.\Open-KyraFiles.ps1` com layout AppX registrado.
 - Janela, tamanho e posição mantidos idênticos sem mover nem interagir durante as medições.
 - Para cada valor de enum (`Solid` = 0, `Mica` = 1, `MicaAlt` = 2, `Acrylic` = 3): 3 rodadas de `pwsh tools\perf\idle.ps1 -WaitS 10` e 3 rodadas de `pwsh tools\perf\thr.ps1 -Folder C:\FilesUXLab\perf\10k -WaitS 8`.
 - Fundo original (`MicaAlt`) restaurado ao final dos testes (CONFIRMED no `user_settings.json` e processo ativo).
@@ -79,7 +79,7 @@ Método:
 
 ### Conclusão e Avaliação da Hipótese
 
-- **Conclusão:** O fundo `MicaAlt` explica 62% do consumo excessivo de CPU parado (o uso de CPU do compositor cai de 4.906 ms para 1.844 ms com `Solid`), porém **NÃO explica a totalidade da CPU do compositor**, pois mesmo com `Solid` o Files Dev continua consumindo ~1.844 ms em 10 s (18,4% de um núcleo, 95% no compositor), muito acima do patamar de repouso do OneCommander (141 ms / 1,4% de um núcleo).
+- **Conclusão:** O fundo `MicaAlt` explica 62% do consumo excessivo de CPU parado (o uso de CPU do compositor cai de 4.906 ms para 1.844 ms com `Solid`), porém **NÃO explica a totalidade da CPU do compositor**, pois mesmo com `Solid` o KyraFiles continua consumindo ~1.844 ms em 10 s (18,4% de um núcleo, 95% no compositor), muito acima do patamar de repouso do OneCommander (141 ms / 1,4% de um núcleo).
 - **Classificação:** Hipótese **PARCIALMENTE CONFIRMADA / NÃO EXPLICA A CAUSA RAIZ TOTAL**:
   - Trocar `MicaAlt` por `Solid` ou `Acrylic`/`Mica` traz ganho substancial imediato (queda de ~62% a ~69% no gasto de CPU ociosa).
   - Contudo, mesmo em `Solid`, o `DWM Compositor Thread` permanece ativo consumindo ~175–190 ms de CPU por segundo sem qualquer interação na tela. Isso aponta para um loop ou animação contínua no pipeline do WinUI 3 (ex.: `ProgressRing`, animação de cursor/caret, timer de renderização contínua ou compositor XAML não entrando em suspensão completa).
@@ -146,7 +146,7 @@ Método:
 
 ### Conclusão Final e Proposta de Correção (F007-B)
 
-- **Descoberta Central**: Com fundo Solid e pasta de arquivos simples, o Files Dev **consome apenas 78 ms em 10 s (7,8 ms por segundo)**, tornando-se **mais econômico que o OneCommander (14 ms/s)**!
+- **Descoberta Central**: Com fundo Solid e pasta de arquivos simples, o KyraFiles **consome apenas 78 ms em 10 s (7,8 ms por segundo)**, tornando-se **mais econômico que o OneCommander (14 ms/s)**!
 - A CPU excessiva ociosa (~400–490 ms/s) documentada no baseline original decorre da combinação de:
   1. **Widgets da Página Home**: Loop de composição persistente nos cartões/gráficos de armazenamento.
   2. **Múltiplas abas abertas**: Falta de suspensão/virtualização do compositor para as abas inativas.
@@ -158,7 +158,7 @@ Método:
 
 ## F019 — custo do ShapeClip com Thin Acrylic (15/10/2026)
 
-Script: `tools/perf/f019_clip_ab.ps1 -Backdrop 4 -Shapes '0,6' -Rounds 3 -WarmupS 30` (intercalado, reinicia o Files a cada rodada, `idle.ps1 -WaitS 10`, restaura o `user_settings.json`). Branch `feature/f019-perf-formas-visuais`, build já implantado (0e3c17ca4 + baseline).
+Script: `tools/perf/f019_clip_ab.ps1 -Backdrop 4 -Shapes '0,6' -Rounds 3 -WarmupS 30` (intercalado, reinicia o KyraFiles a cada rodada, `idle.ps1 -WaitS 10`, restaura o `user_settings.json`). Branch `feature/f019-perf-formas-visuais`, build já implantado (0e3c17ca4 + baseline).
 
 | Forma | CPU parado em 10 s (3 rodadas) | Mediana | Estado |
 |---|---|---|---|
@@ -171,7 +171,7 @@ Script: `tools/perf/f019_clip_ab.ps1 -Backdrop 4 -Shapes '0,6' -Rounds 3 -Warmup
 
 ## F015 T2a — sonda da MFT (15/10/2026)
 
-Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\perf\f015_mft_probe.ps1"` (UAC aceito pelo Alexandre). Log: `%TEMP%\claude\desenv\utils\FilesApp\f015\f015_mft_probe-20261015_203038.log`.
+Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\perf\f015_mft_probe.ps1"` (UAC aceito pelo Alexandre). Log: `%TEMP%\claude\desenv\utils\KyraFiles\f015\f015_mft_probe-20261015_203038.log`.
 
 - OBSERVED: C: NTFS, `MftValidDataLength` 3.189.768.192 bytes, registro de 1024 bytes → ~3.115.008 registros (estimado pela divisão).
 - NOT TESTED: velocidade de leitura da MFT bruta. `\.\C:\$MFT` não abriu (HR=5, acesso negado, mesmo elevado). Precisa de outro caminho (`FSCTL_GET_NTFS_FILE_RECORD`/leitura por extents em `\.\C:`).
@@ -182,7 +182,7 @@ Comando: `Start-Process pwsh -Verb RunAs -ArgumentList "-NoProfile -File tools\p
 
 ## F015 T17 — latência pelo pipe (15/10/2026) — MEDIÇÃO INVÁLIDA
 
-Comando: `pwsh -File tools\perf\f015_latency.ps1` (inicia `AppX\Files.App.IndexService\Files.App.IndexService.exe` do build Release, 50 consultas em `C:\desenv`).
+Comando: `pwsh -File tools\perf\f015_latency.ps1` (inicia `AppX\KyraFiles.App.IndexService\KyraFiles.App.IndexService.exe` do build Release, 50 consultas em `C:\desenv`).
 - OBSERVED: depois de 603 s o serviço ainda estava em `Indexing` com `itemCount = 0` nos 4 volumes (C:, C:\Google\Drive\disk, D:, R:), CPU acumulada 163 s, WorkingSet 129 MB / Private 376 MB.
 - As 50 consultas devolveram 0 resultados em ~2,5 ms (mediana): **não é latência de busca**, é consulta sem índice. Não usar para AC-1/AC-2.
 - Pendente: descobrir por que o serviço não conclui (ou não publica) a indexação em 10 min nesta execução, sendo que a T12 (13/10) mostrou 2.808.073 itens. Hipóteses não testadas: build Release do AppX desatualizado; `itemCount` só publicado ao fim do volume; varredura de C:\Google\Drive\disk lenta.
@@ -190,7 +190,7 @@ Comando: `pwsh -File tools\perf\f015_latency.ps1` (inicia `AppX\Files.App.IndexS
 
 ## F015 T17 — latência com snapshot (16/10/2026, Claude)
 
-Os snapshots em `%LOCALAPPDATA%\FilesCustom\Index` (gravados às 23:12 de 15/10 por uma execução do serviço não identificada) estavam completos. Fora do pacote, `VolumeSnapshot.GetDefaultBasicCacheDirectory` usa essa pasta (não acha `LocalCache`), então a rodada de 15/10 começou sem snapshot e varreu tudo do zero.
+Os snapshots em `%LOCALAPPDATA%\KyraFiles\Index` (gravados às 23:12 de 15/10 por uma execução do serviço não identificada) estavam completos. Fora do pacote, `VolumeSnapshot.GetDefaultBasicCacheDirectory` usa essa pasta (não acha `LocalCache`), então a rodada de 15/10 começou sem snapshot e varreu tudo do zero.
 
 Rodada A — `pwsh -File tools\perf\f015_latency.ps1` (versão antiga, sondagem de 5 s):
 - OBSERVED: pronto em ≤ 5 s; 4 volumes, 2.597.416 itens.
@@ -204,7 +204,7 @@ Rodada B — mesmo script, agora esperando a reconciliação (`-ReconcileTimeout
 - 50 consultas (competindo com a reconciliação): 1º lote mediana 48,2 ms, p95 73,4 ms; lista completa mediana 121,1 ms, p95 926,1 ms, máx. 961,2 ms.
 - O "total" inclui o `ConvertFrom-Json` do PowerShell por lote; quanto disso é custo do cliente: não medido.
 
-Perfil — `pwsh -File tools\perf\f015_trace_reconcile.ps1` (30 s de aquecimento, 30 s de `dotnet-trace collect --profile dotnet-sampled-thread-time`; trace em `%TEMP%\claude\desenv\utils\FilesApp\f015\reconcile-20261016_012437.nettrace`):
+Perfil — `pwsh -File tools\perf\f015_trace_reconcile.ps1` (30 s de aquecimento, 30 s de `dotnet-trace collect --profile dotnet-sampled-thread-time`; trace em `%TEMP%\claude\desenv\utils\KyraFiles\f015\reconcile-20261016_012437.nettrace`):
 - OBSERVED: 79.953 ms de CPU em 32 s; duas threads em `Ready` com ~50 s de CPU cada.
 - `ChangeWatcher.WatchLoop` 46,9% inclusivo → `HandleBufferOverflow` → `Reconciler.ReconcileSubtree` 35,2% inclusivo / **30,3% exclusivo** (o próprio laço do método).
 - `Reconciler.ReconcileVolume` 11,7%, todo em `Monitor.Enter_Slowpath`: parado esperando o `SyncRoot` que o watcher segura.

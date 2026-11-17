@@ -1,4 +1,4 @@
-# F025 — segura uma tecla por N s numa pasta e mede o app de fora.
+﻿# F025 — segura uma tecla por N s numa pasta e mede o app de fora.
 # Metricas: CPU do processo (DIFERENCA de TotalProcessorTime), working set e memoria privada,
 # e latencia do loop de mensagens da UI (SendMessageTimeout WM_NULL a cada ~100 ms, durante a tecla).
 # Uso: pwsh -File f025_hold_key.ps1 -Label atual -Key Down -Folder C:\FilesUXLab\perf\1600 [-HoldS 5] [-Runs 3]
@@ -28,7 +28,7 @@ public class F025Win {
 "@
 $vk = @{ Down = 0x28; Up = 0x26; End = 0x23; PageDown = 0x22 }[$Key]
 $p = Get-Process $ProcessName -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
-if (-not $p -and -not $WindowClass) { throw 'Files.exe com janela nao encontrado. Abra o app antes.' }
+if (-not $p -and -not $WindowClass) { throw 'KyraFiles.exe com janela nao encontrado. Abra o app antes.' }
 $h = $p.MainWindowHandle
 if ($WindowClass) {
     $cond = New-Object Windows.Automation.PropertyCondition([Windows.Automation.AutomationElement]::ClassNameProperty, $WindowClass)

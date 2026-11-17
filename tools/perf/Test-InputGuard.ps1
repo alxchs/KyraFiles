@@ -1,4 +1,4 @@
-# Test-InputGuard.ps1
+﻿# Test-InputGuard.ps1
 # Prova automatizada com assercoes do helper Send-GuardedInput.ps1
 # Cria exclusivamente dois formularios proprios (Form A e Form B) em processos independentes.
 # Prova:
@@ -24,10 +24,10 @@ if (-not (Test-Path $EvidenceDir)) {
 
 $results = [System.Collections.Generic.List[PSCustomObject]]::new()
 
-# R9: Todo temporario vai em %TEMP%\agy\<GUID>\desenv\utils\FilesApp\Files\
+# R9: Todo temporario vai em %TEMP%\agy\<GUID>\desenv\utils\KyraFiles\Files\
 $sessionGuid = [System.Guid]::NewGuid().ToString()
 $guidRoot = Join-Path $env:TEMP ("agy\" + $sessionGuid)
-$tempDir = Join-Path $guidRoot "desenv\utils\FilesApp\Files"
+$tempDir = Join-Path $guidRoot "desenv\utils\KyraFiles\Files"
 New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
 $runnerScript = Join-Path $tempDir "FormRunner.ps1"
 

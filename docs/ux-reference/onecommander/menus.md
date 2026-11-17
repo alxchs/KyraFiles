@@ -1,8 +1,8 @@
-# Análise de UX: Menus no OneCommander vs Files Custom
+﻿# Análise de UX: Menus no OneCommander vs KyraFiles
 
 ## 1. Objetivo
 
-Analisar a organização de menus e comandos do OneCommander em relação ao paradigma clássico de gerenciadores de arquivos do Windows (Windows Explorer clássico, Total Commander, FreeCommander, etc.), documentando as limitações observadas e fundamentando a inclusão de uma barra de menus tradicional opcional no Files Custom.
+Analisar a organização de menus e comandos do OneCommander em relação ao paradigma clássico de gerenciadores de arquivos do Windows (Windows Explorer clássico, Total Commander, FreeCommander, etc.), documentando as limitações observadas e fundamentando a inclusão de uma barra de menus tradicional opcional no KyraFiles.
 
 ## 2. Comportamento Observado no OneCommander
 
@@ -19,9 +19,9 @@ Analisar a organização de menus e comandos do OneCommander em relação ao par
 2. **Perda de Navegação por Mnemonics (`Alt+F`, `Alt+E`, etc.)**: No Windows, operadores ágeis de teclado usam combinações de tecla de acesso sem olhar para o mouse (ex.: `Alt+F` seguido de `N` para criar, ou `Alt+V` para ajustar exibição). A ausência de barra quebra esse fluxo motor consagrado por décadas.
 3. **Dependência Excessiva de Menus de Contexto**: Para descobrir o que pode ser feito com um arquivo ou aba, o usuário é obrigado a clicar com o botão direito, poluindo a interação.
 
-## 4. Requisitos de Design para o Files Custom
+## 4. Requisitos de Design para o KyraFiles
 
-1. **Não Copiar o Visual do OneCommander**: O Files Custom adota o design system nativo Fluent / WinUI 3 com `Microsoft.UI.Xaml.Controls.MenuBar`.
+1. **Não Copiar o Visual do OneCommander**: O KyraFiles adota o design system nativo Fluent / WinUI 3 com `Microsoft.UI.Xaml.Controls.MenuBar`.
 2. **Natureza Opcional**: O usuário que prefere o design contemporâneo minimalista (estilo Windows 11 Explorer) mantém a barra desativada (padrão `false`).
 3. **Zero Poluição Visual**: Quando ativada, a barra ocupa apenas a altura necessária (`Auto`), perfeitamente integrada à paleta de cores, tipografia e tema atual (claro, escuro ou cores personalizadas).
 4. **Comportamento 100% Nativo de Teclado**:

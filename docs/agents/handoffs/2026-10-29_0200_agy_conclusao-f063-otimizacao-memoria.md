@@ -1,4 +1,4 @@
-# Relatório de Conclusão da Spec F063: Otimização de Consumo de Memória sem Degradação de Latência (P0)
+﻿# Relatório de Conclusão da Spec F063: Otimização de Consumo de Memória sem Degradação de Latência (P0)
 
 - **Data/Hora:** 29/10/2026 ~02:00
 - **Agente:** AGY (Antigravity)
@@ -28,16 +28,16 @@ Em atendimento à determinação de **Prioridade Zero (P0)** do Alexandre ("redu
 
 ## 2. Detalhes Importantes da Implementação
 
-1. **`src/Files.App/Helpers/MemoryTrimHelper.cs` (Novo Helper Especializado):**
+1. **`src/KyraFiles.App/Helpers/MemoryTrimHelper.cs` (Novo Helper Especializado):**
    - Centraliza o ciclo de desalocação e garbage collection do app.
    - Utiliza um padrão com debounce de 2 segundos via `CancellationTokenSource`. Se o usuário apenas minimizar e restaurar a janela rapidamente, a operação é **abortada instantaneamente**, poupando 100% de ciclos de CPU.
    - Salvaguarda mandatória: invoca `FileOperationsHelpers.WaitForCompletion()` antes de executar o trim, garantindo que operações de cópia, movimentação ou extração de arquivos não sofram qualquer pausa.
    - Invoca `PInvoke.K32EmptyWorkingSet` passando o handle nativo do processo em thread de background (`Task.Run`), liberando as páginas para a *Standby List* do Windows.
 
-2. **`src/Files.App/App.xaml.cs`:**
+2. **`src/KyraFiles.App/App.xaml.cs`:**
    - O método `TryEmptyWorkingSetWhenIdle` anterior alocava o handle do processo mas nunca executava a chamada à API `K32EmptyWorkingSet`. O código foi corrigido e simplificado para delegar com segurança ao `MemoryTrimHelper.ExecuteTrim`.
 
-3. **`src/Files.App/MainWindow.xaml.cs`:**
+3. **`src/KyraFiles.App/MainWindow.xaml.cs`:**
    - Adicionada escuta nativa ao evento `AppWindow.Changed`. Ao detectar `OverlappedPresenterState.Minimized` ou `DidVisibilityChange && !IsVisible`, agenda o trim assíncrono.
    - Ao restaurar ou maximizar, cancela imediatamente qualquer trim pendente.
    - Adicionada escuta ao evento `Activated`. Ao entrar em segundo plano (`WindowActivationState.Deactivated`), agenda um trim de ociosidade longa (60 segundos). Ao retornar ao foco, cancela.
@@ -55,7 +55,7 @@ Em atendimento à determinação de **Prioridade Zero (P0)** do Alexandre ("redu
    - *Ponto de atenção:* Em computadores com escassez extrema de RAM física (ex: < 4 GB com 99% de ocupação pelo sistema), o Windows pode mover páginas da Standby List para o arquivo de paginação (swap). Nesses ambientes, a reativação fria após horas minimizado pode levar 100-200 ms. No teste real de restauração, o tempo medido no ambiente foi de **38 a 46 ms**, plenamente imperceptível.
 
 2. **Higiene de Binários:**
-   - Foram expurgados todos os artefatos de build gerados em `bin\x64\Debug`, respeitando a regra estrita de manter exclusivamente a versão Release instalada em `%LOCALAPPDATA%\Programs\FilesCustom`.
+   - Foram expurgados todos os artefatos de build gerados em `bin\x64\Debug`, respeitando a regra estrita de manter exclusivamente a versão Release instalada em `%LOCALAPPDATA%\Programs\KyraFiles`.
 
 ---
 
@@ -65,12 +65,12 @@ Em atendimento à determinação de **Prioridade Zero (P0)** do Alexandre ("redu
   - `docs/specs/F063-otimizacao-memoria-zero-regressao/spec.md`
   - `docs/specs/F063-otimizacao-memoria-zero-regressao/plan.md`
   - `docs/specs/F063-otimizacao-memoria-zero-regressao/tasks.md`
-  - `src/Files.App/Helpers/MemoryTrimHelper.cs`
+  - `src/KyraFiles.App/Helpers/MemoryTrimHelper.cs`
   - `tools/perf/measure_memory_and_latency.ps1`
   - `docs/agents/handoffs/2026-10-29_0200_agy_conclusao-f063-otimizacao-memoria.md`
 - **Modificados:**
-  - `src/Files.App/App.xaml.cs`
-  - `src/Files.App/MainWindow.xaml.cs`
+  - `src/KyraFiles.App/App.xaml.cs`
+  - `src/KyraFiles.App/MainWindow.xaml.cs`
 
 ---
 

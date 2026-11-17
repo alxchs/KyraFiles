@@ -1,4 +1,4 @@
-# Relatório de Conclusão e Evidências — F053 (Codificação e Fim de Linha)
+﻿# Relatório de Conclusão e Evidências — F053 (Codificação e Fim de Linha)
 
 **Data:** 15/11/2026  
 **Status:** CONCLUÍDO E APROVADO  
@@ -9,7 +9,7 @@
 
 ## 1. Visão Geral
 A especificação **F053 — Coluna de Codificação e Fim de Linha (Encoding & EOL)** entrega recursos essenciais para desenvolvedores inspecionarem e padronizarem arquivos de texto:
-1. **Detecção e Colunas Dinâmicas (`FilesCustom.Text.Encoding` e `FilesCustom.Text.LineEnding`):**
+1. **Detecção e Colunas Dinâmicas (`KyraFiles.Text.Encoding` e `KyraFiles.Text.LineEnding`):**
    - Amostragem em streaming dos primeiros 4 KB (`NFR-001`) sem carregar arquivos inteiros na memória.
    - Detecção precisa de BOM (UTF-8 BOM, UTF-16 LE/BE, UTF-32), UTF-8 vs ANSI, e distinção imediata entre arquivos textuais e binários (retornando vazio para binários).
    - Identificação de fim de linha Windows (`CRLF`), Unix/Linux (`LF`), Mac clássico (`CR`) e detecção de arquivos inconsistentes (`Misto`).
@@ -41,7 +41,7 @@ A especificação **F053 — Coluna de Codificação e Fim de Linha (Encoding & 
 ## 3. Arquivos Modificados / Criados
 - `src/KyraFiles.Shared/Helpers/TextEncodingHelper.cs`: Helper de análise de encoding e quebras com cache e streaming de 4 KB.
 - `src/KyraFiles.Shared/Helpers/BatchTextConverter.cs`: Mecanismo de conversão atômica de quebras de linha com histórico de desfazer.
-- `src/KyraFiles.App/Services/ExplorerPropertyService.cs`: Exposição das colunas dinâmicas `FilesCustom.Text.Encoding` e `FilesCustom.Text.LineEnding`.
+- `src/KyraFiles.App/Services/ExplorerPropertyService.cs`: Exposição das colunas dinâmicas `KyraFiles.Text.Encoding` e `KyraFiles.Text.LineEnding`.
 - `src/KyraFiles.App/Actions/FileSystem/ConvertToCrlfAction.cs`: Ação de menu de contexto para conversão para CRLF.
 - `src/KyraFiles.App/Actions/FileSystem/ConvertToLfAction.cs`: Ação de menu de contexto para conversão para LF.
 - `src/KyraFiles.App/Data/Factories/ContentPageContextFlyoutFactory.cs`: Registro das ações no flyout de seleção de itens.

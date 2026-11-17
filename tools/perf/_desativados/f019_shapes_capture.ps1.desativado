@@ -1,6 +1,6 @@
-# F019: captura a janela do Files com cada forma (ControlShapeStyle) para conferir os efeitos visuais.
-# Antes: .\Open-FilesDev.ps1 -Configuration Debug -NoLaunch (o build sozinho nao atualiza o layout registrado).
-# Saida: %TEMP%\claude\desenv\utils\FilesApp\shape_<n>.png
+﻿# F019: captura a janela do Files com cada forma (ControlShapeStyle) para conferir os efeitos visuais.
+# Antes: .\Open-KyraFiles.ps1 -Configuration Debug -NoLaunch (o build sozinho nao atualiza o layout registrado).
+# Saida: %TEMP%\claude\desenv\utils\KyraFiles\shape_<n>.png
 param([string]$Shapes = '0,1,2,3,4,5,6,7,8,9', [string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
 
 $ErrorActionPreference = 'Stop'
@@ -10,7 +10,7 @@ using System; using System.Runtime.InteropServices;
 public class F019W { [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r); [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f); [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h); [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags); public struct RECT { public int L, T, R, B; } }
 "@
 Add-Type -Path (Join-Path $PSScriptRoot 'vc.cs') -ErrorAction SilentlyContinue
-$tmp = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp'
+$tmp = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles'
 New-Item -ItemType Directory -Force $tmp | Out-Null
 $pkg = Split-Path $Aumid.Split('!')[0] -Leaf
 $settings = Join-Path $env:LOCALAPPDATA "Packages\$($Aumid.Split('!')[0])\LocalState\settings\user_settings.json"

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.Shared.Helpers;
@@ -16,7 +16,7 @@ using Windows.Storage;
 namespace KyraFiles.App
 {
 	/// <summary>
-	/// Represents the base entry point of the Files app.
+	/// Represents the base entry point of the KyraFiles.
 	/// </summary>
 	/// <remarks>
 	/// Gets called at the first time when the app launched or activated.
@@ -42,7 +42,7 @@ namespace KyraFiles.App
 		}
 
 		/// <summary>
-		/// Files Custom: whether this process was started by the custom file dialog (-outputpath), also when it came through the files-dev: protocol with the command hex-escaped.
+		/// KyraFiles: whether this process was started by the custom file dialog (-outputpath), also when it came through the kyrafiles-dev: protocol with the command hex-escaped.
 		/// </summary>
 		private static bool IsFileDialogLaunch()
 			=> Uri.UnescapeDataString(Environment.CommandLine).Contains("-outputpath", StringComparison.OrdinalIgnoreCase);
@@ -57,7 +57,7 @@ namespace KyraFiles.App
 			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
 			try
 			{
-				// Files Custom: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
+				// KyraFiles: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
 				if (!isNew && !IsFileDialogLaunch())
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
@@ -66,7 +66,7 @@ namespace KyraFiles.App
 					// A stale key resolves to this process itself; redirecting to self would drop the activation
 					if (!instance.IsCurrent)
 					{
-						// Files Custom: if semaphore is already at maximum, the main instance was already awakened by a concurrent launch (F035 T2)
+						// KyraFiles: if semaphore is already at maximum, the main instance was already awakened by a concurrent launch (F035 T2)
 						try
 						{
 							pool.Release();
@@ -76,7 +76,7 @@ namespace KyraFiles.App
 							// Main instance already signaled, proceed to redirect
 						}
 
-						// Files Custom: protect redirection; if the target instance crashed or disappeared, fall through to normal startup (F035 T2)
+						// KyraFiles: protect redirection; if the target instance crashed or disappeared, fall through to normal startup (F035 T2)
 						try
 						{
 							RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
@@ -140,7 +140,7 @@ namespace KyraFiles.App
 
 				if (!processes.Any())
 				{
-					foreach (var process in Process.GetProcessesByName("KyraFiles.App.Server").Concat(Process.GetProcessesByName("Files.App.Server")).Where(ProcessPathPredicate))
+					foreach (var process in Process.GetProcessesByName("KyraFiles.App.Server").Concat(Process.GetProcessesByName("KyraFiles.App.Server")).Where(ProcessPathPredicate))
 					{
 						try
 						{
@@ -295,7 +295,7 @@ namespace KyraFiles.App
 			if (currentInstance.IsCurrent)
 				currentInstance.Activated += OnActivated;
 
-			// Files Custom: a file dialog instance never becomes the target of other launches (F012 T7)
+			// KyraFiles: a file dialog instance never becomes the target of other launches (F012 T7)
 			if (!IsFileDialogLaunch())
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Environment.ProcessId;
 
@@ -324,8 +324,8 @@ namespace KyraFiles.App
 			var cmdLaunchArgs = activatedArgs.Data is ILaunchActivatedEventArgs launchArgs &&
 				launchArgs.Arguments is not null &&
 				CommandLineParser.SplitArguments(launchArgs.Arguments, true).FirstOrDefault() is string arg0 &&
-				(arg0.EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase) ||
-				arg0.EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
+				(arg0.EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase) ||
+				arg0.EndsWith($"kyrafiles-dev", StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
 			var cmdProtocolArgs = activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs &&
 				protocolArgs.Uri.Query.TrimStart('?').Split('=') is string[] parsedArgs &&
 				parsedArgs.Length == 2 && parsedArgs[0] == "cmd" ? Uri.UnescapeDataString(parsedArgs[1]) : null;

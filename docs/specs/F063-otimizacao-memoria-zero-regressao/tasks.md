@@ -1,4 +1,4 @@
-# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — TASKS
+﻿# F063 — Otimização de Consumo de Memória sem Degradação de Latência (P0) — TASKS
 
 ---
 
@@ -14,7 +14,7 @@
     - Latência de restauração baseline: **31 ms**
 
 - [x] **Task 2: Implementar `MemoryTrimHelper` e chamada `K32EmptyWorkingSet`**
-  - Criar `src/Files.App/Helpers/MemoryTrimHelper.cs` com salvaguardas para `FileOperationsHelpers.WaitForCompletion()`, execução em `Task.Run` com prioridade baixa e chamada a `PInvoke.K32EmptyWorkingSet`.
+  - Criar `src/KyraFiles.App/Helpers/MemoryTrimHelper.cs` com salvaguardas para `FileOperationsHelpers.WaitForCompletion()`, execução em `Task.Run` com prioridade baixa e chamada a `PInvoke.K32EmptyWorkingSet`.
   - Corrigir a chamada faltante em `App.xaml.cs` no método `TryEmptyWorkingSetWhenIdle`.
   - *Critério de pronto:* Código compila sem warnings; chamada nativa segura implementada.
   - *Evidência CONFIRMED:* Implementado com debounce assíncrono, cancelamento imediato ao restaurar janela e compilação limpa (25 baseline warnings, 0 warnings novos).

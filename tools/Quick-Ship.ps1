@@ -1,4 +1,4 @@
-# tools/Quick-Ship.ps1 - Compilação e Deploy Ágil (Modo Rápido e Modo Completo)
+﻿# tools/Quick-Ship.ps1 - Compilação e Deploy Ágil (Modo Rápido e Modo Completo)
 # Atende F093 (Item 2 da priorização do Alexandre)
 
 [CmdletBinding()]
@@ -28,16 +28,16 @@ Write-Host "=================================================================" -
 $repoRoot = (Split-Path $PSScriptRoot -Parent)
 Set-Location $repoRoot
 
-# 1. Encerra processos ativos com seguranca (estritamente restrito a KyraFiles/FilesCustom locais)
+# 1. Encerra processos ativos com seguranca (estritamente restrito a KyraFiles/KyraFiles locais)
 Write-Host "[1/5] Encerrando processos KyraFiles ativos..." -ForegroundColor Yellow
 $processNames = @(
     "KyraFiles", "KyraFiles.App.Server", "KyraFiles.App.IndexService",
     "KyraFiles.Watchdog", "KyraFiles.HotkeyService",
-    "Files", "Files.App.Server", "Files.Watchdog", "Files.HotkeyService"
+    "Files", "KyraFiles.App.Server", "KyraFiles.Watchdog", "KyraFiles.HotkeyService"
 )
 $targetDirs = @(
     (Join-Path $env:LOCALAPPDATA "Programs\KyraFiles").ToLowerInvariant(),
-    (Join-Path $env:LOCALAPPDATA "Programs\FilesCustom").ToLowerInvariant(),
+    (Join-Path $env:LOCALAPPDATA "Programs\KyraFiles").ToLowerInvariant(),
     $repoRoot.ToLowerInvariant()
 )
 Get-Process -Name $processNames -ErrorAction SilentlyContinue | Where-Object {

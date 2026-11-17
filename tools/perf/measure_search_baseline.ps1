@@ -1,4 +1,4 @@
-# Medição de linha de base da busca para F065 (T0 / NFR-001)
+﻿# Medição de linha de base da busca para F065 (T0 / NFR-001)
 # Executa 10 rodadas de busca por *.exe na pasta Downloads do usuário
 # Mede: tempo até o 1º resultado (FirstResultMs) e tempo total (TotalTimeMs)
 # Instância própria via streaming direto de es.exe com o mesmo pipeline de EverythingSearchProvider, sem roubar foco.
@@ -30,7 +30,7 @@ Write-Host "Pasta de Downloads: $downloads" -ForegroundColor Cyan
 # 2. Localiza es.exe
 $possibleEsPaths = @(
     "C:\Users\alxch\bin\es.exe",
-    (Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\es.exe"),
+    (Join-Path $env:LOCALAPPDATA "Programs\KyraFiles\es.exe"),
     "C:\Program Files\Everything\es.exe",
     "C:\Program Files (x86)\Everything\es.exe"
 )

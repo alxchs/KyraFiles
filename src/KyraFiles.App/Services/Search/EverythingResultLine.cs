@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -7,7 +7,7 @@ using System.IO;
 namespace KyraFiles.App.Services.Search
 {
 	/// <summary>
-	/// Files Custom (F065): one result line of es.exe run with -tsv -no-header -attrib -size -dm,
+	/// KyraFiles (F065): one result line of es.exe run with -tsv -no-header -attrib -size -dm,
 	/// in the form &lt;path&gt;\t&lt;attributes&gt;\t&lt;size in bytes&gt;\t&lt;date modified&gt;.
 	/// Pure logic (no UI types) so it is unit tested by linking this file into the test project.
 	/// </summary>

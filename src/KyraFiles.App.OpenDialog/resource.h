@@ -4,8 +4,8 @@
 
 #define IDS_PROJNAME                    100
 #define IDR_CUSTOMOPENDIALOG            101
-#define IDR_FILESOPENDIALOG             106
-#define IDR_FILESOPENDIALOG1            108
+#define IDR_KYRAFILESOPENDIALOG         106
+#define IDR_KYRAFILESOPENDIALOG1        108
 
 // Next default values for new objects
 #ifdef APSTUDIO_INVOKED

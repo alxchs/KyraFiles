@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
@@ -10,7 +10,7 @@ using Windows.Foundation;
 namespace KyraFiles.App.Services
 {
 	/// <summary>
-	/// Coordinates global UI scaling and compensated layout across application windows (Files Custom F090).
+	/// Coordinates global UI scaling and compensated layout across application windows (KyraFiles F090).
 	/// </summary>
 	public sealed class UiScaleService : IUiScaleService
 	{

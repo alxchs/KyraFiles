@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -99,7 +99,7 @@ namespace KyraFiles.App.Services.Git
 				client = new HttpClient();
 				client.DefaultRequestHeaders.Accept.Clear();
 				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				client.DefaultRequestHeaders.UserAgent.ParseAdd("FilesApp/4.3");
+				client.DefaultRequestHeaders.UserAgent.ParseAdd("KyraFiles/4.3");
 				shouldDisposeClient = true;
 			}
 
@@ -179,7 +179,7 @@ namespace KyraFiles.App.Services.Git
 				client = new HttpClient();
 				client.DefaultRequestHeaders.Accept.Clear();
 				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				client.DefaultRequestHeaders.UserAgent.ParseAdd("FilesApp/4.3");
+				client.DefaultRequestHeaders.UserAgent.ParseAdd("KyraFiles/4.3");
 				shouldDisposeClient = true;
 			}
 

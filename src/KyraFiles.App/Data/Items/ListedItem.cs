@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.ViewModels.Properties;
@@ -136,7 +136,7 @@ namespace KyraFiles.App.Utils
 			set => SetProperty(ref customIconSource, value);
 		}
 
-		// Files Custom (F065): visible by default, so an item whose creator forgets Opacity is never drawn transparent.
+		// KyraFiles (F065): visible by default, so an item whose creator forgets Opacity is never drawn transparent.
 		private double opacity = 1;
 		public double Opacity
 		{

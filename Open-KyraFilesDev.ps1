@@ -1,4 +1,4 @@
-# Monta o layout do pacote (AppX), registra e abre o KyraFiles Dev.
+﻿# Monta o layout do pacote (AppX), registra e abre o KyraFiles Dev.
 #
 # O KyraFiles é um app empacotado (MSIX): o KyraFiles.exe de bin\ aberto direto não tem
 # identidade de pacote e morre com REGDB_E_CLASSNOTREG. O `dotnet build` só gera a
@@ -35,7 +35,7 @@ $identity = $manifest.Package.Identity
 $appId = $manifest.Package.Applications.Application.Id
 
 # Arquivos em uso impedem a cópia
-Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService, Files, Files.App.Server, Files.App.IndexService -ErrorAction SilentlyContinue |
+Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService, Files, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue |
     Where-Object { $_.Path -and $_.Path.StartsWith($layoutDir, [StringComparison]::OrdinalIgnoreCase) } |
     Stop-Process -Force
 Start-Sleep -Milliseconds 500

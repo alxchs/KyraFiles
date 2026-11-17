@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -78,10 +78,10 @@ namespace KyraFiles.App
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles-dev", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "Files.exe"), StringComparison.OrdinalIgnoreCase)))
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
@@ -110,7 +110,7 @@ namespace KyraFiles.App
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "files-dev:")
+					if (eventArgs.Uri.AbsoluteUri == "kyrafiles-dev:")
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
@@ -137,7 +137,7 @@ namespace KyraFiles.App
 						}
 						else
 						{
-							var rawPath = eventArgs.Uri.OriginalString.Substring("files-dev:".Length).TrimStart('/');
+							var rawPath = eventArgs.Uri.OriginalString.Substring("kyrafiles-dev:".Length).TrimStart('/');
 							unescapedValue = Uri.UnescapeDataString(rawPath);
 						}
 
@@ -247,7 +247,7 @@ namespace KyraFiles.App
 		}
 
 		/// <summary>
-		/// Files Custom: opens a location taken over from an Explorer window (F012 T9).
+		/// KyraFiles: opens a location taken over from an Explorer window (F012 T9).
 		/// </summary>
 		public async Task OpenFromExplorerAsync(string path, string? selectItem)
 		{
@@ -350,7 +350,7 @@ namespace KyraFiles.App
 				catch (Exception ex)
 				{
 					// Handle exception in case WinUI Windows is closed
-					// (see https://github.com/files-community/Files/issues/15599)
+					// (see https://github.com/alxchs/KyraFiles/issues/15599)
 
 					App.Logger.LogWarning(ex, ex.Message);
 					return;
@@ -384,7 +384,7 @@ namespace KyraFiles.App
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
 
-			// Files Custom: a file dialog instance must know it is one before its first tab opens (F012 T7)
+			// KyraFiles: a file dialog instance must know it is one before its first tab opens (F012 T7)
 			if (parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.OutputPath) is { } outputPathCommand)
 			{
 				App.OutputPath = outputPathCommand.Payload;

@@ -140,7 +140,7 @@ $h = $rect.B - $rect.T
 Write-Output "Window Bounds: ($($rect.L),$($rect.T))-($($rect.R),$($rect.B)) Size: ${w}x${h}"
 
 # Capture via CopyFromScreen
-$outPath = "C:\desenv\utils\FilesApp\docs\ux-reference\onecommander\evidence\rename\01_oc_opened_lab.png"
+$outPath = "C:\desenv\utils\KyraFiles\docs\ux-reference\onecommander\evidence\rename\01_oc_opened_lab.png"
 $bmp = New-Object System.Drawing.Bitmap $w, $h
 $gfx = [System.Drawing.Graphics]::FromImage($bmp)
 $gfx.CopyFromScreen($rect.L, $rect.T, 0, 0, (New-Object System.Drawing.Size($w, $h)))

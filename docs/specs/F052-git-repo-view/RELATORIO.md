@@ -1,4 +1,4 @@
-# Relatório de Conclusão — F052 (Visão de repositório Git)
+﻿# Relatório de Conclusão — F052 (Visão de repositório Git)
 
 **Data de Conclusão:** 10/11/2026  
 **Responsável:** Antigravity (AGY)  
@@ -43,7 +43,7 @@ A spec **F052** implementa recursos essenciais para desenvolvedores que trabalha
   5. `NonGitDirectory_ReturnsNullHead` (Comportamento seguro em diretórios comuns sem Git)
 
 ### 3.2 Gate Mandatório de Performance e Contenção (`verify_no_index_service.ps1`)
-- `Files.App.IndexService.exe`: **Inativo / Não iniciado** (Bloqueio F021 confirmado)
+- `KyraFiles.App.IndexService.exe`: **Inativo / Não iniciado** (Bloqueio F021 confirmado)
 - CPU em repouso: **0.00%**
 - RAM Working Set: Estável dentro da cota baseline.
 

@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 // Abstract:
@@ -6,10 +6,10 @@
 
 // Note:
 //  Do not Rename.
-//  The files listed below are compiled only once, which improves performance for subsequent compilations.
+//  The headers listed below are compiled only once, which improves performance for subsequent compilations.
 //  This setting also affects the performance of IntelliSense, including code completion and many other code browsing features.
-//  However, the files listed here are ALL recompiled if one of them is updated from one build to another.
-//  Don't add frequently updated files here; otherwise the benefits offered in terms of performance will be lost.
+//  However, the headers listed here are ALL recompiled if one of them is updated from one build to another.
+//  Don't add frequently updated headers here; otherwise the benefits offered in terms of performance will be lost.
 
 #ifndef PCH_H
 #define PCH_H

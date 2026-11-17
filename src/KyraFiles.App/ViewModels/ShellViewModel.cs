@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
@@ -1218,7 +1218,7 @@ namespace KyraFiles.App.ViewModels
 		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
 		{
 			// Don't notify if shell page is not the active pane (eg. Dual Pane)
-			// https://github.com/files-community/Files/issues/17427
+			// https://github.com/alxchs/KyraFiles/issues/17427
 			var activeShellViewModel = ContentPageContext.ShellPage?.ShellViewModel
 				?? throw new InvalidOperationException("The active shell page is not available.");
 			if (WorkingDirectory != activeShellViewModel.WorkingDirectory)
@@ -2665,7 +2665,7 @@ namespace KyraFiles.App.ViewModels
 				return;
 			}
 
-			var filesAppSection = DesktopIni?.FirstOrDefault(x => x.SectionName == "FilesApp");
+			var filesAppSection = DesktopIni?.FirstOrDefault(x => x.SectionName == "KyraFiles");
 			if (filesAppSection is null || folderSettings.LayoutMode is FolderLayoutModes.ColumnView)
 			{
 				FolderBackgroundImageSource = null;

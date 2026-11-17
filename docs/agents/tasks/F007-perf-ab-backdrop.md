@@ -1,14 +1,14 @@
-# F007-A — A/B do fundo (backdrop) contra a CPU do compositor
+﻿# F007-A — A/B do fundo (backdrop) contra a CPU do compositor
 
 Status: BRIEF APROVADO (Claude, 02/10/2026). Executor: AGY. Branch: `feature/perf-backdrop-ab` (só se houver mudança de código; a medição em si não altera código).
 
 ## TASK
 
-Provar ou refutar a hipótese: o fundo `MicaAlt` (padrão, `AppearanceSettingsService.AppThemeBackdropMaterial`, `src/Files.App/Helpers/UI/AppSystemBackdrop.cs`) é a causa da CPU da thread "DWM Compositor Thread" (74% parado, 59% ao abrir `10k`). Medir o Files Dev com cada valor de `BackdropMaterialType` (`Solid`, `Mica`, `MicaAlt`, `Acrylic`) e comparar.
+Provar ou refutar a hipótese: o fundo `MicaAlt` (padrão, `AppearanceSettingsService.AppThemeBackdropMaterial`, `src/KyraFiles.App/Helpers/UI/AppSystemBackdrop.cs`) é a causa da CPU da thread "DWM Compositor Thread" (74% parado, 59% ao abrir `10k`). Medir o KyraFiles com cada valor de `BackdropMaterialType` (`Solid`, `Mica`, `MicaAlt`, `Acrylic`) e comparar.
 
 ## COMO
 
-1. Pré-requisitos de `tools/perf/README.md` (laboratório `New-PerfLab.ps1`, Files Dev aberto por `Open-FilesDev.ps1`).
+1. Pré-requisitos de `tools/perf/README.md` (laboratório `New-PerfLab.ps1`, KyraFiles aberto por `Open-KyraFiles.ps1`).
 2. Trocar o fundo pela tela Settings > Appearance do app (ou editando `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json` com o app fechado). Registrar qual caminho usou.
 3. Para cada valor, com a mesma janela, mesmo tamanho e mesma pasta: `idle.ps1 -WaitS 10` e `thr.ps1 -Folder C:\FilesUXLab\perf\10k`, 3 rodadas, mediana.
 4. Registrar em `tools/perf/README.md` (nova seção "A/B do fundo") a tabela valor × CPU parado × CPU ao abrir × % do compositor, com os comandos usados.
@@ -29,8 +29,8 @@ Código de produto em `src/` e `tests/`. Nada do OneCommander além de observar 
 
 ## TESTES OBRIGATÓRIOS
 
-Mesma máquina, nenhum outro app pesado aberto, janelas do Files Dev sem mexer durante a medição. Restaurar o fundo original (`MicaAlt`) ao terminar.
+Mesma máquina, nenhum outro app pesado aberto, janelas do KyraFiles sem mexer durante a medição. Restaurar o fundo original (`MicaAlt`) ao terminar.
 
 ## FORA DE ESCOPO
 
-Qualquer otimização de código; comparar com o Files oficial (D-007).
+Qualquer otimização de código; comparar com o KyraFiles oficial (D-007).

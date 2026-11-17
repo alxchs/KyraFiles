@@ -1,6 +1,6 @@
-<#
+﻿<#
 .SYNOPSIS
-    Mede o consumo de memória (Working Set / Private Bytes) e a latência de restauração do Files.exe.
+    Mede o consumo de memória (Working Set / Private Bytes) e a latência de restauração do KyraFiles.exe.
     Rastreia conformidade com a Spec F063 (P0 - Zero Regressão).
     Atende à decisão Q12 (29/10/2026): utiliza instância própria e controlada de teste,
     nunca sequestrando nem roubando o foco da janela em uso do usuário.
@@ -108,13 +108,13 @@ if ($TargetPid -gt 0) {
 } else {
     # Q12: NUNCA sequestrar a janela ativa do usuário silenciosamente.
     # Dispara uma instância própria de teste em Release instalada.
-    $installedExe = Join-Path $env:LOCALAPPDATA "Programs\FilesCustom\Files.exe"
+    $installedExe = Join-Path $env:LOCALAPPDATA "Programs\KyraFiles\KyraFiles.exe"
     if (-not (Test-Path $installedExe)) {
-        $installedExe = Join-Path $env:LOCALAPPDATA "Programs\Files\Files.exe"
+        $installedExe = Join-Path $env:LOCALAPPDATA "Programs\Files\KyraFiles.exe"
     }
 
     if (-not (Test-Path $installedExe)) {
-        Write-Error "Files.exe instalado não foi encontrado para execução de instância de teste."
+        Write-Error "KyraFiles.exe instalado não foi encontrado para execução de instância de teste."
         exit 1
     }
 

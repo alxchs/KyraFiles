@@ -1,4 +1,4 @@
-# F047 — Limpar pastas pesadas de build — PLAN
+﻿# F047 — Limpar pastas pesadas de build — PLAN
 
 Status: APROVADO (Claude, 24/10/2026). Spec aprovada pelo Alexandre em 24/10/2026. **Execução bloqueada** até o Claude liberar (`docs/agents/ORDEM-RIGIDA-AGY.md`).
 
@@ -17,7 +17,7 @@ Opções descartadas: (a) apagar direto por `Directory.Delete` sem Lixeira como 
 ## 3. Mapa requisito → código
 | Requisito | Onde |
 |---|---|
-| FR-001 | `BuildFolderRules` + `BuildFolderScanner` (novos, em `src/Files.App/Services/` ou `Utils/`; T0 confirma) |
+| FR-001 | `BuildFolderRules` + `BuildFolderScanner` (novos, em `src/KyraFiles.App/Services/` ou `Utils/`; T0 confirma) |
 | FR-002; AC-5 | verificação de arquivos rastreados no scanner |
 | FR-003 | arquivo de configuração das regras |
 | NFR-001 | pilha própria com poda; teste de tempo em T5 |

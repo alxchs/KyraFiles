@@ -1,4 +1,4 @@
-﻿# Copyright (c) Files Community
+﻿# Copyright (c) KyraFiles Community
 # Licensed under the MIT License.
 
 # Abstract:
@@ -11,7 +11,7 @@
 #  4. Sign the package
 #  5. Publish the package to Azure
 
-name: Files CD (Sideload Stable)
+name: KyraFiles CD (Sideload Stable)
 
 on:
   workflow_dispatch:
@@ -107,7 +107,7 @@ jobs:
         endpoint: https://eus.codesigning.azure.net/
         signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ github.workspace }}\src\KyraFiles.App\Assets\FilesOpenDialog
+        files-folder: ${{ github.workspace }}\src\KyraFiles.App\Assets\KyraFilesOpenDialog
         files-folder-filter: "*.exe"
         files-folder-recurse: false
         file-digest: SHA256
@@ -152,7 +152,7 @@ jobs:
       run: |
         . './.github/scripts/Create-MsixBundle.ps1' `
           -AppxPackageDir "$env:APPX_PACKAGE_DIR" `
-          -BundleName "Files.Package" `
+          -BundleName "KyraFiles.Package" `
           -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
           -AppInstallerUri "$env:APP_INSTALLER_SIDELOAD_URL" `
           -BuildMode "Sideload"

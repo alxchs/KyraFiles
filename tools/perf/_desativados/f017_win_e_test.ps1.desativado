@@ -1,6 +1,6 @@
-# F017 T1/T2: prova que Win+E abre o Files (nao o Windows Explorer), que o servico renasce apos taskkill
+﻿# F017 T1/T2: prova que Win+E abre o Files (nao o Windows Explorer), que o servico renasce apos taskkill
 # e que o desligamento cooperativo devolve o Win+E ao Explorer. Simula o teclado com keybd_event
-# (nao substitui o teste com teclado fisico). Temporarios em %TEMP%\claude\desenv\utils\FilesApp\.
+# (nao substitui o teste com teclado fisico). Temporarios em %TEMP%\claude\desenv\utils\KyraFiles\.
 param(
     [string]$Bin = (Join-Path $PSScriptRoot '..\..\bin\Release'),
     [string]$PackageAumid = 'FilesDev_ykqwq8d6ps0ag!App'
@@ -8,7 +8,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $Bin = (Resolve-Path $Bin).Path
-$tmp = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp'
+$tmp = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles'
 New-Item -ItemType Directory -Force $tmp | Out-Null
 
 Add-Type @"
@@ -36,7 +36,7 @@ function Get-ForegroundProcessName {
 }
 
 function Stop-All {
-    Stop-Process -Name Files.Watchdog, Files.HotkeyService, Files -Force -ErrorAction SilentlyContinue
+    Stop-Process -Name KyraFiles.Watchdog, KyraFiles.HotkeyService, Files -Force -ErrorAction SilentlyContinue
     Start-Sleep 1
 }
 
@@ -49,8 +49,8 @@ $result = [ordered]@{}
 # --- 1. Win+E com o Files fechado (AC-1) -----------------------------------------------------------------------
 Stop-All
 $before = Get-ExplorerWindowCount
-Start-Hidden 'Files.HotkeyService.exe'; Start-Sleep 2
-$result['servico vivo'] = [bool](Get-Process Files.HotkeyService -ErrorAction SilentlyContinue)
+Start-Hidden 'KyraFiles.HotkeyService.exe'; Start-Sleep 2
+$result['servico vivo'] = [bool](Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue)
 Send-WinE; Start-Sleep -Milliseconds 400
 $fg = Get-ForegroundProcessName
 $result['primeiro plano a 400ms (nao pode ser Iniciar)'] = $fg
@@ -70,16 +70,16 @@ $result['AC-2 OK'] = ($result['AC-2 primeiro plano'] -eq 'Files' -and $before2 -
 
 # --- 3. taskkill /F: o Watchdog traz o servico de volta em ~200 ms (AC-3) --------------------------------------
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
-Stop-Process -Name Files.HotkeyService -Force -ErrorAction SilentlyContinue
-Start-Hidden 'Files.Watchdog.exe'; Start-Sleep 2
-$svc = Get-Process Files.HotkeyService -ErrorAction SilentlyContinue
+Stop-Process -Name KyraFiles.HotkeyService -Force -ErrorAction SilentlyContinue
+Start-Hidden 'KyraFiles.Watchdog.exe'; Start-Sleep 2
+$svc = Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue
 $result['AC-3 servico subiu pelo Watchdog'] = [bool]$svc
 $oldPid = $svc.Id
 $sw = [Diagnostics.Stopwatch]::StartNew()
 Stop-Process -Id $oldPid -Force
 $newPid = $null
 while ($sw.ElapsedMilliseconds -lt 5000) {
-    $p = Get-Process Files.HotkeyService -ErrorAction SilentlyContinue
+    $p = Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue
     if ($p -and $p.Id -ne $oldPid) { $newPid = $p.Id; break }
     Start-Sleep -Milliseconds 10
 }
@@ -98,7 +98,7 @@ Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
 $ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\FilesCustom_ShutdownHotkeyService')
 [void]$ev.Set()
 Start-Sleep 2
-$result['AC-7 Watchdog/servico encerrados'] = -not (Get-Process Files.Watchdog, Files.HotkeyService -ErrorAction SilentlyContinue)
+$result['AC-7 Watchdog/servico encerrados'] = -not (Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService -ErrorAction SilentlyContinue)
 $before4 = Get-ExplorerWindowCount
 Send-WinE; Start-Sleep 3
 $result['AC-7 janelas do Explorer antes/depois (deve subir 1)'] = "$before4 / $(Get-ExplorerWindowCount)"
@@ -108,7 +108,7 @@ $result['AC-7 OK'] = ((Get-ExplorerWindowCount) -eq $before4 + 1 -and -not $resu
 # limpeza: fecha a janela do Explorer aberta pelo teste e o que sobrou
 $w = @((New-Object -ComObject Shell.Application).Windows() | Where-Object LocationName -eq 'This PC')
 if ($w.Count) { $w[-1].Quit() }
-Stop-Process -Name Files.Watchdog, Files.HotkeyService, Files -Force -ErrorAction SilentlyContinue
+Stop-Process -Name KyraFiles.Watchdog, KyraFiles.HotkeyService, Files -Force -ErrorAction SilentlyContinue
 
 $result.GetEnumerator() | ForEach-Object { '{0,-62} {1}' -f $_.Key, $_.Value }
 $result | ConvertTo-Json | Set-Content (Join-Path $tmp 'f017_win_e_result.json')

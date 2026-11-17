@@ -1,4 +1,4 @@
-<title>Files Custom 09/10 10:45</title>
+﻿<title>KyraFiles 09/10 10:45</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   /* Layout: one reading column; a status ledger (item / o que muda / estado) is the core of the page */
@@ -56,15 +56,15 @@
 <main>
   <header>
     <span class="eyebrow">Nota de liberação · F012 · F013 · G1 C2 · 09/10/2026 10:45</span>
-    <h1>Win + E e explorer.exe abrem no Files; F3 abre o Agent Ransack</h1>
-    <p class="lede">Com o Files aberto ou em segundo plano, as janelas novas do Explorer passam para o Files sem chegar a aparecer. O F3 abre o Agent Ransack na pasta atual, e os nomes das colunas extras seguem o idioma do app.</p>
+    <h1>Win + E e explorer.exe abrem no KyraFiles; F3 abre o Agent Ransack</h1>
+    <p class="lede">Com o KyraFiles aberto ou em segundo plano, as janelas novas do Explorer passam para o KyraFiles sem chegar a aparecer. O F3 abre o Agent Ransack na pasta atual, e os nomes das colunas extras seguem o idioma do app.</p>
   </header>
 
   <section>
     <h2>Build</h2>
     <dl class="facts">
-      <dt>Executável</dt><dd><code>src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.exe</code></dd>
-      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-FilesDev.ps1</code></dd>
+      <dt>Executável</dt><dd><code>src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe</code></dd>
+      <dt>Pacote</dt><dd><code>FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag</code>, registrado por <code>Open-KyraFiles.ps1</code></dd>
       <dt>Branch</dt><dd><code>feature/f012-explorer-replacement</code>, até <code>5b7e8f865</code> (commits depois do adendo WIP ainda não publicados)</dd>
       <dt>Compilação</dt><dd><code>mkfile r Files.slnx</code>: 0 Warning(s), 0 Error(s)</dd>
     </dl>
@@ -76,14 +76,14 @@
       <table>
         <thead><tr><th>Item</th><th>O que muda para você</th><th>Estado</th></tr></thead>
         <tbody>
-          <tr><td>Win + E</td><td>Abre "Este Computador" no Files; a janela do Explorer não chega a aparecer (no máximo ~10 ms).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">por teclado simulado, com o Files aberto e em segundo plano</span></td></tr>
-          <tr><td>explorer.exe &lt;pasta&gt;</td><td>A pasta abre no Files, cerca de 3 s depois do comando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">o Explorer leva ~3,2 s para expor a pasta</span></td></tr>
-          <tr><td>Mostrar na pasta</td><td>Abre a pasta no Files com o arquivo marcado.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">com explorer /select; navegadores ainda não testados</span></td></tr>
+          <tr><td>Win + E</td><td>Abre "Este Computador" no KyraFiles; a janela do Explorer não chega a aparecer (no máximo ~10 ms).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">por teclado simulado, com o KyraFiles aberto e em segundo plano</span></td></tr>
+          <tr><td>explorer.exe &lt;pasta&gt;</td><td>A pasta abre no KyraFiles, cerca de 3 s depois do comando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">o Explorer leva ~3,2 s para expor a pasta</span></td></tr>
+          <tr><td>Mostrar na pasta</td><td>Abre a pasta no KyraFiles com o arquivo marcado.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">com explorer /select; navegadores ainda não testados</span></td></tr>
           <tr><td>Painel de Controle</td><td>Continua no Explorer, como deve.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
           <tr><td>Files fechado ou opção desligada</td><td>O Explorer abre normalmente.</td><td><span class="chip ok">CONFIRMED</span></td></tr>
-          <tr><td>F3</td><td>Numa pasta, abre o Agent Ransack nela; fora de pastas, abre a busca do Files. Ctrl+F continua com a busca do Files.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">Agent Ransack em ~2 s, pasta com espaço e acento</span></td></tr>
-          <tr><td>Colunas extras</td><td>Nomes e categorias no idioma do Files (antes sempre em português).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">em inglês; português não visto na tela</span></td></tr>
-          <tr><td>Diálogo "Abrir" do Files</td><td>Continua funcionando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">teste de regressão</span></td></tr>
+          <tr><td>F3</td><td>Numa pasta, abre o Agent Ransack nela; fora de pastas, abre a busca do KyraFiles. Ctrl+F continua com a busca do KyraFiles.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">Agent Ransack em ~2 s, pasta com espaço e acento</span></td></tr>
+          <tr><td>Colunas extras</td><td>Nomes e categorias no idioma do KyraFiles (antes sempre em português).</td><td><span class="chip ok">CONFIRMED</span><span class="ev">em inglês; português não visto na tela</span></td></tr>
+          <tr><td>Diálogo "Abrir" do KyraFiles</td><td>Continua funcionando.</td><td><span class="chip ok">CONFIRMED</span><span class="ev">teste de regressão</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -93,23 +93,23 @@
     <h2>Medido</h2>
     <div class="numbers">
       <div class="num"><b>≤ 30 ms</b><span>tempo máximo da janela do Explorer na tela, em 9 aberturas de pasta</span></div>
-      <div class="num"><b>0,6–0,8 s</b><span>do Win + E até o Files assumir</span></div>
+      <div class="num"><b>0,6–0,8 s</b><span>do Win + E até o KyraFiles assumir</span></div>
       <div class="num"><b>~2 s</b><span>do F3 até o Agent Ransack abrir</span></div>
     </div>
   </section>
 
   <section>
     <h2>Para valer depois de reiniciar o PC</h2>
-    <p>O Files precisa estar rodando. Ligue <b>Configurações &gt; Avançado &gt; Abrir o Files ao iniciar o Windows</b>; nesta máquina essa opção está desligada. Com o Files fechado, o Win + E abre o Explorer.</p>
+    <p>o KyraFiles precisa estar rodando. Ligue <b>Configurações &gt; Avançado &gt; Abrir o KyraFiles ao iniciar o Windows</b>; nesta máquina essa opção está desligada. Com o KyraFiles fechado, o Win + E abre o Explorer.</p>
   </section>
 
   <section>
     <h2>Como testar</h2>
     <ol>
-      <li>Feche o Files Dev e rode <code>.\Open-FilesDev.ps1</code>.</li>
-      <li>Aperte Win + E: deve abrir o Files em "Este Computador".</li>
-      <li>Win + R, digite <code>explorer C:\Windows</code>: deve abrir no Files.</li>
-      <li>Numa pasta do Files, aperte F3: o Agent Ransack abre nela.</li>
+      <li>Feche o KyraFiles e rode <code>.\Open-KyraFiles.ps1</code>.</li>
+      <li>Aperte Win + E: deve abrir o KyraFiles em "Este Computador".</li>
+      <li>Win + R, digite <code>explorer C:\Windows</code>: deve abrir no KyraFiles.</li>
+      <li>Numa pasta do KyraFiles, aperte F3: o Agent Ransack abre nela.</li>
       <li>Botão direito no cabeçalho "Nome" &gt; "More...": nomes no idioma do app.</li>
     </ol>
   </section>

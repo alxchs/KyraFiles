@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Windows.ApplicationModel;
@@ -172,18 +172,18 @@ namespace KyraFiles.App
 
 		public static class ExternalUrl
 		{
-			public const string GitHubRepoUrl = @"https://github.com/alxchs/FilesCustom";
-			public const string DocumentationUrl = @"https://files.community/docs";
-			public const string DiscordUrl = @"https://discord.gg/files";
-			public const string FeatureRequestUrl = @"https://discord.gg/files";
-			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
-			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
+			public const string GitHubRepoUrl = @"https://github.com/alxchs/KyraFiles";
+			public const string DocumentationUrl = @"https://github.com/alxchs/KyraFiles/tree/main/docs";
+			public const string DiscordUrl = @"https://github.com/alxchs/KyraFiles/discussions";
+			public const string FeatureRequestUrl = @"https://github.com/alxchs/KyraFiles/issues";
+			public const string BugReportUrl = @"https://github.com/alxchs/KyraFiles/issues";
+			public const string PrivacyPolicyUrl = @"https://github.com/alxchs/KyraFiles";
 			public const string SupportUsUrl = @"https://github.com/alxchs";
-			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
-			// Files Custom releases (F018, D-022). Change here to point the update check elsewhere.
-			public const string CustomReleasesApiUrl = @"https://api.github.com/repos/alxchs/FilesCustom/releases/latest";
-			public const string CustomReleasesPageUrl = @"https://github.com/alxchs/FilesCustom/releases";
-			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
+			public const string CrowdinUrl = @"https://github.com/alxchs/KyraFiles";
+			// KyraFiles releases
+			public const string CustomReleasesApiUrl = @"https://api.github.com/repos/alxchs/KyraFiles/releases/latest";
+			public const string CustomReleasesPageUrl = @"https://github.com/alxchs/KyraFiles/releases";
+			public static readonly string ReleaseNotesUrl = $"https://github.com/alxchs/KyraFiles/releases";
 		}
 
 		public static class DocsPath
@@ -254,11 +254,12 @@ namespace KyraFiles.App
 		{
 			public static readonly string[] KnownAppNames =
 			{
+				"KyraFiles", // official
 				"49306atecsolution.FilesUWP", // store stable
 				"FilesStable", // sideload stable
 				"FilesPreview", // sideload preview
 				"49306atecsolution.FilesPreview", // store preview
-				"FilesDev", // dev
+				"KyraFiles", // dev
 			};
 		}
 

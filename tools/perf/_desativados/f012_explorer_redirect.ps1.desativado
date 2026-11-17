@@ -1,11 +1,11 @@
-# F012 / T9: com o Files aberto e o gerenciador padrão ligado, dispara aberturas do Explorer e mede
+﻿# F012 / T9: com o Files aberto e o gerenciador padrão ligado, dispara aberturas do Explorer e mede
 # quanto tempo a janela dele fica visível na tela e se o Files assumiu a localização (debug.log).
 #
 # Uso: pwsh tools\perf\f012_explorer_redirect.ps1
-# Temporários em %TEMP%\claude\desenv\utils\FilesApp\f012 redirect.
+# Temporários em %TEMP%\claude\desenv\utils\KyraFiles\f012 redirect.
 
 $ErrorActionPreference = 'Stop'
-$work = Join-Path $env:TEMP 'claude\desenv\utils\FilesApp\f012 redirect'
+$work = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f012 redirect'
 $folder = Join-Path $work 'pasta com espaço e ação'
 New-Item -ItemType Directory -Force $folder | Out-Null
 $file = Join-Path $folder 'arquivo selecionado ação.txt'

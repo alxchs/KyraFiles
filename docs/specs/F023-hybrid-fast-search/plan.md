@@ -1,4 +1,4 @@
-# Plano de Implementação F023: Busca Rápida Híbrida, Fluidez de UI e Sanificação de Recursos
+﻿# Plano de Implementação F023: Busca Rápida Híbrida, Fluidez de UI e Sanificação de Recursos
 
 ## 1. Arquitetura e Diagnóstico Técnico
 
@@ -53,7 +53,7 @@
 - Execução de bateria de 50 buscas consecutivas monitorando handles e memória gerenciada.
 - Execução do script `tools\perf\verify_no_index_service.ps1` (portão obrigatório).
 - Compilação do executável via `mkfile`.
-- Abertura visual física do Files Custom e validação da busca na prática (digitação, resposta imediata, sem congelamentos).
+- Abertura visual física do KyraFiles e validação da busca na prática (digitação, resposta imediata, sem congelamentos).
 
 ---
 
@@ -63,5 +63,5 @@
 | :--- | :--- | :--- |
 | Usuário do GitHub sem Everything instalado | Médio | Fallback transparente para o motor nativo (Windows Search + Fast Walker); sem mensagens de erro ou bloqueios. |
 | Busca em drives com milhares de arquivos travar a UI | Alto | Streaming em lotes com cap inicial de 500 itens e inserção progressiva sem reordenar a lista inteira repetidas vezes. |
-| Reativação acidental do indexador pesado de fundo | Crítico | O `Files.App.IndexService` permanece estritamente desarmado (`IsAvailable => false`, sem processo em background); validação automática por script. |
+| Reativação acidental do indexador pesado de fundo | Crítico | O `KyraFiles.App.IndexService` permanece estritamente desarmado (`IsAvailable => false`, sem processo em background); validação automática por script. |
 | Vazamento de memória em buscas canceladas rapidamente | Médio | Descarte explícito de CTS e desinscrição obrigatória de delegates no bloco `finally`. |

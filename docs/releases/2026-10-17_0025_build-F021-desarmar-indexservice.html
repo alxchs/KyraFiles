@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Files Custom — Build 2026-10-17 00:25 (F021)</title>
+<title>KyraFiles — Build 2026-10-17 00:25 (F021)</title>
 <style>
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; margin: 32px auto; max-width: 900px; padding: 0 16px; background: #fdfdfd; color: #1a1a1a; }
 h1 { border-bottom: 2px solid #0f6f7a; padding-bottom: 8px; color: #0f6f7a; font-size: 24px; }
@@ -16,9 +16,9 @@ code { background: #eef2f5; padding: 2px 6px; border-radius: 4px; font-family: C
 </style>
 </head>
 <body>
-<h1>Files Custom — Build 2026-10-17 00:25 (F021)</h1>
+<h1>KyraFiles — Build 2026-10-17 00:25 (F021)</h1>
 <div class="box">
-  <p><strong>Instalador:</strong> <code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code> (67,4 MB, Inno Setup 6, LZMA2 Ultra64)</p>
+  <p><strong>Instalador:</strong> <code>artifacts\Setup\KyraFilesSetup-4.2.37.exe</code> (67,4 MB, Inno Setup 6, LZMA2 Ultra64)</p>
   <p><strong>Status:</strong> <span class="badge">CONFIRMED</span> IndexService 100% desarmado (0% CPU, 0 processos) • Everything instantâneo ativo (&lt; 10 ms)</p>
 </div>
 
@@ -28,7 +28,7 @@ code { background: #eef2f5; padding: 2px 6px; border-radius: 4px; font-family: C
     <tr><th>Item</th><th>O que muda para o usuário</th><th>Estado</th></tr>
   </thead>
   <tbody>
-    <tr><td><strong>F021: Desarmamento Total do IndexService</strong></td><td>Processo <code>Files.App.IndexService.exe</code> desativado no startup e construtor. Não sobe em background, 0% CPU em repouso.</td><td><span class="badge">CONFIRMED</span></td></tr>
+    <tr><td><strong>F021: Desarmamento Total do IndexService</strong></td><td>Processo <code>KyraFiles.App.IndexService.exe</code> desativado no startup e construtor. Não sobe em background, 0% CPU em repouso.</td><td><span class="badge">CONFIRMED</span></td></tr>
     <tr><td><strong>F021: Desativação do Teste Destrutivo</strong></td><td>Teste sintético que alocava 32 GB de RAM e congelava a máquina foi marcado com <code>[Ignore]</code> permanente.</td><td><span class="badge">CONFIRMED</span></td></tr>
     <tr><td><strong>F021: Busca Instantânea via Everything</strong></td><td>Busca por nome agora utiliza o Everything nativo (&lt; 10 ms) com a ponte <code>es.exe</code> integrada.</td><td><span class="badge">CONFIRMED</span></td></tr>
     <tr><td><strong>F021: Governança Mandatória</strong></td><td>Nenhuma tarefa da AGY ou Claude é aceita sem a validação do teste <code>verify_no_index_service.ps1</code>.</td><td><span class="badge">CONFIRMED</span></td></tr>
@@ -38,8 +38,8 @@ code { background: #eef2f5; padding: 2px 6px; border-radius: 4px; font-family: C
 
 <h2>Como testar</h2>
 <ol>
-  <li>Instale via <code>artifacts\Setup\FilesCustomSetup-4.2.37.exe</code>.</li>
-  <li>Abra o Files Custom e verifique que nenhum processo <code>Files.App.IndexService</code> é gerado.</li>
+  <li>Instale via <code>artifacts\Setup\KyraFilesSetup-4.2.37.exe</code>.</li>
+  <li>Abra o KyraFiles e verifique que nenhum processo <code>KyraFiles.App.IndexService</code> é gerado.</li>
   <li>Pressione <code>Ctrl+F</code> e faça qualquer busca: resultados surgem instantaneamente via Everything.</li>
 </ol>
 </body>

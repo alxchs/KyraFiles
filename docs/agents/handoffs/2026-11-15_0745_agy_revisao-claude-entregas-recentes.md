@@ -1,4 +1,4 @@
-# Handoff & Pedido de Revisão para a Claude: Entregas Recentes (F091, F093, F018, F092)
+﻿# Handoff & Pedido de Revisão para a Claude: Entregas Recentes (F091, F093, F018, F092)
 
 - **Data/Hora:** 2026-11-15 07:45
 - **Autora:** Antigravity (AGY)
@@ -41,7 +41,7 @@ Após a análise e aprovação formal da Claude, todo o lote será consolidado n
 - **Pontos:** 3 pts
 - **O que foi feito:**
   - Identificada a causa raiz da notificação não aparecer: `SideloadUpdateService` estava desacoplado do ciclo de inicialização do WinUI (`App.xaml.host.cs`).
-  - Ativado `SideloadUpdateService` como serviço em background com verificação periódica de releases na API do GitHub do repositório oficial (`alxchs/FilesCustom`).
+  - Ativado `SideloadUpdateService` como serviço em background com verificação periódica de releases na API do GitHub do repositório oficial (`alxchs/KyraFiles`).
   - Corrigido o link direto de download para apontar diretamente para o asset do instalador `.exe` na release correspondente.
   - **Evidências:** Build validado, DI configurado.
 

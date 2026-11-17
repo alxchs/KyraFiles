@@ -1,4 +1,4 @@
-// Copyright (c) Files Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using KyraFiles.App.Search.Index.Security;
 using KyraFiles.App.Search.Index.Storage;
@@ -58,7 +58,7 @@ public class AccessFilterAndVolumeWatcherTests
 		Assert.IsNotNull(pipeSecurity);
 
 		string defaultCache = AccessFilter.GetDefaultFullModeCacheDirectory();
-		Assert.IsTrue(defaultCache.Contains("FilesCustom", StringComparison.OrdinalIgnoreCase));
+		Assert.IsTrue(defaultCache.Contains("KyraFiles", StringComparison.OrdinalIgnoreCase));
 		Assert.IsTrue(defaultCache.Contains("Index", StringComparison.OrdinalIgnoreCase));
 
 		string tempDir = Path.Combine(Path.GetTempPath(), "f015_acl_test_" + Guid.NewGuid().ToString("N")[..8]);

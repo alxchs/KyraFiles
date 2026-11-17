@@ -1,4 +1,4 @@
-# F026 — Plano
+﻿# F026 — Plano
 
 Status: **APROVADO** (Claude, 20/10/2026).
 
@@ -12,7 +12,7 @@ Atrasar só a parte cara com um `DispatcherQueueTimer` de 80 ms (reiniciado a ca
 Opção descartada: descartar eventos de tecla (perde passos; muda comportamento).
 
 ## Arquivos a mexer
-`src/Files.App/Views/Layouts/BaseLayoutPage.cs` (setter e timer). Nenhum outro.
+`src/KyraFiles.App/Views/Layouts/BaseLayoutPage.cs` (setter e timer). Nenhum outro.
 ## Não mexer
 `NavigationToolbarViewModel.cs`, XAML, serviços, `DetailsLayoutPage.xaml.cs` (handlers de tecla da F024 ficam como estão neste experimento).
 

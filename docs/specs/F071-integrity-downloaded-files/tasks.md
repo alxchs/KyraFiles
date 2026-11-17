@@ -1,4 +1,4 @@
-# F071 — Integridade e Arquivos Baixados — TASKS
+﻿# F071 — Integridade e Arquivos Baixados — TASKS
 
 Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitários, Release compilado e validado. Branch: `feature/f071-integrity`.
 
@@ -20,4 +20,4 @@ Status: CONCLUÍDO (AGY, 01/11/2026). Backend-first concluído com testes unitá
 - Verificação de não regressão do Gate F021 e suíte padrão de testes: **CONFIRMADO** (188 testes passando, 0 falhas).
 
 ## Entrega
-Compilar release (0/0), testes unitários verdes (188/189), instalado em `%LOCALAPPDATA%\Programs\FilesCustom`, gate F021 verificado com sucesso.
+Compilar release (0/0), testes unitários verdes (188/189), instalado em `%LOCALAPPDATA%\Programs\KyraFiles`, gate F021 verificado com sucesso.

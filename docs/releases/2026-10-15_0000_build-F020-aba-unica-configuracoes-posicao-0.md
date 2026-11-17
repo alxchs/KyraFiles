@@ -1,8 +1,8 @@
-# Build 2026-10-15 00:00 — F020 Aba única por endereço e Configurações na primeira posição
+﻿# Build 2026-10-15 00:00 — F020 Aba única por endereço e Configurações na primeira posição
 
-- **Executável:** `src\Files.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\Files.dll`, registrado por `.\Open-FilesDev.ps1 -Configuration Release` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
+- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.dll`, registrado por `.\Open-KyraFiles.ps1 -Configuration Release` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
 - **Código:** branch `feature/f020-aba-unica-config-primeira-posicao`.
-- **Build:** `mkfile release src\Files.App\Files.App.csproj` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
+- **Build:** `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
 - **Testes lógicos:** `tools\perf\test_f020_logic.ps1` = `16/16` testes aprovados (CONFIRMED).
 
 ## O que foi liberado
@@ -19,7 +19,7 @@
 
 ## Como testar
 
-1. Feche o Files Dev e execute `.\Open-FilesDev.ps1 -Configuration Release`.
+1. Feche o KyraFiles e execute `.\Open-KyraFiles.ps1 -Configuration Release`.
 2. Abra uma pasta qualquer (ex: `C:\Windows`).
 3. Tente abrir novamente `C:\Windows` (via atalho ou menu): observe que o app foca a aba existente sem criar uma segunda aba.
 4. Pressione `Ctrl+,` para abrir as Configurações: observe que a aba abre no índice 0 (extrema esquerda), deslocando as abas de pastas para a direita.

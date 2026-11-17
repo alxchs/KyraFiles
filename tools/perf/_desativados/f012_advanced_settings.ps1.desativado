@@ -1,4 +1,4 @@
-﻿# F012 / diálogo de arquivos: abre Configurações > Avançado no Files Dev, lê ou alterna as
+﻿# F012 / diálogo de arquivos: abre Configurações > Avançado no KyraFiles, lê ou alterna as
 # duas opções por UI Automation, confere o registro e captura a janela.
 #
 # Uso: pwsh tools\perf\f012_advanced_settings.ps1 [-DefaultManager On|Off] [-FileDialog On|Off] [-Capture <nome>]

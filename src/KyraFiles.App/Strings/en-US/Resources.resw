@@ -5102,6 +5102,9 @@
   <data name="SettingsAboutEcosystemMemoryCopy" xml:space="preserve">
     <value>Copy report</value>
   </data>
+  <data name="SettingsAboutEcosystemMemoryCalculating" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
   <data name="SplitFile" xml:space="preserve">
     <value>Split into parts...</value>
   </data>

@@ -1,4 +1,4 @@
-﻿# measure_f063_memory_restore.ps1
+# measure_f063_memory_restore.ps1
 # Medição de latência de restauração via UI Automation e comprovação de memória (F063 - C6 e C8)
 # Utiliza WindowPattern em instância própria do Files (KyraFiles), sem ShowWindow e sem roubar foco físico (METODO §16).
 #
@@ -45,15 +45,15 @@ if (-not $pkg) {
 }
 
 # Localiza processos KyraFiles.exe da instância de desenvolvimento (não toca no processo do Alexandre)
-$devProcs = Get-Process -Name "Files" -ErrorAction SilentlyContinue | Where-Object {
-    $_.Path -and ($_.Path.Contains("KyraFiles") -or $_.Path.Contains("KyraFiles") -or $_.Path.Contains("AppX"))
+$devProcs = Get-Process -Name "KyraFiles" -ErrorAction SilentlyContinue | Where-Object {
+    $_.Path -and ($_.Path.Contains("KyraFiles") -or $_.Path.Contains("AppX"))
 }
 
 if (-not $devProcs) {
     Write-Host "Iniciando instância de desenvolvimento..." -ForegroundColor Yellow
     Start-Process "shell:AppsFolder\$($pkg.PackageFamilyName)!App"
     Start-Sleep -Seconds 5
-    $devProcs = Get-Process -Name "Files" -ErrorAction SilentlyContinue
+    $devProcs = Get-Process -Name "KyraFiles" -ErrorAction SilentlyContinue
 }
 
 $targetWindow = $null

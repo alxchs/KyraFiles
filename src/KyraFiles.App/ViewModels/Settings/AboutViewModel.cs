@@ -34,7 +34,7 @@ namespace KyraFiles.App.ViewModels.Settings
 
 		public ObservableCollection<OpenSourceLibraryItem> OpenSourceLibraries { get; }
 
-		private string _ecosystemMemorySummary = "Calculating...";
+		private string _ecosystemMemorySummary = Strings.SettingsAboutEcosystemMemoryCalculating.GetLocalizedResource();
 		public string EcosystemMemorySummary
 		{
 			get => _ecosystemMemorySummary;

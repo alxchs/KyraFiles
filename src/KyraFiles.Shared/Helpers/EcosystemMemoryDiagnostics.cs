@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -113,6 +113,18 @@ namespace KyraFiles.Shared.Helpers
 		}
 
 		/// <summary>
+		/// Verifies whether an executable path belongs to the KyraFiles ecosystem,
+		/// preventing unrelated applications with colliding names from being summed.
+		/// </summary>
+		public static bool IsEcosystemExecutablePath(string? executablePath)
+		{
+			if (string.IsNullOrWhiteSpace(executablePath))
+				return true;
+
+			return executablePath.Contains("KyraFiles", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
 		/// Collects the current memory snapshot for all monitored ecosystem processes.
 		/// Safely handles processes exiting during query.
 		/// </summary>
@@ -141,6 +153,7 @@ namespace KyraFiles.Shared.Helpers
 					continue;
 				}
 
+				int matchedForTarget = 0;
 				foreach (var proc in processes)
 				{
 					using (proc)
@@ -155,6 +168,11 @@ namespace KyraFiles.Shared.Helpers
 							if (!proc.HasExited)
 							{
 								pid = proc.Id;
+								string? exePath = null;
+								try { exePath = proc.MainModule?.FileName; } catch { }
+								if (pid != Environment.ProcessId && !IsEcosystemExecutablePath(exePath))
+									continue;
+
 								proc.Refresh();
 								ws = proc.WorkingSet64;
 								priv = proc.PrivateMemorySize64;
@@ -172,13 +190,15 @@ namespace KyraFiles.Shared.Helpers
 							totalWs += ws;
 							totalPriv += priv;
 							activeCount++;
+							matchedForTarget++;
 							items.Add(new ProcessMemoryItem(targetName, pid, ws, priv, true));
 						}
-						else
-						{
-							items.Add(new ProcessMemoryItem(targetName, 0, 0, 0, false));
-						}
 					}
+				}
+
+				if (matchedForTarget == 0)
+				{
+					items.Add(new ProcessMemoryItem(targetName, 0, 0, 0, false));
 				}
 			}
 

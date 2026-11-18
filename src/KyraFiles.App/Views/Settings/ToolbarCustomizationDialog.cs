@@ -143,6 +143,7 @@ namespace KyraFiles.App.Views.Settings
 			appWindow.Resize(new SizeInt32(
 				Math.Max(1, Convert.ToInt32(760 * App.AppModel.AppWindowDPI)),
 				Math.Max(1, Convert.ToInt32(560 * App.AppModel.AppWindowDPI))));
+			Ioc.Default.GetService<IUiScaleService>()?.ApplyScale(window, frame);
 			return window;
 		}
 	}

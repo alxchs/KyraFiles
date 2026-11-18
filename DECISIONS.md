@@ -52,7 +52,15 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 
 ## PENDING DECISION
 
-(Dúvidas que a AGY encontrar enquanto o Claude estiver parado: contexto, opções, a escolha que ela faria e por quê.)
+### D-F090-1 — Escopo de T4 da F090: Popups (MenuFlyout/ToolTip/ContentDialog) e atalhos Ctrl++/Ctrl+- (11/11/2026)
+
+- **Context:** As janelas secundárias do app (`SettingsDialog`, `ToolbarCustomizationDialog`, `FilePropertiesHelpers`, `HexEditorWindow`) passaram a receber `IUiScaleService.ApplyScale`, cobrindo `FR-2` e a parte de janela de Configurações do `AC-4`. Ficam em aberto as pendências 2 e 3 de `docs/specs/F090-escala-da-interface/spec.md` (T4):
+  1. **Menus, dicas e diálogos (`PopupRoot` / `MenuFlyout` / `ToolTip` / `ContentDialog`):** em WinUI 3, `PopupRoot` é irmão de `rootFrame` e não herda `Scale` aplicado na raiz da janela; escalar popups manualmente sem teste visual pode deslocar âncoras ou cortar menus na borda da tela.
+  2. **Atalhos `Ctrl++` / `Ctrl+-`:** hoje `LayoutAction.cs` / `BaseLayoutPage.cs` já usam zoom de lista/grade (`ZoomIn` / `ZoomOut`).
+- **Options:**
+  - **(A) Conservadora (v1):** manter em v1 a escala aplicada em todas as janelas (`MainWindow`, `SettingsDialog`, `ToolbarCustomizationDialog`, `PropertiesWindow`, `HexEditorWindow`), documentando em `AC-4` que popups transitórios nativos seguem a escala do Windows até decisão pela Opção C do `plan.md`, e não sobrescrever `Ctrl++`/`Ctrl+-` do zoom da lista (ou usar atalho distinto, ex. `Ctrl+Alt++`/`Ctrl+Alt+-` se desejado).
+  - **(B) Completa na T4:** implementar escalonamento de popups abertos via `VisualTreeHelper.GetOpenPopupsForXamlRoot` (Opção C do `plan.md`) e/ou reatribuir `Ctrl++`/`Ctrl+-` para escala global.
+- **Escolha que a AGY faria:** **(A)** até validação visual do build da v1 na máquina com Windows SDK, evitando risco de menus cortados/deslocados sem prova em tela. **Pendente:** decisão da Claude / do Alexandre antes de implementar T4 de popups/atalhos.
 
 ## D-009 — Requisitos adicionais: densidade, fontes, colunas do Explorer e motor de busca (03/10/2026)
 

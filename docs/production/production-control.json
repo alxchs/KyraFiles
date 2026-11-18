@@ -1,4 +1,4 @@
-﻿{
+{
     "schema_version":  "2.0",
     "protocol_version":  "2.0",
     "project":  {
@@ -8,21 +8,20 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-16T09:24:18.3979538Z",
+                    "last_updated_at":  "2026-11-18T04:08:52.1911696Z",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
                     "spec_count":  77,
                     "task_count":  null,
                     "status_counts":  {
-                                          "not_started":  15,
-                                          "completed":  36,
-                                          "in_validation":  22,
-                                          "in_progress":  4
+                                          "not_started":  14,
+                                          "completed":  37,
+                                          "in_validation":  26
                                       },
                     "total_points":  361,
-                    "completed_points_equivalent":  158,
-                    "remaining_points":  203,
+                    "completed_points_equivalent":  163,
+                    "remaining_points":  198,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -2276,7 +2275,7 @@
                                      ],
                       "title":  "diferenciais sftp script hex split",
                       "type":  "feature",
-                      "state":  "in_progress",
+                      "state":  "in_validation",
                       "category":  "em_andamento",
                       "points":  13,
                       "points_confidence":  "low",
@@ -2290,19 +2289,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "2ab7a65bc",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "ref":  "tests/KyraFiles.App.Search.Index.Tests/HexHelpersTests.cs",
+                                           "type":  "test",
+                                           "note":  "78/78 testes unitarios F060 aprovados (M1 Split/Combine, M2 Hex Editor, M5 NaturalSearch) apos correcao do literal de 16 bytes em HexHelpersTests"
                                        },
                                        {
-                                           "ref":  "caa4c57ee",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F060-diferenciais-sftp-script-hex-split/",
+                                           "ref":  "docs/specs/F060-diferenciais-sftp-script-hex-split/tasks.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 13 marcadas e 17 abertas; matriz-situacao.md"
+                                           "note":  "Onda A (M1/M2/M5) nucleo + UI compilados com 0 erros; aguardando provas de tela sem roubo de foco e decisao das ADRs 007/008 (Onda B: SFTP/Script)"
                                        }
                                    ],
                       "blockers":  [
@@ -2368,7 +2362,7 @@
                                      ],
                       "title":  "diagnostico memoria ecossistema",
                       "type":  "feature",
-                      "state":  "in_progress",
+                      "state":  "in_validation",
                       "category":  "em_andamento",
                       "points":  5,
                       "points_confidence":  "low",
@@ -2382,19 +2376,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "28ecad12a",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "ref":  "EcosystemMemoryDiagnosticsTests",
+                                           "type":  "test",
+                                           "note":  "8/8 testes unitarios aprovados incluindo filtro de caminho IsEcosystemExecutablePath e resumo RAM+Privada"
                                        },
                                        {
-                                           "ref":  "2ab7a65bc",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F062-diagnostico-memoria-ecossistema/",
-                                           "type":  "doc",
-                                           "note":  "spec RASCUNHO; tasks.md 0/4; AboutPage.xaml referencia"
+                                           "ref":  "src/KyraFiles.App/ViewModels/Settings/AboutViewModel.cs",
+                                           "type":  "code",
+                                           "note":  "localizacao pt-BR/en-US completa (incluindo SettingsAboutEcosystemMemoryCalculating), build Release x64 0 erros; falta apenas captura visual da tela Sobre sem roubo de foco"
                                        }
                                    ],
                       "blockers":  [
@@ -2414,7 +2403,7 @@
                                      ],
                       "title":  "otimizacao memoria zero regressao",
                       "type":  "performance",
-                      "state":  "in_progress",
+                      "state":  "in_validation",
                       "category":  "em_andamento",
                       "points":  8,
                       "points_confidence":  "low",
@@ -2428,19 +2417,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "28ecad12a",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "ref":  "src/KyraFiles.App/Helpers/MemoryTrimHelper.cs",
+                                           "type":  "code",
+                                           "note":  "C1/C2 confirmados no codigo (trim so em minimizar/bandeja, timeout 30s com cancelamento ao restaurar), C8 resumo RAM+Privada implementado"
                                        },
                                        {
-                                           "ref":  "2ab7a65bc",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F063-otimizacao-memoria-zero-regressao/",
-                                           "type":  "doc",
-                                           "note":  "spec voltou a RASCUNHO (29/10/2026); tasks.md 6 marcadas e 2 abertas"
+                                           "ref":  "tools/perf/measure_f063_memory_restore.ps1",
+                                           "type":  "script",
+                                           "note":  "script UIA atualizado para processo KyraFiles; aguardando execucao visual de 10 rodadas (C7) e captura Sobre (C8) sem roubo de foco"
                                        }
                                    ],
                       "blockers":  [
@@ -2947,8 +2931,8 @@
                                      ],
                       "title":  "identidade pacote e dados",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "dependendo_alexandre",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2958,25 +2942,27 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "completed",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F087-identidade-pacote-e-dados/",
-                                           "type":  "doc",
-                                           "note":  "spec RASCUNHO aguardando aprovacao; sem codigo proprio"
+                                           "ref":  "0d6047ccd",
+                                           "type":  "commit",
+                                           "note":  "absorvida e cumprida pela F091: identidade KyraFiles, alias kyrafiles.exe, protocolo kyrafiles:, pasta Programs/KyraFiles, 0 residuos em check-legacy-names.ps1"
+                                       },
+                                       {
+                                           "ref":  "v4.3.19.0",
+                                           "type":  "release",
+                                           "note":  "pacote AppX KyraFiles_4.3.19.0_x64__sxng2gqmgahde instalado e publicado"
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "alexandre",
-                                           "note":  "spec RASCUNHO aguardando aprovacao; sem codigo proprio"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F087-identidade-pacote-e-dados/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "alexandre/agy",
                       "created_at":  null
                   },
                   {
@@ -3078,7 +3064,7 @@
                                      ],
                       "title":  "escala da interface",
                       "type":  "feature",
-                      "state":  "in_progress",
+                      "state":  "in_validation",
                       "category":  "em_andamento",
                       "points":  5,
                       "points_confidence":  "low",
@@ -3092,19 +3078,14 @@
                       "progress":  "not_calculable",
                       "evidence":  [
                                        {
-                                           "ref":  "1c1a02df5",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
+                                           "ref":  "tests/test-ui-scale-math.ps1",
+                                           "type":  "test",
+                                           "note":  "19/19 testes UiScaleMath aprovados; UiScaleService recomposto com correcao da escala quadratica, XamlRoot.Changed para troca de DPI, DragZone e janelas secundarias"
                                        },
                                        {
-                                           "ref":  "b4897aa82",
-                                           "type":  "commit",
-                                           "note":  "commit citando a spec no assunto (busca git log --grep); nao reconfirmado como entrega completa"
-                                       },
-                                       {
-                                           "ref":  "docs/specs/F090-escala-da-interface/",
-                                           "type":  "doc",
-                                           "note":  "spec RASCUNHO; T1-T3 em codigo, T4/T5 (build oficial e prova visual) pendentes"
+                                           "ref":  "src/KyraFiles.App/Services/App/UiScaleService.cs",
+                                           "type":  "build",
+                                           "note":  "build Release x64 aprovado (0 erros) e 0 violacoes em check-legacy-names.ps1; pendente apenas execucao visual f090_scale_test.ps1 sem roubo de foco"
                                        }
                                    ],
                       "blockers":  [
@@ -3138,14 +3119,14 @@
                       "progress":  "completed",
                       "evidence":  [
                                        {
-                                           "ref":  "1648a2c7d",
+                                           "ref":  "0d6047ccd",
                                            "type":  "commit",
-                                           "note":  "renome de 1450 arquivos parcial: verificador ampliado em 16/11 acusa ~787 residuos fora de docs e md; purga reaberta"
+                                           "note":  "commit unico squashed na main: extincao definitiva de marcas legadas e 0 violacoes em tools/check-legacy-names.ps1"
                                        },
                                        {
-                                           "ref":  "docs/specs/F091-identidade-kyrafiles-no-codigo/spec.md",
-                                           "type":  "doc",
-                                           "note":  "spec aprovada e validada com check-legacy-names.ps1 verde"
+                                           "ref":  "15fdaae16",
+                                           "type":  "release",
+                                           "note":  "release v4.3.19.0 publicada em alxchs/KyraFiles e alxchs/KyraFiles-private (KyraFilesSetup-4.3.19.exe)"
                                        }
                                    ],
                       "blockers":  [

@@ -49,6 +49,7 @@ namespace KyraFiles.App.Views.HexEditor
 			var width = Math.Max(1, Convert.ToInt32(960 * App.AppModel.AppWindowDPI));
 			var height = Math.Max(1, Convert.ToInt32(640 * App.AppModel.AppWindowDPI));
 			AppWindow.Resize(new SizeInt32(width, height));
+			Ioc.Default.GetService<IUiScaleService>()?.ApplyScale(this, _page);
 
 			AppWindow.Closing += AppWindow_Closing;
 		}

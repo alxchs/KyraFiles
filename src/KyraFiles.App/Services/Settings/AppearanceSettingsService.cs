@@ -212,8 +212,8 @@ namespace KyraFiles.App.Services.Settings
 		/// <inheritdoc/>
 		public int AppUiScalePercent
 		{
-			get => Get(100);
-			set => Set(value);
+			get => UiScaleMath.NormalizeScalePercent(Get(UiScaleMath.DefaultScalePercent));
+			set => Set(UiScaleMath.NormalizeScalePercent(value));
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)

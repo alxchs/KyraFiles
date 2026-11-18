@@ -139,6 +139,8 @@ namespace KyraFiles.App.Views.Settings
 			var height = Math.Max(1, Convert.ToInt32(660 * App.AppModel.AppWindowDPI));
 			appWindow.Resize(new SizeInt32(width, height));
 
+			Ioc.Default.GetService<IUiScaleService>()?.ApplyScale(window, rootGrid);
+
 			settingsFrame.Navigate(typeof(SettingsPage), new SettingsNavigationParams { PageKind = initialPageKind }, new SuppressNavigationTransitionInfo());
 
 			return window;

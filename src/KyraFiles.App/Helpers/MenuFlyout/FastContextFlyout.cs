@@ -631,11 +631,12 @@ namespace KyraFiles.App.Helpers.ContextFlyouts
 				try
 				{
 					var scale = MainWindow.Instance.Content.XamlRoot?.RasterizationScale ?? 1.0;
+					var uiScale = Ioc.Default.GetService<IUiScaleService>()?.ScaleFactor ?? 1.0;
 					var targetTopScreen = ClientYToScreen(target.TransformToVisual(null).TransformPoint(new Point(0, 0)).Y);
 
 					// Tolerance band around the target: a pointer invocation can land a few px outside the
 					// row the flyout ends up anchored to
-					var isCursorNearTarget = cursorY >= targetTopScreen - 24 && cursorY <= targetTopScreen + target.ActualHeight * scale + 24;
+					var isCursorNearTarget = cursorY >= targetTopScreen - 24 && cursorY <= targetTopScreen + target.ActualHeight * scale * uiScale + 24;
 					return isCursorNearTarget ? cursorY : targetTopScreen;
 				}
 				catch
@@ -700,7 +701,7 @@ namespace KyraFiles.App.Helpers.ContextFlyouts
 				try
 				{
 					var windowPosition = MainWindow.Instance.AppWindow.Position;
-					var pointInContent = anchor.TransformToVisual(content).TransformPoint(position);
+					var pointInContent = anchor.TransformToVisual(null).TransformPoint(position);
 					return (windowPosition.X + pointInContent.X * scale, windowPosition.Y + pointInContent.Y * scale);
 				}
 				catch (Exception ex)

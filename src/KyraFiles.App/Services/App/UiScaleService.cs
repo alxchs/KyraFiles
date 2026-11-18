@@ -1,7 +1,8 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Helpers;
 using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using System.Numerics;
@@ -14,17 +15,19 @@ namespace KyraFiles.App.Services
 	/// </summary>
 	public sealed class UiScaleService : IUiScaleService
 	{
-		private readonly IAppearanceSettingsService _appearanceSettingsService;
-		private readonly Dictionary<Window, (FrameworkElement Root, TypedEventHandler<object, WindowSizeChangedEventArgs> Handler)> _trackedWindows = [];
-
-		public int ScalePercent
+		private sealed class TrackedWindowEntry
 		{
-			get
-			{
-				var p = _appearanceSettingsService.AppUiScalePercent;
-				return p > 0 ? p : 100;
-			}
+			public required FrameworkElement Root { get; set; }
+			public required TypedEventHandler<object, WindowSizeChangedEventArgs> SizeChangedHandler { get; init; }
+			public required TypedEventHandler<object, WindowEventArgs> ClosedHandler { get; init; }
+			public XamlRoot? AttachedXamlRoot { get; set; }
+			public TypedEventHandler<XamlRoot, XamlRootChangedEventArgs>? XamlRootChangedHandler { get; set; }
 		}
+
+		private readonly IAppearanceSettingsService _appearanceSettingsService;
+		private readonly Dictionary<Window, TrackedWindowEntry> _trackedWindows = [];
+
+		public int ScalePercent => UiScaleMath.NormalizeScalePercent(_appearanceSettingsService.AppUiScalePercent);
 
 		public double ScaleFactor => ScalePercent / 100.0;
 
@@ -47,64 +50,147 @@ namespace KyraFiles.App.Services
 			if (rootElement is null)
 				return;
 
-			if (!_trackedWindows.ContainsKey(window))
+			if (_trackedWindows.TryGetValue(window, out var existing))
 			{
-				TypedEventHandler<object, WindowSizeChangedEventArgs> handler = (s, e) =>
+				existing.Root = rootElement;
+				AttachXamlRootHandler(window, existing);
+			}
+			else
+			{
+				TrackedWindowEntry? entry = null;
+				TypedEventHandler<object, WindowSizeChangedEventArgs> sizeHandler = (s, e) =>
 				{
-					ApplyLayoutCompensation(window, rootElement, ScaleFactor);
+					if (entry is null)
+						return;
+
+					AttachXamlRootHandler(window, entry);
+					ApplyLayoutCompensation(entry.Root, e.Size.Width, e.Size.Height, ScaleFactor);
 				};
-				window.SizeChanged += handler;
-				window.Closed += (s, e) =>
+				TypedEventHandler<object, WindowEventArgs> closedHandler = (s, e) =>
 				{
-					_trackedWindows.Remove(window);
+					DetachTrackedWindow(window);
 				};
-				_trackedWindows[window] = (rootElement, handler);
+
+				entry = new TrackedWindowEntry
+				{
+					Root = rootElement,
+					SizeChangedHandler = sizeHandler,
+					ClosedHandler = closedHandler,
+				};
+
+				window.SizeChanged += sizeHandler;
+				window.Closed += closedHandler;
+				_trackedWindows[window] = entry;
+				AttachXamlRootHandler(window, entry);
 			}
 
-			ApplyLayoutCompensation(window, rootElement, ScaleFactor);
+			var bounds = window.Bounds;
+			ApplyLayoutCompensation(rootElement, bounds.Width, bounds.Height, ScaleFactor);
 		}
 
-		private void UpdateAllTrackedWindows()
+		private void AttachXamlRootHandler(Window window, TrackedWindowEntry entry)
 		{
-			var factor = ScaleFactor;
-			foreach (var (window, (root, _)) in _trackedWindows.ToList())
+			var xamlRoot = entry.Root.XamlRoot;
+			if (xamlRoot is null || ReferenceEquals(xamlRoot, entry.AttachedXamlRoot))
+				return;
+
+			DetachXamlRootHandler(entry);
+
+			TypedEventHandler<XamlRoot, XamlRootChangedEventArgs> xamlRootHandler = (s, e) =>
 			{
 				try
 				{
-					ApplyLayoutCompensation(window, root, factor);
+					var bounds = window.Bounds;
+					ApplyLayoutCompensation(entry.Root, bounds.Width, bounds.Height, ScaleFactor);
+				}
+				catch
+				{
+					DetachTrackedWindow(window);
+				}
+			};
+
+			xamlRoot.Changed += xamlRootHandler;
+			entry.AttachedXamlRoot = xamlRoot;
+			entry.XamlRootChangedHandler = xamlRootHandler;
+		}
+
+		private static void DetachXamlRootHandler(TrackedWindowEntry entry)
+		{
+			if (entry.AttachedXamlRoot is not null && entry.XamlRootChangedHandler is not null)
+			{
+				try
+				{
+					entry.AttachedXamlRoot.Changed -= entry.XamlRootChangedHandler;
 				}
 				catch
 				{
 				}
 			}
+
+			entry.AttachedXamlRoot = null;
+			entry.XamlRootChangedHandler = null;
 		}
 
-		private static void ApplyLayoutCompensation(Window window, FrameworkElement rootElement, double scaleFactor)
+		private void DetachTrackedWindow(Window window)
 		{
-			if (Math.Abs(scaleFactor - 1.0) < 0.001)
+			if (!_trackedWindows.Remove(window, out var removed))
+				return;
+
+			try
 			{
+				window.SizeChanged -= removed.SizeChangedHandler;
+				window.Closed -= removed.ClosedHandler;
+			}
+			catch
+			{
+			}
+
+			DetachXamlRootHandler(removed);
+		}
+
+		private void UpdateAllTrackedWindows()
+		{
+			var factor = ScaleFactor;
+			foreach (var (window, entry) in _trackedWindows.ToList())
+			{
+				try
+				{
+					AttachXamlRootHandler(window, entry);
+					var bounds = window.Bounds;
+					ApplyLayoutCompensation(entry.Root, bounds.Width, bounds.Height, factor);
+				}
+				catch
+				{
+					DetachTrackedWindow(window);
+				}
+			}
+		}
+
+		private static void ApplyLayoutCompensation(FrameworkElement rootElement, double windowWidth, double windowHeight, double scaleFactor)
+		{
+			var layout = UiScaleMath.ComputeCompensatedSize(windowWidth, windowHeight, scaleFactor);
+			if (!layout.IsValid)
+				return;
+
+			if (layout.IsIdentity)
+			{
+				rootElement.CenterPoint = Vector3.Zero;
 				rootElement.Scale = Vector3.One;
+				rootElement.TransformMatrix = Matrix4x4.Identity;
 				rootElement.Width = double.NaN;
 				rootElement.Height = double.NaN;
 				rootElement.HorizontalAlignment = HorizontalAlignment.Stretch;
 				rootElement.VerticalAlignment = VerticalAlignment.Stretch;
-				rootElement.TransformMatrix = Matrix4x4.Identity;
 				return;
 			}
 
-			var bounds = window.Bounds;
-			var windowWidth = bounds.Width;
-			var windowHeight = bounds.Height;
-
-			if (windowWidth <= 0 || windowHeight <= 0)
-				return;
-
 			rootElement.HorizontalAlignment = HorizontalAlignment.Left;
 			rootElement.VerticalAlignment = VerticalAlignment.Top;
-			rootElement.Width = windowWidth / scaleFactor;
-			rootElement.Height = windowHeight / scaleFactor;
+			rootElement.Width = layout.Width;
+			rootElement.Height = layout.Height;
+			rootElement.CenterPoint = Vector3.Zero;
 			rootElement.Scale = new Vector3((float)scaleFactor, (float)scaleFactor, 1.0f);
-			rootElement.TransformMatrix = Matrix4x4.CreateScale((float)scaleFactor, (float)scaleFactor, 1.0f);
+			rootElement.TransformMatrix = Matrix4x4.Identity;
 		}
 	}
 }

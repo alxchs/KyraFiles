@@ -115,7 +115,7 @@ namespace KyraFiles.App.Views
 					ApplySidebarWidthState();
 					break;
 				case nameof(IAppearanceSettingsService.AppUiScalePercent):
-					MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+					DispatcherQueue.TryEnqueue(() => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion));
 					break;
 			}
 		}

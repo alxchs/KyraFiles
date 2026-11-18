@@ -22,7 +22,7 @@ namespace KyraFiles.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
-		public static readonly int[] AvailableUiScalePercentages = [80, 90, 100, 110, 125, 150];
+		public static readonly int[] AvailableUiScalePercentages = UiScaleMath.SupportedScalePercents;
 		public List<string> AppUiScaleOptions { get; private set; }
 		public List<string> AppDensityOptions { get; private set; }
 		public List<string> ControlShapeStyleOptions { get; private set; }
@@ -69,6 +69,15 @@ namespace KyraFiles.App.ViewModels.Settings
 			var currentScale = UserSettingsService.AppearanceSettingsService.AppUiScalePercent;
 			var scaleIndex = Array.IndexOf(AvailableUiScalePercentages, currentScale);
 			selectedAppUiScaleIndex = scaleIndex >= 0 ? scaleIndex : Array.IndexOf(AvailableUiScalePercentages, 100);
+			UserSettingsService.AppearanceSettingsService.PropertyChanged += (_, e) =>
+			{
+				if (e.PropertyName == nameof(IAppearanceSettingsService.AppUiScalePercent))
+				{
+					var idx = Array.IndexOf(AvailableUiScalePercentages, UserSettingsService.AppearanceSettingsService.AppUiScalePercent);
+					if (idx >= 0 && idx != selectedAppUiScaleIndex)
+						SetProperty(ref selectedAppUiScaleIndex, idx, nameof(SelectedAppUiScaleIndex));
+				}
+			};
 
 			AppDensityOptions =
 			[

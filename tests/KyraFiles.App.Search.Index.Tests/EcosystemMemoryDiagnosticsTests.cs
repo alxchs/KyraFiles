@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -69,8 +69,16 @@ namespace KyraFiles.App.Search.Index.Tests
 			string text = report.ToClipboardText();
 			StringAssert.Contains(text, "KyraFiles — Ecosystem Memory Report");
 			StringAssert.Contains(text, "Total Working Set (RAM): 179.0 MB");
-			StringAssert.Contains(text, "Files (PID 1000)");
+			StringAssert.Contains(text, "KyraFiles (PID 1000)");
 			StringAssert.Contains(text, "KyraFiles.App.IndexService: Inactive (0 MB)");
+		}
+
+		[TestMethod]
+		public void IsEcosystemExecutablePath_FiltersUnrelatedPaths()
+		{
+			Assert.IsTrue(EcosystemMemoryDiagnostics.IsEcosystemExecutablePath(@"C:\Users\heloi\AppData\Local\Programs\KyraFiles\KyraFiles.exe"));
+			Assert.IsTrue(EcosystemMemoryDiagnostics.IsEcosystemExecutablePath(null));
+			Assert.IsFalse(EcosystemMemoryDiagnostics.IsEcosystemExecutablePath(@"C:\Program Files\OtherApp\Other.exe"));
 		}
 
 		[TestMethod]

@@ -110,6 +110,7 @@ namespace KyraFiles.App.Utils.Storage
 			propertiesWindow.IsMaximizable = false;
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
+			Ioc.Default.GetService<IUiScaleService>()?.ApplyScale(propertiesWindow, frame);
 
 			var appWindow = propertiesWindow.AppWindow;
 			appWindow.Title = Strings.Properties.GetLocalizedResource();

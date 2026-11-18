@@ -5121,6 +5121,9 @@
   <data name="SettingsAboutEcosystemMemoryCopy" xml:space="preserve">
     <value>Copiar relatório</value>
   </data>
+  <data name="SettingsAboutEcosystemMemoryCalculating" xml:space="preserve">
+    <value>Calculando...</value>
+  </data>
   <data name="ClosingWithActiveOperationsTitle" xml:space="preserve">
     <value>Operações de arquivo em andamento</value>
   </data>

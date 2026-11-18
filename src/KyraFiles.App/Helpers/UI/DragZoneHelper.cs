@@ -31,6 +31,9 @@ namespace KyraFiles.App.Helpers
 
 			var scaleFactor = xamlRoot.RasterizationScale;
 			var size = window.AppWindow.Size;
+			var uiScale = Ioc.Default.GetService<IAppearanceSettingsService>()?.AppUiScalePercent ?? UiScaleMath.DefaultScalePercent;
+			var uiScaleMultiplier = UiScaleMath.GetScaleFactor(uiScale);
+
 			// If the number of regions is 0 or 1, AppWindow will automatically reset to the default region next time, but if it is >=2, it will not and need to be manually cleared
 			source.ClearRegionRects(NonClientRegionKind.Passthrough);
 			var titleBarHeight = setTitleBarDragRegion(source, size, scaleFactor, GetScaledRect);
@@ -38,31 +41,29 @@ namespace KyraFiles.App.Helpers
 			{
 				// region under the buttons
 				const int borderThickness = 5;
-				source.SetRegionRects(NonClientRegionKind.LeftBorder, [GetScaledRect(uiElement, new(0, 0, borderThickness, titleBarHeight))]);
-				source.SetRegionRects(NonClientRegionKind.RightBorder, [GetScaledRect(uiElement, new(size.Width, 0, borderThickness, titleBarHeight))]);
-				source.SetRegionRects(NonClientRegionKind.Caption, [GetScaledRect(uiElement, new(0, 0, size.Width, titleBarHeight))]);
+				var regions = UiScaleMath.ComputeTitleBarRegions(size.Width, titleBarHeight, borderThickness, scaleFactor, uiScaleMultiplier);
+				source.SetRegionRects(NonClientRegionKind.LeftBorder, [new(0, 0, regions.BorderWidth, regions.PhysicalTitleBarHeight)]);
+				source.SetRegionRects(NonClientRegionKind.RightBorder, [new(regions.RightBorderX, 0, regions.BorderWidth, regions.PhysicalTitleBarHeight)]);
+				source.SetRegionRects(NonClientRegionKind.Caption, [new(0, 0, regions.CaptionWidth, regions.PhysicalTitleBarHeight)]);
 			}
 		}
 
 		private static RectInt32 GetScaledRect(this UIElement uiElement, RectInt32? r = null)
 		{
-			var uiScale = Ioc.Default.GetService<IAppearanceSettingsService>()?.AppUiScalePercent ?? 100;
-			var uiScaleMultiplier = uiScale > 0 ? uiScale / 100.0 : 1.0;
+			var uiScale = Ioc.Default.GetService<IAppearanceSettingsService>()?.AppUiScalePercent ?? UiScaleMath.DefaultScalePercent;
+			var uiScaleMultiplier = UiScaleMath.GetScaleFactor(uiScale);
+			var scaleFactor = uiElement.XamlRoot.RasterizationScale;
 
 			if (r is { } rect)
 			{
-				var scaleFactor = uiElement.XamlRoot.RasterizationScale;
-				return new(
-					(int)(rect.X * scaleFactor),
-					(int)(rect.Y * scaleFactor),
-					(int)(rect.Width * scaleFactor * uiScaleMultiplier),
-					(int)(rect.Height * scaleFactor * uiScaleMultiplier));
+				var scaled = UiScaleMath.ScaleLocalRectToPhysical(rect.X, rect.Y, rect.Width, rect.Height, scaleFactor, uiScaleMultiplier);
+				return new(scaled.X, scaled.Y, scaled.Width, scaled.Height);
 			}
 			else
 			{
 				var pos = uiElement.TransformToVisual(null).TransformPoint(new(0, 0));
-				rect = new RectInt32((int)pos.X, (int)pos.Y, (int)uiElement.ActualSize.X, (int)uiElement.ActualSize.Y);
-				return GetScaledRect(uiElement, rect);
+				var scaled = UiScaleMath.ScaleRootElementRectToPhysical(pos.X, pos.Y, uiElement.ActualSize.X, uiElement.ActualSize.Y, scaleFactor, uiScaleMultiplier);
+				return new(scaled.X, scaled.Y, scaled.Width, scaled.Height);
 			}
 		}
 	}

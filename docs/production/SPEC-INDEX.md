@@ -1,4 +1,4 @@
-﻿# SPEC-INDEX
+# SPEC-INDEX
 
 Gerado de production-control.json em 2026-11-16T09:24:18.3979538Z. Mapa SPEC -> ID legado.
 
@@ -58,10 +58,10 @@ Gerado de production-control.json em 2026-11-16T09:24:18.3979538Z. Mapa SPEC -> 
 | SPEC-0052 | F056 | copy path formats | completed | finalizadas | 2 |
 | SPEC-0053 | F057 | dialog button shortcuts | completed | finalizadas | 3 |
 | SPEC-0054 | F058 | installer window to front | not_started | dependendo_alexandre | 3 |
-| SPEC-0055 | F060 | diferenciais sftp script hex split | in_progress | em_andamento | 13 |
+| SPEC-0055 | F060 | diferenciais sftp script hex split | in_validation | em_andamento | 13 |
 | SPEC-0056 | F061 | win e sempre pronto | in_validation | em_andamento | 5 |
-| SPEC-0057 | F062 | diagnostico memoria ecossistema | in_progress | em_andamento | 5 |
-| SPEC-0058 | F063 | otimizacao memoria zero regressao | in_progress | em_andamento | 8 |
+| SPEC-0057 | F062 | diagnostico memoria ecossistema | in_validation | em_andamento | 5 |
+| SPEC-0058 | F063 | otimizacao memoria zero regressao | in_validation | em_andamento | 8 |
 | SPEC-0059 | F065 | busca nome e caminho | in_validation | em_andamento | 5 |
 | SPEC-0060 | F067 | sponsors e modern powershell | completed | finalizadas | 3 |
 | SPEC-0061 | F068 | documentacao local offline | completed | finalizadas | 5 |
@@ -74,10 +74,10 @@ Gerado de production-control.json em 2026-11-16T09:24:18.3979538Z. Mapa SPEC -> 
 | SPEC-0068 | F083 | kyrafiles brand and icon | completed | finalizadas | 3 |
 | SPEC-0069 | F084 | kyrafiles module renaming | completed | finalizadas | 3 |
 | SPEC-0070 | F086 | instancia unica | in_validation | em_andamento | 3 |
-| SPEC-0071 | F087 | identidade pacote e dados | not_started | dependendo_alexandre | 5 |
+| SPEC-0071 | F087 | identidade pacote e dados | completed | finalizadas | 5 |
 | SPEC-0072 | F088 | remocao vinculo ancestral | in_validation | em_andamento | 2 |
 | SPEC-0073 | F089 | fontes nao aplicadas | in_validation | em_andamento | 3 |
-| SPEC-0074 | F090 | escala da interface | in_progress | em_andamento | 5 |
+| SPEC-0074 | F090 | escala da interface | in_validation | em_andamento | 5 |
 | SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | completed | finalizadas | 8 |
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | completed | finalizadas | 3 |
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | completed | finalizadas | 5 |

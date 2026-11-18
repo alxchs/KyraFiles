@@ -1,4 +1,4 @@
-﻿# Files Development Guidelines
+# Files Development Guidelines
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
@@ -160,3 +160,13 @@ Este checkout é o **KyraFiles**, derivado do KyraFiles Community. Além das dir
   5. **Sem Lixo de Execução:** Proibido deixar resíduos de cópia ou trava (`*.locked.*`, `.old`, dumps de teste ou temporários) soltos pelo disco ou pelo repositório.
   6. **Checklist Obrigatório:** Nenhuma tarefa ou release é considerada concluída sem uma varredura explícita confirmando a ausência de executáveis duplicados, obsoletos ou fora de seus diretórios canônicos.
 - **REGRA DE DATA E HORA DE COMPILAÇÃO NA TELA SOBRE (31/10/2026 - REGRA DURA):** A tela Sobre (Settings > About) DEVE OBRIGATORIAMENTE exibir a data e hora exata da compilação (Build Date/Time) junto com o número da versão do aplicativo (ex: "Versão 4.3.9.0 • 2026-10-31 08:15:00"). Isso permite auditoria e comprovação imediata do binário em execução por AGY, Claude e pelo Alexandre. A data e hora devem ser geradas automaticamente pelo compilador/MSBuild no momento do build e embutidas no executável.
+
+## Comandos
+
+| Ação | Comando |
+|---|---|
+| Build Release x64 | `dotnet build src/KyraFiles.App/KyraFiles.App.csproj -c Release -p:Platform=x64 --no-restore -v:minimal -clp:ErrorsOnly` |
+| Testar | `dotnet build tests/KyraFiles.App.Search.Index.Tests/KyraFiles.App.Search.Index.Tests.csproj -c Release -p:Platform=x64 -v:minimal -clp:ErrorsOnly` |
+| Gate F021 | `powershell -NoProfile -ExecutionPolicy Bypass -File tools/perf/verify_no_index_service.ps1` |
+| Verificar nomes legados | `powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-legacy-names.ps1` |
+| Publicar | `powershell -NoProfile -ExecutionPolicy Bypass -File tools/Publish-Release.ps1` |

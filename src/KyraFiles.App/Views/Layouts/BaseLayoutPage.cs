@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
@@ -194,41 +194,22 @@ namespace KyraFiles.App.Views.Layouts
 			set
 			{
 				// If current string is "a", and the next character typed is "a",
-				// search for next file that starts with "a" (a.k.a. _jumpString = "a")
+				// search for next file that starts with "a" (a.k.a. jumpString = "a")
 				if (jumpString.Length == 1 && value == jumpString + jumpString)
 					value = jumpString;
 				if (value != string.Empty)
 				{
 					var shellViewModel = ParentShellPageInstance.GetRequiredShellViewModel();
-					ListedItem? jumpedToItem = null;
+					var displayedItems = GetAllItems().ToList();
+					if (displayedItems.Count == 0)
+						displayedItems = shellViewModel.FilesAndFolders.ToList();
+
 					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
-
-					// Select first matching item after currently selected item
-					if (previouslySelectedItem is not null)
-					{
-						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
-							.SkipWhile(x => x != previouslySelectedItem)
-							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
-							.Where(f =>
-							{
-								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
-								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
-							});
-						jumpedToItem = candidateItems.FirstOrDefault();
-					}
-
-					if (jumpedToItem is null)
-					{
-						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = shellViewModel.FilesAndFolders.ToList()
-							.Where(f =>
-							{
-								var name = f.Name ?? throw new InvalidOperationException("A listed item does not have a name.");
-								return name.Length >= value.Length && string.Equals(name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase);
-							});
-						jumpedToItem = candidateItems.FirstOrDefault();
-					}
+					ListedItem? jumpedToItem = KyraFiles.Shared.Helpers.TypeAheadMatcher.FindMatch(
+						displayedItems,
+						static f => f.Name,
+						previouslySelectedItem,
+						value);
 
 					if (jumpedToItem is not null)
 					{
@@ -1087,15 +1068,31 @@ namespace KyraFiles.App.Views.Layouts
 			SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
 		}
 
+		public bool TryHandleTypeAheadCharacter(char character)
+		{
+			var parentShellPage = ParentShellPageInstance;
+			if (parentShellPage is null || !parentShellPage.IsCurrentInstance || IsRenamingItem)
+				return false;
+
+			if (parentShellPage.CurrentPageType != GetType())
+				return false;
+
+			var ctrlDown = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+			var altDown = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+			if (ctrlDown || altDown)
+				return false;
+
+			if (!KyraFiles.Shared.Helpers.TypeAheadMatcher.IsAcceptedCharacter(character, jumpString))
+				return false;
+
+			JumpString = KyraFiles.Shared.Helpers.TypeAheadMatcher.AppendCharacter(jumpString, character);
+			return true;
+		}
+
 		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			var parentShellPage = ParentShellPageInstance
-				?? throw new InvalidOperationException("The layout does not have a parent shell page.");
-			if (parentShellPage.IsCurrentInstance)
-			{
-				char letter = args.Character;
-				JumpString += letter.ToString().ToLowerInvariant();
-			}
+			if (TryHandleTypeAheadCharacter(args.Character))
+				args.Handled = true;
 		}
 
 		protected virtual void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)

@@ -1,4 +1,4 @@
-﻿using KyraFiles.Shared.Helpers;
+using KyraFiles.Shared.Helpers;
 ﻿// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
@@ -268,11 +268,17 @@ namespace KyraFiles.App
 				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData));
 		}
 
+		private WindowActivationState? _lastWindowActivationState;
+
 		/// <summary>
 		/// Gets invoked when the main window is activated.
 		/// </summary>
 		private void Window_Activated(object sender, WindowActivatedEventArgs args)
 		{
+			if (_lastWindowActivationState == args.WindowActivationState)
+				return;
+			_lastWindowActivationState = args.WindowActivationState;
+
 			Logger.LogInformation($"Window_Activated: State={args.WindowActivationState}");
 
 			ActiveSessionTracker.OnActivationChanged(args.WindowActivationState != WindowActivationState.Deactivated);

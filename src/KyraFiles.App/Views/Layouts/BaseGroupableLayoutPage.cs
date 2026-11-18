@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
@@ -112,6 +112,8 @@ namespace KyraFiles.App.Views.Layouts
 		[DynamicWindowsRuntimeCast(typeof(Button))]
 		[DynamicWindowsRuntimeCast(typeof(TextBox))]
 		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
+		[DynamicWindowsRuntimeCast(typeof(RichEditBox))]
+		[DynamicWindowsRuntimeCast(typeof(AutoSuggestBox))]
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance is null ||
@@ -120,13 +122,19 @@ namespace KyraFiles.App.Views.Layouts
 				return;
 
 			// Don't block the various uses of enter key (key 13)
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			var focusedElement = XamlRoot is not null
+				? FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement
+				: null;
+			var isHeaderFocused = focusedElement is not null && DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
 				focusedElement is TextBox ||
 				focusedElement is PasswordBox ||
-				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+				focusedElement is RichEditBox ||
+				focusedElement is AutoSuggestBox ||
+				(focusedElement is not null && (
+					DependencyObjectHelpers.FindParent<TextBox>(focusedElement) is not null ||
+					DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)))
 				return;
 
 			base.Page_CharacterReceived(sender, args);

@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 
 using Microsoft.UI.Windowing;
@@ -24,6 +24,9 @@ namespace KyraFiles.App.Data.Items
 	{
 		private bool _isInitialized;
 		private bool _isClosing;
+		private bool _isDisposed;
+		private bool _isHandlingActivated;
+		private bool? _lastInputActive;
 		private bool _isRestoringPlacement;
 		private WINDOWPLACEMENT _lastOverlappedPlacement;
 		private bool _hasOverlappedPlacement;
@@ -345,6 +348,10 @@ namespace KyraFiles.App.Data.Items
 		private void WindowEx_Closed(object sender, WindowEventArgs args)
 		{
 			_isClosing = true;
+			_lastInputActive = null;
+
+			if (!PersistPlacement)
+				Activated -= WindowEx_Activated;
 
 			// A LocalSettings write failure (COMException/UnauthorizedAccessException) must not crash the close path
 			try
@@ -358,15 +365,37 @@ namespace KyraFiles.App.Data.Items
 
 		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
 		{
-			if (args.WindowActivationState is not WindowActivationState.Deactivated)
+			if (_isDisposed || _isHandlingActivated)
+				return;
+
+			bool isInputActive = args.WindowActivationState is not WindowActivationState.Deactivated;
+			if (isInputActive)
 				_isClosing = false;
 
-			if (!_isClosing && SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
-				appSystemBackdrop.SetInputActive(args.WindowActivationState is not WindowActivationState.Deactivated);
+			if (_isClosing || _lastInputActive == isInputActive)
+				return;
+
+			_isHandlingActivated = true;
+			try
+			{
+				_lastInputActive = isInputActive;
+				if (SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+					appSystemBackdrop.SetInputActive(isInputActive);
+			}
+			catch (Exception)
+			{
+				// Guard against WinRT COM/re-entrant activation races during rapid focus transitions or window teardown
+			}
+			finally
+			{
+				_isHandlingActivated = false;
+			}
 		}
 
 		public void Dispose()
 		{
+			_isClosing = true;
+			_isDisposed = true;
 			Closed -= WindowEx_Closed;
 			Activated -= WindowEx_Activated;
 		}

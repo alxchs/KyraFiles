@@ -1,4 +1,4 @@
-﻿# tools/perf/verify_no_index_service.ps1
+# tools/perf/verify_no_index_service.ps1
 # Verificação mandatória de contenção de recursos e ausência do IndexService (F021 / NFR-001 / NFR-002)
 # Pré-requisito obrigatório para AGY e Claude considerarem qualquer tarefa concluída no KyraFiles.
 
@@ -32,8 +32,8 @@ Stop-Process -Name "KyraFiles" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "KyraFiles" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-# 3. Inicia o KyraFiles oficial instalado
-$targetToRun = if (Test-Path -LiteralPath $InstallPath) { $InstallPath } else { $AliasPath }
+# 3. Inicia o KyraFiles oficial instalado (prefere o alias MSIX para preservar identidade de pacote)
+$targetToRun = if (Test-Path -LiteralPath $AliasPath) { $AliasPath } else { $InstallPath }
 Write-Host "[1/4] Iniciando KyraFiles instalado..." -ForegroundColor Yellow
 $proc = Start-Process -FilePath $targetToRun -WindowStyle Minimized -PassThru
 if (-not $proc -or $proc.HasExited) {

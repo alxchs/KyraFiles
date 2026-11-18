@@ -5,9 +5,9 @@ Estado atual, curto. Atualize ao mudar de fase/tarefa (METODO.md §1).
 ```text
 PROJECT        KyraFiles / KyraFiles. Regras: MASTER_SPEC.md; continuidade: docs/agents/CONTINUITY.md
 OBJECTIVE      File manager moderno com UX mais previsível. Ver MASTER_SPEC.md §2 e §44
-CURRENT PHASE  Release v4.3.20.0 (Publicar automatizado, F090 Escala UI, F062/F063 Memória, F060 Testes)
-CURRENT TASK   ⚪ [FEITO] Pipeline Publish-Release.ps1, F090, F062/F063 e F060 integrados; WIP zerado (0 in_progress)
-ACCEPTANCE     ACs e testes unitários aprovados (105/105), Gate F021 verificado
+CURRENT PHASE  Release v4.3.21.0 (Hotfix Crash WindowEx_Activated + Busca por Digitação + Publish-Release.ps1)
+CURRENT TASK   ⚪ [FEITO] Crash 0xc0000005 em WindowEx_Activated corrigido, busca por digitação (type-ahead) restaurada e Publish-Release.ps1 corrigido
+ACCEPTANCE     ACs e testes unitários aprovados (110/110), Gate F021 verificado
 REGRA DA MAIN  PROIBIDO alterar direto na main. AGY e Claude criam branches próprias (feature/<nome>) e integram via squash/rebase + ff-only mantendo histórico linear.
 REGRA WORKFLOW DESCONTINUAÇÃO DA COLAB (09/11/2026 - Alexandre): Branch colab descontinuada e apagada local e remotamente. O projeto agora trabalha exclusivamente com a main (branches feature/<nome> saindo da main e integradas via squash/rebase + ff-only).
 REGRA CICLO    MANDATÓRIO: Cada spec, uma branch saindo da main atualizada. Roteiro de testes executado. Devolução na main antes de iniciar próxima spec.
@@ -21,9 +21,9 @@ OWNER          AGY (execução)
 MAQUINA NOVA   06/11/2026: Heloize-PC opera em modo desenvolvimento (edição de código e testes lógicos). Compilação oficial e pacote na máquina com Windows SDK.
 DUAS MAQUINAS  06/11/2026 (Alexandre): desenvolve na Heloize-PC (sem Visual Studio nem Windows SDK; build impossível lá) e compila na máquina antiga, que tem tudo instalado. Build, Verde.ps1 -Mark e push saem da máquina antiga.
 CURRENT BRANCH main
-LAST DECISION  18/11/2026: v4.3.20 publicada via tools/Publish-Release.ps1 com comando Publicar oficial no AGENTS.md.
-NEXT ACTION    Validação visual dos itens em in_validation ou iniciar próximo item da fila (F042).
+LAST DECISION  18/11/2026: v4.3.21 publicada com correção do crash WindowEx_Activated, type-ahead com suporte a acentos e Publish-Release.ps1 corrigido.
+NEXT ACTION    Validar v4.3.21 nas duas máquinas e prosseguir com validação visual dos itens em in_validation.
 BLOCKER        Nenhum bloqueador técnico.
-LAST UPDATE    2026-11-18 06:06 - AGY (Release v4.3.20.0)
+LAST UPDATE    2026-11-18 06:30 - AGY (Release v4.3.21.0)
 PRODUCAO       2026-11-13: protocolo de controle de producao v2 adotado; fonte de verdade em docs/production/production-control.json (SPECS.md gerado dele).
 ```

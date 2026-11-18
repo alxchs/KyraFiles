@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
@@ -68,8 +68,53 @@ namespace KyraFiles.App.Views
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+			CharacterReceived += MainPage_CharacterReceived;
 
 			ApplySidebarWidthState();
+		}
+
+		[DynamicWindowsRuntimeCast(typeof(DependencyObject))]
+		[DynamicWindowsRuntimeCast(typeof(TextBox))]
+		[DynamicWindowsRuntimeCast(typeof(PasswordBox))]
+		[DynamicWindowsRuntimeCast(typeof(RichEditBox))]
+		[DynamicWindowsRuntimeCast(typeof(AutoSuggestBox))]
+		[DynamicWindowsRuntimeCast(typeof(NumberBox))]
+		[DynamicWindowsRuntimeCast(typeof(Omnibar))]
+		[DynamicWindowsRuntimeCast(typeof(ContentDialog))]
+		private void MainPage_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		{
+			if (args.Handled)
+				return;
+
+			if (XamlRoot is not null && VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).Any())
+				return;
+
+			var focusedElement = XamlRoot is not null
+				? FocusManager.GetFocusedElement(XamlRoot) as DependencyObject
+				: null;
+
+			if (focusedElement is TextBox or PasswordBox or RichEditBox or AutoSuggestBox or NumberBox)
+				return;
+
+			if (focusedElement is not null && (
+				focusedElement.FindAscendantOrSelf<TextBox>() is not null ||
+				focusedElement.FindAscendantOrSelf<PasswordBox>() is not null ||
+				focusedElement.FindAscendantOrSelf<RichEditBox>() is not null ||
+				focusedElement.FindAscendantOrSelf<AutoSuggestBox>() is not null ||
+				focusedElement.FindAscendantOrSelf<Omnibar>() is not null ||
+				focusedElement.FindAscendantOrSelf<ContentDialog>() is not null))
+				return;
+
+			var activeShellPage = ContentPageContext.ShellPage;
+			if (activeShellPage is null)
+				return;
+
+			var contentPage = activeShellPage.SlimContentPage is ColumnsLayoutPage columnsLayoutPage
+				? columnsLayoutPage.ActiveColumnShellPage?.SlimContentPage
+				: activeShellPage.SlimContentPage;
+
+			if (contentPage is BaseLayoutPage layoutPage && layoutPage.TryHandleTypeAheadCharacter(args.Character))
+				args.Handled = true;
 		}
 
 		private void NumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)

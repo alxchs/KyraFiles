@@ -92,8 +92,12 @@ foreach ($remote in @("origin", "public")) {
 $releaseTitle = "KyraFiles $shortVersion"
 foreach ($repo in $Repos) {
     Write-Host "Publicando release $tagName em $repo..." -ForegroundColor Yellow
-    & gh release view $tagName --repo $repo 2>&1 | Out-Null
-    if ($LASTEXITCODE -eq 0) {
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & gh release view $tagName --repo $repo 2>$null | Out-Null
+    $releaseExists = ($LASTEXITCODE -eq 0)
+    $ErrorActionPreference = $prevEap
+    if ($releaseExists) {
         & gh release upload $tagName $setupPath --repo $repo --clobber
         if ($LASTEXITCODE -ne 0) { throw "Falha ao atualizar asset em $repo." }
     } else {

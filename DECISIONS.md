@@ -1,4 +1,4 @@
-﻿# DECISIONS
+# DECISIONS
 
 Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-offs, Consequences. Decisões maiores podem ir em `docs/decisions/`.
 
@@ -52,7 +52,24 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 
 ## PENDING DECISION
 
-### D-F090-1 — Escopo de T4 da F090: Popups (MenuFlyout/ToolTip/ContentDialog) e atalhos Ctrl++/Ctrl+- (11/11/2026)
+*(Nenhuma decisão bloqueante pendente em 18/11/2026.)*
+
+## D-TRAIN-1 — Adoção de Release Trains (Lotes de 3–5 SPECs) e Centralização na HELOIZE-PC (18/11/2026)
+
+- **Context:** O fluxo serial 1-a-1 (1 SPEC → 1 branch → 1 release → 1 validação visual) gerou 26 SPECs acumuladas em `in_validation` (120 pts) e overhead documental desproporcional para entregas pequenas. Além disso, o desenvolvimento foi centralizado integralmente na máquina `HELOIZE-PC`, com testes liberados o tempo todo.
+- **Decision (Alexandre, 18/11/2026):**
+  1. Adotar **Release Trains (Lotes de 3 a 5 SPECs / ~15–20 pts)** com 1 build Release x64 (`0/0`), 1 bateria consolidada de testes/UIA/Gate F021/Win+E e 1 instalador por lote (mantendo zero regressão de performance, evidência honesta e histórico linear na `main`).
+  2. Executar **Lote 0 (Faxina)**: invalidar/arquivar **F015** (substituída por F021+F023), encerrar **F088** (absorvida pela F091), formalizar aprovação retroativa de **F014** e **F020**, reconciliar **F058**/**F070**, regenerar automaticamente `SPECS.md`/`SPEC-INDEX.md` via `tools/Sync-ProductionDocs.ps1` e consolidar a validação das SPECs antigas em lote único.
+  3. Na `HELOIZE-PC`, testes podem ser executados o tempo todo (sem espera pelas 23:59, preservando a regra de não roubar foco da janela ativa de digitação).
+- **Consequences:** Menos ciclos de cerimônia por ponto entregue, eliminação de ociosidade entre IAs e fechamento em massa do gargalo de validação sem perda de qualidade.
+
+## D-F060-2 — F060 Onda B (SFTP e Script) movida para backlog final (18/11/2026)
+
+- **Context:** Na F060 (`SPEC-0055`), a Onda A (`M1` busca por frase, `M2` editor hexadecimal, `M5` dividir/combinar arquivos) já está implementada e com 78/78 testes unitários aprovados na v4.3.21. A Onda B (`M3` SFTP e `M4` Motor de Scripts) dependia de definição das ADRs 007/008.
+- **Decision (Alexandre, 18/11/2026):** Mover Onda B (SFTP + Script) para o backlog dos lotes finais, desbloqueando o fechamento da Onda A na validação em lote da v4.3.21.
+- **Consequences:** F060 Onda A segue para validação visual consolidada sem depender de SFTP/Script.
+
+## D-F090-1 — Escopo de T4 da F090: Popups (MenuFlyout/ToolTip/ContentDialog) e atalhos Ctrl++/Ctrl+- (11/11/2026 — DECIDIDA em 18/11/2026)
 
 - **Context:** As janelas secundárias do app (`SettingsDialog`, `ToolbarCustomizationDialog`, `FilePropertiesHelpers`, `HexEditorWindow`) passaram a receber `IUiScaleService.ApplyScale`, cobrindo `FR-2` e a parte de janela de Configurações do `AC-4`. Ficam em aberto as pendências 2 e 3 de `docs/specs/F090-escala-da-interface/spec.md` (T4):
   1. **Menus, dicas e diálogos (`PopupRoot` / `MenuFlyout` / `ToolTip` / `ContentDialog`):** em WinUI 3, `PopupRoot` é irmão de `rootFrame` e não herda `Scale` aplicado na raiz da janela; escalar popups manualmente sem teste visual pode deslocar âncoras ou cortar menus na borda da tela.
@@ -60,7 +77,8 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 - **Options:**
   - **(A) Conservadora (v1):** manter em v1 a escala aplicada em todas as janelas (`MainWindow`, `SettingsDialog`, `ToolbarCustomizationDialog`, `PropertiesWindow`, `HexEditorWindow`), documentando em `AC-4` que popups transitórios nativos seguem a escala do Windows até decisão pela Opção C do `plan.md`, e não sobrescrever `Ctrl++`/`Ctrl+-` do zoom da lista (ou usar atalho distinto, ex. `Ctrl+Alt++`/`Ctrl+Alt+-` se desejado).
   - **(B) Completa na T4:** implementar escalonamento de popups abertos via `VisualTreeHelper.GetOpenPopupsForXamlRoot` (Opção C do `plan.md`) e/ou reatribuir `Ctrl++`/`Ctrl+-` para escala global.
-- **Escolha que a AGY faria:** **(A)** até validação visual do build da v1 na máquina com Windows SDK, evitando risco de menus cortados/deslocados sem prova em tela. **Pendente:** decisão da Claude / do Alexandre antes de implementar T4 de popups/atalhos.
+- **Decision (Alexandre, 18/11/2026):** **Opção (A) Conservadora (v1)** aprovada. Popups transitórios permanecem sob escala nativa do Windows na v1 e `Ctrl++`/`Ctrl+-` continuam preservados para o zoom da lista/grade.
+- **Consequences:** T4 encerrada dentro do escopo v1; F090 segue apenas para prova visual consolidada no Lote 0.
 
 ## D-009 — Requisitos adicionais: densidade, fontes, colunas do Explorer e motor de busca (03/10/2026)
 

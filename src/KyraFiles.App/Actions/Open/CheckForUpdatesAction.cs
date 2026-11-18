@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Windows.System;
@@ -47,6 +47,8 @@ namespace KyraFiles.App.Actions
 					if (await DialogDisplayHelper.ShowDialogAsync(title, message, Strings.UpdateOpenDownloadPage.GetLocalizedResource(), Strings.Close.GetLocalizedResource())
 						&& result.PageUrl is not null)
 					{
+						// F058 (FR-002): libera primeiro plano para o processo que abrira o instalador
+						Windows.Win32.PInvoke.AllowSetForegroundWindow(uint.MaxValue);
 						await Launcher.LaunchUriAsync(new Uri(result.PageUrl));
 					}
 					break;

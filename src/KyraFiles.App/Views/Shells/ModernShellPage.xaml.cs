@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
@@ -41,6 +41,7 @@ namespace KyraFiles.App.Views.Shells
 
 			ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
 			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.WorkingDirectoryModified += (_, _) => _ = RefreshProjectActionsBarAsync(ShellViewModel?.WorkingDirectory);
 			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
@@ -364,11 +365,195 @@ namespace KyraFiles.App.Views.Shells
 			ToolbarViewModel.PathControlDisplayText = shellViewModel.WorkingDirectory;
 		}
 
+		private CancellationTokenSource? _projectDetectCts;
+		private CancellationTokenSource? _projectRunCts;
+
 		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape &&
 				SlimContentPage is BaseGroupableLayoutPage { IsLoaded: true } svb)
 				SlimContentPage.ItemManipulationModel.FocusFileList();
+		}
+
+		// F042: Salvar busca atual na barra lateral
+		private async void SaveCurrentSearchButton_Click(object sender, RoutedEventArgs e)
+		{
+			var savedSearches = Ioc.Default.GetService<ISavedSearchesService>();
+			var dialogService = Ioc.Default.GetService<IDialogService>();
+			if (savedSearches is null || dialogService is null)
+				return;
+
+			var query = InstanceViewModel?.CurrentSearchQuery ?? string.Empty;
+			var scope = ShellViewModel?.WorkingDirectory ?? string.Empty;
+			var draft = new KyraFiles.Shared.SavedSearches.SavedSearchDefinition
+			{
+				Name = string.IsNullOrWhiteSpace(query) ? "Busca salva" : query,
+				Query = query,
+				ScopePath = string.Equals(scope, "Home", StringComparison.OrdinalIgnoreCase) ? string.Empty : scope,
+			};
+
+			var vm = new KyraFiles.App.ViewModels.Dialogs.SavedSearchDialogViewModel(draft);
+			if (await dialogService.ShowDialogAsync(vm) == DialogResult.Primary)
+				savedSearches.Add(vm.BuildDefinition());
+		}
+
+		// F045: Detecta tipo de projeto em segundo plano (sem executar comandos automaticamente — FR-003)
+		private async Task RefreshProjectActionsBarAsync(string? folderPath)
+		{
+			_projectDetectCts?.Cancel();
+			_projectDetectCts?.Dispose();
+			_projectDetectCts = new CancellationTokenSource();
+			var token = _projectDetectCts.Token;
+
+			var projectService = Ioc.Default.GetService<IProjectActionsService>();
+			if (projectService is null || string.IsNullOrWhiteSpace(folderPath) || !Directory.Exists(folderPath))
+			{
+				ProjectActionBar.Visibility = Visibility.Collapsed;
+				ProjectActionButtonsPanel.Children.Clear();
+				return;
+			}
+
+			KyraFiles.Shared.ProjectActions.ProjectDetectionResult detection;
+			try
+			{
+				detection = await projectService.DetectAsync(folderPath, token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
+
+			if (token.IsCancellationRequested)
+				return;
+
+			ProjectActionButtonsPanel.Children.Clear();
+			var customCommands = projectService.GetCustomCommands(detection.DetectedKinds);
+			if (!detection.HasProject && customCommands.Count == 0)
+			{
+				ProjectActionBar.Visibility = Visibility.Collapsed;
+				return;
+			}
+
+			var badge = new TextBlock
+			{
+				Text = detection.HasProject ? $"Projeto: {string.Join(", ", detection.DetectedKinds)}" : "Comandos",
+				VerticalAlignment = VerticalAlignment.Center,
+				Opacity = 0.75,
+				Margin = new Thickness(0, 0, 6, 0),
+			};
+			ProjectActionButtonsPanel.Children.Add(badge);
+
+			foreach (var builtIn in detection.BuiltInActions)
+			{
+				var btn = new Button { Content = builtIn.DisplayName, Padding = new Thickness(8, 3, 8, 3) };
+				var captured = builtIn;
+				btn.Click += async (_, _) => await RunProjectActionAsync(folderPath, builtIn: captured, custom: null);
+				ProjectActionButtonsPanel.Children.Add(btn);
+			}
+
+			foreach (var custom in customCommands)
+			{
+				var btn = new Button { Content = custom.Name, Padding = new Thickness(8, 3, 8, 3) };
+				var captured = custom;
+				btn.Click += async (_, _) => await RunProjectActionAsync(folderPath, builtIn: null, custom: captured);
+				ProjectActionButtonsPanel.Children.Add(btn);
+			}
+
+			var cancelBtn = new Button
+			{
+				Name = "ProjectActionCancelButton",
+				Content = "Cancelar",
+				Padding = new Thickness(8, 3, 8, 3),
+				Visibility = Visibility.Collapsed,
+			};
+			cancelBtn.Click += (_, _) => _projectRunCts?.Cancel();
+			ProjectActionButtonsPanel.Children.Add(cancelBtn);
+
+			var configBtn = new Button { Content = "Comandos...", Padding = new Thickness(8, 3, 8, 3) };
+			configBtn.Click += async (_, _) =>
+			{
+				var dialogService = Ioc.Default.GetService<IDialogService>();
+				if (dialogService is not null)
+				{
+					await dialogService.ShowDialogAsync(new KyraFiles.App.ViewModels.Dialogs.ProjectActionsDialogViewModel(projectService));
+					await RefreshProjectActionsBarAsync(folderPath);
+				}
+			};
+			ProjectActionButtonsPanel.Children.Add(configBtn);
+
+			ProjectActionBar.Visibility = Visibility.Visible;
+		}
+
+		private async Task RunProjectActionAsync(
+			string folderPath,
+			KyraFiles.Shared.ProjectActions.BuiltInProjectAction? builtIn,
+			KyraFiles.Shared.ProjectActions.CustomProjectCommand? custom)
+		{
+			var projectService = Ioc.Default.GetService<IProjectActionsService>();
+			if (projectService is null)
+				return;
+
+			_projectRunCts?.Cancel();
+			_projectRunCts?.Dispose();
+			_projectRunCts = new CancellationTokenSource();
+
+			var cancelBtn = ProjectActionButtonsPanel.Children.OfType<Button>().FirstOrDefault(b => b.Name == "ProjectActionCancelButton");
+			if (cancelBtn is not null)
+				cancelBtn.Visibility = Visibility.Visible;
+
+			var selectedPaths = SlimContentPage?.SelectedItems?.Select(i => i.ItemPath).Where(p => !string.IsNullOrEmpty(p)).Select(p => p!).ToList() ?? [];
+			GitHelpers.IsRepositoryEx(folderPath, out var gitRoot);
+			var firstSln = Directory.EnumerateFiles(folderPath, "*.sln*").FirstOrDefault();
+
+			var ctx = new KyraFiles.Shared.ProjectActions.ProjectActionExecutionContext(folderPath, selectedPaths, gitRoot, firstSln);
+
+			ProjectActionOutputBar.Severity = InfoBarSeverity.Informational;
+			ProjectActionOutputBar.Message = $"Executando {(builtIn?.DisplayName ?? custom?.Name)}...";
+			ProjectActionOutputBar.IsOpen = true;
+
+			try
+			{
+				KyraFiles.Shared.ProjectActions.ProjectCommandResult finalResult;
+				if (builtIn is not null)
+				{
+					finalResult = await projectService.RunBuiltInActionAsync(builtIn, ctx, _projectRunCts.Token);
+				}
+				else
+				{
+					var results = await projectService.RunCustomCommandAsync(custom!, ctx, _projectRunCts.Token);
+					finalResult = results.LastOrDefault() ?? new KyraFiles.Shared.ProjectActions.ProjectCommandResult(0, true, false, false, [], [], TimeSpan.Zero);
+				}
+
+				if (finalResult.Cancelled)
+				{
+					ProjectActionOutputBar.Severity = InfoBarSeverity.Warning;
+					ProjectActionOutputBar.Message = "Execucao cancelada pelo usuario.";
+				}
+				else if (finalResult.Succeeded)
+				{
+					var tail = string.Join(" | ", finalResult.OutputLines.TakeLast(3));
+					ProjectActionOutputBar.Severity = InfoBarSeverity.Success;
+					ProjectActionOutputBar.Message = string.IsNullOrEmpty(tail)
+						? $"Concluido com sucesso ({finalResult.Duration.TotalSeconds:0.0}s)."
+						: $"Concluido ({finalResult.Duration.TotalSeconds:0.0}s): {tail}";
+				}
+				else
+				{
+					var errTail = string.Join(" | ", finalResult.ErrorLines.Concat(finalResult.OutputLines).TakeLast(3));
+					ProjectActionOutputBar.Severity = InfoBarSeverity.Error;
+					ProjectActionOutputBar.Message = $"Falhou (codigo {finalResult.ExitCode}): {errTail}";
+				}
+			}
+			catch (Exception ex)
+			{
+				ProjectActionOutputBar.Severity = InfoBarSeverity.Error;
+				ProjectActionOutputBar.Message = $"Erro ao executar comando: {ex.Message}";
+			}
+			finally
+			{
+				if (cancelBtn is not null)
+					cancelBtn.Visibility = Visibility.Collapsed;
+			}
 		}
 	}
 }

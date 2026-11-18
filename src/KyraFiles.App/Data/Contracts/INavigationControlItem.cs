@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Controls;
@@ -29,13 +29,15 @@ namespace KyraFiles.App.Data.Contracts
 		Drive,
 		LinuxDistro,
 		Location,
-		FileTag
+		FileTag,
+		SavedSearch
 	}
 
 	public enum SectionType
 	{
 		Home,
 		Pinned,
+		SavedSearches,
 		Library,
 		ThisPC,
 		ControlPanel,

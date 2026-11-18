@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -80,6 +80,7 @@ namespace KyraFiles.App.Utils.Storage
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
 			{
 				App.HistoryWrapper.AddHistory(result.Item1);
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(result.Item1, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
 			}
 
 			await Task.Yield();
@@ -162,7 +163,14 @@ namespace KyraFiles.App.Utils.Storage
 			await Task.Yield();
 
 			if (!permanently && registerHistory && history is not null)
+			{
 				App.HistoryWrapper.AddHistory(history);
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(history, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
+			}
+			else if (permanently && registerHistory)
+			{
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordPermanentDelete(source, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
+			}
 
 			// Execute removal tasks concurrently in background
 			var sourcePaths = source.Select(x => x.Path);
@@ -223,6 +231,7 @@ namespace KyraFiles.App.Utils.Storage
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
 				App.HistoryWrapper.AddHistory(history);
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(history, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
 
@@ -379,6 +388,11 @@ namespace KyraFiles.App.Utils.Storage
 						}
 					}
 					App.HistoryWrapper.AddHistory(history);
+					Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(
+						history,
+						filesystemOperations.LastFailedItems is { Count: > 0 }
+							? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Partial
+							: (returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success));
 				}
 
 				await Task.Yield();
@@ -572,6 +586,11 @@ namespace KyraFiles.App.Utils.Storage
 					}
 
 					App.HistoryWrapper.AddHistory(history);
+					Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(
+						history,
+						filesystemOperations.LastFailedItems is { Count: > 0 }
+							? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Partial
+							: (returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success));
 				}
 
 				// Execute removal tasks concurrently in background
@@ -703,6 +722,7 @@ namespace KyraFiles.App.Utils.Storage
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
 			{
 				App.HistoryWrapper.AddHistory(history);
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(history, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
 			}
 
 			await jumpListService.RemoveFolderAsync(source.Path); // Remove items from jump list
@@ -736,6 +756,7 @@ namespace KyraFiles.App.Utils.Storage
 			if (registerHistory)
 			{
 				App.HistoryWrapper.AddHistory(history);
+				Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(history, returnStatus == ReturnResult.Failed ? KyraFiles.Shared.OperationHistory.OperationHistoryResult.Failed : KyraFiles.Shared.OperationHistory.OperationHistoryResult.Success);
 			}
 
 			await Task.Yield();

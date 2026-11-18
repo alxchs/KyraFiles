@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles Community
+// Copyright (c) KyraFiles Community
 // Licensed under the MIT License.
 
 WNDPROC
@@ -408,3 +408,4 @@ K32EmptyWorkingSet
 GetDoubleClickTime
 SHChangeNotify
 EnableWindow
+AllowSetForegroundWindow

@@ -1,6 +1,6 @@
-﻿# F020 — Aba única por endereço e aba de Configurações na primeira posição — SPEC
+# F020 — Aba única por endereço e aba de Configurações na primeira posição — SPEC
 
-Estado: **EM APROVAÇÃO** (14/10/2026). Pedido do Alexandre: *"Não permita abrir o mesmo endereço em duas abas diferentes. Abra a aba de configuracoes sempre na primeira posição"*.
+Estado: **APROVADA retroativamente pelo Alexandre em 18/11/2026** (código já entregue e integrado na `main`; estado anterior: `EM APROVAÇÃO` de 14/10/2026). Pedido do Alexandre: *"Não permita abrir o mesmo endereço em duas abas diferentes. Abra a aba de configuracoes sempre na primeira posição"*.
 
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 

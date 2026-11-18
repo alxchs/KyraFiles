@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
 <local:BaseShellPage
 	x:Class="KyraFiles.App.Views.Shells.ModernShellPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -112,19 +112,32 @@
 			BorderThickness="0,0,0,1"
 			Visibility="{x:Bind ShellViewModel.IsSearchResults, Mode=OneWay}">
 			<StackPanel Spacing="8">
-				<StackPanel
-					VerticalAlignment="Center"
-					Orientation="Horizontal"
-					Spacing="12">
-					<Image
-						Height="24"
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<StackPanel
+						Grid.Column="0"
 						VerticalAlignment="Center"
-						Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
-					<TextBlock
+						Orientation="Horizontal"
+						Spacing="12">
+						<Image
+							Height="24"
+							VerticalAlignment="Center"
+							Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
+						<TextBlock
+							VerticalAlignment="Center"
+							Style="{StaticResource SubtitleTextBlockStyle}"
+							Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+					</StackPanel>
+					<Button
+						Grid.Column="1"
 						VerticalAlignment="Center"
-						Style="{StaticResource SubtitleTextBlockStyle}"
-						Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
-				</StackPanel>
+						Click="SaveCurrentSearchButton_Click"
+						Content="Salvar busca"
+						ToolTipService.ToolTip="Salvar esta busca na barra lateral (F042)" />
+				</Grid>
 
 				<!--  Natural Search Filter Chips & Notice  -->
 				<StackPanel
@@ -209,36 +222,57 @@
 			</StackPanel>
 		</Grid>
 
-		<!--  Filter header  -->
-		<Grid
-			x:Name="FilterHeader"
-			Grid.Row="1"
-			Padding="26,8,12,8"
-			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-			BorderThickness="0,0,0,1"
-			IsTabStop="False"
-			Visibility="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
-			<StackPanel
-				VerticalAlignment="Center"
-				Orientation="Horizontal"
-				Spacing="12">
-				<Image
-					Height="16"
+		<!--  Filter header & Contextual Project Actions Bar (F045)  -->
+		<StackPanel Grid.Row="1">
+			<Grid
+				x:Name="FilterHeader"
+				Padding="26,8,12,8"
+				BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+				BorderThickness="0,0,0,1"
+				IsTabStop="False"
+				Visibility="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
+				<StackPanel
 					VerticalAlignment="Center"
-					Source="{x:Bind ShellViewModel.FolderThumbnailImageSource, Mode=OneWay}" />
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource BodyStrongTextBlockStyle}"
-					Text="{helpers:ResourceString Name=FilteringFor}" />
-				<AutoSuggestBox
-					x:Name="FilterTextBox"
-					Width="180"
-					VerticalAlignment="Center"
-					PlaceholderText="{helpers:ResourceString Name=Filename}"
-					PreviewKeyDown="FilterTextBox_PreviewKeyDown"
-					Text="{x:Bind ShellViewModel.FilesAndFoldersFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			</StackPanel>
-		</Grid>
+					Orientation="Horizontal"
+					Spacing="12">
+					<Image
+						Height="16"
+						VerticalAlignment="Center"
+						Source="{x:Bind ShellViewModel.FolderThumbnailImageSource, Mode=OneWay}" />
+					<TextBlock
+						VerticalAlignment="Center"
+						Style="{StaticResource BodyStrongTextBlockStyle}"
+						Text="{helpers:ResourceString Name=FilteringFor}" />
+					<AutoSuggestBox
+						x:Name="FilterTextBox"
+						Width="180"
+						VerticalAlignment="Center"
+						PlaceholderText="{helpers:ResourceString Name=Filename}"
+						PreviewKeyDown="FilterTextBox_PreviewKeyDown"
+						Text="{x:Bind ShellViewModel.FilesAndFoldersFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				</StackPanel>
+			</Grid>
+
+			<!--  F045: Barra contextual de acoes de projeto (visivel apenas em pastas com marcadores)  -->
+			<Border
+				x:Name="ProjectActionBar"
+				Padding="26,6,12,6"
+				BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+				BorderThickness="0,0,0,1"
+				Visibility="Collapsed">
+				<StackPanel Spacing="6">
+					<StackPanel
+						x:Name="ProjectActionButtonsPanel"
+						Orientation="Horizontal"
+						Spacing="6" />
+					<InfoBar
+						x:Name="ProjectActionOutputBar"
+						IsClosable="True"
+						IsOpen="False"
+						Severity="Informational" />
+				</StackPanel>
+			</Border>
+		</StackPanel>
 
 		<!--  Shell Frame  -->
 		<Frame

@@ -1,6 +1,6 @@
-﻿# F014 — Sistema de Ajuda (Help) Completo e Contextual — SPEC
+# F014 — Sistema de Ajuda (Help) Completo e Contextual — SPEC
 
-Status: **PROPOSTA PARA APROVAÇÃO**
+Status: **APROVADA retroativamente pelo Alexandre em 18/11/2026** (código já entregue e integrado na `main`; estado anterior: `PROPOSTA PARA APROVAÇÃO`).
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Documento de especificação funcional: define **o quê e por quê**, independente de classes e detalhes internos de implementação (reservados para o `plan.md`).
 

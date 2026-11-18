@@ -8,20 +8,21 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-18T04:08:52.1911696Z",
+                    "last_updated_at":  "2026-11-18T15:21:02.1643886-03:00",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
                     "spec_count":  77,
                     "task_count":  null,
                     "status_counts":  {
-                                          "not_started":  14,
-                                          "completed":  37,
-                                          "in_validation":  26
+                                          "cancelled":  1,
+                                          "completed":  42,
+                                          "in_validation":  24,
+                                          "not_started":  10
                                       },
                     "total_points":  361,
-                    "completed_points_equivalent":  163,
-                    "remaining_points":  198,
+                    "completed_points_equivalent":  181,
+                    "remaining_points":  167,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -493,7 +494,7 @@
                       "title":  "sistema help contextual",
                       "type":  "feature",
                       "state":  "in_validation",
-                      "category":  "dependendo_alexandre",
+                      "category":  "em_andamento",
                       "points":  5,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -514,18 +515,20 @@
                                            "ref":  "docs/specs/F014-sistema-help-contextual/",
                                            "type":  "doc",
                                            "note":  "tasks.md 6 marcadas; spec ainda PROPOSTA PARA APROVACAO"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F014-sistema-help-contextual/spec.md",
+                                           "type":  "doc",
+                                           "note":  "Spec aprovada retroativamente pelo Alexandre em 18/11/2026; entra no checklist consolidado do Lote 0."
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "alexandre",
-                                           "note":  "tasks.md 6 marcadas; spec ainda PROPOSTA PARA APROVACAO"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F014-sistema-help-contextual/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
+                      "migration_status":  "migrated",
                       "owner":  "unknown",
                       "created_at":  null
                   },
@@ -536,8 +539,8 @@
                                      ],
                       "title":  "indice de busca",
                       "type":  "feature",
-                      "state":  "in_validation",
-                      "category":  "em_andamento",
+                      "state":  "cancelled",
+                      "category":  "invalidas",
                       "points":  13,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -547,7 +550,7 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "cancelled",
                       "evidence":  [
                                        {
                                            "ref":  "e6dcf50ae",
@@ -563,6 +566,11 @@
                                            "ref":  "docs/specs/F015-indice-de-busca/",
                                            "type":  "doc",
                                            "note":  "tasks.md 14 marcadas e 9 abertas; medicoes T17 no f8e72cc9c"
+                                       },
+                                       {
+                                           "ref":  "DECISIONS.md#D-TRAIN-1",
+                                           "type":  "decision",
+                                           "note":  "Arquivada/cancelada em 18/11/2026 com autorizacao do Alexandre: conflita com F021 (bloqueio IndexService) e substituida por F023 (busca hibrida)."
                                        }
                                    ],
                       "blockers":  [
@@ -571,7 +579,7 @@
                       "source_files":  [
                                            "docs/specs/F015-indice-de-busca/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
+                      "migration_status":  "migrated",
                       "owner":  "unknown",
                       "created_at":  null
                   },
@@ -714,7 +722,7 @@
                       "title":  "aba unica por endereco e posicao settings",
                       "type":  "feature",
                       "state":  "in_validation",
-                      "category":  "dependendo_alexandre",
+                      "category":  "em_andamento",
                       "points":  2,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -735,18 +743,20 @@
                                            "ref":  "docs/specs/F020-aba-unica-por-endereco-e-posicao-settings/",
                                            "type":  "doc",
                                            "note":  "spec EM APROVACAO; tasks.md 6 marcadas e 2 abertas"
+                                       },
+                                       {
+                                           "ref":  "docs/specs/F020-aba-unica-por-endereco-e-posicao-settings/spec.md",
+                                           "type":  "doc",
+                                           "note":  "Spec aprovada retroativamente pelo Alexandre em 18/11/2026; entra no checklist consolidado do Lote 0."
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "alexandre",
-                                           "note":  "spec EM APROVACAO; tasks.md 6 marcadas e 2 abertas"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F020-aba-unica-por-endereco-e-posicao-settings/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
+                      "migration_status":  "migrated",
                       "owner":  "unknown",
                       "created_at":  null
                   },
@@ -1592,8 +1602,8 @@
                                      ],
                       "title":  "saved searches",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  3,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1603,12 +1613,17 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "in_validation",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F042-saved-searches/",
+                                           "ref":  "v4.3.22",
+                                           "type":  "release",
+                                           "note":  "Entregue no Train v4.3.22 (Lote 1)"
+                                       },
+                                       {
+                                           "ref":  "docs/agents/evidence/train-v4.3.22/RELATORIO-TRAIN-V4.3.22.md",
                                            "type":  "doc",
-                                           "note":  "somente spec.md"
+                                           "note":  "Buscas salvas na barra lateral (ISavedSearchesService, dialog, sidebar, relogio relativo); 4/4 testes"
                                        }
                                    ],
                       "blockers":  [
@@ -1617,8 +1632,8 @@
                       "source_files":  [
                                            "docs/specs/F042-saved-searches/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -1628,8 +1643,8 @@
                                      ],
                       "title":  "operation history",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1639,12 +1654,17 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "in_validation",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F043-operation-history/",
+                                           "ref":  "v4.3.22",
+                                           "type":  "release",
+                                           "note":  "Entregue no Train v4.3.22 (Lote 1)"
+                                       },
+                                       {
+                                           "ref":  "docs/agents/evidence/train-v4.3.22/RELATORIO-TRAIN-V4.3.22.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 0/8; sem codigo"
+                                           "note":  "Historico de operacoes com desfazer por item (IOperationHistoryService, 8 operacoes rastreadas, dialog); 9/9 testes"
                                        }
                                    ],
                       "blockers":  [
@@ -1653,8 +1673,8 @@
                       "source_files":  [
                                            "docs/specs/F043-operation-history/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -1710,8 +1730,8 @@
                                      ],
                       "title":  "project actions",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1721,12 +1741,17 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "in_validation",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F045-project-actions/",
+                                           "ref":  "v4.3.22",
+                                           "type":  "release",
+                                           "note":  "Entregue no Train v4.3.22 (Lote 1)"
+                                       },
+                                       {
+                                           "ref":  "docs/agents/evidence/train-v4.3.22/RELATORIO-TRAIN-V4.3.22.md",
                                            "type":  "doc",
-                                           "note":  "tasks.md 0/8; sem codigo"
+                                           "note":  "Acoes contextuais por tipo de projeto e comandos proprios (IProjectActionsService, dialog, toolbar); 6/6 testes"
                                        }
                                    ],
                       "blockers":  [
@@ -1735,8 +1760,8 @@
                       "source_files":  [
                                            "docs/specs/F045-project-actions/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -1783,7 +1808,7 @@
                       "title":  "build folder cleaner",
                       "type":  "feature",
                       "state":  "completed",
-                      "category":  "entregue",
+                      "category":  "finalizadas",
                       "points":  3,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2236,8 +2261,8 @@
                                      ],
                       "title":  "installer window to front",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "dependendo_alexandre",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  3,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2247,25 +2272,27 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "in_validation",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F058-installer-window-to-front/",
+                                           "ref":  "v4.3.22",
+                                           "type":  "release",
+                                           "note":  "Entregue no Train v4.3.22 (Lote 1)"
+                                       },
+                                       {
+                                           "ref":  "docs/agents/evidence/train-v4.3.22/RELATORIO-TRAIN-V4.3.22.md",
                                            "type":  "doc",
-                                           "note":  "spec PROPOSTA aguardando aprovacao; tasks.md 1 marcada e 7 abertas"
+                                           "note":  "Janela do instalador sempre a frente (AC-1 a AC-8); Inno Setup + AllowSetForegroundWindow"
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "alexandre",
-                                           "note":  "spec PROPOSTA aguardando aprovacao; tasks.md 1 marcada e 7 abertas"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F058-installer-window-to-front/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -2297,6 +2324,11 @@
                                            "ref":  "docs/specs/F060-diferenciais-sftp-script-hex-split/tasks.md",
                                            "type":  "doc",
                                            "note":  "Onda A (M1/M2/M5) nucleo + UI compilados com 0 erros; aguardando provas de tela sem roubo de foco e decisao das ADRs 007/008 (Onda B: SFTP/Script)"
+                                       },
+                                       {
+                                           "ref":  "DECISIONS.md#D-F060-2",
+                                           "type":  "decision",
+                                           "note":  "Decisao do Alexandre em 18/11/2026: Onda B (SFTP/Script) movida para backlog final; Onda A (M1/M2/M5, 78/78 testes) pronta para validacao visual consolidada."
                                        }
                                    ],
                       "blockers":  [
@@ -2599,7 +2631,7 @@
                       "title":  "github login oauth",
                       "type":  "integration",
                       "state":  "in_validation",
-                      "category":  "dependendo_alexandre",
+                      "category":  "em_andamento",
                       "points":  3,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2620,6 +2652,11 @@
                                            "ref":  "docs/specs/F070-github-login-oauth/",
                                            "type":  "doc",
                                            "note":  "RELATORIO.md: AC-2/3/4 CONFIRMED, AC-1 NOT TESTED (falta Client ID do Alexandre)"
+                                       },
+                                       {
+                                           "ref":  "STATUS.md#F070",
+                                           "type":  "test",
+                                           "note":  "Client ID real configurado em Constants.cs e validado com HTTP 200 OK na API GitHub Device Code em 14/11/2026; entra no checklist visual consolidado do Lote 0."
                                        }
                                    ],
                       "blockers":  [
@@ -2628,7 +2665,7 @@
                       "source_files":  [
                                            "docs/specs/F070-github-login-oauth/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
+                      "migration_status":  "migrated",
                       "owner":  "unknown",
                       "created_at":  null
                   },
@@ -2972,8 +3009,8 @@
                                      ],
                       "title":  "remocao vinculo ancestral",
                       "type":  "bugfix",
-                      "state":  "in_validation",
-                      "category":  "em_andamento",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  2,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2983,7 +3020,7 @@
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "completed",
                       "evidence":  [
                                        {
                                            "ref":  "b4897aa82",
@@ -2999,6 +3036,11 @@
                                            "ref":  "docs/specs/F088-remocao-vinculo-ancestral/",
                                            "type":  "doc",
                                            "note":  "so plan.md (sem spec.md); commits de purga de vinculo legado"
+                                       },
+                                       {
+                                           "ref":  "0d6047ccd",
+                                           "type":  "commit",
+                                           "note":  "Absorvida integralmente pela F091 / v4.3.19.0 (tools/check-legacy-names.ps1 = 0 violacoes). Encerrada no Lote 0 (autorizado pelo Alexandre em 18/11/2026)."
                                        }
                                    ],
                       "blockers":  [
@@ -3007,7 +3049,7 @@
                       "source_files":  [
                                            "docs/specs/F088-remocao-vinculo-ancestral/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
+                      "migration_status":  "migrated",
                       "owner":  "unknown",
                       "created_at":  null
                   },
@@ -3086,6 +3128,11 @@
                                            "ref":  "src/KyraFiles.App/Services/App/UiScaleService.cs",
                                            "type":  "build",
                                            "note":  "build Release x64 aprovado (0 erros) e 0 violacoes em check-legacy-names.ps1; pendente apenas execucao visual f090_scale_test.ps1 sem roubo de foco"
+                                       },
+                                       {
+                                           "ref":  "DECISIONS.md#D-F090-1",
+                                           "type":  "decision",
+                                           "note":  "Decisao do Alexandre em 18/11/2026: Opcao A (v1 conservadora) aprovada para popups e Ctrl++/Ctrl+-; pronta para validacao visual consolidada."
                                        }
                                    ],
                       "blockers":  [
@@ -3228,10 +3275,10 @@
                    }
                ],
     "decisions_required":  {
-                               "text":  "Aprovar F014, F020, F058, F087 (specs propostas/rascunho). Client ID do GitHub OAuth (F070) fornecido pelo Alexandre."
+                               "text":  "Nenhuma decisao bloqueante pendente em 18/11/2026 (Lote 0 reconciliado; D-TRAIN-1, D-F090-1 e D-F060-2 decididas)."
                            },
     "audit":  {
-                  "last_incremental_audit_at":  "2026-11-15T12:32:09.982713-03:00",
+                  "last_incremental_audit_at":  "2026-11-18T13:05:28.6207079-03:00",
                   "last_full_audit_at":  "2026-11-13T19:25:28.2663438-03:00",
                   "unreconciled_changes":  null,
                   "evidence_coverage_percent":  null

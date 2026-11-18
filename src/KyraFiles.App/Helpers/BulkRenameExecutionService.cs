@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -139,6 +139,7 @@ namespace KyraFiles.App.Helpers
 				try
 				{
 					App.HistoryWrapper?.AddHistory(history);
+					Ioc.Default.GetService<IOperationHistoryService>()?.RecordFromStorageHistory(history);
 				}
 				catch { }
 			}

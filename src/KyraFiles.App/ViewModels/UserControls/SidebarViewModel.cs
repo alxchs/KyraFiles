@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Controls;
@@ -29,6 +29,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IFileTagsService fileTagsService;
+		private readonly ISavedSearchesService savedSearchesService = Ioc.Default.GetRequiredService<ISavedSearchesService>();
 
 		private IShellPanesPage? paneHolder;
 		public IShellPanesPage? PaneHolder
@@ -81,6 +82,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 			[
 				SectionType.Home,
 				SectionType.Pinned,
+				SectionType.SavedSearches,
 				SectionType.Library,
 				SectionType.ThisPC,
 				SectionType.ControlPanel,
@@ -349,6 +351,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.SavedSearches, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
@@ -360,6 +363,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 			_ = LoadThisPCDelegateItemsAsync();
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			savedSearchesService.Changed += SavedSearchesService_Changed;
 			uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
@@ -448,6 +452,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 					SectionType.WSL => WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
+					SectionType.SavedSearches => savedSearchesService.GetAll().Select(d => (INavigationControlItem)new SavedSearchSidebarItem(d)).ToList().AsReadOnly(),
 					SectionType.ThisPC => drivesViewModel.Drives.Cast<INavigationControlItem>().Concat(thisPcDelegateItems.AsReadOnly()).ToList().AsReadOnly(),
 					SectionType.ControlPanel => Array.Empty<INavigationControlItem>(),
 					_ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, "The sidebar section type is not supported.")
@@ -463,6 +468,42 @@ namespace KyraFiles.App.ViewModels.UserControls
 		}
 
 		private void Manager_DataChangedForNetworkComputers(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Network, e);
+
+		private void SavedSearchesService_Changed(object? sender, EventArgs e)
+			=> Manager_DataChanged(SectionType.SavedSearches, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+		private async Task OpenSavedSearchAsync(KyraFiles.Shared.SavedSearches.SavedSearchDefinition definition, IShellPage shellPage)
+		{
+			var evaluated = savedSearchesService.Evaluate(definition);
+			if (evaluated.IsScopeMissing)
+			{
+				// AC-3: escopo inexistente mostra aviso claro e permite editar imediatamente
+				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+				var vm = new KyraFiles.App.ViewModels.Dialogs.SavedSearchDialogViewModel(definition, evaluated.ScopeWarning);
+				if (await dialogService.ShowDialogAsync(vm) == DialogResult.Primary)
+				{
+					var updated = vm.BuildDefinition();
+					savedSearchesService.Update(updated);
+					evaluated = savedSearchesService.Evaluate(updated);
+					if (evaluated.IsScopeMissing)
+						return;
+				}
+				else
+				{
+					return;
+				}
+			}
+
+			shellPage.NavigateToPath(evaluated.ScopePath, new NavigationArguments
+			{
+				IsSearchResultPage = true,
+				SearchPathParam = evaluated.ScopePath,
+				SearchQuery = evaluated.EffectiveQuery,
+				NaturalSearchIntent = evaluated.Intent,
+				AssociatedTabInstance = shellPage,
+				NavPathParam = evaluated.ScopePath,
+			});
+		}
 
 		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
@@ -696,6 +737,13 @@ namespace KyraFiles.App.ViewModels.UserControls
 					section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
 					section.IsHeader = true;
 					break;
+
+				case SectionType.SavedSearches:
+					if (savedSearchesService.GetAll().Count == 0)
+						break;
+					section = BuildSection("Buscas salvas", sectionType, new ContextMenuOptions { ShowHideSection = false }, false);
+					section.IsHeader = true;
+					break;
 			}
 
 			if (section is not null)
@@ -853,6 +901,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+			savedSearchesService.Changed -= SavedSearchesService_Changed;
 			uiSettings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
 
 			TeardownTabExpansionTracking();
@@ -994,6 +1043,13 @@ namespace KyraFiles.App.ViewModels.UserControls
 							AssociatedTabInstance = shp,
 							NavPathParam = tagPath
 						});
+					}
+					return;
+
+				case NavigationControlItemType.SavedSearch:
+					if (navigationControlItem is SavedSearchSidebarItem savedItem && PaneHolder?.ActivePane is IShellPage searchPane)
+					{
+						await OpenSavedSearchAsync(savedItem.Definition, searchPane);
 					}
 					return;
 
@@ -1169,6 +1225,49 @@ namespace KyraFiles.App.ViewModels.UserControls
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, FlyoutBase menu)
 		{
+			if (item is SavedSearchSidebarItem savedSearchItem)
+			{
+				var allSaved = savedSearchesService.GetAll();
+				var idx = allSaved.ToList().FindIndex(s => string.Equals(s.Id, savedSearchItem.Definition.Id, StringComparison.Ordinal));
+				return
+				[
+					new ContextMenuFlyoutItemViewModel
+					{
+						Text = "Editar busca salva",
+						Glyph = "\uE70F",
+						ShowItem = true,
+						Command = new AsyncRelayCommand(async () =>
+						{
+							var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+							var vm = new KyraFiles.App.ViewModels.Dialogs.SavedSearchDialogViewModel(savedSearchItem.Definition);
+							if (await dialogService.ShowDialogAsync(vm) == DialogResult.Primary)
+								savedSearchesService.Update(vm.BuildDefinition());
+						}),
+					},
+					new ContextMenuFlyoutItemViewModel
+					{
+						Text = "Mover para cima",
+						Glyph = "\uE74A",
+						ShowItem = idx > 0,
+						Command = new RelayCommand(() => savedSearchesService.Reorder(idx, idx - 1)),
+					},
+					new ContextMenuFlyoutItemViewModel
+					{
+						Text = "Mover para baixo",
+						Glyph = "\uE74B",
+						ShowItem = idx >= 0 && idx < allSaved.Count - 1,
+						Command = new RelayCommand(() => savedSearchesService.Reorder(idx, idx + 1)),
+					},
+					new ContextMenuFlyoutItemViewModel
+					{
+						Text = "Remover da barra lateral",
+						Glyph = "\uE74D",
+						ShowItem = true,
+						Command = new RelayCommand(() => savedSearchesService.Remove(savedSearchItem.Definition.Id)),
+					},
+				];
+			}
+
 			var options = item.MenuOptions
 				?? throw new InvalidOperationException("The sidebar item does not have context-menu options.");
 			var isSettingsItem = string.Equals(item.Path, "Settings", StringComparison.OrdinalIgnoreCase);

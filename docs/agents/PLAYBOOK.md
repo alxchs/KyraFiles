@@ -1,16 +1,14 @@
-﻿# PLAYBOOK — como a AGY segue sozinha se o Claude estiver ausente
+# PLAYBOOK — como a AGY segue sozinha se o Claude estiver ausente
 
 Escrito pelo Claude em 03/10/2026. Metodologia geral: `C:\Users\alxch\.dev-method\METODO.md` (leia primeiro). Este arquivo só traz o específico do KyraFiles. Estado vivo: `AGENT_CONTEXT.md`. Regras do produto: `MASTER_SPEC.md`.
 
-## Disciplina Soberana de Execução (Regra Dura do Alexandre, 29/10/2026 - Claude e AGY)
+## Disciplina Soberana de Execução (atualizada em 18/11/2026 — D-TRAIN-1, Alexandre)
 
-1. **Cada spec, uma branch única:** Cada spec roda isolada em sua branch própria (`feature/<nome-ou-spec>`), saindo exclusivamente da `main`.
-2. **Pré-requisito para iniciar nova spec:** Em hipótese alguma pode iniciar uma nova spec sem a `main` devidamente atualizada e sincronizada com a última entrega.
-3. **Roteiro de teste mandatório:** Toda spec exige execução e aprovação de roteiro de teste formal antes de devolução.
-4. **Performance inegociável (zero regressão):** Em hipótese alguma pode devolver na `main` com performance pior que a `main`.
-5. **Sequência estrita:** Devolução na `main` (via squash/rebase + ff-only) concluída antes de iniciar qualquer nova spec.
-6. **Relatório de conclusão obrigatório:** Todo final de spec exige relatório formal com detalhes importantes, evidências de testes e pontos de atenção/advertências técnicas.
-7. **Descontinuação da `colab` (09/11/2026 - Alexandre):** A branch `colab` foi descontinuada e apagada local e remotamente. O fluxo agora é direto entre branches de feature e a `main`.
+1. **Release Trains (Lotes de 3–5 SPECs / ~15–20 pts):** SPECs independentes podem ser agrupadas numa branch de lote (`feature/train-v4.3.xx`) ou branches integradas num mesmo lote, com **1 build Release x64 (`0/0`)**, **1 bateria consolidada de testes/UIA/Gate F021/Win+E**, **1 relatório do lote** e **1 instalador** por Train (reduzindo overhead sem abrir mão de qualidade).
+2. **Origem e integração na `main`:** Toda branch sai da `main` atualizada e volta via squash/rebase + `--ff-only` (`colab` descontinuada em 09/11/2026).
+3. **Performance inegociável (zero regressão):** Em hipótese alguma devolver na `main` com performance pior que a `main`.
+4. **Fonte única de produção:** Atualizar somente `docs/production/production-control.json` + `production-events.jsonl` e rodar `tools/Sync-ProductionDocs.ps1` para regenerar automaticamente `docs/specs/SPECS.md` e `docs/production/SPEC-INDEX.md`.
+5. **Centralização na `HELOIZE-PC` (18/11/2026):** Desenvolvimento e testes centralizados na `HELOIZE-PC`; testes podem rodar o tempo todo sem roubar foco da janela de digitação. Produção contínua, sem IA ociosa.
 
 ## Situação (03/10/2026)
 

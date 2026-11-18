@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Controls;
@@ -153,6 +153,7 @@ namespace KyraFiles.App.Data.Items
 				SectionType.Network => "\uE968",
 				SectionType.WSL => "\uE756",
 				SectionType.FileTag => "\uE8EC",
+				SectionType.SavedSearches => "\uE721",
 				_ => null
 			};
 		}

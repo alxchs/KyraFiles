@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.21"
+#define MyAppVersion "4.3.22"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
@@ -35,6 +35,7 @@ CloseApplications=yes
 CloseApplicationsFilter=KyraFiles.exe,KyraFiles.Watchdog.exe,KyraFiles.HotkeyService.exe,KyraFiles.App.Server.exe,KyraFiles.App.IndexService.exe
 RestartApplications=no
 ArchitecturesInstallIn64BitMode=x64compatible
+SetupMutex=KyraFilesSetupSingleInstanceMutex
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
@@ -82,18 +83,125 @@ Type: files; Name: "{app}\*.locked.*"
 Type: filesandordirs; Name: "{app}"
 
 [Code]
+type
+  TFlashWInfo = record
+    cbSize: Cardinal;
+    hwnd: HWND;
+    dwFlags: Cardinal;
+    uCount: Cardinal;
+    dwTimeout: Cardinal;
+  end;
+
+const
+  SW_RESTORE = 9;
+  FLASHW_ALL = 3;
+  FLASHW_TIMERNOFG = 12;
+  ASFW_ANY = $FFFFFFFF;
+
+function ShowWindowNative(hWnd: HWND; nCmdShow: Integer): Boolean;
+  external 'ShowWindow@user32.dll stdcall';
+function SetForegroundWindowNative(hWnd: HWND): Boolean;
+  external 'SetForegroundWindow@user32.dll stdcall';
+function GetForegroundWindowNative(): HWND;
+  external 'GetForegroundWindow@user32.dll stdcall';
+function IsIconicNative(hWnd: HWND): Boolean;
+  external 'IsIconic@user32.dll stdcall';
+function FlashWindowExNative(var pfwi: TFlashWInfo): Boolean;
+  external 'FlashWindowEx@user32.dll stdcall';
+function AllowSetForegroundWindowNative(dwProcessId: Cardinal): Boolean;
+  external 'AllowSetForegroundWindow@user32.dll stdcall';
+function GetTickCountNative(): DWORD;
+  external 'GetTickCount@kernel32.dll stdcall';
+
 var
   RegisterOk: Boolean;
+  PageEnteredTick: DWORD;
+
+procedure BringWindowToFrontOrFlash(TargetHwnd: HWND);
+var
+  FlashInfo: TFlashWInfo;
+begin
+  if TargetHwnd = 0 then
+    Exit;
+
+  if IsIconicNative(TargetHwnd) then
+    ShowWindowNative(TargetHwnd, SW_RESTORE);
+
+  SetForegroundWindowNative(TargetHwnd);
+
+  // FR-004: se o Windows recusou trazer a janela para frente, piscar barra de tarefas
+  if GetForegroundWindowNative() <> TargetHwnd then
+  begin
+    FlashInfo.cbSize := SizeOf(FlashInfo);
+    FlashInfo.hwnd := TargetHwnd;
+    FlashInfo.dwFlags := FLASHW_ALL or FLASHW_TIMERNOFG;
+    FlashInfo.uCount := 5;
+    FlashInfo.dwTimeout := 0;
+    FlashWindowExNative(FlashInfo);
+  end;
+end;
+
+// FR-003 (AC-5): trava de 1 s contra confirmacao/cancelamento acidental por digitacao
+procedure ArmInputGuard();
+begin
+  PageEnteredTick := GetTickCountNative();
+end;
+
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+  // FR-003: ignora confirmacao nos primeiros 1.000 ms apos exibicao da pagina
+  if (CurPageID = wpReady) or (CurPageID = wpFinished) then
+  begin
+    if (GetTickCountNative() - PageEnteredTick) < 1000 then
+      Result := False;
+  end;
+end;
+
+procedure CancelButtonClick(CurPageID: Integer; var Cancel, Confirm: Boolean);
+begin
+  // FR-003: ignora cancelamento acidental no primeiro segundo da pagina
+  if (GetTickCountNative() - PageEnteredTick) < 1000 then
+  begin
+    Cancel := False;
+    Confirm := False;
+  end;
+end;
 
 // Procedimentos de verificação pré-instalação
 function InitializeSetup(): Boolean;
 var
   ErrorCode: Integer;
+  ExistingHwnd: HWND;
 begin
+  // AC-8: se ja existe instancia do instalador aberta, traz ela para frente e encerra a segunda
+  if CheckForMutexes('KyraFilesSetupSingleInstanceMutex') then
+  begin
+    ExistingHwnd := FindWindowByClassName('TWizardForm');
+    if ExistingHwnd <> 0 then
+      BringWindowToFrontOrFlash(ExistingHwnd);
+    Result := False;
+    Exit;
+  end;
+
   // Fecha instâncias anteriores de forma cooperativa
   // Ordem importa: o Watchdog religa o HotkeyService e segura o KyraFiles.exe; encerra-lo primeiro e esperar a saida evita o exit 5 do RestartManager
   ShellExec('open', 'powershell.exe', '-NoProfile -Command "Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue; try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\KyraFiles_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   Result := True;
+end;
+
+procedure InitializeWizard();
+begin
+  // FR-001 / FR-003 / FR-004: traz o assistente para frente e aplica trava de 1 s
+  BringWindowToFrontOrFlash(WizardForm.Handle);
+  ArmInputGuard();
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  BringWindowToFrontOrFlash(WizardForm.Handle);
+  if (CurPageID = wpReady) or (CurPageID = wpFinished) then
+    ArmInputGuard();
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -109,6 +217,7 @@ begin
     ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "try { Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop } catch { [System.IO.File]::WriteAllText(''' + ExpandConstant('{tmp}') + '\appx_register_error.log'', $_.Exception.ToString()); exit 1 }"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
     if ErrorCode <> 0 then
     begin
+      BringWindowToFrontOrFlash(WizardForm.Handle);
       ErrLogPath := ExpandConstant('{tmp}\appx_register_error.log');
       if FileExists(ErrLogPath) and LoadStringFromFile(ErrLogPath, ErrMsg) then
         MsgBox('O registro do pacote do KyraFiles falhou (codigo ' + IntToStr(ErrorCode) + '):' + #13#10#13#10 + String(ErrMsg) + #13#10 + 'Feche o KyraFiles e rode o instalador de novo.', mbError, MB_OK)
@@ -116,7 +225,10 @@ begin
         MsgBox('O registro do pacote do KyraFiles falhou (codigo ' + IntToStr(ErrorCode) + '). Feche o KyraFiles e rode o instalador de novo.', mbError, MB_OK);
     end
     else
+    begin
       RegisterOk := True;
+      AllowSetForegroundWindowNative(ASFW_ANY);
+    end;
   end;
 end;
 

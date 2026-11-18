@@ -1,8 +1,8 @@
-﻿# F058 — Janela do instalador e da atualização sempre à frente — SPEC
+# F058 — Janela do instalador e da atualização sempre à frente — SPEC
 
 Status: **APROVADA pelo Alexandre em 12/11/2026** ("Specs aprovadas"). Estado anterior: **PROPOSTA, aguardando aprovação do Alexandre** (pedido em 26/10/2026: "precisa servir para o instalador de qualquer projeto; a janela de atualização precisa sempre vir para a frente"). Instância no KyraFiles do modelo `~/.dev-method/templates/spec-instalador-janela-frente.md` (METODO §15); mudou o modelo, mude aqui. Sem tecnologia, arquivo ou classe.
 
-- [ ] **APROVADA pelo Alexandre** (data: ____)
+- [x] **APROVADA pelo Alexandre** (data: 12/11/2026)
 
 ## 1. Por quê
 Janela de instalação ou atualização que abre **atrás** de outras passa despercebida: a pessoa acha que nada aconteceu, clica de novo, ou a atualização fica parada esperando uma resposta que ninguém viu.

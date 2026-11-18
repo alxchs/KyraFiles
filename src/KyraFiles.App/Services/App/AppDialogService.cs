@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.App.Dialogs;
@@ -31,6 +31,9 @@ namespace KyraFiles.App.Services
 				{ typeof(CleanBuildFoldersDialogViewModel), () => new CleanBuildFoldersDialog() },
 				{ typeof(CloneRepoDialogViewModel), () => new CloneRepoDialog() },
 				{ typeof(CompressSkippedItemsDialogViewModel), () => new CompressSkippedItemsDialog() },
+				{ typeof(OperationHistoryDialogViewModel), () => new OperationHistoryDialog() },
+				{ typeof(SavedSearchDialogViewModel), () => new SavedSearchDialog() },
+				{ typeof(ProjectActionsDialogViewModel), () => new ProjectActionsDialog() },
 			}.ToFrozenDictionary();
 		}
 

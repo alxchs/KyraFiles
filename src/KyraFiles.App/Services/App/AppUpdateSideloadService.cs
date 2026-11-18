@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -78,6 +78,8 @@ namespace KyraFiles.App.Services
 			{
 				try
 				{
+					// F058 (FR-002): libera primeiro plano para o navegador/instalador disparado na atualizacao
+					Windows.Win32.PInvoke.AllowSetForegroundWindow(uint.MaxValue);
 					await Windows.System.Launcher.LaunchUriAsync(new Uri(_latestResult.PageUrl));
 					IsUpdateAvailable = false;
 					return;

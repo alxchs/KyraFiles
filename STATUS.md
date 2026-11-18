@@ -1,6 +1,17 @@
 # STATUS
 
-Última atualização: 2026-11-14 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-11-18 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Train v4.3.22 — Release Train (Lote 1: F058 + F042 + F043 + F045 = 16 pts) (18/11/2026)
+
+- CONFIRMED: F058 (SPEC-0054) - Janela do instalador sempre à frente e ativação de instância única (`SetupMutex=KyraFilesSetupSingleInstanceMutex`, `BringWindowToFrontOrFlash`, trava de 1s contra cliques acidentais e `AllowSetForegroundWindow`).
+- CONFIRMED: F042 (SPEC-0038) - Buscas salvas na barra lateral com reexecução e relógio dinâmico (`ISavedSearchesService`, diálogo, reordenação/remoção sem apagar arquivos; 4/4 testes aprovados).
+- CONFIRMED: F043 (SPEC-0039) - Histórico de operações de arquivos com desfazer por item (`IOperationHistoryService`, 8 operações instrumentadas, diálogo de integridade; 9/9 testes aprovados).
+- CONFIRMED: F045 (SPEC-0041) - Ações contextuais por tipo de projeto e comandos customizáveis (`IProjectActionsService`, `ProjectCommandRunner` anti-injeção, diálogo e toolbar contextual; 6/6 testes aprovados).
+- CONFIRMED: 19/19 testes unitários do Train v4.3.22 aprovados (`KyraFiles.App.Search.Index.Tests.exe`).
+- CONFIRMED: Gate F021 verificado e aprovado (IndexService inativo, repouso CPU 0%).
+- CONFIRMED: Relatório formal e evidências em `docs/agents/evidence/train-v4.3.22/RELATORIO-TRAIN-V4.3.22.md`.
+
 
 ## F057 — Atalhos de Botões em Caixas de Diálogo (14/11/2026)
 

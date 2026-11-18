@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // NativeStorageLegacyService obsolete; migrate to WindowsStorable when ready
 
@@ -389,6 +389,9 @@ namespace KyraFiles.App.Helpers
 					.AddSingleton<IFileIntegrityService, FileIntegrityService>()
 					.AddSingleton<IZoneIdentifierService, ZoneIdentifierService>()
 					.AddSingleton<IHelpService, HelpService>()
+					.AddSingleton<IOperationHistoryService, OperationHistoryService>()
+					.AddSingleton<IProjectActionsService, ProjectActionsService>()
+					.AddSingleton<ISavedSearchesService, SavedSearchesService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()

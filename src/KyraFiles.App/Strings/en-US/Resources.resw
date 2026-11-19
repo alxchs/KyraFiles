@@ -5399,4 +5399,43 @@
   <data name="CleanBuildFoldersDeleted" xml:space="preserve">
     <value>Deleted</value>
   </data>
+  <data name="DuplicateFinder" xml:space="preserve">
+    <value>Find duplicate files</value>
+  </data>
+  <data name="DuplicateFinderDescription" xml:space="preserve">
+    <value>Find and safely remove duplicate files across folders</value>
+  </data>
+  <data name="DuplicateFinderDialogTitle" xml:space="preserve">
+    <value>Find duplicate files</value>
+  </data>
+  <data name="DuplicateFinderMoveToTrash" xml:space="preserve">
+    <value>Move to Recycle Bin</value>
+  </data>
+  <data name="DuplicateFinderKeepOldest" xml:space="preserve">
+    <value>Keep oldest</value>
+  </data>
+  <data name="DuplicateFinderKeepNewest" xml:space="preserve">
+    <value>Keep newest</value>
+  </data>
+  <data name="DuplicateFinderDeselectAll" xml:space="preserve">
+    <value>Deselect all</value>
+  </data>
+  <data name="DuplicateFinderScanning" xml:space="preserve">
+    <value>Scanning for duplicates...</value>
+  </data>
+  <data name="DuplicateFinderNoDuplicates" xml:space="preserve">
+    <value>No duplicate files found in selected folders.</value>
+  </data>
+  <data name="DuplicateFinderModeExact" xml:space="preserve">
+    <value>Content (SHA-256 - Exact match)</value>
+  </data>
+  <data name="DuplicateFinderModeQuick" xml:space="preserve">
+    <value>Quick (4 KiB Hash + Size)</value>
+  </data>
+  <data name="DuplicateFinderModeNameSize" xml:space="preserve">
+    <value>Name and Size (Unverified)</value>
+  </data>
+  <data name="DuplicateFinderIgnoreDevFolders" xml:space="preserve">
+    <value>Ignore developer folders (.git, node_modules...)</value>
+  </data>
 </root>

@@ -2,6 +2,21 @@
 
 Última atualização: 2026-11-19 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
 
+## Train v4.3.24 — Release Train (F040 + Correções de Estabilidade) (19/11/2026)
+
+- CONFIRMED: F040 (SPEC-0036) - Localizador e removedor seguro de duplicados (`DuplicateFinderEngine` com pipeline de 3 estágios: tamanho -> quick-hash 4 KiB -> SHA-256 streaming 64 KiB O(1); modos exato, rápido e nome/tamanho; `DuplicateSelectionRules` com invariante rígida `CanSelectForDeletion`, diálogo `DuplicateFinderDialog`, lixeira via `DeleteItemAsync`, 7/7 testes aprovados em `DuplicateFinderTests.cs`).
+- CONFIRMED: Correções críticas de estabilidade da v4.3.23 (crashes XAML eliminados: remoção de referências inexistentes a `EmptyObjectToBoolConverter` e `FileSizeToStringConverter`, migração para `TryShowAsync` em `OpenCompareAction`, ciclo de vida e descarregamento de abas em `NamedWorkspacesService`, caminho canônico em `NamedWorkspaceStore`).
+- CONFIRMED: Compilação Release x64 aprovada (0 erros), 0 violações de nomes legados, Gate F021 verificado e aprovado (`verify_no_index_service.ps1`).
+
+## F040 — Localizar arquivos duplicados (19/11/2026)
+
+- CONFIRMED: F040 (SPEC-0036) - Localizador e removedor seguro de duplicados (`DuplicateFinderEngine` com pipeline de 3 estágios: tamanho -> quick-hash 4 KiB -> SHA-256 streaming 64 KiB O(1); modos exato, rápido e nome/tamanho rotulado como não garantido; cancelamento e tratamento de arquivos bloqueados/sistema).
+- CONFIRMED: `DuplicateSelectionRules` com invariante rígida que impede programaticamente a seleção de todas as cópias de um grupo (`CanSelectForDeletion`), além de regras `ApplyKeepOldest`, `ApplyKeepNewest`, `ApplyKeepInFolder` e `ClearSelection`.
+- CONFIRMED: Diálogo WinUI 3 `DuplicateFinderDialog` e ViewModel com contadores de economia, regras de seleção e exclusão exclusiva para a Lixeira via `FileOperationsHelpers.DeleteItemAsync(..., permanently: false, ...)`.
+- CONFIRMED: Ação `OpenDuplicateFinderAction` integrada via `[GeneratedRichCommand]`.
+- CONFIRMED: 7/7 testes aprovados em `DuplicateFinderTests.cs` (0 falhas).
+- CONFIRMED: Gate F021 verificado e aprovado (`verify_no_index_service.ps1`), 0 violações de nomes legados, build Release x64 aprovado.
+
 ## Train v4.3.23 — Release Train (F048 + F038 = 10 pts) (19/11/2026)
 
 - CONFIRMED: F048 (SPEC-0044) - Comparar arquivos e pastas (`BinaryDetector`, `DiffToolDetector`, `FileDiffLauncher` sem roubo de foco, `FolderComparer` cancelável em background, diálogo `FolderCompareDialog` e ação `OpenCompareAction` integrada no menu de contexto). 7/7 testes aprovados em `FileDiffTests.cs`.

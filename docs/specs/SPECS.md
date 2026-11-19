@@ -52,11 +52,11 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 ## Agrupamento
 
-**finalizadas (44)**: F002, F003, F006, F008, F009, F010, F012, F013, F018, F019, F021, F024, F027, F028, F031, F036, F037, F038, F042, F043, F044, F045, F047, F048, F049, F052, F053, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092
+**finalizadas (45)**: F002, F003, F006, F008, F009, F010, F012, F013, F018, F019, F021, F024, F027, F028, F031, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F052, F053, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092
 
 **em_andamento (24)**: F004, F005, F011, F014, F017, F020, F022, F023, F026, F029, F030, F032, F033, F034, F035, F060, F061, F062, F063, F065, F070, F086, F089, F090
 
-**fila (8)**: F039, F040, F041, F046, F050, F051, F054, F055
+**fila (7)**: F039, F041, F046, F050, F051, F054, F055
 
 **dependendo_alexandre (0)**: -
 
@@ -103,7 +103,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0033 | F037 | bulk rename preview | 5 | completed | finalizadas | unknown | - |
 | SPEC-0034 | F038 | named workspaces | 5 | completed | finalizadas | agy | - |
 | SPEC-0035 | F039 | disk usage map | 8 | not_started | fila | unknown | - |
-| SPEC-0036 | F040 | duplicate finder | 5 | not_started | fila | unknown | - |
+| SPEC-0036 | F040 | duplicate finder | 5 | completed | finalizadas | agy | v4.3.24 |
 | SPEC-0037 | F041 | folder compare sync | 8 | not_started | fila | unknown | - |
 | SPEC-0038 | F042 | saved searches | 3 | completed | finalizadas | agy | v4.3.22 |
 | SPEC-0039 | F043 | operation history | 5 | completed | finalizadas | agy | v4.3.22 |

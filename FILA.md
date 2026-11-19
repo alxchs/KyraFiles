@@ -13,7 +13,7 @@ Sincronizado em 2026-11-12 por Claude, a partir de `AGENT_CONTEXT.md` e do hando
 
 | Item | Dono | Branch | Semáforo | Observação |
 |---|---|---|---|---|
-| Train v4.3.23 (Lote 2: F048 + F038 + F040) | AGY | `feature/train-v4.3.23` | 🔴 OCUPADO | 15 pts; checkpoint `2c25c62b8` com F048 (T1-T4) e F038 (T1-T2) implementadas; F040 pendente |
+| Train v4.3.24 (F040 + Estabilidade) | AGY | `feature/release-v4.3.24` | 🔴 OCUPADO | 5 pts; F040 (Duplicate Finder) + correções críticas de crashes XAML da v4.3.23 |
 | F090 (correção da escala) | Alexandre | `feature/f090-escala` | 🟡 EM REVISÃO | Opção A conservadora aprovada (D-F090-1); aguardando merge/validação com Alexandre |
 
 ## 2. Pacotes da F092 (CONCLUÍDA)
@@ -45,9 +45,9 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 | F044 | Quick Look com espaço | ⚪ CONCLUÍDO | 8/8 tarefas entregues; sobreposição embutida, leitor multimodo, setas e fechar com Esc/Espaço; RELATORIO.md |
 | F045 | Ações de projeto | ⚪ CONCLUÍDO | 8/8 tarefas entregues na v4.3.22.0 (Train Lote 1); 6 testes verdes |
 | F047 | Limpeza de pastas de build | ⚪ CONCLUÍDO | 7/7 tarefas entregues; diálogo, medição, lixeira e proteção git; RELATORIO.md |
-| F048 | Diff de arquivos | 🔴 OCUPADO | Train v4.3.23 (Lote 2); T1-T4 implementadas em 2c25c62b8 |
-| F038 | Espaços de trabalho com nome | 🔴 OCUPADO | Train v4.3.23 (Lote 2); T1-T2 implementadas em 2c25c62b8 |
-| F040 | Localizar arquivos duplicados | 🔴 OCUPADO | Train v4.3.23 (Lote 2); T1-T3 no pipeline do Lote 2 |
+| F048 | Diff de arquivos | ⚪ CONCLUÍDO | Entregue na v4.3.23.0 (Train Lote 2); 7 testes verdes, RELATORIO.md |
+| F038 | Espaços de trabalho com nome | ⚪ CONCLUÍDO | Entregue na v4.3.23.0 (Train Lote 2); 6 testes verdes, RELATORIO.md |
+| F040 | Localizar arquivos duplicados | ⚪ CONCLUÍDO | 3/3 tarefas entregues (T1-T3); motor 3 estágios, regras de seleção com invariante, diálogo WinUI 3 e lixeira; RELATORIO.md |
 | F049 | Links, symlinks, junctions | ⚪ CONCLUÍDO | 7/7 tarefas entregues; motor LinkHelper, coluna Destino do link, criação no menu e exclusão segura; RELATORIO.md |
 | F053 | Codificação e fim de linha (EOL) | ⚪ CONCLUÍDO | 6/6 tarefas entregues; detecção streaming 4 KB, colunas dinâmicas, conversão em lote e desfazer; RELATORIO.md |
 | F056 | Formatos de cópia de caminho | ⚪ CONCLUÍDO | 6/6 tarefas entregues na v4.3.15.0; 13 testes verdes, RELATORIO.md |

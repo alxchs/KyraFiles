@@ -10,12 +10,12 @@ REGRA WORKFLOW DESCONTINUAÇÃO DA COLAB (09/11/2026 - Alexandre): Branch colab 
 REGRA CICLO    RELEASE TRAINS (18/11/2026 - Alexandre, D-TRAIN-1): Lotes de 3–5 SPECs (~15–20 pts) por Train, com 1 build Release x64 (0/0), 1 bateria consolidada de validação/UIA/Gate F021/Win+E e 1 instalador por lote.
 REGRA PERF     MANDATÓRIO: Em HIPÓTESE ALGUMA devolver na main com performance pior que a main anterior. Sem lentidão.
 REGRA RELAT    Todo final de lote/spec exige relatório de conclusão com detalhes importantes, pontos de atenção e comparativo de performance.
-FILA           ⚪ [LOTE 2 - v4.3.23] F048, F038 (10p, concluídos) · 🟢 [LOTE 3] F040, F051, F054, F055 (20p) · 🟢 [LOTE 4] F060-Onda A, F070, F071 (13p)
+FILA           ⚪ [v4.3.24] F040 (5p, Duplicate Finder) + estabilidade v4.3.23 · 🟢 [LOTE 3] F051, F054, F055 (15p) · 🟢 [LOTE 4] F060-Onda A, F070, F071 (13p)
 REGRA FOCO     MANDATÓRIO (29/10/2026): NUNCA roubar o foco da tela do usuário. Na HELOIZE-PC, testes podem rodar o tempo todo sem janela visível/foco.
 REGRA VERSAO   MANDATÓRIO (21/10/2026): O número da versão DEVE ser incrementado a CADA atualização integrada na main.
 MAQUINA        18/11/2026 (Alexandre): Desenvolvimento 100% centralizado na HELOIZE-PC; testes liberados o tempo todo; produção contínua sem IA ociosa.
-CURRENT BRANCH feature/train-v4.3.23
+CURRENT BRANCH feature/release-v4.3.24
 LAST DECISION  18/11/2026: D-TRAIN-1 (Release Trains em lotes), D-F090-1 (Opção A conservadora), D-F060-2 (SFTP/Script no backlog final).
-NEXT ACTION    /ship do Train v4.3.23 (commit-push -> merge push -> deploy) e continuidade imediata com F040.
+NEXT ACTION    Execucao do pipeline /ship para entrega da v4.3.24.0 (F040 + correcoes de estabilidade).
 BLOCKER        Nenhum bloqueador técnico.
 PRODUCAO       2026-11-13: protocolo de controle de producao v2 adotado; fonte de verdade em docs/production/production-control.json (SPECS.md gerado dele).

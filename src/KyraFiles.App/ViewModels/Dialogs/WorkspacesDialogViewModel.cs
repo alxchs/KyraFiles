@@ -18,6 +18,13 @@ namespace KyraFiles.App.ViewModels.Dialogs
         [ObservableProperty]
         private NamedWorkspace? _selectedWorkspace;
 
+        public bool HasSelectedWorkspace => SelectedWorkspace != null;
+
+        partial void OnSelectedWorkspaceChanged(NamedWorkspace? value)
+        {
+            OnPropertyChanged(nameof(HasSelectedWorkspace));
+        }
+
         [ObservableProperty]
         private string _statusMessage = string.Empty;
 

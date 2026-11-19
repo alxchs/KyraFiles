@@ -126,12 +126,18 @@ namespace KyraFiles.App.Services
             // 2. Se for modo "Substituir", agora pode fechar com segurança as abas antigas
             if (replaceExisting && oldTabs.Count > 0)
             {
+                var mainPage = (MainWindow.Instance?.Content as Microsoft.UI.Xaml.Controls.Frame)?.Content as MainPage;
                 foreach (var oldTab in oldTabs)
                 {
                     try
                     {
                         oldTab.IsPinned = false; // Despina para permitir fechamento
+                        if (mainPage != null)
+                        {
+                            mainPage.DetachTabContent(oldTab);
+                        }
                         MainPageViewModel.AppInstances.Remove(oldTab);
+                        oldTab.Unload();
                     }
                     catch { }
                 }

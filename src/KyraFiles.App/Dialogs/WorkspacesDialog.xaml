@@ -66,15 +66,15 @@
 			<Button
 				Command="{x:Bind ViewModel.LoadSelectedReplaceCommand}"
 				Content="Substituir abas"
-				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+				IsEnabled="{x:Bind ViewModel.HasSelectedWorkspace, Mode=OneWay}" />
 			<Button
 				Command="{x:Bind ViewModel.LoadSelectedAppendCommand}"
 				Content="Adicionar abas"
-				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+				IsEnabled="{x:Bind ViewModel.HasSelectedWorkspace, Mode=OneWay}" />
 			<Button
 				Command="{x:Bind ViewModel.DeleteSelectedCommand}"
 				Content="Excluir"
-				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+				IsEnabled="{x:Bind ViewModel.HasSelectedWorkspace, Mode=OneWay}" />
 		</StackPanel>
 	</StackPanel>
 </ContentDialog>

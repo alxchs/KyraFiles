@@ -35,6 +35,7 @@ namespace KyraFiles.App.Services
 				{ typeof(SavedSearchDialogViewModel), () => new SavedSearchDialog() },
 				{ typeof(ProjectActionsDialogViewModel), () => new ProjectActionsDialog() },
 				{ typeof(FolderCompareDialogViewModel), () => new FolderCompareDialog() },
+				{ typeof(DuplicateFinderDialogViewModel), () => new DuplicateFinderDialog() },
 				{ typeof(WorkspacesDialogViewModel), () => new WorkspacesDialog() },
 			}.ToFrozenDictionary();
 		}

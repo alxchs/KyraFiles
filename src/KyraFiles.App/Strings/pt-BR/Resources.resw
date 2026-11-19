@@ -5187,4 +5187,43 @@
   <data name="CleanBuildFoldersDeleted" xml:space="preserve">
     <value>Excluído</value>
   </data>
+  <data name="DuplicateFinder" xml:space="preserve">
+    <value>Localizar arquivos duplicados</value>
+  </data>
+  <data name="DuplicateFinderDescription" xml:space="preserve">
+    <value>Localizar e remover arquivos duplicados com segurança</value>
+  </data>
+  <data name="DuplicateFinderDialogTitle" xml:space="preserve">
+    <value>Localizar arquivos duplicados</value>
+  </data>
+  <data name="DuplicateFinderMoveToTrash" xml:space="preserve">
+    <value>Mover para a Lixeira</value>
+  </data>
+  <data name="DuplicateFinderKeepOldest" xml:space="preserve">
+    <value>Manter mais antigo</value>
+  </data>
+  <data name="DuplicateFinderKeepNewest" xml:space="preserve">
+    <value>Manter mais recente</value>
+  </data>
+  <data name="DuplicateFinderDeselectAll" xml:space="preserve">
+    <value>Desmarcar tudo</value>
+  </data>
+  <data name="DuplicateFinderScanning" xml:space="preserve">
+    <value>Localizando duplicados...</value>
+  </data>
+  <data name="DuplicateFinderNoDuplicates" xml:space="preserve">
+    <value>Nenhum arquivo duplicado encontrado nas pastas selecionadas.</value>
+  </data>
+  <data name="DuplicateFinderModeExact" xml:space="preserve">
+    <value>Conteúdo (SHA-256 - Correspondência exata)</value>
+  </data>
+  <data name="DuplicateFinderModeQuick" xml:space="preserve">
+    <value>Rápido (Hash 4 KiB + Tamanho)</value>
+  </data>
+  <data name="DuplicateFinderModeNameSize" xml:space="preserve">
+    <value>Nome e Tamanho (Não garantido)</value>
+  </data>
+  <data name="DuplicateFinderIgnoreDevFolders" xml:space="preserve">
+    <value>Ignorar pastas de desenvolvimento (.git, node_modules...)</value>
+  </data>
 </root>

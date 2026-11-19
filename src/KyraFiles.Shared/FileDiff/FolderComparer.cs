@@ -21,7 +21,10 @@ namespace KyraFiles.Shared.FileDiff
         long RightSize,
         DateTimeOffset? LeftModified,
         DateTimeOffset? RightModified
-    );
+    )
+    {
+        public string FormattedSize => LeftSize > 0 ? $"{LeftSize:N0} B" : (RightSize > 0 ? $"{RightSize:N0} B" : "-");
+    };
 
     public static class FolderComparer
     {

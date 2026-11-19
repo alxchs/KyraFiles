@@ -1546,18 +1546,18 @@
                                      ],
                       "title":  "duplicate finder",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
-                      "points_confidence":  "low",
-                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "points_confidence":  "medium",
+                      "points_note":  "5 pts (Train v4.3.24): DuplicateFinderEngine com streaming SHA-256, DuplicateSelectionRules com invariante, dialogo WinUI 3 e lixeira",
                       "hours":  {
                                     "original":  null,
                                     "current":  null,
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "completed",
                       "evidence":  [
                                        {
                                            "ref":  "docs/specs/F040-duplicate-finder/",
@@ -1571,8 +1571,8 @@
                       "source_files":  [
                                            "docs/specs/F040-duplicate-finder/spec.md"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {

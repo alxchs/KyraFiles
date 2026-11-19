@@ -39,7 +39,7 @@ Gerado de `production-control.json` em 2026-11-19T00:44:49.4482815-03:00 via `to
 | SPEC-0033 | F037 | bulk rename preview | completed | finalizadas | 5 |
 | SPEC-0034 | F038 | named workspaces | completed | finalizadas | 5 |
 | SPEC-0035 | F039 | disk usage map | not_started | fila | 8 |
-| SPEC-0036 | F040 | duplicate finder | not_started | fila | 5 |
+| SPEC-0036 | F040 | duplicate finder | completed | finalizadas | 5 |
 | SPEC-0037 | F041 | folder compare sync | not_started | fila | 8 |
 | SPEC-0038 | F042 | saved searches | completed | finalizadas | 3 |
 | SPEC-0039 | F043 | operation history | completed | finalizadas | 5 |

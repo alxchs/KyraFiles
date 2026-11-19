@@ -17,7 +17,6 @@ namespace KyraFiles.Shared.Workspaces
             {
                 string localFolder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "Programs",
                     "KyraFiles",
                     "settings"
                 );

@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using KyraFiles.App.Data.Contracts;
+using KyraFiles.App.Helpers;
 using KyraFiles.App.ViewModels.Dialogs;
 using KyraFiles.Shared.FileDiff;
 using Microsoft.UI.Xaml.Controls;
@@ -27,10 +28,15 @@ namespace KyraFiles.App.Actions
 
 		public ActionCategory Category => ActionCategory.FileSystem;
 
+		public RichGlyph Glyph => new(themedIconStyle: "App.ThemedIcons.Properties");
+
 		public bool IsExecutable
 		{
 			get
 			{
+				if (_context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder or ContentPageTypes.ReleaseNotes or ContentPageTypes.Settings)
+					return false;
+
 				int count = _context.SelectedItems?.Count ?? 0;
 				// AC-1 / AC-4: exatamente 2 itens selecionados
 				if (count == 2)
@@ -51,7 +57,7 @@ namespace KyraFiles.App.Actions
 			_dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			_context.PropertyChanged += (s, e) =>
 			{
-				if (e.PropertyName == nameof(IContentPageContext.SelectedItems))
+				if (e.PropertyName is nameof(IContentPageContext.SelectedItems) or nameof(IContentPageContext.PageType))
 				{
 					OnPropertyChanged(nameof(IsExecutable));
 				}
@@ -83,10 +89,9 @@ namespace KyraFiles.App.Actions
 					{
 						Title = "Comparar com a Área de Transferência",
 						Content = "Nenhum arquivo ou pasta válido foi encontrado na área de transferência para comparação.",
-						CloseButtonText = "OK",
-						XamlRoot = MainWindow.Instance.Content.XamlRoot
+						CloseButtonText = "OK"
 					};
-					await errorDialog.ShowAsync();
+					await errorDialog.TryShowAsync();
 					return;
 				}
 			}
@@ -121,10 +126,9 @@ namespace KyraFiles.App.Actions
 								  $"Esquerda: {Path.GetFileName(leftPath)} ({leftSize:N0} bytes)\r\nSHA-256: {leftHash}\r\n\r\n" +
 								  $"Direita: {Path.GetFileName(rightPath)} ({rightSize:N0} bytes)\r\nSHA-256: {rightHash}\r\n\r\n" +
 								  $"Resultado: {(match ? "Arquivos IDÊNTICOS" : "Arquivos DIFERENTES")}",
-						CloseButtonText = "Fechar",
-						XamlRoot = MainWindow.Instance.Content.XamlRoot
+						CloseButtonText = "Fechar"
 					};
-					await binDialog.ShowAsync();
+					await binDialog.TryShowAsync();
 					return;
 				}
 
@@ -137,10 +141,9 @@ namespace KyraFiles.App.Actions
 					{
 						Title = "Ferramenta de Comparação Não Encontrada (AC-5)",
 						Content = "Nenhuma ferramenta externa de diff (VS Code, WinMerge, Beyond Compare, Git Diff ou fc.exe) foi encontrada no sistema.",
-						CloseButtonText = "OK",
-						XamlRoot = MainWindow.Instance.Content.XamlRoot
+						CloseButtonText = "OK"
 					};
-					await noToolDialog.ShowAsync();
+					await noToolDialog.TryShowAsync();
 					return;
 				}
 
@@ -154,10 +157,9 @@ namespace KyraFiles.App.Actions
 						{
 							Title = "Erro ao Abrir Comparador",
 							Content = launchResult.Message,
-							CloseButtonText = "OK",
-							XamlRoot = MainWindow.Instance.Content.XamlRoot
+							CloseButtonText = "OK"
 						};
-						await launchError.ShowAsync();
+						await launchError.TryShowAsync();
 					}
 				}
 			}
@@ -168,41 +170,43 @@ namespace KyraFiles.App.Actions
 			try
 			{
 				var dataPackage = Clipboard.GetContent();
-				if (dataPackage == null) return string.Empty;
-
 				if (dataPackage.Contains(StandardDataFormats.StorageItems))
 				{
 					var items = await dataPackage.GetStorageItemsAsync();
-					var first = items.FirstOrDefault();
-					if (first != null && !string.IsNullOrWhiteSpace(first.Path))
-						return first.Path;
+					if (items.Count > 0)
+					{
+						return items[0].Path;
+					}
 				}
 
 				if (dataPackage.Contains(StandardDataFormats.Text))
 				{
 					string text = await dataPackage.GetTextAsync();
-					text = text?.Trim().Trim('\"', '\'') ?? string.Empty;
-					if (File.Exists(text) || Directory.Exists(text))
-						return text;
+					if (!string.IsNullOrWhiteSpace(text))
+					{
+						return text.Trim('"', ' ', '\r', '\n');
+					}
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 
 			return string.Empty;
 		}
 
-		private static string ComputeSha256(string path)
+		private static string ComputeSha256(string filePath)
 		{
 			try
 			{
-				using var stream = File.OpenRead(path);
-				using var sha = SHA256.Create();
-				byte[] hash = sha.ComputeHash(stream);
-				return Convert.ToHexString(hash);
+				using var sha256 = SHA256.Create();
+				using var stream = File.OpenRead(filePath);
+				byte[] hash = sha256.ComputeHash(stream);
+				return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
 			}
-			catch (Exception ex)
+			catch
 			{
-				return $"Erro ao calcular hash: {ex.Message}";
+				return "Erro ao calcular hash";
 			}
 		}
 	}

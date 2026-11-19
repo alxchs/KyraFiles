@@ -392,6 +392,7 @@ namespace KyraFiles.App.Helpers
 					.AddSingleton<IOperationHistoryService, OperationHistoryService>()
 					.AddSingleton<IProjectActionsService, ProjectActionsService>()
 					.AddSingleton<ISavedSearchesService, SavedSearchesService>()
+					.AddSingleton<INamedWorkspacesService, NamedWorkspacesService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()

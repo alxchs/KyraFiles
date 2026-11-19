@@ -1,6 +1,13 @@
 # STATUS
 
-Última atualização: 2026-11-18 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-11-19 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## Train v4.3.23 — Release Train (F048 + F038 = 10 pts) (19/11/2026)
+
+- CONFIRMED: F048 (SPEC-0044) - Comparar arquivos e pastas (`BinaryDetector`, `DiffToolDetector`, `FileDiffLauncher` sem roubo de foco, `FolderComparer` cancelável em background, diálogo `FolderCompareDialog` e ação `OpenCompareAction` integrada no menu de contexto). 7/7 testes aprovados em `FileDiffTests.cs`.
+- CONFIRMED: F038 (SPEC-0034) - Espaços de trabalho com nome (`NamedWorkspaceStore` AOT-safe, `NamedWorkspacesService` com suporte a abas fixadas e painel duplo, diálogo `WorkspacesDialog` com modos substituir/adicionar e exclusão segura). 6/6 testes aprovados em `NamedWorkspacesTests.cs`.
+- CONFIRMED: Compilação Release x64 do `KyraFiles.App.csproj` e `KyraFiles.App.Search.Index.Tests.csproj` com 0 Erros.
+- CONFIRMED: Verificação de nomes legados: 0 violações.
 
 ## Train v4.3.22 — Release Train (Lote 1: F058 + F042 + F043 + F045 = 16 pts) (18/11/2026)
 

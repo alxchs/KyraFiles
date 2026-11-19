@@ -34,6 +34,8 @@ namespace KyraFiles.App.Services
 				{ typeof(OperationHistoryDialogViewModel), () => new OperationHistoryDialog() },
 				{ typeof(SavedSearchDialogViewModel), () => new SavedSearchDialog() },
 				{ typeof(ProjectActionsDialogViewModel), () => new ProjectActionsDialog() },
+				{ typeof(FolderCompareDialogViewModel), () => new FolderCompareDialog() },
+				{ typeof(WorkspacesDialogViewModel), () => new WorkspacesDialog() },
 			}.ToFrozenDictionary();
 		}
 

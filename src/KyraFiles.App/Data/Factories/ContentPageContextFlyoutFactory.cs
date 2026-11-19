@@ -461,6 +461,10 @@ namespace KyraFiles.App.Data.Factories
 				{
 					Tag = "OpenWith",
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenCompare)
+				{
+					IsVisible = itemsSelected && Commands.OpenCompare.IsExecutable,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved

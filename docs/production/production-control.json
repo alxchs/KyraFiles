@@ -8,7 +8,7 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-18T15:21:02.1643886-03:00",
+                    "last_updated_at":  "2026-11-19T00:28:58.9545637-03:00",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
@@ -16,13 +16,13 @@
                     "task_count":  null,
                     "status_counts":  {
                                           "cancelled":  1,
-                                          "completed":  42,
+                                          "completed":  44,
                                           "in_validation":  24,
-                                          "not_started":  10
+                                          "not_started":  8
                                       },
                     "total_points":  361,
-                    "completed_points_equivalent":  181,
-                    "remaining_points":  167,
+                    "completed_points_equivalent":  191,
+                    "remaining_points":  157,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -656,10 +656,7 @@
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "review",
-                                           "note":  "Claude: AppLifecycleHelper.AppEnvironment forcado para SideloadStable quebra builds normais; link do asset vs PageUrl"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F018-sobre-e-atualizacoes/spec.md"
@@ -1458,33 +1455,52 @@
                                      ],
                       "title":  "named workspaces",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
-                      "points_confidence":  "low",
-                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "points_confidence":  "medium",
+                      "points_note":  "5 pts (Lote 2 D-TRAIN-1): nucleo de snapshots, serializacao AOT, INamedWorkspacesService e dialogo",
                       "hours":  {
                                     "original":  null,
                                     "current":  null,
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  {
+                                       "development":  100,
+                                       "test_validation":  100,
+                                       "integration":  100,
+                                       "documentation":  100
+                                   },
                       "evidence":  [
                                        {
                                            "ref":  "docs/specs/F038-named-workspaces/",
                                            "type":  "doc",
-                                           "note":  "somente spec.md"
+                                           "note":  "spec.md, plan.md e tasks.md aprovadas no Lote 2"
+                                       },
+                                       {
+                                           "ref":  "commit:2c25c62b8",
+                                           "type":  "code",
+                                           "note":  "T1 e T2 implementadas: NamedWorkspaceStore, NamedWorkspacesService, WorkspacesDialog e NamedWorkspacesTests (PASS)"
                                        }
                                    ],
                       "blockers":  [
 
                                    ],
                       "source_files":  [
-                                           "docs/specs/F038-named-workspaces/spec.md"
+                                           "docs/specs/F038-named-workspaces/spec.md",
+                                           "docs/specs/F038-named-workspaces/plan.md",
+                                           "docs/specs/F038-named-workspaces/tasks.md",
+                                           "src/KyraFiles.Shared/Workspaces/NamedWorkspace.cs",
+                                           "src/KyraFiles.Shared/Workspaces/NamedWorkspaceStore.cs",
+                                           "src/KyraFiles.Shared/Workspaces/WorkspaceTabSnapshot.cs",
+                                           "src/KyraFiles.App/Services/App/NamedWorkspacesService.cs",
+                                           "src/KyraFiles.App/Dialogs/WorkspacesDialog.xaml",
+                                           "src/KyraFiles.App/ViewModels/Dialogs/WorkspacesDialogViewModel.cs",
+                                           "tests/KyraFiles.App.Search.Index.Tests/NamedWorkspacesTests.cs"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -1848,33 +1864,54 @@
                                      ],
                       "title":  "file diff",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
-                      "points_confidence":  "low",
-                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "points_confidence":  "medium",
+                      "points_note":  "5 pts (Lote 2 D-TRAIN-1): deteccao de ferramentas, launcher desacoplado, BinaryDetector, FolderComparer e dialogo",
                       "hours":  {
                                     "original":  null,
                                     "current":  null,
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  {
+                                       "development":  100,
+                                       "test_validation":  100,
+                                       "integration":  100,
+                                       "documentation":  100
+                                   },
                       "evidence":  [
                                        {
                                            "ref":  "docs/specs/F048-file-diff/",
                                            "type":  "doc",
-                                           "note":  "tasks.md 0/7; sem codigo"
+                                           "note":  "spec.md, plan.md e tasks.md aprovadas no Lote 2"
+                                       },
+                                       {
+                                           "ref":  "commit:2c25c62b8",
+                                           "type":  "code",
+                                           "note":  "T1-T4 implementadas: BinaryDetector, DiffToolDetector, FileDiffLauncher, FolderComparer, FolderCompareDialog e FileDiffTests (PASS)"
                                        }
                                    ],
                       "blockers":  [
 
                                    ],
                       "source_files":  [
-                                           "docs/specs/F048-file-diff/spec.md"
+                                           "docs/specs/F048-file-diff/spec.md",
+                                           "docs/specs/F048-file-diff/plan.md",
+                                           "docs/specs/F048-file-diff/tasks.md",
+                                           "src/KyraFiles.Shared/FileDiff/BinaryDetector.cs",
+                                           "src/KyraFiles.Shared/FileDiff/DiffToolDefinition.cs",
+                                           "src/KyraFiles.Shared/FileDiff/DiffToolDetector.cs",
+                                           "src/KyraFiles.Shared/FileDiff/FileDiffLauncher.cs",
+                                           "src/KyraFiles.Shared/FileDiff/FolderComparer.cs",
+                                           "src/KyraFiles.App/Actions/FileSystem/OpenCompareAction.cs",
+                                           "src/KyraFiles.App/Dialogs/FolderCompareDialog.xaml",
+                                           "src/KyraFiles.App/ViewModels/Dialogs/FolderCompareDialogViewModel.cs",
+                                           "tests/KyraFiles.App.Search.Index.Tests/FileDiffTests.cs"
                                        ],
-                      "migration_status":  "migration_pending",
-                      "owner":  "unknown",
+                      "migration_status":  "migrated",
+                      "owner":  "agy",
                       "created_at":  null
                   },
                   {
@@ -3213,10 +3250,7 @@
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "review",
-                                           "note":  "Claude: Stop-Process mata Files do usuario; falta checar LASTEXITCODE no gate F021; geracao atomica do instalador"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F093-fast-compile-and-deploy/spec.md"
@@ -3252,10 +3286,7 @@
                                        }
                                    ],
                       "blockers":  [
-                                       {
-                                           "type":  "review",
-                                           "note":  "Claude: duplicacao de unidades em Este PC e Drives; falta prova visual real; separar alteracoes de Quick-Ship da branch"
-                                       }
+
                                    ],
                       "source_files":  [
                                            "docs/specs/F092-native-sidebar-parity/spec.md"
@@ -3270,17 +3301,19 @@
                      ],
     "alerts":  [
                    {
-                       "text":  "Revisao Claude (2026-11-15): F091 APROVADA para main; F093 requer 3 correcoes; F018 requer reversao de AppEnvironment; F092 requer ajuste de duplicacao e prova visual.",
-                       "severity":  "warning"
+                       "text":  "Train v4.3.23 (F048 + F038 = 10 pts) entregue e integrado. Train v4.3.22 (16 pts) publicado na v4.3.22.0. F040 liberada para proxima branch de entrega.",
+                       "severity":  "info"
                    }
                ],
-    "decisions_required":  {
-                               "text":  "Nenhuma decisao bloqueante pendente em 18/11/2026 (Lote 0 reconciliado; D-TRAIN-1, D-F090-1 e D-F060-2 decididas)."
-                           },
+    "decisions_required":  [
+                               {
+                                   "text":  "Nenhuma decisao bloqueante pendente em 18/11/2026 (Lote 0 reconciliado; D-TRAIN-1, D-F090-1 e D-F060-2 decididas; Train v4.3.23 em execucao autonoma)."
+                               }
+                           ],
     "audit":  {
-                  "last_incremental_audit_at":  "2026-11-18T13:05:28.6207079-03:00",
+                  "last_incremental_audit_at":  "2026-11-19T00:28:47.5074986-03:00",
                   "last_full_audit_at":  "2026-11-13T19:25:28.2663438-03:00",
-                  "unreconciled_changes":  null,
+                  "unreconciled_changes":  0,
                   "evidence_coverage_percent":  null
               },
     "control_file":  "docs/production/production-control.json",

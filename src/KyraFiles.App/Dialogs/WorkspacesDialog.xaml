@@ -1,0 +1,80 @@
+<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
+<ContentDialog
+	x:Class="KyraFiles.App.Dialogs.WorkspacesDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ws="using:KyraFiles.Shared.Workspaces"
+	Title="Espaços de trabalho (F038)"
+	CloseButtonText="Fechar"
+	DefaultButton="Close"
+	Style="{StaticResource DefaultContentDialogStyle}">
+
+	<StackPanel Width="600" Spacing="10">
+		<InfoBar
+			IsClosable="True"
+			IsOpen="{x:Bind ViewModel.HasStatusMessage, Mode=TwoWay}"
+			Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+			Severity="Informational" />
+
+		<Grid ColumnSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBox
+				Grid.Column="0"
+				Header="Salvar abas atuais como espaço de trabalho"
+				PlaceholderText="Nome do espaço de trabalho (ex.: Projeto KyraFiles)"
+				Text="{x:Bind ViewModel.NewWorkspaceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<Button
+				Grid.Column="1"
+				VerticalAlignment="Bottom"
+				Command="{x:Bind ViewModel.SaveCurrentCommand}"
+				Content="Salvar" />
+		</Grid>
+
+		<TextBlock FontWeight="SemiBold" Text="Espaços salvos:" />
+
+		<ListView
+			Height="220"
+			ItemsSource="{x:Bind ViewModel.Workspaces, Mode=OneWay}"
+			SelectedItem="{x:Bind ViewModel.SelectedWorkspace, Mode=TwoWay}"
+			SelectionMode="Single">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="ws:NamedWorkspace">
+					<Grid Margin="0,4" ColumnSpacing="12">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<TextBlock FontWeight="SemiBold" Text="{x:Bind Name}" />
+							<TextBlock
+								FontSize="11"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Text="{x:Bind Tabs.Count, Mode=OneWay}" />
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<StackPanel
+			HorizontalAlignment="Right"
+			Orientation="Horizontal"
+			Spacing="8">
+			<Button
+				Command="{x:Bind ViewModel.LoadSelectedReplaceCommand}"
+				Content="Substituir abas"
+				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+			<Button
+				Command="{x:Bind ViewModel.LoadSelectedAppendCommand}"
+				Content="Adicionar abas"
+				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+			<Button
+				Command="{x:Bind ViewModel.DeleteSelectedCommand}"
+				Content="Excluir"
+				IsEnabled="{x:Bind ViewModel.SelectedWorkspace, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
+		</StackPanel>
+	</StackPanel>
+</ContentDialog>

@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-18T15:21:02.1643886-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-19T00:28:58.9545637-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -37,7 +37,7 @@ Gerado de `production-control.json` em 2026-11-18T15:21:02.1643886-03:00 via `to
 | SPEC-0031 | F035 | second instance | in_validation | em_andamento | 5 |
 | SPEC-0032 | F036 | copy queue | completed | finalizadas | 8 |
 | SPEC-0033 | F037 | bulk rename preview | completed | finalizadas | 5 |
-| SPEC-0034 | F038 | named workspaces | not_started | fila | 5 |
+| SPEC-0034 | F038 | named workspaces | completed | finalizadas | 5 |
 | SPEC-0035 | F039 | disk usage map | not_started | fila | 8 |
 | SPEC-0036 | F040 | duplicate finder | not_started | fila | 5 |
 | SPEC-0037 | F041 | folder compare sync | not_started | fila | 8 |
@@ -47,7 +47,7 @@ Gerado de `production-control.json` em 2026-11-18T15:21:02.1643886-03:00 via `to
 | SPEC-0041 | F045 | project actions | completed | finalizadas | 5 |
 | SPEC-0042 | F046 | deep network search | not_started | fila | 8 |
 | SPEC-0043 | F047 | build folder cleaner | completed | finalizadas | 3 |
-| SPEC-0044 | F048 | file diff | not_started | fila | 5 |
+| SPEC-0044 | F048 | file diff | completed | finalizadas | 5 |
 | SPEC-0045 | F049 | links symlinks junctions | completed | finalizadas | 5 |
 | SPEC-0046 | F050 | embedded terminal | not_started | fila | 8 |
 | SPEC-0047 | F051 | code search | not_started | fila | 5 |

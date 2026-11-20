@@ -35,7 +35,7 @@ $identity = $manifest.Package.Identity
 $appId = $manifest.Package.Applications.Application.Id
 
 # Arquivos em uso impedem a cópia
-Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService, Files, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue |
+Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue |
     Where-Object { $_.Path -and $_.Path.StartsWith($layoutDir, [StringComparison]::OrdinalIgnoreCase) } |
     Stop-Process -Force
 Start-Sleep -Milliseconds 500

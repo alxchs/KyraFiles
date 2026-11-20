@@ -2181,7 +2181,7 @@
     <value>Afvlakken</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Een map afvlakken verplaatst alle inhoud van de submappen naar de geselecteerde locatie. Deze bewerking is permanent en kan niet ongedaan worden gemaakt. Door deze experimentele functie te gebruiken, erken je het risico en ga je ermee akkoord om het Files team niet verantwoordelijk te stellen voor enig dataverlies.</value>
+    <value>Een map afvlakken verplaatst alle inhoud van de submappen naar de geselecteerde locatie. Deze bewerking is permanent en kan niet ongedaan worden gemaakt. Door deze experimentele functie te gebruiken, erken je het risico en ga je ermee akkoord om het KyraFiles team niet verantwoordelijk te stellen voor enig dataverlies.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Afvlak-opties weergeven</value>

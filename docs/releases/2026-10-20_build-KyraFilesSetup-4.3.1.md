@@ -4,7 +4,7 @@
 - **Branch:** `feature/f025-diagnostico-baseline-upstream` (inclui as mudanças da F024).
 - **Build:** `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -m:1 --no-restore` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED). Foi preciso `dotnet restore` de todos os `.csproj` de `src` antes (a pasta `obj` estava vazia).
 - **Nativos:** `KyraFiles.HotkeyService.exe` e `KyraFiles.Watchdog.exe` compilados com MSBuild em `bin\Release` (CONFIRMED, saída "->" dos dois projetos).
-- **Pacote:** `Open-KyraFiles.ps1 -Configuration Release -NoLaunch` registrou `FilesDev_4.3.1.0_x64__ykqwq8d6ps0ag`; `Generate-PackageManifest.ps1` gerou 1.328 arquivos, 211,12 MB.
+- **Pacote:** `Open-KyraFiles.ps1 -Configuration Release -NoLaunch` registrou `KyraFilesDev_4.3.1.0_x64__sxng2gqmgahde`; `Generate-PackageManifest.ps1` gerou 1.328 arquivos, 211,12 MB.
 
 ## O que muda em relação à 4.3.0
 

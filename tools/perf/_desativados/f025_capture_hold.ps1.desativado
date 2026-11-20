@@ -5,7 +5,7 @@ param(
     [Parameter(Mandatory)][string]$Label,
     [ValidateSet('Down', 'End', 'Up', 'PageDown')][string]$Key = 'Down',
     [int]$HoldS = 5, [int]$FrameMs = 250,
-    [string]$ProcessName = 'Files', [string]$Folder = 'C:\FilesUXLab\perf\1600', [switch]$NoNav,
+    [string]$ProcessName = 'Files', [string]$Folder = 'C:\KyraFilesUXLab\perf\1600', [switch]$NoNav,
     [string]$OutDir = "$PSScriptRoot\..\..\docs\agents\evidence\F026\frames"
 )
 $ErrorActionPreference = 'Stop'

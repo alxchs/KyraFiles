@@ -59,17 +59,17 @@ Get-ChildItem $SrcDir -File | ForEach-Object {
 }
 
 # Remover serviço antigo se existir
-$existing = Get-Service -Name "FilesCustomIndexServiceSpike" -ErrorAction SilentlyContinue
+$existing = Get-Service -Name "KyraFilesIndexServiceSpike" -ErrorAction SilentlyContinue
 if ($existing) {
     Log "Serviço já existe; removendo antes de reinstalar..."
-    Stop-Service "FilesCustomIndexServiceSpike" -Force -ErrorAction SilentlyContinue
-    sc.exe delete "FilesCustomIndexServiceSpike" | Out-Null
+    Stop-Service "KyraFilesIndexServiceSpike" -Force -ErrorAction SilentlyContinue
+    sc.exe delete "KyraFilesIndexServiceSpike" | Out-Null
     Start-Sleep -Seconds 1
 }
 
 # Criar serviço
 Log "Criando serviço..."
-$scOut = sc.exe create "FilesCustomIndexServiceSpike" `
+$scOut = sc.exe create "KyraFilesIndexServiceSpike" `
     binPath= "`"$DestExe`" --service" `
     start= demand `
     obj= LocalSystem `
@@ -78,12 +78,12 @@ Log "sc create: $scOut"
 
 # Iniciar
 Log "Iniciando serviço..."
-$startOut = sc.exe start "FilesCustomIndexServiceSpike" 2>&1
+$startOut = sc.exe start "KyraFilesIndexServiceSpike" 2>&1
 Log "sc start: $startOut"
 Start-Sleep -Seconds 2
 
 # Verificar
-$queryOut = sc.exe query "FilesCustomIndexServiceSpike" 2>&1
+$queryOut = sc.exe query "KyraFilesIndexServiceSpike" 2>&1
 Log "sc query:`n$queryOut"
 
 if ($queryOut -match "RUNNING") {

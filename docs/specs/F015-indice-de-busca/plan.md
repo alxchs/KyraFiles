@@ -128,7 +128,7 @@ O índice fica **no processo do motor, não no KyraFiles** (NFR-003). o KyraFile
   - `tests/KyraFiles.App.Search.Index.Tests/` (MSTest);
   - `tools/perf/f015_*.ps1`.
 - Existentes:
-  - `Files.slnx`;
+  - `KyraFiles.slnx`;
   - `Package.appxmanifest`, para empacotar o novo exe e o serviço, conforme T1;
   - `KyraFiles.App.csproj`;
   - `Data/Contracts/ISearchProvider.cs`;

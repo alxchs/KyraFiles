@@ -14,7 +14,7 @@ Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 
 ## FASES
 
 ### Fase 1 — Benchmark (autorizada à AGY, sem código de produto)
-Cumprir §10 "Primeiro investigar: Files Search × Everything × Agent Ransack". Medir, de fora, com scripts em `tools/perf/` ou `tools/search/`, num conjunto controlado (ex.: `C:\FilesUXLab\perf\10k` e uma árvore de ~500 mil arquivos como `C:\Windows`/`D:\`):
+Cumprir §10 "Primeiro investigar: Files Search × Everything × Agent Ransack". Medir, de fora, com scripts em `tools/perf/` ou `tools/search/`, num conjunto controlado (ex.: `C:\KyraFilesUXLab\perf\10k` e uma árvore de ~500 mil arquivos como `C:\Windows`/`D:\`):
 
 - latência até o 1º resultado e até o fim; consulta por nome, extensão (`*.json`), caminho, wildcard, regex (onde existir), tamanho, data, subpastas, conteúdo (Agent Ransack);
 - custo de indexação / atualização (Everything é instantâneo via NTFS/USN; o índice do Windows Search depende da pasta estar indexada);

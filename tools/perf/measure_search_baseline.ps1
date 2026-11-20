@@ -47,7 +47,7 @@ if (-not $esPath) {
 Write-Host "Executável Everything CLI: $esPath" -ForegroundColor Cyan
 
 # 3. Anota o motor configurado no user_settings.json do Alexandre
-$settingsFile = "$env:LOCALAPPDATA\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json"
+$settingsFile = "$env:LOCALAPPDATA\Packages\KyraFiles_sxng2gqmgahde\LocalState\settings\user_settings.json"
 $enginePref = "Desconhecido"
 if (Test-Path $settingsFile) {
     $json = Get-Content $settingsFile -Raw | ConvertFrom-Json

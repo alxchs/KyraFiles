@@ -22,4 +22,4 @@ Status: **APROVADO** (Claude, 21/10/2026).
 - Pastas de rede lentas no filtro de existência: verificar com tempo limite curto e, se estourar, mostrar a pasta mesmo assim.
 
 ## Testes
-AC-1 a AC-6 no app aberto com pastas do laboratório (`C:\FilesUXLab`), só com o computador ocioso; Ctrl+Z conferido.
+AC-1 a AC-6 no app aberto com pastas do laboratório (`C:\KyraFilesUXLab`), só com o computador ocioso; Ctrl+Z conferido.

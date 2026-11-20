@@ -67,7 +67,7 @@ Ao ser hospedada em uma janela modal independente:
 
 ## 3. Critérios de Teste e Validação
 
-1. **Compilação**: `mkfile r Files.slnx` sem erros.
+1. **Compilação**: `mkfile r KyraFiles.slnx` sem erros.
 2. **Suíte de Testes**: Execução de `dotnet test` com 100% de sucesso.
 3. **Gate F021**: `pwsh tools\perf\verify_no_index_service.ps1` aprovado.
 4. **Verificação de Regressão**: Nenhuma criação de abas ao acionar Configurações.

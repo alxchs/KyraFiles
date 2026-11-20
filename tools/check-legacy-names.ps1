@@ -102,11 +102,12 @@ Write-Host "`n[2/2] Verificando conteudo dos arquivos versionados..." -Foregroun
 
 # Padrões específicos de marca e prefixos
 $contentPatterns = @(
-    '(?<![A-Za-z0-9_])Files\.(App|Shared|Core|Server|Index|InteractionTests|BackgroundTasks|HotkeyService|Watchdog|Launcher|Storage)\b',
-    '(?<![A-Za-z0-9_])(FilesApp|FilesCustom|FilesDev|FilesOpenDialog|FilesSaveDialog)\b',
-    'files-community',
-    '(?<![A-Za-z0-9_])Files\s+Community\b',
-    '(?<![A-Za-z0-9_])Files\s+Custom\b'
+    '(?<![A-Za-z0-9_])Files\.(App|Shared|Core|Server|Index|InteractionTests|BackgroundTasks|HotkeyService|Watchdog|Launcher|Storage)',
+    '(?<![A-Za-z0-9_])Files(App|Custom|Dev|OpenDialog|SaveDialog|Launcher|UXLab|Community|Preview|Stable|UWP)',
+    '(?<![A-Za-z0-9_])Files\s+(Community|Custom|UWP|Team)',
+    'files-community|files\.community|files-app|files-org',
+    '9NGHP3DX8HDX|725513575971684472|49306atecsolution',
+    '(?<![A-Za-z0-9_])KyraFiles\s+Community'
 )
 
 $combinedPattern = ($contentPatterns -join '|')

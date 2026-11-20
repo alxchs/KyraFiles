@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 KyraFiles Community
+﻿// Copyright (c) 2024 KyraFiles contributors
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Text;

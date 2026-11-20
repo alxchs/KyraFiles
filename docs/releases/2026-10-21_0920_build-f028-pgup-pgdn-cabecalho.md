@@ -1,6 +1,6 @@
 ﻿# Build 2026-10-21 09:20 — PgUp/PgDn sem contorno "no nada" (F028, 3ª revisão)
 
-- **Pacote dev registrado:** `FilesDev_4.3.1.0_x64__ykqwq8d6ps0ag`
+- **Pacote dev registrado:** `KyraFilesDev_4.3.1.0_x64__sxng2gqmgahde`
 - **Layout AppX (o mesmo de antes):** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX`
 - **Como abrir:** menu Iniciar → **KyraFiles** (ou `.\Open-KyraFiles.ps1 -Configuration Release`)
 - **Commit do código:** `06e5b9a22` (consolidado na `main` junto com F024 a F028)

@@ -9,8 +9,8 @@ Provar ou refutar a hipótese: o fundo `MicaAlt` (padrão, `AppearanceSettingsSe
 ## COMO
 
 1. Pré-requisitos de `tools/perf/README.md` (laboratório `New-PerfLab.ps1`, KyraFiles aberto por `Open-KyraFiles.ps1`).
-2. Trocar o fundo pela tela Settings > Appearance do app (ou editando `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json` com o app fechado). Registrar qual caminho usou.
-3. Para cada valor, com a mesma janela, mesmo tamanho e mesma pasta: `idle.ps1 -WaitS 10` e `thr.ps1 -Folder C:\FilesUXLab\perf\10k`, 3 rodadas, mediana.
+2. Trocar o fundo pela tela Settings > Appearance do app (ou editando `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState\settings\user_settings.json` com o app fechado). Registrar qual caminho usou.
+3. Para cada valor, com a mesma janela, mesmo tamanho e mesma pasta: `idle.ps1 -WaitS 10` e `thr.ps1 -Folder C:\KyraFilesUXLab\perf\10k`, 3 rodadas, mediana.
 4. Registrar em `tools/perf/README.md` (nova seção "A/B do fundo") a tabela valor × CPU parado × CPU ao abrir × % do compositor, com os comandos usados.
 
 ## ACCEPTANCE

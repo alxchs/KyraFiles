@@ -76,7 +76,7 @@ $script:GuardedTimeoutSec = 120
 function Resolve-GuardedFilesPid {
     [CmdletBinding()]
     param(
-        [string]$AumidPath = "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App",
+        [string]$AumidPath = "shell:AppsFolder\KyraFiles_sxng2gqmgahde!App",
         [int]$TimeoutSec = 20
     )
 

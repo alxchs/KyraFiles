@@ -32,7 +32,7 @@ namespace KyraFiles.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
-		private readonly static string AppInformationKey = @$"Software\KyraFiles Community\{Package.Current.Id.Name}\v1\AppInformation";
+		private readonly static string AppInformationKey = @$"Software\KyraFiles contributors\{Package.Current.Id.Name}\v1\AppInformation";
 
 		/// <summary>
 		/// Gets the value that indicates whether the app is updated.

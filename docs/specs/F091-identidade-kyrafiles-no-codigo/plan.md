@@ -51,7 +51,7 @@ Ferramenta: substituição por expressão regular com fronteira (`(?<![A-Za-z])F
 
 ## 4. Não mexer
 - `Package.appxmanifest` (identidade do pacote: F087).
-- `LICENSE-MIT`, `LICENSE-MPL`, cabeçalhos `Copyright (c) KyraFiles Community` e `SPDX-License-Identifier`.
+- `LICENSE-MIT`, `LICENSE-MPL`, cabeçalhos `Copyright (c) KyraFiles contributors` e `SPDX-License-Identifier`.
 - Saída gerada do CsWin32, `bin/`, `obj/`.
 - `docs/agents/handoffs/`, `docs/agents/evidence/`, `docs/releases/` já publicadas.
 - Nomes de classes, métodos e pastas (só o prefixo do namespace).

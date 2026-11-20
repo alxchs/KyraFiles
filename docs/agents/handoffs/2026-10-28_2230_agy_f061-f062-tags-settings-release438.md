@@ -20,7 +20,7 @@
 
 2. **Causa-Raiz e Correção do Bug de Perda de Configurações:**
    - **Relato:** "Está perdendo minhas configurações toda vez que fecha e/ou compila um novo exe/instala novamente"
-   - **Causa Raiz CONFIRMED:** No `installer/KyraFilesSetup.iss` (linha 89), o instalador executava `Remove-AppxPackage $p.PackageFullName` sem a flag `-PreserveApplicationData`. Ao desinstalar a identidade AppX anterior, o Windows apagava fisicamente `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json`.
+   - **Causa Raiz CONFIRMED:** No `installer/KyraFilesSetup.iss` (linha 89), o instalador executava `Remove-AppxPackage $p.PackageFullName` sem a flag `-PreserveApplicationData`. Ao desinstalar a identidade AppX anterior, o Windows apagava fisicamente `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState\settings\user_settings.json`.
    - **Correção:** Modificado para evitar desinstalação caso o caminho já seja `{app}`, e, se necessário desinstalar registro anterior de outro caminho, passar obrigatoriamente `-PreserveApplicationData`. Configurações agora são rigorosamente preservadas entre instalações e atualizações.
 
 3. **Causa-Raiz e Correção do Bug dos Filtros por Tag:**

@@ -39,7 +39,7 @@ namespace KyraFiles.App.BackgroundTasks
 			if (JumpList.IsSupported())
 			{
 				var instance = await JumpList.LoadCurrentAsync();
-				// Disable automatic jumplist. It doesn't work with Files UWP.
+				// Disable automatic jumplist. It doesn't work with KyraFiles.
 				instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
 				var jumpListItems = instance.Items.ToList();

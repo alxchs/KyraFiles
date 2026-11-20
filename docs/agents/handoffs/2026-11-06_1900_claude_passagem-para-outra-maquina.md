@@ -48,11 +48,11 @@ Estado: conferido com `git rev-parse` e `git rev-list` em 06/11/2026. Reverifiqu
 
 ## 3. Onde o trabalho parou
 
-- **Produto:** KyraFiles (fork do KyraFiles Community). Versão do pacote `4.3.11.0`. A identidade do pacote
+- **Produto:** KyraFiles (fork do KyraFiles contributors). Versão do pacote `4.3.11.0`. A identidade do pacote
   ainda é `KyraFiles` / `CN=Files`: isso é a F087, que está em rascunho e é de alto risco, porque o Windows
   trata o pacote como app novo.
 - **F088, remoção do vínculo com o ancestral:** a Fase 0 (resíduos de nomes legados) está fechada.
-  Decisões do Alexandre (03/11): zero referência visual ao KyraFiles Community; ficam só `LICENSE-MIT`,
+  Decisões do Alexandre (03/11): zero referência visual ao KyraFiles contributors; ficam só `LICENSE-MIT`,
   `LICENSE-MPL` e os cabeçalhos de copyright (249 arquivos são MPL-2.0 e continuam MPL). O renome do
   `namespace Files.*` (cerca de 1.219 arquivos) ficou para a F091.
   Pontos em aberto: o que conta como "referência visual" (só marca, textos, links e ícones, ou também

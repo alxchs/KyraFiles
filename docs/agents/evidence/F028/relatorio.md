@@ -1,6 +1,6 @@
 # F028 — Resultado (20/10/2026, Claude)
 
-Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\FilesUXLab\perf\1600`. Linha alcançada estimada pela ordem alfabética (INFERRED).
+Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\KyraFilesUXLab\perf\1600`. Linha alcançada estimada pela ordem alfabética (INFERRED).
 
 ## Trace do thread de UI, `Down` segurado (`f025_speedscope_top.ps1`)
 | | F027 (`trace_down_f027`) | F028 etapa 1 (`trace_down_f028`) |
@@ -44,7 +44,7 @@ Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\
 - **Diagnóstico descartado:** sem o ícone de nuvem e sem as colunas dinâmicas por linha, nada mudou (`Down` 84 contra 86; CPU de `PgDn` igual). Revertido.
 - **Trace `trace_pgdn.speedscope.json`:** `ShellViewModel.LoadExtendedItemPropertiesAsync` 16% do thread de UI (`GetFileFromPathAsync` 10%, nuvem 4,4%); `StatusBar.QueueRemeasure` com `UpdateLayout` síncrono 3,8% (upstream, não mexido); tooltip por linha 3,6%.
 - **Achado:** `KeyStatus.WasKeyDown` não funciona no WinUI 3. `RepeatProbe` (WinForms, bit 30 do `WM_KEYDOWN`) mostrou que o Windows marca 29/30 teclas sintéticas como repetição, ou seja, a espera de quadro da F028 **não estava ativa** nas medições anteriores; a melhora visual veio do atraso de 350 ms dos efeitos.
-- **Instrumentação temporária** (removida, `C:\FilesUXLab\f028_diag.log`): antes da correção, 169 cargas iniciadas e 0 adiadas, e o timer de 200 ms encerrava o adiamento entre páginas; depois, 292 adiadas e um único encerramento após soltar.
+- **Instrumentação temporária** (removida, `C:\KyraFilesUXLab\f028_diag.log`): antes da correção, 169 cargas iniciadas e 0 adiadas, e o timer de 200 ms encerrava o adiamento entre páginas; depois, 292 adiadas e um único encerramento após soltar.
 
 | Build (Y1, final) | `Down` linhas (mediana) | `PgDn` CPU por 5 s (mediana) |
 |---|---|---|
@@ -60,7 +60,7 @@ Build Release `0 Warning(s)`, `0 Error(s)` em cada etapa (CONFIRMED). Pasta `C:\
 
 - **Relato do Alexandre** (build de 21/10 00:55, commit `e59007015`): PgUp/PgDn "absurdamente melhor, mas ainda pinta o retângulo no nada".
 - **Causa (CONFIRMED por captura):** `foco_antes_PageDown_quadro02.png` mostra o contorno desenhado **sobre o cabeçalho das colunas**. O PgDn rolava `página × RowHeight` e escolhia `atual + página`, e com isso o destino ficava na primeira linha do viewport, coberta pelo cabeçalho fixo (`HeaderGrid`, 40 px).
-- **Instrumentação temporária** (removida, `C:\FilesUXLab\f028_diag.log`): linha 0 em y=38 do conteúdo, altura real 24 px, cabeçalho fixo em y=0 (às vezes lido em −24 no meio do reposicionamento). Primeira versão da correção: depois do 1º toque, o foco nativo rolava mais ~7 px e expunha uma linha a mais embaixo; a regra "ir para a última linha visível" passava a andar 1 linha por toque. Corrigido: toques seguidos na mesma direção sempre viram uma página (45 linhas nesta janela).
+- **Instrumentação temporária** (removida, `C:\KyraFilesUXLab\f028_diag.log`): linha 0 em y=38 do conteúdo, altura real 24 px, cabeçalho fixo em y=0 (às vezes lido em −24 no meio do reposicionamento). Primeira versão da correção: depois do 1º toque, o foco nativo rolava mais ~7 px e expunha uma linha a mais embaixo; a regra "ir para a última linha visível" passava a andar 1 linha por toque. Corrigido: toques seguidos na mesma direção sempre viram uma página (45 linhas nesta janela).
 - **Correção** (`DetailsLayoutPage.TryMovePage`): geometria lida dos contêineres realizados; área útil começa abaixo do cabeçalho; 1º toque vai à linha da borda, toques seguintes viram página; deslocamento mínimo para o destino ficar inteiro na área útil. Lista agrupada: nativo. Mais 3 avisos `CsWin32 CsWinRT1034` resolvidos (2 vinham de `e59007015`).
 - **Quadros depois** (`tools/perf/f028_focus_frames.ps1`, janela encaixada na tela, foco por clique): `foco_f028v4_PageDown.png` e `foco_f028v4_PageUp.png`. O contorno nunca aparece sobre o cabeçalho nem numa linha vazia; com PgDn fica na linha de baixo, com PgUp na de cima. Em 2 quadros do PgUp a lista parou 6 linhas abaixo do pedido (item visível, com conteúdo; causa não investigada).
 

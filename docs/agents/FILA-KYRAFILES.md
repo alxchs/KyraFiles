@@ -9,7 +9,7 @@ Tag de segurança antes da fila: `tag_v4.3.10.0_f063-f065-correcoes-f067-pwsh-f0
 - O nome do produto passa a ser **KyraFiles**. Decisão do Alexandre em 31/10/2026.
 - Logo "igual à do KyraDB": **BLOQUEADO.** Não existe arquivo de logo no repositório `C:\desenv\utils\KyraDB` (busca por `.svg`, `.png`, `.ico`, `.jpg`, `logo`, `brand`, em árvore e histórico git, retornou 0; o repositório só tem `docs`, `pesquisa` e `tools`). Sem o arquivo, a AGY **não inventa** a logo. Ela entrega tudo o que não depende dela (item 4, sub-specs a, b, c) e deixa a sub-spec d (ícones) em `WAITING` até o Alexandre informar onde está a arte.
 - Regra de arte do Alexandre: nunca vermelho, nunca vermelho com amarelo, nunca vermelho com estrela amarela.
-- Licença: arquivos que vieram do KyraFiles Community mantêm o aviso `Copyright (c) KyraFiles Community` e a licença MIT. Trocar nome e marca não autoriza apagar esse aviso.
+- Licença: arquivos que vieram do KyraFiles contributors mantêm o aviso `Copyright (c) KyraFiles contributors` e a licença MIT. Trocar nome e marca não autoriza apagar esse aviso.
 
 ## 1. Regras da fila (valem para todos os itens; descumprir = Claude reverte e o Alexandre é avisado)
 

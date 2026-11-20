@@ -11,7 +11,7 @@ Documento de especificação funcional: define **o quê e por quê**, independen
 O KyraFiles evoluiu significativamente além de um simples visualizador de arquivos, incorporando recursos avançados de produtividade inspirados no OneCommander, Mac Finder (Miller Columns), Explorer clássico e ferramentas de desenvolvimento (substituição transparente de Explorer, busca externa, redimensionamento independente de colunas, menu clássico, abas inteligentes).
 
 No entanto:
-1. Atualmente, o atalho `F1` e o comando de Ajuda apenas disparam a URL externa da documentação web do KyraFiles Community no navegador, sem nenhuma experiência integrada.
+1. Atualmente, o atalho `F1` e o comando de Ajuda apenas disparam a URL externa da documentação web do KyraFiles contributors no navegador, sem nenhuma experiência integrada.
 2. Não existe documentação ou guia explicativo dentro do app para os recursos inovadores e avançados que excedem o Windows Explorer padrão ou que vieram do OneCommander.
 3. Não há suporte a **ajuda contextual**: quando o usuário está em uma tela ou modo específico (ex.: Modo Colunas / Miller Columns, Renomeação em Lote, Abas Inteligentes, Menu Clássico, Barra de Ferramentas), ele não tem como pressionar `F1` e obter diretamente a explicação daquele contexto de trabalho.
 4. Falta uma diretriz e estrutura sistêmica para que cada nova funcionalidade implementada no app (seja pela Claude ou pela AGY) já seja automaticamente documentada no catálogo de ajuda.

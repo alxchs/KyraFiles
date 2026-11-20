@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) KyraFiles Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) KyraFiles contributors. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -56,8 +56,8 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(SENTRY_AUTH_TOKEN)' != ''">
-        <SentryOrg>files-org</SentryOrg>
-        <SentryProject>files-app</SentryProject>
+        <SentryOrg>$(SENTRY_ORG)</SentryOrg>
+        <SentryProject>$(SENTRY_PROJECT)</SentryProject>
         <SentryUploadSymbols>true</SentryUploadSymbols>
     </PropertyGroup>
 

@@ -1,8 +1,8 @@
 ﻿# Build 2026-10-09 10:45 — Explorer redirecionado, F3 com Agent Ransack, colunas no idioma do app
 
-- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
+- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1` (pacote `KyraFilesDev_4.2.37.0_x64__sxng2gqmgahde`).
 - **Código:** branch `feature/f012-explorer-replacement` (commits desde `1a131a045`; o último publicado é o adendo WIP `chore(f012): WIP`).
-- **Build:** `mkfile r Files.slnx` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
+- **Build:** `mkfile r KyraFiles.slnx` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
 
 ## O que foi liberado
 

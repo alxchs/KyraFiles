@@ -30,7 +30,7 @@ function Get-ExplorerWindowCount { (New-Object -ComObject Shell.Application).Win
 
 function Stop-AllFilesCustom {
     try {
-        $ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\FilesCustom_ShutdownHotkeyService')
+        $ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\KyraFiles_ShutdownHotkeyService')
         [void]$ev.Set()
         $ev.Dispose()
         Start-Sleep -Milliseconds 400
@@ -78,13 +78,13 @@ $filesDll = Join-Path $installDir 'KyraFiles.dll'
 $hostPolicy = Join-Path $installDir 'hostpolicy.dll'
 $runtimeConfig = Join-Path $installDir 'Files.runtimeconfig.json'
 $appxManifest = Join-Path $installDir 'AppxManifest.xml'
-$runVal = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'FilesCustomWatchdog' -ErrorAction SilentlyContinue).FilesCustomWatchdog
+$runVal = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'KyraFilesWatchdog' -ErrorAction SilentlyContinue).KyraFilesWatchdog
 $appxPkg = Get-AppxPackage KyraFiles -ErrorAction SilentlyContinue
 
 $result['T3 Pasta criada'] = (Test-Path $installDir)
 $result['T3 Binários e runtime .NET presentes'] = (Test-Path $filesExe) -and (Test-Path $filesDll) -and (Test-Path $hostPolicy) -and (Test-Path $runtimeConfig)
 $result['T3 AppX registrado no Windows'] = ($null -ne $appxPkg) -and ($appxPkg.InstallLocation -eq $installDir)
-$result['T3 Run FilesCustomWatchdog registrado'] = (-not [string]::IsNullOrWhiteSpace($runVal))
+$result['T3 Run KyraFilesWatchdog registrado'] = (-not [string]::IsNullOrWhiteSpace($runVal))
 $result['T3 Watchdog e HotkeyService ativos apos instalar'] = (
     [bool](Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue) -and
     [bool](Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue)
@@ -93,14 +93,14 @@ $result['T3 OK'] = (
     $pInst.ExitCode -eq 0 -and
     $result['T3 Binários e runtime .NET presentes'] -and
     $result['T3 AppX registrado no Windows'] -and
-    $result['T3 Run FilesCustomWatchdog registrado'] -and
+    $result['T3 Run KyraFilesWatchdog registrado'] -and
     $result['T3 Watchdog e HotkeyService ativos apos instalar']
 )
 
 # --- 2. T4: Atualizador Inteligente (Delta Update + fechamento cooperativo) -----------------------------------
 # Simula binário principal desatualizado removendo KyraFiles.dll da raiz enquanto Dependencies\ permanece intacta
 Remove-Item -LiteralPath (Join-Path $installDir 'KyraFiles.dll') -Force
-$deltaZip = Join-Path $tmp 'FilesCustomDelta-4.2.37.zip'
+$deltaZip = Join-Path $tmp 'KyraFilesDelta-4.2.37.zip'
 
 $upd = & (Join-Path $repoRoot 'installer\Update-KyraFiles.ps1') `
     -InstallDir $installDir `
@@ -137,7 +137,7 @@ while ((Test-Path $installDir) -and $waitMs -lt 5000) {
     $waitMs += 100
 }
 
-$runAfter = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'FilesCustomWatchdog' -ErrorAction SilentlyContinue).FilesCustomWatchdog
+$runAfter = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'KyraFilesWatchdog' -ErrorAction SilentlyContinue).KyraFilesWatchdog
 $folderCmdAfter = Test-Path 'HKCU:\Software\Classes\Folder\shell\open\command'
 $procsAfter = @(Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService, Files -ErrorAction SilentlyContinue)
 

@@ -48,7 +48,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
      - `src/KyraFiles.App.Launcher/KyraFiles.App.Launcher.vcxproj`
      - `src/KyraFiles.App.OpenDialog/KyraFiles.App.OpenDialog.vcxproj`
      - `src/KyraFiles.App.SaveDialog/KyraFiles.App.SaveDialog.vcxproj`
-   - `<RootNamespace>` do Launcher atualizado de `FilesAppLauncher` para `KyraFilesAppLauncher`.
+   - `<RootNamespace>` do Launcher atualizado de `KyraFilesAppLauncher` para `KyraFilesAppLauncher`.
 2. **Workflows de CI/CD (`.github/workflows/` e `.github/scripts/`):**
    - Atualizados os caminhos obsoletos em 7 arquivos:
      - `.github/workflows/cd-sideload-preview.yml`
@@ -58,7 +58,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
      - `.github/workflows/ci.yml`
      - `.github/workflows/format-xaml.yml`
      - `.github/scripts/Configure-AppxManifest.ps1`
-   - `Files.slnx` -> `KyraFiles.slnx`
+   - `KyraFiles.slnx` -> `KyraFiles.slnx`
    - `src\KyraFiles.App\KyraFiles.App.csproj` -> `src\KyraFiles.App\KyraFiles.App.csproj`
    - `src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj` -> `src\KyraFiles.App.Launcher\KyraFiles.App.Launcher.vcxproj`
    - `tests\KyraFiles.InteractionTests\...` -> `tests\KyraFiles.InteractionTests\...`
@@ -67,7 +67,7 @@ O commit `1fcf37136` reuniu na `main` o empacotamento oficial da versão 4.3.11 
    - Padrões adicionados para novos executáveis e arquivos de lock: `KyraFiles.HotkeyService.exe`, `KyraFiles.Watchdog.exe`, `*.locked.*`.
 4. **Diretrizes e Árvore de Código (`AGENTS.md`):**
    - Árvore de `/src` e `/tests` atualizada para refletir todos os projetos reais `KyraFiles.*`.
-   - Comandos de compilação msbuild atualizados de `Files.slnx` para `KyraFiles.slnx`.
+   - Comandos de compilação msbuild atualizados de `KyraFiles.slnx` para `KyraFiles.slnx`.
 
 ---
 

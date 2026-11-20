@@ -1,6 +1,6 @@
 ﻿# Build 2026-10-21 — Correção de PageUp/PageDown e Contorno de Foco (F028)
 
-- **Pacote Dev Registrado:** `FilesDev_4.3.1.0_x64__ykqwq8d6ps0ag`
+- **Pacote Dev Registrado:** `KyraFilesDev_4.3.1.0_x64__sxng2gqmgahde`
 - **Localização do Layout AppX:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX`
 - **Como Abrir para Teste:**
   - Pelo Menu Iniciar: **"KyraFiles"**
@@ -22,7 +22,7 @@
 ## Como Testar
 
 1. Abra o **KyraFiles** (via atalho no Iniciar ou executando `kyrafiles.exe`).
-2. Abra uma pasta com centenas ou milhares de arquivos no modo Detalhes (ex: `C:\FilesUXLab\perf\10k` ou qualquer pasta grande).
+2. Abra uma pasta com centenas ou milhares de arquivos no modo Detalhes (ex: `C:\KyraFilesUXLab\perf\10k` ou qualquer pasta grande).
 3. Selecione um item e navegue usando as teclas **PageDown** e **PageUp** (toque único e segurando a tecla):
    - O contorno de foco visual (retângulo azul/tema) deve permanecer nítido na linha selecionada.
    - A barra de rolagem deve acompanhar exatamente o salto de página sem saltos erráticos nem perda de posição.

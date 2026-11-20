@@ -40,7 +40,7 @@ function Capture-Window($hwnd, $outPath) {
 # 1. Obter processo Files ou iniciar
 $p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
 if (-not $p) {
-    Start-Process "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    Start-Process "shell:AppsFolder\KyraFiles_sxng2gqmgahde!App"
     Start-Sleep -Seconds 4
     $p = Get-Process Files -ErrorAction SilentlyContinue | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
 }

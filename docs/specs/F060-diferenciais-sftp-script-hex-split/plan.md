@@ -10,7 +10,7 @@ Status: **APROVADO** (Claude, 26/10/2026). Spec: `spec.md` (aprovada). Estados: 
 - Progresso e cancelamento: Status Center (`StatusCenterViewModel`, `StatusCenterItem`, `StatusCenterHelper`). INFERRED (só li os nomes); a T0 de M1 confirma o contrato.
 - Busca: `src/KyraFiles.App/Utils/Storage/Search/FolderSearch.cs` e índice `src/KyraFiles.App.Search.Index` (F023). INFERRED; a T0 de M5 mapeia onde entram filtros.
 - FTP: FluentFTP 55.0.0 em `src/KyraFiles.App.Storage/Ftp/*`. SFTP: nenhuma ocorrência. CONFIRMED.
-- Regras de build: `mkfile d src\KyraFiles.App\KyraFiles.App.csproj`; antes, `dotnet restore` de `KyraFiles.App.Server` e `KyraFiles.App.IndexService` à parte com o `--artifacts-path` do `mkfile` (não estão no `Files.slnx`). CONFIRMED (26/10/2026).
+- Regras de build: `mkfile d src\KyraFiles.App\KyraFiles.App.csproj`; antes, `dotnet restore` de `KyraFiles.App.Server` e `KyraFiles.App.IndexService` à parte com o `--artifacts-path` do `mkfile` (não estão no `KyraFiles.slnx`). CONFIRMED (26/10/2026).
 
 ## 2. Ordem de entrega
 Critério do Alexandre: o que é independente primeiro, para esvaziar a fila; dependência de outro item sempre antes do dependente.

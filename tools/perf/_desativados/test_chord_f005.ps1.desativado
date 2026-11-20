@@ -97,8 +97,8 @@ Add-Type -TypeDefinition `$code -ErrorAction SilentlyContinue
 
 [ChordSender]::Focus(`$hwnd)
 
-# Select FilesUXLab tab
-`$cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'FilesUXLab')
+# Select KyraFilesUXLab tab
+`$cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'KyraFilesUXLab')
 `$tab = `$root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, `$cond)
 if (`$tab) {
     `$sel = `$tab.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern) -as [System.Windows.Automation.SelectionItemPattern]

@@ -1,10 +1,10 @@
-# F029 — A/B das setas: mede o Explorer do Windows (meta) e cada variante do Files (bandeiras em C:\FilesUXLab\f029_flags.txt),
+# F029 — A/B das setas: mede o Explorer do Windows (meta) e cada variante do Files (bandeiras em C:\KyraFilesUXLab\f029_flags.txt),
 # 5 rodadas de Down segurado cada, com o mesmo f025_hold_key.ps1. So comeca depois de -IdleS segundos sem uso do computador,
 # para nao disputar teclado e mouse com o Alexandre; cada rodada para se a janela medida sair do primeiro plano.
 # Uso: pwsh -File f029_ab.ps1 [-Variants 'base','nothrottle'] [-Runs 5] [-SkipExplorer] [-Key Down]
 param([string[]]$Variants = @('base', 'nothrottle', 'throttle1', 'ownarrows', 'ownarrows+nothrottle'),
       [int]$Runs = 5, [int]$IdleS = 60, [switch]$SkipExplorer, [string]$Key = 'Down',
-      [string]$Folder = 'C:\FilesUXLab\perf\1600')
+      [string]$Folder = 'C:\KyraFilesUXLab\perf\1600')
 $ErrorActionPreference = 'Stop'
 $here = $PSScriptRoot
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes
@@ -29,9 +29,9 @@ if (-not $SkipExplorer) {
 }
 
 foreach ($v in $Variants) {
-    Set-Content 'C:\FilesUXLab\f029_flags.txt' ($v -replace '\+', ' ')
+    Set-Content 'C:\KyraFilesUXLab\f029_flags.txt' ($v -replace '\+', ' ')
     Get-Process Files -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 2
-    Start-Process explorer.exe 'shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App'; Start-Sleep -Seconds 10
+    Start-Process explorer.exe 'shell:AppsFolder\KyraFiles_sxng2gqmgahde!App'; Start-Sleep -Seconds 10
     $leaf = Split-Path $Folder -Leaf
     $p = Get-Process Files | Where-Object MainWindowHandle -ne 0 | Select-Object -First 1
     pwsh -NoProfile -File "$here\prep_window.ps1" -ProcessName Files
@@ -49,5 +49,5 @@ foreach ($v in $Variants) {
     }
     pwsh -NoProfile -File "$here\f025_hold_key.ps1" -Label "F029-$v" -Key $Key -NoNav -Runs $Runs | Select-Object -Last $Runs
 }
-Set-Content 'C:\FilesUXLab\f029_flags.txt' ''
+Set-Content 'C:\KyraFilesUXLab\f029_flags.txt' ''
 Log 'fim'

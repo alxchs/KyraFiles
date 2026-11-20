@@ -356,6 +356,10 @@ namespace KyraFiles.App.ViewModels
 					else if (parameter is TabBarItemParameter tabArgs)
 						await NavigationHelpers.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 				}
+
+				// A saved session can be empty (e.g. saved after a startup crash, or holding only a discarded Settings tab); never leave the window without a tab
+				if (AppInstances.Count == 0)
+					await NavigationHelpers.AddNewTabAsync();
 			}
 			finally
 			{

@@ -1,7 +1,7 @@
-﻿# Contributing to Files
-Files thrives off of the contributions and input from users. There are several ways you can get involved.
+﻿# Contributing to KyraFiles
+KyraFiles thrives off of the contributions and input from users. There are several ways you can get involved.
 
-We are happy to hear your feedback for the future of Files. Check the
+We are happy to hear your feedback for the future of KyraFiles. Check the
 [issues tab](https://github.com/alxchs/KyraFiles/issues) to see if others have
 submitted similar feedback. You can add your feedback to existing issues or you can open a new issue.
 
@@ -15,7 +15,7 @@ avoid duplicated effort from others.
 
 ## Contributions we accept
 We welcome your contributions to the KyraFiles project, especially to fix bugs and to make
-improvements which address the top issues reported by Files users. Some general guidelines:
+improvements which address the top issues reported by KyraFiles users. Some general guidelines:
 
 * **DO** create one pull request per Issue, and ensure that the Issue is linked in the pull request.
 * **DO** follow our [Coding and Style](https://kyrafiles.org/docs/contributing/code-style) guidelines, and keep code changes as small as possible.
@@ -59,8 +59,8 @@ Finally, you will need to run the KyraFiles.Package at least once to have the de
 Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
 
 ## Review Process
-After submitting a pull request, members of the Files team will review your code. Any member of the community may
-participate in the review, but at least one member of the Files team will ultimately approve
+After submitting a pull request, members of the KyraFiles team will review your code. Any member of the community may
+participate in the review, but at least one member of the KyraFiles team will ultimately approve
 the request.
 
 Often, multiple iterations will be needed to respond to feedback from reviewers. Try looking at

@@ -1,9 +1,9 @@
-﻿# Copyright (c) KyraFiles Community
+﻿# Copyright (c) KyraFiles contributors
 # SPDX-License-Identifier: MPL-2.0
 
 # Abstract:
 #  This script analyzes the trx file that is the result of executing dotnet test and
-#  converts it to markdown, which is used for the Files CI.
+#  converts it to markdown, which is used for the KyraFiles CI.
 
 using namespace System.Collections.Generic;
 using namespace System.Linq;
@@ -99,7 +99,7 @@ foreach ($item in $xmlDoc.TestRun.Results.UnitTestResult)
 
 $stringBuilder = New-Object System.Text.StringBuilder
 
-$title = "## Tested with Files <img alt=""logo"" src=""https://github.com/alxchs/KyraFiles/assets/62196528/6d4b489a-12be-4819-9bbc-a5f95858e77d"" width=""28"" align=""top"" />"
+$title = "## Tested with KyraFiles <img alt=""logo"" src=""https://github.com/alxchs/KyraFiles/assets/62196528/6d4b489a-12be-4819-9bbc-a5f95858e77d"" width=""28"" align=""top"" />"
 $AbbreviatedOid = $env:GITHUB_SHA
 $AbbreviatedOid = $AbbreviatedOid.Substring(0, 7)
 $resultOverview = ""

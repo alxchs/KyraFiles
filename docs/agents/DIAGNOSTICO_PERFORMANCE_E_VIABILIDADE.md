@@ -26,7 +26,7 @@ Na branch `feature/f024-choque-performance-navegacao`:
 
 ## 3. Teste Real do Usuário (Achados Críticos)
 
-Ao abrir o executável Release oficial e navegar na pasta de laboratório com os **1.600 arquivos reais** (`C:\FilesUXLab\perf\1600`), o Alexandre observou imediatamente:
+Ao abrir o executável Release oficial e navegar na pasta de laboratório com os **1.600 arquivos reais** (`C:\KyraFilesUXLab\perf\1600`), o Alexandre observou imediatamente:
 
 1. **Troca de abas:** Demasiadamente lenta (sensação de travamento a cada clique entre abas).
 2. **Segurar teclas de navegação (`Home` / `End` / `Up` / `Down`):** Impossível de usar (congelamento total da interface).
@@ -80,7 +80,7 @@ Perguntado sobre a viabilidade de contornar esses problemas com novas cirurgias 
 ## 6. Conclusão e Diretriz Definitiva
 
 > [!CAUTION]
-> **Veredito:** O **KyraFiles (KyraFiles Community)** tem uma dívida arquitetural congênita decorrente do framework WinUI 3 / XAML Desktop. O projeto foi desenhado primariamente para estética visual (Fluent design, cantos arredondados, efeitos Mica), sendo **estruturalmente incompatível com as exigências de alta velocidade por teclado, baixo consumo e resposta instantânea do Alexandre**.
+> **Veredito:** O **KyraFiles (KyraFiles contributors)** tem uma dívida arquitetural congênita decorrente do framework WinUI 3 / XAML Desktop. O projeto foi desenhado primariamente para estética visual (Fluent design, cantos arredondados, efeitos Mica), sendo **estruturalmente incompatível com as exigências de alta velocidade por teclado, baixo consumo e resposta instantânea do Alexandre**.
 >
 > **Diretriz para Claude e AGY:** Não insistir em ciclos adicionais de refatoração de performance profunda no KyraFiles. O projeto atinge o limite do próprio framework da Microsoft. Qualquer tentativa adicional continuará caindo no dilema: *ou trava a CPU por recalcular layout, ou consome gigabytes de RAM para manter árvores cacheadas*.
 
@@ -88,7 +88,7 @@ Perguntado sobre a viabilidade de contornar esses problemas com novas cirurgias 
 
 ## 7. Status do Ambiente
 
-- **Artefatos de Laboratório:** Todos removidos (`C:\FilesUXLab` completamente limpa).
+- **Artefatos de Laboratório:** Todos removidos (`C:\KyraFilesUXLab` completamente limpa).
 - **Processos:** Todos os processos `KyraFiles.exe` foram encerrados.
 - **Executável Oficial:** Preservado no destino único e limpo `%LOCALAPPDATA%\Programs\KyraFiles\KyraFiles.exe`.
 

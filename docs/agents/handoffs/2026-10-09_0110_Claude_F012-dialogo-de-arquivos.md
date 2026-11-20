@@ -6,7 +6,7 @@ O Claude escreveu o código desta rodada **a pedido explícito do Alexandre** (0
 
 ## Causa do defeito relatado
 
-"Usar o KyraFiles como diálogo para Abrir Arquivos" registrava seis DLLs C++/ATL que nunca foram compiladas neste fork: os projetos C++ saíram do `Files.slnx` em `e3b8b0e38`, e o VS 2022 da máquina não tinha C++ nem ATL. O `catch { }` escondia a falha e a detecção devolvia a chave para desligada. Detalhes e decisão: D-015.
+"Usar o KyraFiles como diálogo para Abrir Arquivos" registrava seis DLLs C++/ATL que nunca foram compiladas neste fork: os projetos C++ saíram do `KyraFiles.slnx` em `e3b8b0e38`, e o VS 2022 da máquina não tinha C++ nem ATL. O `catch { }` escondia a falha e a detecção devolvia a chave para desligada. Detalhes e decisão: D-015.
 
 ## Feito
 

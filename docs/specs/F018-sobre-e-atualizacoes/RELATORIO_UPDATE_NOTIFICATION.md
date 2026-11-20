@@ -12,13 +12,13 @@
 Identificamos duas causas raízes complementares que impediam a notificação de atualizações no aplicativo desatualizado:
 
 1. **Injeção de Dependência Desativada por Falta de Substituição de Placeholder de CI/CD (`AppLifecycleHelper.cs`):**
-   - O método `AppLifecycleHelper.AppEnvironment` lia o placeholder `"cd_app_env_placeholder"` (que só era substituído em pipelines do GitHub Actions da KyraFiles Community).
+   - O método `AppLifecycleHelper.AppEnvironment` lia o placeholder `"cd_app_env_placeholder"` (que só era substituído em pipelines do GitHub Actions da KyraFiles contributors).
    - Como o binário local/instalado não tinha o placeholder substituído, a função fazia fallback para `AppEnvironment.Dev`.
    - Na configuração de injeção de dependência (`ConfigureServices`), para `AppEnvironment.Dev`, o sistema registrava `DummyUpdateService`, um serviço "fantasma" cuja propriedade `IsUpdateAvailable` retornava sempre `false` estático e `CheckForUpdatesAsync()` não realizava qualquer chamada de rede.
    - Consequentemente, o serviço real `SideloadUpdateService` nunca era instanciado nem executado.
 
 2. **Dicionário Incompatível e Exceção em Modo Sideload (`SideloadUpdateService.cs`):**
-   - `_sideloadVersion` continha apenas chaves `"Files"` e `"FilesPreview"`, mapeadas para URLs da KyraFiles Community (`.appinstaller`).
+   - `_sideloadVersion` continha apenas chaves do nome do pacote original, mapeadas para URLs da KyraFiles contributors (`.appinstaller`).
    - O aplicativo com a identidade nova (`KyraFilesDev` ou `KyraFiles`) disparava `KeyNotFoundException` ao tentar buscar a URL do instalador.
 
 ---

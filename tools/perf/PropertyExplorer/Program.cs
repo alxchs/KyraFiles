@@ -215,9 +215,9 @@ namespace PropertyExplorer
         {
             var testFiles = new List<string>
             {
-                @"C:\FilesUXLab\sample.jpg",
+                @"C:\KyraFilesUXLab\sample.jpg",
                 @"C:\Windows\Media\Alarm01.wav",
-                @"C:\FilesUXLab\arquivo.txt"
+                @"C:\KyraFilesUXLab\arquivo.txt"
             };
 
             var propertiesToTest = new Dictionary<string, string[]>

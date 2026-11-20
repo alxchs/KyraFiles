@@ -27,7 +27,7 @@ Log "Log: $LogFile"
 
 # --- 1. Estado do serviço
 Log "`n--- sc query ---"
-$queryOut = sc.exe query "FilesCustomIndexServiceSpike" 2>&1
+$queryOut = sc.exe query "KyraFilesIndexServiceSpike" 2>&1
 Log $queryOut
 
 $running = $queryOut -match "RUNNING"

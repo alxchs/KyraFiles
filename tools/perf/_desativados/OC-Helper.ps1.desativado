@@ -89,8 +89,8 @@ if (-not ([System.Management.Automation.PSTypeName]'OCInterop').Type) {
 
 try { [OCInterop]::SetProcessDpiAwarenessContext([IntPtr](-4)) | Out-Null } catch {}
 
-Write-Output "Starting OneCommander with C:\FilesUXLab..."
-Start-Process "C:\Program Files\OneCommander\OneCommander.exe" -ArgumentList '"C:\FilesUXLab"'
+Write-Output "Starting OneCommander with C:\KyraFilesUXLab..."
+Start-Process "C:\Program Files\OneCommander\OneCommander.exe" -ArgumentList '"C:\KyraFilesUXLab"'
 Start-Sleep -Seconds 3
 
 $p = Get-Process OneCommander -ErrorAction SilentlyContinue | Select-Object -First 1

@@ -17,8 +17,8 @@ $hwndVal = $hwnd.ToInt64()
 
 Write-Host "Found Files window: $hwndVal" -ForegroundColor Cyan
 
-# Ensure window is active and on C:\FilesUXLab
-kyrafiles.exe C:\FilesUXLab
+# Ensure window is active and on C:\KyraFilesUXLab
+kyrafiles.exe C:\KyraFilesUXLab
 Start-Sleep -Seconds 1
 
 $testRunnerCode = @"

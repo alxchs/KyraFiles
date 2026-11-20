@@ -41,7 +41,7 @@ try
 catch (TimeoutException)
 {
     Console.Error.WriteLine($"[ERRO] Timeout ao conectar ao pipe '{PipeName}'.");
-    Console.Error.WriteLine("O serviço está rodando? Use 'sc query FilesCustomIndexServiceSpike'.");
+    Console.Error.WriteLine("O serviço está rodando? Use 'sc query KyraFilesIndexServiceSpike'.");
     return 2;
 }
 catch (Exception ex)

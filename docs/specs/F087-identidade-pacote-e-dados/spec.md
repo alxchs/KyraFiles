@@ -3,7 +3,7 @@
 Status: RASCUNHO (pedido do Alexandre, 02/11/2026: "as configuracoes precisam passar para um caminho oficial com o novo nome do app como se nunca tivesse existido o nome antigo")
 
 ## Estado atual (CONFIRMED em 02/11/2026)
-- `Package.appxmanifest` ainda tem `Identity Name="KyraFiles"`; por isso os dados ficam em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState`.
+- `Package.appxmanifest` ainda tem `Identity Name="KyraFiles"`; por isso os dados ficam em `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState`.
 - Existe um alias `kyrafiles.exe` e o protocolo `kyrafiles-dev:` usados por Win+E, launcher C++, dialogos e HotkeyService.
 - F081 ja migra configuracoes de pastas antigas para a pasta de dados atual (copia sem sobrescrever).
 

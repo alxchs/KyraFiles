@@ -1,5 +1,5 @@
 ﻿name: Bug Report
-description: Create a bug report to help improve Files.
+description: Create a bug report to help improve KyraFiles.
 type: 'Bug'
 title: 'Bug: '
 body:
@@ -36,7 +36,7 @@ body:
     id: files_version
     attributes:
       label: KyraFiles version
-      description: Which version of Files are you using? To copy your KyraFiles version, access it from Settings -> About -> Copy -> KyraFiles version.
+      description: Which version of KyraFiles are you using? To copy your KyraFiles version, access it from Settings -> About -> Copy -> KyraFiles version.
       placeholder: "e.g. 2.0.34.0"
     validations:
       required: true

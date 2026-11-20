@@ -255,11 +255,7 @@ namespace KyraFiles.App
 			public static readonly string[] KnownAppNames =
 			{
 				"KyraFiles", // official
-				"49306atecsolution.FilesUWP", // store stable
-				"FilesStable", // sideload stable
-				"FilesPreview", // sideload preview
-				"49306atecsolution.FilesPreview", // store preview
-				"KyraFiles", // dev
+				"KyraFilesPreview", // preview
 			};
 		}
 

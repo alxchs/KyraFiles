@@ -58,13 +58,13 @@ mkfile release src\KyraFiles.App\KyraFiles.App.csproj      # PowerShell (mkfile 
 .\Open-KyraFiles.ps1                                # monta o layout AppX pela receita, registra, abre. Feche o KyraFiles antes
 pwsh tools\perf\New-PerfLab.ps1                    # laboratório de 10k arquivos e 400 JPGs
 pwsh tools\perf\idle.ps1 -WaitS 10                 # CPU por thread parado
-pwsh tools\perf\thr.ps1 -Folder C:\FilesUXLab\perf\10k
+pwsh tools\perf\thr.ps1 -Folder C:\KyraFilesUXLab\perf\10k
 pwsh tools\perf\bench.ps1 -Runs 3                  # Files × OneCommander
 ```
 
-- Configurações do app (inclusive o fundo): `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json`; log: `...\LocalState\debug.log`.
+- Configurações do app (inclusive o fundo): `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState\settings\user_settings.json`; log: `...\LocalState\debug.log`.
 - Captura de tela: `PrintWindow` por janela do processo `Files` (scripts em `tools/perf/`); leia o PNG para verificar a UI.
-- Laboratório de testes: `C:\FilesUXLab` (§17). Teste destrutivo só ali.
+- Laboratório de testes: `C:\KyraFilesUXLab` (§17). Teste destrutivo só ali.
 
 ## Armadilhas já pagas
 

@@ -52,4 +52,4 @@ Renomear (F2) deve separar NOME e EXTENSÃO: mudar o nome não altera a extensã
 `BulkRenameDialog` (fora de escopo), motor de rename de `FilesystemHelpers`, outros recursos.
 
 ## TESTES OBRIGATÓRIOS
-Unitário do helper nome/extensão com todos os casos do §5; funcional no `C:\FilesUXLab` nos três layouts; regressão: rename de pasta, atalho `.lnk`, alternate stream, desfazer.
+Unitário do helper nome/extensão com todos os casos do §5; funcional no `C:\KyraFilesUXLab` nos três layouts; regressão: rename de pasta, atalho `.lnk`, alternate stream, desfazer.

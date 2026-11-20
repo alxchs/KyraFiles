@@ -5,7 +5,7 @@
 ---
 
 ### T1 — Registro e Setup do Laboratório de 1.600 Arquivos
-- [x] Criar `tools\perf\setup_1600_lab.ps1` para gerar exatamente 1.600 arquivos de teste em `C:\FilesUXLab\perf\1600` (Concluído: 1.600 arquivos gerados).
+- [x] Criar `tools\perf\setup_1600_lab.ps1` para gerar exatamente 1.600 arquivos de teste em `C:\KyraFilesUXLab\perf\1600` (Concluído: 1.600 arquivos gerados).
 - [x] Registrar todos os caminhos gerados em `test_artifacts_registry.md` (Concluído).
 - [x] Criar script de limpeza correspondente `tools\perf\cleanup_f024_lab.ps1` (Concluído).
 
@@ -39,5 +39,5 @@
 
 ### T8 — Higiene Absoluta e Limpeza dos Artefatos de Teste
 - [x] Executar `tools\perf\cleanup_f024_lab.ps1` após validação do Alexandre. (Concluído: executado em 22/10/2026 com saída 0).
-- [x] Comprovar que `C:\FilesUXLab\perf\1600` e todos os arquivos auxiliares de teste foram 100% removidos (`Test-Path` retornando `False`). (Concluído: confirmado `False`).
+- [x] Comprovar que `C:\KyraFilesUXLab\perf\1600` e todos os arquivos auxiliares de teste foram 100% removidos (`Test-Path` retornando `False`). (Concluído: confirmado `False`).
 - [x] Atualizar `test_artifacts_registry.md` marcando todos os itens como Removidos. (Concluído).

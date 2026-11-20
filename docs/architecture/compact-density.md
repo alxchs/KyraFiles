@@ -3,7 +3,7 @@
 ## Contexto & Motivação
 O OneCommander é reconhecido pela alta densidade de informação por polegada quadrada de tela. Usuários avançados e gestores de arquivos que lidam com centenas de itens por pasta necessitam visualizar o máximo de linhas possíveis sem rolagem excessiva.
 
-No KyraFiles Community padrão:
+No KyraFiles contributors padrão:
 - O modo Detalhes (Details) com tamanho "Small" utilizava 36px de altura por item. Em telas 1080p padrão, isso limitava a visão a aproximadamente 22–24 itens simultâneos.
 - A barra lateral de navegação (Sidebar) utilizava altura fixa de 40px por item.
 

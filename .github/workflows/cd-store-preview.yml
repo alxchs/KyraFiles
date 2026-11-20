@@ -1,12 +1,12 @@
-﻿# Copyright (c) KyraFiles Community
+﻿# Copyright (c) KyraFiles contributors
 # Licensed under the MIT License.
 
 # Abstract:
-#  Deploys Files Preview (Store).
+#  Deploys KyraFiles Preview (Store).
 #
 # Workflow:
 #  1. Configure manifest, logo and secrets
-#  2. Restore, build and package Files
+#  2. Restore, build and package KyraFiles
 #  3. Generate a msixupload file
 #  4. Publish the msixupload to GitHub Actions
 
@@ -29,7 +29,7 @@ jobs:
       CONFIGURATION:              '${{ matrix.configuration }}'
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
-      WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
+      WORKING_DIR:                '${{ github.workspace }}' # D:\a\KyraFiles\KyraFiles\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages\'
       APP_PROJECT_PATH:           '${{ github.workspace }}\src\KyraFiles.App\KyraFiles.App.csproj'
@@ -65,7 +65,7 @@ jobs:
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
-    - name: Restore Files
+    - name: Restore KyraFiles
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -116,7 +116,7 @@ jobs:
       shell: pwsh
       run: Move-Item NuGet.Config.bak NuGet.Config
 
-    - name: Build & package Files
+    - name: Build & package KyraFiles
       shell: pwsh
       run: |
         $platforms = "$env:APPX_BUNDLE_PLATFORMS" -split '\|'
@@ -134,15 +134,19 @@ jobs:
         }
       env:
         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
 
     - name: Upload debug symbols to Sentry
       shell: pwsh
       run: |
         if (-not $env:SENTRY_AUTH_TOKEN) { Write-Host 'SENTRY_AUTH_TOKEN not set; skipping symbol upload'; exit 0 }
         npm install --global @sentry/cli
-        sentry-cli debug-files upload --org files-org --project files-app src\KyraFiles.App\bin src\KyraFiles.App\obj
+        sentry-cli debug-files upload --org "$env:SENTRY_ORG" --project "$env:SENTRY_PROJECT" src\KyraFiles.App\bin src\KyraFiles.App\obj
       env:
         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
 
     - name: Create msixbundle and msixupload
       shell: pwsh

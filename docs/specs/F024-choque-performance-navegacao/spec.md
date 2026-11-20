@@ -24,8 +24,8 @@ Esta é a **última tentativa** de viabilização do projeto antes do cancelamen
 ---
 
 ## 3. Critérios de Aceite (AC)
-- **AC-001 (Bateria de Navegação por Teclado):** Em pasta de laboratório com 1.600 itens (`C:\FilesUXLab\perf\1600`), pressionar `Home`, `End`, `PgUp`, `PgDn`, `Ctrl+Home`, `Ctrl+End` navega até o item de destino em ≤ 150 ms sem congelamento de UI.
+- **AC-001 (Bateria de Navegação por Teclado):** Em pasta de laboratório com 1.600 itens (`C:\KyraFilesUXLab\perf\1600`), pressionar `Home`, `End`, `PgUp`, `PgDn`, `Ctrl+Home`, `Ctrl+End` navega até o item de destino em ≤ 150 ms sem congelamento de UI.
 - **AC-002 (Sincronismo em Tempo Real sob Carga Externa):** Com a pasta de 1.600 itens aberta na tela, a criação de 5 arquivos e a exclusão de 5 arquivos por um script externo reflete na tela em tempo real sem travar a janela e sem disparar reload total da lista.
 - **AC-003 (CPU Parado):** O script `tools\perf\idle.ps1 -WaitS 10` mede consumo de CPU ≤ 200 ms em 10 s (≤ 2,0% de um núcleo).
-- **AC-004 (Limpeza Estrita):** A pasta de teste `C:\FilesUXLab\perf\1600` e todos os scripts temporários são removidos sem deixar qualquer rastro no disco.
+- **AC-004 (Limpeza Estrita):** A pasta de teste `C:\KyraFilesUXLab\perf\1600` e todos os scripts temporários são removidos sem deixar qualquer rastro no disco.
 

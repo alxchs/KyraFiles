@@ -9,7 +9,7 @@ Branch: `feature/independent-column-resize`
 ## Completed
 
 - [x] Leitura e análise técnica detalhada dos componentes de redimensionamento (`ColumnsViewModel.cs`, `DetailsLayoutPage.xaml`, `DetailsLayoutPage.xaml.cs`, `GridSplitter.cs`, `GridSplitter.Events.cs`).
-- [x] Validação em execução da aplicação no ambiente real (Downloads e `C:\FilesUXLab`) via UI Automation e capturas visuais em `docs/agents/evidence/f002/`.
+- [x] Validação em execução da aplicação no ambiente real (Downloads e `C:\KyraFilesUXLab`) via UI Automation e capturas visuais em `docs/agents/evidence/f002/`.
 - [x] Confirmação cabal de que as colunas **já possuem redimensionamento independente**: nenhuma coluna vizinha é alterada quando um divisor é arrastado; a coluna Nome não absorve diferenças; todas usam larguras fixas em pixels.
 - [x] Identificação do problema de limite mínimo (`MinWidth` não amarrado no XAML) e elaboração da proposta de correção mínima.
 - [x] Comparação técnica com OneCommander documentada em `docs/ux-reference/onecommander/columns.md`.

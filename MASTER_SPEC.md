@@ -1,21 +1,21 @@
 ﻿# KyraFiles — Especificação de Desenvolvimento
-## Aplicativo derivado do KyraFiles Community com melhorias de UX inspiradas em uso observável do OneCommander
+## Aplicativo derivado do KyraFiles contributors com melhorias de UX inspiradas em uso observável do OneCommander
 
 **Status:** Documento-base de desenvolvimento  
-**Objetivo:** servir como `MASTER_SPEC.md` para Claude, Codex e agentes de implementação/teste no desenvolvimento de uma versão customizada do KyraFiles Community.
+**Objetivo:** servir como `MASTER_SPEC.md` para Claude, Codex e agentes de implementação/teste no desenvolvimento de uma versão customizada do KyraFiles contributors.
 
 ---
 
 # 1. Visão do projeto
 
-Criar uma versão personalizada do **KyraFiles Community** para Windows, preservando sua base de file manager moderna, rápida e integrada ao Windows, mas corrigindo pontos de experiência de usuário que hoje incomodam o usuário no OneCommander.
+Criar uma versão personalizada do **KyraFiles contributors** para Windows, preservando sua base de file manager moderna, rápida e integrada ao Windows, mas corrigindo pontos de experiência de usuário que hoje incomodam o usuário no OneCommander.
 
 O produto não deve ser um clone do OneCommander.
 
 A estratégia é:
 
 ```text
-KyraFiles Community
+KyraFiles contributors
     +
 customizações de UX e produtividade
     +
@@ -26,7 +26,7 @@ integração com ferramentas especializadas quando fizer sentido
 KyraFiles
 ```
 
-O KyraFiles Community é um projeto open source e seu repositório público contém, entre outros itens, `AGENTS.md`, `CLAUDE.md`, projetos em `src`, testes em `tests` e arquivos de licença MIT e MPL-2.0. A estrutura atual também suporta builds para x86, x64 e ARM64. [Referências oficiais: GitHub KyraFiles Community e projeto KyraFiles]
+O KyraFiles contributors é um projeto open source e seu repositório público contém, entre outros itens, `AGENTS.md`, `CLAUDE.md`, projetos em `src`, testes em `tests` e arquivos de licença MIT e MPL-2.0. A estrutura atual também suporta builds para x86, x64 e ARM64. [Referências oficiais: GitHub KyraFiles contributors e projeto KyraFiles]
 
 > **Regra:** antes de assumir detalhes atuais do projeto, os agentes devem consultar o código e a documentação existentes no checkout local.
 
@@ -376,7 +376,7 @@ Não assumir que o melhor caminho seja simplesmente reescrever a busca nativa do
 Primeiro investigar:
 
 ```text
-Files Search
+KyraFiles Search
     vs
 Everything
     vs
@@ -407,7 +407,7 @@ Avaliar:
 
 ```text
 Search Provider
-    ├── Native Files Provider
+    ├── Native KyraFiles Provider
     └── Everything Provider (opcional)
 ```
 
@@ -510,7 +510,7 @@ O projeto deve ser tratado como um fork sustentável.
 Objetivo:
 
 ```text
-upstream Files
+upstream KyraFiles
       ↓
 fork
       ↓
@@ -605,7 +605,7 @@ Não atribuir ao trabalho customizado problemas que já existiam.
 Criar uma pasta de laboratório contendo:
 
 ```text
-C:\FilesUXLab\
+C:\KyraFilesUXLab\
 ```
 
 com arquivos controlados:
@@ -973,7 +973,7 @@ Somente depois de validar esse pipeline devem ser iniciadas as demais features.
 ```text
 1. Baseline
 2. Exploração OneCommander — Rename
-3. Análise Files — Rename
+3. Análise KyraFiles — Rename
 4. Implementação Rename
 5. Testes Rename
 6. Review Rename
@@ -1176,7 +1176,7 @@ direto ao mecanismo externo.
 
 ## OneCommander observed behavior
 
-## Files original behavior
+## KyraFiles original behavior
 
 ## Desired KyraFiles behavior
 
@@ -1184,7 +1184,7 @@ direto ao mecanismo externo.
 
 ## Implementation
 
-## Files changed
+## KyraFiles changed
 
 ## Tests
 
@@ -1211,7 +1211,7 @@ direto ao mecanismo externo.
 
 Use este bloco como instrução inicial para qualquer agente que trabalhar no projeto:
 
-> Você está trabalhando no KyraFiles, uma versão derivada do KyraFiles Community.
+> Você está trabalhando no KyraFiles, uma versão derivada do KyraFiles contributors.
 >
 > Leia `MASTER_SPEC.md`, `AGENT_CONTEXT.md` e os documentos relevantes antes de agir.
 >
@@ -1373,10 +1373,10 @@ O resultado final deve ser um aplicativo próprio, sustentável e tecnicamente b
 
 # 45. Referências
 
-- KyraFiles Community — repositório oficial:  
+- KyraFiles contributors — repositório oficial:  
   https://github.com/alxchs/KyraFiles
 
-- KyraFiles Community — documentação oficial:  
+- KyraFiles contributors — documentação oficial:  
   https://kyrafiles.org/docs/
 
 - OneCommander — termos e licença:  
@@ -1417,7 +1417,7 @@ Objetivo: o usuário poder incluir no layout Details **qualquer coluna que o Win
 
 Objetivo: o atalho de busca (hoje `F3` e `Ctrl+F` ligados ao `SearchAction`) usar o motor que o usuário escolher nas configurações: **Busca nativa do KyraFiles**, **Agent Ransack** ou **Everything**.
 
-- **Sem abrir a tela do outro programa.** Os resultados voltam para a lista do próprio Files. Usar o motor deles em segundo plano:
+- **Sem abrir a tela do outro programa.** Os resultados voltam para a lista do próprio KyraFiles. Usar o motor deles em segundo plano:
   - Everything: pelo IPC/SDK oficial (o Everything 1.4.1.1032 já está instalado e em execução nesta máquina, OBSERVED). Verificar se precisa do `Everything64.dll` do SDK (licença MIT, redistribuível) ou implementar o protocolo de mensagens via CsWin32; avaliar o que é compatível com NativeAOT.
   - Agent Ransack: está instalado (versão 9.2.3425.1, `C:\Program Files\Mythicsoft\Agent Ransack`) com `flpsearch.exe` e `flpidx.exe` (INFERRED: motor de linha de comando do mesmo fabricante). **NOT TESTED**: descobrir os parâmetros do `flpsearch.exe` e se ele devolve resultados em texto estruturado sem abrir janela; se não houver modo silencioso, registrar e propor alternativa (por exemplo, só busca de conteúdo).
   - Nativa: o `FolderSearch` atual, inalterado.

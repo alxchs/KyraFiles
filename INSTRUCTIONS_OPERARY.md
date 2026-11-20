@@ -20,7 +20,7 @@ Instruções para a executora (AGY/Gemini) neste repositório. Mantido pelo Clau
 
 ### Código da biblioteca de índice (`src/KyraFiles.App.Search.Index`)
 
-- Cabeçalho `// Copyright (c) KyraFiles Community. Licensed under the MIT License.`, namespace por arquivo (`namespace X;`), tabs, comentários XML em português.
+- Cabeçalho `// Copyright (c) KyraFiles contributors. Licensed under the MIT License.`, namespace por arquivo (`namespace X;`), tabs, comentários XML em português.
 - Caminho quente sem alocação: `ReadOnlySpan<T>`, `ref readonly` sobre arrays de structs, nada de LINQ dentro do laço de consulta.
 - `NameNormalizer.Normalize` (T4): FormD → tira `NonSpacingMark` → minúsculas invariantes → FormC. Limitações conhecidas, aceitas por ora: letras sem decomposição (`ø`, `ł`, `ß`, `æ`) não viram ASCII; marca combinante fora do BMP não é removida.
 - `QueryMatcher` (T4): palavras separadas por espaço = E; termo **sem** curinga é substring; termo **com** `*`/`?` casa o nome **inteiro** (ancorado, como o Everything: `rel*` = começa com "rel"; `*.pdf` = termina em ".pdf"). `?` vale um `char` UTF-16.
@@ -106,7 +106,7 @@ Os nomes de projeto neste arquivo (`KyraFiles.App`, `KyraFiles.slnx`) são de an
 
 24. **Rename não é busca-e-troca.** Depois de renomear projeto, pasta ou assembly, ache **quem consome o nome**: (a) `ms-appx:///<Assembly>/...` em XAML (o `Generic.xaml` dos Controls ficou com `KyraFiles.App.Controls` e o app **abria e fechava em 2 s** com `0x802B000A`, `E_XAMLPARSEFAILED`); (b) caminho de executável no código (`IndexServiceProcessManager` procurava `KyraFiles.App.IndexService.exe` com o projeto já gerando `KyraFiles.App.IndexService.exe`: a busca indexada não subiria); (c) `Include` de `.winmd`/DLL em `.csproj` (o `AssemblyName` do Server continuou `KyraFiles.App.Server`, mas o `Include` foi trocado e o build quebrou); (d) nome de processo em monitor de memória, instalador e scripts; (e) pastas `%LOCALAPPDATA%\Files` no guarda de quedas e no atualizador. Verificação, a rodar **antes** de dizer "concluído": `git grep -n "ms-appx:///Files\|Files\.App\.\(IndexService\|Controls\)" -- src tests installer tools`.
 25. **Build com 0 erros não prova rename.** A F084/F085 foi dada como concluída sem abrir o app. Rename só é `CONFIRMED` com o app aberto (no horário de teste de tela, regra §16). Antes disso: `NOT TESTED`, escrito assim no relatório.
-26. **Diagnóstico de "abre e fecha":** `Start-Process kyrafiles.exe -PassThru` e leia `ExitCode` em hexa (`0x802B000A` = XAML); `Get-WinEvent Microsoft-Windows-AppModel-Runtime/Admin` mostra criação e destruição do contêiner; o `debug.log` está em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState`. Ache o erro antes de mexer em código.
+26. **Diagnóstico de "abre e fecha":** `Start-Process kyrafiles.exe -PassThru` e leia `ExitCode` em hexa (`0x802B000A` = XAML); `Get-WinEvent Microsoft-Windows-AppModel-Runtime/Admin` mostra criação e destruição do contêiner; o `debug.log` está em `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState`. Ache o erro antes de mexer em código.
 27. **`AssemblyName` que ainda é `Files.*` de propósito:** `KyraFiles.App.Server` (o manifesto aponta `KyraFiles.App.Server\KyraFiles.App.Server.exe`) e `KyraFiles.App.BackgroundTasks` (`ActivatableClass`). Mude **assembly, manifesto, `.csproj` e código juntos** (spec F088), nunca só um deles.
 28. **O App precisa do `.winmd` do Server dentro de `src\KyraFiles.App.Server\bin\x64\<Config>\...\win-x64\KyraFiles.App.Server.winmd`** (`CsWinRTInputs`). Se apagou `src\*\bin`, rode antes do `mkfile`: `dotnet build src\KyraFiles.App.Server\KyraFiles.App.Server.csproj -c <Config> -p:Platform=x64`. O Server agora está no `KyraFiles.slnx` (o restore da solução o inclui; vale no lugar do passo de restore manual do item 20).
 29. **`mkfile r` não empacota Server nem indexador no layout do app** (o `.csproj` só os copia de `bin` dentro do projeto). Para instalar use `pwsh tools\Deploy-Release.ps1`: ele copia os dois de `%TEMP%\Compiler\...\bin`, apaga restos do nome antigo e inicia o Watchdog. Não copie arquivo na mão.
@@ -148,9 +148,9 @@ Origem: a F091 foi declarada "zero resíduos" com um verificador que só olhava 
 
 ### Erros cometidos (não repetir)
 1. **Provou com a própria régua.** O verificador foi escrito pela mesma IA que fez o trabalho, com escopo menor que a afirmação. "Zero" só vale para o que a busca cobre.
-2. **Padrão estreito.** Procurou só `Files.X`; esqueceu `KyraFiles`, `KyraFiles`, `KyraFiles`, `KyraFilesOpenDialog`, "KyraFiles", "KyraFiles Community", URL `kyrafiles`.
+2. **Padrão estreito.** Procurou só `Files.X`; esqueceu `KyraFiles`, `KyraFiles`, `KyraFiles`, `KyraFilesOpenDialog`, "KyraFiles", "KyraFiles contributors", URL `kyrafiles`.
 3. **Escopo estreito.** Só `src/tests`; esqueceu `installer/`, `tools/`, `.github/`, `.iss`, `.vcxproj`, `.idl`, `.rgs`, `.xaml`, `.resw`, `.json`, `.yml`, `.csproj`, `.props`, `.slnx`, `.gitignore`, `crowdin.yml`.
-4. **Esqueceu nomes de arquivo e pasta**, e não só conteúdo (`Assets\KyraFilesOpenDialog`, `FilesCustom_*.png`).
+4. **Esqueceu nomes de arquivo e pasta**, e não só conteúdo (`Assets\KyraFilesOpenDialog`, `KyraFiles_*.png`).
 5. **Esqueceu texto visível ao usuário** (runtime, `.resw`, manifesto, instalador, tela Sobre).
 6. **Lista de exceções aberta e sem justificativa.** Exceção vira esconderijo.
 7. **Declarou CONFIRMED sem repetir o comando de ponta a ponta** no estado final da branch.
@@ -180,11 +180,11 @@ Origem: a F091 foi declarada "zero resíduos" com um verificador que só olhava 
 8. Relatório final (F091 corrigido) e auditoria do Claude.
 
 ### Limite jurídico (não é negociável pela AGY)
-`LICENSE-MIT` exige manter o aviso "Copyright (c) 2018 - present KyraFiles Community" e a permissão; `LICENSE-MPL` vale para os arquivos MPL. Essas atribuições ficam e são a única exceção da categoria (a). Remover o aviso viola a licença.
+`LICENSE-MIT` exige manter o aviso "Copyright (c) 2018 - present KyraFiles contributors" e a permissão; `LICENSE-MPL` vale para os arquivos MPL. Essas atribuições ficam e são a única exceção da categoria (a). Remover o aviso viola a licença.
 
 ### Modo acelerado (16/11/2026, Alexandre: app fora de produção; commit 539a85108 mantido na main)
 - O commit `539a85108` fica. A correção segue por cima dele, em commits pequenos (pode ser na `main`, a pedido do Alexandre; registrar no ledger).
-- **Sem usuários legados:** remover o código de migração de dados `Files`/`KyraFiles`/`KyraFiles Community` (`UserSettingsMigrationService`, `LegacyNamespacePrefix`, migração de registro em `LayoutPreferencesDatabase`/`FileTagsDatabase`, `[InstallDelete]` do nome antigo que não tenha mais o que apagar). Ajustar os testes de migração (apagar os que testam só o legado).
+- **Sem usuários legados:** remover o código de migração de dados `Files`/`KyraFiles`/`KyraFiles contributors` (`UserSettingsMigrationService`, `LegacyNamespacePrefix`, migração de registro em `LayoutPreferencesDatabase`/`FileTagsDatabase`, `[InstallDelete]` do nome antigo que não tenha mais o que apagar). Ajustar os testes de migração (apagar os que testam só o legado).
 - **`.md` e `docs/`:** substituição mecânica por script versionado (`tools/purge-names.ps1`), com a mesma lista de padrões do verificador, aplicada em lote e conferida por diff por categoria. Renomear com `git mv` os arquivos `*KyraFiles*` de `docs/releases`. Não tocar `LICENSE-MIT`, `LICENSE-MPL`, `.github/NOTICE.md`.
 - **Pacotes 1, 2 e 3 viram um só commit de verificador + inventário;** depois um commit por categoria (nativo/`.github`, `installer`+`tools`, textos/`.resw`, migração, docs). Ainda vale R1 (verificador falhando antes), R8 e R9.
 - **Atenção a identidade persistente (R7) continua:** CLSID/GUID não muda; só o nome simbólico.

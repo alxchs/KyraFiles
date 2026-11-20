@@ -16,15 +16,12 @@ namespace KyraFiles.App.Services
 {
 	public sealed partial class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
-		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/KyraFiles.Package.appinstaller";
-		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/KyraFiles.Package.appinstaller";
 
 		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) });
 
 		private readonly Dictionary<string, string> _sideloadVersion = new()
 		{
-			{ "Files", SIDELOAD_STABLE },
-			{ "FilesPreview", SIDELOAD_PREVIEW }
+			// Sem servidor proprio de instalador: sem entrada, a atualizacao abre a pagina da versao.
 		};
 
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();

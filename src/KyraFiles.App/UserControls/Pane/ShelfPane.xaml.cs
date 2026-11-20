@@ -79,7 +79,7 @@ namespace KyraFiles.App.UserControls
 			{
 				items.AddRange(paths.Select(path => new ShellItem(path)));
 				IDataObject dataObject = ShellDataObject.Create(items);
-				e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+				e.Data.Properties["KyraFiles_ActionBinder"] = "KyraFiles_ShelfBinder";
 				e.Data.As<IDataObjectProvider>().SetDataObject(dataObject).ThrowOnFailure();
 			}
 			catch (COMException exception)

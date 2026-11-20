@@ -12,7 +12,7 @@ Branch: `feature/f012-explorer-replacement` (feature pequena, entregue junto com
 
 ## Estado em 09/10/2026 10:20 (Claude)
 
-Build `mkfile r Files.slnx` = 0 Warning(s), 0 Error(s). Teste: `pwsh tools\perf\f013_f3_agent_ransack.ps1 -Capture` (teclas por `SendInput`).
+Build `mkfile r KyraFiles.slnx` = 0 Warning(s), 0 Error(s). Teste: `pwsh tools\perf\f013_f3_agent_ransack.ps1 -Capture` (teclas por `SendInput`).
 
 | AC | Estado | Evidência |
 |---|---|---|

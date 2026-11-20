@@ -8,7 +8,7 @@
 - **Build Release:** `0 Warning(s)`, `0 Error(s)` (CONFIRMED: `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64`)
 - **Instalador Oficial:** `artifacts\Setup\KyraFilesSetup-4.3.4.exe` (52.690.949 bytes, 50,25 MB)
 - **SHA256:** `7ED43A932EE51DFB3AA3965D0921715102A8422258712220136079F7365B803B`
-- **Pacote Instalado Atualizado:** `FilesDev_4.3.4.0_x64__ykqwq8d6ps0ag` em `%LOCALAPPDATA%\Programs\KyraFiles`
+- **Pacote Instalado Atualizado:** `KyraFilesDev_4.3.4.0_x64__sxng2gqmgahde` em `%LOCALAPPDATA%\Programs\KyraFiles`
 
 ---
 
@@ -27,7 +27,7 @@
 3. **Higienização de Pastas Debug:**
    - Todas as pastas `bin\*\Debug` e `obj\*\Debug` em todos os projetos sob `src\` foram expurgadas.
 4. **Desmontagem do Laboratório F024:**
-   - Criado e executado o script `tools\perf\cleanup_f024_lab.ps1`. Confirmado que `C:\FilesUXLab\perf\1600` não existe mais (`Test-Path = False`). `test_artifacts_registry.md` atualizado para `EXCLUÍDO`.
+   - Criado e executado o script `tools\perf\cleanup_f024_lab.ps1`. Confirmado que `C:\KyraFilesUXLab\perf\1600` não existe mais (`Test-Path = False`). `test_artifacts_registry.md` atualizado para `EXCLUÍDO`.
 5. **Arquivos Temporários e Logs:**
    - `%TEMP%\agy\` inspecionado e higienizado.
    - `debug.log` da raiz do repositório foi excluído (`Test-Path = False`).

@@ -163,7 +163,7 @@ namespace KyraFiles.App.ViewModels.Layouts
 					try
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
-						if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
+						if (e.DataView.Properties.TryGetValue("KyraFiles_ActionBinder", out var actionBinder) && actionBinder is "KyraFiles_ShelfBinder")
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName);
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -259,7 +259,7 @@ namespace KyraFiles.App.ViewModels.Layouts
 				var workingDirectoryPath = _associatedInstance.ShellViewModel.WorkingDirectory
 					?? throw new InvalidOperationException("The shell page does not have a working directory.");
 
-				if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
+				if (e.DataView.Properties.TryGetValue("KyraFiles_ActionBinder", out var actionBinder) && actionBinder is "KyraFiles_ShelfBinder")
 				{
 					if (e.OriginalSource is not UIElement uiElement)
 						return;

@@ -10,7 +10,7 @@ A AGY trabalhou ~2h23 (19:00–21:03, perfil `alexandre`), fez o commit `5e35e6a
 
 ## OBSERVED (captura vista pelo Claude, build presumido `5e35e6a6f`, não reproduzido por ele)
 
-Em `docs/agents/evidence/f001/` (Details, `C:\FilesUXLab`):
+Em `docs/agents/evidence/f001/` (Details, `C:\KyraFilesUXLab`):
 - `01`: `.gitignore` abre com o nome inteiro selecionado e a caixa sem corte.
 - `04`: `End` + `Backspace` em `arquivo.txt` apagou só uma letra do nome (`arquiv.txt`); a extensão ficou.
 - `10`: `arquivo` → `arquivo.exe` mostra o diálogo Sim/Não (o texto digitado não aparece na captura).

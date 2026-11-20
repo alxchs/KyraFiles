@@ -39,7 +39,7 @@ Atualizado pelo Claude em 26/10/2026, ~01h30. **Quem escreve o último trabalho 
 
 ## 6. O que deu CERTO na v4.3.7 (acrescentado em 26/10/2026)
 - **Release pequena e revisada:** só um arquivo de código; evidência com controle; instalador instalado de verdade e Gate F021 rodado; hash conferido contra a release; texto para o usuário sem jargão.
-- **Restore da solução inteira** (`dotnet restore Files.slnx`) antes do build: o restore projeto a projeto falhou duas vezes (`KyraFiles.App.Server`, `KyraFiles.App.IndexService`).
+- **Restore da solução inteira** (`dotnet restore KyraFiles.slnx`) antes do build: o restore projeto a projeto falhou duas vezes (`KyraFiles.App.Server`, `KyraFiles.App.IndexService`).
 - **O que deu ERRADO no caminho:** o build falhou por restore incompleto; o texto das notas anteriores era para desenvolvedor; faltou captura de tela de fumaça (NOT TESTED).
 
 ## 7. Janela de AWAY de 26/10 (12:30-13:00): resultado

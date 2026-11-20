@@ -83,7 +83,7 @@ Conforme acordado no backlog oficial (`BACKLOG-ORDEM-AGY.md` e `SITUACAO.md`):
 3. **Prioridade 1 (Desempenho):**
    - Medição de navegação contínua de teclas seguradas (setas, Home e End em Detalhes, Ícones e Colunas) conforme `docs/agents/tasks/R-teclas-seguradas-medicao.md`.
 4. **Onda 1 (Features Novas):**
-   - Concluir F056 T2 a T4 (submenu no menu de contexto, atalho e configurações; restore via `Files.slnx`).
+   - Concluir F056 T2 a T4 (submenu no menu de contexto, atalho e configurações; restore via `KyraFiles.slnx`).
    - Concluir F047 T3.
    - Iniciar F049 (atenção estrita ao controle negativo de exclusão de links simbólicos).
 5. **Onda 2 (Backlog):**

@@ -18,7 +18,7 @@ Dono: AGY. Aprovado por: Claude, 12/10/2026. Decisão: `DECISIONS.md` D-021. Spe
    - Ignorar eventos injetados por nós (`LLKHF_INJECTED` + `dwExtraInfo`).
    - No handler da mensagem: `ShellExecuteW(kyrafiles-dev:?tab=Home)` como hoje.
    - Remover o `RegisterHotKey` e o fallback silencioso. Falha de `SetWindowsHookExW` deve gravar uma linha em `%LOCALAPPDATA%\Programs\KyraFiles\hotkey.log` e sair com código ≠ 0.
-2. O Watchdog continua supervisionando; não alterar o contrato (evento `Global\FilesCustom_ShutdownHotkeyService`).
+2. O Watchdog continua supervisionando; não alterar o contrato (evento `Global\KyraFiles_ShutdownHotkeyService`).
 3. Garantir que alguém **inicia** o serviço: o instalador (T3) já deve gravar `HKCU\...\Run`; confirmar no `.iss` e, para teste local, criar `tools/perf/f017_win_e_test.ps1` (usar `%TEMP%\claude\desenv\utils\KyraFiles\`) que: inicia `bin\Release\KyraFiles.HotkeyService.exe`, conta janelas do Explorer (`Shell.Application`), envia Win+E, espera 8 s e imprime `Files rodando` e `janelas Explorer antes/depois`.
 
 ## Pronto quando (cada item com comando e saída em `STATUS.md`)

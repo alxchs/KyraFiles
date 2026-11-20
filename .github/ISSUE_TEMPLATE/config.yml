@@ -2,7 +2,7 @@
 contact_links:
   - name: Feature Request
     url: https://discord.gg/kyrafiles
-    about: Suggest an idea for Files.
+    about: Suggest an idea for KyraFiles.
   - name: Translation issue
     url: https://crowdin.com/project/kyrafiles
     about: Help improve translations on Crowdin.

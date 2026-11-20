@@ -17,7 +17,7 @@ Status: BRIEF EM RASCUNHO, **sem pré-aprovação de implementação** (Claude, 
 ### Agent Ransack (`flpsearch.exe`)
 1. Descobrir os parâmetros: `flpsearch.exe /?` e a pasta `help/` e `Sample Scripts/` (somente leitura). **Atenção**: rodar com `/?` pode abrir janela; fazer isso em um desktop sem trabalho aberto e fechar em seguida. Registrar o que o executável realmente faz.
 2. Provar (ou refutar) que há um modo **sem interface** que devolve resultados em texto/CSV/XML (nome, caminho, tamanho, data; e, se possível, trecho de conteúdo). Se existir só via janela, registrar e propor a alternativa: usar a API/linha de comando do `SearchTask.exe` ou limitar a integração à busca de conteúdo.
-3. Protótipo fora de `src/`: buscar um texto em `C:\FilesUXLab` e devolver os arquivos, medindo o tempo.
+3. Protótipo fora de `src/`: buscar um texto em `C:\KyraFilesUXLab` e devolver os arquivos, medindo o tempo.
 
 ### Resultado
 `docs/architecture/search-engines.md` com, para cada motor: como é chamado, o que devolve, tempo medido, o que não consegue fazer (regex? conteúdo? filtros de tamanho/data?), riscos e **recomendação**. Parar e registrar `PENDING DECISION` para o Claude aprovar o desenho.

@@ -4,7 +4,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 
 ## D-001 — MASTER_SPEC.md é regra de desenvolvimento para Claude e AGY (28/09/2026)
 
-- **Context:** o Alexandre entregou `Files_Custom_MASTER_SPEC.md` e pediu que valha para as próximas etapas, com Claude e AGY alinhados a partir do momento em que a AGY conseguir rodar o app oficial.
+- **Context:** o Alexandre entregou `MASTER_SPEC.md` e pediu que valha para as próximas etapas, com Claude e AGY alinhados a partir do momento em que a AGY conseguir rodar o app oficial.
 - **Decision:** o texto foi salvo sem alterações como `MASTER_SPEC.md` na raiz. `AGENTS.md` aponta para ele. Mudança no spec só com decisão registrada aqui.
 - **Consequences:** o spec vale integralmente a partir do gate G0; antes disso valem só as restrições do G0 em `docs/agents/CONTINUITY.md`.
 
@@ -31,7 +31,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 ## D-006 — Repositório: fork `alxchs/KyraFiles` ancorado no upstream v4.2.9 (28/09/2026)
 
 - **Context:** a pasta não era um repositório git; o spec (§13) pede fork sustentável.
-- **Decision:** fork de `alxchs/KyraFiles` criado em `https://github.com/alxchs/KyraFilesCustom` (nome do §36). Local: `origin` = fork, `upstream` = Files oficial; `main` parte do commit `99951c66` (Build: v4.2.9), o único que bate com a árvore existente.
+- **Decision:** fork de `alxchs/KyraFiles` criado em `https://github.com/alxchs/KyraFilesCustom` (nome do §36). Local: `origin` = fork, `upstream` = KyraFiles oficial; `main` parte do commit `99951c66` (Build: v4.2.9), o único que bate com a árvore existente.
 - **Reason:** dá diff real contra o upstream e permite `git merge upstream/main` depois; separa ajustes da AGY do código oficial.
 - **Trade-offs:** GitHub não permite fork privado de repositório público; o fork é **público**. Nada foi enviado. Um `git push` publicaria `MASTER_SPEC.md`, `STATUS.md` etc.; só com confirmação do Alexandre (regra global). Alternativa: repositório privado sem vínculo de fork.
 - **Consequences:** o histórico do upstream vem junto (baixado localmente). `core.symlinks=false` porque o `CLAUDE.md` do upstream é symlink.
@@ -124,7 +124,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 ## D-013 — Teste da função pura da F005 via script PowerShell (04/10/2026)
 
 - **Context:** a tarefa T2 da F005 exige teste automatizado dos 6 cenários de alternância (AC-1 a AC-6) e registro em DECISIONS.md da escolha entre script `pwsh` e projeto novo `tests/KyraFiles.Custom.Tests`.
-- **Problem:** o projeto de testes unitários não existe no repositório; criar projeto novo em `Files.slnx` introduz churn no build e risco de divergência com o upstream.
+- **Problem:** o projeto de testes unitários não existe no repositório; criar projeto novo em `KyraFiles.slnx` introduz churn no build e risco de divergência com o upstream.
 - **Options:** (1) Criar um projeto `tests/KyraFiles.Custom.Tests.csproj` adicionando-o à solution; (2) Criar script `tests/test-pane-toggle-helper.ps1` que compila dinamicamente a função com `Add-Type` e valida os casos em milissegundos, replicando o padrão já aprovado de `tests/test-rename-helper.ps1`.
 - **Decision:** opção 2 (`tests/test-pane-toggle-helper.ps1`).
 - **Reason:** atende 100% ao critério de aceite com diff mínimo, sem tocar em arquivos de projeto (.csproj / .slnx), mantendo compatibilidade total com upstream e execução instantânea.
@@ -132,11 +132,11 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 
 ## D-015 — Projetos C++ do upstream voltam a ser compilados; F012 usa o launcher do upstream (09/10/2026)
 
-- **Context:** em *Configurações > Avançado*, a opção de usar o KyraFiles como diálogo de arquivos não liga (relato do Alexandre, 08/10/2026). CONFIRMED: ela registra seis DLLs C++/ATL (`KyraFiles.App.OpenDialog*.dll`, `KyraFiles.App.SaveDialog*.dll`) que nunca existiram neste fork (`Get-ChildItem src\KyraFiles.App\Assets\KyraFilesOpenDialog`, layout AppX e LocalState sem nenhuma DLL), e o `catch { }` escondia a falha. Causa raiz: o commit `e3b8b0e38` (01/10/2026) tirou os 5 projetos C++ do `Files.slnx` (CONFIRMED por `git show 0e3c17ca4:Files.slnx`); o motivo provável (INFERRED, a mensagem do commit não diz) é que o Visual Studio 2022 da máquina não tinha C++ (CONFIRMED: sem `MSBuild\Microsoft\VC\v170\Platforms`; `vswhere -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64` vazio; nenhum `atlbase.h` no VS 2022, no VS x86, nos Windows Kits nem no `D:\`). Pelo mesmo motivo, a F012 (AGY) trocou o launcher C++ do upstream por um trampolim C# compilado com `csc`.
+- **Context:** em *Configurações > Avançado*, a opção de usar o KyraFiles como diálogo de arquivos não liga (relato do Alexandre, 08/10/2026). CONFIRMED: ela registra seis DLLs C++/ATL (`KyraFiles.App.OpenDialog*.dll`, `KyraFiles.App.SaveDialog*.dll`) que nunca existiram neste fork (`Get-ChildItem src\KyraFiles.App\Assets\KyraFilesOpenDialog`, layout AppX e LocalState sem nenhuma DLL), e o `catch { }` escondia a falha. Causa raiz: o commit `e3b8b0e38` (01/10/2026) tirou os 5 projetos C++ do `KyraFiles.slnx` (CONFIRMED por `git show 0e3c17ca4:KyraFiles.slnx`); o motivo provável (INFERRED, a mensagem do commit não diz) é que o Visual Studio 2022 da máquina não tinha C++ (CONFIRMED: sem `MSBuild\Microsoft\VC\v170\Platforms`; `vswhere -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64` vazio; nenhum `atlbase.h` no VS 2022, no VS x86, nos Windows Kits nem no `D:\`). Pelo mesmo motivo, a F012 (AGY) trocou o launcher C++ do upstream por um trampolim C# compilado com `csc`.
 - **Options:** (1) manter o trampolim C# e desistir dos diálogos; (2) instalar C++ e ATL no VS 2022 e voltar a compilar os projetos do upstream; (3) baixar as DLLs prontas de uma release oficial do KyraFiles.
 - **Decision:** (2), autorizada pelo Alexandre em 09/10/2026 (instalação de `Microsoft.VisualStudio.Workload.NativeDesktop`, `VC.Tools.x86.x64` e `VC.ATL`). Os projetos são compilados por `tools/Build-Native.ps1` (o `mkfile` só roda `dotnet build`, que não compila `.vcxproj`), com o toolset e o SDK mais novos instalados (o upstream pede v145, do VS 18). Na F012 vale o launcher do upstream (`src/KyraFiles.App.Launcher`), com dois ajustes para a AC-6: sem caixa de mensagem e sem UAC ao reverter o registro (o `UnsetFilesAsDefault.reg` desta branch só apaga chaves do HKCU), esperando a reversão antes de abrir o Explorer. O trampolim C# (`tools/launcher/Program.cs`) sai.
 - **Reason:** o launcher do upstream já trata `/select`, janelas do Explorer já abertas, pastas especiais e o KyraFiles desinstalado; reescrevê-lo duplicava código e perdia essas regras. (3) traria binário de fora sem passar pelo nosso build.
-- **Trade-offs:** o build completo passa a exigir o C++ do Visual Studio e um passo a mais (`tools/Build-Native.ps1`); o arquivo `FilesLauncher.cpp` do upstream ganha um diff pequeno.
+- **Trade-offs:** o build completo passa a exigir o C++ do Visual Studio e um passo a mais (`tools/Build-Native.ps1`); o arquivo `KyraFilesLauncher.cpp` do upstream ganha um diff pequeno.
 - **Consequences:** `tools/Create-SelfContained-Release.ps1` recusa gerar pacote sem os binários nativos no layout AppX.
 
 ## D-016 — Instância de diálogo de arquivos isolada da sessão do usuário (09/10/2026)
@@ -324,20 +324,20 @@ Data: 30/10/2026. Decidido por Claude (arquiteto), na execução autorizada pelo
 
 Data: 03/11/2026. Decidido por AGY (executora) a pedido do Alexandre.
 
-- **Context:** após a renomeação da identidade para KyraFiles (F081-F086), ao clicar duas vezes em uma pasta o Windows dava "Application not found" e abria o Windows Explorer nativo como fallback. O registro chamava `%LOCALAPPDATA%\Files\KyraFiles.App.Launcher.exe`, caminho que não existia mais no disco. O `KyraFiles.App.csproj` copiava `KyraFiles.App.Launcher.exe`, os serviços de atualização (`AppUpdateSideloadService.cs` e `AppUpdateStoreService.cs`) e scripts de registro esperavam `KyraFiles.App.Launcher.exe`, e `Assets/KyraFilesOpenDialog/` estava desprovido do executável.
+- **Context:** após a renomeação da identidade para KyraFiles (F081-F086), ao clicar duas vezes em uma pasta o Windows dava "Application not found" e abria o Windows Explorer nativo como fallback. O registro chamava `%LOCALAPPDATA%\KyraFiles\KyraFiles.App.Launcher.exe`, caminho que não existia mais no disco. O `KyraFiles.App.csproj` copiava `KyraFiles.App.Launcher.exe`, os serviços de atualização (`AppUpdateSideloadService.cs` e `AppUpdateStoreService.cs`) e scripts de registro esperavam `KyraFiles.App.Launcher.exe`, e `Assets/KyraFilesOpenDialog/` estava desprovido do executável.
 - **Problem:** inconsistência no nome do binário do Launcher e no diretório de destino do aplicativo no `%LOCALAPPDATA%` após a renomeação da solução para KyraFiles.
-- **Options:** (A) Reverter o nome do executável e pasta para `KyraFiles.App.Launcher.exe` e `%LOCALAPPDATA%\Files`; (B) Unificar tudo sob a nova identidade: executável `KyraFiles.App.Launcher.exe` e pasta `%LOCALAPPDATA%\KyraFiles\`.
+- **Options:** (A) Reverter o nome do executável e pasta para `KyraFiles.App.Launcher.exe` e `%LOCALAPPDATA%\KyraFiles`; (B) Unificar tudo sob a nova identidade: executável `KyraFiles.App.Launcher.exe` e pasta `%LOCALAPPDATA%\KyraFiles\`.
 - **Decision:** Opção B. O executável canônico único é `KyraFiles.App.Launcher.exe`, instalado e registrado em `%LOCALAPPDATA%\KyraFiles\KyraFiles.App.Launcher.exe`.
 - **Reason:** alinhamento completo com a identidade KyraFiles (F081+) estabelecida no commit `28ecad12a`, mantendo padrão consistente em todo o repositório, nos manifests, no instalador e nas chaves de registro do Windows.
 - **Trade-offs:** exige atualização atômica de todas as referências em C#, C++, scripts `.reg` e projetos auxiliares.
-- **Consequences:** todos os pontos identificados (csproj, `AppUpdate*Service.cs`, `AdvancedViewModel.cs`, `AboutViewModel.cs`, `ExplorerWindowRedirector.cs`, `FilesLauncher.cpp`, `tools/Build-Native.ps1`, `installer/package_manifest.json` e `.reg` em `Assets/KyraFilesOpenDialog/`) passam a referenciar rigorosamente `KyraFiles.App.Launcher.exe` e `%LOCALAPPDATA%\KyraFiles\`.
+- **Consequences:** todos os pontos identificados (csproj, `AppUpdate*Service.cs`, `AdvancedViewModel.cs`, `AboutViewModel.cs`, `ExplorerWindowRedirector.cs`, `KyraFilesLauncher.cpp`, `tools/Build-Native.ps1`, `installer/package_manifest.json` e `.reg` em `Assets/KyraFilesOpenDialog/`) passam a referenciar rigorosamente `KyraFiles.App.Launcher.exe` e `%LOCALAPPDATA%\KyraFiles\`.
 
 
 ## D-64BIT-CLEANUP-1 — Padronização 64-bit exclusiva dos projetos nativos C++ e purga de nomes legados
 
 Data: 03/11/2026. Decidido por AGY (executora) com aprovação explícita do Alexandre.
 
-- **Context:** projetos legados de 32-bit (Win32) ainda existiam em src/KyraFiles.App.OpenDialog/KyraFiles.App.OpenDialog.Win32.vcxproj e src/KyraFiles.App.SaveDialog/KyraFiles.App.SaveDialog.Win32.vcxproj, além de artefatos compilados de 32-bit em Assets/KyraFilesOpenDialog/ e rtifacts/. Além disso, fontes C++ mantinham prefixo Files* (FilesLauncher.cpp, KyraFilesOpenDialog.*, KyraFilesSaveDialog.*), e assemblies Server e BackgroundTasks mantinham <AssemblyName> e <RootNamespace> como KyraFiles.App.*.
+- **Context:** projetos legados de 32-bit (Win32) ainda existiam em src/KyraFiles.App.OpenDialog/KyraFiles.App.OpenDialog.Win32.vcxproj e src/KyraFiles.App.SaveDialog/KyraFiles.App.SaveDialog.Win32.vcxproj, além de artefatos compilados de 32-bit em Assets/KyraFilesOpenDialog/ e rtifacts/. Além disso, fontes C++ mantinham prefixo KyraFiles* (KyraFilesLauncher.cpp, KyraFilesOpenDialog.*, KyraFilesSaveDialog.*), e assemblies Server e BackgroundTasks mantinham <AssemblyName> e <RootNamespace> como KyraFiles.App.*.
 - **Problem:** resíduos legados de 32-bit geravam complexidade desnecessária e inconsistências de nomenclatura em relação à nova identidade KyraFiles x64.
 - **Options:** (A) Manter suporte a 32-bit com projetos Win32; (B) Eliminar 32-bit completamente, padronizando a solução inteira como 64-bit (x64), renomear fontes e projetos nativos para KyraFiles* e purgar todos os artefatos legados KyraFiles.App.*.
 - **Decision:** Opção B. Arquitetura unificada em 64-bit exclusivo.

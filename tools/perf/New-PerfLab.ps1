@@ -1,5 +1,5 @@
-﻿# Cria as pastas de medição em C:\FilesUXLab\perf (MASTER_SPEC §17).
-param([string]$Base = 'C:\FilesUXLab\perf')
+﻿# Cria as pastas de medição em C:\KyraFilesUXLab\perf (MASTER_SPEC §17).
+param([string]$Base = 'C:\KyraFilesUXLab\perf')
 
 $ErrorActionPreference = 'Stop'
 New-Item -ItemType Directory -Force "$Base\10k", "$Base\img400" | Out-Null

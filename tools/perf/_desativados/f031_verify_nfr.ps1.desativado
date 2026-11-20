@@ -15,7 +15,7 @@ Add-Type -Path 'C:\desenv\utils\KyraFiles\tools\perf\thr.cs' -ErrorAction Silent
 
 $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $p) {
-    Start-Process explorer.exe 'shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App'
+    Start-Process explorer.exe 'shell:AppsFolder\KyraFiles_sxng2gqmgahde!App'
     Start-Sleep -Seconds 6
     $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
 }

@@ -33,5 +33,5 @@ Agora, o Alexandre solicitou a substituição visual e textual completa e defini
 ## 3. Restrições e Segurança
 
 - **Arte e Cores**: Respeitar a regra de arte do Alexandre: nunca usar vermelho, nunca vermelho com amarelo, nem vermelho com estrela amarela. A paleta do KyraFiles é azul ciano, azul elétrico, branco e grafite/preto, 100% conforme a arte fornecida.
-- **Licença**: Preservar todos os avisos de licença e copyright do KyraFiles Community nos cabeçalhos de código fonte (`Copyright (c) KyraFiles Community`).
+- **Licença**: Preservar todos os avisos de licença e copyright do KyraFiles contributors nos cabeçalhos de código fonte (`Copyright (c) KyraFiles contributors`).
 

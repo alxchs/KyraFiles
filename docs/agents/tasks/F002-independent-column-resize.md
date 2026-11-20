@@ -16,7 +16,7 @@ Ou seja, grande parte do §6 (auto-fit, double-click, persistência, máximo) **
 
 ## TASK (investigação por teste, sem código de produto)
 
-No app (`Open-KyraFiles.ps1`, `C:\FilesUXLab`, pasta com nomes curtos, nomes muito longos e a de 10 mil arquivos):
+No app (`Open-KyraFiles.ps1`, `C:\KyraFilesUXLab`, pasta com nomes curtos, nomes muito longos e a de 10 mil arquivos):
 
 1. Arrastar o divisor de cada coluna e medir a largura de **todas** as colunas antes/depois (UI Automation ou captura + régua; registrar números). Responder: (a) a coluna vizinha muda? (b) a coluna Nome (provavelmente `*`) absorve a diferença? (c) existe largura mínima efetiva e qual? (d) o que acontece ao reduzir a janela e ao maximizar? (e) os valores persistem após fechar/reabrir e entre pastas?
 2. Repetir em DPI 100% e 150% se possível (§6).

@@ -2,7 +2,7 @@
 
 Scripts para medir o KyraFiles contra o OneCommander nas mesmas ações. Medem só o que é observável de fora: tempo de tela, CPU e memória do processo. Nada de inspecionar a implementação do OneCommander (MASTER_SPEC §3.1).
 
-Pré-requisitos: os dois apps abertos, o KyraFiles registrado por `Open-KyraFiles.ps1` e o laboratório criado por `New-PerfLab.ps1` (10 mil arquivos em `C:\FilesUXLab\perf\10k`, 400 JPGs em `C:\FilesUXLab\perf\img400`). Use `pwsh` (PowerShell 7) e não mexa nas janelas durante a medição.
+Pré-requisitos: os dois apps abertos, o KyraFiles registrado por `Open-KyraFiles.ps1` e o laboratório criado por `New-PerfLab.ps1` (10 mil arquivos em `C:\KyraFilesUXLab\perf\10k`, 400 JPGs em `C:\KyraFilesUXLab\perf\img400`). Use `pwsh` (PowerShell 7) e não mexa nas janelas durante a medição.
 
 | Script | Mede |
 |---|---|
@@ -61,9 +61,9 @@ Divisão da CPU do KyraFiles (MicaAlt padrão) na base upstream/main:
 Hipótese testada: o fundo `MicaAlt` (padrão, `AppearanceSettingsService.AppThemeBackdropMaterial = 2`) é a causa da alta CPU da thread "DWM Compositor Thread" parado (49% de 1 núcleo) e ao abrir pastas.
 
 Método:
-- Caminho utilizado para alternar o fundo: edição direta do valor `"AppThemeBackdropMaterial"` em `%LOCALAPPDATA%\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\settings\user_settings.json` com o processo fechado, reabrindo em seguida via `.\Open-KyraFiles.ps1` com layout AppX registrado.
+- Caminho utilizado para alternar o fundo: edição direta do valor `"AppThemeBackdropMaterial"` em `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState\settings\user_settings.json` com o processo fechado, reabrindo em seguida via `.\Open-KyraFiles.ps1` com layout AppX registrado.
 - Janela, tamanho e posição mantidos idênticos sem mover nem interagir durante as medições.
-- Para cada valor de enum (`Solid` = 0, `Mica` = 1, `MicaAlt` = 2, `Acrylic` = 3): 3 rodadas de `pwsh tools\perf\idle.ps1 -WaitS 10` e 3 rodadas de `pwsh tools\perf\thr.ps1 -Folder C:\FilesUXLab\perf\10k -WaitS 8`.
+- Para cada valor de enum (`Solid` = 0, `Mica` = 1, `MicaAlt` = 2, `Acrylic` = 3): 3 rodadas de `pwsh tools\perf\idle.ps1 -WaitS 10` e 3 rodadas de `pwsh tools\perf\thr.ps1 -Folder C:\KyraFilesUXLab\perf\10k -WaitS 8`.
 - Fundo original (`MicaAlt`) restaurado ao final dos testes (CONFIRMED no `user_settings.json` e processo ativo).
 
 ### Tabela Comparativa (Medianas de 3 rodadas)

@@ -2,7 +2,7 @@
 
 ## 1. Visão Geral
 Esta especificação atende a dois requisitos solicitados pelo usuário Alexandre:
-1. **Redirecionamento de Sponsors:** Substituir todas as referências internas e links de patrocinador (`sponsors/Josh65-2201`, `files.community/sponsor`) pelo GitHub do Alexandre (`https://github.com/alxchs`), inclusive no `.github/FUNDING.yml` e na constante `Constants.ExternalUrl.SupportUsUrl`.
+1. **Redirecionamento de Sponsors:** Substituir todas as referências internas e links de patrocinador (`sponsors/Josh65-2201`, `o link de patrocinio do projeto original`) pelo GitHub do Alexandre (`https://github.com/alxchs`), inclusive no `.github/FUNDING.yml` e na constante `Constants.ExternalUrl.SupportUsUrl`.
 2. **PowerShell Moderno (pwsh):** Garantir que toda e qualquer chamada ou abertura do PowerShell disparada a partir do KyraFiles priorize a versão moderna do PowerShell (`pwsh.exe`, PowerShell 7+), com fallback gracioso para o PowerShell legado do Windows (`powershell.exe`) caso o `pwsh.exe` não esteja instalado no sistema.
 
 ## 2. Requisitos Detalhados
@@ -31,7 +31,7 @@ Esta especificação atende a dois requisitos solicitados pelo usuário Alexandr
   - `src/KyraFiles.App.Storage/Windows/Helpers/WindowsStorableHelpers.PowerShell.cs`: Configuração de ícones de atalho usa o executável preferido.
 
 ## 3. Critérios de Aceite
-- [AC-1] Nenhuma referência a `Josh65-2201` ou `files.community/sponsor` permanece no repositório.
+- [AC-1] Nenhuma referência a `Josh65-2201` ou `o link de patrocinio do projeto original` permanece no repositório.
 - [AC-2] Ao invocar ações de apoio, o app direciona para `https://github.com/alxchs`.
 - [AC-3] `PowerShellHelpers.PreferredExecutable` detecta e retorna `pwsh.exe` quando o PowerShell 7 estiver instalado no sistema.
 - [AC-4] Todas as chamadas internas via `Win32Helper.RunPowershellCommand...`, `OpenPowerShellAction`, etc., invocam o executável moderno sem erros de linha de comando.

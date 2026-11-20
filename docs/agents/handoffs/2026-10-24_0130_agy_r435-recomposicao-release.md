@@ -9,7 +9,7 @@
 - **Build C++ Nativo:** `0 Error(s)` (CONFIRMED: `pwsh tools\Build-Native.ps1 -Configuration Release`)
 - **Instalador Oficial:** `artifacts\Setup\KyraFilesSetup-4.3.5.exe` (52.711.802 bytes, 50,27 MB; Inno Setup 6)
 - **SHA256:** `71A8BC0E96745CA4EA698A8E225780F5334E16540C88683835B60D7F156BD879`
-- **Pacote Instalado Atualizado:** `FilesDev_4.3.5.0_x64__ykqwq8d6ps0ag` em `%LOCALAPPDATA%\Programs\KyraFiles`
+- **Pacote Instalado Atualizado:** `KyraFilesDev_4.3.5.0_x64__sxng2gqmgahde` em `%LOCALAPPDATA%\Programs\KyraFiles`
 
 ---
 

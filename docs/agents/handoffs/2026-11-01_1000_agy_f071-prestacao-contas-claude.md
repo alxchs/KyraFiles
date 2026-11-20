@@ -60,5 +60,5 @@
 2. Prosseguir com a **F081 (Identidade KyraFiles)** na branch `feature/f081-identity-kyrafiles`:
    - Implementação do `UserSettingsMigrationService` (migração atômica de configurações anteriores para `KyraFiles`).
    - Testes unitários do migrador.
-   - Atualização das strings de identidade visíveis sem violar copyright/licença MIT do KyraFiles Community.
+   - Atualização das strings de identidade visíveis sem violar copyright/licença MIT do KyraFiles contributors.
    - Compilação Release oficial e validação de gates.

@@ -1,4 +1,4 @@
-﻿# Copyright (c) KyraFiles Community
+﻿# Copyright (c) KyraFiles contributors
 # SPDX-License-Identifier: MPL-2.0
 
 param(
@@ -30,10 +30,10 @@ $xmlDoc.Package.Identity.Publisher = $Publisher
 if ($Branch -eq "SideloadPreview")
 {
     # Set identities
-    $xmlDoc.Package.Identity.Name="FilesPreview"
-    $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
+    $xmlDoc.Package.Identity.Name="KyraFilesPreview"
+    $xmlDoc.Package.Properties.DisplayName="KyraFiles - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="KyraFiles - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="KyraFiles - Preview"
 
     # Update app protocol and execution alias
     $ap.SetAttribute("Name", "kyrafiles-preview");
@@ -58,10 +58,10 @@ if ($Branch -eq "SideloadPreview")
 elseif ($Branch -eq "StorePreview")
 {
     # Set identities
-    $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
-    $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
+    $xmlDoc.Package.Identity.Name="KyraFilesPreview"
+    $xmlDoc.Package.Properties.DisplayName="KyraFiles - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="KyraFiles - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="KyraFiles - Preview"
 
     # Remove capability that is only used for the sideload package
     $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
@@ -92,10 +92,10 @@ elseif ($Branch -eq "StorePreview")
 elseif ($Branch -eq "SideloadStable")
 {
     # Set identities
-    $xmlDoc.Package.Identity.Name="Files"
-    $xmlDoc.Package.Properties.DisplayName="Files"
-    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
+    $xmlDoc.Package.Identity.Name="KyraFiles"
+    $xmlDoc.Package.Properties.DisplayName="KyraFiles"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="KyraFiles"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="KyraFiles"
 
     # Update app protocol and execution alias
     $ap.SetAttribute("Name", "kyrafiles-stable");
@@ -120,10 +120,10 @@ elseif ($Branch -eq "SideloadStable")
 elseif ($Branch -eq "StoreStable")
 {
     # Set identities
-    $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+    $xmlDoc.Package.Identity.Name="KyraFiles"
     $xmlDoc.Package.Properties.DisplayName="KyraFiles"
-    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="KyraFiles"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="KyraFiles"
 
     # Remove capability that is only used for the sideload package
     $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)

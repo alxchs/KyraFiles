@@ -22,7 +22,6 @@ Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 - Removidos projetos legados Win32 (`KyraFiles.App.OpenDialog.Win32.vcxproj`, `KyraFiles.App.SaveDialog.Win32.vcxproj`).
 - `tools/Build-Native.ps1` ajustado para compilar exclusivamente em 64-bit (`x64`).
 - Fontes C++ renomeados via `git mv`:
-  - `FilesLauncher.cpp` -> `KyraFilesLauncher.cpp`
   - `KyraFilesOpenDialog.*` -> `KyraFilesOpenDialog.*`
   - `KyraFilesSaveDialog.*` -> `KyraFilesSaveDialog.*`
   - `FilesDialogEvents.*` -> `KyraFilesDialogEvents.*`
@@ -50,7 +49,7 @@ Em resposta à auditoria de nomes legados solicitada pelo Alexandre:
 Listas geradas e comparadas em `scratch/`:
 - **Total de arquivos antes:** 10.852
 - **Total de arquivos depois:** 7.749 (redução de resíduos e pastas intermediárias)
-- **Arquivos com nome velho (`\KyraFiles.App.`, `\FilesLauncher`, `files-custom.html`):**
+- **Arquivos com nome velho (`\KyraFiles.App.`, `\KyraFilesLauncher`, `files-custom.html`):**
   - **Antes:** 109 arquivos
   - **Depois:** **0 arquivos** (100% dos nomes antigos purgados do repositório e dos binários)
 

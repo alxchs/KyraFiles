@@ -1,4 +1,4 @@
-﻿// Copyright(c) KyraFiles Community
+﻿// Copyright(c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Windows.Devices.Geolocation;

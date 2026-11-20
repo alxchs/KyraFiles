@@ -34,7 +34,7 @@
 ## 2. Estratégia de Verificação e Rollout
 
 1. **Geração dos Ícones**: Script utilitário em PowerShell utilizando `System.Drawing` para recortar/escalar com máxima qualidade (interpolação bicúbica / high quality bicubic) e compor o `.ico` nativo de 256 cores/ARGB.
-2. **Compilação**: `mkfile d Files.slnx` para validar compilação XAML e assets.
+2. **Compilação**: `mkfile d KyraFiles.slnx` para validar compilação XAML e assets.
 3. **Testes Unitários**: `dotnet test` garantindo 0 regressões.
 4. **Gate F021**: `pwsh tools\perf\verify_no_index_service.ps1`.
 5. **Relatório**: `RELATORIO.md`.

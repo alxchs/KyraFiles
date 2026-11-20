@@ -10,7 +10,7 @@ $folder = Join-Path $work 'pasta com espaço e ação'
 New-Item -ItemType Directory -Force $folder | Out-Null
 $file = Join-Path $folder 'arquivo selecionado ação.txt'
 Set-Content -LiteralPath $file -Value 'F012 T9' -Encoding utf8
-$log = "$env:LOCALAPPDATA\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\debug.log"
+$log = "$env:LOCALAPPDATA\Packages\KyraFiles_sxng2gqmgahde\LocalState\debug.log"
 
 Add-Type @'
 using System; using System.Collections.Generic; using System.Runtime.InteropServices; using System.Text;

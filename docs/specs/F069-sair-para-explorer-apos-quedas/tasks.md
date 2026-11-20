@@ -6,7 +6,7 @@
 - [x] Task 2: Integrar o `CrashGuardService` no ciclo de vida do KyraFiles
   - [x] 2.1 Em `src/KyraFiles.App/Program.cs`, inicializar verificação de fallback precoce em argumentos de diretório e registrar `UnhandledException`
   - [x] 2.2 Em `src/KyraFiles.App/App.xaml.cs`, disparar confirmação de estabilidade após 10s e exibir aviso caso `PromptOnNextManualLaunch` esteja ativo
-- [x] Task 3: Integrar no Lançador C++ `src/KyraFiles.App.Launcher/FilesLauncher.cpp`
+- [x] Task 3: Integrar no Lançador C++ `src/KyraFiles.App.Launcher/KyraFilesLauncher.cpp`
   - [x] 3.1 Adicionar leitura de `crash_guard.json` no `WinMain` antes de tentar invocar o protocolo
   - [x] 3.2 Se fallback estiver ativo, encaminhar imediatamente para `RunFileExplorer()`
 - [x] Task 4: Criar testes unitários e validar

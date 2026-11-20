@@ -17,13 +17,13 @@ $root = [System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
 [System.Windows.Automation.AutomationElement]::RootElement.SetFocus()
 $root.SetFocus()
 
-# 2. Select FilesUXLab tab
-$condTab = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'FilesUXLab')
+# 2. Select KyraFilesUXLab tab
+$condTab = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::NameProperty, 'KyraFilesUXLab')
 $tab = $root.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condTab)
 if ($tab) {
     $sel = $tab.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern) -as [System.Windows.Automation.SelectionItemPattern]
     if ($sel) { $sel.Select() }
-    Write-Output "Tab FilesUXLab selected"
+    Write-Output "Tab KyraFilesUXLab selected"
 }
 
 # 3. Select sample.jpg

@@ -18,7 +18,7 @@ Em `Program.cs`, envolver `pool.Release()` em `try/catch (SemaphoreFullException
 - Opções descartadas: (a) trocar o semáforo por um evento manual: muda o protocolo entre processos e o `App.xaml.cs`; (b) aumentar o máximo do semáforo: faz a principal acordar várias vezes e abrir janelas duplicadas.
 
 **Parte B (FR-004; AC-4): abertura direta sem identidade de pacote.**
-Não se sabe ainda **quem** abre o `KyraFiles.exe` direto. Primeiro descobrir (T4): o que o instalador cria que aponta para o `KyraFiles.exe` (atalhos, entrada de Aplicativos, variável PATH, associação de arquivos, `kyrafiles-dev:`), e comparar com o que o Windows registrou nas 4 falhas instaladas. Resolver a causa no instalador (atalhos e aliases devem ativar o pacote, p. ex. `shell:AppsFolder\FilesDev_...!App` ou `kyrafiles-dev:`), e só se isso não bastar avaliar um pequeno executável lançador. **Não** mexer na inicialização do WindowsAppSDK (já tentado e registrado como inútil).
+Não se sabe ainda **quem** abre o `KyraFiles.exe` direto. Primeiro descobrir (T4): o que o instalador cria que aponta para o `KyraFiles.exe` (atalhos, entrada de Aplicativos, variável PATH, associação de arquivos, `kyrafiles-dev:`), e comparar com o que o Windows registrou nas 4 falhas instaladas. Resolver a causa no instalador (atalhos e aliases devem ativar o pacote, p. ex. `shell:AppsFolder\KyraFilesDev_...!App` ou `kyrafiles-dev:`), e só se isso não bastar avaliar um pequeno executável lançador. **Não** mexer na inicialização do WindowsAppSDK (já tentado e registrado como inútil).
 
 ## 3. Mapa requisito → código
 

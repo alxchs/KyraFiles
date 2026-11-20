@@ -1,4 +1,4 @@
-﻿# Copyright (c) KyraFiles Community
+﻿# Copyright (c) KyraFiles contributors
 # SPDX-License-Identifier: MPL-2.0
 
 # Abstract:
@@ -8,8 +8,8 @@ param(
     [string]$Destination = ""
 )
 
-$CertFriendlyName = "FilesApp_SelfSigned"
-$CertPublisher = "CN=Files"
+$CertFriendlyName = "KyraFilesApp_SelfSigned"
+$CertPublisher = "CN=KyraFiles"
 $CertStoreLocation = "Cert:\CurrentUser\My"
 
 # Generate self signed cert

@@ -1,7 +1,7 @@
 ﻿# F019: captura a janela do Files com cada forma (ControlShapeStyle) para conferir os efeitos visuais.
 # Antes: .\Open-KyraFiles.ps1 -Configuration Debug -NoLaunch (o build sozinho nao atualiza o layout registrado).
 # Saida: %TEMP%\claude\desenv\utils\KyraFiles\shape_<n>.png
-param([string]$Shapes = '0,1,2,3,4,5,6,7,8,9', [string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
+param([string]$Shapes = '0,1,2,3,4,5,6,7,8,9', [string]$Aumid = 'KyraFiles_sxng2gqmgahde!App')
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing

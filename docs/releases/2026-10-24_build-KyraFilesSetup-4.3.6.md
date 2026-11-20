@@ -4,7 +4,7 @@
 - **SHA256:** `AE8E9F32DC99CF216FD65B2603B30F6632973D7162FAA634FB650BB0BAF29B11` (`Get-FileHash`).
 - **Branch:** `main` (integrado via squash/rebase das branches de feature T1, T2, T3 e T4).
 - **Build:** `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
-- **Pacote Oficial Instalado:** `FilesDev_4.3.6.0_x64__ykqwq8d6ps0ag` instalado e registrado em `%LOCALAPPDATA%\Programs\KyraFiles` (CONFIRMED via `Get-AppxPackage KyraFiles`).
+- **Pacote Oficial Instalado:** `KyraFilesDev_4.3.6.0_x64__sxng2gqmgahde` instalado e registrado em `%LOCALAPPDATA%\Programs\KyraFiles` (CONFIRMED via `Get-AppxPackage KyraFiles`).
 - **Manifesto SHA256:** `installer\package_manifest.json` gerado via `Generate-PackageManifest.ps1` (1.333 arquivos, 212,02 MB, versão 4.3.6).
 - **Gate de Recursos (F021):** Validado com `verify_no_index_service.ps1` com ausência de `KyraFiles.App.IndexService.exe` e bloqueio confirmado (CONFIRMED).
 - **Higiene de Binários:** Zero pastas `Debug` no repositório, restando apenas a versão Release instalada.

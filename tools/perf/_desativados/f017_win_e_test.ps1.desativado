@@ -3,7 +3,7 @@
 # (nao substitui o teste com teclado fisico). Temporarios em %TEMP%\claude\desenv\utils\KyraFiles\.
 param(
     [string]$Bin = (Join-Path $PSScriptRoot '..\..\bin\Release'),
-    [string]$PackageAumid = 'FilesDev_ykqwq8d6ps0ag!App'
+    [string]$PackageAumid = 'KyraFiles_sxng2gqmgahde!App'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -95,7 +95,7 @@ $result['AC-3 janelas do Explorer antes/depois'] = "$before3 / $(Get-ExplorerWin
 
 # --- 4. Desligamento cooperativo: Win+E volta ao Explorer (AC-7) -----------------------------------------------
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
-$ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\FilesCustom_ShutdownHotkeyService')
+$ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\KyraFiles_ShutdownHotkeyService')
 [void]$ev.Set()
 Start-Sleep 2
 $result['AC-7 Watchdog/servico encerrados'] = -not (Get-Process KyraFiles.Watchdog, KyraFiles.HotkeyService -ErrorAction SilentlyContinue)

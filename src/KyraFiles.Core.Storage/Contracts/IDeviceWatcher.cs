@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 KyraFiles Community
+﻿// Copyright (c) 2023 KyraFiles contributors
 // Licensed under the MIT License.
 
 namespace KyraFiles.Core.Storage.Contracts

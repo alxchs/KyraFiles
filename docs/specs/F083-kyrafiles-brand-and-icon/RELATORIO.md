@@ -43,7 +43,7 @@ O usuário solicitou a eliminação definitiva de qualquer menção textual ao n
 
 ## 3. Evidências e Validações
 
-- **Compilação**: `mkfile d Files.slnx` concluído com **0 erros** e 26 warnings (apenas avisos de depreciação do SDK/Omnibar upstream).
+- **Compilação**: `mkfile d KyraFiles.slnx` concluído com **0 erros** e 26 warnings (apenas avisos de depreciação do SDK/Omnibar upstream).
 - **Testes Unitários**: 193 testes executados, **192 passaram**, 0 falhas, 1 ignorado intencionalmente pelo gate F021.
 - **Gate F021**: `tools\perf\verify_no_index_service.ps1` executado com sucesso comprovando ausência de `KyraFiles.App.IndexService`.
 

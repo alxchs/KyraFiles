@@ -1,8 +1,8 @@
 ﻿# Build 2026-10-09 07:30 — Diálogo de arquivos devolve o arquivo escolhido (F012)
 
-- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1 -NoLaunch` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
+- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1 -NoLaunch` (pacote `KyraFilesDev_4.2.37.0_x64__sxng2gqmgahde`).
 - **Código:** branch `feature/f012-explorer-replacement`, commit da correção D-016 (após `cd6040efa`).
-- **Build:** `mkfile r Files.slnx` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED). Binários nativos sem mudança desde a nota de 01:00.
+- **Build:** `mkfile r KyraFiles.slnx` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED). Binários nativos sem mudança desde a nota de 01:00.
 
 ## O que foi liberado
 

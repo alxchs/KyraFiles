@@ -6,7 +6,7 @@
 ## Tarefas Planejadas
 
 - [x] **T1: Implementação do Serviço de Migração de Configurações**
-  - Implementado `UserSettingsMigrationService` e `IUserSettingsMigrationService` com descoberta segura de pastas legadas (`FilesDev_*`, `49306TheFilesOrganization.Files_*`, `KyraFiles`, `Files`).
+  - Implementado `UserSettingsMigrationService` e `IUserSettingsMigrationService` com descoberta segura de pastas legadas (`KyraFilesDev_*`, `49306TheFilesOrganization.Files_*`, `KyraFiles`, `Files`).
   - Cópia atômica e estritamente não destrutiva de `user_settings.json`, `filetags.json`, bancos e estruturas associadas.
   - Conectado no ciclo de inicialização do `UserSettingsService`.
   - Critério de Aceite atendido: AC-1 (`CONFIRMED`).
@@ -23,7 +23,7 @@
   - Critérios de Aceite atendidos: AC-2, AC-4 (`CONFIRMED`).
 
 - [x] **T4: Validação dos Créditos e Licença MIT**
-  - Tela Sobre (AboutPage) e cabeçalhos de arquivo auditados: avisos de copyright do `KyraFiles Community` e termos da licença MIT rigorosamente preservados.
+  - Tela Sobre (AboutPage) e cabeçalhos de arquivo auditados: avisos de copyright do `KyraFiles contributors` e termos da licença MIT rigorosamente preservados.
   - Critério de Aceite atendido: AC-3 (`CONFIRMED`).
 
 - [x] **T5: Validação da Paleta de Cores e Estilos**

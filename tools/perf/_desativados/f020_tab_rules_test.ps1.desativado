@@ -1,6 +1,6 @@
 ﻿# F020: Prova de funcionamento das regras de aba única por endereço e Settings na posição 0
 # Cenários AC-1 a AC-7
-param([string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
+param([string]$Aumid = 'KyraFiles_sxng2gqmgahde!App')
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms

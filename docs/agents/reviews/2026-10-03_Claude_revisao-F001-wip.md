@@ -24,5 +24,5 @@ Método: li o diff inteiro do commit e o brief `docs/agents/tasks/F001-rename-ux
 
 1. Corrigir os 3 MAJOR primeiro; compilar release 0/0.
 2. Mover/duplicar o teste do helper para `tests/KyraFiles.App.UnitTests` e acrescentar os casos faltantes.
-3. Validar no app (`C:\FilesUXLab`, três layouts), incluindo `.gitignore`, `End`+`Backspace`, `Ctrl+A`, `Tab`/`Shift+Tab`, clique na extensão, `arquivo` → `arquivo.exe` (diálogo deve aparecer), pasta, `.lnk`, desfazer; capturas como evidência.
+3. Validar no app (`C:\KyraFilesUXLab`, três layouts), incluindo `.gitignore`, `End`+`Backspace`, `Ctrl+A`, `Tab`/`Shift+Tab`, clique na extensão, `arquivo` → `arquivo.exe` (diálogo deve aparecer), pasta, `.lnk`, desfazer; capturas como evidência.
 4. Handoff e `STATUS.md` só com o que foi `CONFIRMED` (comando + saída).

@@ -3,7 +3,7 @@
 Escopo medido até aqui: **tecla segurada** (`Down` e `End`, 5 s) na pasta de 1.600 itens. **Não medidos ainda:** troca de aba, abertura do app, trace de CPU, pasta real do Alexandre. Medição feita pelo Claude (a pedido do Alexandre, "impossível usar como está").
 
 ## Método (CONFIRMED: comandos e saída em `hold_key.csv`)
-- Pasta: `C:\FilesUXLab\perf\1600` (`tools\perf\f025_setup_lab.ps1`, 1.600 arquivos de texto pequenos, sem miniaturas).
+- Pasta: `C:\KyraFilesUXLab\perf\1600` (`tools\perf\f025_setup_lab.ps1`, 1.600 arquivos de texto pequenos, sem miniaturas).
 - Script: `tools\perf\f025_hold_key.ps1 -Label <x> -Key Down|End -Runs 3`. Tecla repetida a ~30 Hz com `keybd_event`; CPU = diferença de `TotalProcessorTime` ao redor da ação; UI = `SendMessageTimeout(WM_NULL)` a cada ~100 ms; memória = `WorkingSet64` e `PrivateMemorySize64` (MB).
 - Ordem A-B-A, mesma máquina, mesma pasta, mesmo script, Release x64:
   - **A** = nosso build 4.3.1 (`feature/f025...`, commit `1ecea25ce`);
@@ -33,7 +33,7 @@ Escopo medido até aqui: **tecla segurada** (`Down` e `End`, 5 s) na pasta de 1.
 
 ## Adendo 1 (20/10/2026 15:05) — o Alexandre reproduz o problema real; medição refeita com a fila de teclas
 
-Relato do Alexandre: o congelamento acontece na pasta de laboratório criada pelo Claude (`C:\FilesUXLab\perf\1600`) **e** em `D:\DriveD\Downloads` (1.577 itens: 611 `.pdf`, 215 `.png`, 172 `.jpg`, 10 pastas); **outras aplicações aguentam a tecla segurada**. Isso derruba a hipótese de que a pasta de laboratório "não é representativa": ela já trava para ele.
+Relato do Alexandre: o congelamento acontece na pasta de laboratório criada pelo Claude (`C:\KyraFilesUXLab\perf\1600`) **e** em `D:\DriveD\Downloads` (1.577 itens: 611 `.pdf`, 215 `.png`, 172 `.jpg`, 10 pastas); **outras aplicações aguentam a tecla segurada**. Isso derruba a hipótese de que a pasta de laboratório "não é representativa": ela já trava para ele.
 
 A primeira medição (acima) via só latência de UI e CPU e **não via a fila de teclas**. O script ganhou duas coisas (`f025_hold_key.ps1`, saída em `hold_key2.csv`): (a) o item focado ao final (UI Automation) e (b) o tempo de escoamento depois de soltar. `f025_thr_hold.ps1` mede CPU por thread só na janela da tecla.
 

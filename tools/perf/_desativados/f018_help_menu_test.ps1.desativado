@@ -1,6 +1,6 @@
 ﻿# F018: prova no app aberto (UI Automation) que o menu Ajuda tem "Sobre" e "Verificar atualizações" e que as duas funcionam.
 # Temporarios e capturas em %TEMP%\claude\desenv\utils\KyraFiles\.
-param([string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App')
+param([string]$Aumid = 'KyraFiles_sxng2gqmgahde!App')
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing, System.Windows.Forms

@@ -1,5 +1,5 @@
 # Setup do laboratório com 1.600 arquivos reais para reproduzir o cenário do Alexandre (F024)
-param([string]$TargetFolder = 'C:\FilesUXLab\perf\1600')
+param([string]$TargetFolder = 'C:\KyraFilesUXLab\perf\1600')
 
 $ErrorActionPreference = 'Stop'
 

@@ -32,7 +32,7 @@ try {
     $baselineErrors = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Application Error'; Id=1000} -MaxEvents 20 -ErrorAction SilentlyContinue | Where-Object { $_.TimeCreated -gt (Get-Date).AddMinutes(-5) -and $_.Message -like "*KyraFiles.exe*" }).Count
 
     # Inicia app com o helper protegido
-    $proc = Start-GuardedApp -FilePath "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App" -WaitReadyMs 6000
+    $proc = Start-GuardedApp -FilePath "shell:AppsFolder\KyraFiles_sxng2gqmgahde!App" -WaitReadyMs 6000
     
     Write-Host "KyraFiles iniciado. PID: $($proc.Id)"
     

@@ -13,7 +13,7 @@ Status: APROVADO (Claude, 25/10/2026), **prioridade P1 de desempenho** (regra do
 Não dá para mandar o Windows ou o XAML ignorarem eventos: layout, medida e virtualização das linhas e eventos de acessibilidade continuam por quadro. Dá para descartar as **repetições da tecla** e adiar o **nosso** trabalho (já feito no Detalhes). Também **não se deve** ignorar outras teclas (Shift, Enter, Esc, Delete): o código libera os efeitos pendentes quando chega outra tecla, de propósito.
 
 ## Medição (um suspeito por vez, mesmos scripts antes e depois — METODO §11)
-Pasta de teste com 1.600 itens (a da F029: `C:\FilesUXLab\perf\1600`, **somente leitura**), instância própria do KyraFiles com PID guardado.
+Pasta de teste com 1.600 itens (a da F029: `C:\KyraFilesUXLab\perf\1600`, **somente leitura**), instância própria do KyraFiles com PID guardado.
 Matriz: layouts **Detalhes, Ícones, Colunas** × teclas **↓, ↑, Home, End** segurados por **5 s**, **3 rodadas** cada, mais o **Explorer do Windows** (`CabinetWClass`) e a **v4.3.5** como referência.
 Métricas (por rodada, em CSV): linhas alcançadas em 5 s; quadros apresentados e intervalo entre quadros (média e p95); uso de CPU e memória do processo; e se a seleção termina **no item esperado** ao soltar (sem "rabo" de passos depois do `KeyUp`).
 Entrega: `docs/agents/evidence/F058-teclas-seguradas/medicao.csv` e `relatorio.md` **gerado do CSV**, com a tabela comparativa e a leitura em uma frase por layout: "igual ao Explorer", "abaixo" ou "acima".

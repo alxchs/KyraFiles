@@ -21,7 +21,7 @@ O Claude dispara, o Alexandre só clica "Sim", e o Claude lê o log.
 
 ## T1 — como instalar o serviço
 
-- Protótipo descartável em `tools/spikes/f015-service/`, fora de `src/` e fora do `Files.slnx`:
+- Protótipo descartável em `tools/spikes/f015-service/`, fora de `src/` e fora do `KyraFiles.slnx`:
   - serviço que roda como SYSTEM e responde "ping" com o nome da conta (`WindowsIdentity.GetCurrent().Name`) num named pipe `KyraFiles.IndexService.Spike`, com ACL para usuários autenticados;
   - cliente de console não elevado que faz o ping.
 - Compare as duas formas:

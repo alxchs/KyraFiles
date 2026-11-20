@@ -1,6 +1,6 @@
 ﻿# F012 — Substituição Transparente do Windows Explorer com Fallback Automático — PLAN
 
-Status: **APROVADO COM REVISÃO** (Claude, 09/10/2026). **A seção 3 e o item "Arquivos a mexer" abaixo foram substituídos pela D-015:** não há trampolim C#; vale o launcher C++ do upstream (`src/KyraFiles.App.Launcher`), compilado por `tools/Build-Native.ps1` junto com as DLLs de diálogo, com dois ajustes no caminho "Files desinstalado" (sem `MessageBox`, sem `runas`, reversão do registro concluída antes de abrir o Explorer). Arquivos a mexer: `FilesLauncher.cpp`, `AdvancedViewModel.cs`, `UnsetFilesAsDefault.reg`, `tools/Build-Native.ps1`, `tools/Create-SelfContained-Release.ps1`, `tools/installer/Program.cs`, `tests/test-launcher-fallback.ps1`. O `Files.slnx` continua sem os projetos C++ (o `dotnet build` não os compila).
+Status: **APROVADO COM REVISÃO** (Claude, 09/10/2026). **A seção 3 e o item "Arquivos a mexer" abaixo foram substituídos pela D-015:** não há trampolim C#; vale o launcher C++ do upstream (`src/KyraFiles.App.Launcher`), compilado por `tools/Build-Native.ps1` junto com as DLLs de diálogo, com dois ajustes no caminho "Files desinstalado" (sem `MessageBox`, sem `runas`, reversão do registro concluída antes de abrir o Explorer). Arquivos a mexer: `KyraFilesLauncher.cpp`, `AdvancedViewModel.cs`, `UnsetFilesAsDefault.reg`, `tools/Build-Native.ps1`, `tools/Create-SelfContained-Release.ps1`, `tools/installer/Program.cs`, `tests/test-launcher-fallback.ps1`. O `KyraFiles.slnx` continua sem os projetos C++ (o `dotnet build` não os compila).
 Metodologia: Spec-Driven Development (`METODO.md` §6).
 Documento arquitetural: define **como** implementar a `spec.md`, mapeando a arquitetura existente no código, reutilizando componentes existentes e definindo a estratégia de teste e riscos.
 
@@ -27,10 +27,10 @@ Uma inspeção exaustiva do código-fonte revelou os componentes que **já exist
      - Restaura os valores para o `Explorer.exe` nativo com `DelegateExecute="{11dbb47c-a525-400b-9e80-a54615a090c0}"`.
 
 3. **Código Histórico do Launcher C++ (`CONFIRMED`):**
-   - [`src/KyraFiles.App.Launcher/FilesLauncher.cpp`](file:///c:/desenv/utils/KyraFiles/src/KyraFiles.App.Launcher/FilesLauncher.cpp):
+   - [`src/KyraFiles.App.Launcher/KyraFilesLauncher.cpp`](file:///c:/desenv/utils/KyraFiles/src/KyraFiles.App.Launcher/KyraFilesLauncher.cpp):
      - Projeto C++ do upstream (`KyraFiles.App.Launcher.vcxproj`).
-     - **Problema encontrado no build**: Esse projeto foi removido da `Files.slnx` no início do fork porque dependia do compilador MSBuild C++ completo. Por consequência, `KyraFiles.App.Launcher.exe` **não existe** no disco em `Assets/KyraFilesOpenDialog/`.
-     - **Problema de UX no código original C++**: Na linha 79 de `FilesLauncher.cpp`, ao detectar que o KyraFiles não existe, ele exibia um `MessageBox` intrusivo e tentava chamar `runas reg.exe` (UAC) para desinstalar, quebrando a experiência de fallback transparente.
+     - **Problema encontrado no build**: Esse projeto foi removido da `KyraFiles.slnx` no início do fork porque dependia do compilador MSBuild C++ completo. Por consequência, `KyraFiles.App.Launcher.exe` **não existe** no disco em `Assets/KyraFilesOpenDialog/`.
+     - **Problema de UX no código original C++**: Na linha 79 de `KyraFilesLauncher.cpp`, ao detectar que o KyraFiles não existe, ele exibia um `MessageBox` intrusivo e tentava chamar `runas reg.exe` (UAC) para desinstalar, quebrando a experiência de fallback transparente.
 
 ---
 
@@ -89,7 +89,7 @@ Para cumprir a `spec.md` (especialmente o requisito inegociável de fallback aut
 ### Arquivos a NÃO Mexer:
 - Nenhum arquivo de layout (`DetailsLayoutPage`, `GridLayoutPage`, `BaseShellPage`).
 - Nenhum arquivo de negócio de arquivo (`ListedItem`, `ShellViewModel`).
-- `Files.slnx` (não reintroduzir projetos C++ `.vcxproj` desnecessários que quebram o build).
+- `KyraFiles.slnx` (não reintroduzir projetos C++ `.vcxproj` desnecessários que quebram o build).
 
 ---
 

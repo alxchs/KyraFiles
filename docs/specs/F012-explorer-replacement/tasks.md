@@ -8,7 +8,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
 
 ---
 
-- [x] **T1 — Launcher do upstream com fallback silencioso** (`src/KyraFiles.App.Launcher/FilesLauncher.cpp`)
+- [x] **T1 — Launcher do upstream com fallback silencioso** (`src/KyraFiles.App.Launcher/KyraFilesLauncher.cpp`)
   - **Atende:** `FR-003`, `FR-004`, `NFR-001`, `AC-6`.
   - **Pronto quando:** sem `MessageBox` e sem `runas` no caminho "Files desinstalado"; a reversão do registro termina antes de abrir o Explorer.
 
@@ -57,7 +57,7 @@ Revisão de 09/10/2026: o trampolim C# da AGY (T1/T2 antigas) foi substituído p
 
 ## Estado em 09/10/2026 07:30 (Claude)
 
-Substitui a tabela acima nos itens que mudaram. Build com a correção da D-016: `mkfile r Files.slnx` = `0 Warning(s)`, `0 Error(s)`; pacote registrado por `Open-KyraFiles.ps1 -NoLaunch`.
+Substitui a tabela acima nos itens que mudaram. Build com a correção da D-016: `mkfile r KyraFiles.slnx` = `0 Warning(s)`, `0 Error(s)`; pacote registrado por `Open-KyraFiles.ps1 -NoLaunch`.
 
 | Tarefa / AC | Estado | Evidência |
 |---|---|---|
@@ -72,7 +72,7 @@ Substitui a tabela acima nos itens que mudaram. Build com a correção da D-016:
 
 ## Estado em 09/10/2026 09:50 (Claude) — T9
 
-Build `mkfile r Files.slnx` = 0 Warning(s), 0 Error(s). Medido por `pwsh tools\perf\f012_explorer_redirect.ps1` (janela do Explorer amostrada a cada ~10 ms; "visível" = na tela e não transparente).
+Build `mkfile r KyraFiles.slnx` = 0 Warning(s), 0 Error(s). Medido por `pwsh tools\perf\f012_explorer_redirect.ps1` (janela do Explorer amostrada a cada ~10 ms; "visível" = na tela e não transparente).
 
 | AC | Estado | Evidência |
 |---|---|---|

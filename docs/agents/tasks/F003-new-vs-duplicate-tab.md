@@ -15,7 +15,7 @@ Ou seja: `Ctrl+T` e `+` abrem a **Home**, nunca a pasta atual. O requisito do §
 
 ## TASK
 
-1. **Confirmar no app** (`Open-KyraFiles.ps1`, `C:\FilesUXLab`) os casos do §7: `Ctrl+T`, botão `+`, menu, duplicar, uma aba, várias abas, aba fixa, aba com seleção, fechar, restaurar (`ReopenClosedTab`), reiniciar, arrastar/reordenar. Registrar cada um como `OBSERVED`/`CONFIRMED` com captura, no `STATUS.md`. O smoke test do G0 cobre parte disso: não duplique o trabalho.
+1. **Confirmar no app** (`Open-KyraFiles.ps1`, `C:\KyraFilesUXLab`) os casos do §7: `Ctrl+T`, botão `+`, menu, duplicar, uma aba, várias abas, aba fixa, aba com seleção, fechar, restaurar (`ReopenClosedTab`), reiniciar, arrastar/reordenar. Registrar cada um como `OBSERVED`/`CONFIRMED` com captura, no `STATUS.md`. O smoke test do G0 cobre parte disso: não duplique o trabalho.
 2. **Investigar e registrar, sem implementar**, estas lacunas candidatas (INFERRED):
    - A "nova aba" não tem política configurável (`§33 New Tab Behavior`: Home / local padrão / duplicar). Hoje é fixo em Home. `OpenSpecificPageOnStartupPath` existe só para a inicialização.
    - `Duplicate Tab` só está no menu de contexto da aba e no atalho; não aparece no menu da barra de ferramentas nem no `+` (descoberta). Isso é insumo da F004 (menu clássico).

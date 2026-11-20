@@ -1,12 +1,12 @@
 ﻿# F025 — segura uma tecla por N s numa pasta e mede o app de fora.
 # Metricas: CPU do processo (DIFERENCA de TotalProcessorTime), working set e memoria privada,
 # e latencia do loop de mensagens da UI (SendMessageTimeout WM_NULL a cada ~100 ms, durante a tecla).
-# Uso: pwsh -File f025_hold_key.ps1 -Label atual -Key Down -Folder C:\FilesUXLab\perf\1600 [-HoldS 5] [-Runs 3]
-# O app ja deve estar aberto (shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App) e em primeiro plano.
+# Uso: pwsh -File f025_hold_key.ps1 -Label atual -Key Down -Folder C:\KyraFilesUXLab\perf\1600 [-HoldS 5] [-Runs 3]
+# O app ja deve estar aberto (shell:AppsFolder\KyraFiles_sxng2gqmgahde!App) e em primeiro plano.
 param(
     [Parameter(Mandatory)][string]$Label,
     [ValidateSet('Down', 'End', 'Up', 'PageDown')][string]$Key = 'Down',
-    [string]$Folder = 'C:\FilesUXLab\perf\1600',
+    [string]$Folder = 'C:\KyraFilesUXLab\perf\1600',
     [int]$HoldS = 5,
     [int]$Runs = 3,
     [string]$ProcessName = 'Files',

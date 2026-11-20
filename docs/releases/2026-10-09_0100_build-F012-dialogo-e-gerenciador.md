@@ -1,6 +1,6 @@
 ﻿# Build 2026-10-09 01:00 — Diálogo de arquivos e gerenciador padrão (F012)
 
-- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
+- **Executável:** `src\KyraFiles.App\bin\x64\Release\net10.0-windows10.0.26100.0\win-x64\AppX\KyraFiles.exe`, registrado por `.\Open-KyraFiles.ps1` (pacote `KyraFilesDev_4.2.37.0_x64__sxng2gqmgahde`).
 - **Código:** branch `feature/f012-explorer-replacement`, commit `0ac566f1c` mais os ajustes de teste e documentação deste mesmo dia.
 - **Build:** `pwsh tools\Build-Native.ps1` (launcher e DLLs de diálogo; VS 2022, toolset v143, SDK 10.0.26100.0) e depois `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED). O build nativo tem warnings que já vinham do código C++ do upstream (C4584 nos diálogos; C4311/C4302 num cast do launcher), sem warning novo.
 - **Pré-requisito novo:** Visual Studio 2022 com "Desenvolvimento para desktop com C++" e ATL (instalado em 09/10/2026 com autorização do Alexandre; D-015).
@@ -10,9 +10,9 @@
 | Item | O que muda para o usuário | Estado |
 |---|---|---|
 | Diálogo de arquivos | *Configurações > Avançado > Usar o KyraFiles como diálogo para Abrir Arquivos* passa a ter as DLLs que registra (antes não existiam e a opção voltava sozinha para desligada). | CONFIRMED: as 4 DLLs estão no layout AppX; `regsvr32 /s /n /i:user` nelas = exit 0; as chaves `CLSID\{DC1C5A9C-...}` = `KyraFilesOpenDialog class` e `CLSID\{C0B4E2F3-...}` = `KyraFilesSaveDialog class` |
-| Diálogo "Abrir" de outro programa abre o KyraFiles | Um `OpenFileDialog` comum (WinForms, outro processo) abriu uma janela do KyraFiles já na pasta inicial pedida (`C:\FilesUXLab`). | OBSERVED (`docs/agents/evidence/f012/02_dialogo_abrir_files.png`). NOT TESTED: escolher o arquivo e o caminho voltar ao programa; diálogo "Salvar"; app 32 bits |
+| Diálogo "Abrir" de outro programa abre o KyraFiles | Um `OpenFileDialog` comum (WinForms, outro processo) abriu uma janela do KyraFiles já na pasta inicial pedida (`C:\KyraFilesUXLab`). | OBSERVED (`docs/agents/evidence/f012/02_dialogo_abrir_files.png`). NOT TESTED: escolher o arquivo e o caminho voltar ao programa; diálogo "Salvar"; app 32 bits |
 | Ligar e desligar a opção pela tela | Funciona mesmo quando outro programa ainda tem o diálogo carregado (antes, desligar falhava com "arquivo em uso" e a chave voltava sozinha). | CONFIRMED (build de 01:25, mesma branch): `tools\perf\f012_advanced_settings.ps1 -FileDialog Off` removeu as chaves CLSID e `-FileDialog On` as recriou; capturas `04_dialogo_desligado.png` e `05_dialogo_religado.png` |
-| Gerenciador padrão: launcher do upstream | Abrir pasta pelo Windows passa pelo launcher C++ do upstream (com `/select`, janelas do Explorer já abertas, pastas especiais) no lugar do trampolim C#. | CONFIRMED: `KyraFiles.App.Launcher.exe "C:\FilesUXLab\f012"` levou a janela do KyraFiles aberta para a pasta, sem abrir o Explorer |
+| Gerenciador padrão: launcher do upstream | Abrir pasta pelo Windows passa pelo launcher C++ do upstream (com `/select`, janelas do Explorer já abertas, pastas especiais) no lugar do trampolim C#. | CONFIRMED: `KyraFiles.App.Launcher.exe "C:\KyraFilesUXLab\f012"` levou a janela do KyraFiles aberta para a pasta, sem abrir o Explorer |
 | Fallback silencioso (AC-6) | Com o KyraFiles desinstalado, a pasta abre no Explorer, sem caixa de mensagem e sem pedir administrador. | CONFIRMED: `pwsh tests\test-launcher-fallback.ps1` = todos PASS (launcher terminou sozinho; Explorer abriu `F012 pasta com espaço`) |
 | Máquina do Alexandre destravada | O registro apontava abrir pasta e `Win + E` para `%LocalAppData%\Files\KyraFiles.App.Launcher.exe`, que não existia. O launcher novo foi copiado para lá. | CONFIRMED (arquivo presente, 328.192 bytes). NOT TESTED: `Win + E` e duplo clique em pasta da Área de Trabalho |
 

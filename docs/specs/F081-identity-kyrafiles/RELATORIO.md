@@ -5,7 +5,7 @@ A especificação **F081 (Identidade KyraFiles)** foi implementada com foco em u
 
 ## 2. Entregáveis Implementados
 1. **`IUserSettingsMigrationService` & `UserSettingsMigrationService`**:
-   - Descoberta inteligente de instalações anteriores (`FilesDev_*`, `49306TheFilesOrganization.Files_*`, `KyraFiles`, `Files`).
+   - Descoberta inteligente de instalações anteriores (`KyraFilesDev_*`, `49306TheFilesOrganization.Files_*`, `KyraFiles`, `Files`).
    - Cópia atômica e não-destrutiva de arquivos de configuração (`user_settings.json`, `filetags.json`, bancos de dados locais).
    - Preservação estrita: não sobrescreve configurações caso o destino já possua dados.
    - Integrado diretamente ao ciclo de inicialização de `UserSettingsService`.
@@ -16,7 +16,7 @@ A especificação **F081 (Identidade KyraFiles)** foi implementada com foco em u
      - Cabeçalhos, subtítulos e barra de filtro da tela de ajuda (`HelpPage_Title`, `HelpPage_Subtitle`, `HelpPage_SearchPlaceholder`).
      - Ação de abertura de documentação (`DocumentationDescription`).
 3. **Preservação Legal de Créditos**:
-   - Créditos e aviso de direitos autorais originais do `KyraFiles Community` e a licença MIT integralmente preservados no código-fonte, cabeçalhos e telas de licença.
+   - Créditos e aviso de direitos autorais originais do `KyraFiles contributors` e a licença MIT integralmente preservados no código-fonte, cabeçalhos e telas de licença.
 4. **Bateria de Testes Automatizados**:
    - `UserSettingsMigrationTests.cs` com 4 cenários cobrindo cópia não-destrutiva, não-sobrescrita de arquivos existentes, resiliência a diretórios inexistentes e bypass inteligente. Total da suite: 190 testes unitários passando (0 falhas).
 

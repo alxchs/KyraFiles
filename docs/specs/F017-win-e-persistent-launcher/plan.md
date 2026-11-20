@@ -22,7 +22,7 @@ Metodologia: Spec-Driven Development (`METODO.md` §6).
    - Segura o handle de processo do `KyraFiles.HotkeyService.exe` via `WaitForSingleObject(hProc, INFINITE)`.
    - Ao detectar encerramento involuntário (morte forçada), reabre o Worker em **~200 ms** (bem abaixo do teto de 1 segundo).
    - O Worker também monitora o Watchdog, garantindo resiliência recíproca.
-   - Encerramento cooperativo controlado pelo evento nomeado Win32 `Global\FilesCustom_ShutdownHotkeyService`.
+   - Encerramento cooperativo controlado pelo evento nomeado Win32 `Global\KyraFiles_ShutdownHotkeyService`.
 
 ---
 

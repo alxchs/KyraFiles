@@ -33,7 +33,7 @@
 ---
 
 ## 2. Estrutura dos Testes Automatizados e Higiene
-1. Criar `C:\FilesUXLab\perf\1600` via script automatizado `tools\perf\setup_1600_lab.ps1` contendo exatamente 1.600 arquivos reais com metadados variados.
+1. Criar `C:\KyraFilesUXLab\perf\1600` via script automatizado `tools\perf\setup_1600_lab.ps1` contendo exatamente 1.600 arquivos reais com metadados variados.
 2. Criar `tools\perf\f024_keyboard_nav_test.ps1`:
    - Envia `Ctrl+End`, mede o tempo até o foco e seleção atingirem o último item.
    - Envia `Ctrl+Home`, mede o tempo de retorno.

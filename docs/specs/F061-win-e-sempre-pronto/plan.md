@@ -4,9 +4,9 @@ Status: **APROVADO** (Claude, 28/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 28/10/2026)
 
-- `src/KyraFiles.Watchdog/main.cpp` (CONFIRMED, lido): mutex `Global\FilesCustom_Watchdog_InstanceMutex` (linha 15); laço que cria `KyraFiles.HotkeyService.exe` e espera o processo ou o evento `Global\FilesCustom_ShutdownHotkeyService` (linha 66); depois da morte espera **5000 ms se o código for 2, senão 200 ms** (linha 85); falha de `CreateProcess` espera 500 ms (linha 90). Sem contador, sem aumento de espera, sem log.
+- `src/KyraFiles.Watchdog/main.cpp` (CONFIRMED, lido): mutex `Global\KyraFiles_Watchdog_InstanceMutex` (linha 15); laço que cria `KyraFiles.HotkeyService.exe` e espera o processo ou o evento `Global\KyraFiles_ShutdownHotkeyService` (linha 66); depois da morte espera **5000 ms se o código for 2, senão 200 ms** (linha 85); falha de `CreateProcess` espera 500 ms (linha 90). Sem contador, sem aumento de espera, sem log.
 - `src/KyraFiles.HotkeyService/main.cpp` (CONFIRMED, lido): mutex de instância única (linha 150); se já existe, `return 0` (linha 154), **mesmo código de uma saída normal**; falha de janela retorna 1 (linha 184); falha do hook retorna `EXIT_HOOK_FAILED` = 2 (linha 194); uma thread fecha o serviço quando o evento de encerramento é sinalizado (linhas 136 a 144). O `hotkey.log` só recebe linhas nas falhas de janela e de hook.
-- Autostart: chave `FilesCustomWatchdog` em `HKCU\...\Run` apontando para `KyraFiles.Watchdog.exe` (CONFIRMED por leitura do registro em 28/10/2026).
+- Autostart: chave `KyraFilesWatchdog` em `HKCU\...\Run` apontando para `KyraFiles.Watchdog.exe` (CONFIRMED por leitura do registro em 28/10/2026).
 - Observação do incidente (OBSERVED): ~13 mil processos `KyraFiles.HotkeyService.exe`, quase todos `HasExited = True`, 1 thread, ~84 handles; criação a ~5 por segundo; o Watchdog em execução (2 listados no início).
 
 ## 2. Abordagem

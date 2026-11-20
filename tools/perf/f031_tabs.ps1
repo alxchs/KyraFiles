@@ -9,7 +9,7 @@ param(
     [int]$IdleS = 0,
     [switch]$SkipExplorer = $false,
     [switch]$SkipFiles = $false,
-    [string]$FolderA = 'C:\FilesUXLab\perf\1600',
+    [string]$FolderA = 'C:\KyraFilesUXLab\perf\1600',
     [string]$FolderB = 'C:\Windows',
     [string]$OutCsv = (Join-Path $PSScriptRoot "..\..\docs\agents\evidence\F031\baseline_tabs.csv"),
     [string]$OutMd = (Join-Path $PSScriptRoot "..\..\docs\agents\evidence\F031\baseline_summary.md")
@@ -61,7 +61,7 @@ if (-not $SkipFiles) {
 
     $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $p) {
-        Start-Process explorer.exe 'shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App'
+        Start-Process explorer.exe 'shell:AppsFolder\KyraFiles_sxng2gqmgahde!App'
         Start-Sleep -Seconds 6
         $p = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
     }

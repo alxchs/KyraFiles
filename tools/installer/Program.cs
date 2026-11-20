@@ -348,7 +348,7 @@ namespace KyraFilesInstaller
         private void CreateShortcuts(string targetDir)
         {
             string exePath = Path.Combine(targetDir, "KyraFiles.exe");
-            string appId = "KyraFiles_ykqwq8d6ps0ag!App";
+            string appId = "KyraFiles_sxng2gqmgahde!App";
 
             if (chkDesktop.Checked)
             {
@@ -440,7 +440,7 @@ namespace KyraFilesInstaller
         {
             try
             {
-                Process.Start("explorer.exe", "shell:AppsFolder\\KyraFiles_ykqwq8d6ps0ag!App");
+                Process.Start("explorer.exe", "shell:AppsFolder\\KyraFiles_sxng2gqmgahde!App");
             }
             catch { }
         }

@@ -16,9 +16,9 @@
 
 2. **Migração Transparente e Sem Perda de Dados (Requisito Crítico do Alexandre):**
    - **Abas salvas (`TabBarItemParameter.cs`):** Adicionado suporte a `LegacyNamespacePrefix` (`KyraFiles.App.`). Abas persistidas em sessões anteriores sob o namespace antigo são convertidas transparentemente para `KyraFiles.App.Views.*` na desserialização, evitando queda no modo padrão.
-   - **Configurações em disco (`UserSettingsMigrationService.cs`):** O serviço descobre automaticamente dados em `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\Files\settings` e pacotes `%LOCALAPPDATA%\Packages\FilesDev_*\LocalState\settings`, migrando-os de forma não-destrutiva sem sobrescrever preferências existentes.
-   - **Preferências de Layout no Registro (`LayoutPreferencesDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\LayoutPreferences`. Caso ainda não exista, copia recursivamente toda a árvore legada de `Software\KyraFiles Community\{Package.Current.Id.Name}\v1\LayoutPreferences` (e variantes `KyraFiles`, `KyraFiles`).
-   - **Etiquetas de Arquivos no Registro (`FileTagsDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags` com migração recursiva automática de dados legados do KyraFiles Community.
+   - **Configurações em disco (`UserSettingsMigrationService.cs`):** O serviço descobre automaticamente dados em `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\KyraFiles\settings`, `%LOCALAPPDATA%\Files\settings` e pacotes `%LOCALAPPDATA%\Packages\KyraFilesDev_*\LocalState\settings`, migrando-os de forma não-destrutiva sem sobrescrever preferências existentes.
+   - **Preferências de Layout no Registro (`LayoutPreferencesDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\LayoutPreferences`. Caso ainda não exista, copia recursivamente toda a árvore legada de `Software\KyraFiles contributors\{Package.Current.Id.Name}\v1\LayoutPreferences` (e variantes `KyraFiles`, `KyraFiles`).
+   - **Etiquetas de Arquivos no Registro (`FileTagsDatabase.cs`):** Nova chave oficial em `Software\KyraFiles\{Package.Current.Id.Name}\v1\FileTags` com migração recursiva automática de dados legados do KyraFiles contributors.
 
 3. **Scripts de Build e Deploy Operacionais:**
    - `tools/Deploy-Release.ps1`: Destino canônico atualizado para `%LOCALAPPDATA%\Programs\KyraFiles`.

@@ -14,7 +14,7 @@ Branch: `feature/all-explorer-columns`
   - **369 propriedades de coluna** (`PDEF_COLUMN`), compatíveis com o diálogo "Choose Details" do Explorer.
   - **356 propriedades visualizáveis** (`PDEF_VIEWABLE`).
 - [x] Exportação de CSV completo de referência em `docs/architecture/windows_properties.csv`.
-- [x] Validação empírica de leitura e formatação com `IShellItem2` e `PSFormatForDisplayAlloc` em arquivo real (`C:\FilesUXLab\sample.jpg`): obteve dimensões "800 x 600", tamanho "10,1 KB", tipo "JPG File".
+- [x] Validação empírica de leitura e formatação com `IShellItem2` e `PSFormatForDisplayAlloc` em arquivo real (`C:\KyraFilesUXLab\sample.jpg`): obteve dimensões "800 x 600", tamanho "10,1 KB", tipo "JPG File".
 - [x] Medição de latência real:
   - ~1,3 ms por propriedade.
   - ~9,1 ms por item (7 propriedades).

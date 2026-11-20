@@ -92,7 +92,7 @@ internal sealed class IndexServiceSpike : ServiceBase
 
     public IndexServiceSpike()
     {
-        ServiceName = "FilesCustomIndexServiceSpike";
+        ServiceName = "KyraFilesIndexServiceSpike";
         CanStop = true;
     }
 

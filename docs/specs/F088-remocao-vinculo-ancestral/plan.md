@@ -1,4 +1,4 @@
-﻿# F088 - Remoção do vínculo visível com o ancestral (KyraFiles Community) - PLANO (RASCUNHO, não commitado)
+﻿# F088 - Remoção do vínculo visível com o ancestral (KyraFiles contributors) - PLANO (RASCUNHO, não commitado)
 
 Autora: Claude, 03/11/2026. Pedido do Alexandre: remover toda referência ao nome antigo.
 Evidência levantada em 03/11/2026, somente leitura. Estados: CONFIRMED = comando rodado; INFERRED = não visto na tela.
@@ -11,7 +11,7 @@ Reaproveita, sem duplicar: F083 (marca e ícone), F084 (renomeação de módulos
 - Depois deste plano vem uma **refatoração total** (estrutura de pastas, classes, variáveis, constantes, objetos, lógica). É outra spec (F091), não entra aqui.
 - Por isso o namespace NÃO é renomeado em F088: vai junto com a refatoração (F091), em uma passada só, para não renomear duas vezes.
 - Ponto de atenção: os 249 arquivos com `SPDX-License-Identifier: MPL-2.0` continuam MPL. O `LICENSE-MPL` e o cabeçalho deles não podem ser tratados como MIT. Para uso pessoal não há obrigação de publicar; só não apagar o aviso. Decisão pendente: manter `LICENSE-MPL` na raiz (recomendado).
-- Cabeçalho "Copyright (c) KyraFiles Community": permanece (MIT exige se algum dia distribuir).
+- Cabeçalho "Copyright (c) KyraFiles contributors": permanece (MIT exige se algum dia distribuir).
 
 ## Fases (uma branch por fase, saindo da colab atualizada, §18)
 
@@ -19,13 +19,13 @@ Reaproveita, sem duplicar: F083 (marca e ícone), F084 (renomeação de módulos
 |---|---|---|---|
 | 0 | Concluída: eliminação de configurações Win32 nos .vcxproj nativos C++, correção de caminhos em todos os workflows (.github/), padrões em .gitignore, documentação em AGENTS.md e encerramento de processos em Open-KyraFilesDev.ps1 destravando a execução. | baixo | CONFIRMED: build C++ x64 ok, build C# 0 erros/warnings, 194 testes (193 ok, 0 falhas) |
 | 1 | **F087**: Identity `KyraFiles`, Publisher `CN=Files`, PublisherDisplayName `Yair A`, alias e protocolo `kyrafiles-dev`, pasta `%LOCALAPPDATA%\Files`, chaves HKCU `kyrafiles-dev`. Migrar dados antes de trocar a identidade | **alto** (Windows trata como app novo; Win+E, associações) | `Get-AppxPackage`; dados migrados; Win+E |
-| 2 | Texto visível: URLs `files.community` (docs, privacidade, blog de versão), `GitHubRepoUrl`, placeholder do CloneRepoDialog, links de issues em comentários | baixo | `git grep` sem ocorrências fora de LICENSE e NOTICE |
+| 2 | Texto visível: URLs o dominio do projeto original (docs, privacidade, blog de versão), `GitHubRepoUrl`, placeholder do CloneRepoDialog, links de issues em comentários | baixo | `git grep` sem ocorrências fora de LICENSE e NOTICE |
 | 3 | Assets: pasta `KyraFilesOpenDialog` e `KyraFilesOpenDialog` duplicadas, DLLs `KyraFiles.App.*Dialog*.dll`, `KyraFiles.App.BackgroundTasks.dll/.winmd`, `SetFilesAsDefault.reg` | médio (COM/registro) | pasta instalada sem `Files.*` |
 | 4 | Saída de build dentro de `src/` (`x64/Release`, `Debug/*.tlog`): redirecionar para `bin/obj` e ignorar no `.gitignore` | baixo | `git status` limpo após build |
 | 5 | Nomes internos: semáforo `Files-{Env}-Instance`, mutex do redirector, processos `KyraFiles.App.Server` | médio (instância única, F086) | teste de instância única |
 | 6 | ~~Namespace~~ movido para a refatoração F091 | - | - |
 | 7 | Interface: revisão visual do que remete ao KyraFiles (ver abaixo) | médio | captura de tela, tela por tela, só depois das 23:59 (§16) |
-| 8 | Licenças: manter `LICENSE-MIT` e `LICENSE-MPL` e os cabeçalhos; sem tela Sobre citando o ancestral (decisão do Alexandre; uso pessoal) | baixo | `git grep` visual sem "KyraFiles Community" fora de licenças |
+| 8 | Licenças: manter `LICENSE-MIT` e `LICENSE-MPL` e os cabeçalhos; sem tela Sobre citando o ancestral (decisão do Alexandre; uso pessoal) | baixo | `git grep` visual sem "KyraFiles contributors" fora de licenças |
 
 ## Fase 0: revisão do commit `e810d41e0` (03/11/2026, Claude)
 

@@ -30,7 +30,7 @@ Branch: `feature/independent-column-resize`
 - [x] Redimensionar a janela não dispara auto-fit indesejado.
 
 ### T5 — Persistência
-- [x] Persistência por pasta: gravada no Registro do Windows em `HKCU\Software\KyraFiles Community\<PackageId>\v1\LayoutPreferences\<pasta>` ao soltar o splitter (`GridSplitter_ManipulationCompleted`).
+- [x] Persistência por pasta: gravada no Registro do Windows em `HKCU\Software\KyraFiles contributors\<PackageId>\v1\LayoutPreferences\<pasta>` ao soltar o splitter (`GridSplitter_ManipulationCompleted`).
 - [x] Persistência padrão global: item de menu "Definir como padrão" (`SetCurrentColumnsAsDefaultMenuFlyoutItem`) salva as larguras atuais no JSON de configurações de layout do usuário.
 
 ### T6 — Auto-fit por duplo clique e menu

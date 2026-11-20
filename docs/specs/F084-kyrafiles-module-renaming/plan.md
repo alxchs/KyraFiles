@@ -35,7 +35,7 @@ flowchart TD
   - `TargetName`: `KyraFiles.HotkeyService` e `KyraFiles.Watchdog`.
 
 ### Fase 3: Renomeação de Projetos e Solução
-- Atualizar `Files.slnx` para `KyraFiles.slnx`.
+- Atualizar `KyraFiles.slnx` para `KyraFiles.slnx`.
 - Renomear os arquivos `.csproj` mantendo os caminhos e referências consistentes:
   - `KyraFiles.App.csproj` $\rightarrow$ `KyraFiles.App.csproj` (ou manter pastas e alterar AssemblyName/RootNamespace).
   - `KyraFiles.Shared.csproj` $\rightarrow$ `KyraFiles.Shared.csproj`

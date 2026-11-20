@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles Community. Licensed under the MIT License.
+﻿// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 // KyraFiles.HotkeyService: Interceptador global de Win+E nativo, ultraleve e sem UI.
 //
 // RegisterHotKey(MOD_WIN, 'E') nao serve: o explorer.exe e dono desse atalho e a chamada falha com

@@ -29,7 +29,7 @@ Com a aprovação da identidade KyraFiles (F081 / F083) para os elementos voltad
   - Mutex do serviço: `Global\KyraFiles_HotkeyService_InstanceMutex`
   - Mutex do watchdog: `Global\KyraFiles_Watchdog_InstanceMutex`
   - Evento de shutdown: `Global\KyraFiles_ShutdownHotkeyService`
-- **FR-006 (Preservação de Direitos e Licença):** Todos os cabeçalhos de arquivo mantêm rigorosamente o aviso `// Copyright (c) KyraFiles Community. Licensed under the MIT License.` conforme regra do projeto.
+- **FR-006 (Preservação de Direitos e Licença):** Todos os cabeçalhos de arquivo mantêm rigorosamente o aviso `// Copyright (c) KyraFiles contributors. Licensed under the MIT License.` conforme regra do projeto.
 - **FR-007 (Local de Instalação e Deploy):** O script de deploy e empacotamento deve atualizar a instalação para `%LOCALAPPDATA%\Programs\KyraFiles\`.
 
 ### 2.2 Requisitos Não Funcionais (NFR)

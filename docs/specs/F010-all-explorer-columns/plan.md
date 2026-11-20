@@ -35,5 +35,5 @@
 
 ### T2.7 — Validação e Evidências
 - Compilação Release x64: `0 Warning(s), 0 Error(s)`.
-- Abrir pasta com imagens/mídia (`C:\FilesUXLab\perf\img400`), adicionar colunas (ex: Dimensões, Câmera), validar exibição de dados reais e capturar telas.
+- Abrir pasta com imagens/mídia (`C:\KyraFilesUXLab\perf\img400`), adicionar colunas (ex: Dimensões, Câmera), validar exibição de dados reais e capturar telas.
 - Nota de liberação e handoff.

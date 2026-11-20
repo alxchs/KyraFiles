@@ -4,7 +4,7 @@
 - **SHA256:** `A45F9D595C4E57CE0A4F0B9B62FFD20E852E8BCBE8D1436C9D532512307303F3` (`Get-FileHash`).
 - **Branch:** `main` (integrado via squash/rebase da feature F031).
 - **Build:** `dotnet build src\KyraFiles.App\KyraFiles.App.csproj -c Release -p:Platform=x64` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
-- **Pacote Dev Registrado:** `FilesDev_4.3.3.0_x64__ykqwq8d6ps0ag` atualizado no Windows via `Open-KyraFiles.ps1 -Configuration Release -NoLaunch`.
+- **Pacote Dev Registrado:** `KyraFilesDev_4.3.3.0_x64__sxng2gqmgahde` atualizado no Windows via `Open-KyraFiles.ps1 -Configuration Release -NoLaunch`.
 - **Manifesto SHA256:** `installer\package_manifest.json` gerado via `Generate-PackageManifest.ps1` (1.328 arquivos, 211,15 MB, versão 4.3.3).
 - **Gate de Recursos (F021):** Validado com `verify_no_index_service.ps1` com ausência de `KyraFiles.App.IndexService.exe` e CPU em repouso em 3,34% (CONFIRMED).
 - **Higiene de Binários:** Cópias auxiliares de Debug removidas em conformidade estrita com as regras do Alexandre.

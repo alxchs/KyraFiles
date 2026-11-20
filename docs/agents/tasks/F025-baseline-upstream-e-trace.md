@@ -39,7 +39,7 @@ Já existe uma referência antiga em `tools/perf/README.md` (upstream v4.2.9, 01
 Pronto quando: `pwsh -File tools\perf\f025_keyboard_nav.ps1 -Exe <caminho> -WhatIf` imprime o plano sem abrir nada.
 
 ### P2 — Lab de 1.600 itens
-Criar o laboratório em `C:\FilesUXLab\perf\1600` e registrar cada caminho em `docs/specs/F024-choque-performance-navegacao/test_artifacts_registry.md` (ou no registro novo da F025). Esta é a **única** coisa descartável.
+Criar o laboratório em `C:\KyraFilesUXLab\perf\1600` e registrar cada caminho em `docs/specs/F024-choque-performance-navegacao/test_artifacts_registry.md` (ou no registro novo da F025). Esta é a **única** coisa descartável.
 
 ### P3 — Compilar o upstream puro
 `git worktree add ..\KyraFiles-upstream-base upstream/main` (worktree ao lado do repositório, nunca em `%TEMP%`). Compilar em Release x64 com `mkfile r`. O upstream tem de ser **o mesmo commit-base** do nosso fork (`git merge-base HEAD upstream/main`), para a comparação ser justa; registre o hash.

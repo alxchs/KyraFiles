@@ -80,7 +80,7 @@ Brief: `docs/agents/tasks/BRIEF-F092-T3-T5-revisao-T1-T2.md`.
 - `[FEITO] F092 · AGY · 2026-11-12 · T0 a T6 concluídas (Este PC, Painel de Controle, mídias, toggles, 39 testes verdes)`
 - `[FEITO] F036-T2 · AGY · 2026-11-14 · OperationQueue implementado, 10 testes verdes, 10 rodadas de medição confirmando padrão 2`
 - `[FEITO] F036-T3 · AGY · 2026-11-14 · Fila ligada a CopyItemsAsync, MoveItemsAsync e CopyItemsFromClipboard; IsQueued no StatusCenterItem; 13 testes verdes`
-- `[FEITO] F091 · AGY · 2026-11-14 · renome completo de namespaces Files.* -> KyraFiles.* (1.450 arquivos), migração transparente de configurações/registro sem perda de dados, build verde`
+- `[FEITO] F091 · AGY · 2026-11-14 · renome completo de namespaces KyraFiles.* -> KyraFiles.* (1.450 arquivos), migração transparente de configurações/registro sem perda de dados, build verde`
 - `[FEITO] F093 · AGY · 2026-11-14 · Quick-Ship.ps1 com modo rápido (-Fast) e completo (-Full), Inno Setup condicional, instalador em 15s e deploy local com gate F021`
 - `[FEITO] F018-update-fix · AGY · 2026-11-14 · mapeamento e correção da notificação de atualização (SideloadUpdateService ativado em DI, link direto de download de release)`
 - `[FEITO] F092-restyle · AGY · 2026-11-15 · reestilização da barra lateral 1A + 1B + ultracompacto (51 testes verdes, Gate F021 verde, instalador 85.78 MB)`

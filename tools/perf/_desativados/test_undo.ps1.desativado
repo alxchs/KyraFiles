@@ -94,8 +94,8 @@ Write-Output $res
 Capture-FilesWindow -OutFile 'docs\agents\evidence\f001\13_rename_committed.png' | Out-Null
 
 # Verify on disk
-$renamedPath = "C:\FilesUXLab\activate_renamed.txt"
-$origPath = "C:\FilesUXLab\activate_test.txt"
+$renamedPath = "C:\KyraFilesUXLab\activate_renamed.txt"
+$origPath = "C:\KyraFilesUXLab\activate_test.txt"
 Write-Output ("Disk check: renamed exists = " + (Test-Path $renamedPath))
 
 # 5. Send Ctrl+Z to undo

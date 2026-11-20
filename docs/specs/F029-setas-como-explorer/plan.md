@@ -13,7 +13,7 @@ Status: **APROVADO** (Claude, 21/10/2026).
 - **H2 — o passo nativo é caro** (rolagem por `BringIntoView` do foco, possivelmente com animação, e acerto de foco). Testar: ↓/↑ tratados pelo app como no PgDn: seleção, rolagem mínima instantânea (`ChangeView(..., disableAnimation: true)`) e foco no contêiner.
 - **H3 — efeitos da seleção ainda pesam** (toolbar, barra de status, preview). Diagnóstico apenas: desligar por bandeira e medir; não vira entrega.
 
-Bandeiras **temporárias** lidas uma vez de `C:\FilesUXLab\f029_flags.txt` (um build, várias variantes, sem recompilar). Removidas antes do merge; o vencedor vira código fixo.
+Bandeiras **temporárias** lidas uma vez de `C:\KyraFilesUXLab\f029_flags.txt` (um build, várias variantes, sem recompilar). Removidas antes do merge; o vencedor vira código fixo.
 
 ## Mapa requisito → código
 - FR-1/FR-2/FR-3: `DetailsLayoutPage.xaml.cs` (`FileList_PreviewKeyDown`, novo `TryMoveRow`, geometria compartilhada com `TryMovePage`).

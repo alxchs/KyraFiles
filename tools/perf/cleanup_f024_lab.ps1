@@ -1,7 +1,7 @@
 # Limpeza completa e higiênica de todos os artefatos de teste da F024
 $ErrorActionPreference = 'SilentlyContinue'
 
-$folder1600 = 'C:\FilesUXLab\perf\1600'
+$folder1600 = 'C:\KyraFilesUXLab\perf\1600'
 if (Test-Path $folder1600) {
     Remove-Item -Recurse -Force $folder1600 -ErrorAction SilentlyContinue
     Start-Sleep -Milliseconds 200

@@ -4,7 +4,7 @@ Escrito pelo Claude porque a AGY não conseguiu escrever o dela (cota). Tudo que
 
 ## Completed (pela AGY, na execução de 00:55 a 02:13, conversa `5e01924e-a1c9-4ec0-af37-1c2717beaae9`)
 - F007-A: A/B do backdrop e linha de base na base 4.2.37.0, escritos em `tools/perf/README.md` (commit `eb688ef22`, "wip"). **Não revisados pelo Claude.**
-- Smoke test §16 (`docs/agents/tasks/G0-smoke-test-base-upstream.md`) exercitado até o item 6: Up, fechar aba (Ctrl+W), reabrir (Ctrl+Shift+T), aba FilesUXLab, Ctrl+A, toggle do checkbox de seleção, rename F2 em `arquivo.txt` e `.gitignore`, cancelar com Esc, copiar/colar, excluir para lixeira, Ctrl+Z, cut. Capturas em `tools/perf/captures/` (35 arquivos, commit `0da7a0416`).
+- Smoke test §16 (`docs/agents/tasks/G0-smoke-test-base-upstream.md`) exercitado até o item 6: Up, fechar aba (Ctrl+W), reabrir (Ctrl+Shift+T), aba KyraFilesUXLab, Ctrl+A, toggle do checkbox de seleção, rename F2 em `arquivo.txt` e `.gitignore`, cancelar com Esc, copiar/colar, excluir para lixeira, Ctrl+Z, cut. Capturas em `tools/perf/captures/` (35 arquivos, commit `0da7a0416`).
 
 ## Files created / modified
 - `tools/perf/` (README, scripts, `SmokeTest-Helper.ps1`, capturas). Nenhum código de produto em `src/`.

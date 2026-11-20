@@ -10,7 +10,7 @@ Status: **CONCLUÍDO (Pronto para Merge / Início da F011)**
 ## 1. O Que Foi Entregue
 
 1. **Benchmark Rigoroso da Fase 1**:
-   - `docs/test-plans/search-benchmark.md`: comparativo entre Files Native Win32 e Agent Ransack CLI em 10.000 itens (`C:\FilesUXLab\perf\10k`).
+   - `docs/test-plans/search-benchmark.md`: comparativo entre Files Native Win32 e Agent Ransack CLI em 10.000 itens (`C:\KyraFilesUXLab\perf\10k`).
    - Comprovado empiricamente que `AgentRansack.exe` roda silenciosamente na versão free com `-o <temp>` e `-ofc`, sem abrir janelas.
    - Levantamento detalhado do Everything IPC ativo (`ipc=1`).
 2. **Arquitetura e SDD**:

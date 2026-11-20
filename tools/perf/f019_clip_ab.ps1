@@ -8,7 +8,7 @@ param(
     [int]$Rounds = 3,
     [int]$WaitS = 10,
     [int]$WarmupS = 8,
-    [string]$Aumid = 'FilesDev_ykqwq8d6ps0ag!App'
+    [string]$Aumid = 'KyraFiles_sxng2gqmgahde!App'
 )
 $ErrorActionPreference = 'Stop'
 $settings = Join-Path $env:LOCALAPPDATA "Packages\$($Aumid.Split('!')[0])\LocalState\settings\user_settings.json"

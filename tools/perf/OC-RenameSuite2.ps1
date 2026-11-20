@@ -5,8 +5,8 @@ $runnerScript = @'
 Add-Type -AssemblyName UIAutomationClient, UIAutomationTypes, System.Drawing
 Add-Type -Path "C:\desenv\utils\KyraFiles\tools\perf\OCInput.cs"
 
-# Ensure OneCommander is on C:\FilesUXLab
-Start-Process "C:\Program Files\OneCommander\OneCommander.exe" -ArgumentList '"C:\FilesUXLab"'
+# Ensure OneCommander is on C:\KyraFilesUXLab
+Start-Process "C:\Program Files\OneCommander\OneCommander.exe" -ArgumentList '"C:\KyraFilesUXLab"'
 Start-Sleep -Seconds 2
 
 $hwnd = [IntPtr]1445996

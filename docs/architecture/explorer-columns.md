@@ -45,7 +45,7 @@ O diálogo do Windows Explorer lista exatamente o subconjunto de `PDEF_COLUMN` (
 
 ### 2.1. Prova de Conceito com `IShellItem2` e `PSFormatForDisplayAlloc`
 
-Testado em arquivo real de imagem (`C:\FilesUXLab\sample.jpg`):
+Testado em arquivo real de imagem (`C:\KyraFilesUXLab\sample.jpg`):
 ```text
   System.ItemNameDisplay      = "sample.jpg"
   System.Image.Dimensions     = "800 x 600"
@@ -157,7 +157,7 @@ public void SetDynamicProperty(string canonicalName, string value)
   3. Botões "Mover para Cima", "Mover para Baixo" e largura em pixels.
 
 ### 4.5. Persistência Híbrida
-- As 16 colunas existentes continuam usando a chave de Registro atual (`HKCU\Software\KyraFiles Community\<PackageId>\v1\LayoutPreferences\<pasta>`).
+- As 16 colunas existentes continuam usando a chave de Registro atual (`HKCU\Software\KyraFiles contributors\<PackageId>\v1\LayoutPreferences\<pasta>`).
 - Novas colunas ativas são serializadas como lista de nomes canônicos e larguras em valor string JSON (`DynamicColumns = "[{\"Key\":\"System.Image.Dimensions\",\"Width\":140}]"`). Se não houver colunas adicionais, a chave não é criada.
 
 ---

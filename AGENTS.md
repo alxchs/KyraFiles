@@ -1,4 +1,4 @@
-# Files Development Guidelines
+# KyraFiles Development Guidelines
 
 This project is a C#/.NET WinUI 3 desktop app; an alternative to File Explorer.
 
@@ -129,7 +129,7 @@ For the PR body, follow `./.github/PULL_REQUEST_TEMPLATE.md`.
 
 ## KyraFiles (regras do fork)
 
-Este checkout é o **KyraFiles**, derivado do KyraFiles Community. Além das diretrizes acima:
+Este checkout é o **KyraFiles**, derivado do KyraFiles contributors. Além das diretrizes acima:
 
 - Leia `C:\Users\alxch\.dev-method\METODO.md` (metodologia geral do Alexandre, comum a todos os projetos), `MASTER_SPEC.md` (seções da tarefa), `AGENT_CONTEXT.md` (estado atual), `docs/agents/PLAYBOOK.md` (fila e pré-aprovações para seguir sem o Claude) e `docs/agents/CONTINUITY.md` (específico deste projeto) antes de agir.
 - **REGRA DE OURO DA MAIN (15/10/2026):** É terminantemente PROIBIDO alterar ou comitar direto na `main`. Toda e qualquer alteração (conduzida pela AGY ou pelo Claude) DEVE ser feita em branch própria (`feature/<nome>`). A integração na `main` é feita OBRIGATORIAMENTE via squash/rebase, gerando um commit único atômico por feature para manter a `main` compacta, linear e organizada.
@@ -153,7 +153,7 @@ Este checkout é o **KyraFiles**, derivado do KyraFiles Community. Além das dir
   1. **Destino Único Oficial:** No ambiente instalado do usuário, existe APENAS UM local oficial para a versão instalada ativa (`%LOCALAPPDATA%\Programs\KyraFiles` ou `%LOCALAPPDATA%\Programs\KyraFiles`). NUNCA deixar cópias soltas de executáveis em outras pastas do disco.
   2. **Zero Binários de Debug no Repositório:** Pastas `bin\Debug`, `obj\Debug` e `artifacts\Debug` são estritamente efêmeras para testes. Concluído o desenvolvimento/teste, devem ser IMEDIATAMENTE purgadas. Somente binários de Release necessários devem existir.
   3. **Apenas o Instalador Mais Recente em `artifacts\Setup`:** Ao gerar uma versão nova do instalador (ex: `4.3.12`), o instalador da versão anterior (ex: `4.3.11`) DEVE ser excluído na mesma operação. Nunca acumular histórico de instaladores no workspace.
-  4. **Purga Compulsória em Renomeações (Repositório, Disco e Instalador):** Ao renomear ou descontinuar qualquer componente (ex: `KyraFiles.App.Server` -> `KyraFiles.App.Server`, `KyraFilesOpenDialog` -> `KyraFilesOpenDialog`):
+  4. **Purga Compulsória em Renomeações (Repositório, Disco e Instalador):** Ao renomear ou descontinuar qualquer componente (ex: um projeto, executavel ou DLL que mude de nome):
      a) Purgar os binários e referências antigas do repositório;
      b) Purgar ativamente os vestígios da pasta instalada no disco do usuário;
      c) Adicionar diretivas no instalador (`[InstallDelete]` no Inno Setup) para limpar os resíduos da máquina do usuário durante a instalação.

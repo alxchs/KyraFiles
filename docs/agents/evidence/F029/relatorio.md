@@ -13,11 +13,11 @@ A variante eleita utiliza `TryMoveRow` diretamente para as teclas `VirtualKey.Up
 Em `src/KyraFiles.App/Views/Layouts/DetailsLayoutPage.xaml.cs`:
 - Ativação incondicional de `TryMoveRow` para `Up` e `Down` sem teclas modificadoras (`Ctrl`/`Shift`), sem foco em cabeçalho ou rodapé.
 - Throttling simplificado para 1 quadro (`CompositionTarget.Rendering` único), liberando imediatamente o próximo passo de navegação.
-- Remoção completa de `ReadF029Flags()`, `F029Flag()`, `f029Flags` e leitura de `C:\FilesUXLab\f029_flags.txt`.
+- Remoção completa de `ReadF029Flags()`, `F029Flag()`, `f029Flags` e leitura de `C:\KyraFilesUXLab\f029_flags.txt`.
 - Remoção do contador temporário `navigationFramesSeen`.
 
 ## 3. Verificação e Evidências
-Executado script `tools/perf/verify_f029.ps1` com 1.600 itens reais em `C:\FilesUXLab\perf\1600`:
+Executado script `tools/perf/verify_f029.ps1` com 1.600 itens reais em `C:\KyraFilesUXLab\perf\1600`:
 - **AC-1 / FR-1:** Navegação contínua fluida respondendo a cada frame.
 - **AC-2 / FR-2:** Soltar a tecla interrompe o movimento sem passos adicionais ou backlog acumulado.
 - **AC-3 / FR-3:** Linha selecionada e foco visíveis durante todo o percurso.

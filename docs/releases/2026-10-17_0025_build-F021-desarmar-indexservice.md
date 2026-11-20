@@ -1,7 +1,7 @@
 ﻿# Build 2026-10-17 00:25 — KyraFilesSetup v4.2.37 (F021 — Desarmamento do IndexService e Everything Instantâneo)
 
 - **Instalador:** `artifacts\Setup\KyraFilesSetup-4.2.37.exe` (67,4 MB, Inno Setup 6, LZMA2 Ultra64).
-- **Executável instalado:** `%LocalAppData%\Programs\KyraFiles\KyraFiles.exe` (pacote `FilesDev_4.2.37.0_x64__ykqwq8d6ps0ag`).
+- **Executável instalado:** `%LocalAppData%\Programs\KyraFiles\KyraFiles.exe` (pacote `KyraFilesDev_4.2.37.0_x64__sxng2gqmgahde`).
 - **Código:** branch `feature/f021-bloqueio-indexservice`.
 - **Build:** `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Warning(s)`, `0 Error(s)` (CONFIRMED).
 - **Teste Mandatório de Qualidade:** `tools\perf\verify_no_index_service.ps1` = `0` processos de IndexService, `0%` CPU em repouso, RAM = `45 MB` (CONFIRMED).

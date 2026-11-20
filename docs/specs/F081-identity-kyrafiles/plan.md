@@ -19,8 +19,8 @@
     - Nome do produto: **KyraFiles**
     - Versão e carimbo de data/hora oficial
     - Seção de créditos mantendo expressamente:
-      - `Baseado no projeto open-source KyraFiles Community (Licença MIT)`
-      - `Copyright (c) KyraFiles Community e Contribuidores`
+      - `Baseado no projeto open-source KyraFiles contributors (Licença MIT)`
+      - `Copyright (c) KyraFiles contributors e Contribuidores`
 - **Catálogo de Ajuda e Documentação Offline**:
   - Atualizar `HelpCatalog.cs` para referenciar o ecossistema KyraFiles.
   - Atualizar os títulos e cabeçalhos em `src/KyraFiles.App/Docs/` (`pt-BR`, `en-US`, `es-ES`, `de-DE`).

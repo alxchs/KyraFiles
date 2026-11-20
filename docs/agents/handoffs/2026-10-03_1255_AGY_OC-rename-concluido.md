@@ -10,7 +10,7 @@ Próximo passo: Item 4 do PLAYBOOK — F001 Rename UX (branch `feature/rename-ux
 ## 1. O que foi feito
 
 1. **Exploração Completa do OneCommander (Comportamento Externo §3.1 e §40):**
-   - Automatizada e fotografada em `C:\FilesUXLab` com scripts em `tools/perf/`.
+   - Automatizada e fotografada em `C:\KyraFilesUXLab` com scripts em `tools/perf/`.
    - 16+ capturas em alta resolução registradas em `docs/ux-reference/onecommander/evidence/rename/`.
    - Cobertos: F2, clique-pausa, navegação de cursor, Tab, edição de extensão, Enter, Esc (1x fecha sugestões, 2x cancela), conflito de nomes, caracteres inválidos, seleção múltipla e layouts Details vs Columns.
    - Todos os casos da matriz do §5 testados e medidos: `arquivo.txt`, `arquivo.md`, `arquivo` (sem ext), `arquivo.tar.gz`, `arquivo.final.txt`, `arquivo final 01.txt`, `arquivo.`, `.gitignore` e `Folder A`.

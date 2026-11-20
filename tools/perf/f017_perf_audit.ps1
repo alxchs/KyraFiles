@@ -175,7 +175,7 @@ $report['NFR-004_OK'] = ($deltaMb -lt 20.0)
 $filesProc = Get-Process -Name Files -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $filesProc) {
     $swCold = [Diagnostics.Stopwatch]::StartNew()
-    Start-Process explorer.exe -ArgumentList "shell:AppsFolder\FilesDev_ykqwq8d6ps0ag!App"
+    Start-Process explorer.exe -ArgumentList "shell:AppsFolder\KyraFiles_sxng2gqmgahde!App"
     $hwnd = [IntPtr]::Zero
     while ($swCold.ElapsedMilliseconds -lt 10000) {
         $p = Get-Process -Name Files -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -201,8 +201,8 @@ $testFolders = @(
     'C:\desenv\utils\KyraFiles',
     'C:\Windows\System32'
 )
-if (Test-Path 'C:\FilesUXLab\perf\10k') {
-    $testFolders += 'C:\FilesUXLab\perf\10k'
+if (Test-Path 'C:\KyraFilesUXLab\perf\10k') {
+    $testFolders += 'C:\KyraFilesUXLab\perf\10k'
 }
 
 $navMetrics = @()

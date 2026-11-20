@@ -22,12 +22,12 @@ Log "=== Uninstall-Spike.ps1 iniciado ==="
 Log "Log: $LogFile"
 
 # Parar serviço
-$svc = Get-Service -Name "FilesCustomIndexServiceSpike" -ErrorAction SilentlyContinue
+$svc = Get-Service -Name "KyraFilesIndexServiceSpike" -ErrorAction SilentlyContinue
 if ($svc) {
     Log "Parando serviço..."
-    Stop-Service "FilesCustomIndexServiceSpike" -Force -ErrorAction SilentlyContinue
+    Stop-Service "KyraFilesIndexServiceSpike" -Force -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 1
-    $stopOut = sc.exe delete "FilesCustomIndexServiceSpike" 2>&1
+    $stopOut = sc.exe delete "KyraFilesIndexServiceSpike" 2>&1
     Log "sc delete: $stopOut"
 } else {
     Log "Serviço não encontrado (já removido ou nunca instalado)."
@@ -43,7 +43,7 @@ if (Test-Path $Dest) {
 }
 
 # Verificar
-$queryOut = sc.exe query "FilesCustomIndexServiceSpike" 2>&1
+$queryOut = sc.exe query "KyraFilesIndexServiceSpike" 2>&1
 Log "sc query após remoção: $queryOut"
 
 if ($queryOut -match "1060") {

@@ -10,7 +10,7 @@ $folder = Join-Path $env:TEMP 'claude\desenv\utils\KyraFiles\f012 show\pasta aç
 New-Item -ItemType Directory -Force $folder | Out-Null
 $file = Join-Path $folder 'baixado ação.txt'
 Set-Content -LiteralPath $file -Value 'AC-3' -Encoding utf8
-$log = "$env:LOCALAPPDATA\Packages\FilesDev_ykqwq8d6ps0ag\LocalState\debug.log"
+$log = "$env:LOCALAPPDATA\Packages\KyraFiles_sxng2gqmgahde\LocalState\debug.log"
 
 Add-Type @'
 using System; using System.Runtime.InteropServices;

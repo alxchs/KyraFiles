@@ -109,7 +109,7 @@
 
 - CONFIRMED: Incremento mandatorio de versao aplicado: 4.3.3 -> 4.3.4 em Package.appxmanifest e KyraFilesSetup.iss.
 - CONFIRMED: Higienizacao completa de desenvolvimento: remocao de todas as pastas Debug em src\**\bin e src\**\obj, remocao de debug.log e exclusao de branches locais de feature ja integradas na main (f024 a f029).
-- CONFIRMED: Desmontagem e remocao total do laboratorio F024 (C:\FilesUXLab\perf\1600) via cleanup_f024_lab.ps1 (Test-Path = False).
+- CONFIRMED: Desmontagem e remocao total do laboratorio F024 (C:\KyraFilesUXLab\perf\1600) via cleanup_f024_lab.ps1 (Test-Path = False).
 - CONFIRMED: Consolidacao de status e documentacao em tasks.md de F024 (T8), F027 (T1–T4) e F026 (T3).
 - CONFIRMED: Preservacao intacta dos pontos de extensao e metodos A/B da F029 em DetailsLayoutPage.xaml.cs.
 - CONFIRMED: Compilacao de Release do KyraFiles.App e projetos nativos com 0 Warning(s), 0 Error(s).
@@ -156,7 +156,7 @@
 
 - CONFIRMED: `RegisterHotKey(MOD_WIN,'E')` falha com erro 1409; o Win+Y (controle) registra. Teste: P/Invoke em PowerShell. Com o serviço antigo vivo, Win+E simulado abriu o Explorer (janelas 3 -> 4) e o KyraFiles não abriu. Ver D-021.
 - CONFIRMED: o URI `kyrafiles-dev:?tab=Home` derrubava o KyraFiles (`TabBarItemParameter.Deserialize`: "'H' is an invalid start of a value", em `debug.log`). O ramo do `MainWindow` feito para Win+E é o URI exato `kyrafiles-dev:`. O serviço passou a usá-lo.
-- CONFIRMED (hook `WH_KEYBOARD_LL`): `pwsh -File toolsperf017_win_e_test.ps1`, 2 rodadas seguidas, saídas idênticas: AC-1 Files rodando = True e janelas do Explorer 2/2, menu Iniciar não abriu; AC-2 Files em primeiro plano com o KyraFiles já aberto (Explorer 2/2); AC-3 `taskkill /F` do serviço reaparece em 228 ms e 242 ms (inclui polling de 10 ms) e o Win+E segue funcionando (Explorer 2/2, Files rodando); AC-7 encerrar pelo evento `GlobalFilesCustom_ShutdownHotkeyService` devolve o Win+E ao Explorer (janelas 2 -> 3, Files não abre).
+- CONFIRMED (hook `WH_KEYBOARD_LL`): `pwsh -File toolsperf017_win_e_test.ps1`, 2 rodadas seguidas, saídas idênticas: AC-1 KyraFiles rodando = True e janelas do Explorer 2/2, menu Iniciar não abriu; AC-2 KyraFiles em primeiro plano com o KyraFiles já aberto (Explorer 2/2); AC-3 `taskkill /F` do serviço reaparece em 228 ms e 242 ms (inclui polling de 10 ms) e o Win+E segue funcionando (Explorer 2/2, KyraFiles rodando); AC-7 encerrar pelo evento `GlobalFilesCustom_ShutdownHotkeyService` devolve o Win+E ao Explorer (janelas 2 -> 3, KyraFiles não abre).
 - CONFIRMED: build com MSBuild Release x64, 0 avisos: `KyraFiles.HotkeyService.exe` 107008 bytes, `KyraFiles.Watchdog.exe` 108032 bytes (< 150 KB).
 - OBSERVED (simulação `keybd_event`, não substitui o teclado físico): o teste acima. **NOT TESTED:** Win+E com o teclado físico do Alexandre; `HKCU...Run` do instalador (tarefa `startupwatchdog` do `KyraFilesSetup.iss` vem **desmarcada**; o instalador nunca foi executado).
 - Mudança no Watchdog: se o serviço sai com código 2 (hook não instalado, ver `hotkey.log` ao lado do exe), espera 5 s antes de reiniciar, em vez de 200 ms em loop.
@@ -199,7 +199,7 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 
 | Gate | Descrição | Estado |
 |---|---|---|
-| G0 | Baseline: Files oficial compila, abre, smoke test (§16) | CONCLUÍDO (CONFIRMED 03/10/2026: compila 0/0, abre por `Open-KyraFiles.ps1`, itens 1 a 9 do smoke test §16 validados com capturas) |
+| G0 | Baseline: KyraFiles oficial compila, abre, smoke test (§16) | CONCLUÍDO (CONFIRMED 03/10/2026: compila 0/0, abre por `Open-KyraFiles.ps1`, itens 1 a 9 do smoke test §16 validados com capturas) |
 | G1 | Pipeline validado com F001 (§28) | em andamento (OC-rename concluído, iniciando F001) |
 
 ## Features (ordem do §29)
@@ -216,7 +216,7 @@ Branch `feature/f015-medicoes-finais`. Números e comandos em `tools/perf/README
 | F004 | Menu clássico | CONCLUÍDO (MenuBar completa com 6 menus, Alt+keys, toggle em Settings > Appearance, build 0/0, evidências em docs/agents/evidence/f004/) | feature/classic-menu |
 | F006 | Infraestrutura de busca | CONCLUÍDO (benchmark empírico de 3 motores, SDD, arquitetura ISearchProvider/Factory, NativeFilesSearchProvider, build 0/0) | feature/search-provider |
 | F011 | Escolha de motor de busca (Everything / Agent Ransack) | CONCLUÍDO (provedores Agent Ransack CLI silencioso e Everything integrados via ISearchProvider, configuração em Settings > Pastas, roteamento no ShellViewModel, build 0/0) | feature/search-engine-choice |
-| F012 | Files como gerenciador padrão e diálogo de arquivos | CONCLUÍDO (T1..T9 CONFIRMED: launcher nativo C++, silent fallback, associação HKCU sem UAC, diálogos de Abrir/Salvar e redirecionamento de janelas Explorer Win+E, pasta e /select; build 0/0; integrado em colab) | colab |
+| F012 | KyraFiles como gerenciador padrão e diálogo de arquivos | CONCLUÍDO (T1..T9 CONFIRMED: launcher nativo C++, silent fallback, associação HKCU sem UAC, diálogos de Abrir/Salvar e redirecionamento de janelas Explorer Win+E, pasta e /select; build 0/0; integrado em colab) | colab |
 | F013 | F3 abre o Agent Ransack na pasta atual | CONCLUÍDA na branch (AC-1, AC-3, AC-4 CONFIRMED; AC-2, AC-5 INFERRED; ver `docs/specs/F013-f3-agent-ransack/tasks.md`) | feature/f012-explorer-replacement |
 | F007-B | Compositor Idle / Repouso WinUI 3 | CONCLUÍDO (bissecção empírica completa em Solid e MicaAlt; causas identificadas: Widgets Home ~3.688ms compositor e 4 Abas ~3.984ms; baseline em pasta simples atinge 78ms em 10s / 7,8ms/s, mais econômico que OneCommander) | feature/compositor-idle-f007b |
 | F014 | Sistema de Ajuda (Help) Completo e Contextual | CONCLUÍDO (T1..T6 CONFIRMED: HelpPane contextual retrátil, F1 contextual routing, Badges editoriais, Settings HelpPage com busca em tempo real, build 0/0, evidências visuais completas em docs/agents/evidence/f014/) | feature/sistema-help-contextual |
@@ -266,8 +266,8 @@ Saída: `0 Warning(s)`, `0 Error(s)`.
 Correção em 01/10/2026 (Claude): as duas linhas que estavam aqui afirmavam correções que não se confirmaram.
 
 - CONFIRMED: `KyraFiles.exe` aberto direto de `bin\x64\Release\...\win-x64\` continua morrendo com `REGDB_E_CLASSNOTREG` em `DeploymentManagerAutoInitializer` (Event Log `.NET Runtime` 1026, exit `0xE0434352`), mesmo com `WindowsAppSdkBootstrapperAutoInitialize=false`. Não é bug do upstream: o KyraFiles é app empacotado (MSIX) e depende de identidade de pacote (`Package.Current`, `ApplicationData`). Esse exe não foi feito para abrir solto.
-- CONFIRMED: registrado com a pasta `bin\...\win-x64\` como layout (o que o `Open-KyraFiles.ps1` anterior fazia), o app ficava parado no splash. Log `%LOCALAPPDATA%\Packages\KyraFiles_ykqwq8d6ps0ag\LocalState\debug.log`: `DirectoryNotFoundException ... Assets\AppTiles\Dev\Logo.ico` em `SystemTrayIcon..ctor()` dentro de `App.OnLaunched`. Causa: `dotnet build` só gera a receita `KyraFiles.App.build.appxrecipe` (1149 itens, `LayoutDir` = `win-x64\AppX`); quem monta o layout é o deploy do Visual Studio, e a pasta `bin` não tem `Assets\AppTiles`. O "processo ativo com ~185 MB" do handoff da AGY era esse splash travado.
-- CONFIRMED: `Open-KyraFiles.ps1` reescrito. Monta `win-x64\AppX\` pela receita, copia `KyraFiles.App.Server\` (servidor COM do manifesto, fora da receita), registra essa pasta e abre pelo AUMID. Resultado: janela "Home - Files" com Quick access, drives, nuvens e listagem de pastas; `kyrafiles.exe` (alias do manifesto) ativa a instância e abre aba. Evidência: captura da janela por `PrintWindow` e título por `Get-Process`.
+- CONFIRMED: registrado com a pasta `bin\...\win-x64\` como layout (o que o `Open-KyraFiles.ps1` anterior fazia), o app ficava parado no splash. Log `%LOCALAPPDATA%\Packages\KyraFiles_sxng2gqmgahde\LocalState\debug.log`: `DirectoryNotFoundException ... Assets\AppTiles\Dev\Logo.ico` em `SystemTrayIcon..ctor()` dentro de `App.OnLaunched`. Causa: `dotnet build` só gera a receita `KyraFiles.App.build.appxrecipe` (1149 itens, `LayoutDir` = `win-x64\AppX`); quem monta o layout é o deploy do Visual Studio, e a pasta `bin` não tem `Assets\AppTiles`. O "processo ativo com ~185 MB" do handoff da AGY era esse splash travado.
+- CONFIRMED: `Open-KyraFiles.ps1` reescrito. Monta `win-x64\AppX\` pela receita, copia `KyraFiles.App.Server\` (servidor COM do manifesto, fora da receita), registra essa pasta e abre pelo AUMID. Resultado: janela "Home - KyraFiles" com Quick access, drives, nuvens e listagem de pastas; `kyrafiles.exe` (alias do manifesto) ativa a instância e abre aba. Evidência: captura da janela por `PrintWindow` e título por `Get-Process`.
 - INFERRED, NOT TESTED: `WindowsAppSdkBootstrapperAutoInitialize=false` no `KyraFiles.App.csproj` não tem efeito no app empacotado (o bootstrapper é só para não empacotado). Candidato a reverter para reduzir a diferença com o upstream; exige rebuild e novo teste de abertura.
 
 ## DISCOVERY
@@ -295,21 +295,21 @@ Correção em 01/10/2026 (Claude): as duas linhas que estavam aqui afirmavam cor
 
 ## Smoke test §16 — 4.2.37.0 (03/10/2026, Gate G0 Fechado)
 
-Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. Pacote `KyraFiles_4.2.37.0_x64__ykqwq8d6ps0ag` gerado por build Release x64 ReadyToRun, registrado e aberto via `.\Open-KyraFiles.ps1`. Testes destrutivos/manipulações isolados em `C:\FilesUXLab\`.
+Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. Pacote `KyraFiles_4.2.37.0_x64__sxng2gqmgahde` gerado por build Release x64 ReadyToRun, registrado e aberto via `.\Open-KyraFiles.ps1`. Testes destrutivos/manipulações isolados em `C:\KyraFilesUXLab\`.
 
 1. **Abertura, título e tempo de resposta**
    - Estado: `CONFIRMED`.
-   - Evidência: O app abre com sucesso pelo AUMID `KyraFiles_ykqwq8d6ps0ag!App`. Classe da janela `WinUIDesktopWin32WindowClass`. Título dinâmico reflete a pasta ativa (ex.: `"Downloads - Files"`, `"Home - Files"`). Tempo até a primeira renderização visual medido em `bench.ps1`: ~3,5 s (mediana de 3); tempo do processo lançador ~2,8 s.
+   - Evidência: O app abre com sucesso pelo AUMID `KyraFiles_sxng2gqmgahde!App`. Classe da janela `WinUIDesktopWin32WindowClass`. Título dinâmico reflete a pasta ativa (ex.: `"Downloads - KyraFiles"`, `"Home - KyraFiles"`). Tempo até a primeira renderização visual medido em `bench.ps1`: ~3,5 s (mediana de 3); tempo do processo lançador ~2,8 s.
    - Capturas: `tools/perf/captures/window_test.png`, `tools/perf/captures/smoke_step0_current.png`, `tools/perf/captures/smoke_resume_check.png`.
 
-2. **Navegação (Home, Drive C, C:\FilesUXLab, Back/Forward/Up)**
+2. **Navegação (Home, Drive C, C:\KyraFilesUXLab, Back/Forward/Up)**
    - Estado: `CONFIRMED`.
-   - Evidência: Navegação na árvore lateral e omnibar testada com atalhos de teclado e cliques de UI Automation. Home exibe Quick Access, Drives, Clouds e Recent files. Drive C exibe listagem de pastas raiz. `C:\FilesUXLab` acessado com seus 15 itens de teste. Atalhos `Alt+Left` (voltar), `Alt+Right` (avançar) e `Alt+Up` (subir pasta) navegam instantaneamente.
-   - Capturas: `tools/perf/captures/smoke_item2_home.png`, `tools/perf/captures/smoke_item2_drive_c.png`, `tools/perf/captures/filesuxlab_tab.png`, `tools/perf/captures/smoke_item2_back_invoked.png`, `tools/perf/captures/smoke_item2_forward_invoked.png`, `tools/perf/captures/smoke_item2_up_invoked.png`.
+   - Evidência: Navegação na árvore lateral e omnibar testada com atalhos de teclado e cliques de UI Automation. Home exibe Quick Access, Drives, Clouds e Recent files. Drive C exibe listagem de pastas raiz. `C:\KyraFilesUXLab` acessado com seus 15 itens de teste. Atalhos `Alt+Left` (voltar), `Alt+Right` (avançar) e `Alt+Up` (subir pasta) navegam instantaneamente.
+   - Capturas: `tools/perf/captures/smoke_item2_home.png`, `tools/perf/captures/smoke_item2_drive_c.png`, `tools/perf/captures/kyrafilesuxlab_tab.png`, `tools/perf/captures/smoke_item2_back_invoked.png`, `tools/perf/captures/smoke_item2_forward_invoked.png`, `tools/perf/captures/smoke_item2_up_invoked.png`.
 
 3. **Abas (Nova, Fechar, Reabrir fechada, Reordenar)**
    - Estado: `CONFIRMED`.
-   - Evidência: `Ctrl+T` ou clique no botão `+` (`TabBarAddNewTabButton`) abre nova aba na Home. `Ctrl+W` fecha a aba ativa. `Ctrl+Shift+T` reabre a aba recém-fechada restaurando a pasta anterior (`FilesUXLab`). Drag-and-drop da aba na barra de abas reordena as abas sem erro visual.
+   - Evidência: `Ctrl+T` ou clique no botão `+` (`TabBarAddNewTabButton`) abre nova aba na Home. `Ctrl+W` fecha a aba ativa. `Ctrl+Shift+T` reabre a aba recém-fechada restaurando a pasta anterior (`KyraFilesUXLab`). Drag-and-drop da aba na barra de abas reordena as abas sem erro visual.
    - Capturas: `tools/perf/captures/smoke_item3_new_tab.png`, `tools/perf/captures/smoke_item3_click_plus.png`, `tools/perf/captures/smoke_item3_close_tab.png`, `tools/perf/captures/smoke_item3_reopen_tab.png`, `tools/perf/captures/smoke_item3_tab_dragged.png`.
 
 4. **Seleção (Um, Múltiplos, Todos Ctrl+A, Checkbox Toggle)**
@@ -326,7 +326,7 @@ Ambiente: Windows 11 x64 (12 núcleos, 16 GB), display 2560×1440 em DPI 150%. P
 
 6. **Operações de arquivo no laboratório (Copiar/Colar, Excluir para Lixeira, Desfazer)**
    - Estado: `CONFIRMED`.
-   - Evidência: Copiar `file_001.txt` e colar via `Ctrl+C` / `Ctrl+V` cria duplicata na pasta `C:\FilesUXLab`; teclar `Delete` move o arquivo para a lixeira; `Ctrl+Z` (Undo) restaura o arquivo a partir da lixeira imediatamente.
+   - Evidência: Copiar `file_001.txt` e colar via `Ctrl+C` / `Ctrl+V` cria duplicata na pasta `C:\KyraFilesUXLab`; teclar `Delete` move o arquivo para a lixeira; `Ctrl+Z` (Undo) restaura o arquivo a partir da lixeira imediatamente.
    - Capturas: `tools/perf/captures/smoke_item6_copy_paste.png`, `tools/perf/captures/smoke_item6_delete.png`, `tools/perf/captures/smoke_item6_undo.png`.
 
 7. **Preview e Details (Mostrar/Ocultar pelo caminho atual e contagem de passos)**

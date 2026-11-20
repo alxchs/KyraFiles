@@ -1,51 +1,30 @@
-﻿<p align="center">
-  <img alt="Files hero image" src="./assets/ReadmeHero.png" />
+<p align="center">
+  <img alt="KyraFiles" src="./assets/KyraFilesLogo.png" width="240" />
 </p>
 
 <p align="center">
-  <a style="text-decoration:none" href="https://kyrafiles.org/">
-    <img src="https://img.shields.io/badge/Files-Website-F9B81F" alt="Files Website" /></a>
   <a style="text-decoration:none" href="https://github.com/alxchs/KyraFiles/actions/workflows/ci.yml">
     <img src="https://github.com/alxchs/KyraFiles/actions/workflows/ci.yml/badge.svg" alt="KyraFiles CI Status" /></a>
-  <a style="text-decoration:none" href="https://crowdin.com/project/kyrafiles">
-    <img src="https://badges.crowdin.net/files-app/localized.svg" alt="Files Localization Status" /></a>
-  <a style="text-decoration:none" href="https://discord.gg/kyrafiles">
-    <img src="https://img.shields.io/discord/725513575971684472?label=Discord&color=7289da" alt="Files Discord" /></a>
 </p>
 
-Files is a modern file manager that helps users organize their files and folders. Our mission with Files is to build the best file manager for Windows, and we’re proud to be building it out in the open so everyone can participate. User feedback helps shape the features we work on, & the bug reports on GitHub help to make Files more reliable. Built and maintained by the open-source community, Files features robust multitasking experiences, file tags, deep integrations, and an intuitive design.
+KyraFiles é um gerenciador de arquivos moderno para Windows, pensado para organizar arquivos e pastas com rapidez, abas, painéis e busca integrada.
 
-## Installing and running Files
+## Instalação
 
-Files is a community-driven project that depends on your support to grow and improve. Please consider purchasing Files through the Microsoft Store or supporting us on GitHub if you use the classic installer.
+As versões instaláveis serão publicadas na página de [releases](https://github.com/alxchs/KyraFiles/releases) deste repositório.
 
-You can also use the preview version alongside the stable release to get early access to new features and improvements.
+## Compilar a partir do código-fonte
 
-<p align="left">
-  <!-- Store Badge -->
-  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX?launch=true&mode=full">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset="./assets/StoreBadge-dark.png" height="80" />
-      <img src="./assets/StoreBadge-light.png" height="80" /></picture></a>
-  &ensp;
-  <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://kyrafiles.org/download">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" height="80" />
-      <img src="./assets/ClassicInstallerBadge-light.png" height="80" /></picture></a>
-</p>
+O projeto é uma solução .NET com WinUI 3. Na raiz do repositório:
 
-## Building from source
+```powershell
+msbuild -restore KyraFiles.slnx -p:Configuration=Debug -p:Platform=x64 -v:quiet -clp:ErrorsOnly
+```
 
-Instructions for building the source code can be found on our [documentation site](https://kyrafiles.org/docs/contributing/building-from-source).
+## Contribuir
 
+Abra uma [issue](https://github.com/alxchs/KyraFiles/issues) descrevendo a ideia antes de enviar um [pull request](https://github.com/alxchs/KyraFiles/pulls). Veja também o [guia de contribuição](./CONTRIBUTING.md).
 
-## Contributing to Files
+## Licença
 
-Want to contribute to this project? Let us know with an [issue](https://github.com/alxchs/KyraFiles/issues) that communicates your intent to create a [pull request](https://github.com/alxchs/KyraFiles/pulls). Also, view our [contributing guidelines](https://github.com/alxchs/KyraFiles/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
-
-Looking for a place to start? Check out the [task board](https://github.com/orgs/alxchs/projects/3/views/2), where you can sort tasks by size and priority.
-
-## Screenshots
-
-![Files](./assets/FilesScreenshot.png)
+Veja [LICENSE-MIT](../LICENSE-MIT), [LICENSE-MPL](../LICENSE-MPL) e [NOTICE.md](./NOTICE.md) para os avisos de licença e de terceiros.

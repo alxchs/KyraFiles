@@ -79,5 +79,5 @@ Write-Output $res
 
 # Capture undone state
 Capture-FilesWindow -OutFile 'docs\agents\evidence\f001\14_rename_undone.png' | Out-Null
-$origPath = "C:\FilesUXLab\activate_test.txt"
+$origPath = "C:\KyraFilesUXLab\activate_test.txt"
 Write-Output ("Disk check after Undo: orig exists = " + (Test-Path $origPath))

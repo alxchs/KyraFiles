@@ -4,7 +4,7 @@ Add-Type -Path (Join-Path $PSScriptRoot "vc.cs")
 $apps = @(
   @{ Name='Files'; Proc='Files'; Exe='kyrafiles.exe' },
   @{ Name='OneCommander'; Proc='OneCommander'; Exe='C:\Program Files\OneCommander\OneCommander.exe' })
-$folders = 'C:\FilesUXLab\perf\10k', 'C:\FilesUXLab\perf\img400'
+$folders = 'C:\KyraFilesUXLab\perf\10k', 'C:\KyraFilesUXLab\perf\img400'
 $res = foreach ($run in 0..$Runs) { foreach ($f in $folders) { foreach ($a in $apps) {
   $p = Get-Process $a.Proc | Select-Object -First 1
   $hwnd = if ($p.MainWindowHandle -ne 0) { $p.MainWindowHandle } else { [VC]::FindMainWindow($p.Id) }

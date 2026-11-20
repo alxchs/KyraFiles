@@ -37,7 +37,7 @@ Responsável pelo monitoramento do ciclo de vida, contagem de quedas com janela 
 2. **Pós-Ativação Estável (`App.xaml.cs` / `MainWindow.xaml.cs`):**
    - Dispara um timer/delay de 10 segundos. Se o app permanecer vivo, chama `CrashGuardService.RecordStableState()`, que limpa a contagem de quedas.
    - Se `PromptOnNextManualLaunch` estiver ativo, exibe um diálogo não intrusivo informando que o Explorer foi usado anteriormente e que o KyraFiles foi restaurado com sucesso.
-3. **Lançador C++ (`src/KyraFiles.App.Launcher/FilesLauncher.cpp`):**
+3. **Lançador C++ (`src/KyraFiles.App.Launcher/KyraFilesLauncher.cpp`):**
    - Lê o arquivo `crash_guard.json` ao ser acionado. Se `FallbackTriggered` estiver marcado como verdadeiro e houver 2 quedas recentes em 60s, delega diretamente para `RunFileExplorer(openDirectory)`.
 
 ---

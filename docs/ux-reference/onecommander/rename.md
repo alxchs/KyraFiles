@@ -1,6 +1,6 @@
 ﻿# Renomeação — OneCommander UX Reference
 
-Documento de referência de UX do OneCommander elaborado conforme MASTER_SPEC §18 e §19, com base em testes automatizados e observações diretas em `C:\FilesUXLab`.
+Documento de referência de UX do OneCommander elaborado conforme MASTER_SPEC §18 e §19, com base em testes automatizados e observações diretas em `C:\KyraFilesUXLab`.
 Data da observação: 03/10/2026.
 Versão observada do OneCommander: 3.x (WPF 64-bit).
 
@@ -15,7 +15,7 @@ Documentar minuciosamente o comportamento externamente observável da experiênc
 
 ## Estado inicial
 
-- O usuário está navegando em uma pasta com itens (ex.: `C:\FilesUXLab`).
+- O usuário está navegando em uma pasta com itens (ex.: `C:\KyraFilesUXLab`).
 - Um item está selecionado na lista (ex.: `arquivo.txt`).
 - No painel lateral direito (Preview/Details), os metadados do arquivo são exibidos.
 - Evidência inicial: `docs/ux-reference/onecommander/evidence/rename/01_oc_opened_lab.png`.
@@ -118,7 +118,7 @@ Documentar minuciosamente o comportamento externamente observável da experiênc
 
 ## Edge cases (Matriz de testes §5)
 
-Os casos obrigatórios de `MASTER_SPEC §5` foram testados no OneCommander em `C:\FilesUXLab`. Resultados obtidos:
+Os casos obrigatórios de `MASTER_SPEC §5` foram testados no OneCommander em `C:\KyraFilesUXLab`. Resultados obtidos:
 
 | Caso | Texto total | Seleção inicial | Parte não selecionada | Avaliação / Comportamento |
 |---|---|---|---|---|
@@ -203,7 +203,7 @@ Todas as capturas de tela foram registradas na pasta:
 | Arquivo | Descrição |
 |---|---|
 | `01_initial_window.png` | Estado da janela do OneCommander aberta na pasta de teste. |
-| `01_oc_opened_lab.png` | Vista completa da pasta `C:\FilesUXLab` com a lista de 15 arquivos. |
+| `01_oc_opened_lab.png` | Vista completa da pasta `C:\KyraFilesUXLab` com a lista de 15 arquivos. |
 | `02_rename_f2_arquivo_txt.png` | F2 acionado em `arquivo.txt` exibindo popup flutuante, seleção e sugestões. |
 | `03_rename_click_pause.png` | Clique-pausa acionado no arquivo, provando comportamento idêntico ao F2. |
 | `04_rename_after_tab.png` | Pressionamento de Tab durante rename, provando que salta para o próximo arquivo. |

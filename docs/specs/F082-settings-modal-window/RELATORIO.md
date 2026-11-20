@@ -49,7 +49,7 @@ Com essa mudança:
 ## 3. Evidências de Teste e Validações
 
 ### A. Compilação
-- Executado `mkfile d Files.slnx`.
+- Executado `mkfile d KyraFiles.slnx`.
 - **Resultado:** Compilado com sucesso (0 erros).
 
 ### B. Suíte de Testes Unitários (`dotnet test`)

@@ -125,8 +125,18 @@ namespace KyraFiles.App.Views.Layouts
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
-			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
+			ScrollItemIntoBand(e);
+		}
+
+		// index * RowHeight ignores the UI scale and the pinned column header, so the target row could land off screen;
+		// measure the realized rows instead and scroll the minimum needed, like Explorer
+		private void ScrollItemIntoBand(ListedItem item)
+		{
+			var index = FileList.Items.IndexOf(item);
+			if (index >= 0 && ContentScroller is { } scroller && TryGetRowGeometry(scroller, out var geometry))
+				ScrollRowIntoBand(scroller, geometry, index);
+			else
+				FileList.ScrollIntoView(item);
 		}
 
 		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
@@ -139,8 +149,7 @@ namespace KyraFiles.App.Views.Layouts
 		{
 			if (SelectedItems?.LastOrDefault() is ListedItem lastSelected)
 			{
-				FileList.ScrollIntoView(lastSelected);
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(lastSelected) * RowHeight, null, true);
+				ScrollItemIntoBand(lastSelected);
 				EnsureItemFocusVisual(lastSelected);
 			}
 		}

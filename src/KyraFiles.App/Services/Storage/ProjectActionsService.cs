@@ -1,4 +1,4 @@
-// Copyright (c) KyraFiles Community. Licensed under the MIT License.
+// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System.IO;
 using KyraFiles.Shared.Helpers;

@@ -2,7 +2,7 @@
 
 - **Instalador:** `artifacts\Setup\KyraFilesSetup-4.3.8.exe` (52.688.161 bytes, 50,2 MB). Inno Setup 6.
 - **SHA256:** `6B38579A13A8D1F547DA37127556A0E6EA7AC40C946D31E0947231DBD696FC2D` (`Get-FileHash`).
-- **Release GitHub:** [v4.3.8](https://github.com/alxchs/KyraFilesCustom-private/releases/tag/v4.3.8) em `alxchs/KyraFiles-private`.
+- **Release GitHub:** [v4.3.8](https://github.com/alxchs/KyraFiles-private/releases/tag/v4.3.8) em `alxchs/KyraFiles-private`.
 - **Branch:** `main` / `colab` / `custom/main`.
 - **Conteúdo Integrado:** F056 (copiar caminho como), F057 (atalhos sublinhados), F061 (Win+E sem flood), F062 (diagnóstico de memória no Sobre), correção de filtros por tag e preservação de configurações no setup.
 - **Build:** `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Error(s)`, `25 Warning(s)` (baseline mantida).

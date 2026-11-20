@@ -20,7 +20,8 @@ namespace KyraFiles.App.Helpers
 	/// </summary>
 	public static class DocumentationHelper
 	{
-		public const string DefaultDocumentationUrl = "https://kyrafiles.org/docs";
+		// There is no hosted documentation site; the web fallback is the project repository
+		public const string DefaultDocumentationUrl = "https://github.com/alxchs/KyraFiles";
 
 		/// <summary>
 		/// Supported language codes.
@@ -122,12 +123,7 @@ namespace KyraFiles.App.Helpers
 			}
 
 			// Web fallback
-			var baseUrl = DefaultDocumentationUrl.TrimEnd('/');
-			var webUrl = string.IsNullOrWhiteSpace(subPath)
-				? baseUrl
-				: $"{baseUrl}/{subPath.TrimStart('/').Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase)}";
-
-			await Launcher.LaunchUriAsync(new Uri(webUrl)).AsTask();
+			await Launcher.LaunchUriAsync(new Uri(DefaultDocumentationUrl)).AsTask();
 		}
 
 		/// <summary>
@@ -262,16 +258,7 @@ namespace KyraFiles.App.Helpers
 			if (!string.IsNullOrEmpty(local) && File.Exists(local))
 				return (true, local);
 
-			var baseUrl = DefaultDocumentationUrl.TrimEnd('/');
-			var cleanSub = string.IsNullOrWhiteSpace(subPath)
-				? string.Empty
-				: subPath.TrimStart('/').Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase);
-
-			var web = string.IsNullOrEmpty(cleanSub)
-				? baseUrl
-				: $"{baseUrl}/{cleanSub}";
-
-			return (false, web);
+			return (false, DefaultDocumentationUrl);
 		}
 	}
 }

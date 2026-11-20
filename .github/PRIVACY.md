@@ -1,3 +1,3 @@
 ﻿# Privacy Policy
 
-The privacy policy has been moved to here https://kyrafiles.org/privacy
+The privacy policy is maintained in the project repository: https://github.com/alxchs/KyraFiles

@@ -147,7 +147,7 @@
 
 ## Publicação (02/10/2026)
 
-- CONFIRMED: `git push origin main:refs/heads/custom/main` publicou os commits do KyraFiles em `https://github.com/alxchs/KyraFilesCustom` (branch `custom/main`). O `main` do fork foi sincronizado com o upstream (127 commits à frente de v4.2.9), então o push direto de `main` foi rejeitado (non-fast-forward). Nada foi forçado. Comando: `git rev-list --left-right --count HEAD...origin/main` = `7 127`.
+- CONFIRMED: `git push origin main:refs/heads/custom/main` publicou os commits do KyraFiles em `https://github.com/alxchs/KyraFiles` (branch `custom/main`). O `main` do fork foi sincronizado com o upstream (127 commits à frente de v4.2.9), então o push direto de `main` foi rejeitado (non-fast-forward). Nada foi forçado. Comando: `git rev-list --left-right --count HEAD...origin/main` = `7 127`.
 - CONFIRMED (03/10/2026, D-008): base migrada para `upstream/main` (`0e3c17ca4`, 24/09/2026) por merge, com a tag `tag_v4.2.9.0_build-zero-warnings-abertura-appx-perf-onecommander_salvo` antes. Build: `mkfile release src\KyraFiles.App\KyraFiles.App.csproj` = `0 Warning(s)`, `0 Error(s)`. App aberto por `Open-KyraFiles.ps1` (pacote 4.2.37.0).
 - CONFIRMED (03/10/2026, G0 FECHADO): smoke test completo do §16 (itens 1 a 9) executado e validado no app aberto por `Open-KyraFiles.ps1` (pacote 4.2.37.0), com capturas de tela e comandos de evidência registrados. Linha de base de CPU/RAM e A/B do backdrop (F007-A) medidos e documentados em `tools/perf/README.md`.
 - Pendente: o merge ainda não foi enviado (push) para `custom/main`.

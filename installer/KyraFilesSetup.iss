@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.25"
+#define MyAppVersion "4.3.26"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
@@ -18,6 +18,8 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={localappdata}\Programs\KyraFiles
+; Older builds registered this AppId under the pre-rename folder; never reuse it
+UsePreviousAppDir=no
 DisableDirPage=yes
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
@@ -64,6 +66,8 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{localappdata}\Microsoft\WindowsA
 [Registry]
 ; Inicialização do Watchdog com o Windows (padrão marcado na instalação)
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "KyraFilesWatchdog"; ValueData: """{app}\{#MyWatchdogExeName}"""; Tasks: startupwatchdog; Flags: uninsdeletevalue
+; Legacy startup entry that pointed at the old install folder
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: none; ValueName: "FilesCustomWatchdog"; Flags: deletevalue
 
 ; Associação opcional de abertura de pastas via alias MSIX registrado (kyrafiles.exe)
 Root: HKCU; Subkey: "Software\Classes\Folder\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"" ""%1"""; Tasks: replacewine; Flags: uninsdeletekey
@@ -77,6 +81,8 @@ Filename: "{localappdata}\Microsoft\WindowsApps\kyrafiles.exe"; Description: "Ab
 [InstallDelete]
 ; Purga vestigios de locks e arquivos de lock temporarios
 Type: files; Name: "{app}\*.locked.*"
+; Old install folder from before the rename; its binaries must not survive an update
+Type: filesandordirs; Name: "{localappdata}\Programs\FilesCustom"
 
 [UninstallDelete]
 ; Garante remoção de 100% da pasta isolada na desinstalação (FR-007, AC-7)
@@ -186,7 +192,7 @@ begin
 
   // Fecha instâncias anteriores de forma cooperativa
   // Ordem importa: o Watchdog religa o HotkeyService e segura o KyraFiles.exe; encerra-lo primeiro e esperar a saida evita o exit 5 do RestartManager
-  ShellExec('open', 'powershell.exe', '-NoProfile -Command "Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue; try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\KyraFiles_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process KyraFiles.HotkeyService -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+  ShellExec('open', 'powershell.exe', '-NoProfile -Command "Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Stop-Process -Force; Get-Process KyraFiles.Watchdog -ErrorAction SilentlyContinue | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue; try { $ev = [System.Threading.EventWaitHandle]::OpenExisting(''Global\KyraFiles_ShutdownHotkeyService''); [void]$ev.Set(); Start-Sleep -Milliseconds 400 } catch {}; Get-Process KyraFiles.HotkeyService, Files.Watchdog, Files.HotkeyService -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Milliseconds 500; Get-Process KyraFiles, KyraFiles.App.Server, KyraFiles.App.IndexService -ErrorAction SilentlyContinue | Stop-Process -Force"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   Result := True;
 end;
 

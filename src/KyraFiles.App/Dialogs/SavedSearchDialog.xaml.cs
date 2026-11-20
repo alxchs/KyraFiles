@@ -1,4 +1,4 @@
-// Copyright (c) KyraFiles Community. Licensed under the MIT License.
+// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using KyraFiles.App.Helpers;
 using KyraFiles.App.ViewModels.Dialogs;

@@ -226,7 +226,7 @@
 
     <!-- KyraFiles.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
-    <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
+    <Target Name="BuildKyraFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
         <MSBuild Projects="..\KyraFiles.App.Server\KyraFiles.App.Server.csproj"
                  Targets="Build"
                  Properties="Configuration=$(Configuration);Platform=$(Platform)" />

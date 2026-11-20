@@ -85,7 +85,7 @@ foreach ($relPath in $allFiles) {
     # 1. Substituições de URLs e Repositórios
     $content = $content -replace 'https://github\.com/(files-community|alxchs)/(Files|FilesCustom)', 'https://github.com/alxchs/KyraFiles'
     $content = $content -replace 'github\.com/(files-community|alxchs)/(Files|FilesCustom)', 'github.com/alxchs/KyraFiles'
-    $content = $content -replace 'https://files\.community', 'https://kyrafiles.org'
+    $content = $content -replace 'https://files\.community', 'https://github.com/alxchs/KyraFiles'
     $content = $content -replace 'https://discord\.gg/files', 'https://discord.gg/kyrafiles'
     $content = $content -replace 'https://crowdin\.com/project/files-app', 'https://crowdin.com/project/kyrafiles'
     $content = $content -replace 'filesapp@outlook\.com', 'contato@kyrafiles.com'
@@ -95,7 +95,7 @@ foreach ($relPath in $allFiles) {
     $content = $content -replace '\bFiles Custom\b', 'KyraFiles'
     $content = $content -replace '\bFiles Dev\b', 'KyraFiles'
     $content = $content -replace '\bFiles App\b', 'KyraFiles'
-    $content = $content -replace '\bFiles Community\b', 'KyraFiles Community'
+    $content = $content -replace '\bFiles Community\b', 'KyraFiles contributors'
     $content = $content -replace '\bFilesCustom\b', 'KyraFiles'
     $content = $content -replace '\bFilesDev\b', 'KyraFiles'
     $content = $content -replace '\bFilesApp\b', 'KyraFiles'

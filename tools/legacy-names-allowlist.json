@@ -27,6 +27,24 @@
       "reason": "Palavra-chave mandatória da sintaxe do compilador Inno Setup."
     },
     {
+      "file": "installer/KyraFilesSetup.iss",
+      "exact_snippet": "Programs\\FilesCustom",
+      "category": "b",
+      "reason": "Purga compulsoria da pasta instalada antes da renomeacao (regra do Alexandre em CLAUDE.md, item 4c: diretivas de limpeza no instalador)."
+    },
+    {
+      "file": "installer/KyraFilesSetup.iss",
+      "exact_snippet": "FilesCustomWatchdog",
+      "category": "b",
+      "reason": "Remove a entrada de inicializacao antiga que apontava para a pasta anterior a renomeacao (CLAUDE.md, item 4c)."
+    },
+    {
+      "file": "installer/KyraFilesSetup.iss",
+      "exact_snippet": "Files.Watchdog, Files.HotkeyService",
+      "category": "b",
+      "reason": "Encerra processos antigos de antes da renomeacao antes de instalar (CLAUDE.md, item 4c)."
+    },
+    {
       "file": "docs/agents/evidence/F047/nfr001_scan_pruning_50k_files.csv",
       "exact_snippet": "nfr001_scan_pruning_50k_files.csv",
       "category": "b",

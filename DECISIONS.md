@@ -31,7 +31,7 @@ Formato (MASTER_SPEC §37): Context, Problem, Options, Decision, Reason, Trade-o
 ## D-006 — Repositório: fork `alxchs/KyraFiles` ancorado no upstream v4.2.9 (28/09/2026)
 
 - **Context:** a pasta não era um repositório git; o spec (§13) pede fork sustentável.
-- **Decision:** fork de `alxchs/KyraFiles` criado em `https://github.com/alxchs/KyraFilesCustom` (nome do §36). Local: `origin` = fork, `upstream` = KyraFiles oficial; `main` parte do commit `99951c66` (Build: v4.2.9), o único que bate com a árvore existente.
+- **Decision:** fork de `alxchs/KyraFiles` criado em `https://github.com/alxchs/KyraFiles` (nome do §36). Local: `origin` = fork, `upstream` = KyraFiles oficial; `main` parte do commit `99951c66` (Build: v4.2.9), o único que bate com a árvore existente.
 - **Reason:** dá diff real contra o upstream e permite `git merge upstream/main` depois; separa ajustes da AGY do código oficial.
 - **Trade-offs:** GitHub não permite fork privado de repositório público; o fork é **público**. Nada foi enviado. Um `git push` publicaria `MASTER_SPEC.md`, `STATUS.md` etc.; só com confirmação do Alexandre (regra global). Alternativa: repositório privado sem vínculo de fork.
 - **Consequences:** o histórico do upstream vem junto (baixado localmente). `core.symlinks=false` porque o `CLAUDE.md` do upstream é symlink.

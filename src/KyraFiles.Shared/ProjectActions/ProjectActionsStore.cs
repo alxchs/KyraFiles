@@ -1,4 +1,4 @@
-// Copyright (c) KyraFiles Community. Licensed under the MIT License.
+// Copyright (c) KyraFiles contributors. Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;

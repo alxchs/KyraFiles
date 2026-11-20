@@ -56,7 +56,9 @@ namespace KyraFiles.App.ViewModels.Previews
 				GetFileProperty("PropertyParsingPath", folder.Path),
 			];
 
-			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
+			// The repository probe walks parent folders synchronously, which is very slow on a network share
+			if (!DriveHelpers.IsNetworkPath(itemPath) &&
+				GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
 				!string.IsNullOrEmpty(repoPath))
 			{
 				var gitDirectory = GitHelpers.GetGitRepositoryPath(folder.Path, Path.GetPathRoot(folder.Path));

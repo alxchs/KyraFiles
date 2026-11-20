@@ -409,7 +409,10 @@ namespace KyraFiles.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
+			// Shell preview handlers initialize synchronously on the UI thread; on a network share (e.g. \\tsclient)
+			// that stalls the pane for minutes and blocks every later selection, so network items get the basic preview
 			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+				!DriveHelpers.IsNetworkPath(item.ItemPath!) &&
 				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
 				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{

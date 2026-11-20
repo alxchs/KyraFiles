@@ -7,7 +7,7 @@ Estado: conferido com `git rev-parse` e `git rev-list` em 06/11/2026. Reverifiqu
 
 ## 1. Primeiros passos na máquina nova
 
-1. Clone: `git clone https://github.com/alxchs/KyraFilesCustom-private.git C:\desenv\utils\KyraFiles`.
+1. Clone: `git clone https://github.com/alxchs/KyraFiles-private.git C:\desenv\utils\KyraFiles`.
    Use o mesmo caminho: as regras globais (hooks de git em `c:/desenv/`, temporários, `mkfile`) dependem dele.
 2. Confira se o push desta máquina chegou: `git log --oneline -1 origin/main` deve mostrar
    `fix(core): purga residuos de nomes legados, fecha F088 Fase 0 e registra specs F089/F090`.

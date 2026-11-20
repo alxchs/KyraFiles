@@ -59,7 +59,7 @@ Principais entregas:
 Conforme solicitado pelo Alexandre, a refatoração do nome do repositório e da pasta raiz no disco segue as orientações de segurança para evitar travamentos da IDE em execução:
 
 1. **Repositório GitHub:**
-   - No GitHub (`github.com/alxchs/KyraFilesCustom-private`), em *Settings > General > Repository name*, renomear para `KyraFiles`.
+   - No GitHub (`github.com/alxchs/KyraFiles-private`), em *Settings > General > Repository name*, renomear para `KyraFiles`.
    - Atualizar a URL remota local:
      ```powershell
      git remote set-url origin https://github.com/alxchs/KyraFiles.git

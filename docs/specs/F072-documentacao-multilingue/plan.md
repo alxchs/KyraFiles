@@ -56,7 +56,7 @@ src/KyraFiles.App/Docs/
   3. `<root>/Docs/pt-BR/<subPath>` (fallback primário local)
   4. `<root>/Docs/en-US/<subPath>` (fallback secundário local)
   5. `<root>/Docs/<subPath>` (legado/raiz)
-  6. Fallback final para web: `https://kyrafiles.org/docs/<subPath>`
+  6. Fallback final para web: `https://github.com/alxchs/KyraFiles`
 
 ### 1.3 Seletor de Idiomas no Menu Lateral dos HTMLs
 Cada arquivo HTML ganha um componente no topo da `<aside>`:

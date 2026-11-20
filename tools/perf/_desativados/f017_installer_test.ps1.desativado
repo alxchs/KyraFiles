@@ -28,7 +28,7 @@ function Send-WinE {
 
 function Get-ExplorerWindowCount { (New-Object -ComObject Shell.Application).Windows().Count }
 
-function Stop-AllFilesCustom {
+function Stop-AllKyraFiles {
     try {
         $ev = [System.Threading.EventWaitHandle]::OpenExisting('Global\KyraFiles_ShutdownHotkeyService')
         [void]$ev.Set()
@@ -60,7 +60,7 @@ $result['T3 Setup compilado existe'] = (Test-Path $setupExe)
 $result['T3 Setup tamanho MB'] = [math]::Round((Get-Item $setupExe).Length / 1MB, 2)
 
 # Limpa instalacao anterior para provar instalacao limpa
-Stop-AllFilesCustom
+Stop-AllKyraFiles
 if (Test-Path $installDir) {
     Remove-Item -LiteralPath $installDir -Recurse -Force
 }

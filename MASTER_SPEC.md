@@ -1377,7 +1377,7 @@ O resultado final deve ser um aplicativo próprio, sustentável e tecnicamente b
   https://github.com/alxchs/KyraFiles
 
 - KyraFiles contributors — documentação oficial:  
-  https://kyrafiles.org/docs/
+  https://github.com/alxchs/KyraFiles
 
 - OneCommander — termos e licença:  
   https://www.onecommander.com/terms

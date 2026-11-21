@@ -1,0 +1,210 @@
+<!--  Copyright (c) KyraFiles contributors. SPDX-License-Identifier: MPL-2.0  -->
+<ContentDialog
+	x:Class="KyraFiles.App.Dialogs.CodeSearchDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dialogs="using:KyraFiles.App.ViewModels.Dialogs"
+	xmlns:helpers="using:KyraFiles.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="{helpers:ResourceString Name=CodeSearchDialogTitle}"
+	Width="840"
+	DefaultButton="Primary"
+	HighContrastAdjustment="None"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.CanOpenInIDE, Mode=OneWay}"
+	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+	SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+	PrimaryButtonText="{helpers:ResourceString Name=CodeSearchOpenInIDE}"
+	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
+	SecondaryButtonText="{helpers:ResourceString Name=Close}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<ResourceDictionary>
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:BoolToVisibilityConverter
+				x:Key="NegatedBoolToVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
+			<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		</ResourceDictionary>
+	</ContentDialog.Resources>
+
+	<Grid Height="500" RowSpacing="8">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!-- Linha 0: Pasta analisada -->
+		<StackPanel Grid.Row="0" Spacing="2">
+			<TextBlock
+				FontSize="11"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+				Text="Pasta analisada:" />
+			<TextBlock
+				FontSize="12"
+				FontWeight="SemiBold"
+				Text="{x:Bind ViewModel.TargetFolder, Mode=OneWay}"
+				TextTrimming="CharacterEllipsis" />
+		</StackPanel>
+
+		<!-- Linha 1: Campo de busca + Botões Buscar / Cancelar -->
+		<Grid Grid.Row="1" ColumnSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<TextBox
+				Grid.Column="0"
+				PlaceholderText="{helpers:ResourceString Name=CodeSearchQueryPlaceholder}"
+				Text="{x:Bind ViewModel.Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				KeyDown="QueryTextBox_KeyDown" />
+
+			<Button
+				Grid.Column="1"
+				Click="SearchButton_Click"
+				IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Style="{StaticResource AccentButtonStyle}">
+				<StackPanel Orientation="Horizontal" Spacing="6">
+					<FontIcon FontSize="14" Glyph="&#xE721;" />
+					<TextBlock Text="Buscar" />
+				</StackPanel>
+			</Button>
+
+			<Button
+				Grid.Column="2"
+				Click="CancelButton_Click"
+				IsEnabled="{x:Bind ViewModel.IsSearching, Mode=OneWay}">
+				<TextBlock Text="{helpers:ResourceString Name=Cancel}" />
+			</Button>
+		</Grid>
+
+		<!-- Linha 2: Opções de Busca e Filtro de Extensões -->
+		<Grid Grid.Row="2" ColumnSpacing="12" RowSpacing="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+				<CheckBox
+					Content="{helpers:ResourceString Name=CodeSearchMatchCase}"
+					IsChecked="{x:Bind ViewModel.MatchCase, Mode=TwoWay}"
+					IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+				<CheckBox
+					Content="{helpers:ResourceString Name=CodeSearchMatchWholeWord}"
+					IsChecked="{x:Bind ViewModel.MatchWholeWord, Mode=TwoWay}"
+					IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+				<CheckBox
+					Content="{helpers:ResourceString Name=CodeSearchUseRegex}"
+					IsChecked="{x:Bind ViewModel.IsRegex, Mode=TwoWay}"
+					IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+				<CheckBox
+					Content="{helpers:ResourceString Name=CodeSearchRespectGitIgnore}"
+					IsChecked="{x:Bind ViewModel.RespectGitIgnore, Mode=TwoWay}"
+					IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+			</StackPanel>
+
+			<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+				<TextBlock
+					FontSize="11"
+					Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+					Text="{helpers:ResourceString Name=CodeSearchFileTypes}"
+					VerticalAlignment="Center" />
+				<TextBox
+					Width="160"
+					FontSize="11"
+					Text="{x:Bind ViewModel.FileExtensions, Mode=TwoWay}"
+					IsEnabled="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+			</StackPanel>
+		</Grid>
+
+		<!-- Linha 3: Barra de status e progresso -->
+		<Grid Grid.Row="3">
+			<ProgressBar
+				IsIndeterminate="True"
+				Visibility="{x:Bind ViewModel.IsSearching, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+			<TextBlock
+				FontSize="11"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+				Text="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+				TextTrimming="CharacterEllipsis" />
+		</Grid>
+
+		<!-- Linha 4: Lista de resultados -->
+		<Border
+			Grid.Row="4"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4">
+			<ListView
+				ItemsSource="{x:Bind ViewModel.Matches, Mode=OneWay}"
+				SelectedItem="{x:Bind ViewModel.SelectedMatch, Mode=TwoWay}"
+				DoubleTapped="MatchesListView_DoubleTapped"
+				SelectionMode="Single">
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="dialogs:CodeSearchResultItemViewModel">
+						<Grid Padding="4,6" ColumnSpacing="10">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="220" />
+								<ColumnDefinition Width="50" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<!-- Coluna 0: Arquivo relativo -->
+							<TextBlock
+								Grid.Column="0"
+								FontSize="12"
+								FontWeight="SemiBold"
+								Text="{x:Bind RelativePath}"
+								TextTrimming="CharacterEllipsis"
+								ToolTipService.ToolTip="{x:Bind FilePath}" />
+
+							<!-- Coluna 1: Linha -->
+							<TextBlock
+								Grid.Column="1"
+								FontSize="11"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Text="{x:Bind LineNumber}" />
+
+							<!-- Coluna 2: Trecho da linha -->
+							<TextBlock
+								Grid.Column="2"
+								FontFamily="Cascadia Mono, Consolas, Courier New"
+								FontSize="11"
+								Text="{x:Bind LineText}"
+								TextTrimming="CharacterEllipsis"
+								ToolTipService.ToolTip="{x:Bind FullLineText}" />
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.ContextFlyout>
+					<MenuFlyout>
+						<MenuFlyoutItem
+							Click="OpenInIDEMenuItem_Click"
+							Icon="OpenWith"
+							Text="{helpers:ResourceString Name=CodeSearchOpenInIDE}" />
+						<MenuFlyoutItem
+							Click="OpenFileMenuItem_Click"
+							Icon="OpenFile"
+							Text="{helpers:ResourceString Name=CodeSearchOpenFile}" />
+						<MenuFlyoutSeparator />
+						<MenuFlyoutItem
+							Click="CopyLocationMenuItem_Click"
+							Icon="Copy"
+							Text="{helpers:ResourceString Name=CodeSearchCopyLocation}" />
+					</MenuFlyout>
+				</ListView.ContextFlyout>
+			</ListView>
+		</Border>
+	</Grid>
+</ContentDialog>

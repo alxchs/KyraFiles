@@ -2,6 +2,16 @@
 
 Última atualização: 2026-11-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
 
+## F051 — Busca de código no estilo ripgrep (21/11/2026)
+
+- CONFIRMED: F051 (SPEC-0047) - Busca de código estilo ripgrep com streaming incremental, suporte a `.gitignore` com poda antecipada, múltiplos encodings (UTF-8, UTF-8 BOM, UTF-16 LE/BE), filtro de binários e grandes arquivos, busca por regex e palavra inteira (`CodeSearchEngine.cs` e `GitIgnoreMatcher.cs` em `KyraFiles.Shared/CodeSearch/`).
+- CONFIRMED: Diálogo WinUI 3 `CodeSearchDialog.xaml`, ViewModel reativo com streaming via `DispatcherQueue` e ação de abertura direta na IDE por linha e coluna (`VS Code`, `Visual Studio`, `Rider`, `Notepad++`) sem roubo de foco.
+- CONFIRMED: Ação `OpenCodeSearchAction.cs` registrada via `[GeneratedRichCommand]` e catalogada em `AppDialogService.cs`.
+- CONFIRMED: 12/12 testes unitários aprovados em `KyraFiles.App.Search.Index.Tests.exe` (0 falhas).
+- CONFIRMED: Gate F021 verificado e aprovado (`verify_no_index_service.ps1`: IndexService inativo, repouso CPU 2.5%, 307.99 MB RAM).
+- CONFIRMED: Verificador de nomes legados aprovado (0 violações); 0 pastas Debug residuais.
+- CONFIRMED: Relatório de conclusão emitido em `docs/specs/F051-code-search/RELATORIO.md`.
+
 ## F094 — Busca Everything: escopo global e histórico de buscas (21/11/2026)
 
 - CONFIRMED: F094 (SPEC-0078) - Busca Everything global por padrão no índice completo (FR-001), escopo por pasta apenas se especificado após os termos (FR-002..FR-004), título da página de resultados com escopo real ("todo o computador" ou pasta) (FR-006), fallback notificado na queda do `es.exe` (FR-007).

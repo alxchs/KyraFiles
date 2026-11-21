@@ -5456,4 +5456,46 @@
   <data name="DuplicateFinderIgnoreDevFolders" xml:space="preserve">
     <value>Ignore developer folders (.git, node_modules...)</value>
   </data>
+  <data name="CodeSearch" xml:space="preserve">
+    <value>Code search</value>
+  </data>
+  <data name="CodeSearchDescription" xml:space="preserve">
+    <value>Search for text and patterns within code files (ripgrep style)</value>
+  </data>
+  <data name="CodeSearchDialogTitle" xml:space="preserve">
+    <value>Code Search</value>
+  </data>
+  <data name="CodeSearchQueryPlaceholder" xml:space="preserve">
+    <value>Search text or regex pattern...</value>
+  </data>
+  <data name="CodeSearchMatchCase" xml:space="preserve">
+    <value>Match case</value>
+  </data>
+  <data name="CodeSearchMatchWholeWord" xml:space="preserve">
+    <value>Whole word</value>
+  </data>
+  <data name="CodeSearchUseRegex" xml:space="preserve">
+    <value>Use regex</value>
+  </data>
+  <data name="CodeSearchRespectGitIgnore" xml:space="preserve">
+    <value>Respect .gitignore</value>
+  </data>
+  <data name="CodeSearchFileTypes" xml:space="preserve">
+    <value>File types:</value>
+  </data>
+  <data name="CodeSearchOpenInIDE" xml:space="preserve">
+    <value>Open in IDE</value>
+  </data>
+  <data name="CodeSearchOpenFile" xml:space="preserve">
+    <value>Open file</value>
+  </data>
+  <data name="CodeSearchCopyLocation" xml:space="preserve">
+    <value>Copy path and line</value>
+  </data>
+  <data name="CodeSearchNoMatches" xml:space="preserve">
+    <value>No matches found.</value>
+  </data>
+  <data name="CodeSearchScanning" xml:space="preserve">
+    <value>Searching code files...</value>
+  </data>
 </root>

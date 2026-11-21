@@ -8,7 +8,7 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-21T14:30:50.8276102-03:00",
+                    "last_updated_at":  "2026-11-21T16:34:11.3989727-03:00",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
@@ -16,13 +16,13 @@
                     "task_count":  null,
                     "status_counts":  {
                                           "cancelled":  1,
-                                          "completed":  46,
+                                          "completed":  47,
                                           "in_validation":  24,
-                                          "not_started":  7
+                                          "not_started":  6
                                       },
                     "total_points":  366,
-                    "completed_points_equivalent":  201,
-                    "remaining_points":  152,
+                    "completed_points_equivalent":  206,
+                    "remaining_points":  147,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -2011,23 +2011,23 @@
                                      ],
                       "title":  "code search",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
-                      "points_confidence":  "low",
-                      "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
+                      "points_confidence":  "high",
+                      "points_note":  "busca de codigo interna estilo ripgrep com streaming, gitignore, multi-encoding e abertura direta na IDE por linha",
                       "hours":  {
                                     "original":  null,
                                     "current":  null,
                                     "actual":  null,
                                     "remaining":  null
                                 },
-                      "progress":  "not_calculable",
+                      "progress":  "completed",
                       "evidence":  [
                                        {
-                                           "ref":  "docs/specs/F051-code-search/",
+                                           "ref":  "docs/specs/F051-code-search/RELATORIO.md",
                                            "type":  "doc",
-                                           "note":  "somente spec.md"
+                                           "note":  "F051 concluida com 12 testes unitarios verdes, Gate F021 validado, dialogo WinUI 3 e relatorio emitido"
                                        }
                                    ],
                       "blockers":  [

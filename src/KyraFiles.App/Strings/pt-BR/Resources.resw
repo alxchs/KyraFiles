@@ -5244,4 +5244,46 @@
   <data name="DuplicateFinderIgnoreDevFolders" xml:space="preserve">
     <value>Ignorar pastas de desenvolvimento (.git, node_modules...)</value>
   </data>
+  <data name="CodeSearch" xml:space="preserve">
+    <value>Busca de código</value>
+  </data>
+  <data name="CodeSearchDescription" xml:space="preserve">
+    <value>Buscar texto e padrões dentro de arquivos de código (estilo ripgrep)</value>
+  </data>
+  <data name="CodeSearchDialogTitle" xml:space="preserve">
+    <value>Busca de Código</value>
+  </data>
+  <data name="CodeSearchQueryPlaceholder" xml:space="preserve">
+    <value>Texto de busca ou padrão regex...</value>
+  </data>
+  <data name="CodeSearchMatchCase" xml:space="preserve">
+    <value>Diferenciar maiúsculas</value>
+  </data>
+  <data name="CodeSearchMatchWholeWord" xml:space="preserve">
+    <value>Palavra inteira</value>
+  </data>
+  <data name="CodeSearchUseRegex" xml:space="preserve">
+    <value>Usar regex</value>
+  </data>
+  <data name="CodeSearchRespectGitIgnore" xml:space="preserve">
+    <value>Respeitar .gitignore</value>
+  </data>
+  <data name="CodeSearchFileTypes" xml:space="preserve">
+    <value>Tipos de arquivo:</value>
+  </data>
+  <data name="CodeSearchOpenInIDE" xml:space="preserve">
+    <value>Abrir na IDE</value>
+  </data>
+  <data name="CodeSearchOpenFile" xml:space="preserve">
+    <value>Abrir arquivo</value>
+  </data>
+  <data name="CodeSearchCopyLocation" xml:space="preserve">
+    <value>Copiar caminho e linha</value>
+  </data>
+  <data name="CodeSearchNoMatches" xml:space="preserve">
+    <value>Nenhuma ocorrência encontrada.</value>
+  </data>
+  <data name="CodeSearchScanning" xml:space="preserve">
+    <value>Buscando em arquivos de código...</value>
+  </data>
 </root>

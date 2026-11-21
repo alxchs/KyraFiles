@@ -8,7 +8,7 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-21T16:34:11.3989727-03:00",
+                    "last_updated_at":  "2026-11-21T17:04:24.0221107-03:00",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
@@ -16,13 +16,13 @@
                     "task_count":  null,
                     "status_counts":  {
                                           "cancelled":  1,
-                                          "completed":  47,
+                                          "completed":  48,
                                           "in_validation":  24,
-                                          "not_started":  6
+                                          "not_started":  5
                                       },
                     "total_points":  366,
-                    "completed_points_equivalent":  206,
-                    "remaining_points":  147,
+                    "completed_points_equivalent":  211,
+                    "remaining_points":  142,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -2180,8 +2180,8 @@
                                      ],
                       "title":  "repo map",
                       "type":  "feature",
-                      "state":  "not_started",
-                      "category":  "fila",
+                      "state":  "completed",
+                      "category":  "finalizadas",
                       "points":  5,
                       "points_confidence":  "low",
                       "points_note":  "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2196,7 +2196,12 @@
                                        {
                                            "ref":  "docs/specs/F055-repo-map/",
                                            "type":  "doc",
-                                           "note":  "somente spec.md"
+                                           "note":  "tasks.md 3/3 marcadas e relatorio"
+                                       },
+                                       {
+                                           "ref":  "feature/F055-repo-map",
+                                           "type":  "branch",
+                                           "note":  "implementacao RepoMapAnalyzer + RepoMapDialog + 9 testes verdes"
                                        }
                                    ],
                       "blockers":  [

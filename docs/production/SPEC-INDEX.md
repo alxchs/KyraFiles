@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-21T16:34:11.3989727-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-21T17:04:24.0221107-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -54,7 +54,7 @@ Gerado de `production-control.json` em 2026-11-21T16:34:11.3989727-03:00 via `to
 | SPEC-0048 | F052 | git repo view | completed | finalizadas | 5 |
 | SPEC-0049 | F053 | encoding eol column | completed | finalizadas | 2 |
 | SPEC-0050 | F054 | technical preview | not_started | fila | 5 |
-| SPEC-0051 | F055 | repo map | not_started | fila | 5 |
+| SPEC-0051 | F055 | repo map | completed | finalizadas | 5 |
 | SPEC-0052 | F056 | copy path formats | completed | finalizadas | 2 |
 | SPEC-0053 | F057 | dialog button shortcuts | completed | finalizadas | 3 |
 | SPEC-0054 | F058 | installer window to front | completed | finalizadas | 3 |

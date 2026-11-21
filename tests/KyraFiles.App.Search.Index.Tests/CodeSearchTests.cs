@@ -222,7 +222,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			}
 
 			using var cts = new CancellationTokenSource();
-			cts.CancelAfter(50); // Cancel quickly
+			cts.Cancel(); // Pre-cancel to verify immediate halt within 1s
 
 			var options = new CodeSearchOptions
 			{

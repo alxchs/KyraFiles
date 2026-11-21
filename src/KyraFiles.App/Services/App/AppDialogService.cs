@@ -38,6 +38,7 @@ namespace KyraFiles.App.Services
 				{ typeof(DuplicateFinderDialogViewModel), () => new DuplicateFinderDialog() },
 				{ typeof(WorkspacesDialogViewModel), () => new WorkspacesDialog() },
 				{ typeof(CodeSearchDialogViewModel), () => new CodeSearchDialog() },
+				{ typeof(RepoMapDialogViewModel), () => new RepoMapDialog() },
 			}.ToFrozenDictionary();
 		}
 

@@ -63,7 +63,19 @@ namespace KyraFiles.Shared.CodeSearch
 			}
 
 			var sw = Stopwatch.StartNew();
-			return await Task.Run(() => ExecuteSearch(options, progress, onMatch, sw, cancellationToken), cancellationToken);
+			try
+			{
+				return await Task.Run(() => ExecuteSearch(options, progress, onMatch, sw, cancellationToken), cancellationToken);
+			}
+			catch (OperationCanceledException)
+			{
+				return new CodeSearchResult(
+					Array.Empty<CodeSearchResultItem>(),
+					totalFilesScanned: 0,
+					totalFilesIgnored: 0,
+					sw.Elapsed,
+					wasCancelled: true);
+			}
 		}
 
 		private static CodeSearchResult ExecuteSearch(

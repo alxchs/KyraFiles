@@ -5498,4 +5498,37 @@
   <data name="CodeSearchScanning" xml:space="preserve">
     <value>Searching code files...</value>
   </data>
+  <data name="RepoMap" xml:space="preserve">
+    <value>Repository map</value>
+  </data>
+  <data name="RepoMapDescription" xml:space="preserve">
+    <value>Show code metrics, language breakdown, and repository hot spots</value>
+  </data>
+  <data name="RepoMapDialogTitle" xml:space="preserve">
+    <value>Repository Map</value>
+  </data>
+  <data name="RepoMapLanguagesTab" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="RepoMapLargestFilesTab" xml:space="preserve">
+    <value>Largest Files</value>
+  </data>
+  <data name="RepoMapHotSpotsTab" xml:space="preserve">
+    <value>Git Hot Spots</value>
+  </data>
+  <data name="RepoMapExportMarkdown" xml:space="preserve">
+    <value>Copy Markdown</value>
+  </data>
+  <data name="RepoMapExportCsv" xml:space="preserve">
+    <value>Copy CSV</value>
+  </data>
+  <data name="RepoMapAnalyze" xml:space="preserve">
+    <value>Analyze</value>
+  </data>
+  <data name="RepoMapRespectGitIgnore" xml:space="preserve">
+    <value>Respect .gitignore</value>
+  </data>
+  <data name="RepoMapIncludeHotSpots" xml:space="preserve">
+    <value>Git hot spots</value>
+  </data>
 </root>

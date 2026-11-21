@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.29"
+#define MyAppVersion "4.3.30"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"

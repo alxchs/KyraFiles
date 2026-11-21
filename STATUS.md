@@ -2,6 +2,19 @@
 
 Última atualização: 2026-11-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
 
+## F055 — Mapa do repositório (21/11/2026)
+
+- CONFIRMED: F055 (SPEC-0051) - Mapa do repositório (`RepoMapAnalyzer.cs` em `KyraFiles.Shared/RepoMap/`) com contagem de linhas, arquivos e tamanho por linguagem, com total geral conferindo exatamente com a soma das linguagens individuais (AC-1, AC-2).
+- CONFIRMED: Poda antecipada de pastas ignoradas e respeito inteligente a `.gitignore` com opção de alternância (`RespectGitIgnore`) (AC-5, FR-001).
+- CONFIRMED: Pontos quentes Git (`Score = Mudanças × Tamanho`) calculados via `git log --since="12 months ago" --name-only` em segundo plano com timeout seguro e mensagem explicativa clara quando fora de repositório Git (AC-3, AC-4).
+- CONFIRMED: Exportação com um clique para Markdown (`ToMarkdownSummary`) e CSV (`ToCsvLanguages`, `ToCsvFiles`) na área de transferência (FR-002).
+- CONFIRMED: Mapeamento de extensões editável (`ExtensionToLanguageMap`) (FR-003) e cancelamento ágil em menos de 1s (`CancellationToken`) (AC-7).
+- CONFIRMED: Diálogo WinUI 3 `RepoMapDialog.xaml` com abas para Linguagens (com listagem detalhada dos arquivos da linguagem do maior para o menor), Maiores Arquivos e Pontos Quentes Git.
+- CONFIRMED: Ação `OpenRepoMapAction.cs` registrada via `[GeneratedRichCommand]` e catalogada em `AppDialogService.cs`.
+- CONFIRMED: 9/9 testes unitários aprovados em `RepoMapTests.cs` (21/21 consolidados com CodeSearch, 0 falhas).
+- CONFIRMED: Gate F021 verificado e aprovado, 0 violações de nomes legados, build Release x64 aprovado.
+- CONFIRMED: Relatório de conclusão emitido em `docs/specs/F055-repo-map/RELATORIO.md`.
+
 ## F051 — Busca de código no estilo ripgrep (21/11/2026)
 
 - CONFIRMED: F051 (SPEC-0047) - Busca de código estilo ripgrep com streaming incremental, suporte a `.gitignore` com poda antecipada, múltiplos encodings (UTF-8, UTF-8 BOM, UTF-16 LE/BE), filtro de binários e grandes arquivos, busca por regex e palavra inteira (`CodeSearchEngine.cs` e `GitIgnoreMatcher.cs` em `KyraFiles.Shared/CodeSearch/`).

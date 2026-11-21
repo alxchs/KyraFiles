@@ -3610,7 +3610,10 @@ namespace KyraFiles.App.ViewModels
 			{
 				var isTagQuery = search.Query?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
 				var searchProviderFactory = Ioc.Default.GetService<ISearchProviderFactory>();
-				var provider = isTagQuery ? null : searchProviderFactory?.GetCurrentProvider();
+				var requestedProvider = search.ProviderId is { } providerId ? searchProviderFactory?.GetProvider(providerId) : null;
+				var provider = isTagQuery ? null
+					: requestedProvider is { IsAvailable: true } ? requestedProvider
+					: searchProviderFactory?.GetCurrentProvider();
 				if (provider is not null)
 				{
 					long lastBatchUiTick = 0;

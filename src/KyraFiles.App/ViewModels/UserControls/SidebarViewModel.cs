@@ -494,11 +494,16 @@ namespace KyraFiles.App.ViewModels.UserControls
 				}
 			}
 
+			// F094: Everything ignores the navigation folder, so a saved scope must travel inside the query.
+			var effectiveQuery = Ioc.Default.GetService<ISearchProviderFactory>()?.GetCurrentProvider() is { Id: "everything" }
+				? KyraFiles.Shared.Helpers.EverythingQueryScope.Compose(evaluated.EffectiveQuery, evaluated.ScopePath)
+				: evaluated.EffectiveQuery;
+
 			shellPage.NavigateToPath(evaluated.ScopePath, new NavigationArguments
 			{
 				IsSearchResultPage = true,
 				SearchPathParam = evaluated.ScopePath,
-				SearchQuery = evaluated.EffectiveQuery,
+				SearchQuery = effectiveQuery,
 				NaturalSearchIntent = evaluated.Intent,
 				AssociatedTabInstance = shellPage,
 				NavPathParam = evaluated.ScopePath,

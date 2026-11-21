@@ -549,9 +549,12 @@ namespace KyraFiles.App.Views.Shells
 			}
 		}
 
-		public void SubmitSearch(string query)
+		public void SubmitSearch(string query, string? folder = null, string? providerId = null)
 		{
 			var shellViewModel = this.GetRequiredShellViewModel();
+			var searchFolder = !string.IsNullOrWhiteSpace(folder) && Directory.Exists(folder)
+				? folder
+				: shellViewModel.WorkingDirectory;
 
 			shellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
@@ -574,17 +577,18 @@ namespace KyraFiles.App.Views.Shells
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
-				SearchPathParam = shellViewModel.WorkingDirectory,
+				SearchPathParam = searchFolder,
 				SearchQuery = effectiveQuery,
 				NaturalSearchIntent = naturalIntent,
+				SearchProviderId = providerId,
 			};
 
-			var layout = InstanceViewModel.FolderSettings.GetLayoutType(shellViewModel.WorkingDirectory);
+			var layout = InstanceViewModel.FolderSettings.GetLayoutType(searchFolder);
 
 			if (layout == typeof(ColumnsLayoutPage))
-				NavigateToPath(shellViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
+				NavigateToPath(searchFolder, typeof(DetailsLayoutPage), args);
 			else
-				NavigateToPath(shellViewModel.WorkingDirectory, layout, args);
+				NavigateToPath(searchFolder, layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)

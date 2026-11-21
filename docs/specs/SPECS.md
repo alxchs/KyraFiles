@@ -1,25 +1,25 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-19T00:44:49.4482815-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-21T14:30:50.8276102-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
-    "total_specs":  77,
-    "total_pontos":  361,
+    "total_specs":  78,
+    "total_pontos":  366,
     "finalizadas":  {
-                        "quantidade":  44,
-                        "pontos":  191,
-                        "percentual":  52.9
+                        "quantidade":  46,
+                        "pontos":  201,
+                        "percentual":  54.9
                     },
     "em_andamento":  {
                          "quantidade":  24,
                          "pontos":  105,
-                         "percentual":  29.1
+                         "percentual":  28.7
                      },
     "fila":  {
-                 "quantidade":  8,
-                 "pontos":  52,
-                 "percentual":  14.4
+                 "quantidade":  7,
+                 "pontos":  47,
+                 "percentual":  12.8
              },
     "dependendo_alexandre":  {
                                  "quantidade":  0,
@@ -43,16 +43,16 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
-| finalizadas | 44 | 191 | 52.9 |
-| em_andamento | 24 | 105 | 29.1 |
-| fila | 8 | 52 | 14.4 |
+| finalizadas | 46 | 201 | 54.9 |
+| em_andamento | 24 | 105 | 28.7 |
+| fila | 7 | 47 | 12.8 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
 | invalidas | 1 | 13 | 3.6 |
 
 ## Agrupamento
 
-**finalizadas (45)**: F002, F003, F006, F008, F009, F010, F012, F013, F018, F019, F021, F024, F027, F028, F031, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F052, F053, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092
+**finalizadas (46)**: F002, F003, F006, F008, F009, F010, F012, F013, F018, F019, F021, F024, F027, F028, F031, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F052, F053, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092, F094
 
 **em_andamento (24)**: F004, F005, F011, F014, F017, F020, F022, F023, F026, F029, F030, F032, F033, F034, F035, F060, F061, F062, F063, F065, F070, F086, F089, F090
 
@@ -103,7 +103,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0033 | F037 | bulk rename preview | 5 | completed | finalizadas | unknown | - |
 | SPEC-0034 | F038 | named workspaces | 5 | completed | finalizadas | agy | - |
 | SPEC-0035 | F039 | disk usage map | 8 | not_started | fila | unknown | - |
-| SPEC-0036 | F040 | duplicate finder | 5 | completed | finalizadas | agy | v4.3.24 |
+| SPEC-0036 | F040 | duplicate finder | 5 | completed | finalizadas | agy | - |
 | SPEC-0037 | F041 | folder compare sync | 8 | not_started | fila | unknown | - |
 | SPEC-0038 | F042 | saved searches | 3 | completed | finalizadas | agy | v4.3.22 |
 | SPEC-0039 | F043 | operation history | 5 | completed | finalizadas | agy | v4.3.22 |
@@ -145,3 +145,4 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | 8 | completed | finalizadas | alexandre/agy | 0d6047ccd, 15fdaae16 |
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | 3 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | 5 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |
+| SPEC-0078 | F094 | busca everything escopo global e historico de buscas | 5 | completed | finalizadas | claude/agy | - |

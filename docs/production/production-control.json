@@ -8,21 +8,21 @@
                     "status":  "active",
                     "migration_status":  "migrated",
                     "baseline_at":  "2026-11-13T19:25:28.2663438-03:00",
-                    "last_updated_at":  "2026-11-19T00:44:49.4482815-03:00",
+                    "last_updated_at":  "2026-11-21T14:30:50.8276102-03:00",
                     "last_updated_by":  "agy"
                 },
     "summary":  {
-                    "spec_count":  77,
+                    "spec_count":  78,
                     "task_count":  null,
                     "status_counts":  {
                                           "cancelled":  1,
-                                          "completed":  44,
+                                          "completed":  46,
                                           "in_validation":  24,
-                                          "not_started":  8
+                                          "not_started":  7
                                       },
-                    "total_points":  361,
-                    "completed_points_equivalent":  191,
-                    "remaining_points":  157,
+                    "total_points":  366,
+                    "completed_points_equivalent":  201,
+                    "remaining_points":  152,
                     "original_estimate_hours":  null,
                     "current_estimate_hours":  null,
                     "actual_hours":  null,
@@ -3294,6 +3294,42 @@
                       "migration_status":  "migrated",
                       "owner":  "alexandre/agy",
                       "created_at":  "2026-11-12T18:00:00-03:00"
+                  },
+                  {
+                      "id":  "SPEC-0078",
+                      "legacy_ids":  [
+                                         "F094"
+                                     ],
+                      "title":  "busca everything escopo global e historico de buscas",
+                      "type":  "feature",
+                      "state":  "completed",
+                      "category":  "finalizadas",
+                      "points":  5,
+                      "points_confidence":  "high",
+                      "points_note":  "escopo global Everything por padrao, escopo por pasta apos mascara, historico de 20 buscas completas, persistencia e limpeza",
+                      "hours":  {
+                                    "original":  null,
+                                    "current":  null,
+                                    "actual":  null,
+                                    "remaining":  null
+                                },
+                      "progress":  "completed",
+                      "evidence":  [
+                                       {
+                                           "note":  "F094 entregue com 23 testes verdes, medicao NFR-001 sem regressao, Gate F021 aprovado e relatorio de conclusao emitido",
+                                           "ref":  "docs/specs/F094-everything-escopo-e-historico/RELATORIO.md",
+                                           "type":  "doc"
+                                       }
+                                   ],
+                      "blockers":  [
+
+                                   ],
+                      "source_files":  [
+                                           "docs/specs/F094-everything-escopo-e-historico/spec.md"
+                                       ],
+                      "migration_status":  "migrated",
+                      "owner":  "claude/agy",
+                      "created_at":  "2026-11-21T12:00:00-03:00"
                   }
               ],
     "dependencies":  [

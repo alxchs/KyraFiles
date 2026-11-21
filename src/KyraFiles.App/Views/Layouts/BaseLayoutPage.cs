@@ -518,6 +518,7 @@ namespace KyraFiles.App.Views.Layouts
 						IsSearchResultPage = args.IsSearchResultPage,
 						SearchPathParam = args.SearchPathParam,
 						SearchQuery = args.SearchQuery,
+						SearchProviderId = args.SearchProviderId,
 						IsLayoutSwitch = true,
 						AssociatedTabInstance = parentShellPage
 					});
@@ -658,6 +659,15 @@ namespace KyraFiles.App.Views.Layouts
 					else
 					{
 						var displayName = App.LibraryManager.TryGetLibrary(searchPath, out var lib) ? lib.Text : searchPath;
+
+						// F094 FR-006: Everything ignores the open folder, so show the real scope.
+						var engineId = args.SearchProviderId ?? Ioc.Default.GetService<ISearchProviderFactory>()?.GetCurrentProvider().Id;
+						if (string.Equals(engineId, "everything", StringComparison.OrdinalIgnoreCase))
+						{
+							var scope = KyraFiles.Shared.Helpers.EverythingQueryScope.Parse(args.SearchQuery, Directory.Exists);
+							displayName = scope.ScopePath ?? Strings.SearchScopeWholeComputer.GetLocalizedResource();
+						}
+
 						await parentShellPage.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), args.SearchQuery, displayName));
 					}
 
@@ -665,6 +675,7 @@ namespace KyraFiles.App.Views.Layouts
 					{
 						Query = args.SearchQuery,
 						Folder = searchPath,
+						ProviderId = args.SearchProviderId,
 					};
 
 					_ = shellViewModel.SearchAsync(searchInstance, args.NaturalSearchIntent);

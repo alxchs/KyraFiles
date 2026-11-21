@@ -234,6 +234,17 @@
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 
+			<!--  F094 Search history  -->
+			<wctcontrols:SettingsCard Description="{helpers:ResourceString Name=ClearSearchHistoryDescription}" Header="{helpers:ResourceString Name=ClearSearchHistory}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE81C;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<Button
+					AutomationProperties.Name="{helpers:ResourceString Name=ClearSearchHistory}"
+					Command="{x:Bind ViewModel.ClearSearchHistoryCommand}"
+					Content="{helpers:ResourceString Name=ClearSearchHistory}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  F015 Search Index  -->
 			<TextBlock
 				Padding="0,16,0,4"

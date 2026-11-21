@@ -357,7 +357,23 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
+							<!--  F094 FR-011: remove one search from the history  -->
+							<Button
+								x:Name="RemoveHistoryEntryButton"
+								Grid.Column="2"
+								Padding="6"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind IsHistoryEntry}"
+								AutomationProperties.Name="{helpers:ResourceString Name=RemoveFromSearchHistory}"
+								Background="Transparent"
+								BorderThickness="0"
+								Click="RemoveHistoryEntryButton_Click"
+								Tag="{x:Bind}"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=RemoveFromSearchHistory}">
+								<FontIcon FontSize="10" Glyph="&#xE711;" />
+							</Button>
 							<Grid
 								Grid.Column="0"
 								Width="16"

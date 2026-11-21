@@ -1024,6 +1024,24 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
   </data>
+  <data name="SearchScopeWholeComputer" xml:space="preserve">
+    <value>the whole computer</value>
+  </data>
+  <data name="EverythingFallbackToCurrentFolder" xml:space="preserve">
+    <value>Everything didn't respond; searching only the current folder</value>
+  </data>
+  <data name="SearchHistoryEntryDescription" xml:space="preserve">
+    <value>In {0} · {1} · {2}</value>
+  </data>
+  <data name="RemoveFromSearchHistory" xml:space="preserve">
+    <value>Remove from search history</value>
+  </data>
+  <data name="ClearSearchHistory" xml:space="preserve">
+    <value>Clear search history</value>
+  </data>
+  <data name="ClearSearchHistoryDescription" xml:space="preserve">
+    <value>Removes the last searches shown in the search box</value>
+  </data>
   <data name="SearchResultsFor" xml:space="preserve">
     <value>Search results for `{0}`</value>
   </data>

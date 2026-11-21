@@ -6,7 +6,9 @@ using CommunityToolkit.WinUI;
 using KyraFiles.App.Controls;
 using KyraFiles.App.ViewModels.Settings;
 using KyraFiles.Shared.Helpers;
+using KyraFiles.Shared.SearchHistory;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -26,6 +28,8 @@ namespace KyraFiles.App.ViewModels.UserControls
 
 		private const int MaxSuggestionsCount = 10;
 
+		private const int MaxMatchingHistorySuggestions = 3;
+
 		public const string OmnibarPathModeName = "OmnibarPathMode";
 		public const string OmnibarPaletteModeName = "OmnibarCommandPaletteMode";
 		public const string OmnibarSearchModeName = "OmnibarSearchMode";
@@ -33,6 +37,7 @@ namespace KyraFiles.App.ViewModels.UserControls
 		// Dependency injections
 
 		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ISearchHistoryService SearchHistoryService = Ioc.Default.GetRequiredService<ISearchHistoryService>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
@@ -1046,16 +1051,19 @@ namespace KyraFiles.App.ViewModels.UserControls
 				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
 		}
 
-		public void SaveSearchQueryToList(string searchQuery)
+		/// <summary>
+		/// Records a submitted search with its scope and engine (F094 FR-013). Everything keeps the scope inside the
+		/// query; other engines search the folder the search started from.
+		/// </summary>
+		public void SaveSearchQueryToList(string searchQuery, string? folder, string? engineId)
 		{
-			var previousSearchQueriesList = UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList?.ToList() ?? [];
-			previousSearchQueriesList.Remove(searchQuery);
-			previousSearchQueriesList.Insert(0, searchQuery);
+			var scope = string.Equals(engineId, "everything", StringComparison.OrdinalIgnoreCase)
+				|| string.IsNullOrWhiteSpace(folder)
+				|| string.Equals(folder, "Home", StringComparison.OrdinalIgnoreCase)
+					? string.Empty
+					: folder;
 
-			if (previousSearchQueriesList.Count > MaxSuggestionsCount)
-				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList.RemoveFrom(MaxSuggestionsCount + 1);
-			else
-				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList;
+			SearchHistoryService.Record(searchQuery, scope, engineId);
 		}
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
@@ -1275,14 +1283,20 @@ namespace KyraFiles.App.ViewModels.UserControls
 
 			List<SuggestionModel> newSuggestions = [];
 
+			var history = SearchHistoryService.GetAll();
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
 			{
-				var previousSearchQueries = UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList;
-				if (previousSearchQueries is not null)
-					newSuggestions.AddRange(previousSearchQueries.Select(query => new SuggestionModel(query, true)));
+				newSuggestions.AddRange(history.Select(CreateHistorySuggestion));
 			}
 			else
 			{
+				// F094 FR-010: matching previous searches come before file results.
+				var typed = OmnibarSearchModeText.Trim();
+				newSuggestions.AddRange(history
+					.Where(h => h.Query.Contains(typed, StringComparison.OrdinalIgnoreCase))
+					.Take(MaxMatchingHistorySuggestions)
+					.Select(CreateHistorySuggestion));
+
 				try
 				{
 					await Task.Delay(200, token);
@@ -1324,20 +1338,70 @@ namespace KyraFiles.App.ViewModels.UserControls
 			if (token.IsCancellationRequested)
 				return;
 
-			// Remove outdated suggestions
-			var toRemove = OmnibarSearchModeSuggestionItems
-				.Where(existing => !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
-				.ToList();
+			SyncSearchSuggestions(newSuggestions);
+		}
 
-			foreach (var item in toRemove)
+		// Diffs by SuggestionKey (history entries have no ItemPath) and keeps the new order (F094 FR-008/FR-010).
+		private void SyncSearchSuggestions(List<SuggestionModel> newSuggestions)
+		{
+			var unique = newSuggestions.DistinctBy(s => s.SuggestionKey).ToList();
+			var keys = unique.Select(s => s.SuggestionKey).ToHashSet();
+
+			for (int i = OmnibarSearchModeSuggestionItems.Count - 1; i >= 0; i--)
+			{
+				if (!keys.Contains(OmnibarSearchModeSuggestionItems[i].SuggestionKey))
+					OmnibarSearchModeSuggestionItems.RemoveAt(i);
+			}
+
+			for (int i = 0; i < unique.Count; i++)
+			{
+				var key = unique[i].SuggestionKey;
+				if (i < OmnibarSearchModeSuggestionItems.Count && OmnibarSearchModeSuggestionItems[i].SuggestionKey == key)
+					continue;
+
+				int existingIndex = -1;
+				for (int j = i + 1; j < OmnibarSearchModeSuggestionItems.Count; j++)
+				{
+					if (OmnibarSearchModeSuggestionItems[j].SuggestionKey == key)
+					{
+						existingIndex = j;
+						break;
+					}
+				}
+
+				if (existingIndex >= 0)
+					OmnibarSearchModeSuggestionItems.Move(existingIndex, i);
+				else
+					OmnibarSearchModeSuggestionItems.Insert(i, unique[i]);
+			}
+		}
+
+		private SuggestionModel CreateHistorySuggestion(SearchHistoryEntry entry)
+		{
+			if (entry.EngineId is null)
+				return new SuggestionModel(entry, null);
+
+			string scope = entry.ScopePath;
+			if (string.Equals(entry.EngineId, "everything", StringComparison.OrdinalIgnoreCase))
+				scope = EverythingQueryScope.Parse(entry.Query, _ => true).ScopePath ?? string.Empty;
+
+			var scopeText = string.IsNullOrEmpty(scope) ? Strings.SearchScopeWholeComputer.GetLocalizedResource() : scope;
+			var engineText = Ioc.Default.GetService<ISearchProviderFactory>()?.GetProvider(entry.EngineId)?.DisplayName ?? entry.EngineId;
+			var description = string.Format(
+				Strings.SearchHistoryEntryDescription.GetLocalizedResource(),
+				scopeText,
+				engineText,
+				entry.LastRunAt.ToLocalTime().ToString("g", CultureInfo.CurrentCulture));
+
+			return new SuggestionModel(entry, description);
+		}
+
+		public void RemoveSearchHistoryEntry(SearchHistoryEntry entry)
+		{
+			SearchHistoryService.Remove(entry);
+			var item = OmnibarSearchModeSuggestionItems.FirstOrDefault(s => s.HistoryEntry is { } h && h.IsSameSearch(entry));
+			if (item is not null)
 				OmnibarSearchModeSuggestionItems.Remove(item);
-
-			// Add new suggestions
-			var toAdd = newSuggestions
-				.Where(newItem => !OmnibarSearchModeSuggestionItems.Any(existing => existing.ItemPath == newItem.ItemPath));
-
-			foreach (var item in toAdd)
-				OmnibarSearchModeSuggestionItems.Add(item);
 		}
 
 		private void PopulateOmnibarSuggestionsForSettingsSearch()

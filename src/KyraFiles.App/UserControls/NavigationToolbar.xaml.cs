@@ -255,20 +255,39 @@ namespace KyraFiles.App.UserControls
 
 				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath) && shellPage is not null)
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
+				else if (args.Item is SuggestionModel { HistoryEntry: { EngineId: not null } entry } && shellPage is not null)
+				{
+					// F094 FR-013: repeat with the stored scope and engine, not the folder open now.
+					var folder = string.IsNullOrEmpty(entry.ScopePath) ? null : entry.ScopePath;
+					shellPage.SubmitSearch(entry.Query, folder, entry.EngineId);
+					viewModel.SaveSearchQueryToList(entry.Query, entry.ScopePath, entry.EngineId);
+				}
 				else
 				{
 					var searchQuery = args.Item is SuggestionModel x && !string.IsNullOrWhiteSpace(x.Name)
 						? x.Name
 						: args.Text;
 
+					// Capture scope and engine before navigation changes the working directory.
+					var folder = shellPage?.ShellViewModel?.WorkingDirectory;
+					var engineId = searchQuery.Contains("tag:", StringComparison.OrdinalIgnoreCase)
+						? null
+						: Ioc.Default.GetService<ISearchProviderFactory>()?.GetCurrentProvider().Id;
+
 					shellPage?.SubmitSearch(searchQuery); // use the resolved shellPage for consistency
-					viewModel.SaveSearchQueryToList(searchQuery);
+					viewModel.SaveSearchQueryToList(searchQuery, folder, engineId);
 				}
 
 				// The shell page can be torn down during the awaited navigation above; skip focusing if its pane holder is gone
 				ContentPageContext.ShellPage?.PaneHolder?.FocusActivePane();
 				return;
 			}
+		}
+
+		private void RemoveHistoryEntryButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is FrameworkElement { Tag: SuggestionModel { HistoryEntry: { } entry } } && ViewModel is { } viewModel)
+				viewModel.RemoveSearchHistoryEntry(entry);
 		}
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)

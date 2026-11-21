@@ -385,6 +385,15 @@ namespace KyraFiles.App.Views.Shells
 
 			var query = InstanceViewModel?.CurrentSearchQuery ?? string.Empty;
 			var scope = ShellViewModel?.WorkingDirectory ?? string.Empty;
+
+			// F094 FR-012: with Everything the real scope is the folder typed in the query, or the whole index.
+			if (Ioc.Default.GetService<ISearchProviderFactory>()?.GetCurrentProvider() is { Id: "everything" })
+			{
+				var parsed = KyraFiles.Shared.Helpers.EverythingQueryScope.Parse(query, System.IO.Directory.Exists);
+				query = parsed.ScopePath is null ? query : parsed.Terms;
+				scope = parsed.ScopePath ?? string.Empty;
+			}
+
 			var draft = new KyraFiles.Shared.SavedSearches.SavedSearchDefinition
 			{
 				Name = string.IsNullOrWhiteSpace(query) ? "Busca salva" : query,

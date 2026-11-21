@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-19T00:44:49.4482815-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-21T14:30:50.8276102-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -81,3 +81,4 @@ Gerado de `production-control.json` em 2026-11-19T00:44:49.4482815-03:00 via `to
 | SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | completed | finalizadas | 8 |
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | completed | finalizadas | 3 |
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | completed | finalizadas | 5 |
+| SPEC-0078 | F094 | busca everything escopo global e historico de buscas | completed | finalizadas | 5 |

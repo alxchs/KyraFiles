@@ -1,6 +1,18 @@
 # STATUS
 
-Última atualização: 2026-11-19 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+Última atualização: 2026-11-21 (AGY). Estados de evidência: NOT TESTED / OBSERVED / INFERRED / CONFIRMED (MASTER_SPEC §27).
+
+## F094 — Busca Everything: escopo global e histórico de buscas (21/11/2026)
+
+- CONFIRMED: F094 (SPEC-0078) - Busca Everything global por padrão no índice completo (FR-001), escopo por pasta apenas se especificado após os termos (FR-002..FR-004), título da página de resultados com escopo real ("todo o computador" ou pasta) (FR-006), fallback notificado na queda do `es.exe` (FR-007).
+- CONFIRMED: `EverythingQueryScope.cs` em `KyraFiles.Shared` analisando escopo com e sem aspas, com espaços, caminhos absolutos e barras normalizadas (14/14 testes unitários aprovados em `EverythingQueryScopeTests.cs`).
+- CONFIRMED: `SearchHistoryStore.cs` em `KyraFiles.Shared` e `SearchHistoryService.cs` persistindo histórico completo de 20 buscas (texto, escopo, motor, data) de forma atômica em `search-history.json` (9/9 testes unitários aprovados em `SearchHistoryStoreTests.cs`).
+- CONFIRMED: Deduplicação e sugestões ao digitar priorizando até 3 buscas anteriores correspondentes antes dos arquivos; remoção individual de item do histórico e botão "Limpar histórico de busca" em Configurações > Pastas.
+- CONFIRMED: Medição de desempenho NFR-001 realizada via `tools/perf/measure_everything_search.ps1` comprovando zero regressão (105,1 ms vs 105,5 ms até primeiro resultado no mesmo escopo).
+- CONFIRMED: 23/23 testes unitários aprovados em `KyraFiles.App.Search.Index.Tests.exe` (0 falhas).
+- CONFIRMED: Gate F021 verificado e aprovado (`verify_no_index_service.ps1`: IndexService inativo, repouso CPU 0%, 313.54 MB RAM).
+- CONFIRMED: Verificador de nomes legados aprovado (0 violações); varredura e purga de pastas Debug concluída.
+- CONFIRMED: Relatório de conclusão emitido em `docs/specs/F094-everything-escopo-e-historico/RELATORIO.md`.
 
 ## Train v4.3.24 — Release Train (F040 + Correções de Estabilidade) (19/11/2026)
 

@@ -36,6 +36,8 @@ namespace KyraFiles.App.ViewModels.Settings
 		public IAsyncRelayCommand AddExcludedPathCommand { get; }
 		public IAsyncRelayCommand<string> RemoveExcludedPathCommand { get; }
 
+		public IRelayCommand ClearSearchHistoryCommand { get; } = new RelayCommand(() => Ioc.Default.GetService<ISearchHistoryService>()?.Clear());
+
 		public FoldersViewModel()
 		{
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;

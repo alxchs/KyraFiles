@@ -14,8 +14,8 @@ FILA           ⚪ [v4.3.24] F040 (5p, Duplicate Finder) + estabilidade v4.3.23 
 REGRA FOCO     MANDATÓRIO (29/10/2026): NUNCA roubar o foco da tela do usuário. Na HELOIZE-PC, testes podem rodar o tempo todo sem janela visível/foco.
 REGRA VERSAO   MANDATÓRIO (21/10/2026): O número da versão DEVE ser incrementado a CADA atualização integrada na main.
 MAQUINA        18/11/2026 (Alexandre): Desenvolvimento 100% centralizado na HELOIZE-PC; testes liberados o tempo todo; produção contínua sem IA ociosa.
-CURRENT BRANCH feature/release-v4.3.24
-LAST DECISION  18/11/2026: D-TRAIN-1 (Release Trains em lotes), D-F090-1 (Opção A conservadora), D-F060-2 (SFTP/Script no backlog final).
-NEXT ACTION    Execucao do pipeline /ship para entrega da v4.3.24.0 (F040 + correcoes de estabilidade).
-BLOCKER        Nenhum bloqueador técnico.
+CURRENT BRANCH feature/F094-everything-escopo-e-historico (AGY/Claude, 21/11/2026): T1..T9 concluidas, 23 testes verdes, medicao NFR-001 sem regressao, Gate F021 OK, relatorio emitido em docs/specs/F094-everything-escopo-e-historico/RELATORIO.md.
+LAST DECISION  21/11/2026: F094 concluida; historico de 20 buscas com texto, escopo, motor e data; NFR-001 validado.
+NEXT ACTION    Integrar F094 na main (squash/rebase + ff-only) sob comando /merge do Alexandre.
+BLOCKER        Nenhum.
 PRODUCAO       2026-11-13: protocolo de controle de producao v2 adotado; fonte de verdade em docs/production/production-control.json (SPECS.md gerado dele).

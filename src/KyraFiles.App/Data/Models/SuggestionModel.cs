@@ -91,6 +91,24 @@ namespace KyraFiles.App.Data.Models
 			Name = itemName;
 		}
 
+		public SuggestionModel(KyraFiles.Shared.SearchHistory.SearchHistoryEntry entry, string? description)
+		{
+			IsRecentSearch = true;
+			HistoryEntry = entry;
+			Name = entry.Query;
+			Description = description;
+		}
+
+		/// <summary>Set for search history suggestions; carries scope and engine to repeat the search (F094).</summary>
+		public KyraFiles.Shared.SearchHistory.SearchHistoryEntry? HistoryEntry { get; }
+
+		public bool IsHistoryEntry => HistoryEntry is not null;
+
+		/// <summary>Identity used to diff suggestion lists; history entries have no item path.</summary>
+		public string SuggestionKey => HistoryEntry is { } h
+			? $"history|{h.Query}|{h.ScopePath}"
+			: ItemPath ?? $"name|{Name}";
+
 		public SuggestionModel(SettingsSearchResult settingsResult)
 		{
 			SettingsResult = settingsResult;

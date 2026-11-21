@@ -85,7 +85,9 @@ namespace KyraFiles.App.Data.Contracts
 		/// </summary>
 		void ResetNavigationStackLayoutMode();
 
-		void SubmitSearch(string query);
+		/// <param name="folder">Folder to search in instead of the current one (history repeat); ignored if it no longer exists.</param>
+		/// <param name="providerId">Search provider to use instead of the current one.</param>
+		void SubmitSearch(string query, string? folder = null, string? providerId = null);
 
 		/// <summary>
 		/// Used to make commands in the column view work properly

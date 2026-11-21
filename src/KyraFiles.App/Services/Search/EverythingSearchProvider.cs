@@ -3,6 +3,7 @@
 
 using KyraFiles.App.Data.Contracts;
 using KyraFiles.App.Data.Items;
+using KyraFiles.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
@@ -141,20 +142,17 @@ namespace KyraFiles.App.Services.Search
 						"-n", maxResults.ToString()
 					};
 
-					string rawQuery = request.Query.Trim();
-					string folder = request.Folder?.Trim().TrimEnd('\\', '/') ?? string.Empty;
-
-					// Se a query já contém especificador de caminho (ex: r:\desenv, c:\, d:\, \),
-					// NÃO adiciona -path para não criar conflito de diretório no Everything.
-					bool queryHasPath = rawQuery.Contains(@":\") || rawQuery.Contains(@":/") || rawQuery.StartsWith(@"\");
-					if (!queryHasPath && !string.IsNullOrEmpty(folder) && !folder.Equals("Home", StringComparison.OrdinalIgnoreCase) && Directory.Exists(folder))
+					// F094: the open folder is never an implicit scope; only a folder typed after the mask limits the search.
+					var scope = EverythingQueryScope.Parse(request.Query, Directory.Exists);
+					if (scope.ScopePath is not null)
 					{
 						arguments.Add("-path");
-						arguments.Add($"\"{folder}\"");
+						arguments.Add($"\"{scope.ScopePath}\"");
 					}
 
-					// Adiciona os termos da query preservando a sintaxe original do Everything (sem aspas duplas envolventes)
-					arguments.Add(rawQuery);
+					// Terms keep the original Everything syntax (no surrounding quotes)
+					if (scope.Terms.Length > 0)
+						arguments.Add(scope.Terms);
 
 					var startInfo = new ProcessStartInfo
 					{
@@ -217,6 +215,14 @@ namespace KyraFiles.App.Services.Search
 
 						await process.WaitForExitAsync(cancellationToken);
 
+						// F094 FR-007: es.exe fails (e.g. error 8, Everything client not running in this session) with
+						// no output; without this the user got an empty result instead of the fallback.
+						if (process.ExitCode != 0 && count == 0)
+						{
+							var error = (await process.StandardError.ReadToEndAsync(cancellationToken)).Trim();
+							throw new InvalidOperationException($"es.exe exited with code {process.ExitCode}: {error}");
+						}
+
 						if (count >= maxResults && request.OnTruncated is not null)
 						{
 							request.OnTruncated(maxResults);
@@ -237,7 +243,8 @@ namespace KyraFiles.App.Services.Search
 				}
 			}
 
-			// Fallback to Native Files Search when Everything CLI/IPC is not directly invokable
+			// Fallback to Native Files Search when Everything CLI/IPC is not directly invokable (F094 FR-007: tell the user)
+			request.OnFallbackNotice?.Invoke(Strings.EverythingFallbackToCurrentFolder.GetLocalizedResource());
 			await _fallbackProvider.SearchAsync(request, results, cancellationToken);
 		}
 	}

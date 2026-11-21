@@ -33,6 +33,9 @@ namespace KyraFiles.App.Utils.Storage
 
 		public uint MaxItemCount { get; set; } = 0; // 0: no limit
 
+		/// <summary>Provider id requested by the caller; null uses the current provider (F094).</summary>
+		public string? ProviderId { get; set; }
+
 		private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
 		public EventHandler? SearchTick;

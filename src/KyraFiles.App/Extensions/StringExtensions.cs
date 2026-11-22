@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -61,6 +61,11 @@ namespace KyraFiles.App.Extensions
 
 		private static readonly Dictionary<string, string> abbreviations = new()
 		{
+			{ ByteSize.KibiByteSymbol, Strings.KiloByteSymbol.GetLocalizedResource() },
+			{ ByteSize.MebiByteSymbol, Strings.MegaByteSymbol.GetLocalizedResource() },
+			{ ByteSize.GibiByteSymbol, Strings.GigaByteSymbol.GetLocalizedResource() },
+			{ ByteSize.TebiByteSymbol, Strings.TeraByteSymbol.GetLocalizedResource() },
+			{ ByteSize.PebiByteSymbol, Strings.PetaByteSymbol.GetLocalizedResource() },
 			{ ByteSize.KiloByteSymbol, Strings.KiloByteSymbol.GetLocalizedResource() },
 			{ ByteSize.MegaByteSymbol, Strings.MegaByteSymbol.GetLocalizedResource() },
 			{ ByteSize.GigaByteSymbol, Strings.GigaByteSymbol.GetLocalizedResource() },

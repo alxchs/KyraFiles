@@ -284,12 +284,6 @@ namespace KyraFiles.App.UserControls
 			}
 		}
 
-		private void RemoveHistoryEntryButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (sender is FrameworkElement { Tag: SuggestionModel { HistoryEntry: { } entry } } && ViewModel is { } viewModel)
-				viewModel.RemoveSearchHistoryEntry(entry);
-		}
-
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
 		{
 			if (args.Reason is not OmnibarTextChangeReason.UserInput)

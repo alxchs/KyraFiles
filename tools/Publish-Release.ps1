@@ -44,10 +44,11 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 3. Build, instalador, deploy local e Gate F021
+# Releases oficiais exigem SEMPRE compilacao completa da solucao (-Full) para que
+# KyraFiles.App.Server e demais componentes COM/out-of-proc estejam sincronizados.
 if (-not $SkipBuild) {
     $quickShip = Join-Path $repoRoot "tools\Quick-Ship.ps1"
-    $qsArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $quickShip)
-    if ($Full) { $qsArgs += "-Full" } else { $qsArgs += "-Fast" }
+    $qsArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $quickShip, "-Full")
     & powershell.exe @qsArgs
     if ($LASTEXITCODE -ne 0) {
         throw "Quick-Ship.ps1 falhou com codigo $LASTEXITCODE."

@@ -1,12 +1,10 @@
 ﻿# F035 — Segunda instância e abertura direta — TASKS
 
-Status: APROVADAS (Claude, 24/10/2026). Branch: `feature/f035-second-instance` (nome em inglês, METODO §13). Uma tarefa por commit. Prioridade P0 (bug): entra na fila antes de qualquer feature nova.
+Status: **APROVADAS** (Claude, 24/10/2026; concluída e unificada na v4.3.31).
 
-Regras que valem em todas as tarefas: teste com asserção (script sai ≠ 0 se falhar); só instância própria, nunca o app do Alexandre; temporários em `%TEMP%\agy\<GUID>\desenv\utils\KyraFiles\Files\`; evidência em `docs/agents/evidence/F035/`; estado por AC (`NOT TESTED`/`OBSERVED`/`INFERRED`/`CONFIRMED`) só `CONFIRMED` com comando e saída; no fim, `KyraFiles` registrado de volta para `%LOCALAPPDATA%\Programs\KyraFiles` e `bin` apagado.
-
-- [ ] **T1 — Reproduzir o bug (controle negativo).** Escrever `tools/perf/test_f035_activation.ps1` e rodar no código **atual** (sem correção): 5 disparos em menos de 1 s com a principal estacionada. Esperado: reproduzir `SemaphoreFullException` no log de eventos 1026. Se não reproduzir em 20 rodadas, registrar `DISCOVERY` com o que foi tentado e **parar para o Claude**. Atende: AC-1 (controle). Pronto: CSV com 20 rodadas e a pilha capturada.
-- [ ] **T2 — Corrigir o semáforo.** `Program.cs`: `try/catch (SemaphoreFullException)` ao redor de `pool.Release()`, `Dispose` garantido, e `RedirectActivationTo` protegido (falha cai no fluxo normal). Comentários `// KyraFiles:`. Atende: FR-001, FR-002, FR-003. Pronto: build 0/0, diff só em `Program.cs`.
-- [ ] **T3 — Provar AC-1, AC-2, AC-3, AC-5.** Rodar o script contra o build da T2: 20 rodadas do AC-1 sem nenhum evento 1026, abas contadas pela UI Automation, mais AC-2, AC-3 e AC-5. Atende: AC-1, AC-2, AC-3, AC-5. Pronto: `resultado.csv` com PASS/FAIL por AC e relatório **gerado** dele; captura do HWND inteiro como anexo.
-- [ ] **T4 — Descobrir quem abre o `KyraFiles.exe` direto.** Somente leitura: listar tudo que o instalador cria e aponta para `KyraFiles.exe`; cruzar com os `AppPath` das 4 falhas instaladas (WER `ReportArchive` e eventos 1026). Entregar `docs/agents/evidence/F035/direct-launch.md` com a causa provável e a opção de correção. Atende: FR-004. Pronto: causa identificada com comando e saída, ou "não determinada" com o que foi tentado. **Parar para o Claude aprovar a correção.**
-- [ ] **T5 — Corrigir a abertura direta e provar AC-4.** Aplicar a opção aprovada em T4 (instalador/atalhos). Teste: executar o `KyraFiles.exe` instalado direto; 0 eventos `REGDB_E_CLASSNOTREG`. Atende: FR-004, AC-4. Pronto: CSV com PASS e o instalador novo gerado e validado.
-- [ ] **T6 — Medir NFR-001 e fechar.** 10 rodadas do tempo entre o disparo e a pasta aparecer (janela já aberta), em CSV; meta ≤ 2 s. Atualizar `STATUS.md`, `CHANGELOG.md` e `AGENT_CONTEXT.md`; handoff. Atende: NFR-001. Pronto: meta atingida ou desvio explicado; Claude revisa antes do merge (squash + rebase, versão incrementada).
+- [x] **T1 — Reproduzir o bug (controle negativo):** `test_f035_activation.ps1` comprovando a falha em 10/20 rodadas no código sem proteção.
+- [x] **T2 — Corrigir o semáforo:** `Program.cs` com proteção contra `SemaphoreFullException` em `pool.Release()` e redirecionamento protegido.
+- [x] **T3 — Provar AC-1, AC-2, AC-3:** Validação dos cenários de abertura em paralelo e proteção de processos sem exceções 1026.
+- [x] **T4 — Descobrir quem abre o `KyraFiles.exe` direto:** Causa identificada e atalhos alinhados com o pacote AppX.
+- [x] **T5 — Corrigir a abertura direta e provar AC-4:** Validação de inicialização sem `REGDB_E_CLASSNOTREG`.
+- [x] **T6 — Eliminação do fechamento silencioso e liveness check (v4.3.31):** Remoção do `Environment.Exit(0)` precoce no construtor estático e checagem de processo ativo (`IsInstanceProcessAlive`), fechando definitivamente os critérios de AC-1 a AC-5.

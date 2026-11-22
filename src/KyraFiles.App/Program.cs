@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using KyraFiles.Shared.Helpers;
@@ -53,46 +53,28 @@ namespace KyraFiles.App
 			// activation redirect, so a receiving instance can resolve relative
 			// paths like "." against the terminal's CWD rather than its own. (#16982)
 			ApplicationData.Current.LocalSettings.Values[LaunchCwdKey] = Environment.CurrentDirectory;
+		}
 
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+		private static bool IsInstanceProcessAlive(int pid)
+		{
+			if (pid == 0 || pid == -1)
+				return false;
+
+			var targetPid = Math.Abs(pid);
+			if (targetPid == Environment.ProcessId)
+				return false;
+
 			try
 			{
-				// KyraFiles: a file dialog runs in its own process; handing it to the parked main instance would turn that one into the dialog (F012 T7)
-				if (!isNew && !IsFileDialogLaunch())
-				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-
-					// A stale key resolves to this process itself; redirecting to self would drop the activation
-					if (!instance.IsCurrent)
-					{
-						// KyraFiles: if semaphore is already at maximum, the main instance was already awakened by a concurrent launch (F035 T2)
-						try
-						{
-							pool.Release();
-						}
-						catch (SemaphoreFullException)
-						{
-							// Main instance already signaled, proceed to redirect
-						}
-
-						// KyraFiles: protect redirection; if the target instance crashed or disappeared, fall through to normal startup (F035 T2)
-						try
-						{
-							RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
-							pool.Dispose();
-							Environment.Exit(0);
-						}
-						catch
-						{
-							// Target instance unreachable; fall through so this instance becomes main
-						}
-					}
-				}
+				var proc = Process.GetProcessById(targetPid);
+				return !proc.HasExited && (
+					proc.ProcessName.Equals("KyraFiles", StringComparison.OrdinalIgnoreCase) ||
+					proc.ProcessName.Equals("Files", StringComparison.OrdinalIgnoreCase) ||
+					proc.ProcessName.Equals("KyraFiles.App", StringComparison.OrdinalIgnoreCase));
 			}
-			finally
+			catch
 			{
-				pool.Dispose();
+				return false;
 			}
 		}
 
@@ -227,12 +209,26 @@ namespace KyraFiles.App
 					(OpenTabInExistingInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-
-					if (!instance.IsCurrent)
+					if (IsInstanceProcessAlive(activePid))
 					{
-						RedirectActivationTo(instance, activatedArgs);
-						return;
+						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+
+						if (!instance.IsCurrent)
+						{
+							try
+							{
+								RedirectActivationTo(instance, activatedArgs);
+								return;
+							}
+							catch
+							{
+								// Fall through if target failed
+							}
+						}
+					}
+					else if (activePid != -1)
+					{
+						ApplicationData.Current.LocalSettings.Values.Remove("INSTANCE_ACTIVE");
 					}
 				}
 			}
@@ -254,11 +250,25 @@ namespace KyraFiles.App
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+					if (IsInstanceProcessAlive(activePid))
 					{
-						RedirectActivationTo(instance, activatedArgs);
-						return;
+						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+						if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+						{
+							try
+							{
+								RedirectActivationTo(instance, activatedArgs);
+								return;
+							}
+							catch
+							{
+								// Fall through if target failed
+							}
+						}
+					}
+					else if (activePid != -1)
+					{
+						ApplicationData.Current.LocalSettings.Values.Remove("INSTANCE_ACTIVE");
 					}
 				}
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
@@ -267,22 +277,50 @@ namespace KyraFiles.App
 					if (parsedArgs.Length == 1)
 					{
 						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-						if (!instance.IsCurrent)
+						if (IsInstanceProcessAlive(activePid))
 						{
-							RedirectActivationTo(instance, activatedArgs);
-							return;
+							var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+							if (!instance.IsCurrent)
+							{
+								try
+								{
+									RedirectActivationTo(instance, activatedArgs);
+									return;
+								}
+								catch
+								{
+									// Fall through if target failed
+								}
+							}
+						}
+						else if (activePid != -1)
+						{
+							ApplicationData.Current.LocalSettings.Values.Remove("INSTANCE_ACTIVE");
 						}
 					}
 				}
 				else if (activatedArgs.Data is IFileActivatedEventArgs)
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent)
+					if (IsInstanceProcessAlive(activePid))
 					{
-						RedirectActivationTo(instance, activatedArgs);
-						return;
+						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+						if (!instance.IsCurrent)
+						{
+							try
+							{
+								RedirectActivationTo(instance, activatedArgs);
+								return;
+							}
+							catch
+							{
+								// Fall through if target failed
+							}
+						}
+					}
+					else if (activePid != -1)
+					{
+						ApplicationData.Current.LocalSettings.Values.Remove("INSTANCE_ACTIVE");
 					}
 				}
 			}
@@ -378,12 +416,19 @@ namespace KyraFiles.App
 		/// <returns>False when no reachable main instance appeared in time, so this process must start normally.</returns>
 		private static bool TryRedirectToRunningInstance(AppActivationArguments activatedArgs)
 		{
-			var deadline = DateTime.UtcNow.AddSeconds(8);
+			var deadline = DateTime.UtcNow.AddSeconds(4);
 			while (true)
 			{
 				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 				if (activePid != -1)
 				{
+					if (!IsInstanceProcessAlive(activePid))
+					{
+						// Target process died or is invalid; clear stale setting and stop waiting
+						ApplicationData.Current.LocalSettings.Values.Remove("INSTANCE_ACTIVE");
+						return false;
+					}
+
 					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
 					if (!instance.IsCurrent)
 					{

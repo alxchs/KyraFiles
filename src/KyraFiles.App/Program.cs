@@ -42,7 +42,7 @@ namespace KyraFiles.App
 		}
 
 		/// <summary>
-		/// KyraFiles: whether this process was started by the custom file dialog (-outputpath), also when it came through the kyrafiles-dev: protocol with the command hex-escaped.
+		/// KyraFiles: whether this process was started by the custom file dialog (-outputpath), also when it came through the kyrafiles: protocol with the command hex-escaped.
 		/// </summary>
 		private static bool IsFileDialogLaunch()
 			=> Uri.UnescapeDataString(Environment.CommandLine).Contains("-outputpath", StringComparison.OrdinalIgnoreCase);
@@ -363,7 +363,7 @@ namespace KyraFiles.App
 				launchArgs.Arguments is not null &&
 				CommandLineParser.SplitArguments(launchArgs.Arguments, true).FirstOrDefault() is string arg0 &&
 				(arg0.EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase) ||
-				arg0.EndsWith($"kyrafiles-dev", StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
+				arg0.EndsWith(Constants.Protocol.CustomProtocolScheme, StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
 			var cmdProtocolArgs = activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs &&
 				protocolArgs.Uri.Query.TrimStart('?').Split('=') is string[] parsedArgs &&
 				parsedArgs.Length == 2 && parsedArgs[0] == "cmd" ? Uri.UnescapeDataString(parsedArgs[1]) : null;

@@ -147,15 +147,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_OPEN_FILES:
         // Se o Files ja estiver aberto, o protocolo atinge a instancia existente; se nao, o Windows o inicia.
-        // A URI tem de ser exatamente "kyrafiles-dev:": e o ramo do MainWindow feito para o Win+E (abre a MainPage e traz
+        // A URI tem de ser exatamente "kyrafiles:": e o ramo do MainWindow feito para o Win+E (abre a MainPage e traz
         // para o primeiro plano). Com query ("?tab=Home") o app tenta ler JSON de aba e quebra (debug.log, 12/10/2026).
         if (!IsTestNoHookEnabled())
         {
-            HINSTANCE hRes = ShellExecuteW(NULL, L"open", L"kyrafiles:", NULL, NULL, SW_SHOWNORMAL);
-            if ((INT_PTR)hRes <= 32)
-            {
-                ShellExecuteW(NULL, L"open", L"kyrafiles-dev:", NULL, NULL, SW_SHOWNORMAL);
-            }
+            ShellExecuteW(NULL, L"open", L"kyrafiles:", NULL, NULL, SW_SHOWNORMAL);
         }
         return 0;
 

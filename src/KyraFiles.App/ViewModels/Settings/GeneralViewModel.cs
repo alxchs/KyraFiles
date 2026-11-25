@@ -124,8 +124,8 @@ namespace KyraFiles.App.ViewModels.Settings
 			// Save the updated tab list before restarting
 			AppLifecycleHelper.SaveSessionTabs();
 
-			// Launches a new instance of Files
-			await Launcher.LaunchUriAsync(new Uri("kyrafiles-dev:"));
+			// Launches a new instance of KyraFiles
+			await Launcher.LaunchUriAsync(new Uri(Constants.Protocol.CustomProtocolUri));
 
 			// Closes the current instance
 			Environment.Exit(0);

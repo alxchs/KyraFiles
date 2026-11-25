@@ -73,6 +73,30 @@
       "exact_snippet": "F071-integrity-downloaded-files",
       "category": "b",
       "reason": "Identificador da spec F071 ('downloaded files' = arquivos baixados da internet)."
+    },
+    {
+      "file": "INSTRUCTIONS_OPERARY.md",
+      "exact_snippet": "FilesDev",
+      "category": "b",
+      "reason": "Documentação da regra de limpeza do pacote legado FilesDev no instalador."
+    },
+    {
+      "file": "installer/KyraFilesSetup.iss",
+      "exact_snippet": "FilesDev",
+      "category": "b",
+      "reason": "Purga mandatória do pacote legado FilesDev antes do registro do novo pacote KyraFiles (F095)."
+    },
+    {
+      "file": "src/KyraFiles.App/Services/App/AppUpdateSideloadService.cs",
+      "exact_snippet": "kyrafiles-dev",
+      "category": "b",
+      "reason": "Migração compulsória do valor legado kyrafiles-dev para kyrafiles em Branch.txt (F095)."
+    },
+    {
+      "file": "src/KyraFiles.App/Services/App/AppUpdateStoreService.cs",
+      "exact_snippet": "kyrafiles-dev",
+      "category": "b",
+      "reason": "Migração compulsória do valor legado kyrafiles-dev para kyrafiles em Branch.txt (F095)."
     }
   ]
 }

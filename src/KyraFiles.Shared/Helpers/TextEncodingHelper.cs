@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System;
@@ -184,6 +184,37 @@ namespace KyraFiles.Shared.Helpers
 			}
 
 			return new TextFileInfo(true, encodingName, lineEndingName);
+		}
+
+		public static Encoding DetectEncoding(byte[] buffer, int bytesRead)
+		{
+			if (bytesRead >= 3 && buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF)
+				return Encoding.UTF8;
+
+			if (bytesRead >= 4 && buffer[0] == 0xFF && buffer[1] == 0xFE && buffer[2] == 0x00 && buffer[3] == 0x00)
+				return Encoding.UTF32;
+
+			if (bytesRead >= 4 && buffer[0] == 0x00 && buffer[1] == 0x00 && buffer[2] == 0xFE && buffer[3] == 0xFF)
+				return new UTF32Encoding(true, true);
+
+			if (bytesRead >= 2 && buffer[0] == 0xFF && buffer[1] == 0xFE)
+				return Encoding.Unicode;
+
+			if (bytesRead >= 2 && buffer[0] == 0xFE && buffer[1] == 0xFF)
+				return Encoding.BigEndianUnicode;
+
+			if (IsValidUtf8(buffer, 0, bytesRead))
+				return Encoding.UTF8;
+
+			try
+			{
+				// No Windows brasileiro/ocidental (e padrão ANSI para Delphi .pas e arquivos legados), CodePage 1252 / Western European
+				return Encoding.GetEncoding(1252);
+			}
+			catch
+			{
+				return Encoding.Latin1;
+			}
 		}
 
 		private static bool IsValidUtf8(byte[] bytes, int offset, int length)

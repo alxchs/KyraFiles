@@ -1,4 +1,4 @@
-﻿# F020: Prova de funcionamento das regras de aba única por endereço e Settings na posição 0
+# F020: Prova de funcionamento das regras de aba única por endereço e Settings na posição 0
 # Cenários AC-1 a AC-7
 param([string]$Aumid = 'KyraFiles_sxng2gqmgahde!App')
 
@@ -92,8 +92,8 @@ Save-Shot "01_estado_inicial" | Out-Null
 
 # AC-5: Tentar abrir nova aba Home quando Home já está aberta
 Write-Host "Testando AC-5 (Ctrl+T com destino Home)..."
-# Dispara kyrafiles-dev: (que navega para Home)
-Start-Process "kyrafiles-dev:"
+# Dispara kyrafiles: (que navega para Home)
+Start-Process "kyrafiles:"
 Start-Sleep -Seconds 2
 $tabs = Get-Tabs $win
 $results["AC5_NovaAbaHome_TotalAbas"] = $tabs.Count
@@ -102,7 +102,7 @@ Save-Shot "02_ac5_home_unica" | Out-Null
 
 # Abrir C:\Windows via protocolo
 Write-Host "Abrindo C:\Windows..."
-Start-Process "kyrafiles-dev:?folder=C:\Windows"
+Start-Process "kyrafiles:?folder=C:\Windows"
 Start-Sleep -Seconds 3
 $tabs = Get-Tabs $win
 $results["Abertura_CWindows_TotalAbas"] = $tabs.Count
@@ -110,7 +110,7 @@ Save-Shot "03_abertura_cwindows" | Out-Null
 
 # AC-1 e AC-2: Tentar abrir C:\Windows novamente com variacao de caixa/barra
 Write-Host "Testando AC-1 e AC-2 (tentar abrir c:\windows\ novamente)..."
-Start-Process "kyrafiles-dev:?folder=c:\windows\"
+Start-Process "kyrafiles:?folder=c:\windows\"
 Start-Sleep -Seconds 2
 $tabs = Get-Tabs $win
 $results["AC1_AC2_DuplicataCWindows_TotalAbas"] = $tabs.Count
@@ -119,7 +119,7 @@ Save-Shot "04_ac1_ac2_cwindows_nao_duplicado" | Out-Null
 
 # Abrir uma pasta diferente: C:\
 Write-Host "Abrindo C:\..."
-Start-Process "kyrafiles-dev:?folder=C:\"
+Start-Process "kyrafiles:?folder=C:\"
 Start-Sleep -Seconds 3
 $tabs = Get-Tabs $win
 $results["Abertura_CDrive_TotalAbas"] = $tabs.Count

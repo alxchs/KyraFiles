@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // SPDX-License-Identifier: MPL-2.0
 
 using KyraFiles.App.Data.Contracts;
@@ -370,7 +370,8 @@ namespace KyraFiles.App.UserControls
 				var buffer = new byte[bytesToRead];
 				int read = await stream.ReadAsync(buffer.AsMemory(0, bytesToRead), token);
 
-				using var reader = new StreamReader(new MemoryStream(buffer, 0, read), System.Text.Encoding.Default, detectEncodingFromByteOrderMarks: true);
+				var encoding = KyraFiles.Shared.Helpers.TextEncodingHelper.DetectEncoding(buffer, read);
+				using var reader = new StreamReader(new MemoryStream(buffer, 0, read), encoding, detectEncodingFromByteOrderMarks: true);
 				text = await reader.ReadToEndAsync(token);
 
 				if (stream.Length > maxBytes)

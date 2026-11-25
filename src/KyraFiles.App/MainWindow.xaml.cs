@@ -1,9 +1,10 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using KyraFiles.App.Helpers;
+using KyraFiles.Shared.Helpers;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -78,8 +79,7 @@ namespace KyraFiles.App
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles-dev", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith(Constants.Protocol.CustomProtocolScheme, StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
@@ -110,7 +110,8 @@ namespace KyraFiles.App
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "kyrafiles-dev:")
+					var launchInfo = ProtocolUriParser.Parse(eventArgs.Uri);
+					if (launchInfo.Action == ProtocolAction.Home || string.IsNullOrWhiteSpace(launchInfo.TargetValue))
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
@@ -122,23 +123,10 @@ namespace KyraFiles.App
 					}
 					else
 					{
-						var uriQuery = eventArgs.Uri.Query.TrimStart('?');
-						var parsedArgs = uriQuery.Contains('=') ? uriQuery.Split('=') : [];
-						string action = parsedArgs.Length > 0 ? parsedArgs[0] : "folder";
-						string unescapedValue = string.Empty;
-
-						if (parsedArgs.Length > 1)
+						string unescapedValue = launchInfo.TargetValue;
+						if (launchInfo.Action == ProtocolAction.Tab && launchInfo.MoveDx is int dx && launchInfo.MoveDy is int dy)
 						{
-							unescapedValue = Uri.UnescapeDataString(parsedArgs[1].Split('&')[0]);
-							if (action == "tab" && parsedArgs.Length > 3 &&
-								int.TryParse(parsedArgs[2].Split('&')[0], out var dx) &&
-								int.TryParse(parsedArgs[3], out var dy))
-								AppWindow?.Move(new(dx - 100, dy - 16));
-						}
-						else
-						{
-							var rawPath = eventArgs.Uri.OriginalString.Substring("kyrafiles-dev:".Length).TrimStart('/');
-							unescapedValue = Uri.UnescapeDataString(rawPath);
+							AppWindow?.Move(new(dx - 100, dy - 16));
 						}
 
 						var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
@@ -147,21 +135,21 @@ namespace KyraFiles.App
 							// Convert short name to long name (#6190)
 							unescapedValue = folder.Path;
 						}
-						switch (action)
+						switch (launchInfo.Action)
 						{
-							case "tab":
+							case ProtocolAction.Tab:
 								rootFrame.Navigate(typeof(MainPage),
 									new MainPageNavigationArguments() { Parameter = TabBarItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 
-							case "folder":
+							case ProtocolAction.Folder:
 								rootFrame.Navigate(typeof(MainPage),
 									new MainPageNavigationArguments() { Parameter = unescapedValue, IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 
-							case "cmd":
+							case ProtocolAction.Cmd:
 								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
 								if (ppm.IsEmpty())
 									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());

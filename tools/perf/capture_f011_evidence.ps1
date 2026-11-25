@@ -1,9 +1,9 @@
-﻿# Capture F011 Evidence
+# Capture F011 Evidence
 Stop-Process -Name Files -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
 Write-Host "Iniciando KyraFiles..."
-$p = Start-Process "kyrafiles-dev:" -PassThru
+$p = Start-Process "kyrafiles:" -PassThru
 Start-Sleep -Seconds 5
 
 $filesProc = Get-Process -Name Files -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1

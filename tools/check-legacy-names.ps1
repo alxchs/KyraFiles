@@ -100,6 +100,31 @@ Write-Host "Verificacao de caminhos concluida. ($($violations.Count) violacoes e
 # 3. Verificacao R2: Conteudo de todos os arquivos versionados
 Write-Host "`n[2/2] Verificando conteudo dos arquivos versionados..." -ForegroundColor Yellow
 
+# Barrar kyrafiles-dev em src/ e installer/
+$kyrafilesDevGrep = git grep -n -i -I -P 'kyrafiles-dev' -- src/ installer/
+if ($kyrafilesDevGrep) {
+    foreach ($line in $kyrafilesDevGrep) {
+        $firstColon = $line.IndexOf(':')
+        if ($firstColon -le 0) { continue }
+        $secondColon = $line.IndexOf(':', $firstColon + 1)
+        if ($secondColon -le 0) { continue }
+
+        $file = $line.Substring(0, $firstColon)
+        $lineNumStr = $line.Substring($firstColon + 1, $secondColon - $firstColon - 1)
+        $snippet = $line.Substring($secondColon + 1)
+
+        if (-not (Is-Allowed -FilePath $file -Snippet $snippet)) {
+            $violations.Add([PSCustomObject]@{
+                Type = "Content"
+                File = $file
+                Line = [int]$lineNumStr
+                Snippet = $snippet.Trim()
+                Category = "Codigo e Textos (kyrafiles-dev proibido)"
+            })
+        }
+    }
+}
+
 # Padrões específicos de marca e prefixos
 $contentPatterns = @(
     '(?<![A-Za-z0-9_])Files\.(App|Shared|Core|Server|Index|InteractionTests|BackgroundTasks|HotkeyService|Watchdog|Launcher|Storage)',

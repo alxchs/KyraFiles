@@ -37,7 +37,7 @@ try {
     Write-Host "KyraFiles iniciado. PID: $($proc.Id)"
     
     # Navega para a pasta via explorer protocol
-    Start-Process "explorer.exe" -ArgumentList "kyrafiles-dev:?folder=$encodedPath"
+    Start-Process "explorer.exe" -ArgumentList "kyrafiles:?folder=$encodedPath"
     Start-Sleep -Seconds 4
 
     $VK_P = [byte]0x50

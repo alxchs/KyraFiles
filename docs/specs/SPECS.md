@@ -1,20 +1,20 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-22T19:17:44.9874718-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-23T00:54:44.3047393-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
   "total_specs": 78,
   "total_pontos": 366,
   "finalizadas": {
-    "quantidade": 63,
-    "pontos": 266,
-    "percentual": 72.7
+    "quantidade": 59,
+    "pontos": 251,
+    "percentual": 68.6
   },
   "em_andamento": {
-    "quantidade": 9,
-    "pontos": 50,
-    "percentual": 13.7
+    "quantidade": 13,
+    "pontos": 65,
+    "percentual": 17.8
   },
   "fila": {
     "quantidade": 5,
@@ -43,8 +43,8 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
-| finalizadas | 63 | 266 | 72.7 |
-| em_andamento | 9 | 50 | 13.7 |
+| finalizadas | 59 | 251 | 68.6 |
+| em_andamento | 13 | 65 | 17.8 |
 | fila | 5 | 37 | 10.1 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
@@ -52,9 +52,9 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 ## Agrupamento
 
-**finalizadas (63)**: F002, F003, F004, F005, F006, F008, F009, F010, F011, F012, F013, F014, F017, F018, F019, F020, F021, F022, F023, F024, F026, F027, F028, F029, F030, F031, F032, F033, F034, F035, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F051, F052, F053, F055, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092, F094
+**finalizadas (59)**: F002, F003, F004, F005, F006, F008, F009, F010, F011, F012, F013, F014, F018, F019, F021, F023, F024, F026, F027, F028, F029, F030, F031, F032, F033, F034, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F051, F052, F053, F055, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092, F094
 
-**em_andamento (9)**: F060, F061, F062, F063, F065, F070, F086, F089, F090
+**em_andamento (13)**: F017, F020, F022, F035, F060, F061, F062, F063, F065, F070, F086, F089, F090
 
 **fila (5)**: F039, F041, F046, F050, F054
 
@@ -81,12 +81,12 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0011 | F013 | f3 agent ransack | 5 | completed | finalizadas | unknown | e6dcf50ae |
 | SPEC-0012 | F014 | sistema help contextual | 5 | completed | finalizadas | unknown | e6dcf50ae |
 | SPEC-0013 | F015 | indice de busca | 13 | cancelled | invalidas | unknown | e6dcf50ae, f8e72cc9c |
-| SPEC-0014 | F017 | win e persistent launcher | 5 | completed | finalizadas | unknown | e6dcf50ae, f8e72cc9c |
+| SPEC-0014 | F017 | win e persistent launcher | 5 | in_validation | em_andamento | unknown | e6dcf50ae, f8e72cc9c |
 | SPEC-0015 | F018 | sobre e atualizacoes | 3 | completed | finalizadas | unknown | docs/releases/2026-11-15_1315_build-v4.3.17.md |
 | SPEC-0016 | F019 | efeito visivel das formas | 3 | completed | finalizadas | unknown | e6dcf50ae, 28c3afed6 |
-| SPEC-0017 | F020 | aba unica por endereco e posicao settings | 2 | completed | finalizadas | unknown | e6dcf50ae |
+| SPEC-0017 | F020 | aba unica por endereco e posicao settings | 2 | in_validation | em_andamento | unknown | e6dcf50ae |
 | SPEC-0018 | F021 | bloqueio indexservice | 5 | completed | finalizadas | unknown | 8913475a2 |
-| SPEC-0019 | F022 | correcao startup e instalador | 3 | completed | finalizadas | unknown | e6dcf50ae |
+| SPEC-0019 | F022 | correcao startup e instalador | 3 | in_validation | em_andamento | unknown | e6dcf50ae |
 | SPEC-0020 | F023 | hybrid fast search | 8 | completed | finalizadas | unknown | 8913475a2, 5364a15b4 |
 | SPEC-0021 | F024 | choque performance navegacao | 8 | completed | finalizadas | unknown | c0d3ae468 |
 | SPEC-0022 | F026 | selecao coalescida | 5 | completed | finalizadas | unknown | c0d3ae468 |
@@ -98,7 +98,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0028 | F032 | fixar aba | 3 | completed | finalizadas | unknown | 8913475a2, ba2af8149 |
 | SPEC-0029 | F033 | copiar mover para | 3 | completed | finalizadas | unknown | 8913475a2, ba2af8149 |
 | SPEC-0030 | F034 | lista sem checkbox | 2 | completed | finalizadas | unknown | 8913475a2, eb15c68b6 |
-| SPEC-0031 | F035 | second instance | 5 | completed | finalizadas | unknown | 2ab7a65bc, 8913475a2 |
+| SPEC-0031 | F035 | second instance | 5 | in_validation | em_andamento | unknown | 2ab7a65bc, 8913475a2 |
 | SPEC-0032 | F036 | copy queue | 8 | completed | finalizadas | unknown | d036a49de |
 | SPEC-0033 | F037 | bulk rename preview | 5 | completed | finalizadas | unknown | - |
 | SPEC-0034 | F038 | named workspaces | 5 | completed | finalizadas | agy | - |

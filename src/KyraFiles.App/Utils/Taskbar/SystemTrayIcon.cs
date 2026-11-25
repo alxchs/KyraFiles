@@ -296,7 +296,7 @@ namespace KyraFiles.App.Utils.Taskbar
 			{
 				_lastLaunchDate = DateTime.Now;
 
-				_ = Launcher.LaunchUriAsync(new Uri("kyrafiles-dev:"));
+				_ = Launcher.LaunchUriAsync(new Uri(Constants.Protocol.CustomProtocolUri));
 			}
 			else
 				MainWindow.Instance.Activate();

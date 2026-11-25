@@ -48,6 +48,12 @@ namespace KyraFiles.App
 			public const int QuickAccess = 51380;
 		}
 
+		public static class Protocol
+		{
+			public const string CustomProtocolScheme = "kyrafiles";
+			public const string CustomProtocolUri = "kyrafiles:";
+		}
+
 		public static class WslIconsPaths
 		{
 			public const string Alpine = "ms-appx:///Assets/WSL/alpinepng.png";

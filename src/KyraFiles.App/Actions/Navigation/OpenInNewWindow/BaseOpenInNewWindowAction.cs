@@ -54,7 +54,7 @@ namespace KyraFiles.App.Actions
 			{
 				var targetPath = (listedItem as IShortcutItem)?.TargetPath;
 				var selectedItemPath = !string.IsNullOrEmpty(targetPath) ? targetPath : listedItem.GetRequiredPath();
-				var folderUri = new Uri($"kyrafiles-dev:?folder={@selectedItemPath}");
+				var folderUri = new Uri($"{Constants.Protocol.CustomProtocolUri}?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);
 			}

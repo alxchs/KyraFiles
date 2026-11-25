@@ -8,7 +8,7 @@
     "status": "active",
     "migration_status": "migrated",
     "baseline_at": "2026-11-13T19:25:28.2663438-03:00",
-    "last_updated_at": "2026-11-22T19:17:44.9874718-03:00",
+    "last_updated_at": "2026-11-23T00:54:44.3047393-03:00",
     "last_updated_by": "agy"
   },
   "summary": {
@@ -16,13 +16,13 @@
     "task_count": null,
     "status_counts": {
       "cancelled": 1,
-      "completed": 63,
-      "in_validation": 9,
+      "completed": 59,
+      "in_validation": 13,
       "not_started": 5
     },
     "total_points": 366,
-    "completed_points_equivalent": 266,
-    "remaining_points": 87,
+    "completed_points_equivalent": 251,
+    "remaining_points": 102,
     "original_estimate_hours": null,
     "current_estimate_hours": null,
     "actual_hours": null,
@@ -564,8 +564,8 @@
       ],
       "title": "win e persistent launcher",
       "type": "bugfix",
-      "state": "completed",
-      "category": "finalizadas",
+      "state": "in_validation",
+      "category": "em_andamento",
       "points": 5,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -575,7 +575,7 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "100%",
+      "progress": "in_validation",
       "evidence": [
         {
           "ref": "e6dcf50ae",
@@ -686,8 +686,8 @@
       ],
       "title": "aba unica por endereco e posicao settings",
       "type": "feature",
-      "state": "completed",
-      "category": "finalizadas",
+      "state": "in_validation",
+      "category": "em_andamento",
       "points": 2,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -697,7 +697,7 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "100%",
+      "progress": "in_validation",
       "evidence": [
         {
           "ref": "e6dcf50ae",
@@ -769,8 +769,8 @@
       ],
       "title": "correcao startup e instalador",
       "type": "bugfix",
-      "state": "completed",
-      "category": "finalizadas",
+      "state": "in_validation",
+      "category": "em_andamento",
       "points": 3,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -780,7 +780,7 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "100%",
+      "progress": "in_validation",
       "evidence": [
         {
           "ref": "e6dcf50ae",
@@ -1272,8 +1272,8 @@
       ],
       "title": "second instance",
       "type": "bugfix",
-      "state": "completed",
-      "category": "finalizadas",
+      "state": "in_validation",
+      "category": "em_andamento",
       "points": 5,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -1283,7 +1283,7 @@
         "actual": null,
         "remaining": null
       },
-      "progress": "100%",
+      "progress": "in_validation",
       "evidence": [
         {
           "ref": "2ab7a65bc",

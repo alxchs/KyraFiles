@@ -144,8 +144,15 @@ namespace KyraFiles.App.Services
 				{
 					try
 					{
-						var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
-						if (!string.Equals(branch.Trim(), "kyrafiles-dev", StringComparison.OrdinalIgnoreCase))
+						var branch = (await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8)).Trim();
+						if (string.Equals(branch, "kyrafiles-dev", StringComparison.OrdinalIgnoreCase))
+						{
+							// Migra valor legado kyrafiles-dev para kyrafiles
+							branch = "kyrafiles";
+							await File.WriteAllTextAsync(branchFilePath, branch, Encoding.UTF8);
+						}
+
+						if (!string.Equals(branch, "kyrafiles", StringComparison.OrdinalIgnoreCase))
 							return;
 					}
 					catch { }
@@ -155,7 +162,7 @@ namespace KyraFiles.App.Services
 					try
 					{
 						// Create branch file for users updating from versions earlier than v4.0.20.
-						await File.WriteAllTextAsync(branchFilePath, "kyrafiles-dev", Encoding.UTF8);
+						await File.WriteAllTextAsync(branchFilePath, "kyrafiles", Encoding.UTF8);
 					}
 					catch { }
 				}

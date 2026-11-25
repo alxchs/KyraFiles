@@ -189,3 +189,12 @@ Origem: a F091 foi declarada "zero resíduos" com um verificador que só olhava 
 - **Pacotes 1, 2 e 3 viram um só commit de verificador + inventário;** depois um commit por categoria (nativo/`.github`, `installer`+`tools`, textos/`.resw`, migração, docs). Ainda vale R1 (verificador falhando antes), R8 e R9.
 - **Atenção a identidade persistente (R7) continua:** CLSID/GUID não muda; só o nome simbólico.
 - Build: pedir autorização uma vez ao fim, para o conjunto, em vez de por pacote.
+
+## Lições de regressão da purga de nomes legados (23/11/2026, REGRA DURA)
+
+- **Purga de nome legado não apaga a limpeza do legado.** O commit `0d6047ccd` removeu `Get-AppxPackage FilesDev | Remove-AppxPackage -PreserveApplicationData` do instalador. Resultado: máquinas com o pacote `FilesDev` 4.3.17.0 continuaram ativando o pacote antigo com o código novo. O nome legado precisa continuar no instalador (instalação e desinstalação), com exceção explícita no `tools/check-legacy-names.ps1` e comentário do motivo.
+- **Depois de instalar, provar o registro:** `Get-AppxPackage` deve listar um único pacote com `InstallLocation` igual à pasta do app e versão igual à do instalador. A tela Sobre mostra a versão do pacote registrado, não a do arquivo.
+- **Um nome só para o protocolo.** O manifesto registra `kyrafiles`, mas o código usava `kyrafiles-dev:` em 8 pontos, e o Win+E (`kyrafiles:`) derrubava `InitializeApplicationAsync` com `Substring` (janela vazia). Usar uma constante única para o esquema e nunca `Substring` com tamanho fixo em URI; checar o tamanho antes.
+- **Renomear exige varredura dos dois lados:** manifesto/instalador e todo literal no código e nos serviços nativos (`HotkeyService`, `Watchdog`).
+- **`CONFIRMED` só com comando e saída novos.** Evidência de versão anterior do código não vale para versão nova (caso F035, parecer de 22/11/2026).
+- **Não commitar na `main`.** Branch `feature/*`, um commit por tarefa.

@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using System.IO;
@@ -177,7 +177,19 @@ namespace KyraFiles.App.Utils.Storage
 			using var inputStream = await OpenReadAsync()
 				?? throw new IOException("The file could not be opened for reading.");
 			await using var stream = inputStream.AsStreamForRead();
-			using var dataReader = new StreamReader(stream, true);
+
+			// Detecta codificação inicial por BOM ou amostra de bytes UTF-8 / ANSI (ex: arquivos .pas em Windows-1252)
+			long streamLen = stream.CanSeek ? stream.Length : -1;
+			int sampleSize = (int)(streamLen > 0 ? Math.Min(4096, streamLen) : 4096);
+			byte[] sampleBuffer = new byte[sampleSize];
+			int sampleRead = await stream.ReadAsync(sampleBuffer.AsMemory(0, sampleSize));
+			if (stream.CanSeek)
+			{
+				stream.Position = 0;
+			}
+
+			var detectedEncoding = KyraFiles.Shared.Helpers.TextEncodingHelper.DetectEncoding(sampleBuffer, sampleRead);
+			using var dataReader = new StreamReader(stream, detectedEncoding, detectEncodingFromByteOrderMarks: true);
 			StringBuilder builder = new();
 			int charsRead, charsToRead;
 			do
@@ -186,7 +198,7 @@ namespace KyraFiles.App.Utils.Storage
 				var data = new char[charsToRead];
 				charsRead = await dataReader.ReadAsync(data);
 				builder.Append(data, 0, charsRead);
-			} while (charsRead > 0 && stream.Position < stream.Length);
+			} while (charsRead > 0 && (!stream.CanSeek || stream.Position < stream.Length));
 			return builder.ToString();
 		}
 

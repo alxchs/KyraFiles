@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-22T19:17:44.9874718-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-23T00:54:44.3047393-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -17,12 +17,12 @@ Gerado de `production-control.json` em 2026-11-22T19:17:44.9874718-03:00 via `to
 | SPEC-0011 | F013 | f3 agent ransack | completed | finalizadas | 5 |
 | SPEC-0012 | F014 | sistema help contextual | completed | finalizadas | 5 |
 | SPEC-0013 | F015 | indice de busca | cancelled | invalidas | 13 |
-| SPEC-0014 | F017 | win e persistent launcher | completed | finalizadas | 5 |
+| SPEC-0014 | F017 | win e persistent launcher | in_validation | em_andamento | 5 |
 | SPEC-0015 | F018 | sobre e atualizacoes | completed | finalizadas | 3 |
 | SPEC-0016 | F019 | efeito visivel das formas | completed | finalizadas | 3 |
-| SPEC-0017 | F020 | aba unica por endereco e posicao settings | completed | finalizadas | 2 |
+| SPEC-0017 | F020 | aba unica por endereco e posicao settings | in_validation | em_andamento | 2 |
 | SPEC-0018 | F021 | bloqueio indexservice | completed | finalizadas | 5 |
-| SPEC-0019 | F022 | correcao startup e instalador | completed | finalizadas | 3 |
+| SPEC-0019 | F022 | correcao startup e instalador | in_validation | em_andamento | 3 |
 | SPEC-0020 | F023 | hybrid fast search | completed | finalizadas | 8 |
 | SPEC-0021 | F024 | choque performance navegacao | completed | finalizadas | 8 |
 | SPEC-0022 | F026 | selecao coalescida | completed | finalizadas | 5 |
@@ -34,7 +34,7 @@ Gerado de `production-control.json` em 2026-11-22T19:17:44.9874718-03:00 via `to
 | SPEC-0028 | F032 | fixar aba | completed | finalizadas | 3 |
 | SPEC-0029 | F033 | copiar mover para | completed | finalizadas | 3 |
 | SPEC-0030 | F034 | lista sem checkbox | completed | finalizadas | 2 |
-| SPEC-0031 | F035 | second instance | completed | finalizadas | 5 |
+| SPEC-0031 | F035 | second instance | in_validation | em_andamento | 5 |
 | SPEC-0032 | F036 | copy queue | completed | finalizadas | 8 |
 | SPEC-0033 | F037 | bulk rename preview | completed | finalizadas | 5 |
 | SPEC-0034 | F038 | named workspaces | completed | finalizadas | 5 |

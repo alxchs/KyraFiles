@@ -2,7 +2,7 @@
 ; Atende F017: T3, T4, T5 (Instalação modular, isolada, atualizações limpas e reversão de Win+E)
 
 #define MyAppName "KyraFiles"
-#define MyAppVersion "4.3.31"
+#define MyAppVersion "4.3.32"
 #define MyAppPublisher "KyraFiles"
 #define MyAppExeName "KyraFiles.exe"
 #define MyHotkeyExeName "KyraFiles.HotkeyService.exe"
@@ -215,12 +215,29 @@ var
   ErrorCode: Integer;
   ErrLogPath: String;
   ErrMsg: AnsiString;
+  VerifyScript: String;
 begin
   if CurStep = ssPostInstall then
   begin
-    // Remove qualquer registro prévio de KyraFiles preservando os dados da aplicação, pois o Windows bloqueia registro em Development Mode se o pacote já existir com a mesma versão
-    // Falha do registro nao pode ser escondida: sai com 1 e grava detalhe em log para auditoria
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "try { Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue }; Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop } catch { [System.IO.File]::WriteAllText(''' + ExpandConstant('{tmp}') + '\appx_register_error.log'', $_.Exception.ToString()); exit 1 }"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    // Purga do pacote legado FilesDev e registros anteriores de KyraFiles preservando dados da aplicacao
+    // E registra o novo pacote a partir de AppxManifest.xml
+    VerifyScript := 'try {' +
+      ' Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -PreserveApplicationData -ErrorAction SilentlyContinue;' +
+      ' Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue };' +
+      ' Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop;' +
+      ' $pkgs = @(Get-AppxPackage | Where-Object { $_.InstallLocation -and ($_.InstallLocation.TrimEnd(''\'') -ieq ''' + ExpandConstant('{app}').TrimEnd('\') + ''') });' +
+      ' if ($pkgs.Count -ne 1) {' +
+      '   throw ''Divergencia no registro do pacote AppX: encontrado(s) '' + $pkgs.Count + '' pacote(s) em ' + ExpandConstant('{app}') + ' (esperado exatamente 1).'';' +
+      ' }' +
+      ' $expectedVer = ''{#MyAppVersion}'';' +
+      ' if (-not $pkgs[0].Version.StartsWith($expectedVer)) {' +
+      '   throw ''Versao do pacote registrado ('' + $pkgs[0].Version + '') diverge da versao do instalador ('' + $expectedVer + '').'';' +
+      ' }' +
+      '} catch {' +
+      ' [System.IO.File]::WriteAllText(''' + ExpandConstant('{tmp}') + '\appx_register_error.log'', $_.Exception.ToString()); exit 1;' +
+      '}';
+
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "' + VerifyScript + '"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
     if ErrorCode <> 0 then
     begin
       BringWindowToFrontOrFlash(WizardForm.Handle);
@@ -251,8 +268,8 @@ begin
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\Folder\shell\explore');
     RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}');
 
-    // Remove o registro do pacote AppX
-    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+    // Purga do pacote legado FilesDev e do registro do pacote AppX KyraFiles
+    ShellExec('open', 'powershell.exe', '-NoProfile -NonInteractive -WindowStyle Hidden -Command "Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -PreserveApplicationData -ErrorAction SilentlyContinue; Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue"', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
   end;
 end;
 

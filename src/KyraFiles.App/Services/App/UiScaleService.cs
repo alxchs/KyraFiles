@@ -177,6 +177,7 @@ namespace KyraFiles.App.Services
 				rootElement.CenterPoint = Vector3.Zero;
 				rootElement.Scale = Vector3.One;
 				rootElement.TransformMatrix = Matrix4x4.Identity;
+				rootElement.Margin = new Thickness(0);
 				rootElement.Width = double.NaN;
 				rootElement.Height = double.NaN;
 				rootElement.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -184,8 +185,14 @@ namespace KyraFiles.App.Services
 				return;
 			}
 
+			// Quando scaleFactor < 1.0, Width/Height compensados excedem os bounds da janela e o XAML
+			// aplica LayoutClip antes do Scale visual. Margem negativa compensa o overflow sem clipping.
+			var rightMargin = Math.Min(0, windowWidth - layout.Width);
+			var bottomMargin = Math.Min(0, windowHeight - layout.Height);
+
 			rootElement.HorizontalAlignment = HorizontalAlignment.Left;
 			rootElement.VerticalAlignment = VerticalAlignment.Top;
+			rootElement.Margin = new Thickness(0, 0, rightMargin, bottomMargin);
 			rootElement.Width = layout.Width;
 			rootElement.Height = layout.Height;
 			rootElement.CenterPoint = Vector3.Zero;

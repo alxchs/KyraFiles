@@ -225,7 +225,7 @@ begin
       ' Get-AppxPackage FilesDev -ErrorAction SilentlyContinue | Remove-AppxPackage -PreserveApplicationData -ErrorAction SilentlyContinue;' +
       ' Get-AppxPackage -Name *KyraFiles* -ErrorAction SilentlyContinue | ForEach-Object { Remove-AppxPackage $_.PackageFullName -PreserveApplicationData -ErrorAction SilentlyContinue };' +
       ' Add-AppxPackage -Register ''' + ExpandConstant('{app}') + '\AppxManifest.xml'' -ForceApplicationShutdown -ForceUpdateFromAnyVersion -ErrorAction Stop;' +
-      ' $pkgs = @(Get-AppxPackage | Where-Object { $_.InstallLocation -and ($_.InstallLocation.TrimEnd(''\'') -ieq ''' + ExpandConstant('{app}').TrimEnd('\') + ''') });' +
+      ' $pkgs = @(Get-AppxPackage | Where-Object { $_.InstallLocation -and ($_.InstallLocation.TrimEnd(''\'') -ieq ''' + RemoveBackslashUnlessRoot(ExpandConstant('{app}')) + ''') });' +
       ' if ($pkgs.Count -ne 1) {' +
       '   throw ''Divergencia no registro do pacote AppX: encontrado(s) '' + $pkgs.Count + '' pacote(s) em ' + ExpandConstant('{app}') + ' (esperado exatamente 1).'';' +
       ' }' +

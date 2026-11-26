@@ -1,6 +1,6 @@
 # F054 — Prévia técnica — PLAN
 
-Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
+Status: APROVADO com ajustes (Claude, 25/11/2026; ver "Ajustes da revisão"). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 25/11/2026)
 
@@ -43,3 +43,10 @@ Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` 
 | AC-4 | CSV de 100 mil linhas rola fluido com memória estável |
 | AC-5 | Log recebendo append com "Acompanhar" ligado atualiza em < 1 s e não trava escrita externa |
 | AC-6 / AC-7 | Arquivo de 200 MB abre prefixo + aviso em ≤ 300 ms; troca rápida cancela intermediários |
+
+## 6. Ajustes da revisão (Claude, 25/11/2026)
+
+- A formatação do `ColorCode` roda fora da thread de UI e respeita o limite de FR-002; arquivo acima do limite nunca chega inteiro ao `RichTextBlockFormatter`.
+- Árvore (T2) e tabela CSV (T3) também obedecem ao limite de FR-002 e ao cancelamento de AC-7: trocar de seleção cancela o parse em andamento.
+- Leitura de amostra para detectar codificação usa `TextEncodingHelper.DetectEncoding` (já existe, F095); não criar outro detector.
+- T0 registra também o pico de RAM (não só tempo) para os arquivos de 1 MB e 200 MB.

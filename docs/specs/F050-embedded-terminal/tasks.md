@@ -1,6 +1,6 @@
 # F050 — Terminal embutido no rodapé — TASKS
 
-Status: RASCUNHO (aguardando aprovação; T0 é gate de decisão antes da implementação).
+Status: T0 APROVADA (Claude, 25/11/2026). T1 a T3 bloqueadas até o Alexandre decidir com o resultado da T0.
 
 Regras: seguir `plan.md`; build Release x64 sem erros; **não avançar para T1 sem aprovar o resultado de T0** (`spec.md §8`); manter gate F021 e `check-legacy-names.ps1` verdes.
 

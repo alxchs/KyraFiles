@@ -1,6 +1,6 @@
 # F046 — Busca profunda na rede — TASKS
 
-Status: RASCUNHO (aguardando aprovação para iniciar implementação).
+Status: APROVADO (Claude, 25/11/2026). Seguir também os "Ajustes da revisão" do `plan.md`.
 
 Regras: seguir `plan.md`; build Release x64 sem erros; busca por conteúdo na rede fica fora desta versão (`spec.md §8`); manter gate F021 e `check-legacy-names.ps1` verdes.
 

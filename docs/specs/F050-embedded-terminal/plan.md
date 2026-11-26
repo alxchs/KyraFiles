@@ -1,6 +1,6 @@
 # F050 — Terminal embutido no rodapé — PLAN
 
-Status: RASCUNHO (aguardando aprovação; **T0 decide implementação vs adiamento** conforme `spec.md §8`). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
+Status: APROVADO SÓ ATÉ A T0 (Claude, 25/11/2026; ver "Ajustes da revisão"). **T0 decide implementação vs adiamento** conforme `spec.md §8`. Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 25/11/2026)
 
@@ -42,3 +42,10 @@ Status: RASCUNHO (aguardando aprovação; **T0 decide implementação vs adiamen
 | AC-4 / AC-5 | Redimensionar reflui texto; fechar com processo ativo pede confirmação |
 | AC-6 / AC-7 | UNC/>260 abre fallback com aviso; "Colar caminho" insere caminho entre aspas |
 | FR-003 | Fechar app com terminal aberto: 0 processos filhos restantes |
+
+## 6. Ajustes da revisão (Claude, 25/11/2026)
+
+- **Aprovada apenas a T0.** T1 a T3 ficam bloqueadas até o Alexandre decidir com os números da T0 na mão.
+- T0 compara pelo menos dois renderizadores com números: (a) WebView2 + xterm.js; (b) renderizador nativo de VT. Para cada um: RAM por instância, tempo até o prompt, tamanho acrescido ao instalador e esforço estimado em pontos.
+- Os 8 pontos atuais valem só para o caminho WebView2 + xterm.js. Se a T0 indicar renderizador nativo, reestimar antes de pedir aprovação.
+- Qualquer processo de teste da T0 roda em Job Object e é encerrado ao fim; registrar a contagem de processos filhos antes e depois.

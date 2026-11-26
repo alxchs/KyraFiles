@@ -198,3 +198,12 @@ Origem: a F091 foi declarada "zero resíduos" com um verificador que só olhava 
 - **Renomear exige varredura dos dois lados:** manifesto/instalador e todo literal no código e nos serviços nativos (`HotkeyService`, `Watchdog`).
 - **`CONFIRMED` só com comando e saída novos.** Evidência de versão anterior do código não vale para versão nova (caso F035, parecer de 22/11/2026).
 - **Não commitar na `main`.** Branch `feature/*`, um commit por tarefa.
+
+## Lições da auditoria da v4.3.33 (25/11/2026, Claude)
+
+- **`-replace` do PowerShell ignora maiúsculas.** `-replace "kyrafiles", "x"` também troca `KyraFiles` (namespaces, classes, caminhos). Para literal de protocolo use `-creplace` com o texto exato e o contexto (`'"kyrafiles:'`), nunca a palavra solta. E não encadeie um replace que casa com o resultado do anterior (`kyrafiles-dev` → `kyrafiles-preview` → `kyrafiles-preview-preview`). Teste o replace numa string de exemplo antes de commitar.
+- **Script de teste nunca fecha a janela do Alexandre.** Antes de `Stop-Process KyraFiles`, verifique se já havia instância aberta antes do teste; se havia, aborte (ou meça a instância existente só lendo, com `PrintWindow` + UIA).
+- **Ler amostra para detectar codificação consome o stream.** Só volte `Position = 0` se `CanSeek`; sem seek, encadeie a amostra já lida com o resto.
+- **Um parser por formato.** Se existe `ProtocolUriParser`, todo lugar que lê `kyrafiles:` usa ele (inclusive `Program.cs`), e a constante do esquema existe uma vez só.
+- **Comparação de versão é por igualdade**, não `StartsWith` (`4.3.33` casa com `4.3.330`).
+- **Homologação exige evidência por `AC-n` na versão atual.** "Commit citando a spec" não é evidência de comportamento.

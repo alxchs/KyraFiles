@@ -1,6 +1,6 @@
 # F039 — O que está ocupando meu disco — PLAN
 
-Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
+Status: APROVADO com ajustes (Claude, 25/11/2026; ver "Ajustes da revisão"). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 25/11/2026)
 
@@ -43,3 +43,10 @@ Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` 
 | AC-3 / AC-4 / AC-5 | Navegar entra/volta; "Mostrar no local" abre pasta; "Excluir" envia à Lixeira e subtrai do total sem reescanear |
 | AC-6 / AC-7 | Pastas protegidas contadas como "Inacessível"; soma fecha com espaço usado do disco |
 | NFR-001 | Medir pico de RAM e tempo em árvore grande (≥ 100k arquivos reais ou sintéticos) |
+
+## 6. Ajustes da revisão (Claude, 25/11/2026)
+
+- Decidir em T1, e escrever no plan, o projeto do `DiskUsageScanner`: `KyraFiles.App.Search.Index` (junto do `DirectoryScanner`) é o preferido; não pode iniciar nem acordar o `KyraFiles.App.IndexService` (gate F021).
+- Uso do `VolumeIndex` só se ele já estiver carregado no processo; caso contrário, varredura própria. Nunca disparar indexação para atender a F039.
+- NFR-001 da spec não tem número: T5 mede e registra o pico de RAM em árvore com 1 milhão de entradas sintéticas (projeção para 5 milhões), e o número passa a ser o teto de regressão.
+- Excluir (AC-5) passa pela confirmação e pela Lixeira já existentes; nunca exclusão permanente a partir desta tela.

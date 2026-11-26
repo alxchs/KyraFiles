@@ -1,6 +1,6 @@
 # F054 — Prévia técnica — TASKS
 
-Status: RASCUNHO (aguardando aprovação para iniciar implementação).
+Status: APROVADO (Claude, 25/11/2026). Seguir também os "Ajustes da revisão" do `plan.md`.
 
 Regras: seguir `plan.md`; build Release x64 sem erros; medir NFR-001 (≤ 300 ms para 1 MB); manter gate F021 (`verify_no_index_service.ps1`) e `check-legacy-names.ps1` verdes; temporários em `%TEMP%\agy\<GUID>\desenv\utils\KyraFiles\Files\`.
 

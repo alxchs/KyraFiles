@@ -1,6 +1,6 @@
 # F041 — Comparar e sincronizar duas pastas — PLAN
 
-Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
+Status: APROVADO com ajustes (Claude, 25/11/2026; ver "Ajustes da revisão"). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 25/11/2026)
 
@@ -46,3 +46,10 @@ Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` 
 | AC-4 / AC-6 | Alternar tamanho+data vs conteúdo (aviso); tolerância de data evita falso positivo |
 | AC-5 | Cancelar no meio: para, mantém já copiados, exibe resumo |
 | NFR-001 | Benchmark com 100k arquivos/lado: primeiro resultado ≤ 5 s e janela responsiva |
+
+## 6. Ajustes da revisão (Claude, 25/11/2026)
+
+- Política de sobrescrita explícita: item "mais novo de um lado" é copiado por cima do outro pela fila, com a confirmação de substituição que a fila já usa; conflito arquivo-vs-pasta nunca é resolvido sozinho (fica desmarcado com aviso).
+- Nada é apagado em nenhum lado nesta versão (sem espelho), nem por "Bidirecional".
+- Diferença só de caixa no nome é mostrada como diferença de nome, não como "só de um lado".
+- Modo `ContentHash` lê em blocos (nunca o arquivo inteiro na memória) e pode ser cancelado.

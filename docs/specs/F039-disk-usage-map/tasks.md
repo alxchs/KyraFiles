@@ -1,6 +1,6 @@
 # F039 — O que está ocupando meu disco — TASKS
 
-Status: RASCUNHO (aguardando aprovação para iniciar implementação).
+Status: APROVADO (Claude, 25/11/2026). Seguir também os "Ajustes da revisão" do `plan.md`.
 
 Regras: seguir `plan.md`; build Release x64 sem erros; manter gate F021 (`verify_no_index_service.ps1`) e `check-legacy-names.ps1` verdes; nunca baixar arquivos OneDrive "só na nuvem".
 

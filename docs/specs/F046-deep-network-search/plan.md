@@ -1,6 +1,6 @@
 # F046 — Busca profunda na rede — PLAN
 
-Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
+Status: APROVADO com ajustes (Claude, 25/11/2026; ver "Ajustes da revisão"). Spec: `spec.md` (aprovada pelo Alexandre em 24/10/2026).
 
 ## 1. Arquitetura atual (lida no código em 25/11/2026)
 
@@ -46,3 +46,10 @@ Status: RASCUNHO (aguardando aprovação para implementação). Spec: `spec.md` 
 | AC-4 / AC-5 | Escopo `\\servidor` varre shares acessíveis e marca inacessíveis sem vazar nomes |
 | AC-6 / AC-7 | Repetição com cache opcional habilitado é mais rápida e detecta arquivo novo; filtros funcionam |
 | NFR-001 | CPU e RAM estáveis vs baseline `R-rede-baseline` |
+
+## 6. Ajustes da revisão (Claude, 25/11/2026)
+
+- `NetShareEnum` entra em `src/KyraFiles.App.CsWin32/NativeMethods.txt`; `NETAPI32.dll` existe em todo Windows suportado, então adicionar o `DirectPInvoke` correspondente no `KyraFiles.App.csproj` (regra do CLAUDE.md do projeto).
+- T0 pode usar `\\localhost\<compartilhamento de teste>` quando não houver NAS; o handoff diz qual foi usado, porque loopback não mede latência real.
+- Timeout por servidor precisa cobrir também a primeira chamada de enumeração (que é onde um servidor desligado trava), não só a leitura de pastas.
+- Cache opcional (FR-004) guarda só nomes e metadados, nunca conteúdo, e fica em `LocalState` do app.

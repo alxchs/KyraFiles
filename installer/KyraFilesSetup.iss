@@ -229,8 +229,8 @@ begin
       ' if ($pkgs.Count -ne 1) {' +
       '   throw ''Divergencia no registro do pacote AppX: encontrado(s) '' + $pkgs.Count + '' pacote(s) em ' + ExpandConstant('{app}') + ' (esperado exatamente 1).'';' +
       ' }' +
-      ' $expectedVer = ''{#MyAppVersion}'';' +
-      ' if (-not $pkgs[0].Version.StartsWith($expectedVer)) {' +
+      ' $expectedVer = ''{#MyAppVersion}.0'';' +
+      ' if ($pkgs[0].Version -ne $expectedVer) {' +
       '   throw ''Versao do pacote registrado ('' + $pkgs[0].Version + '') diverge da versao do instalador ('' + $expectedVer + '').'';' +
       ' }' +
       '} catch {' +

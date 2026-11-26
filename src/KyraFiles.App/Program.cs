@@ -363,10 +363,11 @@ namespace KyraFiles.App
 				launchArgs.Arguments is not null &&
 				CommandLineParser.SplitArguments(launchArgs.Arguments, true).FirstOrDefault() is string arg0 &&
 				(arg0.EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase) ||
-				arg0.EndsWith(Constants.Protocol.CustomProtocolScheme, StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
+				arg0.EndsWith(ProtocolUriParser.ProtocolScheme, StringComparison.OrdinalIgnoreCase)) ? launchArgs.Arguments : null;
 			var cmdProtocolArgs = activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs &&
-				protocolArgs.Uri.Query.TrimStart('?').Split('=') is string[] parsedArgs &&
-				parsedArgs.Length == 2 && parsedArgs[0] == "cmd" ? Uri.UnescapeDataString(parsedArgs[1]) : null;
+				ProtocolUriParser.Parse(protocolArgs.Uri) is { Action: ProtocolAction.Cmd } cmdLaunch
+				? cmdLaunch.TargetValue
+				: null;
 			var cmdLineArgs = activatedArgs.Data is ICommandLineActivatedEventArgs cmdArgs ? cmdArgs.Operation.Arguments : null;
 
 			return cmdLaunchArgs ?? cmdProtocolArgs ?? cmdLineArgs;

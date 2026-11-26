@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // Omnibar APIs: migrate when feature leaves experimental
 
@@ -647,7 +647,7 @@ namespace KyraFiles.App.Helpers
 			if (string.IsNullOrWhiteSpace(path))
 				return Task.FromResult(false);
 
-			var folderUri = new Uri($"{Constants.Protocol.CustomProtocolUri}?folder={Uri.EscapeDataString(path)}");
+			var folderUri = new Uri($"{KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix}?folder={Uri.EscapeDataString(path)}");
 
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
@@ -655,7 +655,7 @@ namespace KyraFiles.App.Helpers
 		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs, int? dropX = null, int? dropY = null)
 		{
 			var drop = dropX is int x && dropY is int y ? $"&x={x}&y={y}" : "";
-			return Launcher.LaunchUriAsync(new Uri($"{Constants.Protocol.CustomProtocolUri}?tab={Uri.EscapeDataString(tabArgs)}{drop}")).AsTask();
+			return Launcher.LaunchUriAsync(new Uri($"{KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix}?tab={Uri.EscapeDataString(tabArgs)}{drop}")).AsTask();
 		}
 
 		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem, ShellPaneArrangement arrangement = ShellPaneArrangement.None)
@@ -670,7 +670,7 @@ namespace KyraFiles.App.Helpers
 
 		public static Task LaunchNewWindowAsync()
 		{
-			return Launcher.LaunchUriAsync(new Uri($"{Constants.Protocol.CustomProtocolUri}?window=")).AsTask();
+			return Launcher.LaunchUriAsync(new Uri($"{KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix}?window=")).AsTask();
 		}
 
 		public static async Task OpenSelectedItemsAsync(IShellPage associatedInstance, bool openViaApplicationPicker = false)

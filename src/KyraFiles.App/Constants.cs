@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Windows.ApplicationModel;
@@ -46,12 +46,6 @@ namespace KyraFiles.App
 		{
 			// See shell32.dll for more icon indexes to add
 			public const int QuickAccess = 51380;
-		}
-
-		public static class Protocol
-		{
-			public const string CustomProtocolScheme = "kyrafiles";
-			public const string CustomProtocolUri = "kyrafiles:";
 		}
 
 		public static class WslIconsPaths

@@ -629,7 +629,7 @@ namespace KyraFiles.App.Helpers
 						// Try to re-launch and start over
 						MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
-							await Launcher.LaunchUriAsync(new Uri(Constants.Protocol.CustomProtocolUri));
+							await Launcher.LaunchUriAsync(new Uri(KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix));
 						})
 						.Wait(100);
 					}

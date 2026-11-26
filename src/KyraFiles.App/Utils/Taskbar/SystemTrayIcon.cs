@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -296,7 +296,7 @@ namespace KyraFiles.App.Utils.Taskbar
 			{
 				_lastLaunchDate = DateTime.Now;
 
-				_ = Launcher.LaunchUriAsync(new Uri(Constants.Protocol.CustomProtocolUri));
+				_ = Launcher.LaunchUriAsync(new Uri(KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix));
 			}
 			else
 				MainWindow.Instance.Activate();

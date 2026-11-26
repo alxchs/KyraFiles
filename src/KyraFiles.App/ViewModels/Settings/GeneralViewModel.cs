@@ -1,4 +1,4 @@
-﻿// Copyright (c) KyraFiles contributors
+// Copyright (c) KyraFiles contributors
 // Licensed under the MIT License.
 #pragma warning disable CS0618 // MenuFlyoutHelper marked obsolete upstream; migrate when replacement API is stable
 
@@ -125,7 +125,7 @@ namespace KyraFiles.App.ViewModels.Settings
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Launches a new instance of KyraFiles
-			await Launcher.LaunchUriAsync(new Uri(Constants.Protocol.CustomProtocolUri));
+			await Launcher.LaunchUriAsync(new Uri(KyraFiles.Shared.Helpers.ProtocolUriParser.ProtocolUriPrefix));
 
 			// Closes the current instance
 			Environment.Exit(0);

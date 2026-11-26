@@ -183,13 +183,18 @@ namespace KyraFiles.App.Utils.Storage
 			int sampleSize = (int)(streamLen > 0 ? Math.Min(4096, streamLen) : 4096);
 			byte[] sampleBuffer = new byte[sampleSize];
 			int sampleRead = await stream.ReadAsync(sampleBuffer.AsMemory(0, sampleSize));
+			Stream effectiveStream = stream;
 			if (stream.CanSeek)
 			{
 				stream.Position = 0;
 			}
+			else if (sampleRead > 0)
+			{
+				effectiveStream = new PrependSampleStream(sampleBuffer, sampleRead, stream);
+			}
 
 			var detectedEncoding = KyraFiles.Shared.Helpers.TextEncodingHelper.DetectEncoding(sampleBuffer, sampleRead);
-			using var dataReader = new StreamReader(stream, detectedEncoding, detectEncodingFromByteOrderMarks: true);
+			using var dataReader = new StreamReader(effectiveStream, detectedEncoding, detectEncodingFromByteOrderMarks: true, leaveOpen: true);
 			StringBuilder builder = new();
 			int charsRead, charsToRead;
 			do
@@ -200,6 +205,45 @@ namespace KyraFiles.App.Utils.Storage
 				builder.Append(data, 0, charsRead);
 			} while (charsRead > 0 && (!stream.CanSeek || stream.Position < stream.Length));
 			return builder.ToString();
+		}
+
+		private sealed class PrependSampleStream(byte[] prefix, int prefixLength, Stream inner) : Stream
+		{
+			private int _prefixOffset;
+
+			public override bool CanRead => true;
+			public override bool CanSeek => false;
+			public override bool CanWrite => false;
+			public override long Length => throw new NotSupportedException();
+			public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+			public override void Flush() { }
+			public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+			public override void SetLength(long value) => throw new NotSupportedException();
+			public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+			public override int Read(byte[] buffer, int offset, int count)
+			{
+				if (_prefixOffset < prefixLength)
+				{
+					int toCopy = Math.Min(count, prefixLength - _prefixOffset);
+					System.Buffer.BlockCopy(prefix, _prefixOffset, buffer, offset, toCopy);
+					_prefixOffset += toCopy;
+					return toCopy;
+				}
+				return inner.Read(buffer, offset, count);
+			}
+
+			public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+			{
+				if (_prefixOffset < prefixLength)
+				{
+					int toCopy = Math.Min(buffer.Length, prefixLength - _prefixOffset);
+					prefix.AsMemory(_prefixOffset, toCopy).CopyTo(buffer);
+					_prefixOffset += toCopy;
+					return toCopy;
+				}
+				return await inner.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		public async Task WriteTextAsync(string text)

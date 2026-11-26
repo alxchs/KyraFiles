@@ -50,7 +50,7 @@ if ($Branch -eq "SideloadPreview")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-preview" -replace "kyrafiles", "kyrafiles-preview" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -creplace '"kyrafiles-dev"', '"kyrafiles-preview"' -creplace '"kyrafiles-dev:', '"kyrafiles-preview:' -creplace '"kyrafiles"', '"kyrafiles-preview"' -creplace '"kyrafiles:', '"kyrafiles-preview:' }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -84,7 +84,7 @@ elseif ($Branch -eq "StorePreview")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-preview" -replace "kyrafiles", "kyrafiles-preview" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -creplace '"kyrafiles-dev"', '"kyrafiles-preview"' -creplace '"kyrafiles-dev:', '"kyrafiles-preview:' -creplace '"kyrafiles"', '"kyrafiles-preview"' -creplace '"kyrafiles:', '"kyrafiles-preview:' }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -112,7 +112,7 @@ elseif ($Branch -eq "SideloadStable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-stable" -replace "kyrafiles", "kyrafiles-stable" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -creplace '"kyrafiles-dev"', '"kyrafiles-stable"' -creplace '"kyrafiles-dev:', '"kyrafiles-stable:' -creplace '"kyrafiles"', '"kyrafiles-stable"' -creplace '"kyrafiles:', '"kyrafiles-stable:' }) | `
         Set-Content $_ -NoNewline `
     }
 
@@ -144,7 +144,7 @@ elseif ($Branch -eq "StoreStable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "kyrafiles-dev", "kyrafiles-stable" -replace "kyrafiles", "kyrafiles-stable" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -creplace '"kyrafiles-dev"', '"kyrafiles-stable"' -creplace '"kyrafiles-dev:', '"kyrafiles-stable:' -creplace '"kyrafiles"', '"kyrafiles-stable"' -creplace '"kyrafiles:', '"kyrafiles-stable:' }) | `
         Set-Content $_ -NoNewline `
     }
 

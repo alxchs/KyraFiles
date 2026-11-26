@@ -78,9 +78,7 @@ namespace KyraFiles.App
 				case ILaunchActivatedEventArgs launchArgs:
 					if (launchArgs.Arguments is not null &&
 						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles.exe", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"kyrafiles", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith(Constants.Protocol.CustomProtocolScheme, StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith(ProtocolUriParser.ProtocolScheme, StringComparison.OrdinalIgnoreCase)
 						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].Equals(Path.Join(Package.Current.InstalledLocation.Path, "KyraFiles.exe"), StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)

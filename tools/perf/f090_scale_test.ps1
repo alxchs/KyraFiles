@@ -14,6 +14,13 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# Nao fecha instancia do usuario em uso
+$runningBefore = @(Get-Process -Name "KyraFiles" -ErrorAction SilentlyContinue)
+if ($runningBefore.Count -gt 0) {
+    Write-Error "Abortado: ja existe instancia do KyraFiles aberta (PID: $($runningBefore.Id -join ', ')). Feche-a antes de rodar este teste."
+    exit 1
+}
+
 $repoRoot = (Resolve-Path "$PSScriptRoot\..\..").Path
 if (-not $EvidenceDir) {
     $EvidenceDir = Join-Path $repoRoot "docs\agents\evidence\f090"
@@ -45,7 +52,7 @@ $backupPath = Join-Path $tempDir "user_settings.backup.json"
 Copy-Item -LiteralPath $settingsPath -Destination $backupPath -Force
 
 # Helper Win32 PrintWindow (somente leitura / sem troca de foco)
-Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Drawing, UIAutomationClient, UIAutomationTypes
 Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
@@ -141,6 +148,8 @@ try {
                 ScalePercent = $scale
                 WindowWidth = 0
                 WindowHeight = 0
+                RatioW = 0
+                RatioH = 0
                 LaunchMs = [int]$swLaunch.ElapsedMilliseconds
                 IdleCpuPercent = -1
                 WorkingSetMB = -1
@@ -168,11 +177,39 @@ try {
         [int]$h = 0
         $captured = [F090CaptureHelper]::SaveWindowCapture($hwnd, $pngPath, [ref]$w, [ref]$h)
 
-        $status = if ($captured -and -not $indexActive -and $idleCpu -lt 5.0) { "OBSERVED_PASS" } else { "CHECK_REQUIRED" }
+        $ratioW = 0.0
+        $ratioH = 0.0
+        try {
+            $uiaRoot = [System.Windows.Automation.AutomationElement]::RootElement
+            $uiaCond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $proc.Id)
+            $uiaWin = $uiaRoot.FindFirst([System.Windows.Automation.TreeScope]::Children, $uiaCond)
+            if ($uiaWin) {
+                $wr = $uiaWin.Current.BoundingRectangle
+                if ($wr.Width -gt 0 -and $wr.Height -gt 0) {
+                    $allEls = $uiaWin.FindAll([System.Windows.Automation.TreeScope]::Descendants, [System.Windows.Automation.Condition]::TrueCondition)
+                    $maxR = $wr.Left
+                    $maxB = $wr.Top
+                    foreach ($el in $allEls) {
+                        $r = $el.Current.BoundingRectangle
+                        if (-not [double]::IsInfinity($r.Right) -and $r.Right -le ($wr.Right + 2) -and $r.Right -gt $maxR) { $maxR = $r.Right }
+                        if (-not [double]::IsInfinity($r.Bottom) -and $r.Bottom -le ($wr.Bottom + 2) -and $r.Bottom -gt $maxB) { $maxB = $r.Bottom }
+                    }
+                    $ratioW = [math]::Round(($maxR - $wr.Left) / $wr.Width, 3)
+                    $ratioH = [math]::Round(($maxB - $wr.Top) / $wr.Height, 3)
+                }
+            }
+        } catch {
+            $ratioW = -1.0
+            $ratioH = -1.0
+        }
+
+        $status = if ($captured -and -not $indexActive -and $idleCpu -lt 5.0 -and $ratioW -ge 0.95 -and $ratioH -ge 0.95) { "OBSERVED_PASS" } else { "CHECK_REQUIRED" }
         $results.Add([PSCustomObject]@{
             ScalePercent = $scale
             WindowWidth = $w
             WindowHeight = $h
+            RatioW = $ratioW
+            RatioH = $ratioH
             LaunchMs = [int]$swLaunch.ElapsedMilliseconds
             IdleCpuPercent = $idleCpu
             WorkingSetMB = $wsMb

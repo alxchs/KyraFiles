@@ -1,15 +1,15 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-26T23:45:44.7672190-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-27T06:06:23.7013815-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
-  "total_specs": 79,
-  "total_pontos": 371,
+  "total_specs": 80,
+  "total_pontos": 372,
   "finalizadas": {
     "quantidade": 59,
     "pontos": 251,
-    "percentual": 67.7
+    "percentual": 67.5
   },
   "em_andamento": {
     "quantidade": 13,
@@ -19,7 +19,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
   "fila": {
     "quantidade": 5,
     "pontos": 37,
-    "percentual": 10.0
+    "percentual": 9.9
   },
   "dependendo_alexandre": {
     "quantidade": 0,
@@ -43,9 +43,9 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
-| finalizadas | 59 | 251 | 67.7 |
+| finalizadas | 59 | 251 | 67.5 |
 | em_andamento | 13 | 65 | 17.5 |
-| fila | 5 | 37 | 10.0 |
+| fila | 5 | 37 | 9.9 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
 | invalidas | 1 | 13 | 3.5 |
@@ -147,3 +147,4 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | 5 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |
 | SPEC-0078 | F094 | busca everything escopo global e historico de buscas | 5 | completed | finalizadas | claude/agy | - |
 | SPEC-0079 | F095 | unificacao do protocolo kyrafiles, purga do pacote legado e correcoes da auditoria v4.3.33 | 5 | in_validation | em_validacao | agy | f191572b0, a6fc46b0b |
+| SPEC-0080 | F096 | testes de medicao nao gravam evidencia no repositorio sem KYRAFILES_WRITE_EVIDENCE=1; CSV em cultura invariante | 1 | completed | concluida | claude | - |

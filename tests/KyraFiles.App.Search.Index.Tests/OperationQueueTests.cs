@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -233,15 +234,9 @@ namespace KyraFiles.App.Search.Index.Tests
 		[TestMethod]
 		public async Task Benchmark_TenRounds_GeneratesEvidenceCsv()
 		{
-			var evidenceDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\..\..\docs\agents\evidence\F036"));
-			if (!Directory.Exists(evidenceDir))
-			{
-				Directory.CreateDirectory(evidenceDir);
-			}
-
-			var csvPath = Path.Combine(evidenceDir, "medicoes_t2_concorrencia.csv");
 			var tempDir = Path.Combine(Path.GetTempPath(), "agy", Guid.NewGuid().ToString(), "desenv", "utils", "KyraFiles", "BenchmarkF036");
 			Directory.CreateDirectory(tempDir);
+			var csvPath = TestEvidence.GetCsvPath("F036", "medicoes_t2_concorrencia.csv", tempDir);
 
 			try
 			{
@@ -321,7 +316,7 @@ namespace KyraFiles.App.Search.Index.Tests
 					Directory.Delete(deleteDir, true);
 
 					var diffPercent = Math.Round(((double)(parallelMs - serialMs) / Math.Max(1, serialMs)) * 100, 2);
-					lines.Add($"{round},128,{serialMs},{parallelMs},{withDeleteMs},{diffPercent}");
+					lines.Add(string.Create(CultureInfo.InvariantCulture, $"{round},128,{serialMs},{parallelMs},{withDeleteMs},{diffPercent}"));
 				}
 
 				await File.WriteAllLinesAsync(csvPath, lines);

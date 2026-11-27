@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-26T23:45:44.7672190-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-27T06:06:23.7013815-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -83,3 +83,4 @@ Gerado de `production-control.json` em 2026-11-26T23:45:44.7672190-03:00 via `to
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | completed | finalizadas | 5 |
 | SPEC-0078 | F094 | busca everything escopo global e historico de buscas | completed | finalizadas | 5 |
 | SPEC-0079 | F095 | unificacao do protocolo kyrafiles, purga do pacote legado e correcoes da auditoria v4.3.33 | in_validation | em_validacao | 5 |
+| SPEC-0080 | F096 | testes de medicao nao gravam evidencia no repositorio sem KYRAFILES_WRITE_EVIDENCE=1; CSV em cultura invariante | completed | concluida | 1 |

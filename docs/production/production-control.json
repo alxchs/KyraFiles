@@ -8,20 +8,20 @@
     "status": "active",
     "migration_status": "migrated",
     "baseline_at": "2026-11-13T19:25:28.2663438-03:00",
-    "last_updated_at": "2026-11-26T23:45:44.7672190-03:00",
+    "last_updated_at": "2026-11-27T06:06:23.7013815-03:00",
     "last_updated_by": "claude"
   },
   "summary": {
-    "spec_count": 79,
+    "spec_count": 80,
     "task_count": null,
     "status_counts": {
       "cancelled": 1,
-      "completed": 59,
+      "completed": 60,
       "in_validation": 14,
       "not_started": 5
     },
-    "total_points": 371,
-    "completed_points_equivalent": 251,
+    "total_points": 372,
+    "completed_points_equivalent": 252,
     "remaining_points": 107,
     "original_estimate_hours": null,
     "current_estimate_hours": null,
@@ -3288,6 +3288,44 @@
       "migration_status": "migrated",
       "owner": "agy",
       "created_at": "2026-11-26T18:48:08.9630041-03:00",
+      "depends_on": []
+    },
+    {
+      "id": "SPEC-0080",
+      "legacy_ids": [
+        "F096"
+      ],
+      "title": "testes de medicao nao gravam evidencia no repositorio sem KYRAFILES_WRITE_EVIDENCE=1; CSV em cultura invariante",
+      "type": "fix",
+      "state": "completed",
+      "category": "concluida",
+      "points": 1,
+      "points_confidence": "medium",
+      "points_note": "3 testes e 1 helper; nao e horas",
+      "hours": {
+        "original": null,
+        "current": null,
+        "actual": null,
+        "remaining": null
+      },
+      "progress": "not_calculable",
+      "evidence": [
+        {
+          "ref": "docs/specs/F096-testes-sem-escrita-no-repo/RELATORIO.md",
+          "type": "doc",
+          "note": "AC-1..4 CONFIRMED: 327 testes verdes sem a variavel e git status sem CSV; 3 testes com a variavel geram CSV com ponto decimal e colunas consistentes"
+        }
+      ],
+      "blockers": [],
+      "source_files": [
+        "docs/specs/F096-testes-sem-escrita-no-repo/spec.md",
+        "docs/specs/F096-testes-sem-escrita-no-repo/plan.md",
+        "docs/specs/F096-testes-sem-escrita-no-repo/tasks.md",
+        "docs/specs/F096-testes-sem-escrita-no-repo/RELATORIO.md"
+      ],
+      "migration_status": "migrated",
+      "owner": "claude",
+      "created_at": "2026-11-27T06:06:00.4440706-03:00",
       "depends_on": []
     }
   ],

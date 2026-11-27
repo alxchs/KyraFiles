@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using KyraFiles.App.Utils.Storage;
@@ -153,9 +154,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			Directory.CreateDirectory(dstDirBatch);
 			Directory.CreateDirectory(dstDirGate);
 
-			var evidenceDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", "docs", "agents", "evidence", "F036"));
-			Directory.CreateDirectory(evidenceDir);
-			var csvPath = Path.Combine(evidenceDir, "medicoes_t7_sobrecarga.csv");
+			var csvPath = TestEvidence.GetCsvPath("F036", "medicoes_t7_sobrecarga.csv", tempBase);
 
 			var csvBuilder = new StringBuilder();
 			csvBuilder.AppendLine("Rodada,Arquivos,TamanhoTotalKB,TempoLoteMs,TempoItemPorItemMs,SobrecargaPct,Observacao");
@@ -206,7 +205,7 @@ namespace KyraFiles.App.Search.Index.Tests
 						: 0.0;
 
 					var obs = overheadPct < 15.0 ? "Sobrecarga negligivel (< 15%)" : "Sobrecarga aceitavel";
-					csvBuilder.AppendLine($"{round},{fileCount},1000,{timeBatchMs},{timeGateMs},{overheadPct:F1}%,{obs}");
+					csvBuilder.AppendLine(CultureInfo.InvariantCulture, $"{round},{fileCount},1000,{timeBatchMs},{timeGateMs},{overheadPct:F1}%,{obs}");
 				}
 
 				File.WriteAllText(csvPath, csvBuilder.ToString());

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using KyraFiles.App.Utils.Storage;
@@ -23,9 +24,7 @@ namespace KyraFiles.App.Search.Index.Tests
 			Directory.CreateDirectory(sourceDir);
 			Directory.CreateDirectory(destDir);
 
-			var evidenceDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", "docs", "agents", "evidence", "F036"));
-			Directory.CreateDirectory(evidenceDir);
-			var csvPath = Path.Combine(evidenceDir, "medicoes_t6_memoria.csv");
+			var csvPath = TestEvidence.GetCsvPath("F036", "medicoes_t6_memoria.csv", tempBase);
 
 			var csvBuilder = new StringBuilder();
 			csvBuilder.AppendLine("Rodada,TamanhoTotalGB,MemoriaBaselineMB,MemoriaPicoMB,MemoriaFinalMB,AumentoPct,Status");
@@ -144,7 +143,7 @@ namespace KyraFiles.App.Search.Index.Tests
 					var isPass = increasePct <= 5.0 || Math.Abs(finalMb - baselineMb) <= 3.0;
 
 					var status = isPass ? "PASS - estavel (delta <= 3MB / <= 5%)" : "FAIL - aumento > 5%";
-					csvBuilder.AppendLine($"{round},4.0,{baselineMb:F1},{peakMb:F1},{finalMb:F1},{increasePct:F2}%,{status}");
+					csvBuilder.AppendLine(CultureInfo.InvariantCulture, $"{round},4.0,{baselineMb:F1},{peakMb:F1},{finalMb:F1},{increasePct:F2}%,{status}");
 					File.WriteAllText(csvPath, csvBuilder.ToString());
 
 					// Clean up round files immediately

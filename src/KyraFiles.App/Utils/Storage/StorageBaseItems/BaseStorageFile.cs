@@ -12,7 +12,7 @@ using Windows.Storage.Streams;
 
 namespace KyraFiles.App.Utils.Storage
 {
-	public abstract class BaseStorageFile : IBaseStorageFile
+	public abstract partial class BaseStorageFile : IBaseStorageFile
 	{
 		public bool IsAvailable
 			=> true;
@@ -207,7 +207,7 @@ namespace KyraFiles.App.Utils.Storage
 			return builder.ToString();
 		}
 
-		private sealed class PrependSampleStream(byte[] prefix, int prefixLength, Stream inner) : Stream
+		private sealed partial class PrependSampleStream(byte[] prefix, int prefixLength, Stream inner) : Stream
 		{
 			private int _prefixOffset;
 

@@ -8,21 +8,21 @@
     "status": "active",
     "migration_status": "migrated",
     "baseline_at": "2026-11-13T19:25:28.2663438-03:00",
-    "last_updated_at": "2026-11-23T00:54:44.3047393-03:00",
-    "last_updated_by": "agy"
+    "last_updated_at": "2026-11-26T23:45:44.7672190-03:00",
+    "last_updated_by": "claude"
   },
   "summary": {
-    "spec_count": 78,
+    "spec_count": 79,
     "task_count": null,
     "status_counts": {
       "cancelled": 1,
       "completed": 59,
-      "in_validation": 13,
+      "in_validation": 14,
       "not_started": 5
     },
-    "total_points": 366,
+    "total_points": 371,
     "completed_points_equivalent": 251,
-    "remaining_points": 102,
+    "remaining_points": 107,
     "original_estimate_hours": null,
     "current_estimate_hours": null,
     "actual_hours": null,
@@ -1459,11 +1459,18 @@
           "ref": "docs/specs/F039-disk-usage-map/",
           "type": "doc",
           "note": "somente spec.md"
+        },
+        {
+          "ref": "docs/specs/F039-disk-usage-map/tasks.md",
+          "type": "doc",
+          "note": "plan.md APROVADO com ajustes e tasks.md APROVADO (Claude, 25/11/2026); pronta para iniciar"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F039-disk-usage-map/spec.md"
+        "docs/specs/F039-disk-usage-map/spec.md",
+        "docs/specs/F039-disk-usage-map/plan.md",
+        "docs/specs/F039-disk-usage-map/tasks.md"
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
@@ -1527,11 +1534,18 @@
           "ref": "docs/specs/F041-folder-compare-sync/",
           "type": "doc",
           "note": "somente spec.md"
+        },
+        {
+          "ref": "docs/specs/F041-folder-compare-sync/tasks.md",
+          "type": "doc",
+          "note": "plan.md APROVADO com ajustes e tasks.md APROVADO (Claude, 25/11/2026); pronta para iniciar"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F041-folder-compare-sync/spec.md"
+        "docs/specs/F041-folder-compare-sync/spec.md",
+        "docs/specs/F041-folder-compare-sync/plan.md",
+        "docs/specs/F041-folder-compare-sync/tasks.md"
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
@@ -1574,7 +1588,10 @@
       ],
       "migration_status": "migrated",
       "owner": "agy",
-      "created_at": null
+      "created_at": null,
+      "depends_on": [
+        "SPEC-0020"
+      ]
     },
     {
       "id": "SPEC-0039",
@@ -1722,11 +1739,18 @@
           "ref": "docs/specs/F046-deep-network-search/",
           "type": "doc",
           "note": "somente spec.md"
+        },
+        {
+          "ref": "docs/specs/F046-deep-network-search/tasks.md",
+          "type": "doc",
+          "note": "plan.md APROVADO com ajustes e tasks.md APROVADO (Claude, 25/11/2026); pronta para iniciar"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F046-deep-network-search/spec.md"
+        "docs/specs/F046-deep-network-search/spec.md",
+        "docs/specs/F046-deep-network-search/plan.md",
+        "docs/specs/F046-deep-network-search/tasks.md"
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
@@ -1902,11 +1926,24 @@
           "ref": "docs/specs/F050-embedded-terminal/",
           "type": "doc",
           "note": "somente spec.md"
+        },
+        {
+          "ref": "docs/specs/F050-embedded-terminal/tasks.md",
+          "type": "doc",
+          "note": "plan.md aprovado so ate a T0; tasks.md: T0 aprovada, T1-T3 aguardam decisao do Alexandre com o resultado da T0 (Claude, 25/11/2026)"
         }
       ],
-      "blockers": [],
+      "blockers": [
+        {
+          "text": "T1-T3 dependem de decisao do Alexandre apos o resultado da T0 (WebView2+xterm.js vs nativo)",
+          "kind": "decision",
+          "since": "2026-11-25"
+        }
+      ],
       "source_files": [
-        "docs/specs/F050-embedded-terminal/spec.md"
+        "docs/specs/F050-embedded-terminal/spec.md",
+        "docs/specs/F050-embedded-terminal/plan.md",
+        "docs/specs/F050-embedded-terminal/tasks.md"
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
@@ -2063,15 +2100,26 @@
           "ref": "docs/specs/F054-technical-preview/",
           "type": "doc",
           "note": "somente spec.md"
+        },
+        {
+          "ref": "docs/specs/F054-technical-preview/tasks.md",
+          "type": "doc",
+          "note": "plan.md APROVADO com ajustes e tasks.md APROVADO (Claude, 25/11/2026); pronta para iniciar"
         }
       ],
       "blockers": [],
       "source_files": [
-        "docs/specs/F054-technical-preview/spec.md"
+        "docs/specs/F054-technical-preview/spec.md",
+        "docs/specs/F054-technical-preview/plan.md",
+        "docs/specs/F054-technical-preview/tasks.md"
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
-      "created_at": null
+      "created_at": null,
+      "depends_on": [
+        "SPEC-0004",
+        "SPEC-0026"
+      ]
     },
     {
       "id": "SPEC-0051",
@@ -2271,7 +2319,10 @@
       ],
       "migration_status": "migration_pending",
       "owner": "unknown",
-      "created_at": null
+      "created_at": null,
+      "depends_on": [
+        "SPEC-0038"
+      ]
     },
     {
       "id": "SPEC-0056",
@@ -3179,22 +3230,98 @@
       "migration_status": "migrated",
       "owner": "claude/agy",
       "created_at": "2026-11-21T12:00:00-03:00"
+    },
+    {
+      "id": "SPEC-0079",
+      "legacy_ids": [
+        "F095"
+      ],
+      "title": "unificacao do protocolo kyrafiles, purga do pacote legado e correcoes da auditoria v4.3.33",
+      "type": "fix",
+      "state": "in_validation",
+      "category": "em_validacao",
+      "points": 5,
+      "points_confidence": "low",
+      "points_note": "estimativa retroativa pelo tamanho da entrega (31 arquivos + correcoes); nao e horas",
+      "hours": {
+        "original": null,
+        "current": null,
+        "actual": null,
+        "remaining": null
+      },
+      "progress": "not_calculable",
+      "evidence": [
+        {
+          "ref": "f191572b0",
+          "type": "commit",
+          "note": "feat(f095) na main; auditado pela Claude em 25/11 (aprovado com P1 bloqueante de CD)"
+        },
+        {
+          "ref": "a6fc46b0b",
+          "type": "commit",
+          "note": "fix(f095) P1-P3 da auditoria, na main e em origin/main; ainda sem re-auditoria nem execucao de CD"
+        },
+        {
+          "ref": "docs/agents/handoffs/2026-11-25_2118_claude_auditoria-v4.3.33.md",
+          "type": "doc",
+          "note": "auditoria"
+        },
+        {
+          "ref": "docs/specs/F095-protocolo-kyrafiles/RELATORIO.md",
+          "type": "doc",
+          "note": "re-auditoria a6fc46b0b aprovada; build Release 0 erros; 327 testes verdes; AC-1..5,7,9(simulacao) CONFIRMED"
+        }
+      ],
+      "blockers": [
+        {
+          "text": "AC-6 (instalador remove pacote antigo, registro unico) INFERRED: provar na proxima execucao do instalador; AC-9 CD real NOT TESTED",
+          "kind": "evidence",
+          "since": "2026-11-26"
+        }
+      ],
+      "source_files": [
+        "docs/specs/F095-protocolo-kyrafiles/spec.md",
+        "docs/specs/F095-protocolo-kyrafiles/plan.md",
+        "docs/specs/F095-protocolo-kyrafiles/tasks.md",
+        "docs/specs/F095-protocolo-kyrafiles/RELATORIO.md"
+      ],
+      "migration_status": "migrated",
+      "owner": "agy",
+      "created_at": "2026-11-26T18:48:08.9630041-03:00",
+      "depends_on": []
     }
   ],
   "dependencies": [],
   "alerts": [
     {
-      "text": "Train v4.3.23 (F048 + F038 = 10 pts) entregue e integrado. Train v4.3.22 (16 pts) publicado na v4.3.22.0. F040 liberada para proxima branch de entrega.",
+      "text": "14 SPECs em in_validation sem homologacao: evidencia so por commit, sem estado por AC-n (auditoria 25/11, secao 3)",
+      "severity": "warning"
+    },
+    {
+      "text": "depends_on mapeado so em 3 SPECs (unicas com fonte escrita); demais ficam como nao mapeadas",
       "severity": "info"
     }
   ],
   "decisions_required": [
     {
-      "text": "Nenhuma decisao bloqueante pendente em 18/11/2026 (Lote 0 reconciliado; D-TRAIN-1, D-F090-1 e D-F060-2 decididas; Train v4.3.23 em execucao autonoma)."
+      "text": "F035 (SPEC-0031): AC-5 reprova; corrigir o comportamento ou mudar a spec",
+      "spec_id": "SPEC-0031"
+    },
+    {
+      "text": "F070 (SPEC-0063): login GitHub ponta a ponta exige o Alexandre digitar o codigo",
+      "spec_id": "SPEC-0063"
+    },
+    {
+      "text": "F089 (SPEC-0073): spec ainda RASCUNHO; aprovar antes de rodar a T4",
+      "spec_id": "SPEC-0073"
+    },
+    {
+      "text": "F050 (SPEC-0046): decidir T1-T3 depois do resultado da T0",
+      "spec_id": "SPEC-0046"
     }
   ],
   "audit": {
-    "last_incremental_audit_at": "2026-11-19T00:28:47.5074986-03:00",
+    "last_incremental_audit_at": "2026-11-26T18:48:08.9630041-03:00",
     "last_full_audit_at": "2026-11-13T19:25:28.2663438-03:00",
     "unreconciled_changes": 0,
     "evidence_coverage_percent": null

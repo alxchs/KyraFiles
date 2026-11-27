@@ -27,7 +27,7 @@ Branch desta auditoria: `feature/auditoria-v4.3.33` (só docs).
   - O esquema existe duas vezes (`Constants.Protocol.CustomProtocolScheme` no App e `ProtocolUriParser.ProtocolScheme` no Shared). O App deveria usar a do Shared.
 - Codificação de prévia: `DetectEncoding` correto (BOMs, UTF-8 válido com tolerância de sequência cortada no fim do buffer, senão 1252; `CodePagesEncodingProvider` está registrado em `Program.cs:97`, então o 1252 é real, não Latin1). Limite conhecido: arquivo 1252 cujos primeiros 4 KB são só ASCII é detectado como UTF-8 e mostra caractere trocado mais à frente. Aceitável.
 - `BaseStorageFile.ReadTextAsync`: se o stream não permitir `Seek`, os primeiros 4 KB lidos para a amostra se perdem (o texto começa no byte 4096). Hoje todos os `OpenReadAsync` devolvem stream com seek (INFERRED, não testado com FTP/zip). Corrigir lendo a amostra num buffer e encadeando (`MemoryStream` da amostra + resto) quando `!CanSeek`.
-- Instalador: purga de `FilesDev` volta na instalação e na desinstalação, e o registro é validado (1 pacote, versão igual). Atende à lição de 23/11.
+- Instalador: purga do pacote legado de desenvolvimento volta na instalação e na desinstalação, e o registro é validado (1 pacote, versão igual). Atende à lição de 23/11.
 
 ## 2. Planos e tarefas das 5 SPECs impedidas (c45367720)
 

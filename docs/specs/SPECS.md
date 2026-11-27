@@ -1,25 +1,25 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-23T00:54:44.3047393-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-26T23:45:44.7672190-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
-  "total_specs": 78,
-  "total_pontos": 366,
+  "total_specs": 79,
+  "total_pontos": 371,
   "finalizadas": {
     "quantidade": 59,
     "pontos": 251,
-    "percentual": 68.6
+    "percentual": 67.7
   },
   "em_andamento": {
     "quantidade": 13,
     "pontos": 65,
-    "percentual": 17.8
+    "percentual": 17.5
   },
   "fila": {
     "quantidade": 5,
     "pontos": 37,
-    "percentual": 10.1
+    "percentual": 10.0
   },
   "dependendo_alexandre": {
     "quantidade": 0,
@@ -34,7 +34,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
   "invalidas": {
     "quantidade": 1,
     "pontos": 13,
-    "percentual": 3.6
+    "percentual": 3.5
   }
 }
 ```
@@ -43,12 +43,12 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
-| finalizadas | 59 | 251 | 68.6 |
-| em_andamento | 13 | 65 | 17.8 |
-| fila | 5 | 37 | 10.1 |
+| finalizadas | 59 | 251 | 67.7 |
+| em_andamento | 13 | 65 | 17.5 |
+| fila | 5 | 37 | 10.0 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
-| invalidas | 1 | 13 | 3.6 |
+| invalidas | 1 | 13 | 3.5 |
 
 ## Agrupamento
 
@@ -146,3 +146,4 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | 3 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |
 | SPEC-0077 | F092 | paridade e reestilizacao da barra lateral nativa | 5 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |
 | SPEC-0078 | F094 | busca everything escopo global e historico de buscas | 5 | completed | finalizadas | claude/agy | - |
+| SPEC-0079 | F095 | unificacao do protocolo kyrafiles, purga do pacote legado e correcoes da auditoria v4.3.33 | 5 | in_validation | em_validacao | agy | f191572b0, a6fc46b0b |

@@ -258,19 +258,21 @@ namespace KyraFiles.App
 		[DynamicWindowsRuntimeCast(typeof(OverlappedPresenter))]
 		private void ShowAndRestoreWindow()
 		{
+			// KyraFiles (F035 AC-5): acorda o semaforo de estacionamento caso a instancia tenha sido reativada via AppInstance
+			SafetyExtensions.IgnoreExceptions(() => Program.Pool?.Release());
+
 			var appWindow = AppWindow;
-			if (appWindow is not null && !appWindow.IsVisible)
-			{
-				// When resuming the cached instance
+			if (appWindow is null)
+				return;
+
+			if (!appWindow.IsVisible)
 				appWindow.Show();
-				Activate();
 
-				// Bring to foreground (#14730) in case Activate() doesn't
-				Win32Helper.BringToForegroundEx(new(WindowHandle));
-			}
-
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) && appWindow?.Presenter is OverlappedPresenter overlapped)
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) && appWindow.Presenter is OverlappedPresenter overlapped)
 				overlapped.Restore();
+
+			Activate();
+			Win32Helper.BringToForegroundEx(new(WindowHandle));
 		}
 
 		private async Task EnsureContentHasKeyboardFocusAsync()
@@ -349,22 +351,32 @@ namespace KyraFiles.App
 					RightPaneNavPathParam = boundsWidth > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				if (rootFrame.Content is MainPage)
 				{
-					// Bring to foreground (#14730)
-					Win32Helper.BringToForegroundEx(new(WindowHandle));
+					// F035 (AC-1/AC-2): se MainPage acabou de navegar e ainda cria a primeira aba, aguarda StartupTabsLoadedTask
+					// antes de decidir entre AddNewTabByParamAsync e Navigate(MainPage), evitando sobrescrever abas concorrentes.
+					if (!MainPageViewModel.AppInstances.Any())
+						await MainPageViewModel.StartupTabsLoadedTask.WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-					var existingTabIndex = MainPageViewModel.AppInstances
-						.Select((tabItem, idx) => new { tabItem, idx })
-						.FirstOrDefault(x =>
-							x.tabItem.NavigationParameter!.NavigationParameter is PaneNavigationArguments paneArgs &&
-							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam ||
-							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
+					if (MainPageViewModel.AppInstances.Any())
+					{
+						// Bring to foreground (#14730)
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
 
-					if (existingTabIndex >= 0)
-						App.AppModel.TabStripSelectedIndex = existingTabIndex;
+						var existingTabIndex = MainPageViewModel.AppInstances
+							.Select((tabItem, idx) => new { tabItem, idx })
+							.FirstOrDefault(x =>
+								x.tabItem.NavigationParameter!.NavigationParameter is PaneNavigationArguments paneArgs &&
+								(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam ||
+								paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
+
+						if (existingTabIndex >= 0)
+							App.AppModel.TabStripSelectedIndex = existingTabIndex;
+						else
+							await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
+					}
 					else
-						await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
+						rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

@@ -15,6 +15,12 @@ param(
 $ErrorActionPreference = 'Stop'
 $culture = [System.Globalization.CultureInfo]::InvariantCulture
 
+# Seguranca: nao fecha sessao do usuario em uso
+if (@(Get-Process KyraFiles -ErrorAction SilentlyContinue).Count -gt 0) {
+    Write-Error "Abortado: ja existe instancia do KyraFiles aberta. Feche-a manualmente antes de rodar este teste."
+    exit 1
+}
+
 # Win32 Helpers em C# para troca de desktop station e disparo paralelo de processos
 Add-Type -TypeDefinition @"
 using System;
@@ -50,6 +56,13 @@ public static class F035WinHelper {
     public static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool IsIconic(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
     [DllImport("user32.dll")]
@@ -65,7 +78,7 @@ public static class F035WinHelper {
 
     public const uint DESKTOP_ALL_ACCESS = 0x01FF;
     public const uint WM_SYSCOMMAND = 0x0112;
-    public const IntPtr SC_CLOSE = (IntPtr)0xF060;
+    public static readonly IntPtr SC_CLOSE = (IntPtr)0xF060;
 
     public static IntPtr FindFilesMainWindow(uint targetPid) {
         IntPtr result = IntPtr.Zero;
@@ -108,6 +121,20 @@ public static class F035WinHelper {
         return result;
     }
 
+    public static IntPtr GetForegroundWindowOnDefault() {
+        IntPtr fg = GetForegroundWindow();
+        if (fg != IntPtr.Zero) return fg;
+        Thread t = new Thread(() => {
+            IntPtr hDesk = OpenDesktop("Default", 0, false, DESKTOP_ALL_ACCESS);
+            if (hDesk != IntPtr.Zero && SetThreadDesktop(hDesk)) {
+                fg = GetForegroundWindow();
+            }
+        });
+        t.Start();
+        t.Join();
+        return fg;
+    }
+
     public static int CountFilesMainWindows() {
         int count = 0;
         EnumWindows((hWnd, lParam) => {
@@ -115,7 +142,7 @@ public static class F035WinHelper {
             GetWindowThreadProcessId(hWnd, out pid);
             try {
                 var proc = Process.GetProcessById((int)pid);
-                if (proc.ProcessName.Equals("Files", StringComparison.OrdinalIgnoreCase)) {
+                if (proc.ProcessName.Equals("KyraFiles", StringComparison.OrdinalIgnoreCase)) {
                     var sbClass = new StringBuilder(256);
                     GetClassName(hWnd, sbClass, 256);
                     if (sbClass.ToString() == "WinUIDesktopWin32WindowClass") {
@@ -125,6 +152,30 @@ public static class F035WinHelper {
             } catch {}
             return true;
         }, IntPtr.Zero);
+        if (count > 0) return count;
+
+        Thread t = new Thread(() => {
+            IntPtr hDesk = OpenDesktop("Default", 0, false, DESKTOP_ALL_ACCESS);
+            if (hDesk != IntPtr.Zero && SetThreadDesktop(hDesk)) {
+                EnumWindows((hWnd, lParam) => {
+                    uint pid;
+                    GetWindowThreadProcessId(hWnd, out pid);
+                    try {
+                        var proc = Process.GetProcessById((int)pid);
+                        if (proc.ProcessName.Equals("KyraFiles", StringComparison.OrdinalIgnoreCase)) {
+                            var sbClass = new StringBuilder(256);
+                            GetClassName(hWnd, sbClass, 256);
+                            if (sbClass.ToString() == "WinUIDesktopWin32WindowClass") {
+                                count++;
+                            }
+                        }
+                    } catch {}
+                    return true;
+                }, IntPtr.Zero);
+            }
+        });
+        t.Start();
+        t.Join();
         return count;
     }
 
@@ -150,7 +201,7 @@ public static class F035WinHelper {
         return sw.ElapsedMilliseconds;
     }
 }
-"@ -ErrorAction SilentlyContinue
+"@
 
 $FilesAlias = "$env:LOCALAPPDATA\Microsoft\WindowsApps\kyrafiles.exe"
 if (-not (Test-Path $FilesAlias)) {
@@ -158,18 +209,18 @@ if (-not (Test-Path $FilesAlias)) {
 }
 
 function Ensure-FilesClosed {
-    Get-Process Files -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    Get-Process KyraFiles -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
     Start-Sleep -Milliseconds 600
 }
 
 function Ensure-FilesMainParked {
-    $proc = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
+    $proc = Get-Process KyraFiles -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $proc) {
         Start-Process $FilesAlias -ArgumentList "C:\Windows"
         $sw = [System.Diagnostics.Stopwatch]::StartNew()
         while ($sw.Elapsed.TotalSeconds -lt 15) {
             Start-Sleep -Milliseconds 500
-            $proc = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
+            $proc = Get-Process KyraFiles -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($proc) {
                 $hwnd = [F035WinHelper]::FindFilesMainWindow([uint32]$proc.Id)
                 if ($hwnd -ne [IntPtr]::Zero -and [F035WinHelper]::IsWindowVisible($hwnd)) { break }
@@ -355,8 +406,23 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
 
     $rows = @()
     $testDirs = @("C:\Windows", "C:\Windows\System32", "C:\Windows\Fonts", "C:\Windows\Help", "C:\Windows\Media")
-    $tempBase = Join-Path $env:TEMP "agy\9f035f03-5f03-5f03-5f03-5f035f035f03\desenv\utils\KyraFiles\Files"
+    $tempBase = Join-Path $env:TEMP ("agy\" + [guid]::NewGuid().ToString() + "\desenv\utils\KyraFiles\Files")
     if (-not (Test-Path $tempBase)) { New-Item -ItemType Directory -Path $tempBase -Force | Out-Null }
+
+    # Isola ContinueLastSessionOnStartUp durante o teste e restaura user_settings.json ao final
+    $pkgSettings = Get-ChildItem "$env:LOCALAPPDATA\Packages\KyraFiles*\LocalState\settings\user_settings.json" -ErrorAction SilentlyContinue | Select-Object -First 1
+    $settingsBackup = $null
+    if ($pkgSettings) {
+        $settingsBackup = Join-Path $tempBase "user_settings.backup.json"
+        Copy-Item -LiteralPath $pkgSettings.FullName -Destination $settingsBackup -Force
+        try {
+            $json = Get-Content -LiteralPath $pkgSettings.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
+            if ($null -ne $json.PSObject.Properties["ContinueLastSessionOnStartUp"]) { $json.ContinueLastSessionOnStartUp = $false }
+            if ($null -ne $json.PSObject.Properties["LastSessionTabList"]) { $json.LastSessionTabList = @() }
+            [System.IO.File]::WriteAllText($pkgSettings.FullName, ($json | ConvertTo-Json -Depth 20), [System.Text.UTF8Encoding]::new($false))
+        } catch {}
+    }
+    try {
 
     # Controle Negativo incluso em resultado.csv
     $negControlCsv = "docs\agents\evidence\F035\t1_controle_negativo.csv"
@@ -382,11 +448,11 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
         $roundStart = Get-Date
         $elapsedMs = [F035WinHelper]::LaunchParallel($FilesAlias, $testDirs)
 
-        # Aguarda entrega das abas e estabilizacao (ate 6s)
+        # Aguarda entrega das abas e estabilizacao (ate 10s)
         $hwndMain = [IntPtr]::Zero
         $tabsInfo = [PSCustomObject]@{ Count = 0; TabNames = @() }
         $swWait = [System.Diagnostics.Stopwatch]::StartNew()
-        while ($swWait.Elapsed.TotalSeconds -lt 6) {
+        while ($swWait.Elapsed.TotalSeconds -lt 10) {
             Start-Sleep -Milliseconds 500
             $hwndMain = [F035WinHelper]::FindFilesMainWindow([uint32]$mainProc.Id)
             if ($hwndMain -ne [IntPtr]::Zero) {
@@ -455,25 +521,25 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
     $roundStart = Get-Date
     [F035WinHelper]::LaunchParallel($FilesAlias, @("C:\Windows", "C:\Windows\System32")) | Out-Null
 
-    # Aguarda inicializacao fria e contagem de abas (ate 20s)
+    # Aguarda inicializacao fria e contagem de abas (ate 25s)
     $swAC2 = [System.Diagnostics.Stopwatch]::StartNew()
     $mainProcAC2 = $null
     $hwndAC2 = [IntPtr]::Zero
     $tabsInfoAC2 = [PSCustomObject]@{ Count = 0; TabNames = @() }
     $windowCountAC2 = 0
-    while ($swAC2.Elapsed.TotalSeconds -lt 20) {
+    while ($swAC2.Elapsed.TotalSeconds -lt 25) {
         Start-Sleep -Seconds 1
-        if (-not $mainProcAC2 -or $mainProcAC2.HasExited) {
-            $mainProcAC2 = Get-Process Files -ErrorAction SilentlyContinue | Select-Object -First 1
-        }
-        if ($mainProcAC2) {
-            $hwndAC2 = [F035WinHelper]::FindFilesMainWindow([uint32]$mainProcAC2.Id)
-            if ($hwndAC2 -ne [IntPtr]::Zero) {
+        foreach ($p in @(Get-Process KyraFiles -ErrorAction SilentlyContinue)) {
+            $candidateHwnd = [F035WinHelper]::FindFilesMainWindow([uint32]$p.Id)
+            if ($candidateHwnd -ne [IntPtr]::Zero) {
+                $mainProcAC2 = $p
+                $hwndAC2 = $candidateHwnd
                 $tabsInfoAC2 = Get-FilesTabsInfo $hwndAC2
                 $windowCountAC2 = [F035WinHelper]::CountFilesMainWindows()
-                if ($tabsInfoAC2.Count -ge 2) { break }
+                break
             }
         }
+        if ($tabsInfoAC2.Count -ge 2) { break }
     }
 
     $eventsAC2 = @(Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='.NET Runtime'; Id=1026; StartTime=$roundStart} -ErrorAction SilentlyContinue |
@@ -511,14 +577,14 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
     Ensure-FilesMainParked | Out-Null
     $roundStart = Get-Date
     $tempOut = Join-Path $tempBase "agy_test_out.txt"
-    $beforeFiles = @(Get-Process Files -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id)
+    $beforeFiles = @(Get-Process KyraFiles -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id)
     Start-Process $FilesAlias -ArgumentList "-outputpath `"$tempOut`""
 
     $swAC3 = [System.Diagnostics.Stopwatch]::StartNew()
     $dialogProc = $null
     while ($swAC3.Elapsed.TotalSeconds -lt 8) {
         Start-Sleep -Milliseconds 400
-        $dialogProc = Get-Process Files -ErrorAction SilentlyContinue | Where-Object { $beforeFiles -notcontains $_.Id } | Select-Object -First 1
+        $dialogProc = Get-Process KyraFiles -ErrorAction SilentlyContinue | Where-Object { $beforeFiles -notcontains $_.Id } | Select-Object -First 1
         if ($dialogProc) { break }
     }
 
@@ -553,16 +619,20 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
     $roundStart = Get-Date
     Start-Process $FilesAlias -ArgumentList "C:\Windows"
 
-    # Aguarda a janela ser restaurada e visivel na principal (ate 15s)
+    # Aguarda a janela ser restaurada, visivel e em primeiro plano na principal (ate 15s)
     $swAC5 = [System.Diagnostics.Stopwatch]::StartNew()
     $hwndAC5 = [IntPtr]::Zero
     $isVisibleAC5 = $false
+    $isForegroundAC5 = $false
+    $isRestoredAC5 = $false
     while ($swAC5.Elapsed.TotalSeconds -lt 15) {
         Start-Sleep -Milliseconds 500
         $hwndAC5 = [F035WinHelper]::FindFilesMainWindow([uint32]$mainProc.Id)
         if ($hwndAC5 -ne [IntPtr]::Zero) {
             $isVisibleAC5 = [F035WinHelper]::IsWindowVisible($hwndAC5)
-            if ($isVisibleAC5) { break }
+            $isRestoredAC5 = -not [F035WinHelper]::IsIconic($hwndAC5)
+            $isForegroundAC5 = ([F035WinHelper]::GetForegroundWindowOnDefault() -eq $hwndAC5)
+            if ($isVisibleAC5 -and $isRestoredAC5 -and $isForegroundAC5) { break }
         }
     }
 
@@ -571,17 +641,17 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
     if ($hwndAC5 -ne [IntPtr]::Zero) {
         Capture-Window -hWnd $hwndAC5 -OutPath "docs\agents\evidence\F035\ac5_janela_ativa.png"
     }
-    $passAC5 = ($eventsAC5.Count -eq 0 -and $isVisibleAC5)
+    $passAC5 = ($eventsAC5.Count -eq 0 -and $isVisibleAC5 -and $isRestoredAC5 -and $isForegroundAC5)
     $colAC5 = if ($passAC5) { "Green" } else { "Red" }
     $strAC5 = if ($passAC5) { "PASS" } else { "FAIL" }
-    Write-Host ("AC-5: Disparo de pasta em janela estacionada -> Janela visivel: {0}, Eventos 1026: {1} -> {2}" -f `
-        $isVisibleAC5, $eventsAC5.Count, $strAC5) `
+    Write-Host ("AC-5: Disparo de pasta em janela estacionada -> Janela visivel: {0}, Restaurada: {1}, Primeiro plano: {2}, Eventos 1026: {3} -> {4}" -f `
+        $isVisibleAC5, $isRestoredAC5, $isForegroundAC5, $eventsAC5.Count, $strAC5) `
         -ForegroundColor $colAC5
 
     $rows += [PSCustomObject]@{
         Cenario = "AC-5"
-        Esperado = "Janela principal estacionada e restaurada e visivel na tela, 0 eventos 1026"
-        Observado = "Janela visivel: $isVisibleAC5, $($eventsAC5.Count) eventos 1026"
+        Esperado = "Janela principal estacionada restaurada, visivel e em primeiro plano, 0 eventos 1026"
+        Observado = "Visivel: $isVisibleAC5, Restaurada: $isRestoredAC5, Primeiro plano: $isForegroundAC5, $($eventsAC5.Count) eventos 1026"
         Resultado = if ($passAC5) { "PASS" } else { "FAIL" }
         Comando = "kyrafiles.exe C:\Windows com principal estacionada"
     }
@@ -631,6 +701,13 @@ function Run-VerifyFix([int]$totalRounds, [string]$outCsv) {
 "@
     Set-Content -Path $reportPath -Value $md -Encoding utf8
     Write-Host "Relatorio gerado em: $reportPath" -ForegroundColor Green
+    } finally {
+        Ensure-FilesClosed
+        if ($pkgSettings -and $settingsBackup -and (Test-Path -LiteralPath $settingsBackup)) {
+            Copy-Item -LiteralPath $settingsBackup -Destination $pkgSettings.FullName -Force
+        }
+        Remove-Item -LiteralPath $tempBase -Recurse -Force -ErrorAction SilentlyContinue
+    }
 
     if (-not $allPassed -and -not $NoExitOnFailure) {
         exit 1

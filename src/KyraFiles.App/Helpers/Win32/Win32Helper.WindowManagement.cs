@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 KyraFiles contributors
+// Copyright (c) 2024 KyraFiles contributors
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
@@ -36,15 +36,15 @@ namespace KyraFiles.App.Helpers
 
 			var dwMyID = PInvoke.GetCurrentThreadId();
 			var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
-
-			PInvoke.AttachThreadInput(dwCurID, dwMyID, true);
+			var attached = dwCurID != 0 && dwCurID != dwMyID && PInvoke.AttachThreadInput(dwCurID, dwMyID, true);
 
 			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-1), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
 			PInvoke.SetWindowPos(hWnd, (Windows.Win32.Foundation.HWND)(-2), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
 			PInvoke.SetForegroundWindow(hWnd);
 			PInvoke.SetFocus(hWnd);
 			PInvoke.SetActiveWindow(hWnd);
-			PInvoke.AttachThreadInput(dwCurID, dwMyID, false);
+			if (attached)
+				PInvoke.AttachThreadInput(dwCurID, dwMyID, false);
 		}
 
 		/// <summary>

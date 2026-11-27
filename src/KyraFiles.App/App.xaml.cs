@@ -193,6 +193,8 @@ namespace KyraFiles.App
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;
 
+				_startupReadyTcs.TrySetResult();
+
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				if (!(isStartupTask && isLeaveAppRunning))
@@ -254,6 +256,8 @@ namespace KyraFiles.App
 			}
 		}
 
+		private static readonly TaskCompletionSource _startupReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
 		/// <summary>
 		/// Gets invoked when the application is activated.
 		/// </summary>
@@ -261,10 +265,15 @@ namespace KyraFiles.App
 		{
 			var activatedEventArgsData = activatedEventArgs.Data;
 
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData?.GetType().Name ?? "Unknown"}");
+			await _startupReadyTcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(15));
+			Logger?.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData?.GetType().Name ?? "Unknown"}");
 
-			// InitializeApplication accesses UI, needs to be called on UI thread
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
+			// Usa UiDispatcher (agile) em vez de MainWindow.Instance (STA) para evitar RPC_E_WRONG_THREAD (0x8001010E)
+			var dispatcher = UiDispatcher;
+			if (dispatcher is null)
+				return;
+
+			await dispatcher.EnqueueOrInvokeAsync(()
 				=> MainWindow.Instance.InitializeApplicationAsync(activatedEventArgsData));
 		}
 

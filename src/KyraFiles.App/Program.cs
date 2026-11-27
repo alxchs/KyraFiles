@@ -472,6 +472,10 @@ namespace KyraFiles.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
+			// KyraFiles (F035 AC-5): transfere permissao de foreground para a instancia estacionada/em segundo plano
+			if (int.TryParse(keyInstance.Key, out var keyPid) && keyPid != 0)
+				Windows.Win32.PInvoke.AllowSetForegroundWindow((uint)Math.Abs(keyPid));
+
 			keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 		}
 

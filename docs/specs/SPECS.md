@@ -1,6 +1,6 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-27T06:06:23.7013815-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-27T06:16:02.5773963-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
@@ -12,9 +12,9 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
     "percentual": 67.5
   },
   "em_andamento": {
-    "quantidade": 13,
-    "pontos": 65,
-    "percentual": 17.5
+    "quantidade": 11,
+    "pontos": 59,
+    "percentual": 15.9
   },
   "fila": {
     "quantidade": 5,
@@ -44,7 +44,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
 | finalizadas | 59 | 251 | 67.5 |
-| em_andamento | 13 | 65 | 17.5 |
+| em_andamento | 11 | 59 | 15.9 |
 | fila | 5 | 37 | 9.9 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
@@ -54,7 +54,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 **finalizadas (59)**: F002, F003, F004, F005, F006, F008, F009, F010, F011, F012, F013, F014, F018, F019, F021, F023, F024, F026, F027, F028, F029, F030, F031, F032, F033, F034, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F051, F052, F053, F055, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092, F094
 
-**em_andamento (13)**: F017, F020, F022, F035, F060, F061, F062, F063, F065, F070, F086, F089, F090
+**em_andamento (11)**: F017, F020, F022, F035, F060, F061, F062, F063, F065, F086, F090
 
 **fila (5)**: F039, F041, F046, F050, F054
 
@@ -130,7 +130,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0060 | F067 | sponsors e modern powershell | 3 | completed | finalizadas | unknown | - |
 | SPEC-0061 | F068 | documentacao local offline | 5 | completed | finalizadas | unknown | - |
 | SPEC-0062 | F069 | sair para explorer apos quedas | 3 | completed | finalizadas | unknown | 28ecad12a |
-| SPEC-0063 | F070 | github login oauth | 3 | in_validation | em_andamento | unknown | 28ecad12a |
+| SPEC-0063 | F070 | github login oauth | 3 | completed | concluida | unknown | 28ecad12a |
 | SPEC-0064 | F071 | integrity downloaded files | 5 | completed | finalizadas | unknown | 611e5f342 |
 | SPEC-0065 | F072 | documentacao multilingue | 5 | completed | finalizadas | unknown | 28ecad12a |
 | SPEC-0066 | F081 | identity kyrafiles | 8 | completed | finalizadas | unknown | 28ecad12a |
@@ -140,7 +140,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0070 | F086 | instancia unica | 3 | in_validation | em_andamento | unknown | 28ecad12a |
 | SPEC-0071 | F087 | identidade pacote e dados | 5 | completed | finalizadas | alexandre/agy | 0d6047ccd, v4.3.19.0 |
 | SPEC-0072 | F088 | remocao vinculo ancestral | 2 | completed | finalizadas | unknown | b4897aa82, 1fcf37136, 0d6047ccd |
-| SPEC-0073 | F089 | fontes nao aplicadas | 3 | in_validation | em_andamento | unknown | fc2101f59, b4897aa82 |
+| SPEC-0073 | F089 | fontes nao aplicadas | 3 | completed | concluida | unknown | fc2101f59, b4897aa82 |
 | SPEC-0074 | F090 | escala da interface | 5 | in_validation | em_andamento | unknown | - |
 | SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | 8 | completed | finalizadas | alexandre/agy | 0d6047ccd, 15fdaae16 |
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | 3 | completed | finalizadas | alexandre/agy | docs/releases/2026-11-15_1315_build-v4.3.17.md |

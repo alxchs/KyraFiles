@@ -1,6 +1,6 @@
 # SPEC-INDEX
 
-Gerado de `production-control.json` em 2026-11-27T06:06:23.7013815-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
+Gerado de `production-control.json` em 2026-11-27T06:16:02.5773963-03:00 via `tools/Sync-ProductionDocs.ps1`. Mapa SPEC -> ID legado.
 
 | SPEC | Legado | Titulo | Estado | Categoria | Pts |
 |---|---|---|---|---|--:|
@@ -66,7 +66,7 @@ Gerado de `production-control.json` em 2026-11-27T06:06:23.7013815-03:00 via `to
 | SPEC-0060 | F067 | sponsors e modern powershell | completed | finalizadas | 3 |
 | SPEC-0061 | F068 | documentacao local offline | completed | finalizadas | 5 |
 | SPEC-0062 | F069 | sair para explorer apos quedas | completed | finalizadas | 3 |
-| SPEC-0063 | F070 | github login oauth | in_validation | em_andamento | 3 |
+| SPEC-0063 | F070 | github login oauth | completed | concluida | 3 |
 | SPEC-0064 | F071 | integrity downloaded files | completed | finalizadas | 5 |
 | SPEC-0065 | F072 | documentacao multilingue | completed | finalizadas | 5 |
 | SPEC-0066 | F081 | identity kyrafiles | completed | finalizadas | 8 |
@@ -76,7 +76,7 @@ Gerado de `production-control.json` em 2026-11-27T06:06:23.7013815-03:00 via `to
 | SPEC-0070 | F086 | instancia unica | in_validation | em_andamento | 3 |
 | SPEC-0071 | F087 | identidade pacote e dados | completed | finalizadas | 5 |
 | SPEC-0072 | F088 | remocao vinculo ancestral | completed | finalizadas | 2 |
-| SPEC-0073 | F089 | fontes nao aplicadas | in_validation | em_andamento | 3 |
+| SPEC-0073 | F089 | fontes nao aplicadas | completed | concluida | 3 |
 | SPEC-0074 | F090 | escala da interface | in_validation | em_andamento | 5 |
 | SPEC-0075 | F091 | identidade kyrafiles no codigo e migracao transparente | completed | finalizadas | 8 |
 | SPEC-0076 | F093 | compilacao rapida e deploy local via quick ship | completed | finalizadas | 3 |

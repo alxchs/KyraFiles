@@ -8,7 +8,7 @@
     "status": "active",
     "migration_status": "migrated",
     "baseline_at": "2026-11-13T19:25:28.2663438-03:00",
-    "last_updated_at": "2026-11-27T06:06:23.7013815-03:00",
+    "last_updated_at": "2026-11-27T06:16:02.5773963-03:00",
     "last_updated_by": "claude"
   },
   "summary": {
@@ -16,13 +16,13 @@
     "task_count": null,
     "status_counts": {
       "cancelled": 1,
-      "completed": 60,
-      "in_validation": 14,
+      "completed": 62,
+      "in_validation": 12,
       "not_started": 5
     },
     "total_points": 372,
-    "completed_points_equivalent": 252,
-    "remaining_points": 107,
+    "completed_points_equivalent": 258,
+    "remaining_points": 101,
     "original_estimate_hours": null,
     "current_estimate_hours": null,
     "actual_hours": null,
@@ -2599,8 +2599,8 @@
       ],
       "title": "github login oauth",
       "type": "integration",
-      "state": "in_validation",
-      "category": "em_andamento",
+      "state": "completed",
+      "category": "concluida",
       "points": 3,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2626,6 +2626,11 @@
           "ref": "STATUS.md#F070",
           "type": "test",
           "note": "Client ID real configurado em Constants.cs e validado com HTTP 200 OK na API GitHub Device Code em 14/11/2026; entra no checklist visual consolidado do Lote 0."
+        },
+        {
+          "ref": "docs/specs/F070-github-login-oauth/RELATORIO.md",
+          "type": "doc",
+          "note": "F070 logada pelo Alexandre em 27/11/2026: AC-1 conexao real CONFIRMED por ele"
         }
       ],
       "blockers": [],
@@ -3009,8 +3014,8 @@
       ],
       "title": "fontes nao aplicadas",
       "type": "bugfix",
-      "state": "in_validation",
-      "category": "em_andamento",
+      "state": "completed",
+      "category": "concluida",
       "points": 3,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -3036,6 +3041,11 @@
           "ref": "docs/specs/F089-fontes-nao-aplicadas/",
           "type": "doc",
           "note": "spec RASCUNHO; tasks.md 5 marcadas e 1 aberta"
+        },
+        {
+          "ref": "docs/specs/F089-fontes-nao-aplicadas/tasks.md",
+          "type": "doc",
+          "note": "F089 aprovada pelo Alexandre em 27/11/2026 (homologacao de tela, T4)"
         }
       ],
       "blockers": [],

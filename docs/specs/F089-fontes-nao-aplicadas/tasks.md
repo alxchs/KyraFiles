@@ -11,7 +11,8 @@
 - [x] **T3: Troca imediata e persistência (FR-3, AC-3)**
   - `AppThemeResourcesHelper` invoca `SetAppThemeFontFamily` e `SetAppThemeFileAreaFontFamily` sempre que configurados, e `ApplyResources()` força a reavaliação de temas.
   - Pronto: troca imediata e inicialização consistente na abertura do app.
-- [ ] **T4: Prova de tela e desempenho (AC-1 a AC-4, NFR-1)**
+- [x] **T4: Prova de tela e desempenho (AC-1 a AC-4, NFR-1)**
+  - Homologada pelo Alexandre em 27/11/2026 ("F089 aprovada"), no app instalado.
   - Prova de tela no app em execução e compilação do pacote na máquina de build oficial (`Verde.ps1 -Mark`).
 - [x] **T5: Corrigir a F009** — escrever em `F009-separate-fonts/` uma nota "substituída pela F089", sem apagar o histórico.
 

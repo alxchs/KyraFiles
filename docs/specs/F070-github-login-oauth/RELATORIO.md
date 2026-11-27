@@ -34,7 +34,7 @@
 
 | ID | Cenário | Estado | Evidência |
 |---|---|---|---|
-| **AC-1** | Conexão real com GitHub | `NOT TESTED` | Aguardando fornecimento do Client ID público do OAuth App pelo Alexandre conforme § 1b.4 |
+| **AC-1** | Conexão real com GitHub | `CONFIRMED` (Alexandre) | Login feito pelo Alexandre no app em 27/11/2026 ("F070 logada"); antes NOT TESTED por falta do Client ID |
 | **AC-2** | Desconexão e limpeza | `CONFIRMED` | Teste `VaultOperations_SaveAndRemove_WorksAsExpected` passando 100% |
 | **AC-3** | Token salvo no `PasswordVault` | `CONFIRMED` | Implementado via `DefaultCredentialsVault` / `CredentialsHelpers.cs` |
 | **AC-4** | Mensagem orientadora clara sem Client ID | `CONFIRMED` | Teste `RequestDeviceCodeAsync_WhenClientIdNotConfigured_ReturnsMissingClientIdWithoutHttp` e `DynamicDialogFactory.GetFor_GitHubOAuthClientIdNotConfigured()` |

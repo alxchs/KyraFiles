@@ -8,7 +8,7 @@
     "status": "active",
     "migration_status": "migrated",
     "baseline_at": "2026-11-13T19:25:28.2663438-03:00",
-    "last_updated_at": "2026-11-27T06:16:02.5773963-03:00",
+    "last_updated_at": "2026-11-28T12:50:57.7603780-03:00",
     "last_updated_by": "claude"
   },
   "summary": {
@@ -17,8 +17,9 @@
     "status_counts": {
       "cancelled": 1,
       "completed": 62,
+      "in_progress": 1,
       "in_validation": 12,
-      "not_started": 5
+      "not_started": 4
     },
     "total_points": 372,
     "completed_points_equivalent": 258,
@@ -1299,9 +1300,25 @@
           "ref": "docs/specs/F035-second-instance/",
           "type": "doc",
           "note": "correcao CONFIRMED na v4.3.7 (20/20 rodadas); AC-2 e AC-4 NOT TESTED; AC-5 reprova"
+        },
+        {
+          "ref": "025fbbc60",
+          "type": "commit",
+          "note": "fix(f035) reativacao em segundo plano e race de abas, na main via /ship do Alexandre (27/11)"
+        },
+        {
+          "ref": "docs/agents/evidence/F035/resultado-20261127-1227.md",
+          "type": "test",
+          "note": "veredito REPROVADO: AC-1 14/20 rodadas com todas as abas (6 perderam abas, 0 eventos 1026); AC-2 PASS; AC-3 PASS; AC-5 FAIL (restaurada e visivel, sem primeiro plano)"
         }
       ],
-      "blockers": [],
+      "blockers": [
+        {
+          "text": "Reteste de 27/11 (025fbbc60) REPROVADO: AC-1 14/20 (abas perdidas em disparo paralelo) e AC-5 sem primeiro plano",
+          "kind": "quality",
+          "since": "2026-11-28"
+        }
+      ],
       "source_files": [
         "docs/specs/F035-second-instance/spec.md"
       ],
@@ -2083,8 +2100,8 @@
       ],
       "title": "technical preview",
       "type": "feature",
-      "state": "not_started",
-      "category": "fila",
+      "state": "in_progress",
+      "category": "em_andamento",
       "points": 5,
       "points_confidence": "low",
       "points_note": "estimativa retroativa por tamanho aparente da spec/entrega; nao e horas",
@@ -2105,6 +2122,11 @@
           "ref": "docs/specs/F054-technical-preview/tasks.md",
           "type": "doc",
           "note": "plan.md APROVADO com ajustes e tasks.md APROVADO (Claude, 25/11/2026); pronta para iniciar"
+        },
+        {
+          "ref": "feature/F054-technical-preview",
+          "type": "branch",
+          "note": "T1 (355e99c78) e T2a (f5cdff6be) feitos com testes; T0 impedida (app do Alexandre aberto; script 3a432b566); T2b, T2c, T3-T5 abertas; tela NOT TESTED"
         }
       ],
       "blockers": [],
@@ -2114,7 +2136,7 @@
         "docs/specs/F054-technical-preview/tasks.md"
       ],
       "migration_status": "migration_pending",
-      "owner": "unknown",
+      "owner": "claude",
       "created_at": null,
       "depends_on": [
         "SPEC-0004",
@@ -3342,7 +3364,7 @@
   "dependencies": [],
   "alerts": [
     {
-      "text": "14 SPECs em in_validation sem homologacao: evidencia so por commit, sem estado por AC-n (auditoria 25/11, secao 3)",
+      "text": "12 SPECs em in_validation sem homologacao completa por AC-n (F089 e F070 homologadas em 27/11)",
       "severity": "warning"
     },
     {
@@ -3352,16 +3374,8 @@
   ],
   "decisions_required": [
     {
-      "text": "F035 (SPEC-0031): AC-5 reprova; corrigir o comportamento ou mudar a spec",
+      "text": "F035: reteste de 27/11 reprova AC-1 (14/20) e AC-5; corrigir de novo ou mudar a spec",
       "spec_id": "SPEC-0031"
-    },
-    {
-      "text": "F070 (SPEC-0063): login GitHub ponta a ponta exige o Alexandre digitar o codigo",
-      "spec_id": "SPEC-0063"
-    },
-    {
-      "text": "F089 (SPEC-0073): spec ainda RASCUNHO; aprovar antes de rodar a T4",
-      "spec_id": "SPEC-0073"
     },
     {
       "text": "F050 (SPEC-0046): decidir T1-T3 depois do resultado da T0",

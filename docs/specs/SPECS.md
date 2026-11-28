@@ -1,6 +1,6 @@
 # SPECS (indice mestre)
 
-Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-27T06:16:02.5773963-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
+Gerado automaticamente a partir de `docs/production/production-control.json` (protocolo v2) em 2026-11-28T12:50:57.7603780-03:00 via `tools/Sync-ProductionDocs.ps1`. Nao editar a mao.
 
 ```json
 {
@@ -12,14 +12,14 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
     "percentual": 67.5
   },
   "em_andamento": {
-    "quantidade": 11,
-    "pontos": 59,
-    "percentual": 15.9
+    "quantidade": 12,
+    "pontos": 64,
+    "percentual": 17.2
   },
   "fila": {
-    "quantidade": 5,
-    "pontos": 37,
-    "percentual": 9.9
+    "quantidade": 4,
+    "pontos": 32,
+    "percentual": 8.6
   },
   "dependendo_alexandre": {
     "quantidade": 0,
@@ -44,8 +44,8 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | Categoria | Specs | Pontos | % |
 |---|--:|--:|--:|
 | finalizadas | 59 | 251 | 67.5 |
-| em_andamento | 11 | 59 | 15.9 |
-| fila | 5 | 37 | 9.9 |
+| em_andamento | 12 | 64 | 17.2 |
+| fila | 4 | 32 | 8.6 |
 | dependendo_alexandre | 0 | 0 | 0.0 |
 | impedidas | 0 | 0 | 0.0 |
 | invalidas | 1 | 13 | 3.5 |
@@ -54,9 +54,9 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 
 **finalizadas (59)**: F002, F003, F004, F005, F006, F008, F009, F010, F011, F012, F013, F014, F018, F019, F021, F023, F024, F026, F027, F028, F029, F030, F031, F032, F033, F034, F036, F037, F038, F040, F042, F043, F044, F045, F047, F048, F049, F051, F052, F053, F055, F056, F057, F058, F067, F068, F069, F071, F072, F081, F082, F083, F084, F087, F088, F091, F093, F092, F094
 
-**em_andamento (11)**: F017, F020, F022, F035, F060, F061, F062, F063, F065, F086, F090
+**em_andamento (12)**: F017, F020, F022, F035, F054, F060, F061, F062, F063, F065, F086, F090
 
-**fila (5)**: F039, F041, F046, F050, F054
+**fila (4)**: F039, F041, F046, F050
 
 **dependendo_alexandre (0)**: -
 
@@ -98,7 +98,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0028 | F032 | fixar aba | 3 | completed | finalizadas | unknown | 8913475a2, ba2af8149 |
 | SPEC-0029 | F033 | copiar mover para | 3 | completed | finalizadas | unknown | 8913475a2, ba2af8149 |
 | SPEC-0030 | F034 | lista sem checkbox | 2 | completed | finalizadas | unknown | 8913475a2, eb15c68b6 |
-| SPEC-0031 | F035 | second instance | 5 | in_validation | em_andamento | unknown | 2ab7a65bc, 8913475a2 |
+| SPEC-0031 | F035 | second instance | 5 | in_validation | em_andamento | unknown | 2ab7a65bc, 8913475a2, 025fbbc60 |
 | SPEC-0032 | F036 | copy queue | 8 | completed | finalizadas | unknown | d036a49de |
 | SPEC-0033 | F037 | bulk rename preview | 5 | completed | finalizadas | unknown | - |
 | SPEC-0034 | F038 | named workspaces | 5 | completed | finalizadas | agy | - |
@@ -117,7 +117,7 @@ Gerado automaticamente a partir de `docs/production/production-control.json` (pr
 | SPEC-0047 | F051 | code search | 5 | completed | finalizadas | unknown | - |
 | SPEC-0048 | F052 | git repo view | 5 | completed | finalizadas | unknown | 2e401a04f |
 | SPEC-0049 | F053 | encoding eol column | 2 | completed | finalizadas | AGY | 5b7fdd32c |
-| SPEC-0050 | F054 | technical preview | 5 | not_started | fila | unknown | - |
+| SPEC-0050 | F054 | technical preview | 5 | in_progress | em_andamento | claude | - |
 | SPEC-0051 | F055 | repo map | 5 | completed | finalizadas | unknown | - |
 | SPEC-0052 | F056 | copy path formats | 2 | completed | finalizadas | unknown | d036a49de |
 | SPEC-0053 | F057 | dialog button shortcuts | 3 | completed | finalizadas | unknown | d036a49de |

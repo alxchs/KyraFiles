@@ -28,8 +28,8 @@ namespace KyraFiles.App.ViewModels.Previews
 			{
 				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
 
-				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
-				details.Add(GetFileProperty("PropertyWordCount", text.Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length));
+				details.Add(GetFileProperty("PropertyLineCount", text.AsSpan().Count('\n') + 1));
+				details.Add(GetFileProperty("PropertyWordCount", CountWords(text)));
 
 				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
 			}
@@ -68,6 +68,27 @@ namespace KyraFiles.App.ViewModels.Previews
 			{
 				return null;
 			}
+		}
+
+		// Same result as splitting on space and line feed without empty entries, without allocating the parts
+		private static int CountWords(ReadOnlySpan<char> text)
+		{
+			var count = 0;
+			var inWord = false;
+			foreach (var c in text)
+			{
+				if (c is ' ' or '\n')
+				{
+					inWord = false;
+				}
+				else if (!inWord)
+				{
+					inWord = true;
+					count++;
+				}
+			}
+
+			return count;
 		}
 
 		private static bool ExcludedExtensions(string? extension)

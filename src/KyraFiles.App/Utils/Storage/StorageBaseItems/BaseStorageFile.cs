@@ -199,11 +199,11 @@ namespace KyraFiles.App.Utils.Storage
 			int charsRead, charsToRead;
 			do
 			{
-				charsToRead = maxLength < 0 ? 4096 : Math.Min(maxLength, 4096);
+				charsToRead = maxLength < 0 ? 4096 : Math.Min(maxLength - builder.Length, 4096);
 				var data = new char[charsToRead];
 				charsRead = await dataReader.ReadAsync(data);
 				builder.Append(data, 0, charsRead);
-			} while (charsRead > 0 && (!stream.CanSeek || stream.Position < stream.Length));
+			} while (charsRead > 0 && (maxLength < 0 || builder.Length < maxLength) && (!stream.CanSeek || stream.Position < stream.Length));
 			return builder.ToString();
 		}
 

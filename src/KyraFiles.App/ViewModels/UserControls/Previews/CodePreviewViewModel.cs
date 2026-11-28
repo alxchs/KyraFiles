@@ -25,6 +25,9 @@ namespace KyraFiles.App.ViewModels.Previews
 			private set => SetProperty(ref codeLanguage, value);
 		}
 
+		/// <summary>Number of lines shown in the preview (after the character limit).</summary>
+		public int LineCount { get; private set; }
+
 		public CodePreviewViewModel(ListedItem item)
 			: base(item)
 		{
@@ -40,10 +43,11 @@ namespace KyraFiles.App.ViewModels.Previews
 			try
 			{
 				var text = TextValue ?? await ReadFileAsTextAsync(PreviewFile);
-				details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
+				details.Add(GetFileProperty("PropertyLineCount", text.AsSpan().Count('\n') + 1));
 
 				CodeLanguage = extensions[Item.FileExtension!.ToLowerInvariant()];
 				TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+				LineCount = TextValue.AsSpan().Count('\n') + 1;
 			}
 			catch (Exception e)
 			{
@@ -69,6 +73,12 @@ namespace KyraFiles.App.ViewModels.Previews
 				[Languages.JavaScript] = "js,jsx",
 				[Languages.Php] = "php",
 				[Languages.PowerShell] = "pwsh,ps1,psd1,psm1",
+				[Languages.Python] = "py,pyw",
+				[Languages.Sql] = "sql",
+				[PreviewCodeLanguages.Json] = "json,jsonc,json5,geojson,webmanifest",
+				[PreviewCodeLanguages.Yaml] = "yaml,yml",
+				[PreviewCodeLanguages.Ini] = "ini,toml,cfg,conf,editorconfig,properties",
+				[PreviewCodeLanguages.Shell] = "sh,bash,zsh",
 				[Languages.Typescript] = "ts,tsx",
 				[Languages.VbDotNet] = "vb,vbs",
 				[Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt,xlf",

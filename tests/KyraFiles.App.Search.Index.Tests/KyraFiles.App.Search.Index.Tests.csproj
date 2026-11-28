@@ -17,6 +17,7 @@
         <PackageReference Include="MSTest.TestFramework" />
         <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
         <PackageReference Include="LibGit2Sharp" />
+    <PackageReference Include="ColorCode.Core" />
     </ItemGroup>
 
     <ItemGroup>
@@ -40,6 +41,9 @@
         <Compile Include="..\..\src\KyraFiles.App\Utils\StatusCenter\StatusCenterItemProgressModel.cs" Link="StatusCenterItemProgressModel.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Data\Items\ShellOperationResult.cs" Link="ShellOperationResult.cs" />
         <Compile Include="..\..\src\KyraFiles.App\Utils\Storage\Operations\PauseGate.cs" Link="PauseGate.cs" />
+    <Compile Include="..\..\src\KyraFiles.App\ViewModels\UserControls\Previews\PreviewCodeLanguages.cs" Link="PreviewCodeLanguages.cs" />
+    <Compile Include="..\..\src\KyraFiles.App\ViewModels\UserControls\Previews\PreviewCodeStyles.cs" Link="PreviewCodeStyles.cs" />
+    <Compile Include="..\..\src\KyraFiles.App\ViewModels\UserControls\Previews\StructuredTreeBuilder.cs" Link="StructuredTreeBuilder.cs" />
     </ItemGroup>
 
     <ItemGroup>

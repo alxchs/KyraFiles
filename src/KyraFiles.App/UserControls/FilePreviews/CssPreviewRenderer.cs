@@ -19,7 +19,7 @@ namespace KyraFiles.App.UserControls.FilePreviews
 			var commentBrush = new SolidColorBrush(isDark ? Windows.UI.Color.FromArgb(255, 106, 153, 85) : Windows.UI.Color.FromArgb(255, 0, 128, 0));
 			var keywordBrush = new SolidColorBrush(isDark ? Windows.UI.Color.FromArgb(255, 197, 134, 192) : Windows.UI.Color.FromArgb(255, 175, 0, 219));
 			var propertyBrush = new SolidColorBrush(isDark ? Windows.UI.Color.FromArgb(255, 156, 220, 254) : Windows.UI.Color.FromArgb(255, 4, 81, 165));
-			var stringBrush = new SolidColorBrush(isDark ? Windows.UI.Color.FromArgb(255, 206, 145, 120) : Windows.UI.Color.FromArgb(255, 163, 21, 21));
+			var stringBrush = new SolidColorBrush(isDark ? Windows.UI.Color.FromArgb(255, 226, 192, 141) : Windows.UI.Color.FromArgb(255, 138, 90, 0));
 
 			var lines = text.Split('\n');
 			for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)

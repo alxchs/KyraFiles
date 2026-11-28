@@ -14,12 +14,32 @@
 
 	<Border>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
+			<Grid ColumnSpacing="8">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
 
-			<RichTextBlock
-				Name="codeView"
-				Padding="10"
-				FontFamily="Consolas" />
+				<TextBlock
+					x:Name="lineNumbers"
+					Padding="10,10,0,10"
+					FontFamily="Consolas"
+					Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+					IsTextSelectionEnabled="False"
+					LineHeight="18"
+					LineStackingStrategy="BlockLineHeight"
+					TextAlignment="Right"
+					TextWrapping="NoWrap" />
 
+				<RichTextBlock
+					Name="codeView"
+					Grid.Column="1"
+					Padding="0,10,10,10"
+					FontFamily="Consolas"
+					LineHeight="18"
+					LineStackingStrategy="BlockLineHeight"
+					TextWrapping="NoWrap" />
+			</Grid>
 		</ScrollViewer>
 	</Border>
 </UserControl>
